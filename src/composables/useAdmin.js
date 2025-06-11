@@ -277,13 +277,11 @@ export const loadStats     = async () => {
 export const loadRecentTx  = async () => {
   recentLoading.value = true
   try {
-    const res = await fetch(`${SUPA_URL}/functions/v1/admin_get_transactions`, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${import.meta.env.VITE_SUPABASE_ANON_KEY}`, 'apikey': import.meta.env.VITE_SUPABASE_ANON_KEY },
-      body: JSON.stringify({ p_key: adminKey.value, limit: 5, offset: 0 })
+    const { data, error } = await supabase.rpc('admin_list_transactions', {
+      p_key: adminKey.value, p_limit: 5, p_offset: 0
     })
-    const d = await res.json()
-    recentTx.value = Array.isArray(d) ? d.slice(0, 5) : (d.transactions || []).slice(0, 5)
+    if (error) throw error
+    recentTx.value = (data || []).slice(0, 5)
   } catch (e) {} finally { recentLoading.value = false }
 }
 export const loadChart = async () => {
@@ -309,25 +307,24 @@ export const loadChart = async () => {
 export const fetchTx = async () => {
   txLoading.value = true; txErr.value = ''
   try {
-    const res = await fetch(`${SUPA_URL}/functions/v1/admin_get_transactions`, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${import.meta.env.VITE_SUPABASE_ANON_KEY}`, 'apikey': import.meta.env.VITE_SUPABASE_ANON_KEY },
-      body: JSON.stringify({ p_key: adminKey.value, status: txFilter.value.status || undefined, type: txFilter.value.type || undefined, limit: 50 })
+    const { data, error } = await supabase.rpc('admin_list_transactions', {
+      p_key:    adminKey.value,
+      p_status: txFilter.value.status || null,
+      p_type:   txFilter.value.type   || null,
+      p_limit:  50,
+      p_offset: 0
     })
-    const d = await res.json()
-    if (d.error) throw new Error(d.error)
-    txList.value = Array.isArray(d) ? d : (d.transactions || [])
+    if (error) throw error
+    txList.value = data || []
   } catch (e) { txErr.value = e.message } finally { txLoading.value = false }
 }
 export const doApprove = async (id, action) => {
   try {
-    const res = await fetch(`${SUPA_URL}/functions/v1/admin_approve_reject_v4`, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${import.meta.env.VITE_SUPABASE_ANON_KEY}`, 'apikey': import.meta.env.VITE_SUPABASE_ANON_KEY },
-      body: JSON.stringify({ p_key: adminKey.value, transaction_id: id, action })
+    const { data, error } = await supabase.rpc('admin_process_transaction', {
+      p_key: adminKey.value, p_tx_id: id, p_action: action
     })
-    const d = await res.json(); if (d.error) throw new Error(d.error)
-    showToast(action === 'approve' ? 'Approved' : 'Rejected', 'success')
+    if (error) throw error
+    showToast(action === 'approve' ? 'Approved ✓' : 'Rejected', 'success')
     fetchTx()
     writeAudit(action.toUpperCase() + '_TX', id, '')
     loadStats()
@@ -365,13 +362,11 @@ export const openPlayer = async (u) => {
 export const loadPlayerTx = async (uid) => {
   playerTxLoading.value = true; playerTxList.value = []
   try {
-    const res = await fetch(`${SUPA_URL}/functions/v1/admin_get_transactions`, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${import.meta.env.VITE_SUPABASE_ANON_KEY}`, 'apikey': import.meta.env.VITE_SUPABASE_ANON_KEY },
-      body: JSON.stringify({ p_key: adminKey.value, user_id: uid, limit: 20 })
+    const { data, error } = await supabase.rpc('admin_list_transactions', {
+      p_key: adminKey.value, p_user_id: uid, p_limit: 20, p_offset: 0
     })
-    const d = await res.json()
-    playerTxList.value = Array.isArray(d) ? d : (d.transactions || [])
+    if (error) throw error
+    playerTxList.value = data || []
   } catch (e) {} finally { playerTxLoading.value = false }
 }
 export const loadPlayerSessions = async (uid) => {
@@ -612,13 +607,11 @@ export const fetchAgents = async () => {
 export const fetchCommTx = async () => {
   commTxLoading.value = true
   try {
-    const res = await fetch(`${SUPA_URL}/functions/v1/admin_get_transactions`, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${import.meta.env.VITE_SUPABASE_ANON_KEY}`, 'apikey': import.meta.env.VITE_SUPABASE_ANON_KEY },
-      body: JSON.stringify({ p_key: adminKey.value, type: 'withdraw', status: 'pending', limit: 50 })
+    const { data, error } = await supabase.rpc('admin_list_transactions', {
+      p_key: adminKey.value, p_type: 'withdraw', p_status: 'pending', p_limit: 50, p_offset: 0
     })
-    const d = await res.json()
-    commTxList.value = Array.isArray(d) ? d : (d.transactions || [])
+    if (error) throw error
+    commTxList.value = data || []
   } catch (e) {} finally { commTxLoading.value = false }
 }
 
@@ -856,7 +849,7 @@ export const testTelegram = async () => {
     const msg = `🔔 <b>iW99 Admin Alert Test</b>\n\n✅ Telegram notifications are working!\n\n📊 Current Stats:\n💰 Deposits: ${fmtNum(stats.value.total_deposits)} Ks\n💸 Withdrawals: ${fmtNum(stats.value.total_withdrawals)} Ks\n⏳ Pending: ${stats.value.pending_tx}\n\n🕐 ${now} (MMT)`
     const res = await fetch(`${SUPA_URL}/functions/v1/send_telegram_alert`, {
       method: 'POST',
-      headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${import.meta.env.VITE_SUPABASE_ANON_KEY}`, 'apikey': import.meta.env.VITE_SUPABASE_ANON_KEY },
+      headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${import.meta.env.VITE_SUPABASE_ANON_KEY}`, 'apikey': import.meta.env.VITE_SUPABASE_ANON_KEY, 'x-admin-key': adminKey.value },
       body: JSON.stringify({ p_key: adminKey.value, message: msg, bot_token: sett.value.telegram_bot_token, chat_id: sett.value.telegram_chat_id })
     })
     const d = await res.json()
@@ -881,7 +874,7 @@ export const sendTelegramDailySummary = async () => {
     const msg  = `📊 <b>iW99 Daily Summary</b>\n\n💰 Total Deposits: <b>${dep} Ks</b>\n💸 Total Withdrawals: <b>${wd} Ks</b>\n📈 Net Flow: <b>${net} Ks</b>\n👥 Active Users: <b>${stats.value.active_users}</b>\n⏳ Pending TX: <b>${stats.value.pending_tx}</b>\n\n🕐 ${now} (MMT)`
     await fetch(`${SUPA_URL}/functions/v1/send_telegram_alert`, {
       method: 'POST',
-      headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${import.meta.env.VITE_SUPABASE_ANON_KEY}`, 'apikey': import.meta.env.VITE_SUPABASE_ANON_KEY },
+      headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${import.meta.env.VITE_SUPABASE_ANON_KEY}`, 'apikey': import.meta.env.VITE_SUPABASE_ANON_KEY, 'x-admin-key': adminKey.value },
       body: JSON.stringify({ p_key: adminKey.value, message: msg, bot_token: sett.value.telegram_bot_token, chat_id: sett.value.telegram_chat_id })
     })
     showToast('Daily summary sent to Telegram!', 'success')
