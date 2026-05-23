@@ -290,213 +290,257 @@
           </div>
 
           <!-- ══════════════════════════════════════════════════════
-               STATIC DEMO TREE — အေးဂျင့် ကျပ်တိုရိုဒ် (ရှင်းပြချက်)
+               FLOATING NODE SYSTEM — Neural Network Org Graph
                ════════════════════════════════════════════════════ -->
-          <div class="referral-tree-card relative overflow-hidden rounded-3xl"
-            style="background: rgba(255,255,255,0.025); border: 1px solid rgba(255,255,255,0.06); backdrop-filter: blur(20px);">
+          <div class="floating-node-card relative overflow-hidden rounded-3xl"
+            style="background: rgba(5,8,20,0.85); border: 1px solid rgba(120,100,255,0.15); backdrop-filter: blur(24px);">
 
             <!-- Section header -->
-            <div class="px-5 pt-4 pb-3 flex items-center justify-between" style="border-bottom: 1px solid rgba(255,255,255,0.05);">
-              <p class="text-[10px] font-bold tracking-[0.18em] uppercase" style="color: rgba(255,255,255,0.4);">အေးဂျင့် ကျပ်တိုရိုဒ်</p>
-              <span class="text-[8px] px-2 py-0.5 rounded-full" style="background:rgba(255,193,7,0.1);border:1px solid rgba(255,193,7,0.2);color:rgba(255,193,7,0.6)">ဥပမာ ရှင်းပြချက်</span>
+            <div class="px-5 pt-4 pb-3 flex items-center justify-between" style="border-bottom: 1px solid rgba(120,100,255,0.1);">
+              <div class="flex items-center gap-2">
+                <div class="w-1.5 h-1.5 rounded-full animate-pulse" style="background:rgba(140,120,255,0.9);box-shadow:0 0 6px rgba(140,120,255,0.8)"></div>
+                <p class="text-[10px] font-bold tracking-[0.18em] uppercase" style="color: rgba(180,160,255,0.7);">Neural Commission Network</p>
+              </div>
+              <span class="text-[8px] px-2 py-0.5 rounded-full" style="background:rgba(120,100,255,0.12);border:1px solid rgba(120,100,255,0.25);color:rgba(160,140,255,0.7)">ဥပမာ ရှင်းပြချက်</span>
             </div>
 
-            <!-- ── Tab switcher A / B1 / B2 ── -->
+            <!-- Tab switcher -->
             <div class="px-4 pt-3 flex gap-2">
               <button @click="demoTab = 'A'"
                 class="flex-shrink-0 px-3.5 py-1.5 rounded-full text-[10px] font-bold tracking-wider transition-all active:scale-95"
                 :style="demoTab === 'A'
-                  ? 'background:rgba(255,193,7,0.18);border:1px solid rgba(255,193,7,0.4);color:rgba(255,193,7,0.95)'
-                  : 'background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.07);color:rgba(255,255,255,0.35)'">
+                  ? 'background:rgba(140,100,255,0.22);border:1px solid rgba(140,100,255,0.5);color:rgba(200,180,255,0.95)'
+                  : 'background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.07);color:rgba(255,255,255,0.35)'">
                 A ၏ ကော်မှင်
               </button>
               <button @click="demoTab = 'B1'"
                 class="flex-shrink-0 px-3.5 py-1.5 rounded-full text-[10px] font-bold tracking-wider transition-all active:scale-95"
                 :style="demoTab === 'B1'
-                  ? 'background:rgba(210,180,140,0.2);border:1px solid rgba(210,180,140,0.4);color:rgba(230,200,160,0.95)'
-                  : 'background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.07);color:rgba(255,255,255,0.35)'">
+                  ? 'background:rgba(0,210,255,0.15);border:1px solid rgba(0,210,255,0.4);color:rgba(120,230,255,0.95)'
+                  : 'background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.07);color:rgba(255,255,255,0.35)'">
                 B1 ၏ ကော်မှင်
               </button>
               <button @click="demoTab = 'B2'"
                 class="flex-shrink-0 px-3.5 py-1.5 rounded-full text-[10px] font-bold tracking-wider transition-all active:scale-95"
                 :style="demoTab === 'B2'
-                  ? 'background:rgba(210,180,140,0.2);border:1px solid rgba(210,180,140,0.4);color:rgba(230,200,160,0.95)'
-                  : 'background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.07);color:rgba(255,255,255,0.35)'">
+                  ? 'background:rgba(0,210,255,0.15);border:1px solid rgba(0,210,255,0.4);color:rgba(120,230,255,0.95)'
+                  : 'background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.07);color:rgba(255,255,255,0.35)'">
                 B2 ၏ ကော်မှင်
               </button>
             </div>
 
-            <!-- ── Commission Summary Box (changes per tab) ── -->
-            <div class="mx-4 mt-3 rounded-2xl overflow-hidden" style="background:rgba(30,28,24,0.7);border:1px solid rgba(255,255,255,0.07);">
-              <!-- A view -->
+            <!-- Commission Summary Box -->
+            <div class="mx-4 mt-3 rounded-2xl overflow-hidden" style="background:rgba(10,12,30,0.8);border:1px solid rgba(100,80,255,0.15);">
               <div v-if="demoTab === 'A'" class="flex gap-3 p-3 items-start">
-                <!-- Agent avatar -->
                 <div class="flex-shrink-0 w-14 h-14 rounded-xl flex items-center justify-center relative"
-                  style="background:linear-gradient(135deg,rgba(210,180,100,0.35),rgba(180,140,60,0.2));border:1.5px solid rgba(255,193,7,0.55);box-shadow:0 0 18px rgba(255,193,7,0.2)">
-                  <svg class="w-8 h-8" style="color:rgba(255,193,7,0.9)" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 3c1.66 0 3 1.34 3 3s-1.34 3-3 3-3-1.34-3-3 1.34-3 3-3zm0 14.2c-2.5 0-4.71-1.28-6-3.22.03-1.99 4-3.08 6-3.08 1.99 0 5.97 1.09 6 3.08-1.29 1.94-3.5 3.22-6 3.22z"/></svg>
-                  <div class="absolute -bottom-1.5 -right-1.5 w-5 h-5 rounded-full flex items-center justify-center text-[9px] font-black" style="background:rgba(255,193,7,1);color:#000">A</div>
+                  style="background:linear-gradient(135deg,rgba(140,100,255,0.35),rgba(100,60,200,0.2));border:1.5px solid rgba(140,100,255,0.6);box-shadow:0 0 20px rgba(140,100,255,0.3)">
+                  <svg class="w-8 h-8" style="color:rgba(200,180,255,0.95)" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 3c1.66 0 3 1.34 3 3s-1.34 3-3 3-3-1.34-3-3 1.34-3 3-3zm0 14.2c-2.5 0-4.71-1.28-6-3.22.03-1.99 4-3.08 6-3.08 1.99 0 5.97 1.09 6 3.08-1.29 1.94-3.5 3.22-6 3.22z"/></svg>
+                  <div class="absolute -bottom-1.5 -right-1.5 w-5 h-5 rounded-full flex items-center justify-center text-[9px] font-black" style="background:linear-gradient(135deg,#8060ff,#6040dd);color:#fff;box-shadow:0 0 8px rgba(140,100,255,0.5)">A</div>
                 </div>
-                <!-- Calc lines -->
                 <div class="flex-1 text-[11px] leading-relaxed space-y-0.5">
-                  <p style="color:rgba(255,255,255,0.6)">တိုက်ရိုက်စုပေါင်းပမာဏ = 500+3000 = <span style="color:rgba(255,255,255,0.9);font-weight:700">3500</span></p>
-                  <p style="color:rgba(255,255,255,0.6)">တိုက်ရိုက်ကော်မှင် = 3500×10% = <span style="color:rgba(255,193,7,0.95);font-weight:800">350</span></p>
-                  <p style="color:rgba(255,255,255,0.6)">အခြားကော်မှင်များ = 30+60+<span style="color:rgba(255,193,7,0.8)">600</span> = <span style="color:rgba(255,193,7,0.8);font-weight:700">690</span></p>
-                  <p class="font-black" style="color:rgba(255,193,7,1)">အဝေးကပ် ကော်မှင် = 350+690 = <span style="font-size:13px">1040</span></p>
+                  <p style="color:rgba(255,255,255,0.55)">တိုက်ရိုက်စုပေါင်း = 500+3000 = <span style="color:rgba(255,255,255,0.85);font-weight:700">3500</span></p>
+                  <p style="color:rgba(255,255,255,0.55)">တိုက်ရိုက်ကော်မှင် = 3500×10% = <span style="color:rgba(200,180,255,0.95);font-weight:800">350</span></p>
+                  <p style="color:rgba(255,255,255,0.55)">အခြားကော်မှင် = 30+60+<span style="color:rgba(0,210,255,0.8)">600</span> = <span style="color:rgba(0,210,255,0.85);font-weight:700">690</span></p>
+                  <p class="font-black" style="color:rgba(180,150,255,1)">ကော်မှင်စုစုပေါင်း = 350+690 = <span style="font-size:13px;color:rgba(200,180,255,1)">1040</span></p>
                 </div>
               </div>
-              <!-- B1 view -->
               <div v-else-if="demoTab === 'B1'" class="flex gap-3 p-3 items-start">
                 <div class="flex-shrink-0 w-14 h-14 rounded-xl flex items-center justify-center relative"
-                  style="background:linear-gradient(135deg,rgba(210,180,140,0.3),rgba(180,150,100,0.18));border:1.5px solid rgba(210,180,140,0.5);box-shadow:0 0 14px rgba(210,180,140,0.15)">
-                  <svg class="w-8 h-8" style="color:rgba(220,190,140,0.9)" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 3c1.66 0 3 1.34 3 3s-1.34 3-3 3-3-1.34-3-3 1.34-3 3-3zm0 14.2c-2.5 0-4.71-1.28-6-3.22.03-1.99 4-3.08 6-3.08 1.99 0 5.97 1.09 6 3.08-1.29 1.94-3.5 3.22-6 3.22z"/></svg>
-                  <div class="absolute -bottom-1.5 -right-1.5 w-5 h-5 rounded-full flex items-center justify-center text-[9px] font-black" style="background:rgba(210,180,140,0.9);color:#000">B1</div>
+                  style="background:linear-gradient(135deg,rgba(0,200,255,0.25),rgba(0,150,200,0.15));border:1.5px solid rgba(0,200,255,0.4);box-shadow:0 0 16px rgba(0,200,255,0.2)">
+                  <svg class="w-8 h-8" style="color:rgba(100,230,255,0.9)" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 3c1.66 0 3 1.34 3 3s-1.34 3-3 3-3-1.34-3-3 1.34-3 3-3zm0 14.2c-2.5 0-4.71-1.28-6-3.22.03-1.99 4-3.08 6-3.08 1.99 0 5.97 1.09 6 3.08-1.29 1.94-3.5 3.22-6 3.22z"/></svg>
+                  <div class="absolute -bottom-1.5 -right-1.5 w-5 h-5 rounded-full flex items-center justify-center text-[7px] font-black" style="background:linear-gradient(135deg,#00c8ff,#0090cc);color:#000;box-shadow:0 0 8px rgba(0,200,255,0.4)">B1</div>
                 </div>
                 <div class="flex-1 text-[11px] leading-relaxed space-y-0.5">
-                  <p style="color:rgba(255,255,255,0.5)">B1 ၏ တိုက်ရိုက် Downline: <span style="color:rgba(220,190,140,0.85);font-weight:700">C1, C2</span></p>
-                  <p style="color:rgba(255,255,255,0.6)">C1 ကော်မှင် = 1000×10%×30% = <span style="color:rgba(255,193,7,0.9);font-weight:700">30</span></p>
-                  <p style="color:rgba(255,255,255,0.6)">C2 ကော်မှင် = 2000×10%×30% = <span style="color:rgba(255,193,7,0.9);font-weight:700">60</span></p>
-                  <p class="font-black" style="color:rgba(255,193,7,1)">B1 မှ A ရ = 30+60 = <span style="font-size:13px">90</span></p>
+                  <p style="color:rgba(255,255,255,0.5)">B1 ၏ Downline: <span style="color:rgba(100,230,255,0.85);font-weight:700">C1, C2</span></p>
+                  <p style="color:rgba(255,255,255,0.55)">C1 = 1000×10%×30% = <span style="color:rgba(100,230,255,0.9);font-weight:700">30</span></p>
+                  <p style="color:rgba(255,255,255,0.55)">C2 = 2000×10%×30% = <span style="color:rgba(100,230,255,0.9);font-weight:700">60</span></p>
+                  <p class="font-black" style="color:rgba(100,230,255,1)">B1 မှ A ရ = <span style="font-size:13px">90</span></p>
                 </div>
               </div>
-              <!-- B2 view -->
               <div v-else class="flex gap-3 p-3 items-start">
                 <div class="flex-shrink-0 w-14 h-14 rounded-xl flex items-center justify-center relative"
-                  style="background:linear-gradient(135deg,rgba(210,180,140,0.3),rgba(180,150,100,0.18));border:1.5px solid rgba(210,180,140,0.5);box-shadow:0 0 14px rgba(210,180,140,0.15)">
-                  <svg class="w-8 h-8" style="color:rgba(220,190,140,0.9)" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 3c1.66 0 3 1.34 3 3s-1.34 3-3 3-3-1.34-3-3 1.34-3 3-3zm0 14.2c-2.5 0-4.71-1.28-6-3.22.03-1.99 4-3.08 6-3.08 1.99 0 5.97 1.09 6 3.08-1.29 1.94-3.5 3.22-6 3.22z"/></svg>
-                  <div class="absolute -bottom-1.5 -right-1.5 w-5 h-5 rounded-full flex items-center justify-center text-[9px] font-black" style="background:rgba(210,180,140,0.9);color:#000">B2</div>
+                  style="background:linear-gradient(135deg,rgba(0,200,255,0.25),rgba(0,150,200,0.15));border:1.5px solid rgba(0,200,255,0.4);box-shadow:0 0 16px rgba(0,200,255,0.2)">
+                  <svg class="w-8 h-8" style="color:rgba(100,230,255,0.9)" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 3c1.66 0 3 1.34 3 3s-1.34 3-3 3-3-1.34-3-3 1.34-3 3-3zm0 14.2c-2.5 0-4.71-1.28-6-3.22.03-1.99 4-3.08 6-3.08 1.99 0 5.97 1.09 6 3.08-1.29 1.94-3.5 3.22-6 3.22z"/></svg>
+                  <div class="absolute -bottom-1.5 -right-1.5 w-5 h-5 rounded-full flex items-center justify-center text-[7px] font-black" style="background:linear-gradient(135deg,#00c8ff,#0090cc);color:#000;box-shadow:0 0 8px rgba(0,200,255,0.4)">B2</div>
                 </div>
                 <div class="flex-1 text-[11px] leading-relaxed space-y-0.5">
-                  <p style="color:rgba(255,255,255,0.5)">B2 ၏ တိုက်ရိုက် Downline: <span style="color:rgba(220,190,140,0.85);font-weight:700">C3</span></p>
-                  <p style="color:rgba(255,255,255,0.6)">C3 ကော်မှင် = 20000×10%×30% = <span style="color:rgba(255,193,7,0.9);font-weight:700">600</span></p>
-                  <p class="font-black" style="color:rgba(255,193,7,1)">B2 မှ A ရ = <span style="font-size:13px">600</span></p>
+                  <p style="color:rgba(255,255,255,0.5)">B2 ၏ Downline: <span style="color:rgba(100,230,255,0.85);font-weight:700">C3</span></p>
+                  <p style="color:rgba(255,255,255,0.55)">C3 = 20000×10%×30% = <span style="color:rgba(100,230,255,0.9);font-weight:700">600</span></p>
+                  <p class="font-black" style="color:rgba(100,230,255,1)">B2 မှ A ရ = <span style="font-size:13px">600</span></p>
                 </div>
               </div>
             </div>
 
-            <!-- ── TREE VISUAL (always shown) ── -->
-            <div class="tree-viewport px-3 pt-5 pb-5 overflow-x-auto no-scrollbar" style="perspective: 900px;">
-              <div class="tree-scene relative mx-auto" style="width: 300px; transform-style: preserve-3d;">
+            <!-- FLOATING NODE SVG CANVAS -->
+            <div class="relative mx-3 mt-4 mb-2 rounded-2xl overflow-hidden" style="height:310px;background:radial-gradient(ellipse at 50% 20%,rgba(80,50,200,0.1) 0%,rgba(0,150,220,0.05) 40%,transparent 70%),radial-gradient(ellipse at 20% 80%,rgba(140,100,255,0.06) 0%,transparent 50%),rgba(2,4,14,0.6);">
 
-                <!-- ROOT: A (you) -->
-                <div class="flex justify-center">
-                  <div class="demo-node-a flex flex-col items-center cursor-pointer" @click="demoTab='A'">
-                    <div class="w-[60px] h-[60px] rounded-2xl flex items-center justify-center relative transition-all"
+              <!-- Particle dots -->
+              <div class="absolute inset-0 pointer-events-none overflow-hidden">
+                <div class="node-particle" style="left:6%;top:12%;animation-delay:0s;animation-duration:4.2s"></div>
+                <div class="node-particle" style="left:88%;top:22%;animation-delay:1.1s;animation-duration:5.1s"></div>
+                <div class="node-particle" style="left:12%;top:68%;animation-delay:2.3s;animation-duration:3.8s"></div>
+                <div class="node-particle" style="left:80%;top:75%;animation-delay:0.7s;animation-duration:4.6s"></div>
+                <div class="node-particle" style="left:48%;top:90%;animation-delay:1.8s;animation-duration:5.4s"></div>
+                <div class="node-particle" style="left:94%;top:48%;animation-delay:3.0s;animation-duration:4.0s;background:rgba(0,200,255,0.4)"></div>
+                <div class="node-particle" style="left:3%;top:42%;animation-delay:0.3s;animation-duration:5.8s;background:rgba(0,200,255,0.35)"></div>
+                <div class="node-particle" style="left:62%;top:8%;animation-delay:2.0s;animation-duration:4.4s;background:rgba(0,200,255,0.3)"></div>
+                <div class="node-particle" style="left:35%;top:55%;animation-delay:1.5s;animation-duration:6.0s;width:3px;height:3px"></div>
+                <div class="node-particle" style="left:72%;top:38%;animation-delay:0.9s;animation-duration:4.8s;width:2px;height:2px;background:rgba(180,160,255,0.5)"></div>
+              </div>
+
+              <!-- SVG Lines & Pulses -->
+              <svg class="absolute inset-0 w-full h-full pointer-events-none" viewBox="0 0 340 310" preserveAspectRatio="xMidYMid meet">
+                <defs>
+                  <linearGradient id="lgPurple" x1="0%" y1="0%" x2="100%" y2="100%">
+                    <stop offset="0%" stop-color="rgba(160,130,255,0.9)"/>
+                    <stop offset="100%" stop-color="rgba(0,180,255,0.5)"/>
+                  </linearGradient>
+                  <linearGradient id="lgCyan" x1="0%" y1="0%" x2="100%" y2="100%">
+                    <stop offset="0%" stop-color="rgba(0,210,255,0.7)"/>
+                    <stop offset="100%" stop-color="rgba(60,180,255,0.35)"/>
+                  </linearGradient>
+                  <filter id="glow1">
+                    <feGaussianBlur stdDeviation="2.5" result="b"/>
+                    <feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
+                  </filter>
+                  <filter id="glow2" x="-60%" y="-60%" width="220%" height="220%">
+                    <feGaussianBlur stdDeviation="5" result="b"/>
+                    <feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
+                  </filter>
+                </defs>
+
+                <!-- Connection lines -->
+                <path d="M 170,65 C 170,105 100,108 100,148" stroke="url(#lgPurple)" stroke-width="1.5" fill="none" filter="url(#glow1)">
+                  <animate attributeName="opacity" values="0.6;1;0.6" dur="2.5s" repeatCount="indefinite"/>
+                </path>
+                <path d="M 170,65 C 170,105 240,108 240,148" stroke="url(#lgPurple)" stroke-width="1.5" fill="none" filter="url(#glow1)">
+                  <animate attributeName="opacity" values="0.6;1;0.6" dur="3.0s" begin="0.5s" repeatCount="indefinite"/>
+                </path>
+                <path d="M 100,202 C 100,228 68,230 68,252" stroke="url(#lgCyan)" stroke-width="1.2" fill="none">
+                  <animate attributeName="opacity" values="0.5;0.85;0.5" dur="2.8s" begin="0.3s" repeatCount="indefinite"/>
+                </path>
+                <path d="M 100,202 C 100,228 138,230 138,252" stroke="url(#lgCyan)" stroke-width="1.2" fill="none">
+                  <animate attributeName="opacity" values="0.5;0.85;0.5" dur="3.2s" begin="0.8s" repeatCount="indefinite"/>
+                </path>
+                <path d="M 240,202 C 240,228 268,230 268,252" stroke="url(#lgCyan)" stroke-width="1.2" fill="none">
+                  <animate attributeName="opacity" values="0.5;0.85;0.5" dur="2.6s" begin="1.1s" repeatCount="indefinite"/>
+                </path>
+
+                <!-- Hidden motion paths -->
+                <path id="mp_ab1" d="M 170,65 C 170,105 100,108 100,148" fill="none" stroke="none"/>
+                <path id="mp_ab2" d="M 170,65 C 170,105 240,108 240,148" fill="none" stroke="none"/>
+                <path id="mp_b1c1" d="M 100,202 C 100,228 68,230 68,252" fill="none" stroke="none"/>
+                <path id="mp_b1c2" d="M 100,202 C 100,228 138,230 138,252" fill="none" stroke="none"/>
+                <path id="mp_b2c3" d="M 240,202 C 240,228 268,230 268,252" fill="none" stroke="none"/>
+
+                <!-- Traveling pulse dots -->
+                <circle r="3" fill="rgba(200,180,255,0.95)" filter="url(#glow2)">
+                  <animateMotion dur="1.8s" repeatCount="indefinite" begin="0s"><mpath href="#mp_ab1"/></animateMotion>
+                </circle>
+                <circle r="3" fill="rgba(200,180,255,0.95)" filter="url(#glow2)">
+                  <animateMotion dur="1.8s" repeatCount="indefinite" begin="0.9s"><mpath href="#mp_ab2"/></animateMotion>
+                </circle>
+                <circle r="2.5" fill="rgba(80,220,255,0.9)" filter="url(#glow2)">
+                  <animateMotion dur="1.5s" repeatCount="indefinite" begin="0.2s"><mpath href="#mp_b1c1"/></animateMotion>
+                </circle>
+                <circle r="2.5" fill="rgba(80,220,255,0.9)" filter="url(#glow2)">
+                  <animateMotion dur="1.5s" repeatCount="indefinite" begin="0.9s"><mpath href="#mp_b1c2"/></animateMotion>
+                </circle>
+                <circle r="2.5" fill="rgba(80,220,255,0.9)" filter="url(#glow2)">
+                  <animateMotion dur="1.5s" repeatCount="indefinite" begin="0.5s"><mpath href="#mp_b2c3"/></animateMotion>
+                </circle>
+              </svg>
+
+              <!-- NODE A -->
+              <div class="absolute" style="left:50%;top:8px;transform:translateX(-50%);" @click="demoTab='A'">
+                <div class="flex flex-col items-center gap-1.5 cursor-pointer">
+                  <div class="relative">
+                    <div class="absolute inset-0 rounded-2xl" style="background:rgba(140,100,255,0.15);animation:ping 2s cubic-bezier(0,0,0.2,1) infinite;border-radius:1rem"></div>
+                    <div class="node-float-a w-[58px] h-[58px] rounded-2xl flex items-center justify-center relative transition-all duration-300"
                       :style="demoTab==='A'
-                        ? 'background:linear-gradient(135deg,rgba(210,180,100,0.45),rgba(180,130,40,0.3));border:1.5px solid rgba(255,193,7,0.7);box-shadow:0 0 22px rgba(255,193,7,0.3)'
-                        : 'background:linear-gradient(135deg,rgba(210,180,100,0.25),rgba(180,130,40,0.15));border:1px solid rgba(255,193,7,0.35)'">
-                      <svg class="w-8 h-8" style="color:rgba(255,210,80,0.95)" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 3c1.66 0 3 1.34 3 3s-1.34 3-3 3-3-1.34-3-3 1.34-3 3-3zm0 14.2c-2.5 0-4.71-1.28-6-3.22.03-1.99 4-3.08 6-3.08 1.99 0 5.97 1.09 6 3.08-1.29 1.94-3.5 3.22-6 3.22z"/></svg>
-                      <div class="absolute -bottom-2 -right-2 w-5 h-5 rounded-full flex items-center justify-center text-[9px] font-black" style="background:rgba(255,193,7,1);color:#000;border:1px solid rgba(0,0,0,0.2)">A</div>
-                    </div>
-                    <p class="text-[9px] font-bold mt-2" style="color:rgba(255,193,7,0.8)">You (Agent A)</p>
-                  </div>
-                </div>
-
-                <!-- Connector A→B row -->
-                <div class="flex justify-center"><div class="w-px h-4" style="background:linear-gradient(180deg,rgba(255,193,7,0.6),rgba(255,193,7,0.2))"></div></div>
-                <!-- H bar -->
-                <div class="relative h-px mx-auto" style="width:200px;background:linear-gradient(90deg,transparent,rgba(255,193,7,0.3),transparent)"></div>
-                <!-- Two vertical drops to B1, B2 -->
-                <div class="flex justify-between px-10">
-                  <div class="w-px h-4" style="background:rgba(255,193,7,0.25)"></div>
-                  <div class="w-px h-4" style="background:rgba(255,193,7,0.25)"></div>
-                </div>
-
-                <!-- B1 and B2 row -->
-                <div class="flex justify-center gap-6">
-                  <!-- B1 -->
-                  <div class="demo-node-b flex flex-col items-center cursor-pointer" @click="demoTab='B1'">
-                    <div class="w-[54px] h-[68px] rounded-xl p-2 flex flex-col items-center justify-center gap-0.5 relative transition-all"
-                      :style="demoTab==='B1'
-                        ? 'background:rgba(210,180,140,0.25);border:1.5px solid rgba(210,180,140,0.6);box-shadow:0 0 14px rgba(210,180,140,0.2)'
-                        : 'background:rgba(210,180,140,0.1);border:1px solid rgba(210,180,140,0.25)'">
-                      <svg class="w-6 h-6" style="color:rgba(220,190,150,0.85)" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 3c1.66 0 3 1.34 3 3s-1.34 3-3 3-3-1.34-3-3 1.34-3 3-3zm0 14.2c-2.5 0-4.71-1.28-6-3.22.03-1.99 4-3.08 6-3.08 1.99 0 5.97 1.09 6 3.08-1.29 1.94-3.5 3.22-6 3.22z"/></svg>
-                      <div class="absolute -bottom-1.5 -right-1.5 w-4 h-4 rounded-full flex items-center justify-center text-[7px] font-black" style="background:rgba(210,180,140,0.9);color:#000">B1</div>
-                      <p class="text-[7.5px] text-center leading-tight" style="color:rgba(255,255,255,0.55)">တရားဝင်<br>လောင်းကြေး: 500</p>
-                      <p class="text-[8px] font-bold" style="color:rgba(255,193,7,0.85)">×10% = <span style="color:rgba(255,193,7,1)">50</span></p>
+                        ? 'background:linear-gradient(135deg,rgba(150,110,255,0.55),rgba(90,55,200,0.4));border:2px solid rgba(170,140,255,0.85);box-shadow:0 0 32px rgba(140,100,255,0.55),0 0 70px rgba(100,70,220,0.25)'
+                        : 'background:linear-gradient(135deg,rgba(140,100,255,0.28),rgba(80,50,180,0.18));border:1.5px solid rgba(140,100,255,0.5);box-shadow:0 0 20px rgba(140,100,255,0.3)'">
+                      <svg class="w-7 h-7" style="color:rgba(230,220,255,0.95)" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 3c1.66 0 3 1.34 3 3s-1.34 3-3 3-3-1.34-3-3 1.34-3 3-3zm0 14.2c-2.5 0-4.71-1.28-6-3.22.03-1.99 4-3.08 6-3.08 1.99 0 5.97 1.09 6 3.08-1.29 1.94-3.5 3.22-6 3.22z"/></svg>
+                      <div class="absolute -bottom-2 -right-2 w-5 h-5 rounded-full flex items-center justify-center text-[8px] font-black" style="background:linear-gradient(135deg,#9070ff,#6040cc);color:#fff;border:1.5px solid rgba(0,0,0,0.25);box-shadow:0 0 10px rgba(140,100,255,0.7)">A</div>
                     </div>
                   </div>
-                  <!-- B2 -->
-                  <div class="demo-node-b flex flex-col items-center cursor-pointer" @click="demoTab='B2'">
-                    <div class="w-[54px] h-[68px] rounded-xl p-2 flex flex-col items-center justify-center gap-0.5 relative transition-all"
-                      :style="demoTab==='B2'
-                        ? 'background:rgba(210,180,140,0.25);border:1.5px solid rgba(210,180,140,0.6);box-shadow:0 0 14px rgba(210,180,140,0.2)'
-                        : 'background:rgba(210,180,140,0.1);border:1px solid rgba(210,180,140,0.25)'">
-                      <svg class="w-6 h-6" style="color:rgba(220,190,150,0.85)" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 3c1.66 0 3 1.34 3 3s-1.34 3-3 3-3-1.34-3-3 1.34-3 3-3zm0 14.2c-2.5 0-4.71-1.28-6-3.22.03-1.99 4-3.08 6-3.08 1.99 0 5.97 1.09 6 3.08-1.29 1.94-3.5 3.22-6 3.22z"/></svg>
-                      <div class="absolute -bottom-1.5 -right-1.5 w-4 h-4 rounded-full flex items-center justify-center text-[7px] font-black" style="background:rgba(210,180,140,0.9);color:#000">B2</div>
-                      <p class="text-[7.5px] text-center leading-tight" style="color:rgba(255,255,255,0.55)">တရားဝင်<br>လောင်းကြေး: 3000</p>
-                      <p class="text-[8px] font-bold" style="color:rgba(255,193,7,0.85)">×10% = <span style="color:rgba(255,193,7,1)">300</span></p>
-                    </div>
-                  </div>
+                  <p class="text-[9px] font-bold" style="color:rgba(210,190,255,0.85);text-shadow:0 0 12px rgba(140,100,255,0.5)">You (Agent A)</p>
                 </div>
+              </div>
 
-                <!-- Connectors B→C -->
-                <div class="flex justify-between px-7 mt-0.5">
-                  <div class="flex flex-col items-center">
-                    <div class="w-px h-3" style="background:rgba(210,180,140,0.25)"></div>
-                    <!-- H bar under B1 -->
-                    <div class="relative h-px" style="width:72px;background:linear-gradient(90deg,transparent,rgba(210,180,140,0.2),transparent)"></div>
-                    <div class="flex gap-9">
-                      <div class="w-px h-3" style="background:rgba(210,180,140,0.2)"></div>
-                      <div class="w-px h-3" style="background:rgba(210,180,140,0.2)"></div>
-                    </div>
-                  </div>
-                  <div class="flex flex-col items-center">
-                    <div class="w-px h-3" style="background:rgba(210,180,140,0.25)"></div>
-                    <div class="w-px h-3" style="background:rgba(210,180,140,0.25)"></div>
-                  </div>
+              <!-- NODE B1 -->
+              <div class="absolute cursor-pointer" style="left:calc(50% - 112px);top:135px;" @click="demoTab='B1'">
+                <div class="node-float-b1 w-[56px] rounded-xl p-2 flex flex-col items-center gap-0.5 relative transition-all duration-300"
+                  :style="demoTab==='B1'
+                    ? 'background:linear-gradient(135deg,rgba(0,210,255,0.32),rgba(0,150,210,0.22));border:1.5px solid rgba(0,210,255,0.65);box-shadow:0 0 24px rgba(0,210,255,0.4)'
+                    : 'background:linear-gradient(135deg,rgba(0,200,255,0.12),rgba(0,140,200,0.08));border:1px solid rgba(0,200,255,0.25);box-shadow:0 0 12px rgba(0,180,230,0.15)'">
+                  <svg class="w-5 h-5" style="color:rgba(100,230,255,0.9)" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 3c1.66 0 3 1.34 3 3s-1.34 3-3 3-3-1.34-3-3 1.34-3 3-3zm0 14.2c-2.5 0-4.71-1.28-6-3.22.03-1.99 4-3.08 6-3.08 1.99 0 5.97 1.09 6 3.08-1.29 1.94-3.5 3.22-6 3.22z"/></svg>
+                  <p class="text-[7px] text-center leading-tight mt-0.5" style="color:rgba(255,255,255,0.5)">500<br>×10%=50</p>
+                  <div class="absolute -bottom-2 -right-2 w-4 h-4 rounded-full flex items-center justify-center text-[6px] font-black" style="background:linear-gradient(135deg,#00ccff,#0099cc);color:#000;box-shadow:0 0 6px rgba(0,200,255,0.5)">B1</div>
                 </div>
+              </div>
 
-                <!-- C1, C2, C3 row -->
-                <div class="flex justify-center gap-2 mt-0">
-                  <!-- C1 -->
-                  <div class="demo-node-c flex flex-col items-center">
-                    <div class="w-[60px] rounded-xl p-2 relative" style="background:rgba(210,180,140,0.12);border:1px solid rgba(210,180,140,0.22)">
-                      <svg class="w-5 h-5 mx-auto" style="color:rgba(220,190,150,0.7)" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 3c1.66 0 3 1.34 3 3s-1.34 3-3 3-3-1.34-3-3 1.34-3 3-3zm0 14.2c-2.5 0-4.71-1.28-6-3.22.03-1.99 4-3.08 6-3.08 1.99 0 5.97 1.09 6 3.08-1.29 1.94-3.5 3.22-6 3.22z"/></svg>
-                      <div class="absolute -top-1.5 -right-1.5 w-4 h-4 rounded-full flex items-center justify-center text-[7px] font-black" style="background:rgba(200,170,120,0.85);color:#000">C1</div>
-                      <p class="text-[7px] text-center mt-1 leading-tight" style="color:rgba(255,255,255,0.5)">1000<br>×10%×30%</p>
-                      <p class="text-[8px] font-black text-center" style="color:rgba(255,193,7,0.9)">= 30</p>
-                    </div>
-                  </div>
-                  <!-- C2 -->
-                  <div class="demo-node-c flex flex-col items-center">
-                    <div class="w-[60px] rounded-xl p-2 relative" style="background:rgba(210,180,140,0.12);border:1px solid rgba(210,180,140,0.22)">
-                      <svg class="w-5 h-5 mx-auto" style="color:rgba(220,190,150,0.7)" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 3c1.66 0 3 1.34 3 3s-1.34 3-3 3-3-1.34-3-3 1.34-3 3-3zm0 14.2c-2.5 0-4.71-1.28-6-3.22.03-1.99 4-3.08 6-3.08 1.99 0 5.97 1.09 6 3.08-1.29 1.94-3.5 3.22-6 3.22z"/></svg>
-                      <div class="absolute -top-1.5 -right-1.5 w-4 h-4 rounded-full flex items-center justify-center text-[7px] font-black" style="background:rgba(200,170,120,0.85);color:#000">C2</div>
-                      <p class="text-[7px] text-center mt-1 leading-tight" style="color:rgba(255,255,255,0.5)">2000<br>×10%×30%</p>
-                      <p class="text-[8px] font-black text-center" style="color:rgba(255,193,7,0.9)">= 60</p>
-                    </div>
-                  </div>
-                  <!-- C3 -->
-                  <div class="demo-node-c flex flex-col items-center">
-                    <div class="w-[60px] rounded-xl p-2 relative" style="background:rgba(210,180,140,0.12);border:1px solid rgba(210,180,140,0.22)">
-                      <svg class="w-5 h-5 mx-auto" style="color:rgba(220,190,150,0.7)" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 3c1.66 0 3 1.34 3 3s-1.34 3-3 3-3-1.34-3-3 1.34-3 3-3zm0 14.2c-2.5 0-4.71-1.28-6-3.22.03-1.99 4-3.08 6-3.08 1.99 0 5.97 1.09 6 3.08-1.29 1.94-3.5 3.22-6 3.22z"/></svg>
-                      <div class="absolute -top-1.5 -right-1.5 w-4 h-4 rounded-full flex items-center justify-center text-[7px] font-black" style="background:rgba(200,170,120,0.85);color:#000">C3</div>
-                      <p class="text-[7px] text-center mt-1 leading-tight" style="color:rgba(255,255,255,0.5)">20000<br>×10%×30%</p>
-                      <p class="text-[8px] font-black text-center" style="color:rgba(255,193,7,0.9)">= 600</p>
-                    </div>
-                  </div>
+              <!-- NODE B2 -->
+              <div class="absolute cursor-pointer" style="left:calc(50% + 56px);top:135px;" @click="demoTab='B2'">
+                <div class="node-float-b2 w-[56px] rounded-xl p-2 flex flex-col items-center gap-0.5 relative transition-all duration-300"
+                  :style="demoTab==='B2'
+                    ? 'background:linear-gradient(135deg,rgba(0,210,255,0.32),rgba(0,150,210,0.22));border:1.5px solid rgba(0,210,255,0.65);box-shadow:0 0 24px rgba(0,210,255,0.4)'
+                    : 'background:linear-gradient(135deg,rgba(0,200,255,0.12),rgba(0,140,200,0.08));border:1px solid rgba(0,200,255,0.25);box-shadow:0 0 12px rgba(0,180,230,0.15)'">
+                  <svg class="w-5 h-5" style="color:rgba(100,230,255,0.9)" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 3c1.66 0 3 1.34 3 3s-1.34 3-3 3-3-1.34-3-3 1.34-3 3-3zm0 14.2c-2.5 0-4.71-1.28-6-3.22.03-1.99 4-3.08 6-3.08 1.99 0 5.97 1.09 6 3.08-1.29 1.94-3.5 3.22-6 3.22z"/></svg>
+                  <p class="text-[7px] text-center leading-tight mt-0.5" style="color:rgba(255,255,255,0.5)">3000<br>×10%=300</p>
+                  <div class="absolute -bottom-2 -right-2 w-4 h-4 rounded-full flex items-center justify-center text-[6px] font-black" style="background:linear-gradient(135deg,#00ccff,#0099cc);color:#000;box-shadow:0 0 6px rgba(0,200,255,0.5)">B2</div>
                 </div>
+              </div>
 
-                <!-- N node + explanation -->
-                <div class="flex justify-center mt-4">
-                  <div class="w-px h-3" style="background:rgba(100,220,120,0.25)"></div>
+              <!-- NODE C1 -->
+              <div class="absolute" style="left:calc(50% - 148px);top:240px;">
+                <div class="node-float-c1 w-[52px] rounded-xl p-1.5 flex flex-col items-center gap-0.5 relative"
+                  style="background:linear-gradient(135deg,rgba(50,170,255,0.12),rgba(30,120,200,0.08));border:1px solid rgba(50,170,255,0.22);box-shadow:0 0 10px rgba(50,170,255,0.12)">
+                  <svg class="w-4 h-4" style="color:rgba(100,200,255,0.75)" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 3c1.66 0 3 1.34 3 3s-1.34 3-3 3-3-1.34-3-3 1.34-3 3-3zm0 14.2c-2.5 0-4.71-1.28-6-3.22.03-1.99 4-3.08 6-3.08 1.99 0 5.97 1.09 6 3.08-1.29 1.94-3.5 3.22-6 3.22z"/></svg>
+                  <p class="text-[6.5px] text-center leading-tight" style="color:rgba(255,255,255,0.4)">1000<br>×10%×30%</p>
+                  <p class="text-[8px] font-black" style="color:rgba(0,210,255,0.85)">=30</p>
+                  <div class="absolute -top-1.5 -right-1.5 w-3.5 h-3.5 rounded-full flex items-center justify-center text-[6px] font-black" style="background:rgba(50,170,255,0.8);color:#000;box-shadow:0 0 5px rgba(50,170,255,0.4)">C1</div>
                 </div>
-                <div class="mx-2 rounded-2xl p-3 flex gap-3 items-start"
-                  style="background:rgba(100,200,100,0.07);border:1px solid rgba(100,200,100,0.18)">
-                  <div class="flex-shrink-0 w-9 h-9 rounded-full flex items-center justify-center"
-                    style="background:rgba(100,200,100,0.2);border:1.5px solid rgba(100,200,100,0.45)">
-                    <span class="text-[10px] font-black" style="color:rgba(120,230,120,0.95)">N</span>
-                  </div>
-                  <div>
-                    <p class="text-[9px] mb-0.5" style="color:rgba(255,255,255,0.35)">(ပရေးထမ်ဆိုင်ဆော လက်အောက်ကအသားများ)</p>
-                    <p class="text-[10px] leading-relaxed" style="color:rgba(255,255,255,0.5)">အဆင့်တိုင်းသည် A အတွက် စွမ်းဆောင်ရည်နှင့် ကော်မှင်ကို ထပ်ပါင်းပေးမည်။ လက်အောက်ခံ အဆင့် အကန့်အသတ်မရှိဘဲ မြေလေလေ ပိုကောင်းလေပါ။</p>
-                  </div>
+              </div>
+
+              <!-- NODE C2 -->
+              <div class="absolute" style="left:calc(50% - 88px);top:240px;">
+                <div class="node-float-c2 w-[52px] rounded-xl p-1.5 flex flex-col items-center gap-0.5 relative"
+                  style="background:linear-gradient(135deg,rgba(50,170,255,0.12),rgba(30,120,200,0.08));border:1px solid rgba(50,170,255,0.22);box-shadow:0 0 10px rgba(50,170,255,0.12)">
+                  <svg class="w-4 h-4" style="color:rgba(100,200,255,0.75)" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 3c1.66 0 3 1.34 3 3s-1.34 3-3 3-3-1.34-3-3 1.34-3 3-3zm0 14.2c-2.5 0-4.71-1.28-6-3.22.03-1.99 4-3.08 6-3.08 1.99 0 5.97 1.09 6 3.08-1.29 1.94-3.5 3.22-6 3.22z"/></svg>
+                  <p class="text-[6.5px] text-center leading-tight" style="color:rgba(255,255,255,0.4)">2000<br>×10%×30%</p>
+                  <p class="text-[8px] font-black" style="color:rgba(0,210,255,0.85)">=60</p>
+                  <div class="absolute -top-1.5 -right-1.5 w-3.5 h-3.5 rounded-full flex items-center justify-center text-[6px] font-black" style="background:rgba(50,170,255,0.8);color:#000;box-shadow:0 0 5px rgba(50,170,255,0.4)">C2</div>
                 </div>
+              </div>
 
-              </div><!-- /tree-scene -->
-            </div><!-- /tree-viewport -->
+              <!-- NODE C3 -->
+              <div class="absolute" style="left:calc(50% + 42px);top:240px;">
+                <div class="node-float-c3 w-[52px] rounded-xl p-1.5 flex flex-col items-center gap-0.5 relative"
+                  style="background:linear-gradient(135deg,rgba(50,170,255,0.12),rgba(30,120,200,0.08));border:1px solid rgba(50,170,255,0.22);box-shadow:0 0 10px rgba(50,170,255,0.12)">
+                  <svg class="w-4 h-4" style="color:rgba(100,200,255,0.75)" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 3c1.66 0 3 1.34 3 3s-1.34 3-3 3-3-1.34-3-3 1.34-3 3-3zm0 14.2c-2.5 0-4.71-1.28-6-3.22.03-1.99 4-3.08 6-3.08 1.99 0 5.97 1.09 6 3.08-1.29 1.94-3.5 3.22-6 3.22z"/></svg>
+                  <p class="text-[6.5px] text-center leading-tight" style="color:rgba(255,255,255,0.4)">20000<br>×10%×30%</p>
+                  <p class="text-[8px] font-black" style="color:rgba(0,210,255,0.85)">=600</p>
+                  <div class="absolute -top-1.5 -right-1.5 w-3.5 h-3.5 rounded-full flex items-center justify-center text-[6px] font-black" style="background:rgba(50,170,255,0.8);color:#000;box-shadow:0 0 5px rgba(50,170,255,0.4)">C3</div>
+                </div>
+              </div>
 
-          </div><!-- /static demo tree card -->
+            </div><!-- /floating node canvas -->
+
+            <!-- N node explanation -->
+            <div class="mx-3 mb-4 rounded-2xl p-3 flex gap-3 items-start"
+              style="background:rgba(80,200,120,0.05);border:1px solid rgba(80,200,120,0.14)">
+              <div class="flex-shrink-0 w-9 h-9 rounded-full flex items-center justify-center"
+                style="background:rgba(80,200,120,0.14);border:1.5px solid rgba(80,200,120,0.32);box-shadow:0 0 10px rgba(80,200,120,0.12)">
+                <span class="text-[10px] font-black" style="color:rgba(120,230,140,0.95)">N</span>
+              </div>
+              <div>
+                <p class="text-[9px] mb-0.5" style="color:rgba(255,255,255,0.28)">(ပရေးထမ်ဆိုင်ဆော လက်အောက်ကအသားများ)</p>
+                <p class="text-[10px] leading-relaxed" style="color:rgba(255,255,255,0.42)">အဆင့်တိုင်းသည် A အတွက် ကော်မှင်ကို ထပ်ပေးမည်။ Downline အဆင့် အကန့်အသတ်မရှိဘဲ ပိုကောင်းလေပါ။</p>
+              </div>
+            </div>
+
+          </div><!-- /floating node card -->
 
           <!-- ══════════════════════════════════════════════════════
                REAL DOWNLINE LIST — Supabase ကနေ လာသောဒေတာ
@@ -1320,41 +1364,78 @@ onUnmounted(() => {
   transition: box-shadow 0.3s ease;
 }
 
-.referral-tree-card {
+/* Floating Node Card */
+.floating-node-card {
   box-shadow:
-    0 1px 0 0 rgba(255,255,255,0.04) inset,
-    0 20px 40px rgba(0,0,0,0.2);
+    0 1px 0 0 rgba(140,100,255,0.08) inset,
+    0 20px 50px rgba(0,0,0,0.3),
+    0 0 0 1px rgba(120,100,255,0.05);
 }
 
-/* 3D Tree viewport */
-.tree-viewport {
-  overflow-x: auto;
+/* Ambient particle dots */
+.node-particle {
+  position: absolute;
+  width: 4px;
+  height: 4px;
+  border-radius: 50%;
+  background: rgba(140,100,255,0.45);
+  box-shadow: 0 0 6px rgba(140,100,255,0.5);
+  animation: particleDrift linear infinite;
 }
 
-.tree-scene {
-  transform-style: preserve-3d;
-  animation: treeFloat 6s ease-in-out infinite;
+@keyframes particleDrift {
+  0%   { transform: translateY(0px) scale(1);   opacity: 0; }
+  10%  { opacity: 1; }
+  90%  { opacity: 0.6; }
+  100% { transform: translateY(-40px) scale(0.5); opacity: 0; }
 }
 
-@keyframes treeFloat {
-  0%, 100% { transform: translateY(0px) rotateX(0deg); }
-  50% { transform: translateY(-3px) rotateX(1deg); }
+/* Node floating animations */
+.node-float-a {
+  animation: floatA 3.5s ease-in-out infinite;
+}
+@keyframes floatA {
+  0%, 100% { transform: translateY(0px); }
+  50%       { transform: translateY(-5px); }
 }
 
-/* Node hover glow */
-.tree-node-root,
-.tree-node-b,
-.tree-node-c {
-  transition: transform 0.2s ease, filter 0.2s ease;
+.node-float-b1 {
+  animation: floatB1 4.0s ease-in-out infinite;
+  animation-delay: 0.4s;
 }
-.tree-node-root:active,
-.tree-node-b:active {
-  filter: brightness(1.2);
+@keyframes floatB1 {
+  0%, 100% { transform: translateY(0px); }
+  50%       { transform: translateY(-4px); }
 }
 
-/* Connector line pulse */
-@keyframes linePulse {
-  0%, 100% { opacity: 0.4; }
-  50% { opacity: 0.9; }
+.node-float-b2 {
+  animation: floatB2 4.2s ease-in-out infinite;
+  animation-delay: 0.8s;
+}
+@keyframes floatB2 {
+  0%, 100% { transform: translateY(0px); }
+  50%       { transform: translateY(-4px); }
+}
+
+.node-float-c1 {
+  animation: floatC 5.0s ease-in-out infinite;
+  animation-delay: 0.2s;
+}
+.node-float-c2 {
+  animation: floatC 4.6s ease-in-out infinite;
+  animation-delay: 1.0s;
+}
+.node-float-c3 {
+  animation: floatC 5.2s ease-in-out infinite;
+  animation-delay: 0.6s;
+}
+@keyframes floatC {
+  0%, 100% { transform: translateY(0px); }
+  50%       { transform: translateY(-3px); }
+}
+
+/* Ping animation for root node */
+@keyframes ping {
+  75%, 100% { transform: scale(1.6); opacity: 0; }
 }
 </style>
