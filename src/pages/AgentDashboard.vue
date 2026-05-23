@@ -1114,7 +1114,7 @@ const tickerItems = [
 
 // ── Computed ───────────────────────────────────────────────
 const referralLink = computed(() =>
-  window.location.origin + '/?dl=' + (userId.value || username.value)
+  window.location.origin + '/?dl=' + (userId.value ? userId.value.substring(0, 8).toUpperCase() : username.value)
 )
 
 const qrUrl = computed(() =>
