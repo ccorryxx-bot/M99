@@ -198,105 +198,212 @@
       </div>
     </nav>
 
-    <!-- ===== AUTH MODAL (Premium SVG + Eye Toggle + Age) ===== -->
+    <!-- ===== AUTH MODAL — Ambient Luxury UI ===== -->
     <Teleport to="body">
-      <Transition name="modal">
-        <div v-if="showAuthModal" class="fixed inset-0 z-50 flex items-center justify-center bg-black/80 backdrop-blur-md" @click.self="showAuthModal = false">
-          <div class="bg-[#0a1219] border border-cyan-500/30 rounded-3xl w-full max-w-xs p-5 shadow-2xl shadow-cyan-500/10 animate-slide-up">
-            <div class="text-center mb-6">
-              <h2 class="text-2xl font-black bg-gradient-to-r from-cyan-400 to-teal-400 bg-clip-text text-transparent">NovaBETT</h2>
-              <p class="text-[10px] text-gray-500 mt-1">Premium Online Casino</p>
-            </div>
-            <!-- Tabs -->
-            <div class="flex mb-6">
-              <button @click="authTab = 'login'"
-                class="flex-1 py-2 rounded-l-full text-xs font-bold transition-all duration-300"
-                :class="authTab === 'login' ? 'bg-gradient-to-r from-cyan-500 to-teal-600 text-white shadow-lg' : 'bg-cyan-500/5 text-gray-400'">Login</button>
-              <button @click="authTab = 'register'"
-                class="flex-1 py-2 rounded-r-full text-xs font-bold transition-all duration-300"
-                :class="authTab === 'register' ? 'bg-gradient-to-r from-cyan-500 to-teal-600 text-white shadow-lg' : 'bg-cyan-500/5 text-gray-400'">Register</button>
-            </div>
+      <Transition :css="false" @enter="onModalEnter" @leave="onModalLeave">
+        <div v-if="showAuthModal"
+          class="auth-modal-wrapper fixed inset-0 z-50 flex items-end sm:items-center justify-center"
+          @click.self="showAuthModal = false">
 
-            <!-- Login Form -->
-            <div v-if="authTab === 'login'" class="space-y-4">
-              <div>
-                <label class="block text-gray-300 text-xs font-semibold mb-1.5 ml-1">Username</label>
-                <div class="relative">
-                  <svg class="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/></svg>
-                  <input v-model="loginUsername" type="text" placeholder="ကျေးဇူးပြု၍ဝင်ပါ အကောက်!" class="w-full pl-10 pr-4 py-2.5 rounded-lg bg-[#111d26] border text-white text-sm placeholder-gray-500 focus:outline-none focus:border-cyan-500 transition-colors" :class="loginUsernameValid ? 'border-cyan-500' : 'border-gray-700'" @input="loginUsername = loginUsername.toUpperCase()" />
+          <!-- Layered ambient backdrop -->
+          <div class="auth-backdrop absolute inset-0 bg-[#020508]/75 backdrop-blur-2xl pointer-events-none"></div>
+
+          <!-- Deep ambient orbs — barely visible, cinematic depth -->
+          <div class="absolute top-[15%] left-[20%] w-72 h-72 rounded-full pointer-events-none"
+            style="background: radial-gradient(circle, rgba(56,89,120,0.07) 0%, transparent 70%); filter: blur(40px);"></div>
+          <div class="absolute bottom-[20%] right-[15%] w-56 h-56 rounded-full pointer-events-none"
+            style="background: radial-gradient(circle, rgba(30,58,80,0.06) 0%, transparent 70%); filter: blur(50px);"></div>
+
+          <!-- Modal Card -->
+          <div class="auth-modal-card relative w-full max-w-[340px] mx-4 mb-6 sm:mb-0 overflow-hidden rounded-[28px]"
+            style="background: rgba(7,10,16,0.95); border: 1px solid rgba(255,255,255,0.065); box-shadow: 0 40px 100px rgba(0,0,0,0.85), 0 0 0 0.5px rgba(255,255,255,0.04), inset 0 1px 0 rgba(255,255,255,0.06);">
+
+            <!-- Top hairline shimmer -->
+            <div class="absolute top-0 left-1/2 -translate-x-1/2 w-40 h-px"
+              style="background: linear-gradient(90deg, transparent, rgba(255,255,255,0.18), transparent);"></div>
+
+            <!-- Subtle inner ambient top glow -->
+            <div class="absolute -top-10 left-1/2 -translate-x-1/2 w-40 h-20 rounded-full pointer-events-none"
+              style="background: radial-gradient(ellipse, rgba(80,140,180,0.08) 0%, transparent 70%); filter: blur(12px);"></div>
+
+            <div class="relative z-10 p-6">
+
+              <!-- Brand Mark -->
+              <div class="text-center mb-7">
+                <div class="inline-flex items-center justify-center w-11 h-11 rounded-2xl mb-3.5"
+                  style="background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.09); box-shadow: inset 0 1px 0 rgba(255,255,255,0.08);">
+                  <svg class="w-5 h-5" style="color: rgba(255,255,255,0.65);" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M13.5 21v-7.5a.75.75 0 01.75-.75h3a.75.75 0 01.75.75V21m-4.5 0H2.36m11.14 0H18m0 0h3.64m-1.39 0V9.349m-16.5 11.65V9.35m0 0a3.001 3.001 0 003.75-.615A2.993 2.993 0 009.75 9.75c.896 0 1.7-.393 2.25-1.016a2.993 2.993 0 002.25 1.016c.896 0 1.7-.393 2.25-1.016a3.001 3.001 0 003.75.614m-16.5 0a3.004 3.004 0 01-.621-4.72L4.318 3.44A1.5 1.5 0 015.378 3h13.243a1.5 1.5 0 011.06.44l1.19 1.189a3 3 0 01-.621 4.72m-13.5 8.65h3.75a.75.75 0 00.75-.75V13.5a.75.75 0 00-.75-.75H6.75a.75.75 0 00-.75.75v3.75c0 .415.336.75.75.75z"/>
+                  </svg>
                 </div>
+                <h2 class="text-xl font-bold tracking-[0.12em]" style="color: rgba(255,255,255,0.88); letter-spacing: 0.12em;">NOVABETT</h2>
+                <p class="text-[9px] tracking-[0.25em] uppercase mt-1.5 font-medium" style="color: rgba(255,255,255,0.22);">Premium Gaming Platform</p>
               </div>
-              <div>
-                <label class="block text-gray-300 text-xs font-semibold mb-1.5 ml-1">Password</label>
-                <div class="relative">
-                  <svg class="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"/></svg>
-                  <input v-model="loginPassword" :type="loginShowPassword ? 'text' : 'password'" placeholder="စကားဝှက်ထည့်ပါ!" class="w-full pl-10 pr-12 py-2.5 rounded-lg bg-[#111d26] border text-white text-sm placeholder-gray-500 focus:outline-none focus:border-cyan-500 transition-colors" :class="loginPasswordValid ? 'border-cyan-500' : 'border-gray-700'" />
-                  <button @click="loginShowPassword = !loginShowPassword" class="absolute right-3 top-1/2 -translate-y-1/2 text-gray-500 hover:text-gray-300 transition-colors">
-                    <svg v-if="!loginShowPassword" class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13.875 18.825A10.05 10.05 0 0112 19c-4.478 0-8.268-2.943-9.543-7a9.97 9.97 0 011.563-3.029m5.858.908a3 3 0 114.243 4.243"/></svg>
-                    <svg v-else class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"/></svg>
+
+              <!-- Tabs — minimal pill style -->
+              <div class="flex mb-5 p-0.5 rounded-full" style="background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.06);">
+                <button @click="authTab = 'login'"
+                  class="flex-1 py-2 rounded-full text-[11px] font-semibold tracking-[0.1em] transition-all duration-400"
+                  :style="authTab === 'login'
+                    ? 'background: rgba(255,255,255,0.09); color: rgba(255,255,255,0.88); border: 1px solid rgba(255,255,255,0.10); box-shadow: 0 2px 12px rgba(0,0,0,0.3);'
+                    : 'color: rgba(255,255,255,0.28); border: 1px solid transparent;'">
+                  LOGIN
+                </button>
+                <button @click="authTab = 'register'"
+                  class="flex-1 py-2 rounded-full text-[11px] font-semibold tracking-[0.1em] transition-all duration-400"
+                  :style="authTab === 'register'
+                    ? 'background: rgba(255,255,255,0.09); color: rgba(255,255,255,0.88); border: 1px solid rgba(255,255,255,0.10); box-shadow: 0 2px 12px rgba(0,0,0,0.3);'
+                    : 'color: rgba(255,255,255,0.28); border: 1px solid transparent;'">
+                  REGISTER
+                </button>
+              </div>
+
+              <!-- ── LOGIN FORM ── -->
+              <div v-if="authTab === 'login'" class="space-y-3">
+                <div>
+                  <label class="block text-[10px] font-semibold mb-1.5 tracking-[0.08em]" style="color: rgba(255,255,255,0.38);">USERNAME</label>
+                  <div class="relative">
+                    <svg class="absolute left-3.5 top-1/2 -translate-y-1/2 w-3.5 h-3.5" style="color: rgba(255,255,255,0.22);" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/></svg>
+                    <input v-model="loginUsername" type="text"
+                      placeholder="အကောင့်နာမည်ထည့်ပါ"
+                      class="w-full pl-9 pr-4 py-2.5 rounded-xl text-sm transition-all duration-300 focus:outline-none"
+                      :style="loginUsernameValid
+                        ? 'background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.18); color: rgba(255,255,255,0.88);'
+                        : 'background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.07); color: rgba(255,255,255,0.88);'"
+                      style="placeholder-color: rgba(255,255,255,0.2);"
+                      @input="loginUsername = loginUsername.toUpperCase()" />
+                  </div>
+                </div>
+
+                <div>
+                  <label class="block text-[10px] font-semibold mb-1.5 tracking-[0.08em]" style="color: rgba(255,255,255,0.38);">PASSWORD</label>
+                  <div class="relative">
+                    <svg class="absolute left-3.5 top-1/2 -translate-y-1/2 w-3.5 h-3.5" style="color: rgba(255,255,255,0.22);" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"/></svg>
+                    <input v-model="loginPassword" :type="loginShowPassword ? 'text' : 'password'"
+                      placeholder="စကားဝှက်ထည့်ပါ"
+                      class="w-full pl-9 pr-11 py-2.5 rounded-xl text-sm transition-all duration-300 focus:outline-none"
+                      :style="loginPasswordValid
+                        ? 'background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.18); color: rgba(255,255,255,0.88);'
+                        : 'background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.07); color: rgba(255,255,255,0.88);'" />
+                    <button @click="loginShowPassword = !loginShowPassword"
+                      class="absolute right-3 top-1/2 -translate-y-1/2 transition-colors duration-200"
+                      :style="loginShowPassword ? 'color: rgba(255,255,255,0.5);' : 'color: rgba(255,255,255,0.22);'">
+                      <svg v-if="!loginShowPassword" class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13.875 18.825A10.05 10.05 0 0112 19c-4.478 0-8.268-2.943-9.543-7a9.97 9.97 0 011.563-3.029m5.858.908a3 3 0 114.243 4.243"/></svg>
+                      <svg v-else class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"/></svg>
+                    </button>
+                  </div>
+                </div>
+
+                <div class="pt-1">
+                  <button @click="doLogin"
+                    :disabled="loginLoading || !loginUsernameValid || !loginPasswordValid"
+                    class="w-full py-3 rounded-xl text-sm font-semibold tracking-[0.08em] transition-all duration-300 active:scale-[0.98]"
+                    style="background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.12); color: rgba(255,255,255,0.85); box-shadow: 0 4px 24px rgba(0,0,0,0.4), inset 0 1px 0 rgba(255,255,255,0.08);"
+                    onmouseover="this.style.background='rgba(255,255,255,0.12)'; this.style.borderColor='rgba(255,255,255,0.18)';"
+                    onmouseout="this.style.background='rgba(255,255,255,0.08)'; this.style.borderColor='rgba(255,255,255,0.12)';">
+                    <span v-if="loginLoading" class="flex items-center justify-center gap-2">
+                      <svg class="animate-spin h-4 w-4" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4" fill="none"/><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z"/></svg>
+                      Signing In...
+                    </span>
+                    <span v-else>Sign In</span>
                   </button>
                 </div>
-              </div>
-              <button @click="doLogin" :disabled="loginLoading || !loginUsernameValid || !loginPasswordValid" class="w-full relative overflow-hidden bg-gradient-to-r from-cyan-500 to-teal-600 text-white font-bold rounded-full shadow-lg shadow-cyan-500/20 hover:shadow-cyan-500/40 hover:-translate-y-0.5 active:scale-95 transition-all duration-200 py-2.5 text-sm disabled:opacity-50 disabled:cursor-not-allowed">
-                <span v-if="loginLoading" class="flex items-center justify-center gap-2"><svg class="animate-spin h-4 w-4" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4" fill="none"/><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z"/></svg>Signing In...</span>
-                <span v-else>Sign In</span>
-              </button>
-              <p class="text-red-400 text-sm text-center">{{ loginError }}</p>
-            </div>
 
-            <!-- Register Form -->
-            <div v-else class="space-y-4">
-              <div>
-                <label class="block text-gray-300 text-xs font-semibold mb-1.5 ml-1">Username</label>
-                <div class="relative">
-                  <svg class="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/></svg>
-                  <input v-model="regUsername" type="text" placeholder="ကျေးဇူးပြု၍ဝင်ပါ အကောက်!" class="w-full pl-10 pr-4 py-2.5 rounded-lg bg-[#111d26] border text-white text-sm placeholder-gray-500 focus:outline-none focus:border-cyan-500 transition-colors" :class="regUsernameValid ? 'border-cyan-500' : 'border-gray-700'" @input="regUsername = regUsername.toUpperCase()" />
-                </div>
-                <p class="text-[10px] text-gray-500 mt-1 ml-1">e.g. MOEMOE</p>
+                <p v-if="loginError" class="text-[11px] text-center pt-0.5" style="color: rgba(240,100,100,0.85);">{{ loginError }}</p>
               </div>
-              <div>
-                <label class="block text-gray-300 text-xs font-semibold mb-1.5 ml-1">Password</label>
-                <div class="relative">
-                  <svg class="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"/></svg>
-                  <input v-model="regPassword" :type="regShowPassword ? 'text' : 'password'" placeholder="စကားဝှက်ထည့်ပါ!" class="w-full pl-10 pr-12 py-2.5 rounded-lg bg-[#111d26] border text-white text-sm placeholder-gray-500 focus:outline-none focus:border-cyan-500 transition-colors" :class="regPasswordValid ? 'border-cyan-500' : 'border-gray-700'" />
-                  <button @click="regShowPassword = !regShowPassword" class="absolute right-3 top-1/2 -translate-y-1/2 text-gray-500 hover:text-gray-300 transition-colors">
-                    <svg v-if="!regShowPassword" class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13.875 18.825A10.05 10.05 0 0112 19c-4.478 0-8.268-2.943-9.543-7a9.97 9.97 0 011.563-3.029m5.858.908a3 3 0 114.243 4.243"/></svg>
-                    <svg v-else class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"/></svg>
+
+              <!-- ── REGISTER FORM ── -->
+              <div v-else class="space-y-3">
+                <div>
+                  <label class="block text-[10px] font-semibold mb-1.5 tracking-[0.08em]" style="color: rgba(255,255,255,0.38);">USERNAME</label>
+                  <div class="relative">
+                    <svg class="absolute left-3.5 top-1/2 -translate-y-1/2 w-3.5 h-3.5" style="color: rgba(255,255,255,0.22);" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/></svg>
+                    <input v-model="regUsername" type="text"
+                      placeholder="e.g. MOEMOE"
+                      class="w-full pl-9 pr-4 py-2.5 rounded-xl text-sm transition-all duration-300 focus:outline-none"
+                      :style="regUsernameValid
+                        ? 'background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.18); color: rgba(255,255,255,0.88);'
+                        : 'background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.07); color: rgba(255,255,255,0.88);'"
+                      @input="regUsername = regUsername.toUpperCase()" />
+                  </div>
+                </div>
+
+                <div>
+                  <label class="block text-[10px] font-semibold mb-1.5 tracking-[0.08em]" style="color: rgba(255,255,255,0.38);">PASSWORD</label>
+                  <div class="relative">
+                    <svg class="absolute left-3.5 top-1/2 -translate-y-1/2 w-3.5 h-3.5" style="color: rgba(255,255,255,0.22);" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"/></svg>
+                    <input v-model="regPassword" :type="regShowPassword ? 'text' : 'password'"
+                      placeholder="e.g. moe#223"
+                      class="w-full pl-9 pr-11 py-2.5 rounded-xl text-sm transition-all duration-300 focus:outline-none"
+                      :style="regPasswordValid
+                        ? 'background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.18); color: rgba(255,255,255,0.88);'
+                        : 'background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.07); color: rgba(255,255,255,0.88);'" />
+                    <button @click="regShowPassword = !regShowPassword"
+                      class="absolute right-3 top-1/2 -translate-y-1/2 transition-colors duration-200"
+                      :style="regShowPassword ? 'color: rgba(255,255,255,0.5);' : 'color: rgba(255,255,255,0.22);'">
+                      <svg v-if="!regShowPassword" class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13.875 18.825A10.05 10.05 0 0112 19c-4.478 0-8.268-2.943-9.543-7a9.97 9.97 0 011.563-3.029m5.858.908a3 3 0 114.243 4.243"/></svg>
+                      <svg v-else class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"/></svg>
+                    </button>
+                  </div>
+                  <!-- Strength Meter -->
+                  <div class="mt-2 flex gap-1">
+                    <div v-for="n in 3" :key="n" class="h-0.5 flex-1 rounded-full transition-all duration-500" :class="strengthBarClass(n)"></div>
+                  </div>
+                  <p class="text-[10px] mt-1 transition-colors duration-300" :class="strengthTextColor">{{ strengthLabel }}</p>
+                </div>
+
+                <div>
+                  <label class="block text-[10px] font-semibold mb-1.5 tracking-[0.08em]" style="color: rgba(255,255,255,0.38);">PHONE NUMBER</label>
+                  <div class="flex items-center rounded-xl transition-all duration-300"
+                    style="background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.07);">
+                    <span class="pl-3.5 pr-2 text-sm" style="color: rgba(255,255,255,0.55); border-right: 1px solid rgba(255,255,255,0.07);">🇲🇲 +95</span>
+                    <input v-model="regPhone" type="tel"
+                      placeholder="09123456789"
+                      class="flex-1 px-3 py-2.5 bg-transparent text-sm focus:outline-none"
+                      style="color: rgba(255,255,255,0.88);" />
+                  </div>
+                </div>
+
+                <!-- Age Confirmation -->
+                <div class="flex items-start gap-2.5 py-1">
+                  <div class="flex-shrink-0 mt-0.5">
+                    <svg class="w-4 h-4" style="color: rgba(100,200,140,0.7);" fill="currentColor" viewBox="0 0 24 24">
+                      <path fill-rule="evenodd" d="M2.25 12c0-5.385 4.365-9.75 9.75-9.75s9.75 4.365 9.75 9.75-4.365 9.75-9.75 9.75S2.25 17.385 2.25 12zm13.36-1.814a.75.75 0 10-1.22-.872l-3.236 4.53L9.53 12.22a.75.75 0 00-1.06 1.06l2.25 2.25a.75.75 0 001.14-.094l3.75-5.25z" clip-rule="evenodd"/>
+                    </svg>
+                  </div>
+                  <p class="text-[11px] leading-relaxed" style="color: rgba(255,255,255,0.3);">ကျွန်ုပ်သည် အသက် ၁၈ နှစ်ကျော်ပြီးဖြစ်ပါသည်။</p>
+                </div>
+
+                <div class="pt-0.5">
+                  <button @click="doRegister"
+                    :disabled="regLoading || !regUsernameValid || !regPasswordValid || !regPhoneValid"
+                    class="w-full py-3 rounded-xl text-sm font-semibold tracking-[0.08em] transition-all duration-300 active:scale-[0.98]"
+                    style="background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.12); color: rgba(255,255,255,0.85); box-shadow: 0 4px 24px rgba(0,0,0,0.4), inset 0 1px 0 rgba(255,255,255,0.08);"
+                    onmouseover="this.style.background='rgba(255,255,255,0.12)'; this.style.borderColor='rgba(255,255,255,0.18)';"
+                    onmouseout="this.style.background='rgba(255,255,255,0.08)'; this.style.borderColor='rgba(255,255,255,0.12)';">
+                    <span v-if="regLoading" class="flex items-center justify-center gap-2">
+                      <svg class="animate-spin h-4 w-4" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4" fill="none"/><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z"/></svg>
+                      Creating Account...
+                    </span>
+                    <span v-else>Join NovaBETT</span>
                   </button>
                 </div>
-                <!-- Strength Meter -->
-                <div class="mt-2 flex gap-1 px-1">
-                  <div v-for="n in 3" :key="n" class="h-1.5 flex-1 rounded-full transition-all duration-300" :class="strengthBarClass(n)"></div>
-                </div>
-                <p class="text-[10px] ml-1 transition-colors duration-300" :class="strengthTextColor">{{ strengthLabel }}</p>
-                <p class="text-[10px] text-gray-500 mt-1 ml-1">e.g. moe#223</p>
-              </div>
-              <div>
-                <label class="block text-gray-300 text-xs font-semibold mb-1.5 ml-1">Phone Number</label>
-                <div class="flex items-center bg-[#111d26] rounded-lg border border-gray-700 focus-within:border-cyan-500 transition-colors">
-                  <span class="pl-3 pr-2 text-white text-sm">🇲🇲 +95</span>
-                  <input v-model="regPhone" type="tel" placeholder="ကျေးဇူးပြု၍ဖုန်းနံပါတ်ထည့်ပါ!" class="flex-1 p-2.5 bg-transparent text-white text-sm focus:outline-none placeholder-gray-500" :class="regPhoneValid ? 'border-cyan-500' : 'border-gray-700'" />
-                </div>
-                <p class="text-[10px] text-gray-500 mt-1 ml-1">e.g. 09123456789</p>
-              </div>
-              <!-- Age Confirmation -->
-              <div class="flex items-start gap-2 mt-1">
-                <div class="w-5 h-5 mt-0.5 flex-shrink-0 relative">
-                  <svg class="w-5 h-5 text-emerald-400" fill="currentColor" viewBox="0 0 24 24"><path fill-rule="evenodd" d="M2.25 12c0-5.385 4.365-9.75 9.75-9.75s9.75 4.365 9.75 9.75-4.365 9.75-9.75 9.75S2.25 17.385 2.25 12zm13.36-1.814a.75.75 0 10-1.22-.872l-3.236 4.53L9.53 12.22a.75.75 0 00-1.06 1.06l2.25 2.25a.75.75 0 001.14-.094l3.75-5.25z" clip-rule="evenodd"/></svg>
-                </div>
-                <p class="text-xs text-gray-400 leading-relaxed">ကျွန်ုပ်သည် အသက် ၁၈ နှစ်ကျော်ပြီးဖြစ်ပါသည်။</p>
-              </div>
-              <button @click="doRegister" :disabled="regLoading || !regUsernameValid || !regPasswordValid || !regPhoneValid" class="w-full relative overflow-hidden bg-gradient-to-r from-cyan-500 to-teal-600 text-white font-bold rounded-full shadow-lg shadow-cyan-500/20 hover:shadow-cyan-500/40 hover:-translate-y-0.5 active:scale-95 transition-all duration-200 py-2.5 text-sm disabled:opacity-50 disabled:cursor-not-allowed">
-                <span v-if="regLoading" class="flex items-center justify-center gap-2"><svg class="animate-spin h-4 w-4" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4" fill="none"/><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z"/></svg>Creating...</span>
-                <span v-else>Join NovaBETT</span>
-              </button>
-              <p class="text-red-400 text-sm text-center">{{ regError }}</p>
-            </div>
 
-            <button @click="showAuthModal = false" class="absolute top-3 right-3 text-gray-500 hover:text-white transition-colors">
-              <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
+                <p v-if="regError" class="text-[11px] text-center pt-0.5" style="color: rgba(240,100,100,0.85);">{{ regError }}</p>
+              </div>
+
+            </div><!-- /relative z-10 -->
+
+            <!-- Close button -->
+            <button @click="showAuthModal = false"
+              class="absolute top-4 right-4 z-20 w-7 h-7 flex items-center justify-center rounded-full transition-all duration-200"
+              style="background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.08); color: rgba(255,255,255,0.3);"
+              onmouseover="this.style.background='rgba(255,255,255,0.10)'; this.style.color='rgba(255,255,255,0.7)';"
+              onmouseout="this.style.background='rgba(255,255,255,0.05)'; this.style.color='rgba(255,255,255,0.3)';">
+              <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
             </button>
-          </div>
+
+          </div><!-- /auth-modal-card -->
         </div>
       </Transition>
     </Teleport>
@@ -328,6 +435,33 @@ import { useRoute } from 'vue-router'
 import { supabase } from '@/lib/supabase'
 import DepositModal from '@/components/DepositModal.vue'
 import WithdrawModal from '@/components/WithdrawModal.vue'
+import { gsap } from 'gsap'
+
+// ── GSAP Modal Transition Hooks ──
+function onModalEnter(el, done) {
+  const backdrop = el.querySelector('.auth-backdrop')
+  const card = el.querySelector('.auth-modal-card')
+
+  gsap.set(el, { opacity: 1 })
+  gsap.fromTo(backdrop,
+    { opacity: 0 },
+    { opacity: 1, duration: 0.45, ease: 'power2.out' }
+  )
+  gsap.fromTo(card,
+    { opacity: 0, y: 36, scale: 0.96, filter: 'blur(6px)' },
+    { opacity: 1, y: 0, scale: 1, filter: 'blur(0px)', duration: 0.55, ease: 'power3.out', delay: 0.05, onComplete: done }
+  )
+}
+
+function onModalLeave(el, done) {
+  const backdrop = el.querySelector('.auth-backdrop')
+  const card = el.querySelector('.auth-modal-card')
+
+  gsap.to(backdrop, { opacity: 0, duration: 0.3, ease: 'power2.in' })
+  gsap.to(card,
+    { opacity: 0, y: 20, scale: 0.97, filter: 'blur(4px)', duration: 0.28, ease: 'power2.in', onComplete: done }
+  )
+}
 
 const route = useRoute()
 const { locale } = useI18n()
@@ -655,11 +789,36 @@ const showFooterModal = (type) => { footerModal.value = type }
 <style scoped>
 .no-scrollbar::-webkit-scrollbar { display: none; }
 .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
-.modal-enter-active { animation: slideUp 0.3s ease-out; }
-.modal-leave-active { animation: slideUp 0.2s ease-in reverse; }
-@keyframes slideUp { from { transform: translateY(100%); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
+
+/* Shimmer brand animation */
 @keyframes shimmer { 0% { background-position: 0% center; } 100% { background-position: 200% center; } }
 .animate-shimmer { background-size: 200% auto; animation: shimmer 3s linear infinite; }
 .animate-fade-in { animation: fadeIn 0.8s ease-out; }
 @keyframes fadeIn { from { opacity: 0; transform: translateY(-10px); } to { opacity: 1; transform: translateY(0); } }
+
+/* Auth modal inputs — placeholder color */
+.auth-modal-card input::placeholder { color: rgba(255, 255, 255, 0.22); }
+
+/* Auth modal — ambient luxury input focus ring */
+.auth-modal-card input:focus {
+  background: rgba(255, 255, 255, 0.06) !important;
+  border-color: rgba(255, 255, 255, 0.20) !important;
+  box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.03), inset 0 1px 0 rgba(255, 255, 255, 0.06);
+}
+
+/* Auth modal button disabled */
+.auth-modal-card button:disabled {
+  opacity: 0.28;
+  cursor: not-allowed;
+  pointer-events: none;
+}
+
+/* Slow ambient float for orbs */
+@keyframes ambientFloat {
+  0%, 100% { transform: translateY(0px) scale(1); }
+  50% { transform: translateY(-12px) scale(1.04); }
+}
+
+/* Modal wrapper backdrop click area fix */
+.auth-modal-wrapper { cursor: default; }
 </style>
