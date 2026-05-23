@@ -289,171 +289,265 @@
             </div>
           </div>
 
-          <!-- ── AGENT TREE SECTION ── -->
+          <!-- ══════════════════════════════════════════════════════
+               STATIC DEMO TREE — အေးဂျင့် ကျပ်တိုရိုဒ် (ရှင်းပြချက်)
+               ════════════════════════════════════════════════════ -->
           <div class="referral-tree-card relative overflow-hidden rounded-3xl"
             style="background: rgba(255,255,255,0.025); border: 1px solid rgba(255,255,255,0.06); backdrop-filter: blur(20px);">
 
             <!-- Section header -->
-            <div class="px-5 pt-4 pb-3" style="border-bottom: 1px solid rgba(255,255,255,0.05);">
+            <div class="px-5 pt-4 pb-3 flex items-center justify-between" style="border-bottom: 1px solid rgba(255,255,255,0.05);">
               <p class="text-[10px] font-bold tracking-[0.18em] uppercase" style="color: rgba(255,255,255,0.4);">အေးဂျင့် ကျပ်တိုရိုဒ်</p>
+              <span class="text-[8px] px-2 py-0.5 rounded-full" style="background:rgba(255,193,7,0.1);border:1px solid rgba(255,193,7,0.2);color:rgba(255,193,7,0.6)">ဥပမာ ရှင်းပြချက်</span>
             </div>
 
-            <!-- Tab switcher: show per selected B-node -->
-            <div class="px-4 pt-3 flex gap-2 overflow-x-auto no-scrollbar">
-              <button @click="treeSelectedNode = 'self'"
+            <!-- ── Tab switcher A / B1 / B2 ── -->
+            <div class="px-4 pt-3 flex gap-2">
+              <button @click="demoTab = 'A'"
                 class="flex-shrink-0 px-3.5 py-1.5 rounded-full text-[10px] font-bold tracking-wider transition-all active:scale-95"
-                :style="treeSelectedNode === 'self'
+                :style="demoTab === 'A'
                   ? 'background:rgba(255,193,7,0.18);border:1px solid rgba(255,193,7,0.4);color:rgba(255,193,7,0.95)'
                   : 'background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.07);color:rgba(255,255,255,0.35)'">
                 A ၏ ကော်မှင်
               </button>
-              <button v-for="(dl, i) in level1Downline.slice(0,4)" :key="dl.descendant_id"
-                @click="treeSelectedNode = dl.descendant_id"
+              <button @click="demoTab = 'B1'"
                 class="flex-shrink-0 px-3.5 py-1.5 rounded-full text-[10px] font-bold tracking-wider transition-all active:scale-95"
-                :style="treeSelectedNode === dl.descendant_id
-                  ? 'background:rgba(180,220,255,0.18);border:1px solid rgba(180,220,255,0.35);color:rgba(200,230,255,0.95)'
+                :style="demoTab === 'B1'
+                  ? 'background:rgba(210,180,140,0.2);border:1px solid rgba(210,180,140,0.4);color:rgba(230,200,160,0.95)'
                   : 'background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.07);color:rgba(255,255,255,0.35)'">
-                B{{ i+1 }} ၏ ကော်မှင်
+                B1 ၏ ကော်မှင်
+              </button>
+              <button @click="demoTab = 'B2'"
+                class="flex-shrink-0 px-3.5 py-1.5 rounded-full text-[10px] font-bold tracking-wider transition-all active:scale-95"
+                :style="demoTab === 'B2'
+                  ? 'background:rgba(210,180,140,0.2);border:1px solid rgba(210,180,140,0.4);color:rgba(230,200,160,0.95)'
+                  : 'background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.07);color:rgba(255,255,255,0.35)'">
+                B2 ၏ ကော်မှင်
               </button>
             </div>
 
-            <!-- Commission summary for selected node -->
-            <div class="px-4 py-3 mx-4 mt-3 rounded-2xl text-[11px] leading-relaxed"
-              style="background: rgba(255,193,7,0.06); border: 1px solid rgba(255,193,7,0.12);">
-              <template v-if="treeSelectedNode === 'self'">
-                <p style="color:rgba(255,255,255,0.55)">တိုက်ရိုက်စုပေါင်း: <span style="color:rgba(255,255,255,0.85);font-weight:700">{{ formatN(userTotalDeposit) }} Ks</span></p>
-                <p style="color:rgba(255,255,255,0.55)">တိုက်ရိုက်ကော်မှင်: <span style="color:rgba(255,193,7,0.9);font-weight:800">{{ formatN(Math.floor(totalCommission * 0.7)) }} Ks</span></p>
-                <p style="color:rgba(255,255,255,0.55)">အခြားကော်မှင်: <span style="color:rgba(255,193,7,0.7);font-weight:700">{{ formatN(Math.floor(totalCommission * 0.3)) }} Ks</span></p>
-                <p class="mt-1 font-black" style="color:rgba(255,193,7,1)">စုစုပေါင်း: {{ formatN(totalCommission) }} Ks</p>
-              </template>
-              <template v-else>
-                <p style="color:rgba(255,255,255,0.45)">ဤ Branch ၏ Downline ကော်မှင်</p>
-                <p class="font-black" style="color:rgba(200,230,255,0.9)">Level 2+ ထဲမှ override ရမည်</p>
-              </template>
+            <!-- ── Commission Summary Box (changes per tab) ── -->
+            <div class="mx-4 mt-3 rounded-2xl overflow-hidden" style="background:rgba(30,28,24,0.7);border:1px solid rgba(255,255,255,0.07);">
+              <!-- A view -->
+              <div v-if="demoTab === 'A'" class="flex gap-3 p-3 items-start">
+                <!-- Agent avatar -->
+                <div class="flex-shrink-0 w-14 h-14 rounded-xl flex items-center justify-center relative"
+                  style="background:linear-gradient(135deg,rgba(210,180,100,0.35),rgba(180,140,60,0.2));border:1.5px solid rgba(255,193,7,0.55);box-shadow:0 0 18px rgba(255,193,7,0.2)">
+                  <svg class="w-8 h-8" style="color:rgba(255,193,7,0.9)" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 3c1.66 0 3 1.34 3 3s-1.34 3-3 3-3-1.34-3-3 1.34-3 3-3zm0 14.2c-2.5 0-4.71-1.28-6-3.22.03-1.99 4-3.08 6-3.08 1.99 0 5.97 1.09 6 3.08-1.29 1.94-3.5 3.22-6 3.22z"/></svg>
+                  <div class="absolute -bottom-1.5 -right-1.5 w-5 h-5 rounded-full flex items-center justify-center text-[9px] font-black" style="background:rgba(255,193,7,1);color:#000">A</div>
+                </div>
+                <!-- Calc lines -->
+                <div class="flex-1 text-[11px] leading-relaxed space-y-0.5">
+                  <p style="color:rgba(255,255,255,0.6)">တိုက်ရိုက်စုပေါင်းပမာဏ = 500+3000 = <span style="color:rgba(255,255,255,0.9);font-weight:700">3500</span></p>
+                  <p style="color:rgba(255,255,255,0.6)">တိုက်ရိုက်ကော်မှင် = 3500×10% = <span style="color:rgba(255,193,7,0.95);font-weight:800">350</span></p>
+                  <p style="color:rgba(255,255,255,0.6)">အခြားကော်မှင်များ = 30+60+<span style="color:rgba(255,193,7,0.8)">600</span> = <span style="color:rgba(255,193,7,0.8);font-weight:700">690</span></p>
+                  <p class="font-black" style="color:rgba(255,193,7,1)">အဝေးကပ် ကော်မှင် = 350+690 = <span style="font-size:13px">1040</span></p>
+                </div>
+              </div>
+              <!-- B1 view -->
+              <div v-else-if="demoTab === 'B1'" class="flex gap-3 p-3 items-start">
+                <div class="flex-shrink-0 w-14 h-14 rounded-xl flex items-center justify-center relative"
+                  style="background:linear-gradient(135deg,rgba(210,180,140,0.3),rgba(180,150,100,0.18));border:1.5px solid rgba(210,180,140,0.5);box-shadow:0 0 14px rgba(210,180,140,0.15)">
+                  <svg class="w-8 h-8" style="color:rgba(220,190,140,0.9)" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 3c1.66 0 3 1.34 3 3s-1.34 3-3 3-3-1.34-3-3 1.34-3 3-3zm0 14.2c-2.5 0-4.71-1.28-6-3.22.03-1.99 4-3.08 6-3.08 1.99 0 5.97 1.09 6 3.08-1.29 1.94-3.5 3.22-6 3.22z"/></svg>
+                  <div class="absolute -bottom-1.5 -right-1.5 w-5 h-5 rounded-full flex items-center justify-center text-[9px] font-black" style="background:rgba(210,180,140,0.9);color:#000">B1</div>
+                </div>
+                <div class="flex-1 text-[11px] leading-relaxed space-y-0.5">
+                  <p style="color:rgba(255,255,255,0.5)">B1 ၏ တိုက်ရိုက် Downline: <span style="color:rgba(220,190,140,0.85);font-weight:700">C1, C2</span></p>
+                  <p style="color:rgba(255,255,255,0.6)">C1 ကော်မှင် = 1000×10%×30% = <span style="color:rgba(255,193,7,0.9);font-weight:700">30</span></p>
+                  <p style="color:rgba(255,255,255,0.6)">C2 ကော်မှင် = 2000×10%×30% = <span style="color:rgba(255,193,7,0.9);font-weight:700">60</span></p>
+                  <p class="font-black" style="color:rgba(255,193,7,1)">B1 မှ A ရ = 30+60 = <span style="font-size:13px">90</span></p>
+                </div>
+              </div>
+              <!-- B2 view -->
+              <div v-else class="flex gap-3 p-3 items-start">
+                <div class="flex-shrink-0 w-14 h-14 rounded-xl flex items-center justify-center relative"
+                  style="background:linear-gradient(135deg,rgba(210,180,140,0.3),rgba(180,150,100,0.18));border:1.5px solid rgba(210,180,140,0.5);box-shadow:0 0 14px rgba(210,180,140,0.15)">
+                  <svg class="w-8 h-8" style="color:rgba(220,190,140,0.9)" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 3c1.66 0 3 1.34 3 3s-1.34 3-3 3-3-1.34-3-3 1.34-3 3-3zm0 14.2c-2.5 0-4.71-1.28-6-3.22.03-1.99 4-3.08 6-3.08 1.99 0 5.97 1.09 6 3.08-1.29 1.94-3.5 3.22-6 3.22z"/></svg>
+                  <div class="absolute -bottom-1.5 -right-1.5 w-5 h-5 rounded-full flex items-center justify-center text-[9px] font-black" style="background:rgba(210,180,140,0.9);color:#000">B2</div>
+                </div>
+                <div class="flex-1 text-[11px] leading-relaxed space-y-0.5">
+                  <p style="color:rgba(255,255,255,0.5)">B2 ၏ တိုက်ရိုက် Downline: <span style="color:rgba(220,190,140,0.85);font-weight:700">C3</span></p>
+                  <p style="color:rgba(255,255,255,0.6)">C3 ကော်မှင် = 20000×10%×30% = <span style="color:rgba(255,193,7,0.9);font-weight:700">600</span></p>
+                  <p class="font-black" style="color:rgba(255,193,7,1)">B2 မှ A ရ = <span style="font-size:13px">600</span></p>
+                </div>
+              </div>
             </div>
 
-            <!-- 3D Affiliate Tree -->
-            <div class="tree-viewport px-4 pt-4 pb-6 overflow-x-auto no-scrollbar" style="perspective: 900px;">
-              <div class="tree-scene relative" style="min-width: 280px; transform-style: preserve-3d;">
+            <!-- ── TREE VISUAL (always shown) ── -->
+            <div class="tree-viewport px-3 pt-5 pb-5 overflow-x-auto no-scrollbar" style="perspective: 900px;">
+              <div class="tree-scene relative mx-auto" style="width: 300px; transform-style: preserve-3d;">
 
-                <!-- ROOT NODE — You (A) -->
-                <div class="flex justify-center mb-1">
-                  <div class="tree-node-root relative flex flex-col items-center cursor-pointer active:scale-95 transition-all"
-                    @click="treeSelectedNode = 'self'">
-                    <div class="w-14 h-14 rounded-2xl flex items-center justify-center relative"
-                      :style="treeSelectedNode === 'self'
-                        ? 'background: linear-gradient(135deg, rgba(255,193,7,0.3), rgba(255,152,0,0.2)); border: 1.5px solid rgba(255,193,7,0.6); box-shadow: 0 0 20px rgba(255,193,7,0.25);'
-                        : 'background: linear-gradient(135deg, rgba(255,193,7,0.15), rgba(255,152,0,0.08)); border: 1px solid rgba(255,193,7,0.3);'">
-                      <!-- Avatar A -->
-                      <svg class="w-7 h-7" style="color:rgba(255,193,7,0.9)" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 3c1.66 0 3 1.34 3 3s-1.34 3-3 3-3-1.34-3-3 1.34-3 3-3zm0 14.2c-2.5 0-4.71-1.28-6-3.22.03-1.99 4-3.08 6-3.08 1.99 0 5.97 1.09 6 3.08-1.29 1.94-3.5 3.22-6 3.22z"/></svg>
-                      <!-- Rank badge -->
-                      <div class="absolute -bottom-1.5 -right-1.5 w-5 h-5 rounded-full flex items-center justify-center text-[9px] font-black"
-                        style="background: rgba(255,193,7,0.9); color: #000;">A</div>
+                <!-- ROOT: A (you) -->
+                <div class="flex justify-center">
+                  <div class="demo-node-a flex flex-col items-center cursor-pointer" @click="demoTab='A'">
+                    <div class="w-[60px] h-[60px] rounded-2xl flex items-center justify-center relative transition-all"
+                      :style="demoTab==='A'
+                        ? 'background:linear-gradient(135deg,rgba(210,180,100,0.45),rgba(180,130,40,0.3));border:1.5px solid rgba(255,193,7,0.7);box-shadow:0 0 22px rgba(255,193,7,0.3)'
+                        : 'background:linear-gradient(135deg,rgba(210,180,100,0.25),rgba(180,130,40,0.15));border:1px solid rgba(255,193,7,0.35)'">
+                      <svg class="w-8 h-8" style="color:rgba(255,210,80,0.95)" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 3c1.66 0 3 1.34 3 3s-1.34 3-3 3-3-1.34-3-3 1.34-3 3-3zm0 14.2c-2.5 0-4.71-1.28-6-3.22.03-1.99 4-3.08 6-3.08 1.99 0 5.97 1.09 6 3.08-1.29 1.94-3.5 3.22-6 3.22z"/></svg>
+                      <div class="absolute -bottom-2 -right-2 w-5 h-5 rounded-full flex items-center justify-center text-[9px] font-black" style="background:rgba(255,193,7,1);color:#000;border:1px solid rgba(0,0,0,0.2)">A</div>
                     </div>
-                    <p class="text-[9px] font-bold mt-1.5 tracking-wider" style="color:rgba(255,193,7,0.8)">{{ username }}</p>
-                    <div class="mt-1 rounded-full px-2 py-0.5" style="background:rgba(255,193,7,0.1);border:1px solid rgba(255,193,7,0.2)">
-                      <p class="text-[8px] font-semibold" style="color:rgba(255,193,7,0.7)">{{ formatN(totalCommission) }} Ks</p>
+                    <p class="text-[9px] font-bold mt-2" style="color:rgba(255,193,7,0.8)">You (Agent A)</p>
+                  </div>
+                </div>
+
+                <!-- Connector A→B row -->
+                <div class="flex justify-center"><div class="w-px h-4" style="background:linear-gradient(180deg,rgba(255,193,7,0.6),rgba(255,193,7,0.2))"></div></div>
+                <!-- H bar -->
+                <div class="relative h-px mx-auto" style="width:200px;background:linear-gradient(90deg,transparent,rgba(255,193,7,0.3),transparent)"></div>
+                <!-- Two vertical drops to B1, B2 -->
+                <div class="flex justify-between px-10">
+                  <div class="w-px h-4" style="background:rgba(255,193,7,0.25)"></div>
+                  <div class="w-px h-4" style="background:rgba(255,193,7,0.25)"></div>
+                </div>
+
+                <!-- B1 and B2 row -->
+                <div class="flex justify-center gap-6">
+                  <!-- B1 -->
+                  <div class="demo-node-b flex flex-col items-center cursor-pointer" @click="demoTab='B1'">
+                    <div class="w-[54px] h-[68px] rounded-xl p-2 flex flex-col items-center justify-center gap-0.5 relative transition-all"
+                      :style="demoTab==='B1'
+                        ? 'background:rgba(210,180,140,0.25);border:1.5px solid rgba(210,180,140,0.6);box-shadow:0 0 14px rgba(210,180,140,0.2)'
+                        : 'background:rgba(210,180,140,0.1);border:1px solid rgba(210,180,140,0.25)'">
+                      <svg class="w-6 h-6" style="color:rgba(220,190,150,0.85)" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 3c1.66 0 3 1.34 3 3s-1.34 3-3 3-3-1.34-3-3 1.34-3 3-3zm0 14.2c-2.5 0-4.71-1.28-6-3.22.03-1.99 4-3.08 6-3.08 1.99 0 5.97 1.09 6 3.08-1.29 1.94-3.5 3.22-6 3.22z"/></svg>
+                      <div class="absolute -bottom-1.5 -right-1.5 w-4 h-4 rounded-full flex items-center justify-center text-[7px] font-black" style="background:rgba(210,180,140,0.9);color:#000">B1</div>
+                      <p class="text-[7.5px] text-center leading-tight" style="color:rgba(255,255,255,0.55)">တရားဝင်<br>လောင်းကြေး: 500</p>
+                      <p class="text-[8px] font-bold" style="color:rgba(255,193,7,0.85)">×10% = <span style="color:rgba(255,193,7,1)">50</span></p>
+                    </div>
+                  </div>
+                  <!-- B2 -->
+                  <div class="demo-node-b flex flex-col items-center cursor-pointer" @click="demoTab='B2'">
+                    <div class="w-[54px] h-[68px] rounded-xl p-2 flex flex-col items-center justify-center gap-0.5 relative transition-all"
+                      :style="demoTab==='B2'
+                        ? 'background:rgba(210,180,140,0.25);border:1.5px solid rgba(210,180,140,0.6);box-shadow:0 0 14px rgba(210,180,140,0.2)'
+                        : 'background:rgba(210,180,140,0.1);border:1px solid rgba(210,180,140,0.25)'">
+                      <svg class="w-6 h-6" style="color:rgba(220,190,150,0.85)" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 3c1.66 0 3 1.34 3 3s-1.34 3-3 3-3-1.34-3-3 1.34-3 3-3zm0 14.2c-2.5 0-4.71-1.28-6-3.22.03-1.99 4-3.08 6-3.08 1.99 0 5.97 1.09 6 3.08-1.29 1.94-3.5 3.22-6 3.22z"/></svg>
+                      <div class="absolute -bottom-1.5 -right-1.5 w-4 h-4 rounded-full flex items-center justify-center text-[7px] font-black" style="background:rgba(210,180,140,0.9);color:#000">B2</div>
+                      <p class="text-[7.5px] text-center leading-tight" style="color:rgba(255,255,255,0.55)">တရားဝင်<br>လောင်းကြေး: 3000</p>
+                      <p class="text-[8px] font-bold" style="color:rgba(255,193,7,0.85)">×10% = <span style="color:rgba(255,193,7,1)">300</span></p>
                     </div>
                   </div>
                 </div>
 
-                <!-- Connector lines root → L1 -->
-                <div v-if="level1Downline.length > 0" class="flex justify-center">
-                  <div class="w-px h-4" style="background: linear-gradient(180deg, rgba(255,193,7,0.5), rgba(255,193,7,0.15));"></div>
-                </div>
-                <div v-if="level1Downline.length > 0 && level1Downline.length > 1"
-                  class="relative h-px mx-auto"
-                  :style="`width: ${Math.min(level1Downline.slice(0,4).length * 70, 280)}px; background: linear-gradient(90deg, transparent, rgba(255,193,7,0.25), transparent);`">
-                </div>
-
-                <!-- LEVEL 1 NODES (B1, B2 ...) -->
-                <div v-if="level1Downline.length > 0"
-                  class="flex justify-center gap-3 mt-0 mb-1"
-                  :style="level1Downline.slice(0,4).length === 1 ? 'flex-direction:column;align-items:center' : ''">
-                  <div v-for="(dl, i) in level1Downline.slice(0,4)" :key="dl.descendant_id"
-                    class="tree-node-b flex flex-col items-center relative cursor-pointer active:scale-95 transition-all"
-                    @click="treeSelectedNode = dl.descendant_id">
-                    <!-- Vertical line down from H-bar -->
-                    <div class="w-px h-3 mb-1" style="background: linear-gradient(180deg, rgba(255,193,7,0.2), rgba(180,220,255,0.3));"></div>
-                    <div class="relative">
-                      <div class="w-12 h-12 rounded-xl flex items-center justify-center"
-                        :style="treeSelectedNode === dl.descendant_id
-                          ? 'background: linear-gradient(135deg, rgba(180,220,255,0.25), rgba(100,160,255,0.15)); border: 1.5px solid rgba(180,220,255,0.5); box-shadow: 0 0 16px rgba(150,200,255,0.2);'
-                          : 'background: linear-gradient(135deg, rgba(180,220,255,0.12), rgba(100,160,255,0.07)); border: 1px solid rgba(180,220,255,0.22);'">
-                        <svg class="w-6 h-6" style="color:rgba(180,220,255,0.8)" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 3c1.66 0 3 1.34 3 3s-1.34 3-3 3-3-1.34-3-3 1.34-3 3-3zm0 14.2c-2.5 0-4.71-1.28-6-3.22.03-1.99 4-3.08 6-3.08 1.99 0 5.97 1.09 6 3.08-1.29 1.94-3.5 3.22-6 3.22z"/></svg>
-                        <div class="absolute -bottom-1.5 -right-1.5 w-4 h-4 rounded-full flex items-center justify-center text-[7px] font-black"
-                          style="background: rgba(180,220,255,0.85); color: #000;">B{{ i+1 }}</div>
-                      </div>
+                <!-- Connectors B→C -->
+                <div class="flex justify-between px-7 mt-0.5">
+                  <div class="flex flex-col items-center">
+                    <div class="w-px h-3" style="background:rgba(210,180,140,0.25)"></div>
+                    <!-- H bar under B1 -->
+                    <div class="relative h-px" style="width:72px;background:linear-gradient(90deg,transparent,rgba(210,180,140,0.2),transparent)"></div>
+                    <div class="flex gap-9">
+                      <div class="w-px h-3" style="background:rgba(210,180,140,0.2)"></div>
+                      <div class="w-px h-3" style="background:rgba(210,180,140,0.2)"></div>
                     </div>
-                    <p class="text-[8px] font-semibold mt-1.5 max-w-[56px] truncate text-center" style="color:rgba(180,220,255,0.7)">{{ dl.username || 'B'+(i+1) }}</p>
-                    <!-- Commission calc chip -->
-                    <div class="mt-1 rounded-full px-1.5 py-0.5" style="background:rgba(180,220,255,0.07);border:1px solid rgba(180,220,255,0.15)">
-                      <p class="text-[7.5px] leading-tight text-center" style="color:rgba(180,220,255,0.6)">
-                        {{ formatN(dl.total_deposit||0) }} × 10%<br/>
-                        = <span style="color:rgba(180,220,255,0.9);font-weight:700">{{ formatN(Math.floor((dl.total_deposit||0)*0.1)) }}</span>
-                      </p>
-                    </div>
+                  </div>
+                  <div class="flex flex-col items-center">
+                    <div class="w-px h-3" style="background:rgba(210,180,140,0.25)"></div>
+                    <div class="w-px h-3" style="background:rgba(210,180,140,0.25)"></div>
                   </div>
                 </div>
 
-                <!-- Empty state for no downlines yet -->
-                <div v-else class="flex flex-col items-center py-6 gap-2">
-                  <div class="w-12 h-12 rounded-2xl flex items-center justify-center"
-                    style="background:rgba(255,255,255,0.04);border:1px dashed rgba(255,255,255,0.1);">
-                    <svg class="w-6 h-6" style="color:rgba(255,255,255,0.15)" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M12 4.5v15m7.5-7.5h-15"/></svg>
+                <!-- C1, C2, C3 row -->
+                <div class="flex justify-center gap-2 mt-0">
+                  <!-- C1 -->
+                  <div class="demo-node-c flex flex-col items-center">
+                    <div class="w-[60px] rounded-xl p-2 relative" style="background:rgba(210,180,140,0.12);border:1px solid rgba(210,180,140,0.22)">
+                      <svg class="w-5 h-5 mx-auto" style="color:rgba(220,190,150,0.7)" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 3c1.66 0 3 1.34 3 3s-1.34 3-3 3-3-1.34-3-3 1.34-3 3-3zm0 14.2c-2.5 0-4.71-1.28-6-3.22.03-1.99 4-3.08 6-3.08 1.99 0 5.97 1.09 6 3.08-1.29 1.94-3.5 3.22-6 3.22z"/></svg>
+                      <div class="absolute -top-1.5 -right-1.5 w-4 h-4 rounded-full flex items-center justify-center text-[7px] font-black" style="background:rgba(200,170,120,0.85);color:#000">C1</div>
+                      <p class="text-[7px] text-center mt-1 leading-tight" style="color:rgba(255,255,255,0.5)">1000<br>×10%×30%</p>
+                      <p class="text-[8px] font-black text-center" style="color:rgba(255,193,7,0.9)">= 30</p>
+                    </div>
                   </div>
-                  <p class="text-xs text-center" style="color:rgba(255,255,255,0.25)">Downline မရှိသေးပါ</p>
-                  <p class="text-[10px] text-center" style="color:rgba(255,255,255,0.15)">Referral link မျှဝေပြီး ဖိတ်ပါ</p>
+                  <!-- C2 -->
+                  <div class="demo-node-c flex flex-col items-center">
+                    <div class="w-[60px] rounded-xl p-2 relative" style="background:rgba(210,180,140,0.12);border:1px solid rgba(210,180,140,0.22)">
+                      <svg class="w-5 h-5 mx-auto" style="color:rgba(220,190,150,0.7)" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 3c1.66 0 3 1.34 3 3s-1.34 3-3 3-3-1.34-3-3 1.34-3 3-3zm0 14.2c-2.5 0-4.71-1.28-6-3.22.03-1.99 4-3.08 6-3.08 1.99 0 5.97 1.09 6 3.08-1.29 1.94-3.5 3.22-6 3.22z"/></svg>
+                      <div class="absolute -top-1.5 -right-1.5 w-4 h-4 rounded-full flex items-center justify-center text-[7px] font-black" style="background:rgba(200,170,120,0.85);color:#000">C2</div>
+                      <p class="text-[7px] text-center mt-1 leading-tight" style="color:rgba(255,255,255,0.5)">2000<br>×10%×30%</p>
+                      <p class="text-[8px] font-black text-center" style="color:rgba(255,193,7,0.9)">= 60</p>
+                    </div>
+                  </div>
+                  <!-- C3 -->
+                  <div class="demo-node-c flex flex-col items-center">
+                    <div class="w-[60px] rounded-xl p-2 relative" style="background:rgba(210,180,140,0.12);border:1px solid rgba(210,180,140,0.22)">
+                      <svg class="w-5 h-5 mx-auto" style="color:rgba(220,190,150,0.7)" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 3c1.66 0 3 1.34 3 3s-1.34 3-3 3-3-1.34-3-3 1.34-3 3-3zm0 14.2c-2.5 0-4.71-1.28-6-3.22.03-1.99 4-3.08 6-3.08 1.99 0 5.97 1.09 6 3.08-1.29 1.94-3.5 3.22-6 3.22z"/></svg>
+                      <div class="absolute -top-1.5 -right-1.5 w-4 h-4 rounded-full flex items-center justify-center text-[7px] font-black" style="background:rgba(200,170,120,0.85);color:#000">C3</div>
+                      <p class="text-[7px] text-center mt-1 leading-tight" style="color:rgba(255,255,255,0.5)">20000<br>×10%×30%</p>
+                      <p class="text-[8px] font-black text-center" style="color:rgba(255,193,7,0.9)">= 600</p>
+                    </div>
+                  </div>
                 </div>
 
-                <!-- LEVEL 2 NODES (C1, C2, C3...) — shown under active B node -->
-                <template v-if="treeSelectedNode !== 'self' && level2UnderSelected.length > 0">
-                  <!-- H connector from selected B down -->
-                  <div class="flex justify-center">
-                    <div class="w-px h-3" style="background: linear-gradient(180deg, rgba(180,220,255,0.25), rgba(200,150,255,0.2));"></div>
+                <!-- N node + explanation -->
+                <div class="flex justify-center mt-4">
+                  <div class="w-px h-3" style="background:rgba(100,220,120,0.25)"></div>
+                </div>
+                <div class="mx-2 rounded-2xl p-3 flex gap-3 items-start"
+                  style="background:rgba(100,200,100,0.07);border:1px solid rgba(100,200,100,0.18)">
+                  <div class="flex-shrink-0 w-9 h-9 rounded-full flex items-center justify-center"
+                    style="background:rgba(100,200,100,0.2);border:1.5px solid rgba(100,200,100,0.45)">
+                    <span class="text-[10px] font-black" style="color:rgba(120,230,120,0.95)">N</span>
                   </div>
-                  <div class="relative h-px mx-auto mb-0"
-                    :style="`width: ${Math.min(level2UnderSelected.length * 66, 260)}px; background: linear-gradient(90deg, transparent, rgba(200,150,255,0.2), transparent);`"></div>
-
-                  <div class="flex justify-center gap-2.5 mt-0">
-                    <div v-for="(dl2, j) in level2UnderSelected.slice(0,4)" :key="dl2.descendant_id"
-                      class="tree-node-c flex flex-col items-center">
-                      <div class="w-px h-3 mb-0.5" style="background:rgba(200,150,255,0.2)"></div>
-                      <div class="relative">
-                        <div class="w-10 h-10 rounded-xl flex items-center justify-center"
-                          style="background: linear-gradient(135deg,rgba(200,150,255,0.12),rgba(160,100,255,0.07)); border: 1px solid rgba(200,150,255,0.2);">
-                          <svg class="w-5 h-5" style="color:rgba(200,150,255,0.75)" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 3c1.66 0 3 1.34 3 3s-1.34 3-3 3-3-1.34-3-3 1.34-3 3-3zm0 14.2c-2.5 0-4.71-1.28-6-3.22.03-1.99 4-3.08 6-3.08 1.99 0 5.97 1.09 6 3.08-1.29 1.94-3.5 3.22-6 3.22z"/></svg>
-                          <div class="absolute -bottom-1.5 -right-1.5 w-4 h-4 rounded-full flex items-center justify-center text-[7px] font-black"
-                            style="background:rgba(200,150,255,0.8);color:#000">C{{ j+1 }}</div>
-                        </div>
-                      </div>
-                      <p class="text-[7.5px] mt-1.5 max-w-[50px] truncate text-center" style="color:rgba(200,150,255,0.65)">{{ dl2.username || 'C'+(j+1) }}</p>
-                      <div class="mt-0.5 rounded-full px-1.5 py-0.5" style="background:rgba(200,150,255,0.06);border:1px solid rgba(200,150,255,0.13)">
-                        <p class="text-[7px] leading-tight text-center" style="color:rgba(200,150,255,0.55)">
-                          {{ formatN(dl2.total_deposit||0) }} × 3%<br/>
-                          = <span style="color:rgba(200,150,255,0.85);font-weight:700">{{ formatN(Math.floor((dl2.total_deposit||0)*0.03)) }}</span>
-                        </p>
-                      </div>
-                    </div>
-                  </div>
-                </template>
-
-                <!-- N (New/Next) node hint at bottom -->
-                <div class="flex justify-center mt-3">
-                  <div class="flex flex-col items-center gap-1 opacity-40">
-                    <div class="w-px h-3" style="background:rgba(255,255,255,0.15)"></div>
-                    <div class="w-8 h-8 rounded-full flex items-center justify-center"
-                      style="background:rgba(100,220,120,0.12);border:1px dashed rgba(100,220,120,0.3);">
-                      <span class="text-[9px] font-bold" style="color:rgba(100,220,120,0.8)">N</span>
-                    </div>
-                    <p class="text-[8px]" style="color:rgba(255,255,255,0.2)">Next Member</p>
+                  <div>
+                    <p class="text-[9px] mb-0.5" style="color:rgba(255,255,255,0.35)">(ပရေးထမ်ဆိုင်ဆော လက်အောက်ကအသားများ)</p>
+                    <p class="text-[10px] leading-relaxed" style="color:rgba(255,255,255,0.5)">အဆင့်တိုင်းသည် A အတွက် စွမ်းဆောင်ရည်နှင့် ကော်မှင်ကို ထပ်ပါင်းပေးမည်။ လက်အောက်ခံ အဆင့် အကန့်အသတ်မရှိဘဲ မြေလေလေ ပိုကောင်းလေပါ။</p>
                   </div>
                 </div>
 
               </div><!-- /tree-scene -->
             </div><!-- /tree-viewport -->
 
-          </div><!-- /tree card -->
+          </div><!-- /static demo tree card -->
+
+          <!-- ══════════════════════════════════════════════════════
+               REAL DOWNLINE LIST — Supabase ကနေ လာသောဒေတာ
+               ════════════════════════════════════════════════════ -->
+          <div class="rounded-3xl overflow-hidden"
+            style="background:rgba(255,255,255,0.025);border:1px solid rgba(255,255,255,0.055);">
+            <div class="px-5 pt-4 pb-3 flex items-center justify-between" style="border-bottom:1px solid rgba(255,255,255,0.05);">
+              <p class="text-[10px] font-bold tracking-[0.18em] uppercase" style="color:rgba(255,255,255,0.4)">ကျွန်ုပ်၏ Downline များ</p>
+              <p class="text-[10px]" style="color:rgba(255,255,255,0.25)">{{ allDownline.length }} members</p>
+            </div>
+            <div v-if="loadingData" class="p-8 flex justify-center">
+              <div class="w-5 h-5 border-2 rounded-full animate-spin" style="border-color:rgba(255,255,255,0.1);border-top-color:rgba(255,193,7,0.6)"></div>
+            </div>
+            <div v-else-if="allDownline.length === 0" class="p-8 flex flex-col items-center gap-2">
+              <div class="w-10 h-10 rounded-2xl flex items-center justify-center" style="background:rgba(255,255,255,0.04);border:1px dashed rgba(255,255,255,0.1)">
+                <svg class="w-5 h-5" style="color:rgba(255,255,255,0.15)" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0z"/></svg>
+              </div>
+              <p class="text-xs" style="color:rgba(255,255,255,0.25)">Downline မရှိသေးပါ</p>
+              <p class="text-[10px]" style="color:rgba(255,255,255,0.15)">Referral link မျှဝေပြီး ဖိတ်ပါ</p>
+            </div>
+            <div v-else>
+              <div v-for="user in allDownline.slice(0,10)" :key="user.descendant_id"
+                class="flex items-center justify-between px-4 py-3"
+                style="border-bottom:1px solid rgba(255,255,255,0.04)">
+                <div class="flex items-center gap-3">
+                  <div class="w-8 h-8 rounded-xl flex items-center justify-center text-xs font-black flex-shrink-0"
+                    :style="user.level===1
+                      ? 'background:rgba(255,193,7,0.12);color:rgba(255,193,7,0.85);border:1px solid rgba(255,193,7,0.2)'
+                      : 'background:rgba(180,220,255,0.1);color:rgba(180,220,255,0.75);border:1px solid rgba(180,220,255,0.15)'">
+                    {{ (user.username||'?').charAt(0).toUpperCase() }}
+                  </div>
+                  <div>
+                    <div class="flex items-center gap-1.5">
+                      <p class="text-xs font-semibold" style="color:rgba(255,255,255,0.75)">{{ user.username || user.descendant_id.substring(0,8) }}</p>
+                      <span class="text-[8px] px-1.5 py-0.5 rounded-full font-bold"
+                        :style="user.level===1
+                          ? 'background:rgba(255,193,7,0.1);color:rgba(255,193,7,0.7)'
+                          : 'background:rgba(180,220,255,0.1);color:rgba(180,220,255,0.65)'">
+                        Lv{{ user.level }}
+                      </span>
+                    </div>
+                    <p class="text-[9px] mt-0.5" style="color:rgba(255,255,255,0.2)">{{ fmtDate(user.created_at) }}</p>
+                  </div>
+                </div>
+                <div class="text-right">
+                  <p class="text-[11px] font-bold" style="color:rgba(255,193,7,0.8)">{{ formatN(user.total_deposit||0) }} Ks</p>
+                  <p class="text-[8px]" style="color:rgba(255,255,255,0.2)">VIP {{ user.vip_level||1 }}</p>
+                </div>
+              </div>
+            </div>
+          </div><!-- /real downline list -->
 
           <!-- ── HOW TO INVITE (steps) ── -->
           <div class="rounded-2xl px-4 py-4" style="background:rgba(255,255,255,0.025);border:1px solid rgba(255,255,255,0.055);">
@@ -828,6 +922,7 @@ const activePeriod = ref('today')
 
 // Tree tab state
 const treeSelectedNode = ref('self')
+const demoTab = ref('A')
 
 // User info
 const userId          = ref('')
