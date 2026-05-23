@@ -25,7 +25,6 @@ serve(async (req) => {
       })
     }
 
-    // Check duplicate username
     const { data: existingUser } = await supabaseAdmin
       .from("users").select("id").eq("username", username.toUpperCase()).single()
 
@@ -72,69 +71,62 @@ serve(async (req) => {
       user_id: userId, main_balance: 0, bonus_balance: 0
     })
 
-    // ── Referral Logic (supports both UUID and username) ──────────────────────
+    // ── Referral lookup ──────────────────────────────────────────────────────
     if (referral && referral.trim()) {
       const ref = referral.trim()
+      let referrer: { id: string } | null = null
 
-      // Detect UUID format: xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx
-      const uuidRegex = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i
-      const isUuid = uuidRegex.test(ref)
-
-      let referrer = null
-
-      if (isUuid) {
-        // New style: ?dl=UUID
+      // Game ID style: 8-char hex prefix of UUID (e.g. "08D52637" → "08d52637-...")
+      // ilike matches case-insensitively so "08D52637%" matches "08d52637-..."
+      if (/^[0-9a-fA-F]{8}$/.test(ref)) {
+        const { data } = await supabaseAdmin
+          .from("users")
+          .select("id")
+          .ilike("id", ref + "%")
+          .single()
+        referrer = data
+      }
+      // Full UUID fallback
+      else if (/^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i.test(ref)) {
         const { data } = await supabaseAdmin
           .from("users").select("id").eq("id", ref).single()
         referrer = data
-      } else {
-        // Legacy style: ?dl=USERNAME (backward compatible)
+      }
+      // Legacy username fallback (old links still work)
+      else {
         const { data } = await supabaseAdmin
           .from("users").select("id").eq("username", ref.toUpperCase()).single()
         referrer = data
       }
 
       if (referrer && referrer.id !== userId) {
-        // Build full ancestor chain from referrer upwards
         const { data: ancestors } = await supabaseAdmin
           .from("affiliate_tree")
           .select("ancestor_id, level")
           .eq("descendant_id", referrer.id)
           .neq("level", 0)
 
-        const treeInserts: any[] = []
-
-        // Self entry for new user
-        treeInserts.push({ ancestor_id: userId, descendant_id: userId, level: 0 })
-
-        // Direct relationship: referrer → new user (level 1)
-        treeInserts.push({ ancestor_id: referrer.id, descendant_id: userId, level: 1 })
-
-        // Indirect relationships: all ancestors of referrer → new user (level + 1)
-        if (ancestors && ancestors.length > 0) {
+        const treeInserts: any[] = [
+          { ancestor_id: userId, descendant_id: userId, level: 0 },
+          { ancestor_id: referrer.id, descendant_id: userId, level: 1 },
+        ]
+        if (ancestors) {
           for (const a of ancestors) {
             if (a.ancestor_id !== userId) {
-              treeInserts.push({
-                ancestor_id: a.ancestor_id,
-                descendant_id: userId,
-                level: a.level + 1
-              })
+              treeInserts.push({ ancestor_id: a.ancestor_id, descendant_id: userId, level: a.level + 1 })
             }
           }
         }
-
         await supabaseAdmin.from("affiliate_tree").insert(treeInserts)
       } else {
-        // Referrer not found or invalid — self entry only
-        await supabaseAdmin.from("affiliate_tree").insert({
-          ancestor_id: userId, descendant_id: userId, level: 0
-        })
+        await supabaseAdmin.from("affiliate_tree").insert(
+          { ancestor_id: userId, descendant_id: userId, level: 0 }
+        )
       }
     } else {
-      // No referral — self entry only
-      await supabaseAdmin.from("affiliate_tree").insert({
-        ancestor_id: userId, descendant_id: userId, level: 0
-      })
+      await supabaseAdmin.from("affiliate_tree").insert(
+        { ancestor_id: userId, descendant_id: userId, level: 0 }
+      )
     }
 
     return new Response(JSON.stringify({ success: true, userId }), {
