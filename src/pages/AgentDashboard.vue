@@ -145,6 +145,48 @@
           </div>
         </div>
 
+        <!-- Referral Panel (ပင်မ tab) -->
+        <div class="fp-card rounded-2xl p-4 relative overflow-hidden"
+          style="background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.07); backdrop-filter: blur(16px);">
+          <div class="absolute top-0 left-1/2 -translate-x-1/2 w-32 h-px"
+            style="background: linear-gradient(90deg, transparent, rgba(255,255,255,0.13), transparent);"></div>
+
+          <p class="text-[9px] tracking-[0.14em] mb-3" style="color: rgba(255,255,255,0.3);">သင်မျှဝေရန် လင့်</p>
+
+          <!-- QR + Link row -->
+          <div class="flex gap-3 items-start">
+            <div class="flex-shrink-0 rounded-xl overflow-hidden p-1.5" style="background: white; width: 76px; height: 76px;">
+              <img :src="qrUrl" class="w-full h-full object-contain" alt="QR Code" loading="lazy" />
+            </div>
+            <div class="flex-1 min-w-0 space-y-2">
+              <div class="flex items-center gap-2 rounded-xl px-3 py-2.5"
+                style="background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.07);">
+                <p class="text-[11px] font-mono truncate flex-1" style="color: rgba(255,255,255,0.5);">{{ referralLink }}</p>
+                <button @click="copyText(referralLink)" class="flex-shrink-0 active:scale-90 transition-all">
+                  <svg class="w-4 h-4" :style="copiedLink ? 'color:rgba(100,220,120,0.8)' : 'color:rgba(255,255,255,0.3)'" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" :d="copiedLink ? 'M5 13l4 4L19 7' : 'M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z'"/>
+                  </svg>
+                </button>
+              </div>
+              <p class="text-[9px]" style="color: rgba(255,255,255,0.2);">ဖိတ်ကုဒ်: <span style="color: rgba(255,193,7,0.75);">{{ username }}</span></p>
+            </div>
+          </div>
+
+          <!-- Social Share Buttons -->
+          <div class="mt-4">
+            <p class="text-[9px] tracking-[0.12em] mb-2.5" style="color: rgba(255,255,255,0.22);">မျှဝေရန်</p>
+            <div class="grid grid-cols-5 gap-2">
+              <button v-for="s in socialButtons" :key="s.id" @click="shareVia(s.id)"
+                class="flex flex-col items-center gap-1.5 active:scale-90 transition-all">
+                <div class="w-10 h-10 rounded-2xl flex items-center justify-center" :style="`background: ${s.bg}; border: 1px solid ${s.border};`">
+                  <span v-html="s.icon" class="w-5 h-5 flex items-center justify-center"></span>
+                </div>
+                <span class="text-[9px]" style="color: rgba(255,255,255,0.3);">{{ s.label }}</span>
+              </button>
+            </div>
+          </div>
+        </div>
+
         <!-- Quick Actions -->
         <div class="grid grid-cols-2 gap-2.5">
           <button @click="activeTab = 6"
