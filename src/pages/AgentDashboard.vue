@@ -538,8 +538,8 @@
                 <span class="text-[10px] font-black" style="color:rgba(120,230,140,0.95)">N</span>
               </div>
               <div>
-                <p class="text-[9px] mb-0.5" style="color:rgba(255,255,255,0.28)">(ပရေးထမ်ဆိုင်ဆော လက်အောက်ကအသားများ)</p>
-                <p class="text-[10px] leading-relaxed" style="color:rgba(255,255,255,0.42)">အဆင့်တိုင်းသည် A အတွက် ကော်မှင်ကို ထပ်ပေးမည်။ Downline အဆင့် အကန့်အသတ်မရှိဘဲ ပိုကောင်းလေပါ။</p>
+                <p class="text-[9px] mb-0.5" style="color:rgba(255,255,255,0.28)">(မရေတွက်နိုင်သော လက်အောက်ငယ်သားများ)</p>
+                <p class="text-[10px] leading-relaxed" style="color:rgba(255,255,255,0.42)">အဆင့်တိုင်းသည် A အတွက် ကော်မရှင် ထပ်ပေးမည်။ Downline အဆင့် အကန့်အသတ်မရှိဘဲ ပိုကောင်းလေပါ။</p>
               </div>
             </div>
 
@@ -559,7 +559,7 @@
                   <div class="absolute w-3 h-3 rounded-full animate-ping" style="background:rgba(80,220,120,0.3)"></div>
                   <div class="w-1.5 h-1.5 rounded-full" style="background:rgba(80,220,120,0.9);box-shadow:0 0 6px rgba(80,220,120,0.7)"></div>
                 </div>
-                <p class="text-[10px] font-bold tracking-[0.18em] uppercase" style="color:rgba(255,255,255,0.4)">ကျွန်ုပ်၏ DOWNLINE များ</p>
+                <p class="text-[10px] font-bold tracking-[0.18em] uppercase" style="color:rgba(255,255,255,0.4)">ကျွန်ုပ်၏ အောက်လက်ငယ်သားများ!</p>
               </div>
               <div class="flex items-center gap-2">
                 <span v-if="newMemberFlash" class="text-[9px] px-2 py-0.5 rounded-full font-bold animate-pulse"
