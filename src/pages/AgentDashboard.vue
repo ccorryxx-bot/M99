@@ -219,76 +219,255 @@
       </div>
 
       <!-- ═══════════════════════════════════════════
-           TAB 1: ဖိတ်ခေါ်လင့် (Referral Link)
+           TAB 1: ဖိတ်ခေါ်လင့် — Invisible Interface Redesign
            ═══════════════════════════════════════════ -->
-      <div v-else-if="activeTab === 1" class="space-y-3 px-4 pt-4">
+      <div v-else-if="activeTab === 1" class="referral-tab pb-6">
 
-        <!-- Referral Link Panel -->
-        <div class="fp-card rounded-2xl p-4 relative overflow-hidden"
-          style="background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.08);">
-          <div class="absolute top-0 left-1/2 -translate-x-1/2 w-32 h-px"
-            style="background: linear-gradient(90deg, transparent, rgba(255,255,255,0.15), transparent);"></div>
+        <!-- ── AMBIENT HERO BG ── -->
+        <div class="absolute inset-0 pointer-events-none overflow-hidden" style="z-index:0;">
+          <div class="absolute top-16 left-1/2 -translate-x-1/2 w-72 h-72 rounded-full"
+            style="background: radial-gradient(circle, rgba(255,193,7,0.06) 0%, transparent 70%); filter: blur(40px);"></div>
+          <div class="absolute top-48 left-8 w-40 h-40 rounded-full"
+            style="background: radial-gradient(circle, rgba(100,180,255,0.05) 0%, transparent 70%); filter: blur(30px);"></div>
+        </div>
 
-          <p class="text-xs font-bold tracking-widest mb-4" style="color: rgba(255,255,255,0.4);">သင်၏ ဖိတ်ခေါ်လင့်</p>
+        <div class="relative z-10 px-4 pt-4 space-y-4">
 
-          <!-- QR + Info -->
-          <div class="flex gap-4 items-start">
-            <div class="rounded-xl overflow-hidden flex-shrink-0 p-1.5" style="background: white; width: 88px; height: 88px;">
-              <img :src="qrUrl" class="w-full h-full object-contain" alt="QR" loading="lazy" />
+          <!-- ── INVITE HEADER ── -->
+          <div class="referral-hero-card relative overflow-hidden rounded-3xl px-5 pt-5 pb-4"
+            style="background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.07); backdrop-filter: blur(24px);">
+
+            <!-- top shimmer line -->
+            <div class="absolute top-0 left-0 right-0 h-px"
+              style="background: linear-gradient(90deg, transparent 5%, rgba(255,193,7,0.25) 40%, rgba(255,255,255,0.15) 60%, transparent 95%);"></div>
+
+            <!-- Invite label + token row -->
+            <div class="flex items-center justify-between mb-4">
+              <p class="text-[10px] font-semibold tracking-[0.18em] uppercase"
+                style="color: rgba(255,255,255,0.35);">သူငယ်ချင်းများကို ဖိတ်ကြားသည်</p>
+              <div class="flex items-center gap-2 rounded-xl px-3 py-1.5"
+                style="background: rgba(255,193,7,0.08); border: 1px solid rgba(255,193,7,0.18);">
+                <p class="text-[11px] font-black tracking-widest" style="color: rgba(255,193,7,0.9);">ဖိတ်တိုကင်: {{ username }}</p>
+                <button @click="copyText(username)" class="active:scale-75 transition-transform">
+                  <svg v-if="!copiedCode" class="w-3.5 h-3.5" style="color:rgba(255,193,7,0.6)" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"/></svg>
+                  <svg v-else class="w-3.5 h-3.5" style="color:rgba(100,220,120,0.9)" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg>
+                </button>
+              </div>
             </div>
-            <div class="flex-1 min-w-0 space-y-2">
-              <div>
-                <p class="text-[9px] tracking-wider mb-1" style="color: rgba(255,255,255,0.28);">REFERRAL CODE</p>
-                <div class="flex items-center gap-2">
-                  <p class="text-sm font-black tracking-widest" style="color: rgba(255,193,7,0.9);">{{ username }}</p>
-                  <button @click="copyText(username)" class="active:scale-90 transition-all">
-                    <svg class="w-3.5 h-3.5" :style="copiedCode ? 'color:rgba(100,220,120,0.8)' : 'color:rgba(255,255,255,0.3)'" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" :d="copiedCode ? 'M5 13l4 4L19 7' : 'M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z'"/></svg>
+
+            <!-- QR + Link row -->
+            <div class="flex gap-3 items-center">
+              <!-- QR -->
+              <div class="flex-shrink-0 rounded-2xl overflow-hidden p-1.5 shadow-lg"
+                style="background: rgba(255,255,255,0.95); width: 80px; height: 80px;">
+                <img :src="qrUrl" class="w-full h-full object-contain" alt="QR" loading="lazy" />
+              </div>
+
+              <!-- Link + expand/copy -->
+              <div class="flex-1 min-w-0 space-y-2">
+                <div class="flex items-center gap-2 rounded-xl px-3 py-2.5"
+                  style="background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.08);">
+                  <p class="text-[10px] font-mono truncate flex-1" style="color: rgba(255,255,255,0.45);">{{ referralLink }}</p>
+                  <button @click="copyText(referralLink)" class="flex-shrink-0 active:scale-75 transition-transform">
+                    <svg v-if="!copiedLink" class="w-4 h-4" style="color:rgba(255,255,255,0.3)" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"/></svg>
+                    <svg v-else class="w-4 h-4" style="color:rgba(100,220,120,0.9)" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg>
                   </button>
                 </div>
+                <!-- Caption -->
+                <p class="text-[9px] pl-1" style="color: rgba(255,255,255,0.2);">ဖိတ်ကုဒ်: <span style="color:rgba(255,193,7,0.65)">{{ username }}</span></p>
               </div>
-              <div>
-                <p class="text-[9px] tracking-wider mb-1" style="color: rgba(255,255,255,0.28);">REFERRAL LINK</p>
-                <p class="text-[10px] font-mono truncate" style="color: rgba(255,255,255,0.5);">{{ referralLink }}</p>
+            </div>
+
+            <!-- Social share pills -->
+            <div class="mt-4 flex gap-2 overflow-x-auto no-scrollbar pb-0.5">
+              <button v-for="s in socialButtons" :key="s.id" @click="shareVia(s.id)"
+                class="flex items-center gap-2 flex-shrink-0 px-3 py-2 rounded-full active:scale-90 transition-all"
+                :style="`background: ${s.bg}; border: 1px solid ${s.border};`">
+                <span v-html="s.icon" class="w-4 h-4 flex items-center justify-center flex-shrink-0"></span>
+                <span class="text-[10px] font-semibold whitespace-nowrap" style="color:rgba(255,255,255,0.6)">{{ s.label }}</span>
+              </button>
+            </div>
+          </div>
+
+          <!-- ── AGENT TREE SECTION ── -->
+          <div class="referral-tree-card relative overflow-hidden rounded-3xl"
+            style="background: rgba(255,255,255,0.025); border: 1px solid rgba(255,255,255,0.06); backdrop-filter: blur(20px);">
+
+            <!-- Section header -->
+            <div class="px-5 pt-4 pb-3" style="border-bottom: 1px solid rgba(255,255,255,0.05);">
+              <p class="text-[10px] font-bold tracking-[0.18em] uppercase" style="color: rgba(255,255,255,0.4);">အေးဂျင့် ကျပ်တိုရိုဒ်</p>
+            </div>
+
+            <!-- Tab switcher: show per selected B-node -->
+            <div class="px-4 pt-3 flex gap-2 overflow-x-auto no-scrollbar">
+              <button @click="treeSelectedNode = 'self'"
+                class="flex-shrink-0 px-3.5 py-1.5 rounded-full text-[10px] font-bold tracking-wider transition-all active:scale-95"
+                :style="treeSelectedNode === 'self'
+                  ? 'background:rgba(255,193,7,0.18);border:1px solid rgba(255,193,7,0.4);color:rgba(255,193,7,0.95)'
+                  : 'background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.07);color:rgba(255,255,255,0.35)'">
+                A ၏ ကော်မှင်
+              </button>
+              <button v-for="(dl, i) in level1Downline.slice(0,4)" :key="dl.descendant_id"
+                @click="treeSelectedNode = dl.descendant_id"
+                class="flex-shrink-0 px-3.5 py-1.5 rounded-full text-[10px] font-bold tracking-wider transition-all active:scale-95"
+                :style="treeSelectedNode === dl.descendant_id
+                  ? 'background:rgba(180,220,255,0.18);border:1px solid rgba(180,220,255,0.35);color:rgba(200,230,255,0.95)'
+                  : 'background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.07);color:rgba(255,255,255,0.35)'">
+                B{{ i+1 }} ၏ ကော်မှင်
+              </button>
+            </div>
+
+            <!-- Commission summary for selected node -->
+            <div class="px-4 py-3 mx-4 mt-3 rounded-2xl text-[11px] leading-relaxed"
+              style="background: rgba(255,193,7,0.06); border: 1px solid rgba(255,193,7,0.12);">
+              <template v-if="treeSelectedNode === 'self'">
+                <p style="color:rgba(255,255,255,0.55)">တိုက်ရိုက်စုပေါင်း: <span style="color:rgba(255,255,255,0.85);font-weight:700">{{ formatN(userTotalDeposit) }} Ks</span></p>
+                <p style="color:rgba(255,255,255,0.55)">တိုက်ရိုက်ကော်မှင်: <span style="color:rgba(255,193,7,0.9);font-weight:800">{{ formatN(Math.floor(totalCommission * 0.7)) }} Ks</span></p>
+                <p style="color:rgba(255,255,255,0.55)">အခြားကော်မှင်: <span style="color:rgba(255,193,7,0.7);font-weight:700">{{ formatN(Math.floor(totalCommission * 0.3)) }} Ks</span></p>
+                <p class="mt-1 font-black" style="color:rgba(255,193,7,1)">စုစုပေါင်း: {{ formatN(totalCommission) }} Ks</p>
+              </template>
+              <template v-else>
+                <p style="color:rgba(255,255,255,0.45)">ဤ Branch ၏ Downline ကော်မှင်</p>
+                <p class="font-black" style="color:rgba(200,230,255,0.9)">Level 2+ ထဲမှ override ရမည်</p>
+              </template>
+            </div>
+
+            <!-- 3D Affiliate Tree -->
+            <div class="tree-viewport px-4 pt-4 pb-6 overflow-x-auto no-scrollbar" style="perspective: 900px;">
+              <div class="tree-scene relative" style="min-width: 280px; transform-style: preserve-3d;">
+
+                <!-- ROOT NODE — You (A) -->
+                <div class="flex justify-center mb-1">
+                  <div class="tree-node-root relative flex flex-col items-center cursor-pointer active:scale-95 transition-all"
+                    @click="treeSelectedNode = 'self'">
+                    <div class="w-14 h-14 rounded-2xl flex items-center justify-center relative"
+                      :style="treeSelectedNode === 'self'
+                        ? 'background: linear-gradient(135deg, rgba(255,193,7,0.3), rgba(255,152,0,0.2)); border: 1.5px solid rgba(255,193,7,0.6); box-shadow: 0 0 20px rgba(255,193,7,0.25);'
+                        : 'background: linear-gradient(135deg, rgba(255,193,7,0.15), rgba(255,152,0,0.08)); border: 1px solid rgba(255,193,7,0.3);'">
+                      <!-- Avatar A -->
+                      <svg class="w-7 h-7" style="color:rgba(255,193,7,0.9)" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 3c1.66 0 3 1.34 3 3s-1.34 3-3 3-3-1.34-3-3 1.34-3 3-3zm0 14.2c-2.5 0-4.71-1.28-6-3.22.03-1.99 4-3.08 6-3.08 1.99 0 5.97 1.09 6 3.08-1.29 1.94-3.5 3.22-6 3.22z"/></svg>
+                      <!-- Rank badge -->
+                      <div class="absolute -bottom-1.5 -right-1.5 w-5 h-5 rounded-full flex items-center justify-center text-[9px] font-black"
+                        style="background: rgba(255,193,7,0.9); color: #000;">A</div>
+                    </div>
+                    <p class="text-[9px] font-bold mt-1.5 tracking-wider" style="color:rgba(255,193,7,0.8)">{{ username }}</p>
+                    <div class="mt-1 rounded-full px-2 py-0.5" style="background:rgba(255,193,7,0.1);border:1px solid rgba(255,193,7,0.2)">
+                      <p class="text-[8px] font-semibold" style="color:rgba(255,193,7,0.7)">{{ formatN(totalCommission) }} Ks</p>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- Connector lines root → L1 -->
+                <div v-if="level1Downline.length > 0" class="flex justify-center">
+                  <div class="w-px h-4" style="background: linear-gradient(180deg, rgba(255,193,7,0.5), rgba(255,193,7,0.15));"></div>
+                </div>
+                <div v-if="level1Downline.length > 0 && level1Downline.length > 1"
+                  class="relative h-px mx-auto"
+                  :style="`width: ${Math.min(level1Downline.slice(0,4).length * 70, 280)}px; background: linear-gradient(90deg, transparent, rgba(255,193,7,0.25), transparent);`">
+                </div>
+
+                <!-- LEVEL 1 NODES (B1, B2 ...) -->
+                <div v-if="level1Downline.length > 0"
+                  class="flex justify-center gap-3 mt-0 mb-1"
+                  :style="level1Downline.slice(0,4).length === 1 ? 'flex-direction:column;align-items:center' : ''">
+                  <div v-for="(dl, i) in level1Downline.slice(0,4)" :key="dl.descendant_id"
+                    class="tree-node-b flex flex-col items-center relative cursor-pointer active:scale-95 transition-all"
+                    @click="treeSelectedNode = dl.descendant_id">
+                    <!-- Vertical line down from H-bar -->
+                    <div class="w-px h-3 mb-1" style="background: linear-gradient(180deg, rgba(255,193,7,0.2), rgba(180,220,255,0.3));"></div>
+                    <div class="relative">
+                      <div class="w-12 h-12 rounded-xl flex items-center justify-center"
+                        :style="treeSelectedNode === dl.descendant_id
+                          ? 'background: linear-gradient(135deg, rgba(180,220,255,0.25), rgba(100,160,255,0.15)); border: 1.5px solid rgba(180,220,255,0.5); box-shadow: 0 0 16px rgba(150,200,255,0.2);'
+                          : 'background: linear-gradient(135deg, rgba(180,220,255,0.12), rgba(100,160,255,0.07)); border: 1px solid rgba(180,220,255,0.22);'">
+                        <svg class="w-6 h-6" style="color:rgba(180,220,255,0.8)" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 3c1.66 0 3 1.34 3 3s-1.34 3-3 3-3-1.34-3-3 1.34-3 3-3zm0 14.2c-2.5 0-4.71-1.28-6-3.22.03-1.99 4-3.08 6-3.08 1.99 0 5.97 1.09 6 3.08-1.29 1.94-3.5 3.22-6 3.22z"/></svg>
+                        <div class="absolute -bottom-1.5 -right-1.5 w-4 h-4 rounded-full flex items-center justify-center text-[7px] font-black"
+                          style="background: rgba(180,220,255,0.85); color: #000;">B{{ i+1 }}</div>
+                      </div>
+                    </div>
+                    <p class="text-[8px] font-semibold mt-1.5 max-w-[56px] truncate text-center" style="color:rgba(180,220,255,0.7)">{{ dl.username || 'B'+(i+1) }}</p>
+                    <!-- Commission calc chip -->
+                    <div class="mt-1 rounded-full px-1.5 py-0.5" style="background:rgba(180,220,255,0.07);border:1px solid rgba(180,220,255,0.15)">
+                      <p class="text-[7.5px] leading-tight text-center" style="color:rgba(180,220,255,0.6)">
+                        {{ formatN(dl.total_deposit||0) }} × 10%<br/>
+                        = <span style="color:rgba(180,220,255,0.9);font-weight:700">{{ formatN(Math.floor((dl.total_deposit||0)*0.1)) }}</span>
+                      </p>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- Empty state for no downlines yet -->
+                <div v-else class="flex flex-col items-center py-6 gap-2">
+                  <div class="w-12 h-12 rounded-2xl flex items-center justify-center"
+                    style="background:rgba(255,255,255,0.04);border:1px dashed rgba(255,255,255,0.1);">
+                    <svg class="w-6 h-6" style="color:rgba(255,255,255,0.15)" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M12 4.5v15m7.5-7.5h-15"/></svg>
+                  </div>
+                  <p class="text-xs text-center" style="color:rgba(255,255,255,0.25)">Downline မရှိသေးပါ</p>
+                  <p class="text-[10px] text-center" style="color:rgba(255,255,255,0.15)">Referral link မျှဝေပြီး ဖိတ်ပါ</p>
+                </div>
+
+                <!-- LEVEL 2 NODES (C1, C2, C3...) — shown under active B node -->
+                <template v-if="treeSelectedNode !== 'self' && level2UnderSelected.length > 0">
+                  <!-- H connector from selected B down -->
+                  <div class="flex justify-center">
+                    <div class="w-px h-3" style="background: linear-gradient(180deg, rgba(180,220,255,0.25), rgba(200,150,255,0.2));"></div>
+                  </div>
+                  <div class="relative h-px mx-auto mb-0"
+                    :style="`width: ${Math.min(level2UnderSelected.length * 66, 260)}px; background: linear-gradient(90deg, transparent, rgba(200,150,255,0.2), transparent);`"></div>
+
+                  <div class="flex justify-center gap-2.5 mt-0">
+                    <div v-for="(dl2, j) in level2UnderSelected.slice(0,4)" :key="dl2.descendant_id"
+                      class="tree-node-c flex flex-col items-center">
+                      <div class="w-px h-3 mb-0.5" style="background:rgba(200,150,255,0.2)"></div>
+                      <div class="relative">
+                        <div class="w-10 h-10 rounded-xl flex items-center justify-center"
+                          style="background: linear-gradient(135deg,rgba(200,150,255,0.12),rgba(160,100,255,0.07)); border: 1px solid rgba(200,150,255,0.2);">
+                          <svg class="w-5 h-5" style="color:rgba(200,150,255,0.75)" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 3c1.66 0 3 1.34 3 3s-1.34 3-3 3-3-1.34-3-3 1.34-3 3-3zm0 14.2c-2.5 0-4.71-1.28-6-3.22.03-1.99 4-3.08 6-3.08 1.99 0 5.97 1.09 6 3.08-1.29 1.94-3.5 3.22-6 3.22z"/></svg>
+                          <div class="absolute -bottom-1.5 -right-1.5 w-4 h-4 rounded-full flex items-center justify-center text-[7px] font-black"
+                            style="background:rgba(200,150,255,0.8);color:#000">C{{ j+1 }}</div>
+                        </div>
+                      </div>
+                      <p class="text-[7.5px] mt-1.5 max-w-[50px] truncate text-center" style="color:rgba(200,150,255,0.65)">{{ dl2.username || 'C'+(j+1) }}</p>
+                      <div class="mt-0.5 rounded-full px-1.5 py-0.5" style="background:rgba(200,150,255,0.06);border:1px solid rgba(200,150,255,0.13)">
+                        <p class="text-[7px] leading-tight text-center" style="color:rgba(200,150,255,0.55)">
+                          {{ formatN(dl2.total_deposit||0) }} × 3%<br/>
+                          = <span style="color:rgba(200,150,255,0.85);font-weight:700">{{ formatN(Math.floor((dl2.total_deposit||0)*0.03)) }}</span>
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+                </template>
+
+                <!-- N (New/Next) node hint at bottom -->
+                <div class="flex justify-center mt-3">
+                  <div class="flex flex-col items-center gap-1 opacity-40">
+                    <div class="w-px h-3" style="background:rgba(255,255,255,0.15)"></div>
+                    <div class="w-8 h-8 rounded-full flex items-center justify-center"
+                      style="background:rgba(100,220,120,0.12);border:1px dashed rgba(100,220,120,0.3);">
+                      <span class="text-[9px] font-bold" style="color:rgba(100,220,120,0.8)">N</span>
+                    </div>
+                    <p class="text-[8px]" style="color:rgba(255,255,255,0.2)">Next Member</p>
+                  </div>
+                </div>
+
+              </div><!-- /tree-scene -->
+            </div><!-- /tree-viewport -->
+
+          </div><!-- /tree card -->
+
+          <!-- ── HOW TO INVITE (steps) ── -->
+          <div class="rounded-2xl px-4 py-4" style="background:rgba(255,255,255,0.025);border:1px solid rgba(255,255,255,0.055);">
+            <p class="text-[9px] tracking-[0.18em] uppercase mb-3" style="color:rgba(255,255,255,0.28)">ဘောနပ်ရရှိရန် အဆင့်များ</p>
+            <div class="space-y-2.5">
+              <div v-for="(step, i) in inviteSteps" :key="i" class="flex items-start gap-3">
+                <div class="w-4 h-4 rounded-full flex items-center justify-center text-[8px] font-black flex-shrink-0 mt-0.5"
+                  :style="step.style">{{ i+1 }}</div>
+                <p class="text-[11px] leading-relaxed" style="color:rgba(255,255,255,0.45)">{{ step.text }}</p>
               </div>
             </div>
           </div>
 
-          <!-- Copy Link Button -->
-          <button @click="copyText(referralLink)"
-            class="w-full mt-4 py-3 rounded-xl text-xs font-bold tracking-widest transition-all active:scale-[0.98]"
-            :style="copiedLink
-              ? 'background: rgba(100,220,120,0.15); border: 1px solid rgba(100,220,120,0.3); color: rgba(100,220,120,0.9);'
-              : 'background: rgba(255,193,7,0.1); border: 1px solid rgba(255,193,7,0.25); color: rgba(255,193,7,0.85);'">
-            {{ copiedLink ? '✓  ကူးပြီးပါပြီ!' : 'လင့်ကူးမည်' }}
-          </button>
-        </div>
-
-        <!-- Social Share -->
-        <div class="fp-card rounded-2xl p-4" style="background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.06);">
-          <p class="text-[10px] tracking-widest mb-3" style="color: rgba(255,255,255,0.3);">မျှဝေရန်</p>
-          <div class="grid grid-cols-5 gap-2">
-            <button v-for="s in socialButtons" :key="s.id" @click="shareVia(s.id)"
-              class="flex flex-col items-center gap-1.5 active:scale-90 transition-all">
-              <div class="w-11 h-11 rounded-2xl flex items-center justify-center" :style="`background: ${s.bg}; border: 1px solid ${s.border};`">
-                <span v-html="s.icon" class="w-5 h-5 flex items-center justify-center"></span>
-              </div>
-              <span class="text-[9px]" style="color: rgba(255,255,255,0.32);">{{ s.label }}</span>
-            </button>
-          </div>
-        </div>
-
-        <!-- How to invite -->
-        <div class="fp-card rounded-2xl p-4" style="background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.06);">
-          <p class="text-[10px] tracking-widest mb-3" style="color: rgba(255,255,255,0.3);">ဘောနပ်ရရှိရန် အဆင့်များ</p>
-          <div class="space-y-3">
-            <div v-for="(step, i) in inviteSteps" :key="i" class="flex items-start gap-3">
-              <span class="w-5 h-5 rounded-full flex items-center justify-center text-[9px] font-bold flex-shrink-0 mt-0.5"
-                :style="step.style">{{ i+1 }}</span>
-              <p class="text-xs leading-relaxed" style="color: rgba(255,255,255,0.5);">{{ step.text }}</p>
-            </div>
-          </div>
-        </div>
-
+        </div><!-- /relative z-10 -->
       </div>
 
       <!-- ═══════════════════════════════════════════
@@ -647,6 +826,9 @@ const dlSearch     = ref('')
 const dlLevelFilter= ref(0)
 const activePeriod = ref('today')
 
+// Tree tab state
+const treeSelectedNode = ref('self')
+
 // User info
 const userId          = ref('')
 const username        = ref(localStorage.getItem('sb_username') || '—')
@@ -711,6 +893,13 @@ const filteredDownline = computed(() => {
   if (dlLevelFilter.value > 0) list = list.filter(u => dlLevelFilter.value === 2 ? u.level >= 2 : u.level === dlLevelFilter.value)
   if (dlSearch.value) list = list.filter(u => (u.username||'').toLowerCase().includes(dlSearch.value.toLowerCase()))
   return list
+})
+
+// Tree computed
+const level1Downline = computed(() => allDownline.value.filter(u => u.level === 1))
+const level2UnderSelected = computed(() => {
+  if (treeSelectedNode.value === 'self') return []
+  return allDownline.value.filter(u => u.level === 2)
 })
 
 const myDataRows = computed(() => [
@@ -993,10 +1182,23 @@ function initTicker() {
   })
 }
 
+function animateReferralTab() {
+  gsap.from('.referral-hero-card', { opacity:0, y:22, duration:0.55, ease:'power3.out' })
+  gsap.from('.referral-tree-card', { opacity:0, y:28, duration:0.6, ease:'power3.out', delay:0.12 })
+  gsap.from('.tree-node-root', { opacity:0, scale:0.7, duration:0.5, ease:'back.out(1.8)', delay:0.25 })
+  gsap.from('.tree-node-b', { opacity:0, scale:0.6, y:12, duration:0.45, stagger:0.08, ease:'back.out(1.6)', delay:0.4 })
+  gsap.from('.tree-node-c', { opacity:0, scale:0.6, y:10, duration:0.4, stagger:0.07, ease:'back.out(1.5)', delay:0.6 })
+  // Ambient glow pulse
+  gsap.to('.referral-tab .absolute.inset-0 .rounded-full:first-child', {
+    scale:1.15, opacity:0.7, duration:3.5, yoyo:true, repeat:-1, ease:'sine.inOut'
+  })
+}
+
 onMounted(async () => {
   await loadAll()
   gsap.from('.fp-card', { opacity:0, y:18, duration:0.45, stagger:0.06, ease:'power2.out', delay:0.05 })
   setTimeout(initTicker, 400)
+  if (activeTab.value === 1) animateReferralTab()
 })
 
 onUnmounted(() => {
@@ -1008,4 +1210,56 @@ onUnmounted(() => {
 .no-scrollbar::-webkit-scrollbar { display: none; }
 .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
 .agent-page { -webkit-tap-highlight-color: transparent; }
+
+/* ── Referral Tab — Invisible Interface ── */
+.referral-tab {
+  position: relative;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.referral-hero-card {
+  box-shadow:
+    0 1px 0 0 rgba(255,255,255,0.06) inset,
+    0 24px 48px rgba(0,0,0,0.25),
+    0 0 0 1px rgba(255,255,255,0.03);
+  transition: box-shadow 0.3s ease;
+}
+
+.referral-tree-card {
+  box-shadow:
+    0 1px 0 0 rgba(255,255,255,0.04) inset,
+    0 20px 40px rgba(0,0,0,0.2);
+}
+
+/* 3D Tree viewport */
+.tree-viewport {
+  overflow-x: auto;
+}
+
+.tree-scene {
+  transform-style: preserve-3d;
+  animation: treeFloat 6s ease-in-out infinite;
+}
+
+@keyframes treeFloat {
+  0%, 100% { transform: translateY(0px) rotateX(0deg); }
+  50% { transform: translateY(-3px) rotateX(1deg); }
+}
+
+/* Node hover glow */
+.tree-node-root,
+.tree-node-b,
+.tree-node-c {
+  transition: transform 0.2s ease, filter 0.2s ease;
+}
+.tree-node-root:active,
+.tree-node-b:active {
+  filter: brightness(1.2);
+}
+
+/* Connector line pulse */
+@keyframes linePulse {
+  0%, 100% { opacity: 0.4; }
+  50% { opacity: 0.9; }
+}
 </style>
