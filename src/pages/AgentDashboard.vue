@@ -543,55 +543,163 @@
           </div><!-- /floating node card -->
 
           <!-- ══════════════════════════════════════════════════════
-               REAL DOWNLINE LIST — Supabase ကနေ လာသောဒေတာ
+               REAL DOWNLINE — Futuristic Network Node View
                ════════════════════════════════════════════════════ -->
-          <div class="rounded-3xl overflow-hidden"
-            style="background:rgba(255,255,255,0.025);border:1px solid rgba(255,255,255,0.055);">
+          <div class="real-downline-card relative overflow-hidden rounded-3xl"
+            style="background:rgba(4,6,18,0.9);border:1px solid rgba(100,80,255,0.12);">
+
+            <!-- Header -->
             <div class="px-5 pt-4 pb-3 flex items-center justify-between" style="border-bottom:1px solid rgba(255,255,255,0.05);">
-              <p class="text-[10px] font-bold tracking-[0.18em] uppercase" style="color:rgba(255,255,255,0.4)">ကျွန်ုပ်၏ Downline များ</p>
-              <p class="text-[10px]" style="color:rgba(255,255,255,0.25)">{{ allDownline.length }} members</p>
-            </div>
-            <div v-if="loadingData" class="p-8 flex justify-center">
-              <div class="w-5 h-5 border-2 rounded-full animate-spin" style="border-color:rgba(255,255,255,0.1);border-top-color:rgba(255,193,7,0.6)"></div>
-            </div>
-            <div v-else-if="allDownline.length === 0" class="p-8 flex flex-col items-center gap-2">
-              <div class="w-10 h-10 rounded-2xl flex items-center justify-center" style="background:rgba(255,255,255,0.04);border:1px dashed rgba(255,255,255,0.1)">
-                <svg class="w-5 h-5" style="color:rgba(255,255,255,0.15)" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0z"/></svg>
+              <div class="flex items-center gap-2">
+                <!-- Realtime dot -->
+                <div class="relative flex items-center justify-center">
+                  <div class="absolute w-3 h-3 rounded-full animate-ping" style="background:rgba(80,220,120,0.3)"></div>
+                  <div class="w-1.5 h-1.5 rounded-full" style="background:rgba(80,220,120,0.9);box-shadow:0 0 6px rgba(80,220,120,0.7)"></div>
+                </div>
+                <p class="text-[10px] font-bold tracking-[0.18em] uppercase" style="color:rgba(255,255,255,0.4)">ကျွန်ုပ်၏ DOWNLINE များ</p>
               </div>
-              <p class="text-xs" style="color:rgba(255,255,255,0.25)">Downline မရှိသေးပါ</p>
-              <p class="text-[10px]" style="color:rgba(255,255,255,0.15)">Referral link မျှဝေပြီး ဖိတ်ပါ</p>
+              <div class="flex items-center gap-2">
+                <span v-if="newMemberFlash" class="text-[9px] px-2 py-0.5 rounded-full font-bold animate-pulse"
+                  style="background:rgba(80,220,120,0.15);border:1px solid rgba(80,220,120,0.35);color:rgba(80,220,120,0.9)">+1 NEW</span>
+                <p class="text-[10px]" style="color:rgba(255,255,255,0.25)">{{ allDownline.length }} members</p>
+              </div>
             </div>
-            <div v-else>
-              <div v-for="user in allDownline.slice(0,10)" :key="user.descendant_id"
-                class="flex items-center justify-between px-4 py-3"
-                style="border-bottom:1px solid rgba(255,255,255,0.04)">
-                <div class="flex items-center gap-3">
-                  <div class="w-8 h-8 rounded-xl flex items-center justify-center text-xs font-black flex-shrink-0"
-                    :style="user.level===1
-                      ? 'background:rgba(255,193,7,0.12);color:rgba(255,193,7,0.85);border:1px solid rgba(255,193,7,0.2)'
-                      : 'background:rgba(180,220,255,0.1);color:rgba(180,220,255,0.75);border:1px solid rgba(180,220,255,0.15)'">
-                    {{ (user.username||'?').charAt(0).toUpperCase() }}
+
+            <!-- Loading -->
+            <div v-if="loadingData" class="py-10 flex justify-center">
+              <div class="w-5 h-5 border-2 rounded-full animate-spin" style="border-color:rgba(255,255,255,0.08);border-top-color:rgba(140,100,255,0.6)"></div>
+            </div>
+
+            <!-- ═══ EMPTY STATE — No downline yet ═══ -->
+            <div v-else-if="allDownline.length === 0" class="relative">
+
+              <!-- Plexus Canvas (background) -->
+              <canvas ref="plexusRef"
+                class="absolute inset-0 w-full pointer-events-none"
+                style="height:280px;opacity:0.6"></canvas>
+
+              <!-- Foreground content -->
+              <div class="relative flex flex-col items-center pt-8 pb-6 px-4" style="height:280px;">
+
+                <!-- Futuristic Avatar -->
+                <div class="relative flex items-center justify-center mb-4">
+                  <!-- Outer orbit ring 1 -->
+                  <div class="absolute rounded-full avatar-orbit-1" style="width:110px;height:110px;border:1px solid rgba(120,100,255,0.2)"></div>
+                  <!-- Outer orbit ring 2 -->
+                  <div class="absolute rounded-full avatar-orbit-2" style="width:90px;height:90px;border:1px dashed rgba(0,200,255,0.18)"></div>
+                  <!-- Glow halo -->
+                  <div class="absolute rounded-full" style="width:70px;height:70px;background:radial-gradient(circle,rgba(120,80,255,0.25) 0%,transparent 70%)"></div>
+                  <!-- Main avatar hex -->
+                  <div class="avatar-hex relative z-10 flex items-center justify-center"
+                    style="width:58px;height:58px;background:linear-gradient(135deg,rgba(130,90,255,0.45) 0%,rgba(0,160,255,0.25) 100%);border:2px solid rgba(140,100,255,0.55);border-radius:16px;box-shadow:0 0 30px rgba(120,80,255,0.4),0 0 60px rgba(120,80,255,0.15)">
+                    <span class="text-xl font-black" style="color:rgba(230,220,255,0.95);text-shadow:0 0 15px rgba(160,130,255,0.8)">
+                      {{ (username || '?').charAt(0).toUpperCase() }}
+                    </span>
+                    <!-- Scan line effect -->
+                    <div class="absolute inset-0 rounded-2xl overflow-hidden pointer-events-none">
+                      <div class="avatar-scan"></div>
+                    </div>
                   </div>
-                  <div>
-                    <div class="flex items-center gap-1.5">
-                      <p class="text-xs font-semibold" style="color:rgba(255,255,255,0.75)">{{ user.username || user.descendant_id.substring(0,8) }}</p>
-                      <span class="text-[8px] px-1.5 py-0.5 rounded-full font-bold"
-                        :style="user.level===1
-                          ? 'background:rgba(255,193,7,0.1);color:rgba(255,193,7,0.7)'
-                          : 'background:rgba(180,220,255,0.1);color:rgba(180,220,255,0.65)'">
-                        Lv{{ user.level }}
+                  <!-- 2 open slot dots with dashed lines -->
+                  <div class="absolute" style="left:-38px;top:50%;transform:translateY(-50%)">
+                    <div class="flex flex-col items-center gap-1">
+                      <div class="open-slot-dot"></div>
+                      <div style="width:1px;height:18px;background:linear-gradient(to bottom,rgba(0,200,255,0.3),transparent)"></div>
+                    </div>
+                  </div>
+                  <div class="absolute" style="right:-38px;top:50%;transform:translateY(-50%)">
+                    <div class="flex flex-col items-center gap-1">
+                      <div class="open-slot-dot" style="animation-delay:0.6s"></div>
+                      <div style="width:1px;height:18px;background:linear-gradient(to bottom,rgba(0,200,255,0.3),transparent)"></div>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- Text -->
+                <p class="text-[13px] font-bold mb-1" style="color:rgba(255,255,255,0.6)">Downline မရှိသေးပါ</p>
+                <p class="text-[10px] text-center leading-relaxed" style="color:rgba(255,255,255,0.25);max-width:200px">Referral link မျှဝေပြီး ဖိတ်ပါ<br>Network grow ဖြစ်သင့်ပြီ</p>
+
+                <!-- Connection waiting indicators -->
+                <div class="mt-4 flex items-center gap-3">
+                  <div class="flex items-center gap-1.5">
+                    <div class="w-1.5 h-1.5 rounded-full animate-pulse" style="background:rgba(0,200,255,0.5);animation-delay:0s"></div>
+                    <div class="w-1.5 h-1.5 rounded-full animate-pulse" style="background:rgba(0,200,255,0.4);animation-delay:0.3s"></div>
+                    <div class="w-1.5 h-1.5 rounded-full animate-pulse" style="background:rgba(0,200,255,0.3);animation-delay:0.6s"></div>
+                  </div>
+                  <p class="text-[9px]" style="color:rgba(255,255,255,0.2)">Waiting for connections...</p>
+                </div>
+
+              </div>
+            </div>
+
+            <!-- ═══ ACTIVE STATE — Has downline members ═══ -->
+            <div v-else class="relative">
+
+              <!-- Plexus Canvas background -->
+              <canvas ref="plexusRef"
+                class="absolute inset-0 w-full pointer-events-none"
+                style="height:100%;min-height:220px;opacity:0.45"></canvas>
+
+              <!-- Member nodes -->
+              <div class="relative z-10 px-3 pt-3 pb-3 space-y-2">
+                <div v-for="(user, idx) in allDownline.slice(0, 12)" :key="user.descendant_id"
+                  class="downline-node-row flex items-center gap-3 rounded-2xl px-3 py-2.5 transition-all"
+                  :class="{ 'new-node-flash': user.descendant_id === latestNewMemberId }"
+                  :style="user.level === 1
+                    ? 'background:rgba(120,80,255,0.1);border:1px solid rgba(120,80,255,0.2)'
+                    : 'background:rgba(0,180,255,0.06);border:1px solid rgba(0,180,255,0.12)'">
+
+                  <!-- Avatar node -->
+                  <div class="flex-shrink-0 relative">
+                    <div class="w-9 h-9 rounded-xl flex items-center justify-center text-sm font-black relative overflow-hidden"
+                      :style="user.level === 1
+                        ? 'background:linear-gradient(135deg,rgba(130,90,255,0.35),rgba(90,50,180,0.25));border:1.5px solid rgba(130,90,255,0.5);box-shadow:0 0 14px rgba(120,80,255,0.3)'
+                        : 'background:linear-gradient(135deg,rgba(0,180,255,0.2),rgba(0,120,200,0.15));border:1px solid rgba(0,180,255,0.3);box-shadow:0 0 10px rgba(0,180,255,0.2)'">
+                      <span :style="user.level===1 ? 'color:rgba(220,200,255,0.95)' : 'color:rgba(100,210,255,0.9)'">
+                        {{ (user.username || '?').charAt(0).toUpperCase() }}
                       </span>
+                      <!-- Scan effect on new member -->
+                      <div v-if="user.descendant_id === latestNewMemberId" class="absolute inset-0 avatar-scan"></div>
+                    </div>
+                    <!-- Level badge -->
+                    <div class="absolute -bottom-1 -right-1 w-3.5 h-3.5 rounded-full flex items-center justify-center text-[7px] font-black"
+                      :style="user.level===1
+                        ? 'background:linear-gradient(135deg,#8050ff,#5030cc);color:#fff;box-shadow:0 0 5px rgba(120,80,255,0.5)'
+                        : 'background:linear-gradient(135deg,#0090cc,#006699);color:#fff;box-shadow:0 0 5px rgba(0,160,220,0.4)'">
+                      {{ user.level }}
+                    </div>
+                  </div>
+
+                  <!-- Info -->
+                  <div class="flex-1 min-w-0">
+                    <div class="flex items-center gap-1.5">
+                      <p class="text-[11px] font-semibold truncate" style="color:rgba(255,255,255,0.78)">
+                        {{ user.username || user.descendant_id.substring(0,10) }}
+                      </p>
+                      <span v-if="user.descendant_id === latestNewMemberId"
+                        class="text-[7px] px-1.5 py-0.5 rounded-full font-bold flex-shrink-0 animate-pulse"
+                        style="background:rgba(80,220,120,0.2);border:1px solid rgba(80,220,120,0.4);color:rgba(80,220,120,0.9)">NEW</span>
                     </div>
                     <p class="text-[9px] mt-0.5" style="color:rgba(255,255,255,0.2)">{{ fmtDate(user.created_at) }}</p>
                   </div>
+
+                  <!-- Stats -->
+                  <div class="text-right flex-shrink-0">
+                    <p class="text-[11px] font-bold" style="color:rgba(200,180,255,0.8)">{{ formatN(user.total_deposit||0) }}</p>
+                    <p class="text-[8px]" style="color:rgba(255,255,255,0.18)">VIP {{ user.vip_level||1 }}</p>
+                  </div>
+
                 </div>
-                <div class="text-right">
-                  <p class="text-[11px] font-bold" style="color:rgba(255,193,7,0.8)">{{ formatN(user.total_deposit||0) }} Ks</p>
-                  <p class="text-[8px]" style="color:rgba(255,255,255,0.2)">VIP {{ user.vip_level||1 }}</p>
+
+                <!-- "More members" indicator -->
+                <div v-if="allDownline.length > 12" class="text-center py-1.5">
+                  <p class="text-[9px]" style="color:rgba(255,255,255,0.2)">+ {{ allDownline.length - 12 }} more members in network</p>
                 </div>
               </div>
+
             </div>
-          </div><!-- /real downline list -->
+
+          </div><!-- /real downline card -->
 
           <!-- ── HOW TO INVITE (steps) ── -->
           <div class="rounded-2xl px-4 py-4" style="background:rgba(255,255,255,0.025);border:1px solid rgba(255,255,255,0.055);">
@@ -950,7 +1058,7 @@
 </template>
 
 <script setup>
-import { ref, computed, onMounted, onUnmounted } from 'vue'
+import { ref, computed, onMounted, onUnmounted, nextTick, watch } from 'vue'
 import { gsap } from 'gsap'
 import { supabase } from '@/lib/supabase'
 
@@ -967,6 +1075,13 @@ const activePeriod = ref('today')
 // Tree tab state
 const treeSelectedNode = ref('self')
 const demoTab = ref('A')
+
+// Plexus & realtime state
+const plexusRef         = ref(null)
+const newMemberFlash    = ref(false)
+const latestNewMemberId = ref(null)
+let   plexusRaf         = null
+let   realtimeChannel   = null
 
 // User info
 const userId          = ref('')
@@ -1323,7 +1438,7 @@ function initTicker() {
 
 function animateReferralTab() {
   gsap.from('.referral-hero-card', { opacity:0, y:22, duration:0.55, ease:'power3.out' })
-  gsap.from('.referral-tree-card', { opacity:0, y:28, duration:0.6, ease:'power3.out', delay:0.12 })
+  gsap.from('.floating-node-card', { opacity:0, y:28, duration:0.6, ease:'power3.out', delay:0.12 })
   gsap.from('.tree-node-root', { opacity:0, scale:0.7, duration:0.5, ease:'back.out(1.8)', delay:0.25 })
   gsap.from('.tree-node-b', { opacity:0, scale:0.6, y:12, duration:0.45, stagger:0.08, ease:'back.out(1.6)', delay:0.4 })
   gsap.from('.tree-node-c', { opacity:0, scale:0.6, y:10, duration:0.4, stagger:0.07, ease:'back.out(1.5)', delay:0.6 })
@@ -1333,8 +1448,123 @@ function animateReferralTab() {
   })
 }
 
+// ── Plexus Canvas Animation ─────────────────────────────────────────────
+function initPlexus(canvas) {
+  if (!canvas) return
+  if (plexusRaf) { cancelAnimationFrame(plexusRaf); plexusRaf = null }
+
+  const ctx  = canvas.getContext('2d')
+  const W    = canvas.offsetWidth  || 340
+  const H    = canvas.offsetHeight || 280
+  canvas.width  = W * window.devicePixelRatio
+  canvas.height = H * window.devicePixelRatio
+  ctx.scale(window.devicePixelRatio, window.devicePixelRatio)
+
+  const NUM = 28
+  const MAX_DIST = 90
+  const pts = Array.from({ length: NUM }, () => ({
+    x:  Math.random() * W,
+    y:  Math.random() * H,
+    vx: (Math.random() - 0.5) * 0.45,
+    vy: (Math.random() - 0.5) * 0.45,
+    r:  1.4 + Math.random() * 1.4,
+    hue: Math.random() > 0.5 ? 260 : 195,
+  }))
+
+  function draw() {
+    ctx.clearRect(0, 0, W, H)
+
+    // Update positions
+    for (const p of pts) {
+      p.x += p.vx; p.y += p.vy
+      if (p.x < 0 || p.x > W) p.vx *= -1
+      if (p.y < 0 || p.y > H) p.vy *= -1
+    }
+
+    // Draw connections
+    for (let i = 0; i < pts.length; i++) {
+      for (let j = i + 1; j < pts.length; j++) {
+        const dx = pts[i].x - pts[j].x
+        const dy = pts[i].y - pts[j].y
+        const d  = Math.sqrt(dx * dx + dy * dy)
+        if (d < MAX_DIST) {
+          const alpha = (1 - d / MAX_DIST) * 0.35
+          ctx.beginPath()
+          ctx.moveTo(pts[i].x, pts[i].y)
+          ctx.lineTo(pts[j].x, pts[j].y)
+          ctx.strokeStyle = `hsla(${(pts[i].hue + pts[j].hue) / 2},90%,75%,${alpha})`
+          ctx.lineWidth = 0.7
+          ctx.stroke()
+        }
+      }
+    }
+
+    // Draw nodes
+    for (const p of pts) {
+      ctx.beginPath()
+      ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2)
+      ctx.fillStyle = `hsla(${p.hue},90%,80%,0.75)`
+      ctx.fill()
+      // Glow
+      ctx.beginPath()
+      ctx.arc(p.x, p.y, p.r * 2.5, 0, Math.PI * 2)
+      ctx.fillStyle = `hsla(${p.hue},90%,80%,0.08)`
+      ctx.fill()
+    }
+
+    plexusRaf = requestAnimationFrame(draw)
+  }
+  draw()
+}
+
+// ── Supabase Realtime: watch for new downline members ────────────────────
+async function setupRealtimeDownline(myUserId) {
+  if (realtimeChannel) { supabase.removeChannel(realtimeChannel); realtimeChannel = null }
+
+  realtimeChannel = supabase
+    .channel('downline-watch-' + myUserId)
+    .on(
+      'postgres_changes',
+      { event: 'INSERT', schema: 'public', table: 'affiliate_tree', filter: `ancestor_id=eq.${myUserId}` },
+      async (payload) => {
+        const newRow = payload.new
+        if (!newRow || newRow.level === 0) return
+
+        // Fetch the new member's profile
+        const { data: prof } = await supabase
+          .from('users')
+          .select('id, username, vip_level, total_deposit, created_at')
+          .eq('id', newRow.descendant_id)
+          .single()
+
+        const newMember = { ...(prof || {}), descendant_id: newRow.descendant_id, level: newRow.level }
+
+        // Prepend to downline list (newest first)
+        allDownline.value = [newMember, ...allDownline.value]
+
+        // Flash UI
+        latestNewMemberId.value = newRow.descendant_id
+        newMemberFlash.value = true
+        setTimeout(() => { newMemberFlash.value = false }, 4000)
+        setTimeout(() => { if (latestNewMemberId.value === newRow.descendant_id) latestNewMemberId.value = null }, 6000)
+
+        // Re-init plexus after DOM update
+        await nextTick()
+        if (plexusRef.value) initPlexus(plexusRef.value)
+      }
+    )
+    .subscribe()
+}
+
 onMounted(async () => {
   await loadAll()
+  // Start plexus canvas
+  await nextTick()
+  if (plexusRef.value) initPlexus(plexusRef.value)
+  // Watch plexusRef for when it mounts (tab switch)
+  watch(plexusRef, (el) => { if (el) initPlexus(el) })
+  // Setup realtime if logged in
+  if (userId.value) setupRealtimeDownline(userId.value)
   gsap.from('.fp-card', { opacity:0, y:18, duration:0.45, stagger:0.06, ease:'power2.out', delay:0.05 })
   setTimeout(initTicker, 400)
   if (activeTab.value === 1) animateReferralTab()
@@ -1342,6 +1572,8 @@ onMounted(async () => {
 
 onUnmounted(() => {
   if (tickerTween) tickerTween.kill()
+  if (plexusRaf) { cancelAnimationFrame(plexusRaf); plexusRaf = null }
+  if (realtimeChannel) { supabase.removeChannel(realtimeChannel); realtimeChannel = null }
 })
 </script>
 
@@ -1437,5 +1669,74 @@ onUnmounted(() => {
 /* Ping animation for root node */
 @keyframes ping {
   75%, 100% { transform: scale(1.6); opacity: 0; }
+}
+
+/* ── Real Downline Card ──────────────────────────────────── */
+.real-downline-card {
+  box-shadow:
+    0 1px 0 0 rgba(100,80,255,0.06) inset,
+    0 20px 50px rgba(0,0,0,0.3);
+}
+
+/* Avatar orbit rings */
+.avatar-orbit-1 {
+  animation: orbitSpin1 12s linear infinite;
+}
+@keyframes orbitSpin1 {
+  from { transform: rotate(0deg); }
+  to   { transform: rotate(360deg); }
+}
+.avatar-orbit-2 {
+  animation: orbitSpin2 18s linear infinite reverse;
+}
+@keyframes orbitSpin2 {
+  from { transform: rotate(0deg); }
+  to   { transform: rotate(360deg); }
+}
+
+/* Avatar hex scan line */
+.avatar-scan {
+  position: absolute;
+  left: 0; right: 0;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, rgba(200,180,255,0.6), transparent);
+  animation: scanDown 2.5s ease-in-out infinite;
+}
+@keyframes scanDown {
+  0%   { top: -2px; opacity: 0; }
+  10%  { opacity: 1; }
+  90%  { opacity: 0.4; }
+  100% { top: 100%; opacity: 0; }
+}
+
+/* Open slot dots */
+.open-slot-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  border: 1.5px dashed rgba(0,200,255,0.4);
+  animation: slotPulse 2s ease-in-out infinite;
+}
+@keyframes slotPulse {
+  0%, 100% { border-color: rgba(0,200,255,0.25); box-shadow: none; }
+  50%       { border-color: rgba(0,200,255,0.7);  box-shadow: 0 0 8px rgba(0,200,255,0.3); }
+}
+
+/* Downline member row */
+.downline-node-row {
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+.downline-node-row:active {
+  transform: scale(0.98);
+}
+
+/* New member flash animation */
+.new-node-flash {
+  animation: newFlash 1.5s ease-out;
+}
+@keyframes newFlash {
+  0%   { box-shadow: 0 0 0 0 rgba(80,220,120,0.6); background: rgba(80,220,120,0.18); }
+  50%  { box-shadow: 0 0 20px 4px rgba(80,220,120,0.3); }
+  100% { box-shadow: none; }
 }
 </style>
