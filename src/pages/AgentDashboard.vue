@@ -60,15 +60,18 @@
             style="background: radial-gradient(ellipse, rgba(255,193,7,0.06) 0%, transparent 70%); filter: blur(10px);"></div>
 
           <div class="flex items-center gap-3">
-            <!-- Rank Badge -->
-            <div class="w-14 h-14 rounded-2xl flex items-center justify-center flex-shrink-0 relative"
-              style="background: linear-gradient(135deg, rgba(255,193,7,0.15), rgba(255,152,0,0.08)); border: 1px solid rgba(255,193,7,0.25);">
-              <span class="text-2xl font-black" style="color: rgba(255,193,7,0.9);">{{ agentRank }}</span>
-              <div class="absolute -bottom-1 -right-1 w-5 h-5 rounded-full flex items-center justify-center"
-                style="background: rgba(255,193,7,0.18); border: 1px solid rgba(255,193,7,0.35);">
-                <svg class="w-2.5 h-2.5" style="color: rgba(255,193,7,0.9);" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
+            <!-- Rank Level Badge — click to open Level Modal -->
+            <button @click="showLevelModal = true"
+              class="level-badge-btn w-[62px] h-[62px] rounded-2xl flex-shrink-0 relative flex flex-col items-center justify-center gap-0 active:scale-90 transition-all overflow-hidden"
+              :style="currentLevelData.badgeBg + ';' + currentLevelData.badgeBorder">
+              <div class="absolute inset-0 rounded-2xl pointer-events-none" :style="'background:radial-gradient(ellipse at 50% 25%,' + currentLevelData.glow + ' 0%,transparent 68%)'"></div>
+              <div class="level-badge-shine absolute inset-0 rounded-2xl pointer-events-none"></div>
+              <span class="relative z-10 font-black leading-none" :style="'font-size:26px;' + currentLevelData.numberStyle">{{ agentLevel }}</span>
+              <span class="relative z-10 text-[6px] font-black tracking-[0.18em] uppercase mt-0.5" :style="currentLevelData.tierStyle">{{ currentLevelData.tierName }}</span>
+              <div class="absolute -bottom-1.5 -right-1.5 w-5 h-5 rounded-full flex items-center justify-center" :style="currentLevelData.cornerStyle">
+                <svg class="w-2.5 h-2.5" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
               </div>
-            </div>
+            </button>
 
             <div class="flex-1 min-w-0">
               <div class="flex items-center gap-2 mb-0.5">
@@ -1054,9 +1057,106 @@
       </div>
     </nav>
 
+    <!-- ══════════════════════════════════════════════════════
+         LUXURY GOLD AGENT LEVEL MODAL
+         ════════════════════════════════════════════════════ -->
+    <Transition name="level-modal">
+      <div v-if="showLevelModal"
+        class="fixed inset-0 z-50 flex flex-col justify-end"
+        style="background:rgba(0,0,0,0.78);backdrop-filter:blur(10px)">
+        <div class="absolute inset-0" @click="showLevelModal = false"></div>
+        <div class="relative rounded-t-3xl overflow-hidden"
+          style="background:linear-gradient(180deg,rgba(10,8,22,0.99) 0%,rgba(5,3,12,1) 100%);border-top:1px solid rgba(255,200,0,0.14);max-height:88vh">
+          <div class="absolute top-0 left-0 right-0 h-36 pointer-events-none"
+            style="background:radial-gradient(ellipse at 50% -5%,rgba(255,180,0,0.14) 0%,transparent 68%)"></div>
+          <!-- Header -->
+          <div class="sticky top-0 z-10 px-5 pt-5 pb-3 flex items-center justify-between"
+            style="background:rgba(10,8,22,0.97);border-bottom:1px solid rgba(255,200,0,0.07)">
+            <div>
+              <p class="text-[10px] font-bold tracking-[0.22em] uppercase" style="color:rgba(255,193,7,0.45)">NOVABETT AGENT</p>
+              <h2 class="text-[17px] font-black tracking-wider mt-0.5" style="color:rgba(255,220,100,0.95);text-shadow:0 0 22px rgba(255,193,7,0.45)">Level System</h2>
+            </div>
+            <div class="flex items-center gap-2">
+              <div class="px-3 py-1.5 rounded-xl flex items-center gap-1.5 overflow-hidden relative"
+                :style="currentLevelData.badgeBg + ';' + currentLevelData.badgeBorder">
+                <div class="absolute inset-0 pointer-events-none" :style="'background:radial-gradient(ellipse at 50% 20%,' + currentLevelData.glow + ' 0%,transparent 68%)'"></div>
+                <span class="relative z-10 text-sm font-black" :style="currentLevelData.numberStyle">{{ agentLevel }}</span>
+                <span class="relative z-10 text-[9px] font-black" :style="currentLevelData.tierStyle">{{ currentLevelData.tierName }}</span>
+              </div>
+              <button @click="showLevelModal = false"
+                class="w-8 h-8 rounded-full flex items-center justify-center active:scale-90 transition-all"
+                style="background:rgba(255,255,255,0.07);border:1px solid rgba(255,255,255,0.1);color:rgba(255,255,255,0.4)">
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
+              </button>
+            </div>
+          </div>
+          <!-- Progress bar -->
+          <div v-if="nextLevelData" class="mx-4 mt-3 mb-1 rounded-2xl p-3"
+            style="background:rgba(255,193,7,0.04);border:1px solid rgba(255,193,7,0.09)">
+            <div class="flex items-center justify-between mb-1.5">
+              <p class="text-[10px]" style="color:rgba(255,255,255,0.38)">Next: <span :style="nextLevelData.tierStyle" class="font-bold">{{ nextLevelData.tierName }} LV{{ nextLevelData.level }}</span></p>
+              <p class="text-[10px] font-black" style="color:rgba(255,193,7,0.75)">{{ levelProgress }}%</p>
+            </div>
+            <div class="h-1.5 rounded-full overflow-hidden" style="background:rgba(255,255,255,0.06)">
+              <div class="h-full rounded-full transition-all duration-700"
+                :style="'width:' + levelProgress + '%;' + currentLevelData.badgeBg"></div>
+            </div>
+            <p class="text-[9px] mt-1" style="color:rgba(255,255,255,0.22)">
+              {{ formatN(Math.max(0, nextLevelData.required - totalCommission)) }} Ks more needed
+            </p>
+          </div>
+          <div v-else class="mx-4 mt-3 mb-1 rounded-2xl p-2.5 text-center"
+            style="background:rgba(220,80,255,0.07);border:1px solid rgba(220,80,255,0.22)">
+            <p class="text-[11px] font-black" style="color:rgba(220,120,255,0.95)">✦ MAX LEVEL REACHED ✦</p>
+          </div>
+          <!-- Column headers -->
+          <div class="px-4 py-2 flex items-center gap-2"
+            style="border-bottom:1px solid rgba(255,255,255,0.04)">
+            <div class="w-10 flex-shrink-0"></div>
+            <div class="flex-1 text-[9px] font-bold tracking-widest uppercase" style="color:rgba(255,255,255,0.22)">Level</div>
+            <div class="w-[100px] text-right text-[9px] font-bold tracking-widest uppercase" style="color:rgba(255,255,255,0.22)">Min Commission</div>
+            <div class="w-12 text-right text-[9px] font-bold tracking-widest uppercase" style="color:rgba(255,255,255,0.22)">Rate</div>
+          </div>
+          <!-- Scrollable level rows -->
+          <div class="overflow-y-auto px-3 pt-1 pb-10" style="max-height:55vh">
+            <div v-for="lv in AGENT_LEVELS" :key="lv.level"
+              class="lv-row flex items-center gap-2 px-2 py-2.5 rounded-2xl mb-1.5 transition-all"
+              :class="lv.level === agentLevel ? 'lv-current' : lv.level < agentLevel ? 'lv-past' : 'lv-future'">
+              <!-- Badge icon -->
+              <div class="w-10 h-10 rounded-xl flex-shrink-0 flex flex-col items-center justify-center relative overflow-hidden"
+                :style="lv.badgeBg + ';' + lv.badgeBorder + ';' + (lv.level === agentLevel ? 'box-shadow:0 0 20px ' + lv.glow : '')">
+                <div class="absolute inset-0 pointer-events-none" :style="'background:radial-gradient(ellipse at 50% 20%,' + lv.glow + ' 0%,transparent 65%)'"></div>
+                <span class="relative z-10 text-sm font-black leading-none" :style="lv.numberStyle">{{ lv.level }}</span>
+              </div>
+              <!-- Name + tier -->
+              <div class="flex-1 min-w-0">
+                <div class="flex items-center gap-1.5">
+                  <span class="text-[13px] font-black" :style="lv.level <= agentLevel ? lv.numberStyle : 'color:rgba(255,255,255,0.28)'">LV {{ lv.level }}</span>
+                  <span v-if="lv.level === agentLevel"
+                    class="text-[7px] px-1.5 py-0.5 rounded-full font-black animate-pulse"
+                    style="background:rgba(255,215,0,0.22);color:#FFD700">YOU</span>
+                </div>
+                <span class="text-[9px] font-bold" :style="lv.level <= agentLevel ? lv.tierStyle : 'color:rgba(255,255,255,0.18)'">{{ lv.tierName }}</span>
+              </div>
+              <!-- Required commission -->
+              <div class="w-[100px] text-right">
+                <p class="text-[11px] font-bold" :style="lv.level <= agentLevel ? lv.numberStyle : 'color:rgba(255,255,255,0.25)'">
+                  {{ lv.required === 0 ? '—' : formatN(lv.required) + ' Ks' }}
+                </p>
+              </div>
+              <!-- Rate -->
+              <div class="w-12 text-right">
+                <span class="font-black" :style="'font-size:12px;' + (lv.level === agentLevel ? lv.numberStyle : lv.level < agentLevel ? 'color:rgba(255,255,255,0.38)' : 'color:rgba(255,255,255,0.18)')">
+                  {{ lv.rate }}%
+                </span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </Transition>
   </div>
 </template>
-
 <script setup>
 import { ref, computed, onMounted, onUnmounted, nextTick, watch } from 'vue'
 import { gsap } from 'gsap'
@@ -1075,6 +1175,26 @@ const activePeriod = ref('today')
 // Tree tab state
 const treeSelectedNode = ref('self')
 const demoTab = ref('A')
+const showLevelModal = ref(false)
+
+// ── Agent Level System Data ──────────────────────────────────────────────────
+const AGENT_LEVELS = [
+  { level:1,  required:0,       rate:10.0, tierName:'BRONZE',   badgeBg:'background:linear-gradient(135deg,rgba(139,90,43,0.55),rgba(100,60,20,0.35))',   badgeBorder:'border:1.5px solid rgba(205,127,50,0.55)',  glow:'rgba(205,127,50,0.5)',   numberStyle:'color:#F4A460;text-shadow:0 0 18px rgba(205,127,50,0.8)',   tierStyle:'color:rgba(244,164,96,0.8)',   cornerStyle:'background:rgba(205,127,50,0.25);border:1px solid rgba(205,127,50,0.5);color:#F4A460' },
+  { level:2,  required:100,     rate:10.5, tierName:'BRONZE',   badgeBg:'background:linear-gradient(135deg,rgba(145,95,48,0.6),rgba(105,65,25,0.38))',    badgeBorder:'border:1.5px solid rgba(210,135,55,0.58)',  glow:'rgba(210,135,55,0.5)',   numberStyle:'color:#F4A460;text-shadow:0 0 18px rgba(210,135,55,0.8)',   tierStyle:'color:rgba(244,164,96,0.8)',   cornerStyle:'background:rgba(210,135,55,0.25);border:1px solid rgba(210,135,55,0.5);color:#F4A460' },
+  { level:3,  required:300,     rate:11.0, tierName:'BRONZE',   badgeBg:'background:linear-gradient(135deg,rgba(155,100,52,0.65),rgba(110,70,28,0.4))',   badgeBorder:'border:1.5px solid rgba(215,140,60,0.62)',  glow:'rgba(215,140,60,0.5)',   numberStyle:'color:#FFB347;text-shadow:0 0 20px rgba(215,140,60,0.8)',   tierStyle:'color:rgba(255,179,71,0.85)',  cornerStyle:'background:rgba(215,140,60,0.28);border:1px solid rgba(215,140,60,0.55);color:#FFB347' },
+  { level:4,  required:500,     rate:11.5, tierName:'SILVER',   badgeBg:'background:linear-gradient(135deg,rgba(140,140,150,0.5),rgba(90,90,100,0.32))',  badgeBorder:'border:1.5px solid rgba(192,192,210,0.55)', glow:'rgba(192,192,210,0.45)', numberStyle:'color:#E8E8F0;text-shadow:0 0 18px rgba(192,192,210,0.7)',  tierStyle:'color:rgba(220,220,235,0.8)',  cornerStyle:'background:rgba(192,192,210,0.2);border:1px solid rgba(192,192,210,0.5);color:#E8E8F0' },
+  { level:5,  required:800,     rate:12.0, tierName:'SILVER',   badgeBg:'background:linear-gradient(135deg,rgba(155,155,165,0.55),rgba(100,100,112,0.35))', badgeBorder:'border:1.5px solid rgba(205,205,222,0.6)', glow:'rgba(205,205,222,0.45)', numberStyle:'color:#F0F0FF;text-shadow:0 0 20px rgba(200,200,220,0.7)',  tierStyle:'color:rgba(225,225,240,0.85)', cornerStyle:'background:rgba(205,205,222,0.22);border:1px solid rgba(205,205,222,0.52);color:#F0F0FF' },
+  { level:6,  required:1000,    rate:12.5, tierName:'GOLD',     badgeBg:'background:linear-gradient(135deg,rgba(180,140,0,0.62),rgba(130,100,0,0.38))',   badgeBorder:'border:2px solid rgba(255,210,0,0.7)',     glow:'rgba(255,210,0,0.55)',   numberStyle:'color:#FFE500;text-shadow:0 0 24px rgba(255,215,0,0.9)',    tierStyle:'color:rgba(255,230,0,0.9)',    cornerStyle:'background:rgba(255,210,0,0.25);border:1px solid rgba(255,210,0,0.6);color:#FFE500' },
+  { level:7,  required:10000,   rate:13.0, tierName:'GOLD',     badgeBg:'background:linear-gradient(135deg,rgba(190,150,0,0.65),rgba(140,108,0,0.42))',   badgeBorder:'border:2px solid rgba(255,215,0,0.75)',    glow:'rgba(255,215,0,0.6)',    numberStyle:'color:#FFE800;text-shadow:0 0 28px rgba(255,215,0,1)',      tierStyle:'color:rgba(255,232,0,0.95)',   cornerStyle:'background:rgba(255,215,0,0.28);border:1px solid rgba(255,215,0,0.65);color:#FFE800' },
+  { level:8,  required:30000,   rate:13.5, tierName:'EMERALD',  badgeBg:'background:linear-gradient(135deg,rgba(0,120,70,0.6),rgba(0,80,45,0.38))',       badgeBorder:'border:2px solid rgba(0,200,120,0.65)',    glow:'rgba(0,200,120,0.55)',   numberStyle:'color:#00F090;text-shadow:0 0 24px rgba(0,200,120,0.9)',    tierStyle:'color:rgba(0,220,130,0.9)',    cornerStyle:'background:rgba(0,200,120,0.22);border:1px solid rgba(0,200,120,0.55);color:#00F090' },
+  { level:9,  required:50000,   rate:14.0, tierName:'EMERALD',  badgeBg:'background:linear-gradient(135deg,rgba(0,130,80,0.65),rgba(0,90,50,0.42))',      badgeBorder:'border:2px solid rgba(0,210,130,0.7)',     glow:'rgba(0,210,130,0.6)',    numberStyle:'color:#00FFA0;text-shadow:0 0 28px rgba(0,210,130,1)',      tierStyle:'color:rgba(0,230,140,0.95)',   cornerStyle:'background:rgba(0,200,130,0.25);border:1px solid rgba(0,210,130,0.6);color:#00FFA0' },
+  { level:10, required:80000,   rate:14.5, tierName:'SAPPHIRE', badgeBg:'background:linear-gradient(135deg,rgba(0,80,180,0.65),rgba(0,50,130,0.42))',     badgeBorder:'border:2px solid rgba(0,160,255,0.7)',     glow:'rgba(0,160,255,0.6)',    numberStyle:'color:#40C8FF;text-shadow:0 0 26px rgba(0,180,255,0.9)',    tierStyle:'color:rgba(40,200,255,0.9)',   cornerStyle:'background:rgba(0,160,255,0.22);border:1px solid rgba(0,160,255,0.55);color:#40C8FF' },
+  { level:11, required:100000,  rate:15.0, tierName:'SAPPHIRE', badgeBg:'background:linear-gradient(135deg,rgba(0,90,200,0.7),rgba(0,60,150,0.45))',      badgeBorder:'border:2px solid rgba(0,180,255,0.75)',    glow:'rgba(0,180,255,0.65)',   numberStyle:'color:#60D8FF;text-shadow:0 0 30px rgba(0,200,255,1)',      tierStyle:'color:rgba(60,220,255,0.95)',  cornerStyle:'background:rgba(0,180,255,0.25);border:1px solid rgba(0,180,255,0.6);color:#60D8FF' },
+  { level:12, required:1000000, rate:15.5, tierName:'RUBY',     badgeBg:'background:linear-gradient(135deg,rgba(160,0,60,0.7),rgba(110,0,40,0.45))',      badgeBorder:'border:2px solid rgba(255,50,100,0.75)',   glow:'rgba(255,50,100,0.6)',   numberStyle:'color:#FF6080;text-shadow:0 0 28px rgba(255,50,100,1)',     tierStyle:'color:rgba(255,80,110,0.95)',  cornerStyle:'background:rgba(255,50,100,0.22);border:1px solid rgba(255,50,100,0.6);color:#FF6080' },
+  { level:13, required:3000000, rate:16.0, tierName:'DIAMOND',  badgeBg:'background:linear-gradient(135deg,rgba(100,40,200,0.72),rgba(70,20,150,0.48))',  badgeBorder:'border:2px solid rgba(180,120,255,0.78)',  glow:'rgba(180,120,255,0.65)', numberStyle:'color:#C090FF;text-shadow:0 0 30px rgba(180,120,255,1)',    tierStyle:'color:rgba(190,140,255,0.95)', cornerStyle:'background:rgba(180,120,255,0.22);border:1px solid rgba(180,120,255,0.6);color:#C090FF' },
+  { level:14, required:5000000, rate:16.5, tierName:'LEGEND',   badgeBg:'background:linear-gradient(135deg,rgba(200,80,0,0.75),rgba(150,50,0,0.5))',      badgeBorder:'border:2px solid rgba(255,140,0,0.82)',    glow:'rgba(255,140,0,0.7)',    numberStyle:'color:#FFB030;text-shadow:0 0 32px rgba(255,160,0,1)',      tierStyle:'color:rgba(255,160,30,1)',     cornerStyle:'background:rgba(255,140,0,0.28);border:1px solid rgba(255,140,0,0.68);color:#FFB030' },
+  { level:15, required:8000000, rate:17.0, tierName:'MYTHIC',   badgeBg:'background:linear-gradient(135deg,rgba(140,0,200,0.78),rgba(80,0,160,0.52))',    badgeBorder:'border:2px solid rgba(220,80,255,0.88)',   glow:'rgba(220,80,255,0.75)',  numberStyle:'color:#E080FF;text-shadow:0 0 35px rgba(220,80,255,1),0 0 60px rgba(180,0,255,0.5)', tierStyle:'color:rgba(220,120,255,1)', cornerStyle:'background:rgba(220,80,255,0.28);border:1px solid rgba(220,80,255,0.7);color:#E080FF' },
+]
 
 // Plexus & realtime state
 const plexusRef         = ref(null)
@@ -1130,6 +1250,23 @@ const agentRank = computed(() => {
   if (n >= 20)  return 'B'
   if (n >= 5)   return 'C'
   return '1'
+})
+
+const agentLevel = computed(() => {
+  const comm = totalCommission.value || 0
+  for (let i = AGENT_LEVELS.length - 1; i >= 0; i--) {
+    if (comm >= AGENT_LEVELS[i].required) return AGENT_LEVELS[i].level
+  }
+  return 1
+})
+const currentLevelData = computed(() => AGENT_LEVELS[agentLevel.value - 1])
+const nextLevelData     = computed(() => AGENT_LEVELS[agentLevel.value] || null)
+const levelProgress     = computed(() => {
+  if (!nextLevelData.value) return 100
+  const curr = currentLevelData.value.required
+  const next = nextLevelData.value.required
+  const comm = totalCommission.value || 0
+  return Math.min(100, Math.round(((comm - curr) / (next - curr)) * 100))
 })
 
 const totalDownline  = computed(() => allDownline.value.length)
@@ -1576,7 +1713,6 @@ onUnmounted(() => {
   if (realtimeChannel) { supabase.removeChannel(realtimeChannel); realtimeChannel = null }
 })
 </script>
-
 <style scoped>
 .no-scrollbar::-webkit-scrollbar { display: none; }
 .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
@@ -1739,4 +1875,42 @@ onUnmounted(() => {
   50%  { box-shadow: 0 0 20px 4px rgba(80,220,120,0.3); }
   100% { box-shadow: none; }
 }
+
+/* ── Level Badge Button ─────────────────────────────── */
+.level-badge-btn { cursor: pointer; }
+.level-badge-shine {
+  background: linear-gradient(115deg,transparent 30%,rgba(255,255,255,0.14) 50%,transparent 70%);
+  background-size: 200% 100%;
+  animation: badge-shine 3.8s ease-in-out infinite;
+}
+@keyframes badge-shine {
+  0%   { background-position: 200% 0; }
+  45%  { background-position: -20% 0; }
+  100% { background-position: -20% 0; }
+}
+/* ── Level Modal Transition ─────────────────────────── */
+.level-modal-enter-active { transition: all 0.35s cubic-bezier(0.16,1,0.3,1); }
+.level-modal-leave-active { transition: all 0.22s ease-in; }
+.level-modal-enter-from > div:last-child { transform: translateY(100%); }
+.level-modal-leave-to > div:last-child   { transform: translateY(100%); }
+.level-modal-enter-from { opacity: 0; }
+.level-modal-leave-to   { opacity: 0; }
+/* ── Level Rows ─────────────────────────────────────── */
+.lv-row { position: relative; }
+.lv-current {
+  background: rgba(255,255,255,0.04);
+  border: 1px solid rgba(255,200,0,0.12);
+}
+.lv-current::before {
+  content:'';
+  position:absolute;
+  left:0;top:0;bottom:0;
+  width:3px;
+  border-radius:8px 0 0 8px;
+  background:linear-gradient(180deg,rgba(255,215,0,0.9),rgba(255,140,0,0.7));
+  box-shadow:0 0 12px rgba(255,193,7,0.65);
+}
+.lv-past   { background: rgba(255,255,255,0.012); }
+.lv-future { opacity: 0.5; }
+
 </style>
