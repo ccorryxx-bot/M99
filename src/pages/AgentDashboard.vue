@@ -1,9 +1,9 @@
 <template>
-  <div class="agent-page min-h-screen overflow-x-hidden select-none" style="background: #040608; color: rgba(255,255,255,0.85);">
+  <div class="agent-page min-h-screen overflow-x-hidden select-none" style="background: linear-gradient(160deg,#0d0824 0%,#09061c 40%,#060418 75%,#040310 100%); color: rgba(255,255,255,0.9);">
 
     <!-- ── HEADER ── -->
     <header class="sticky top-0 z-40 px-4 py-3 flex items-center justify-between"
-      style="background: rgba(4,6,8,0.92); backdrop-filter: blur(28px); -webkit-backdrop-filter: blur(28px); border-bottom: 1px solid rgba(255,255,255,0.05);">
+      style="background: rgba(10,7,26,0.88); backdrop-filter: blur(32px) saturate(160%); -webkit-backdrop-filter: blur(32px) saturate(160%); border-bottom: 1px solid rgba(160,120,255,0.12); box-shadow: 0 1px 0 rgba(255,255,255,0.04), 0 4px 20px rgba(0,0,0,0.4);">
       <button @click="$router.push('/home')" class="flex items-center gap-1.5 active:opacity-50 transition-opacity"
         style="color: rgba(255,255,255,0.4);">
         <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/></svg>
@@ -18,7 +18,7 @@
 
     <!-- ── SCROLLABLE TAB BAR ── -->
     <div class="sticky z-30 no-scrollbar overflow-x-auto"
-      style="top: 49px; background: rgba(4,6,8,0.88); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); border-bottom: 1px solid rgba(255,255,255,0.04);">
+      style="top: 49px; background: rgba(9,6,22,0.86); backdrop-filter: blur(28px) saturate(150%); -webkit-backdrop-filter: blur(28px) saturate(150%); border-bottom: 1px solid rgba(140,100,255,0.10); box-shadow: 0 2px 16px rgba(0,0,0,0.35);">
       <div class="flex items-center gap-1.5 px-3 py-2.5 w-max">
         <button v-for="(tab, i) in tabs" :key="i" @click="activeTab = i"
           class="flex-shrink-0 px-3.5 py-1.5 rounded-full text-[11px] font-semibold tracking-wide transition-all duration-200 active:scale-95 whitespace-nowrap"
@@ -55,7 +55,7 @@
 
         <!-- Agent Identity Card -->
         <div class="fp-card rounded-2xl p-4 relative overflow-hidden"
-          style="background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.07); backdrop-filter: blur(20px);">
+          style="background: rgba(20,14,48,0.72); border: 1px solid rgba(180,140,255,0.14); backdrop-filter: blur(28px) saturate(160%); -webkit-backdrop-filter: blur(28px) saturate(160%); box-shadow: 0 8px 32px rgba(0,0,0,0.45), inset 0 1px 0 rgba(255,255,255,0.09);">
           <div class="absolute -top-8 left-1/2 -translate-x-1/2 w-40 h-16 pointer-events-none"
             style="background: radial-gradient(ellipse, rgba(255,193,7,0.06) 0%, transparent 70%); filter: blur(10px);"></div>
 
@@ -413,7 +413,7 @@
         <!-- Stats Grid 2×2 -->
         <div class="grid grid-cols-2 gap-2.5">
           <div v-for="s in statsGrid" :key="s.key" class="fp-card rounded-2xl p-3.5 relative overflow-hidden"
-            style="background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.06);">
+            style="background: rgba(18,12,42,0.70); border: 1px solid rgba(160,120,255,0.12); backdrop-filter: blur(24px); -webkit-backdrop-filter: blur(24px); box-shadow: 0 4px 20px rgba(0,0,0,0.4), inset 0 1px 0 rgba(255,255,255,0.07);">
             <div class="absolute top-0 right-0 w-12 h-12 pointer-events-none"
               :style="`background: radial-gradient(circle, ${s.glow} 0%, transparent 70%); filter: blur(8px);`"></div>
             <p class="text-[9px] tracking-[0.08em] mb-1.5" style="color: rgba(255,255,255,0.28);">{{ s.label }}</p>
@@ -427,11 +427,11 @@
 
         <!-- Referral Panel (ပင်မ tab) -->
         <div class="fp-card rounded-2xl p-4 relative overflow-hidden"
-          style="background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.07); backdrop-filter: blur(16px);">
+          style="background: rgba(16,10,40,0.72); border: 1px solid rgba(180,140,255,0.13); backdrop-filter: blur(28px) saturate(150%); -webkit-backdrop-filter: blur(28px) saturate(150%); box-shadow: 0 8px 28px rgba(0,0,0,0.4), inset 0 1px 0 rgba(255,255,255,0.08);">
           <div class="absolute top-0 left-1/2 -translate-x-1/2 w-32 h-px"
-            style="background: linear-gradient(90deg, transparent, rgba(255,255,255,0.13), transparent);"></div>
+            style="background: linear-gradient(90deg, transparent, rgba(200,160,255,0.18), transparent);"></div>
 
-          <p class="text-[9px] tracking-[0.14em] mb-3" style="color: rgba(255,255,255,0.3);">သင်မျှဝေရန် လင့်</p>
+          <p class="text-[9px] tracking-[0.14em] mb-3" style="color: rgba(255,255,255,0.38);">သင်မျှဝေရန် လင့်</p>
 
           <!-- QR + Link row -->
           <div class="flex gap-3 items-start">
@@ -514,8 +514,7 @@
         <div class="relative z-10 px-4 pt-4 space-y-4">
 
           <!-- ── INVITE HEADER ── -->
-          <div class="referral-hero-card relative overflow-hidden rounded-3xl px-5 pt-5 pb-4"
-            style="background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.07); backdrop-filter: blur(24px);">
+          <div class="referral-hero-card relative overflow-hidden rounded-3xl px-5 pt-5 pb-4">
 
             <!-- top shimmer line -->
             <div class="absolute top-0 left-0 right-0 h-px"
@@ -1001,7 +1000,7 @@
            ═══════════════════════════════════════════ -->
       <div v-else-if="activeTab === 2" class="space-y-3 px-4 pt-4">
 
-        <div class="fp-card rounded-2xl overflow-hidden" style="background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.06);">
+        <div class="fp-card rounded-2xl overflow-hidden">
           <div class="px-4 py-3" style="border-bottom: 1px solid rgba(255,255,255,0.05);">
             <p class="text-xs font-bold tracking-widest" style="color: rgba(255,255,255,0.5);">ACCOUNT INFO</p>
           </div>
@@ -1018,7 +1017,7 @@
         </div>
 
         <!-- Transaction History -->
-        <div class="fp-card rounded-2xl overflow-hidden" style="background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.06);">
+        <div class="fp-card rounded-2xl overflow-hidden">
           <div class="px-4 py-3" style="border-bottom: 1px solid rgba(255,255,255,0.05);">
             <p class="text-xs font-bold tracking-widest" style="color: rgba(255,255,255,0.5);">TRANSACTIONS</p>
           </div>
@@ -1078,7 +1077,7 @@
         </div>
 
         <!-- Level breakdown -->
-        <div class="fp-card rounded-2xl overflow-hidden" style="background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.06);">
+        <div class="fp-card rounded-2xl overflow-hidden">
           <div class="px-4 py-3" style="border-bottom:1px solid rgba(255,255,255,0.05);">
             <p class="text-xs font-bold tracking-widest" style="color:rgba(255,255,255,0.5);">LEVEL BREAKDOWN</p>
           </div>
@@ -1125,7 +1124,7 @@
         </div>
 
         <!-- Commission records -->
-        <div class="fp-card rounded-2xl overflow-hidden" style="background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.06);">
+        <div class="fp-card rounded-2xl overflow-hidden">
           <div class="px-4 py-3" style="border-bottom:1px solid rgba(255,255,255,0.05);">
             <p class="text-xs font-bold tracking-widest" style="color:rgba(255,255,255,0.5);">COMMISSION RECORDS</p>
           </div>
@@ -1180,7 +1179,7 @@
         </div>
 
         <!-- Downline list -->
-        <div class="fp-card rounded-2xl overflow-hidden" style="background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.06);">
+        <div class="fp-card rounded-2xl overflow-hidden">
           <div class="flex items-center justify-between px-4 py-3" style="border-bottom:1px solid rgba(255,255,255,0.05);">
             <p class="text-xs font-bold tracking-widest" style="color:rgba(255,255,255,0.5);">DOWNLINE MEMBERS</p>
             <p class="text-[10px]" style="color:rgba(255,255,255,0.3)">{{ filteredDownline.length }} members</p>
@@ -1238,7 +1237,7 @@
         </div>
 
         <!-- Same list as Tab 5 with full detail -->
-        <div class="fp-card rounded-2xl overflow-hidden" style="background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.06);">
+        <div class="fp-card rounded-2xl overflow-hidden">
           <div class="px-4 py-3" style="border-bottom:1px solid rgba(255,255,255,0.05);">
             <p class="text-xs font-bold tracking-widest" style="color:rgba(255,255,255,0.5);">ALL DOWNLINE</p>
           </div>
@@ -1284,7 +1283,7 @@
       <!-- Note: tabs array has 7 items (index 0–6), this is index 6 visually but we map it to our tabs array -->
       <div v-else-if="activeTab === 7" class="space-y-3 px-4 pt-4">
 
-        <div class="fp-card rounded-2xl p-4" style="background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.06);">
+        <div class="fp-card rounded-2xl p-4">
           <p class="text-xs font-bold tracking-widest mb-4" style="color:rgba(255,255,255,0.5)">COMMISSION TYPES</p>
           <div class="space-y-4">
             <div v-for="ct in commissionTypes" :key="ct.title" class="rounded-xl p-3.5" :style="ct.style">
@@ -1299,7 +1298,7 @@
         </div>
 
         <!-- Schedule -->
-        <div class="fp-card rounded-2xl p-4" style="background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.06);">
+        <div class="fp-card rounded-2xl p-4">
           <p class="text-[10px] tracking-widest mb-3" style="color:rgba(255,255,255,0.3)">ကော်မရှင်ထုတ်ချိန်</p>
           <div class="space-y-2.5">
             <div class="flex justify-between items-center">
@@ -2475,6 +2474,15 @@ onUnmounted(() => {
 .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
 .agent-page { -webkit-tap-highlight-color: transparent; }
 
+/* ── Glass Vibe: fp-card base ── */
+.fp-card {
+  background: rgba(16,10,40,0.68);
+  backdrop-filter: blur(22px) saturate(150%);
+  -webkit-backdrop-filter: blur(22px) saturate(150%);
+  border: 1px solid rgba(150,110,255,0.10);
+  box-shadow: 0 4px 24px rgba(0,0,0,0.38), inset 0 1px 0 rgba(255,255,255,0.07);
+}
+
 /* ── Referral Tab — Invisible Interface ── */
 .referral-tab {
   position: relative;
@@ -2482,19 +2490,27 @@ onUnmounted(() => {
 }
 
 .referral-hero-card {
+  background: rgba(14,9,36,0.74);
+  backdrop-filter: blur(26px) saturate(155%);
+  -webkit-backdrop-filter: blur(26px) saturate(155%);
+  border: 1px solid rgba(170,130,255,0.12);
   box-shadow:
-    0 1px 0 0 rgba(255,255,255,0.06) inset,
-    0 24px 48px rgba(0,0,0,0.25),
-    0 0 0 1px rgba(255,255,255,0.03);
+    0 1px 0 0 rgba(255,255,255,0.09) inset,
+    0 24px 48px rgba(0,0,0,0.38),
+    0 0 0 1px rgba(150,100,255,0.06);
   transition: box-shadow 0.3s ease;
 }
 
 /* Floating Node Card */
 .floating-node-card {
+  background: rgba(12,8,32,0.72);
+  backdrop-filter: blur(24px) saturate(150%);
+  -webkit-backdrop-filter: blur(24px) saturate(150%);
+  border: 1px solid rgba(140,100,255,0.11);
   box-shadow:
-    0 1px 0 0 rgba(140,100,255,0.08) inset,
-    0 20px 50px rgba(0,0,0,0.3),
-    0 0 0 1px rgba(120,100,255,0.05);
+    0 1px 0 0 rgba(140,100,255,0.10) inset,
+    0 20px 50px rgba(0,0,0,0.38),
+    0 0 0 1px rgba(120,100,255,0.07);
 }
 
 /* Ambient particle dots */
@@ -2566,9 +2582,13 @@ onUnmounted(() => {
 
 /* ── Real Downline Card ──────────────────────────────────── */
 .real-downline-card {
+  background: rgba(13,9,34,0.72);
+  backdrop-filter: blur(24px) saturate(150%);
+  -webkit-backdrop-filter: blur(24px) saturate(150%);
+  border: 1px solid rgba(130,90,255,0.11);
   box-shadow:
-    0 1px 0 0 rgba(100,80,255,0.06) inset,
-    0 20px 50px rgba(0,0,0,0.3);
+    0 1px 0 0 rgba(100,80,255,0.09) inset,
+    0 20px 50px rgba(0,0,0,0.38);
 }
 
 /* Avatar orbit rings */
