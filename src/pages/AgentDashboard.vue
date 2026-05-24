@@ -1,5 +1,5 @@
 <template>
-  <div class="agent-page min-h-screen overflow-x-hidden select-none" style="background: linear-gradient(160deg,#0d0824 0%,#09061c 40%,#060418 75%,#040310 100%); color: rgba(255,255,255,0.9);">
+  <div class="agent-page min-h-screen overflow-x-hidden" style="background: linear-gradient(160deg,#0d0824 0%,#09061c 40%,#060418 75%,#040310 100%); color: rgba(255,255,255,0.9);">
 
     <!-- ── HEADER ── -->
     <header class="sticky top-0 z-40 px-4 py-3 flex items-center justify-between"
@@ -310,44 +310,16 @@
                 <!-- Plasma pulse wave 1 -->
                 <div class="reactor-pulse-1 absolute pointer-events-none"
                   :style="`border-color:${currentLevelData.rimColor}70;box-shadow:0 0 12px 2px ${currentLevelData.glowColor},inset 0 0 8px ${currentLevelData.glowColor};`"></div>
-                <!-- Plasma pulse wave 2 (offset) -->
-                <div class="reactor-pulse-2 absolute pointer-events-none"
-                  :style="`border-color:${currentLevelData.rimColor}45;`"></div>
-                <!-- Energy ripple 3 -->
-                <div class="reactor-pulse-3 absolute pointer-events-none"
-                  :style="`border-color:${currentLevelData.rimColor}28;`"></div>
-
-                <!-- ORBIT RINGS: LV1+ (always shown, intensity grows) -->
+<!-- ORBIT RINGS: LV1+ (always shown, intensity grows) -->
                 <div class="evo-orbit evo-orbit-1 absolute pointer-events-none"
                   :style="`border-color:${currentLevelData.rimColor}66;box-shadow:0 0 10px ${currentLevelData.glowColor},0 0 20px ${currentLevelData.glowColor}44;`"></div>
-                <div v-if="agentLevel>=4" class="evo-orbit evo-orbit-2 absolute pointer-events-none"
-                  :style="`border-color:${currentLevelData.rimColor}44;box-shadow:0 0 6px ${currentLevelData.glowColor}66;`"></div>
-                <div v-if="agentLevel>=8" class="evo-orbit evo-orbit-3 absolute pointer-events-none"
-                  :style="`border-color:${currentLevelData.rimColor}30;`"></div>
-
-                <!-- PLASMA GLOW core -->
-                <div class="reactor-core absolute pointer-events-none"
-                  :style="`background:radial-gradient(ellipse at 50% 50%,${currentLevelData.glowColor} 0%,transparent 68%);`"></div>
-
-                <!-- FLOATING PARTICLES: always, count grows per level -->
-                <div v-for="i in Math.min(agentLevel + 2, 12)" :key="`ep${i}`"
+<!-- FLOATING PARTICLES: always, count grows per level -->
+                <div v-for="i in Math.min(agentLevel, 3)" :key="`ep${i}`"
                   :class="`evo-particle evo-ep${i} absolute pointer-events-none`"
                   style="width:3px;height:3px;border-radius:50%;"
                   :style="`background:${currentLevelData.rimColor};box-shadow:0 0 8px 2px ${currentLevelData.glowColor};`"></div>
 
-                <!-- ENERGY RIPPLE — outward burst rings -->
-                <div class="reactor-ripple-a absolute pointer-events-none rounded-full"
-                  :style="`border:1px solid ${currentLevelData.rimColor}55;`"></div>
-                <div class="reactor-ripple-b absolute pointer-events-none rounded-full"
-                  :style="`border:1px solid ${currentLevelData.rimColor}33;`"></div>
-
-                <!-- HOLOGRAM OVERLAY: Diamond (LV13)+ -->
-                <div v-if="agentLevel>=13" class="evo-hologram absolute inset-0 pointer-events-none"></div>
-
-                <!-- COSMIC AURA PULSE: Mythic (LV15) -->
-                <div v-if="agentLevel>=15" class="evo-mythic-aura absolute pointer-events-none"
-                  :style="`background:radial-gradient(ellipse at 50% 48%,${currentLevelData.glowColor} 0%,transparent 70%);`"></div>
-              </button>
+</button>
             </div>
 
             <div class="flex-1 min-w-0">
@@ -441,7 +413,7 @@
             <div class="flex-1 min-w-0 space-y-2">
               <div class="flex items-center gap-2 rounded-xl px-3 py-2.5"
                 style="background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.07);">
-                <p class="text-[11px] font-mono truncate flex-1" style="color: rgba(255,255,255,0.5);">{{ referralLink }}</p>
+                <p class="text-[11px] font-mono flex-1 overflow-x-auto whitespace-nowrap no-scrollbar" style="color: rgba(255,255,255,0.5); user-select: text; -webkit-user-select: text; cursor: text;">{{ referralLink }}</p>
                 <button @click="copyText(referralLink)" class="flex-shrink-0 active:scale-90 transition-all">
                   <svg class="w-4 h-4" :style="copiedLink ? 'color:rgba(100,220,120,0.8)' : 'color:rgba(255,255,255,0.3)'" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" :d="copiedLink ? 'M5 13l4 4L19 7' : 'M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z'"/>
@@ -546,7 +518,7 @@
               <div class="flex-1 min-w-0 space-y-2">
                 <div class="flex items-center gap-2 rounded-xl px-3 py-2.5"
                   style="background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.08);">
-                  <p class="text-[10px] font-mono truncate flex-1" style="color: rgba(255,255,255,0.45);">{{ referralLink }}</p>
+                  <p class="text-[10px] font-mono flex-1 overflow-x-auto whitespace-nowrap no-scrollbar" style="color: rgba(255,255,255,0.45); user-select: text; -webkit-user-select: text; cursor: text;">{{ referralLink }}</p>
                   <button @click="copyText(referralLink)" class="flex-shrink-0 active:scale-75 transition-transform">
                     <svg v-if="!copiedLink" class="w-4 h-4" style="color:rgba(255,255,255,0.3)" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"/></svg>
                     <svg v-else class="w-4 h-4" style="color:rgba(100,220,120,0.9)" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg>
@@ -2344,8 +2316,8 @@ function initPlexus(canvas) {
   canvas.height = H * window.devicePixelRatio
   ctx.scale(window.devicePixelRatio, window.devicePixelRatio)
 
-  const NUM = 28
-  const MAX_DIST = 90
+  const NUM = 8
+  const MAX_DIST = 80
   const pts = Array.from({ length: NUM }, () => ({
     x:  Math.random() * W,
     y:  Math.random() * H,
@@ -2477,8 +2449,8 @@ onUnmounted(() => {
 /* ── Glass Vibe: fp-card base ── */
 .fp-card {
   background: rgba(16,10,40,0.68);
-  backdrop-filter: blur(22px) saturate(150%);
-  -webkit-backdrop-filter: blur(22px) saturate(150%);
+  backdrop-filter: blur(10px) saturate(130%);
+  -webkit-backdrop-filter: blur(10px) saturate(130%);
   border: 1px solid rgba(150,110,255,0.10);
   box-shadow: 0 4px 24px rgba(0,0,0,0.38), inset 0 1px 0 rgba(255,255,255,0.07);
 }
@@ -2491,8 +2463,8 @@ onUnmounted(() => {
 
 .referral-hero-card {
   background: rgba(14,9,36,0.74);
-  backdrop-filter: blur(26px) saturate(155%);
-  -webkit-backdrop-filter: blur(26px) saturate(155%);
+  backdrop-filter: blur(12px) saturate(130%);
+  -webkit-backdrop-filter: blur(12px) saturate(130%);
   border: 1px solid rgba(170,130,255,0.12);
   box-shadow:
     0 1px 0 0 rgba(255,255,255,0.09) inset,
@@ -2504,8 +2476,8 @@ onUnmounted(() => {
 /* Floating Node Card */
 .floating-node-card {
   background: rgba(12,8,32,0.72);
-  backdrop-filter: blur(24px) saturate(150%);
-  -webkit-backdrop-filter: blur(24px) saturate(150%);
+  backdrop-filter: blur(10px) saturate(130%);
+  -webkit-backdrop-filter: blur(10px) saturate(130%);
   border: 1px solid rgba(140,100,255,0.11);
   box-shadow:
     0 1px 0 0 rgba(140,100,255,0.10) inset,
@@ -2673,7 +2645,7 @@ onUnmounted(() => {
   left: 6px; top: 6px;
   border-radius: 50%;
   border: 1.5px solid;
-  animation: reactor-beat 1.8s ease-in-out infinite;
+  animation: reactor-beat 3s ease-in-out infinite;
   pointer-events: none;
 }
 .reactor-pulse-2 {
@@ -2744,7 +2716,7 @@ onUnmounted(() => {
   left: 4px; top: 4px;
   border-width: 1.5px;
   border-style: dashed;
-  animation: evo-cw 3.5s linear infinite;
+  animation: evo-cw 8s linear infinite;
 }
 .evo-orbit-2 {
   width: 102px; height: 102px;
