@@ -60,70 +60,276 @@
             style="background: radial-gradient(ellipse, rgba(255,193,7,0.06) 0%, transparent 70%); filter: blur(10px);"></div>
 
           <div class="flex items-center gap-3">
-            <!-- ═══ LUXURY VIP RANK BADGE ═══ -->
-            <button @click="showLevelModal = true"
-              class="lux-vip-badge flex-shrink-0 active:scale-90 transition-all duration-300"
-              style="width:76px;height:82px;position:relative;flex-shrink:0;">
+            <!-- ══════════════════════════════════════════════
+                 EVOLUTION AGENT BADGE — silhouette changes per tier
+                 Bronze→simple shield · Silver→spikes · Gold→crown
+                 Emerald→wing-buds · Sapphire→full wings
+                 Ruby→battle wings · Diamond→grand pendant
+                 Legend→flame wings · Mythic→cosmic legendary
+                 ══════════════════════════════════════════════ -->
+            <div style="position:relative;width:90px;height:90px;flex-shrink:0;overflow:visible;z-index:2;">
+              <button @click="showLevelModal = true"
+                :class="`evo-badge-btn evo-${badgeTier} active:scale-90 transition-transform duration-200`"
+                style="position:absolute;inset:0;cursor:pointer;overflow:visible;background:none;border:none;padding:0;">
 
-              <!-- Ambient outer glow -->
-              <div class="absolute pointer-events-none lux-outer-aura"
-                :style="`inset:-6px;border-radius:20px;background:radial-gradient(ellipse,${currentLevelData.rimColor}22 0%,transparent 72%);filter:blur(8px);`"></div>
+                <!-- ── SVG SHIELD (silhouette evolves per tier) ── -->
+                <svg xmlns="http://www.w3.org/2000/svg"
+                  style="position:absolute;width:70px;height:70px;left:10px;top:10px;overflow:visible;"
+                  viewBox="0 0 70 70">
+                  <defs>
+                    <linearGradient :id="`mg-${agentLevel}`" x1="5%" y1="5%" x2="95%" y2="95%">
+                      <stop :stop-color="currentLevelData.gradStart" offset="0%"/>
+                      <stop :stop-color="currentLevelData.gradEnd" offset="100%"/>
+                    </linearGradient>
+                    <radialGradient id="mg-sheen" cx="50%" cy="28%" r="58%">
+                      <stop :stop-color="currentLevelData.rimColor" stop-opacity="0.4" offset="0%"/>
+                      <stop stop-color="transparent" stop-opacity="0" offset="100%"/>
+                    </radialGradient>
+                    <filter id="mg-drop">
+                      <feDropShadow dx="0" dy="3" stdDeviation="5" :flood-color="currentLevelData.glowColor" flood-opacity="1"/>
+                    </filter>
+                    <filter id="mg-glow2">
+                      <feGaussianBlur stdDeviation="1.5" result="b"/>
+                      <feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
+                    </filter>
+                  </defs>
 
-              <!-- Pulsing ring -->
-              <div class="absolute pointer-events-none lux-pulse-ring"
-                :style="`inset:0;border-radius:18px;border:1.5px solid ${currentLevelData.rimColor};box-shadow:0 0 14px 2px ${currentLevelData.glowColor},inset 0 0 10px 1px ${currentLevelData.glowColor}33;`"></div>
+                  <!-- TIER 1 — BRONZE: simple round-bottom shield, no extras -->
+                  <g v-if="badgeTier==='bronze'">
+                    <path d="M35,6 L59,15 V39 C59,53 35,63 35,63 C35,63 11,53 11,39 V15 Z"
+                      :fill="`url(#mg-${agentLevel})`" :stroke="currentLevelData.rimColor" stroke-width="1.5" filter="url(#mg-drop)"/>
+                    <path d="M35,9 L56,17 V39 C56,51 35,61 35,61 C35,61 14,51 14,39 V17 Z"
+                      fill="url(#mg-sheen)" stroke="rgba(255,255,255,0.1)" stroke-width="0.5"/>
+                    <path d="M35,9 L56,17 V28 C48,24 41,23 35,23 C29,23 22,24 14,28 V17 Z"
+                      fill="rgba(255,255,255,0.12)" stroke="none"/>
+                  </g>
 
-              <!-- Badge body — layered metallic look -->
-              <div class="absolute inset-0 rounded-[18px] overflow-hidden"
-                :style="currentLevelData.badgeBg">
-                <!-- Top specular highlight -->
-                <div class="absolute inset-x-0 top-0 h-[45%] pointer-events-none"
-                  style="background:linear-gradient(180deg,rgba(255,255,255,0.18) 0%,transparent 100%);border-radius:inherit;"></div>
-                <!-- Bottom depth shadow -->
-                <div class="absolute inset-x-0 bottom-0 h-[38%] pointer-events-none"
-                  style="background:linear-gradient(0deg,rgba(0,0,0,0.42) 0%,transparent 100%);"></div>
-                <!-- Diagonal shine sweep -->
-                <div class="lux-badge-sweep absolute inset-0 pointer-events-none"></div>
-              </div>
+                  <!-- TIER 2 — SILVER: shield + 3 top spikes + side nubs -->
+                  <g v-else-if="badgeTier==='silver'">
+                    <path d="M11,30 L5,35 L11,40 Z" :fill="`url(#mg-${agentLevel})`" :stroke="currentLevelData.rimColor" stroke-width="1"/>
+                    <path d="M59,30 L65,35 L59,40 Z" :fill="`url(#mg-${agentLevel})`" :stroke="currentLevelData.rimColor" stroke-width="1"/>
+                    <path d="M35,6 L59,15 V39 C59,53 35,63 35,63 C35,63 11,53 11,39 V15 Z"
+                      :fill="`url(#mg-${agentLevel})`" :stroke="currentLevelData.rimColor" stroke-width="1.6" filter="url(#mg-drop)"/>
+                    <path d="M35,9 L56,17 V39 C56,51 35,61 35,61 C35,61 14,51 14,39 V17 Z"
+                      fill="url(#mg-sheen)" stroke="rgba(255,255,255,0.1)" stroke-width="0.5"/>
+                    <path d="M35,9 L56,17 V28 C48,24 41,23 35,23 C29,23 22,24 14,28 V17 Z"
+                      fill="rgba(255,255,255,0.13)" stroke="none"/>
+                    <path d="M28,6 L31,0 L34,6 Z" :fill="currentLevelData.rimColor"/>
+                    <path d="M33,4 L35,-2 L37,4 Z" :fill="currentLevelData.rimColor"/>
+                    <path d="M36,6 L39,0 L42,6 Z" :fill="currentLevelData.rimColor"/>
+                    <circle cx="11" cy="15" r="2" :fill="currentLevelData.rimColor" opacity="0.85"/>
+                    <circle cx="59" cy="15" r="2" :fill="currentLevelData.rimColor" opacity="0.85"/>
+                  </g>
 
-              <!-- Crown decoration Gold+ -->
-              <div v-if="agentLevel >= 6" class="absolute z-20 pointer-events-none lux-crown-float"
-                style="top:-11px;left:50%;transform:translateX(-50%);">
-                <svg width="30" height="17" viewBox="0 0 30 17" fill="none">
-                  <path d="M15 1L22 9.5L30 5L25.5 17H4.5L0 5L8 9.5L15 1Z"
-                    :fill="currentLevelData.crownColor"
-                    style="filter:drop-shadow(0 0 5px currentColor)"/>
-                  <circle cx="15" cy="1.5" r="2" :fill="currentLevelData.crownColor" opacity="0.9"/>
-                  <circle cx="30" cy="5" r="1.5" :fill="currentLevelData.crownColor" opacity="0.7"/>
-                  <circle cx="0" cy="5" r="1.5" :fill="currentLevelData.crownColor" opacity="0.7"/>
+                  <!-- TIER 3 — GOLD: shield + 5-peak crown + corner gems -->
+                  <g v-else-if="badgeTier==='gold'">
+                    <polygon points="5,31 8,35 5,39 2,35" :fill="currentLevelData.rimColor" opacity="0.8"/>
+                    <polygon points="65,31 68,35 65,39 62,35" :fill="currentLevelData.rimColor" opacity="0.8"/>
+                    <path d="M35,6 L59,15 V39 C59,53 35,63 35,63 C35,63 11,53 11,39 V15 Z"
+                      :fill="`url(#mg-${agentLevel})`" :stroke="currentLevelData.rimColor" stroke-width="1.8" filter="url(#mg-drop)"/>
+                    <path d="M35,9 L56,17 V39 C56,51 35,61 35,61 C35,61 14,51 14,39 V17 Z"
+                      fill="url(#mg-sheen)" stroke="rgba(255,255,255,0.14)" stroke-width="0.5"/>
+                    <path d="M35,9 L56,17 V28 C48,24 41,23 35,23 C29,23 22,24 14,28 V17 Z"
+                      fill="rgba(255,255,255,0.15)" stroke="none"/>
+                    <path d="M18,7 L22,1 L27,6 L35,-1 L43,6 L48,1 L52,7"
+                      :stroke="currentLevelData.rimColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+                    <circle cx="35" cy="-1" r="3" :fill="currentLevelData.rimColor" filter="url(#mg-glow2)"/>
+                    <circle cx="22" cy="1" r="1.5" :fill="currentLevelData.rimColor" opacity="0.8"/>
+                    <circle cx="48" cy="1" r="1.5" :fill="currentLevelData.rimColor" opacity="0.8"/>
+                  </g>
+
+                  <!-- TIER 4 — EMERALD: shield + wing buds + crown + inner dashed ring -->
+                  <g v-else-if="badgeTier==='emerald'">
+                    <path d="M11,23 C4,21 0,27 2,35 C4,43 11,45 11,45 Z" :fill="`url(#mg-${agentLevel})`" :stroke="currentLevelData.rimColor" stroke-width="1.2"/>
+                    <path d="M59,23 C66,21 70,27 68,35 C66,43 59,45 59,45 Z" :fill="`url(#mg-${agentLevel})`" :stroke="currentLevelData.rimColor" stroke-width="1.2"/>
+                    <polygon points="4,31 7,35 4,39 1,35" :fill="currentLevelData.rimColor" opacity="0.8"/>
+                    <polygon points="66,31 69,35 66,39 63,35" :fill="currentLevelData.rimColor" opacity="0.8"/>
+                    <path d="M35,6 L59,15 V39 C59,53 35,63 35,63 C35,63 11,53 11,39 V15 Z"
+                      :fill="`url(#mg-${agentLevel})`" :stroke="currentLevelData.rimColor" stroke-width="2" filter="url(#mg-drop)"/>
+                    <path d="M35,9 L56,17 V39 C56,51 35,61 35,61 C35,61 14,51 14,39 V17 Z"
+                      fill="url(#mg-sheen)" stroke="rgba(255,255,255,0.15)" stroke-width="0.6"/>
+                    <path d="M35,9 L56,17 V28 C48,24 41,23 35,23 C29,23 22,24 14,28 V17 Z"
+                      fill="rgba(255,255,255,0.16)" stroke="none"/>
+                    <path d="M17,7 L21,1 L26,6 L35,-2 L44,6 L49,1 L53,7"
+                      :stroke="currentLevelData.rimColor" stroke-width="2.2" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+                    <circle cx="35" cy="-2" r="3.5" :fill="currentLevelData.rimColor" filter="url(#mg-glow2)"/>
+                    <circle cx="21" cy="1" r="1.5" :fill="currentLevelData.rimColor" opacity="0.8"/>
+                    <circle cx="49" cy="1" r="1.5" :fill="currentLevelData.rimColor" opacity="0.8"/>
+                    <circle cx="35" cy="36" r="16" fill="none" :stroke="currentLevelData.rimColor" stroke-width="0.8" opacity="0.35" stroke-dasharray="3 2"/>
+                  </g>
+
+                  <!-- TIER 5 — SAPPHIRE: shield + full wings + elaborate crown + dual rings -->
+                  <g v-else-if="badgeTier==='sapphire'">
+                    <path d="M11,20 C3,15 -4,22 -2,33 C0,43 8,48 11,48 L11,23 Z" :fill="`url(#mg-${agentLevel})`" :stroke="currentLevelData.rimColor" stroke-width="1.4"/>
+                    <path d="M59,20 C67,15 74,22 72,33 C70,43 62,48 59,48 L59,23 Z" :fill="`url(#mg-${agentLevel})`" :stroke="currentLevelData.rimColor" stroke-width="1.4"/>
+                    <path d="M-2,33 L-8,26 L-4,20 Z" :fill="`url(#mg-${agentLevel})`" :stroke="currentLevelData.rimColor" stroke-width="0.8"/>
+                    <path d="M72,33 L78,26 L74,20 Z" :fill="`url(#mg-${agentLevel})`" :stroke="currentLevelData.rimColor" stroke-width="0.8"/>
+                    <polygon points="3,27 6,31 3,35 0,31" :fill="currentLevelData.rimColor" opacity="0.9"/>
+                    <polygon points="67,27 70,31 67,35 64,31" :fill="currentLevelData.rimColor" opacity="0.9"/>
+                    <path d="M35,6 L59,15 V39 C59,53 35,63 35,63 C35,63 11,53 11,39 V15 Z"
+                      :fill="`url(#mg-${agentLevel})`" :stroke="currentLevelData.rimColor" stroke-width="2.2" filter="url(#mg-drop)"/>
+                    <path d="M35,9 L56,17 V39 C56,51 35,61 35,61 C35,61 14,51 14,39 V17 Z"
+                      fill="url(#mg-sheen)" stroke="rgba(255,255,255,0.18)" stroke-width="0.6"/>
+                    <path d="M35,9 L56,17 V28 C48,24 41,23 35,23 C29,23 22,24 14,28 V17 Z"
+                      fill="rgba(255,255,255,0.18)" stroke="none"/>
+                    <path d="M15,7 L19,1 L25,6 L31,-3 L35,2 L39,-3 L45,6 L51,1 L55,7"
+                      :stroke="currentLevelData.rimColor" stroke-width="2.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+                    <circle cx="35" cy="2" r="4" :fill="currentLevelData.rimColor" filter="url(#mg-glow2)"/>
+                    <circle cx="31" cy="-3" r="2" :fill="currentLevelData.rimColor" opacity="0.8"/>
+                    <circle cx="39" cy="-3" r="2" :fill="currentLevelData.rimColor" opacity="0.8"/>
+                    <circle cx="35" cy="36" r="19" fill="none" :stroke="currentLevelData.rimColor" stroke-width="0.9" opacity="0.3" stroke-dasharray="3 2"/>
+                    <circle cx="35" cy="36" r="13" fill="none" :stroke="currentLevelData.rimColor" stroke-width="0.7" opacity="0.45"/>
+                  </g>
+
+                  <!-- TIER 6 — RUBY: large battle wings + spike row + bottom pendant -->
+                  <g v-else-if="badgeTier==='ruby'">
+                    <path d="M11,17 C1,9 -7,17 -5,32 C-3,44 6,51 11,51 L11,21 Z" :fill="`url(#mg-${agentLevel})`" :stroke="currentLevelData.rimColor" stroke-width="1.5"/>
+                    <path d="M59,17 C69,9 77,17 75,32 C73,44 64,51 59,51 L59,21 Z" :fill="`url(#mg-${agentLevel})`" :stroke="currentLevelData.rimColor" stroke-width="1.5"/>
+                    <path d="M-5,32 L-12,23 L-6,15 Z" :fill="`url(#mg-${agentLevel})`" :stroke="currentLevelData.rimColor" stroke-width="0.8"/>
+                    <path d="M75,32 L82,23 L76,15 Z" :fill="`url(#mg-${agentLevel})`" :stroke="currentLevelData.rimColor" stroke-width="0.8"/>
+                    <polygon points="1,25 4,29 1,33 -2,29" :fill="currentLevelData.rimColor" opacity="0.9"/>
+                    <polygon points="69,25 72,29 69,33 66,29" :fill="currentLevelData.rimColor" opacity="0.9"/>
+                    <path d="M35,6 L59,15 V39 C59,53 35,63 35,63 C35,63 11,53 11,39 V15 Z"
+                      :fill="`url(#mg-${agentLevel})`" :stroke="currentLevelData.rimColor" stroke-width="2.3" filter="url(#mg-drop)"/>
+                    <path d="M35,9 L56,17 V39 C56,51 35,61 35,61 C35,61 14,51 14,39 V17 Z"
+                      fill="url(#mg-sheen)" stroke="rgba(255,255,255,0.2)" stroke-width="0.6"/>
+                    <path d="M35,9 L56,17 V28 C48,24 41,23 35,23 C29,23 22,24 14,28 V17 Z"
+                      fill="rgba(255,255,255,0.18)" stroke="none"/>
+                    <path d="M26,7 L29,1 L32,7 Z" :fill="currentLevelData.rimColor"/>
+                    <path d="M32,5 L35,-2 L38,5 Z" :fill="currentLevelData.rimColor"/>
+                    <path d="M38,7 L41,1 L44,7 Z" :fill="currentLevelData.rimColor"/>
+                    <circle cx="35" cy="-2" r="2.5" :fill="currentLevelData.rimColor" filter="url(#mg-glow2)"/>
+                    <circle cx="29" cy="1" r="1.5" :fill="currentLevelData.rimColor" opacity="0.8"/>
+                    <circle cx="41" cy="1" r="1.5" :fill="currentLevelData.rimColor" opacity="0.8"/>
+                    <path d="M31,63 L35,71 L39,63 Z" :fill="currentLevelData.rimColor" opacity="0.9"/>
+                    <circle cx="35" cy="36" r="20" fill="none" :stroke="currentLevelData.rimColor" stroke-width="0.9" opacity="0.28" stroke-dasharray="4 2"/>
+                    <circle cx="35" cy="36" r="14" fill="none" :stroke="currentLevelData.rimColor" stroke-width="0.7" opacity="0.4"/>
+                    <circle cx="35" cy="36" r="8" fill="none" :stroke="currentLevelData.rimColor" stroke-width="0.6" opacity="0.55"/>
+                  </g>
+
+                  <!-- TIER 7 — DIAMOND: elaborate wings (upper+lower tips) + pendant ribbon -->
+                  <g v-else-if="badgeTier==='diamond'">
+                    <path d="M11,15 C0,6 -10,15 -8,31 C-6,44 3,52 11,53 L11,19 Z" :fill="`url(#mg-${agentLevel})`" :stroke="currentLevelData.rimColor" stroke-width="1.5"/>
+                    <path d="M59,15 C70,6 80,15 78,31 C76,44 67,52 59,53 L59,19 Z" :fill="`url(#mg-${agentLevel})`" :stroke="currentLevelData.rimColor" stroke-width="1.5"/>
+                    <path d="M-8,31 L-16,20 L-10,12 Z" :fill="`url(#mg-${agentLevel})`" :stroke="currentLevelData.rimColor" stroke-width="0.8"/>
+                    <path d="M78,31 L86,20 L80,12 Z" :fill="`url(#mg-${agentLevel})`" :stroke="currentLevelData.rimColor" stroke-width="0.8"/>
+                    <path d="M-8,31 L-12,43 L-4,41 Z" :fill="`url(#mg-${agentLevel})`" :stroke="currentLevelData.rimColor" stroke-width="0.8"/>
+                    <path d="M78,31 L82,43 L74,41 Z" :fill="`url(#mg-${agentLevel})`" :stroke="currentLevelData.rimColor" stroke-width="0.8"/>
+                    <polygon points="-1,23 2,27 -1,31 -4,27" :fill="currentLevelData.rimColor" opacity="0.9"/>
+                    <polygon points="71,23 74,27 71,31 68,27" :fill="currentLevelData.rimColor" opacity="0.9"/>
+                    <path d="M35,6 L59,15 V39 C59,53 35,63 35,63 C35,63 11,53 11,39 V15 Z"
+                      :fill="`url(#mg-${agentLevel})`" :stroke="currentLevelData.rimColor" stroke-width="2.4" filter="url(#mg-drop)"/>
+                    <path d="M35,9 L56,17 V39 C56,51 35,61 35,61 C35,61 14,51 14,39 V17 Z"
+                      fill="url(#mg-sheen)" stroke="rgba(255,255,255,0.22)" stroke-width="0.6"/>
+                    <path d="M35,9 L56,17 V28 C48,24 41,23 35,23 C29,23 22,24 14,28 V17 Z"
+                      fill="rgba(255,255,255,0.2)" stroke="none"/>
+                    <path d="M22,7 L26,1 L31,6 L35,-4 L39,6 L44,1 L48,7"
+                      :stroke="currentLevelData.rimColor" stroke-width="2.6" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+                    <circle cx="35" cy="-4" r="4" :fill="currentLevelData.rimColor" filter="url(#mg-glow2)"/>
+                    <circle cx="26" cy="1" r="2" :fill="currentLevelData.rimColor" opacity="0.85"/>
+                    <circle cx="44" cy="1" r="2" :fill="currentLevelData.rimColor" opacity="0.85"/>
+                    <path d="M30,63 L35,73 L40,63 L37,77 L35,81 L33,77 Z" :fill="`url(#mg-${agentLevel})`" :stroke="currentLevelData.rimColor" stroke-width="1.3"/>
+                    <circle cx="35" cy="78" r="3" :fill="currentLevelData.rimColor" filter="url(#mg-glow2)"/>
+                    <circle cx="35" cy="36" r="21" fill="none" :stroke="currentLevelData.rimColor" stroke-width="0.9" opacity="0.26" stroke-dasharray="5 2"/>
+                    <circle cx="35" cy="36" r="15" fill="none" :stroke="currentLevelData.rimColor" stroke-width="0.8" opacity="0.36"/>
+                    <circle cx="35" cy="36" r="9" fill="none" :stroke="currentLevelData.rimColor" stroke-width="0.6" opacity="0.5"/>
+                  </g>
+
+                  <!-- TIER 8 — LEGEND: flame wings + fire crown + grand pendant -->
+                  <g v-else-if="badgeTier==='legend'">
+                    <path d="M11,13 C-2,3 -13,13 -11,30 C-9,45 0,54 11,55 C7,46 5,36 7,27 C9,19 13,15 11,13 Z" :fill="`url(#mg-${agentLevel})`" :stroke="currentLevelData.rimColor" stroke-width="1.6"/>
+                    <path d="M59,13 C72,3 83,13 81,30 C79,45 70,54 59,55 C63,46 65,36 63,27 C61,19 57,15 59,13 Z" :fill="`url(#mg-${agentLevel})`" :stroke="currentLevelData.rimColor" stroke-width="1.6"/>
+                    <path d="M-11,30 L-19,18 L-13,10 Z" :fill="`url(#mg-${agentLevel})`" :stroke="currentLevelData.rimColor" stroke-width="0.8"/>
+                    <path d="M81,30 L89,18 L83,10 Z" :fill="`url(#mg-${agentLevel})`" :stroke="currentLevelData.rimColor" stroke-width="0.8"/>
+                    <path d="M-11,30 L-15,44 L-5,42 Z" :fill="`url(#mg-${agentLevel})`" :stroke="currentLevelData.rimColor" stroke-width="0.8"/>
+                    <path d="M81,30 L85,44 L75,42 Z" :fill="`url(#mg-${agentLevel})`" :stroke="currentLevelData.rimColor" stroke-width="0.8"/>
+                    <polygon points="-4,21 -1,25 -4,29 -7,25" :fill="currentLevelData.rimColor"/>
+                    <polygon points="74,21 77,25 74,29 71,25" :fill="currentLevelData.rimColor"/>
+                    <path d="M35,6 L59,15 V39 C59,53 35,63 35,63 C35,63 11,53 11,39 V15 Z"
+                      :fill="`url(#mg-${agentLevel})`" :stroke="currentLevelData.rimColor" stroke-width="2.6" filter="url(#mg-drop)"/>
+                    <path d="M35,9 L56,17 V39 C56,51 35,61 35,61 C35,61 14,51 14,39 V17 Z"
+                      fill="url(#mg-sheen)" stroke="rgba(255,255,255,0.25)" stroke-width="0.7"/>
+                    <path d="M35,9 L56,17 V28 C48,24 41,23 35,23 C29,23 22,24 14,28 V17 Z"
+                      fill="rgba(255,255,255,0.2)" stroke="none"/>
+                    <path d="M20,7 L24,1 L30,6 L35,-5 L40,6 L46,1 L50,7"
+                      :stroke="currentLevelData.rimColor" stroke-width="2.8" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+                    <path d="M32,-5 C31,-9 33,-13 35,-11 C37,-13 39,-9 38,-5" :stroke="currentLevelData.rimColor" stroke-width="2" fill="none" stroke-linecap="round"/>
+                    <circle cx="35" cy="-5" r="4.5" :fill="currentLevelData.rimColor" filter="url(#mg-glow2)"/>
+                    <circle cx="24" cy="1" r="2" :fill="currentLevelData.rimColor" opacity="0.9"/>
+                    <circle cx="46" cy="1" r="2" :fill="currentLevelData.rimColor" opacity="0.9"/>
+                    <path d="M29,63 L35,74 L41,63 L38,79 L35,84 L32,79 Z" :fill="`url(#mg-${agentLevel})`" :stroke="currentLevelData.rimColor" stroke-width="1.4"/>
+                    <circle cx="35" cy="80" r="3.5" :fill="currentLevelData.rimColor" filter="url(#mg-glow2)"/>
+                    <circle cx="35" cy="36" r="22" fill="none" :stroke="currentLevelData.rimColor" stroke-width="0.9" opacity="0.25" stroke-dasharray="5 2"/>
+                    <circle cx="35" cy="36" r="16" fill="none" :stroke="currentLevelData.rimColor" stroke-width="0.8" opacity="0.35"/>
+                    <circle cx="35" cy="36" r="10" fill="none" :stroke="currentLevelData.rimColor" stroke-width="0.7" opacity="0.5"/>
+                  </g>
+
+                  <!-- TIER 9 — MYTHIC: full cosmic legendary — all elements combined -->
+                  <g v-else>
+                    <path d="M11,11 C-5,0 -17,11 -15,30 C-13,47 -1,57 11,58 C5,47 3,36 5,26 C7,17 13,13 11,11 Z" :fill="`url(#mg-${agentLevel})`" :stroke="currentLevelData.rimColor" stroke-width="1.8"/>
+                    <path d="M59,11 C75,0 87,11 85,30 C83,47 71,57 59,58 C65,47 67,36 65,26 C63,17 57,13 59,11 Z" :fill="`url(#mg-${agentLevel})`" :stroke="currentLevelData.rimColor" stroke-width="1.8"/>
+                    <path d="M-15,30 L-24,17 L-17,8 Z" :fill="`url(#mg-${agentLevel})`" :stroke="currentLevelData.rimColor" stroke-width="0.8"/>
+                    <path d="M85,30 L94,17 L87,8 Z" :fill="`url(#mg-${agentLevel})`" :stroke="currentLevelData.rimColor" stroke-width="0.8"/>
+                    <path d="M-15,30 L-20,45 L-9,43 Z" :fill="`url(#mg-${agentLevel})`" :stroke="currentLevelData.rimColor" stroke-width="0.8"/>
+                    <path d="M85,30 L90,45 L79,43 Z" :fill="`url(#mg-${agentLevel})`" :stroke="currentLevelData.rimColor" stroke-width="0.8"/>
+                    <polygon points="-7,18 -4,22 -7,26 -10,22" :fill="currentLevelData.rimColor"/>
+                    <polygon points="77,18 80,22 77,26 74,22" :fill="currentLevelData.rimColor"/>
+                    <path d="M35,6 L59,15 V39 C59,53 35,63 35,63 C35,63 11,53 11,39 V15 Z"
+                      :fill="`url(#mg-${agentLevel})`" :stroke="currentLevelData.rimColor" stroke-width="2.8" filter="url(#mg-drop)"/>
+                    <path d="M35,9 L56,17 V39 C56,51 35,61 35,61 C35,61 14,51 14,39 V17 Z"
+                      fill="url(#mg-sheen)" stroke="rgba(255,255,255,0.28)" stroke-width="0.7"/>
+                    <path d="M35,9 L56,17 V28 C48,24 41,23 35,23 C29,23 22,24 14,28 V17 Z"
+                      fill="rgba(255,255,255,0.22)" stroke="none"/>
+                    <!-- Reactor rings inside shield -->
+                    <circle cx="35" cy="36" r="22" fill="none" :stroke="currentLevelData.rimColor" stroke-width="0.9" opacity="0.25" stroke-dasharray="5 2"/>
+                    <circle cx="35" cy="36" r="17" fill="none" :stroke="currentLevelData.rimColor" stroke-width="0.8" opacity="0.33"/>
+                    <circle cx="35" cy="36" r="12" fill="none" :stroke="currentLevelData.rimColor" stroke-width="0.9" opacity="0.48"/>
+                    <circle cx="35" cy="36" r="6" fill="none" :stroke="currentLevelData.rimColor" stroke-width="1.1" opacity="0.7"/>
+                    <!-- Supreme crown + cosmic flame -->
+                    <path d="M18,7 L22,1 L28,6 L35,-6 L42,6 L48,1 L52,7"
+                      :stroke="currentLevelData.rimColor" stroke-width="3" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+                    <path d="M31,-6 C30,-11 33,-15 35,-13 C37,-15 40,-11 39,-6" :stroke="currentLevelData.rimColor" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+                    <circle cx="35" cy="-6" r="5" :fill="currentLevelData.rimColor" filter="url(#mg-glow2)"/>
+                    <circle cx="22" cy="1" r="2.5" :fill="currentLevelData.rimColor" opacity="0.95"/>
+                    <circle cx="48" cy="1" r="2.5" :fill="currentLevelData.rimColor" opacity="0.95"/>
+                    <!-- Grand pendant -->
+                    <path d="M28,63 L35,76 L42,63 L39,82 L35,87 L31,82 Z" :fill="`url(#mg-${agentLevel})`" :stroke="currentLevelData.rimColor" stroke-width="1.6"/>
+                    <circle cx="35" cy="83" r="4" :fill="currentLevelData.rimColor" filter="url(#mg-glow2)"/>
+                  </g>
                 </svg>
-              </div>
-              <!-- Flame for Mythic/Legend -->
-              <div v-if="agentLevel >= 14" class="absolute z-20 pointer-events-none"
-                style="top:-14px;left:50%;transform:translateX(-50%);">
-                <svg width="24" height="22" viewBox="0 0 24 22" fill="none">
-                  <path d="M12 0C12 0 8 4 8 8C8 6 6 5 6 5C6 5 4 10 8 14C6 13 5 11 5 11C5 11 3 17 8 20C5 20 2 18 2 18C2 18 3 22 12 22C21 22 22 18 22 18C22 18 19 20 16 20C21 17 19 11 19 11C19 11 18 13 16 14C20 10 18 5 18 5C18 5 16 6 16 8C16 4 12 0 12 0Z"
-                    :fill="currentLevelData.crownColor"/>
-                </svg>
-              </div>
 
-              <!-- Number + tier label -->
-              <div class="absolute inset-0 z-10 flex flex-col items-center justify-center"
-                :style="agentLevel >= 6 ? 'padding-top:10px' : ''">
-                <span class="lux-embossed-number font-black leading-none select-none"
-                  :style="`font-size:${agentLevel >= 10 ? '23px' : '27px'};` + currentLevelData.numberStyle">{{ agentLevel }}</span>
-                <span class="text-[6.5px] font-black tracking-[0.2em] uppercase mt-0.5 select-none"
-                  :style="currentLevelData.tierStyle">{{ currentLevelData.tierName }}</span>
-              </div>
+                <!-- Number + tier label centred over shield body -->
+                <div style="position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;padding-top:6px;z-index:20;pointer-events:none;">
+                  <span class="evo-level-num font-black leading-none select-none"
+                    :style="`font-size:${agentLevel>=10?'22px':'26px'};letter-spacing:-0.02em;filter:drop-shadow(0 3px 6px rgba(0,0,0,0.7));` + currentLevelData.numberStyle">{{ agentLevel }}</span>
+                  <span class="text-[6.5px] font-black tracking-[0.2em] uppercase mt-0.5 select-none"
+                    :style="currentLevelData.tierStyle">{{ currentLevelData.tierName }}</span>
+                </div>
 
-              <!-- Corner star gem -->
-              <div class="absolute z-20 -bottom-1.5 -right-1.5 w-[18px] h-[18px] rounded-full flex items-center justify-center"
-                :style="currentLevelData.cornerStyle + ';box-shadow:0 0 8px ' + currentLevelData.glowColor">
-                <svg class="w-2.5 h-2.5" fill="currentColor" viewBox="0 0 20 20">
-                  <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/>
-                </svg>
-              </div>
-            </button>
+                <!-- ORBIT RINGS: Emerald (LV8) → grows per tier -->
+                <div v-if="agentLevel>=8" class="evo-orbit evo-orbit-1 absolute pointer-events-none"
+                  :style="`border-color:${currentLevelData.rimColor}55;box-shadow:0 0 8px ${currentLevelData.glowColor};`"></div>
+                <div v-if="agentLevel>=10" class="evo-orbit evo-orbit-2 absolute pointer-events-none"
+                  :style="`border-color:${currentLevelData.rimColor}38;`"></div>
+                <div v-if="agentLevel>=13" class="evo-orbit evo-orbit-3 absolute pointer-events-none"
+                  :style="`border-color:${currentLevelData.rimColor}22;`"></div>
+
+                <!-- FLOATING PARTICLES: Gold (LV6) → count increases per tier -->
+                <template v-if="agentLevel>=6">
+                  <div v-for="i in evoParticleCount" :key="`ep${i}`"
+                    :class="`evo-particle evo-ep${i} absolute pointer-events-none`"
+                    style="width:4px;height:4px;border-radius:50%;"
+                    :style="`background:${currentLevelData.rimColor};box-shadow:0 0 6px 1px ${currentLevelData.glowColor};`"></div>
+                </template>
+
+                <!-- HOLOGRAM OVERLAY: Diamond (LV13)+ -->
+                <div v-if="agentLevel>=13" class="evo-hologram absolute inset-0 pointer-events-none"></div>
+
+                <!-- COSMIC AURA PULSE: Mythic (LV15) -->
+                <div v-if="agentLevel>=15" class="evo-mythic-aura absolute pointer-events-none"
+                  :style="`background:radial-gradient(ellipse at 50% 48%,${currentLevelData.glowColor} 0%,transparent 70%);`"></div>
+              </button>
+            </div>
 
             <div class="flex-1 min-w-0">
               <div class="flex items-center gap-2 mb-0.5">
@@ -1210,62 +1416,40 @@
               class="lv-row flex items-center gap-2 px-2 py-2.5 rounded-2xl mb-1.5 transition-all duration-300"
               :class="lv.level === agentLevel ? 'lv-current' : lv.level < agentLevel ? 'lv-past' : 'lv-future'">
 
-              <!-- VIP Badge pill (reference-image style) -->
-              <div class="w-[88px] flex-shrink-0 flex items-center gap-1.5">
-                <!-- Hexagon badge shield -->
-                <div class="relative flex-shrink-0" style="width:38px;height:42px;">
-                  <!-- SVG shield shape -->
-                  <svg viewBox="0 0 38 42" class="absolute inset-0 w-full h-full" xmlns="http://www.w3.org/2000/svg">
-                    <defs>
-                      <linearGradient :id="`sg${lv.level}`" x1="0%" y1="0%" x2="100%" y2="100%">
-                        <stop :stop-color="lv.gradStart" offset="0%"/>
-                        <stop :stop-color="lv.gradEnd" offset="100%"/>
-                      </linearGradient>
-                    </defs>
-                    <!-- Shield outer -->
-                    <path d="M19 2L35 9V24C35 33 19 40 19 40C19 40 3 33 3 24V9L19 2Z"
-                      :fill="lv.level <= agentLevel ? `url(#sg${lv.level})` : 'rgba(255,255,255,0.04)'"
-                      :stroke="lv.level <= agentLevel ? lv.rimColor : 'rgba(255,255,255,0.08)'"
-                      stroke-width="1.2"/>
-                    <!-- Inner highlight -->
-                    <path d="M19 5L33 11.5V25C33 32 19 38 19 38C19 38 5 32 5 25V11.5L19 5Z"
-                      fill="rgba(255,255,255,0.07)"
-                      stroke="none"/>
-                  </svg>
-                  <!-- Crown for Gold+ -->
-                  <div v-if="lv.level >= 6 && lv.level <= agentLevel"
-                    class="absolute z-10 pointer-events-none"
-                    style="top:-6px;left:50%;transform:translateX(-50%);">
-                    <svg width="20" height="12" viewBox="0 0 20 12" fill="none">
-                      <path d="M10 1L14.5 7L20 4L17.5 12H2.5L0 4L5.5 7L10 1Z" :fill="lv.crownColor || '#FFD700'" opacity="0.9"/>
-                    </svg>
-                  </div>
-                  <!-- Number inside shield -->
-                  <div class="absolute inset-0 flex items-center justify-center"
-                    style="padding-top:4px">
-                    <span class="font-black leading-none select-none"
-                      :style="`font-size:${lv.level >= 10 ? '12px' : '14px'};` + (lv.level <= agentLevel ? lv.numberStyle : 'color:rgba(255,255,255,0.2)')">
-                      {{ lv.level }}
-                    </span>
-                  </div>
-                  <!-- Glow when current -->
+              <!-- ── EVOLUTION MINI SHIELD (tier shape changes per level) ── -->
+              <!-- ALL levels shown including future ones — psychology: show what to unlock! -->
+              <div class="flex-shrink-0 flex items-center gap-1.5"
+                style="width:90px;">
+                <!-- Evolution mini shield - different silhouette per tier -->
+                <div class="relative flex-shrink-0"
+                  style="width:44px;height:48px;">
+                  <!-- SVG with overflow:visible so wings show -->
+                  <div v-html="miniShieldHtml(lv)"
+                    :style="`width:36px;height:36px;position:absolute;left:4px;top:6px;overflow:visible;opacity:${lv.level > agentLevel ? '0.72' : '1'};`"></div>
+                  <!-- Glow pulse on current level -->
                   <div v-if="lv.level === agentLevel"
-                    class="absolute inset-0 pointer-events-none lux-row-badge-glow"
-                    :style="`box-shadow:0 0 18px 4px ${lv.glowColor};border-radius:4px;`"></div>
+                    class="absolute inset-0 pointer-events-none"
+                    :style="`box-shadow:0 0 20px 5px ${lv.glowColor};border-radius:6px;`"
+                    style="animation:lux-you-pulse 1.6s ease-in-out infinite;"></div>
                 </div>
 
-                <!-- VIP label pill -->
+                <!-- Agency level label -->
                 <div class="flex-1 flex flex-col items-start gap-0.5">
                   <div class="rounded-full px-2 py-0.5 text-[9px] font-black"
                     :style="lv.level <= agentLevel
-                      ? `background:${lv.rimColor}22;border:1px solid ${lv.rimColor}55;` + lv.tierStyle
-                      : 'background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.07);color:rgba(255,255,255,0.2)'">
-                    VIP{{ lv.level }}
+                      ? `background:${lv.rimColor}25;border:1px solid ${lv.rimColor}55;` + lv.tierStyle
+                      : 'background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.08);color:rgba(255,255,255,0.28)'">
+                    AG{{ lv.level }}
                   </div>
                   <span v-if="lv.level === agentLevel"
                     class="text-[7px] px-1.5 py-0.5 rounded-full font-black lux-you-badge"
                     style="background:linear-gradient(90deg,rgba(255,215,0,0.25),rgba(255,140,0,0.2));border:1px solid rgba(255,215,0,0.4);color:#FFD700;">
                     ▶ YOU
+                  </span>
+                  <span v-else-if="lv.level > agentLevel"
+                    class="text-[7px] font-bold"
+                    :style="`color:${lv.rimColor}88;`">
+                    LOCKED
                   </span>
                 </div>
               </div>
@@ -1522,6 +1706,77 @@ const levelProgress     = computed(() => {
   const comm = totalCommission.value || 0
   return Math.min(100, Math.round(((comm - curr) / (next - curr)) * 100))
 })
+
+// ── EVOLUTION BADGE SYSTEM ──────────────────────────────────────
+function getLvTier(level) {
+  if (level <= 3)  return 'bronze'
+  if (level <= 5)  return 'silver'
+  if (level <= 7)  return 'gold'
+  if (level <= 9)  return 'emerald'
+  if (level <= 11) return 'sapphire'
+  if (level === 12) return 'ruby'
+  if (level === 13) return 'diamond'
+  if (level === 14) return 'legend'
+  return 'mythic'
+}
+const badgeTier = computed(() => getLvTier(agentLevel.value))
+const evoParticleCount = computed(() => {
+  const lv = agentLevel.value
+  if (lv >= 15) return 16
+  if (lv >= 14) return 12
+  if (lv >= 13) return 10
+  if (lv >= 12) return 8
+  if (lv >= 10) return 6
+  if (lv >= 8)  return 4
+  return 2
+})
+
+function miniShieldHtml(lv) {
+  const tier = getLvTier(lv.level)
+  const rim = lv.rimColor
+  const gid = `ms${lv.level}`
+  const g1 = lv.gradStart, g2 = lv.gradEnd
+
+  const body = `<path d="M35,6 L59,15 V39 C59,53 35,63 35,63 C35,63 11,53 11,39 V15 Z" fill="url(#${gid})" stroke="${rim}" stroke-width="{{sw}}"/>
+    <path d="M35,9 L56,17 V38 C56,50 35,61 35,61 C35,61 14,50 14,38 V17 Z" fill="rgba(255,255,255,0.13)" stroke="rgba(255,255,255,0.1)" stroke-width="0.5"/>
+    <path d="M35,9 L56,17 V27 C49,24 41,22 35,22 C29,22 21,24 14,27 V17 Z" fill="rgba(255,255,255,0.15)" stroke="none"/>`
+
+  const crown5 = `<path d="M18,7 L22,1 L27,6 L35,-1 L43,6 L48,1 L52,7" stroke="${rim}" stroke-width="1.8" fill="none" stroke-linecap="round" stroke-linejoin="round"/><circle cx="35" cy="-1" r="2.8" fill="${rim}"/>`
+  const crown7 = `<path d="M17,7 L21,1 L26,6 L35,-2 L44,6 L49,1 L53,7" stroke="${rim}" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/><circle cx="35" cy="-2" r="3.2" fill="${rim}"/><circle cx="21" cy="1" r="1.2" fill="${rim}" opacity="0.8"/><circle cx="49" cy="1" r="1.2" fill="${rim}" opacity="0.8"/>`
+  const crown9 = `<path d="M15,7 L19,1 L25,6 L31,-3 L35,2 L39,-3 L45,6 L51,1 L55,7" stroke="${rim}" stroke-width="2.2" fill="none" stroke-linecap="round" stroke-linejoin="round"/><circle cx="35" cy="2" r="3.5" fill="${rim}"/><circle cx="31" cy="-3" r="1.8" fill="${rim}" opacity="0.8"/><circle cx="39" cy="-3" r="1.8" fill="${rim}" opacity="0.8"/>`
+  const spike3 = `<path d="M26,7 L29,1 L32,7 Z" fill="${rim}"/><path d="M32,5 L35,-2 L38,5 Z" fill="${rim}"/><path d="M38,7 L41,1 L44,7 Z" fill="${rim}"/><circle cx="35" cy="-2" r="2.2" fill="${rim}"/>`
+  const crownFire = `<path d="M20,7 L24,1 L30,6 L35,-5 L40,6 L46,1 L50,7" stroke="${rim}" stroke-width="2.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/><path d="M32,-5 C31,-9 33,-13 35,-11 C37,-13 39,-9 38,-5" stroke="${rim}" stroke-width="1.8" fill="none" stroke-linecap="round"/><circle cx="35" cy="-5" r="4" fill="${rim}"/><circle cx="24" cy="1" r="1.8" fill="${rim}" opacity="0.9"/><circle cx="46" cy="1" r="1.8" fill="${rim}" opacity="0.9"/>`
+  const crownCosmic = `<path d="M18,7 L22,1 L28,6 L35,-6 L42,6 L48,1 L52,7" stroke="${rim}" stroke-width="2.8" fill="none" stroke-linecap="round" stroke-linejoin="round"/><path d="M31,-6 C30,-11 33,-15 35,-13 C37,-15 40,-11 39,-6" stroke="${rim}" stroke-width="2.2" fill="none" stroke-linecap="round"/><circle cx="35" cy="-6" r="4.5" fill="${rim}"/><circle cx="22" cy="1" r="2.2" fill="${rim}" opacity="0.95"/><circle cx="48" cy="1" r="2.2" fill="${rim}" opacity="0.95"/>`
+  const pendant = `<path d="M30,63 L35,73 L40,63 L37,77 L35,81 L33,77 Z" fill="url(#${gid})" stroke="${rim}" stroke-width="1.1"/><circle cx="35" cy="78" r="2.5" fill="${rim}"/>`
+  const pendant2 = `<path d="M28,63 L35,76 L42,63 L39,82 L35,87 L31,82 Z" fill="url(#${gid})" stroke="${rim}" stroke-width="1.3"/><circle cx="35" cy="83" r="3.2" fill="${rim}"/>`
+  const ring1 = `<circle cx="35" cy="36" r="16" fill="none" stroke="${rim}" stroke-width="0.7" opacity="0.35" stroke-dasharray="3 2"/>`
+  const ring2 = `${ring1}<circle cx="35" cy="36" r="22" fill="none" stroke="${rim}" stroke-width="0.6" opacity="0.28" stroke-dasharray="4 2"/>`
+  const ring3 = `${ring2}<circle cx="35" cy="36" r="13" fill="none" stroke="${rim}" stroke-width="0.55" opacity="0.42"/>`
+  const reactorRings = `<circle cx="35" cy="36" r="22" fill="none" stroke="${rim}" stroke-width="0.7" opacity="0.22" stroke-dasharray="5 2"/><circle cx="35" cy="36" r="17" fill="none" stroke="${rim}" stroke-width="0.6" opacity="0.3"/><circle cx="35" cy="36" r="12" fill="none" stroke="${rim}" stroke-width="0.7" opacity="0.44"/><circle cx="35" cy="36" r="6" fill="none" stroke="${rim}" stroke-width="1" opacity="0.65"/>`
+  const sideNubs = `<path d="M11,30 L5,35 L11,40 Z" fill="url(#${gid})" stroke="${rim}" stroke-width="0.8"/><path d="M59,30 L65,35 L59,40 Z" fill="url(#${gid})" stroke="${rim}" stroke-width="0.8"/>`
+  const wingBuds = `<path d="M11,23 C4,21 0,27 2,35 C4,43 11,45 11,45 Z" fill="url(#${gid})" stroke="${rim}" stroke-width="1"/><path d="M59,23 C66,21 70,27 68,35 C66,43 59,45 59,45 Z" fill="url(#${gid})" stroke="${rim}" stroke-width="1"/>`
+  const wingsSmall = `<path d="M11,20 C3,15 -4,22 -2,33 C0,43 8,48 11,48 L11,23 Z" fill="url(#${gid})" stroke="${rim}" stroke-width="1.2"/><path d="M59,20 C67,15 74,22 72,33 C70,43 62,48 59,48 L59,23 Z" fill="url(#${gid})" stroke="${rim}" stroke-width="1.2"/><path d="M-2,33 L-8,26 L-4,20 Z" fill="url(#${gid})" stroke="${rim}" stroke-width="0.6"/><path d="M72,33 L78,26 L74,20 Z" fill="url(#${gid})" stroke="${rim}" stroke-width="0.6"/>`
+  const wingsMed = `<path d="M11,17 C1,9 -7,17 -5,32 C-3,44 6,51 11,51 L11,21 Z" fill="url(#${gid})" stroke="${rim}" stroke-width="1.3"/><path d="M59,17 C69,9 77,17 75,32 C73,44 64,51 59,51 L59,21 Z" fill="url(#${gid})" stroke="${rim}" stroke-width="1.3"/><path d="M-5,32 L-12,23 L-6,15 Z" fill="url(#${gid})" stroke="${rim}" stroke-width="0.7"/><path d="M75,32 L82,23 L76,15 Z" fill="url(#${gid})" stroke="${rim}" stroke-width="0.7"/>`
+  const wingsLarge = `<path d="M11,15 C0,6 -10,15 -8,31 C-6,44 3,52 11,53 L11,19 Z" fill="url(#${gid})" stroke="${rim}" stroke-width="1.3"/><path d="M59,15 C70,6 80,15 78,31 C76,44 67,52 59,53 L59,19 Z" fill="url(#${gid})" stroke="${rim}" stroke-width="1.3"/><path d="M-8,31 L-16,20 L-10,12 Z" fill="url(#${gid})" stroke="${rim}" stroke-width="0.7"/><path d="M78,31 L86,20 L80,12 Z" fill="url(#${gid})" stroke="${rim}" stroke-width="0.7"/><path d="M-8,31 L-12,43 L-4,41 Z" fill="url(#${gid})" stroke="${rim}" stroke-width="0.7"/><path d="M78,31 L82,43 L74,41 Z" fill="url(#${gid})" stroke="${rim}" stroke-width="0.7"/>`
+  const wingsFlame = `<path d="M11,13 C-2,3 -13,13 -11,30 C-9,45 0,54 11,55 C7,46 5,36 7,27 C9,19 13,15 11,13 Z" fill="url(#${gid})" stroke="${rim}" stroke-width="1.4"/><path d="M59,13 C72,3 83,13 81,30 C79,45 70,54 59,55 C63,46 65,36 63,27 C61,19 57,15 59,13 Z" fill="url(#${gid})" stroke="${rim}" stroke-width="1.4"/><path d="M-11,30 L-19,18 L-13,10 Z" fill="url(#${gid})" stroke="${rim}" stroke-width="0.7"/><path d="M81,30 L89,18 L83,10 Z" fill="url(#${gid})" stroke="${rim}" stroke-width="0.7"/><path d="M-11,30 L-15,44 L-5,42 Z" fill="url(#${gid})" stroke="${rim}" stroke-width="0.7"/><path d="M81,30 L85,44 L75,42 Z" fill="url(#${gid})" stroke="${rim}" stroke-width="0.7"/>`
+  const wingsCosmic = `<path d="M11,11 C-5,0 -17,11 -15,30 C-13,47 -1,57 11,58 C5,47 3,36 5,26 C7,17 13,13 11,11 Z" fill="url(#${gid})" stroke="${rim}" stroke-width="1.5"/><path d="M59,11 C75,0 87,11 85,30 C83,47 71,57 59,58 C65,47 67,36 65,26 C63,17 57,13 59,11 Z" fill="url(#${gid})" stroke="${rim}" stroke-width="1.5"/><path d="M-15,30 L-24,17 L-17,8 Z" fill="url(#${gid})" stroke="${rim}" stroke-width="0.7"/><path d="M85,30 L94,17 L87,8 Z" fill="url(#${gid})" stroke="${rim}" stroke-width="0.7"/><path d="M-15,30 L-20,45 L-9,43 Z" fill="url(#${gid})" stroke="${rim}" stroke-width="0.7"/><path d="M85,30 L90,45 L79,43 Z" fill="url(#${gid})" stroke="${rim}" stroke-width="0.7"/>`
+  const cornerDiamonds = `<polygon points="4,31 7,35 4,39 1,35" fill="${rim}" opacity="0.8"/><polygon points="66,31 69,35 66,39 63,35" fill="${rim}" opacity="0.8"/>`
+  const cornerDiamonds2 = `<polygon points="1,25 4,29 1,33 -2,29" fill="${rim}" opacity="0.9"/><polygon points="69,25 72,29 69,33 66,29" fill="${rim}" opacity="0.9"/>`
+
+  const shapes = {
+    bronze:   body.replace('{{sw}}','1.5'),
+    silver:   sideNubs + body.replace('{{sw}}','1.6') + `<path d="M28,6 L31,0 L34,6 Z" fill="${rim}"/><path d="M33,4 L35,-2 L37,4 Z" fill="${rim}"/><path d="M36,6 L39,0 L42,6 Z" fill="${rim}"/><circle cx="11" cy="15" r="1.8" fill="${rim}" opacity="0.8"/><circle cx="59" cy="15" r="1.8" fill="${rim}" opacity="0.8"/>`,
+    gold:     cornerDiamonds + body.replace('{{sw}}','1.8') + crown5,
+    emerald:  wingBuds + cornerDiamonds + body.replace('{{sw}}','2') + crown7 + ring1,
+    sapphire: wingsSmall + cornerDiamonds + body.replace('{{sw}}','2.2') + crown9 + ring2,
+    ruby:     wingsMed + cornerDiamonds2 + body.replace('{{sw}}','2.3') + spike3 + `<path d="M31,63 L35,71 L39,63 Z" fill="${rim}" opacity="0.9"/>` + ring3,
+    diamond:  wingsLarge + cornerDiamonds2 + body.replace('{{sw}}','2.4') + crown9 + pendant + ring3,
+    legend:   wingsFlame + `<polygon points="-4,21 -1,25 -4,29 -7,25" fill="${rim}"/><polygon points="74,21 77,25 74,29 71,25" fill="${rim}"/>` + body.replace('{{sw}}','2.6') + crownFire + pendant2 + ring3,
+    mythic:   wingsCosmic + `<polygon points="-7,18 -4,22 -7,26 -10,22" fill="${rim}"/><polygon points="77,18 80,22 77,26 74,22" fill="${rim}"/>` + body.replace('{{sw}}','2.8') + crownCosmic + reactorRings + pendant2,
+  }
+
+  return `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 70 70" style="overflow:visible;width:100%;height:100%;"><defs><linearGradient id="${gid}" x1="5%" y1="5%" x2="95%" y2="95%"><stop stop-color="${g1}" offset="0%"/><stop stop-color="${g2}" offset="100%"/></linearGradient></defs>${shapes[tier] || shapes.bronze}</svg>`
+}
 
 const totalDownline  = computed(() => allDownline.value.length)
 const activeDownline = computed(() => allDownline.value.filter(u=>u.level===1).length)
@@ -2131,101 +2386,169 @@ onUnmounted(() => {
 }
 
 /* ══════════════════════════════════════════════════
-   ✦ LUXURY VIP BADGE & MODAL SYSTEM ✦
+   ✦ EVOLUTION BADGE SYSTEM — tier silhouette changes ✦
+   Bronze→Silver→Gold→Emerald→Sapphire→Ruby→Diamond→Legend→Mythic
    ══════════════════════════════════════════════════ */
 
-/* ── Main VIP Badge Button ──────────────────────── */
-.lux-vip-badge { cursor: pointer; }
+/* ── Badge button base ──────────────────────────── */
+.evo-badge-btn { background: none; border: none; padding: 0; cursor: pointer; }
 
-/* Ambient outer aura — subtle color bleed */
-.lux-outer-aura {
-  animation: lux-aura-breathe 3.2s ease-in-out infinite;
+/* Orbit rings — spin around the badge center */
+.evo-orbit {
+  position: absolute;
+  border-style: solid;
+  border-radius: 50%;
+  pointer-events: none;
 }
-@keyframes lux-aura-breathe {
-  0%, 100% { opacity: 0.55; transform: scale(1); }
-  50%       { opacity: 1;    transform: scale(1.12); }
+.evo-orbit-1 {
+  width: 82px; height: 82px;
+  left: 4px; top: 4px;
+  border-width: 1px;
+  animation: evo-cw 4s linear infinite;
 }
+.evo-orbit-2 {
+  width: 100px; height: 100px;
+  left: -5px; top: -5px;
+  border-width: 1px;
+  animation: evo-ccw 6.5s linear infinite;
+}
+.evo-orbit-3 {
+  width: 118px; height: 118px;
+  left: -14px; top: -14px;
+  border-width: 1px;
+  animation: evo-cw 9s linear infinite;
+}
+@keyframes evo-cw  { to { transform: rotate(360deg);  } }
+@keyframes evo-ccw { to { transform: rotate(-360deg); } }
 
-/* Pulsing border ring */
-.lux-pulse-ring {
-  animation: lux-ring-pulse 2.6s ease-in-out infinite;
+/* Floating particles — orbit the badge at varying radii + speeds */
+.evo-particle {
+  position: absolute;
+  width: 4px; height: 4px;
+  border-radius: 50%;
+  left: calc(50% - 2px);
+  top: calc(50% - 2px);
 }
-@keyframes lux-ring-pulse {
-  0%, 100% { opacity: 0.75; }
-  50%       { opacity: 1; box-shadow: inherit; filter: brightness(1.3); }
-}
+.evo-ep1  { animation: p30  3.2s linear infinite; }
+.evo-ep2  { animation: p30  3.2s linear infinite; animation-delay:-1.6s; }
+.evo-ep3  { animation: p40  4.8s linear infinite; animation-delay:-2.4s; }
+.evo-ep4  { animation: p40  4.8s linear infinite; animation-delay:0s; }
+.evo-ep5  { animation: p50  6.8s linear infinite; animation-delay:-3.4s; }
+.evo-ep6  { animation: p50  6.8s linear infinite; animation-delay:0s; }
+.evo-ep7  { animation: p36r 4.0s linear infinite; animation-delay:0s; }
+.evo-ep8  { animation: p36r 4.0s linear infinite; animation-delay:-2.0s; }
+.evo-ep9  { animation: p46r 5.8s linear infinite; animation-delay:-2.9s; }
+.evo-ep10 { animation: p46r 5.8s linear infinite; animation-delay:0s; }
+.evo-ep11 { animation: p28  2.6s linear infinite; animation-delay:-1.3s; }
+.evo-ep12 { animation: p28  2.6s linear infinite; animation-delay:0s; }
+.evo-ep13 { animation: p55  7.8s linear infinite; animation-delay:-3.9s; }
+.evo-ep14 { animation: p55  7.8s linear infinite; animation-delay:0s; }
+.evo-ep15 { animation: p38  3.7s linear infinite; animation-delay:-1.85s; }
+.evo-ep16 { animation: p44r 5.2s linear infinite; animation-delay:-2.6s; }
 
-/* Diagonal shine sweep across badge body */
-.lux-badge-sweep {
-  background: linear-gradient(
-    118deg,
-    transparent 20%,
-    rgba(255,255,255,0.0) 35%,
-    rgba(255,255,255,0.18) 50%,
-    rgba(255,255,255,0.0) 65%,
-    transparent 80%
+@keyframes p28  { from{transform:rotate(0deg)   translateX(28px)rotate(0deg);}   to{transform:rotate(360deg)  translateX(28px)rotate(-360deg);} }
+@keyframes p30  { from{transform:rotate(0deg)   translateX(30px)rotate(0deg);}   to{transform:rotate(360deg)  translateX(30px)rotate(-360deg);} }
+@keyframes p36r { from{transform:rotate(0deg)   translateX(36px)rotate(0deg);}   to{transform:rotate(-360deg) translateX(36px)rotate(360deg);}  }
+@keyframes p38  { from{transform:rotate(45deg)  translateX(38px)rotate(-45deg);}  to{transform:rotate(405deg)  translateX(38px)rotate(-405deg);} }
+@keyframes p40  { from{transform:rotate(90deg)  translateX(40px)rotate(-90deg);}  to{transform:rotate(450deg)  translateX(40px)rotate(-450deg);} }
+@keyframes p44r { from{transform:rotate(135deg) translateX(44px)rotate(-135deg);} to{transform:rotate(-225deg) translateX(44px)rotate(225deg);}  }
+@keyframes p46r { from{transform:rotate(180deg) translateX(46px)rotate(-180deg);} to{transform:rotate(-180deg) translateX(46px)rotate(180deg);}  }
+@keyframes p50  { from{transform:rotate(270deg) translateX(50px)rotate(-270deg);} to{transform:rotate(630deg)  translateX(50px)rotate(-630deg);} }
+@keyframes p55  { from{transform:rotate(315deg) translateX(55px)rotate(-315deg);} to{transform:rotate(675deg)  translateX(55px)rotate(-675deg);} }
+
+/* Hologram overlay — Diamond (LV13)+ */
+.evo-hologram {
+  border-radius: 14px;
+  background: repeating-linear-gradient(
+    0deg,
+    transparent 0,
+    transparent 3px,
+    rgba(255,255,255,0.035) 3px,
+    rgba(255,255,255,0.035) 4px
   );
-  background-size: 300% 100%;
-  animation: lux-sweep 4.2s cubic-bezier(0.4,0,0.6,1) infinite;
+  mix-blend-mode: overlay;
+  animation: evo-holo 0.65s linear infinite;
+  pointer-events: none;
 }
-@keyframes lux-sweep {
-  0%        { background-position: 300% 0; }
-  40%, 100% { background-position: -50% 0; }
-}
-
-/* Embossed number — depth feel */
-.lux-embossed-number {
-  letter-spacing: -0.02em;
-  filter: drop-shadow(0 3px 6px rgba(0,0,0,0.7));
+@keyframes evo-holo {
+  from { background-position: 0 0; }
+  to   { background-position: 0 7px; }
 }
 
-/* Crown float animation */
-.lux-crown-float {
-  animation: lux-crown-float 2.8s ease-in-out infinite;
+/* Mythic cosmic aura — Mythic (LV15) only */
+.evo-mythic-aura {
+  position: absolute;
+  inset: -24px;
+  border-radius: 50%;
+  animation: evo-mythic-pulse 2.0s ease-in-out infinite;
+  pointer-events: none;
 }
-@keyframes lux-crown-float {
-  0%, 100% { transform: translateX(-50%) translateY(0);   }
-  50%       { transform: translateX(-50%) translateY(-2px); }
+@keyframes evo-mythic-pulse {
+  0%, 100% { opacity: 0.3; transform: scale(1); }
+  50%       { opacity: 0.7; transform: scale(1.12); }
 }
 
-/* ── Level Modal ────────────────────────────────── */
+/* Tier glow filters — progressively more intense */
+.evo-gold    { animation: evo-glow-pulse 3.0s ease-in-out infinite; }
+.evo-emerald { animation: evo-glow-pulse 2.8s ease-in-out infinite; }
+.evo-sapphire{ animation: evo-glow-pulse 2.5s ease-in-out infinite; }
+.evo-ruby    { animation: evo-glow-pulse 2.2s ease-in-out infinite; }
+.evo-diamond { animation: evo-glow-pulse-strong 2.0s ease-in-out infinite; }
+.evo-legend  { animation: evo-fire-glow 1.8s ease-in-out infinite; }
+.evo-mythic  { animation: evo-cosmic-glow 1.5s ease-in-out infinite; }
+
+@keyframes evo-glow-pulse {
+  0%, 100% { filter: brightness(1) drop-shadow(0 0 8px currentColor); }
+  50%       { filter: brightness(1.15) drop-shadow(0 0 16px currentColor); }
+}
+@keyframes evo-glow-pulse-strong {
+  0%, 100% { filter: brightness(1) drop-shadow(0 0 12px currentColor); }
+  50%       { filter: brightness(1.2) drop-shadow(0 0 24px currentColor); }
+}
+@keyframes evo-fire-glow {
+  0%, 100% { filter: drop-shadow(0 0 14px rgba(255,140,0,0.75)) brightness(1); }
+  50%       { filter: drop-shadow(0 0 28px rgba(255,60,0,0.95))  brightness(1.22); }
+}
+@keyframes evo-cosmic-glow {
+  0%, 100% { filter: drop-shadow(0 0 16px rgba(220,80,255,0.8))  brightness(1); }
+  50%       { filter: drop-shadow(0 0 32px rgba(180,0,255,1.0))  brightness(1.25); }
+}
+
+/* ── Modal Sheet ────────────────────────────────── */
 .lux-modal-sheet {
-  box-shadow:
-    0 -8px 60px rgba(0,0,0,0.8),
-    0 -2px 20px rgba(255,180,0,0.06);
+  box-shadow: 0 -8px 60px rgba(0,0,0,0.85), 0 -2px 20px rgba(255,180,0,0.06);
 }
 
 /* ── Modal Transitions ──────────────────────────── */
-.level-modal-enter-active {
-  transition: all 0.38s cubic-bezier(0.16,1,0.3,1);
-}
-.level-modal-leave-active {
-  transition: all 0.24s cubic-bezier(0.4,0,1,1);
-}
+.level-modal-enter-active { transition: all 0.38s cubic-bezier(0.16,1,0.3,1); }
+.level-modal-leave-active { transition: all 0.24s cubic-bezier(0.4,0,1,1); }
 .level-modal-enter-from > div:last-child { transform: translateY(100%); }
-.level-modal-leave-to > div:last-child   { transform: translateY(100%); }
+.level-modal-leave-to   > div:last-child { transform: translateY(100%); }
 .level-modal-enter-from { opacity: 0; }
 .level-modal-leave-to   { opacity: 0; }
 
 /* ── Progress bar shimmer ───────────────────────── */
 .lux-progress-shimmer {
-  background: linear-gradient(
-    90deg,
-    transparent 0%,
-    rgba(255,255,255,0.28) 50%,
-    transparent 100%
-  );
+  background: linear-gradient(90deg, transparent 0%, rgba(255,255,255,0.28) 50%, transparent 100%);
   background-size: 200% 100%;
   animation: lux-shimmer 1.8s linear infinite;
 }
 @keyframes lux-shimmer {
   0%   { background-position: -200% 0; }
-  100% { background-position: 200% 0; }
+  100% { background-position:  200% 0; }
+}
+
+/* YOU badge pulse */
+.lux-you-badge {
+  animation: lux-you-pulse 1.6s ease-in-out infinite;
+}
+@keyframes lux-you-pulse {
+  0%, 100% { opacity: 0.85; }
+  50%       { opacity: 1; box-shadow: 0 0 10px rgba(255,215,0,0.45); }
 }
 
 /* ── Level rows ─────────────────────────────────── */
 .lv-row { position: relative; }
-
 .lv-current {
   background: rgba(255,255,255,0.04);
   border: 1px solid rgba(255,200,0,0.18);
@@ -2240,13 +2563,8 @@ onUnmounted(() => {
   background: linear-gradient(180deg, rgba(255,215,0,0.95), rgba(255,140,0,0.75));
   box-shadow: 0 0 14px rgba(255,193,7,0.7);
 }
-
-.lv-past {
-  background: rgba(255,255,255,0.014);
-}
-
-.lv-future {
-  opacity: 0.42;
+.lv-past   { background: rgba(255,255,255,0.014); }
+.lv-future { opacity: 0.78;
 }
 
 /* Row badge glow pulse for current level */
