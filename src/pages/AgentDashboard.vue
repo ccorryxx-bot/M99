@@ -1430,104 +1430,136 @@
 
           <!-- ── SCROLLABLE LEVEL ROWS ── -->
           <div ref="levelScrollRef" class="overflow-y-auto px-3 pt-2 pb-12 relative" style="max-height:54vh">
-            <!-- Neural Flow Canvas overlay -->
-            <canvas ref="neuralCanvasRef" class="absolute inset-0 pointer-events-none z-[1]" style="opacity:0.55;"></canvas>
             <div v-for="lv in AGENT_LEVELS" :key="lv.level"
-              class="lv-row flex items-center gap-3 px-3 py-3 rounded-2xl mb-2 transition-all duration-300 overflow-hidden relative z-[2]"
-              :class="[
-                lv.level === agentLevel ? 'lv-current' : lv.level < agentLevel ? 'lv-past' : 'lv-future',
-                `lv-tier-${lv.tierName.toLowerCase()}`
-              ]">
+              class="lv-row flex items-center gap-3 px-3 py-3 rounded-2xl mb-2 overflow-hidden relative z-[2]"
+              :class="lv.level === agentLevel ? 'lv-current' : lv.level < agentLevel ? 'lv-past' : 'lv-future'">
 
-              <!-- ── ROW FX OVERLAYS ── -->
-              <div v-if="['GOLD','EMERALD','SAPPHIRE','RUBY','DIAMOND','LEGEND','MYTHIC'].includes(lv.tierName)"
-                class="lv-row-sweep absolute inset-0 pointer-events-none z-0"
-                :style="`background:linear-gradient(105deg,transparent 20%,${lv.rimColor}15 50%,transparent 80%);`">
-              </div>
-              <div class="lv-row-leftbar absolute left-0 top-2 bottom-2 w-[3px] rounded-full pointer-events-none z-0"
+              <!-- Lightweight left accent bar -->
+              <div class="absolute left-0 top-2 bottom-2 w-[3px] rounded-full pointer-events-none"
                 :style="lv.level <= agentLevel
-                  ? `background:linear-gradient(180deg,${lv.rimColor},${lv.glowColor});box-shadow:0 0 12px 3px ${lv.glowColor};`
-                  : 'background:rgba(255,255,255,0.08)'">
-              </div>
-              <div v-if="['SAPPHIRE','RUBY','DIAMOND','LEGEND','MYTHIC'].includes(lv.tierName) && lv.level <= agentLevel"
-                class="lv-row-spin-border absolute inset-0 rounded-2xl pointer-events-none z-0"
-                :style="`background:conic-gradient(from 0deg,transparent,${lv.rimColor}44,transparent,${lv.rimColor}22,transparent);`">
-              </div>
-              <div v-if="['RUBY','DIAMOND','LEGEND','MYTHIC'].includes(lv.tierName)"
-                class="lv-row-fire absolute inset-0 pointer-events-none z-0"
-                :style="`background:linear-gradient(180deg,transparent 55%,${lv.rimColor}14 100%);`">
-              </div>
-              <div v-if="['DIAMOND','LEGEND','MYTHIC'].includes(lv.tierName) && lv.level <= agentLevel"
-                class="lv-row-prism absolute inset-0 pointer-events-none z-0"
-                style="background:linear-gradient(90deg,rgba(255,100,255,0.05),rgba(100,200,255,0.05),rgba(255,200,50,0.05),rgba(100,255,150,0.05));background-size:400% 100%;animation:lv-prism-scroll 3s linear infinite;">
-              </div>
-              <div v-if="['LEGEND','MYTHIC'].includes(lv.tierName)"
-                class="lv-row-cosmic absolute pointer-events-none z-0"
-                style="left:0;right:0;top:50%;height:1px;transform:translateY(-50%);background:linear-gradient(90deg,transparent,rgba(255,140,0,0.4),rgba(220,80,255,0.4),transparent);animation:lv-cosmic-pulse 1.5s ease-in-out infinite;">
-              </div>
-              <div v-if="lv.tierName === 'MYTHIC'"
-                class="absolute inset-0 rounded-2xl pointer-events-none z-0"
-                style="background:radial-gradient(ellipse at 50% 50%,rgba(220,80,255,0.1),transparent 70%);animation:lv-mythic-aura 1.8s ease-in-out infinite;">
+                  ? `background:linear-gradient(180deg,${lv.rimColor},${lv.glowColor});box-shadow:0 0 10px 2px ${lv.glowColor};`
+                  : 'background:rgba(255,255,255,0.07)'">
               </div>
 
-              <!-- Sparkle dots: Emerald+ -->
-              <template v-if="['EMERALD','SAPPHIRE','RUBY','DIAMOND','LEGEND','MYTHIC'].includes(lv.tierName) && lv.level <= agentLevel">
-                <div class="lv-spark absolute pointer-events-none z-0" :style="`left:18%;top:18%;width:2px;height:2px;border-radius:50%;background:${lv.rimColor};box-shadow:0 0 4px ${lv.glowColor};animation:lv-spark-float 2.2s ease-in-out infinite;`"></div>
-                <div class="lv-spark absolute pointer-events-none z-0" :style="`left:38%;top:72%;width:2px;height:2px;border-radius:50%;background:${lv.rimColor};box-shadow:0 0 4px ${lv.glowColor};animation:lv-spark-float 2.8s ease-in-out infinite 0.7s;`"></div>
-                <div class="lv-spark absolute pointer-events-none z-0" :style="`left:62%;top:22%;width:1.5px;height:1.5px;border-radius:50%;background:${lv.rimColor};animation:lv-spark-float 1.9s ease-in-out infinite 1.1s;`"></div>
-                <div v-if="['DIAMOND','LEGEND','MYTHIC'].includes(lv.tierName)"
-                  class="lv-spark absolute pointer-events-none z-0" :style="`left:78%;top:68%;width:2px;height:2px;border-radius:50%;background:${lv.rimColor};box-shadow:0 0 6px ${lv.glowColor};animation:lv-spark-float 2.4s ease-in-out infinite 0.4s;`"></div>
-                <div v-if="['LEGEND','MYTHIC'].includes(lv.tierName)"
-                  class="lv-spark absolute pointer-events-none z-0" :style="`left:90%;top:38%;width:2.5px;height:2.5px;border-radius:50%;background:${lv.rimColor};box-shadow:0 0 8px ${lv.glowColor};animation:lv-spark-float 2.0s ease-in-out infinite 1.5s;`"></div>
-              </template>
+              <!-- ═══════════════════════════════════════════════
+                   ✦ LEGENDARY CROWN SHIELD — all FX on badge ✦
+                   ═══════════════════════════════════════════════ -->
+              <div class="flex-shrink-0 relative z-10" style="width:64px;">
 
-              <!-- ══════════════════════════════════════════════
-                   BADGE: Shield + AG label overlaid ON TOP
-                   ══════════════════════════════════════════════ -->
-              <div class="flex-shrink-0 relative z-10" style="width:58px;">
-                <!-- Shield SVG -->
-                <div class="relative" style="width:48px;height:52px;">
+                <!-- Crown Shield container (all FX inside here) -->
+                <div class="relative mx-auto" style="width:56px;height:56px;">
+
+                  <!-- ① Crown Aura — radial glow bloom behind shield -->
+                  <div class="absolute pointer-events-none crown-aura"
+                    :class="`crown-aura-${lv.tierName.toLowerCase()}`"
+                    :style="`inset:-10px;border-radius:50%;background:radial-gradient(circle,${lv.glowColor}60 0%,${lv.glowColor}25 38%,transparent 68%);`">
+                  </div>
+
+                  <!-- ② Outer rotating ring — Silver+ -->
+                  <div v-if="lv.level >= 4"
+                    class="absolute pointer-events-none crown-ring-outer"
+                    :class="`crown-ring-${lv.tierName.toLowerCase()}`"
+                    :style="`inset:-6px;border-radius:50%;border:1px solid ${lv.rimColor}60;`">
+                  </div>
+
+                  <!-- ③ Inner dashed ring — Gold+ -->
+                  <div v-if="lv.level >= 7"
+                    class="absolute pointer-events-none crown-ring-inner"
+                    :style="`inset:-2px;border-radius:50%;border:1px dashed ${lv.rimColor}80;animation:crown-cw ${lv.level >= 13 ? '2.2' : lv.level >= 10 ? '2.8' : '3.5'}s linear infinite;`">
+                  </div>
+
+                  <!-- ④ Shield SVG (badge itself, larger now) -->
                   <div v-html="miniShieldHtml(lv)"
-                    :style="`width:44px;height:44px;position:absolute;left:2px;top:2px;overflow:visible;filter:${lv.level <= agentLevel ? `drop-shadow(0 0 8px ${lv.glowColor})` : 'none'};opacity:${lv.level > agentLevel ? '0.55' : '1'};`">
-                  </div>
-                  <!-- Glow pulse halo on current level -->
-                  <div v-if="lv.level === agentLevel"
-                    class="absolute inset-0 pointer-events-none rounded-lg"
-                    :style="`box-shadow:0 0 24px 6px ${lv.glowColor};`"
-                    style="animation:lux-you-pulse 1.6s ease-in-out infinite;">
+                    class="absolute"
+                    :style="`width:52px;height:52px;left:2px;top:2px;overflow:visible;`
+                      + (lv.level <= agentLevel
+                        ? `filter:drop-shadow(0 0 12px ${lv.glowColor}) drop-shadow(0 3px 6px rgba(0,0,0,0.9));`
+                        : `filter:drop-shadow(0 2px 4px rgba(0,0,0,0.7)) brightness(0.65) saturate(0.7);`)">
                   </div>
 
-                  <!-- ★ AG LABEL — centered ON the shield ★ -->
-                  <div class="absolute inset-0 flex items-center justify-center">
+                  <!-- ⑤ Royal sweep shimmer across shield face — Bronze+ always -->
+                  <div class="absolute pointer-events-none overflow-hidden" style="inset:4px;border-radius:8px;">
+                    <div class="absolute inset-0 crown-royal-sweep"
+                      :style="`background:linear-gradient(110deg,transparent 20%,${lv.rimColor}${lv.level <= agentLevel ? '35' : '12'} 50%,transparent 80%);`">
+                    </div>
+                  </div>
+
+                  <!-- ⑥ Floating gem particles — close orbit around shield (Gold+) -->
+                  <template v-if="lv.level >= 7">
+                    <!-- Gem A — clockwise primary orbit -->
+                    <div class="absolute pointer-events-none crown-gem"
+                      style="left:50%;top:50%;width:4px;height:4px;margin-left:-2px;margin-top:-2px;border-radius:50%;"
+                      :style="`background:${lv.rimColor};box-shadow:0 0 7px 2px ${lv.glowColor};`
+                        + `animation:crown-gem-a ${lv.level >= 22 ? '1.4' : lv.level >= 19 ? '1.7' : lv.level >= 16 ? '2.0' : lv.level >= 13 ? '2.4' : lv.level >= 10 ? '2.9' : '3.6'}s linear infinite;`">
+                    </div>
+                    <!-- Gem B — counter-clockwise offset -->
+                    <div class="absolute pointer-events-none crown-gem"
+                      style="left:50%;top:50%;width:3px;height:3px;margin-left:-1.5px;margin-top:-1.5px;border-radius:50%;"
+                      :style="`background:rgba(255,255,255,0.95);box-shadow:0 0 6px 2px ${lv.glowColor};`
+                        + `animation:crown-gem-b ${lv.level >= 22 ? '1.6' : lv.level >= 19 ? '2.0' : lv.level >= 16 ? '2.4' : lv.level >= 13 ? '2.8' : lv.level >= 10 ? '3.3' : '4.2'}s linear infinite;`">
+                    </div>
+                    <!-- Gem C — Emerald+ third gem -->
+                    <div v-if="lv.level >= 10"
+                      class="absolute pointer-events-none crown-gem"
+                      style="left:50%;top:50%;width:3px;height:3px;margin-left:-1.5px;margin-top:-1.5px;border-radius:50%;"
+                      :style="`background:${lv.rimColor};box-shadow:0 0 5px 2px ${lv.glowColor};`
+                        + `animation:crown-gem-c ${lv.level >= 22 ? '1.8' : lv.level >= 19 ? '2.2' : lv.level >= 16 ? '2.7' : lv.level >= 13 ? '3.1' : '3.8'}s linear infinite;`">
+                    </div>
+                    <!-- Gem D — Ruby+ fourth prestige gem -->
+                    <div v-if="lv.level >= 16"
+                      class="absolute pointer-events-none crown-gem"
+                      style="left:50%;top:50%;width:4px;height:4px;margin-left:-2px;margin-top:-2px;border-radius:1px;"
+                      :style="`background:${lv.rimColor};box-shadow:0 0 8px 3px ${lv.glowColor};`
+                        + `animation:crown-gem-d ${lv.level >= 22 ? '2.0' : lv.level >= 19 ? '2.5' : '3.0'}s linear infinite;`">
+                    </div>
+                  </template>
+
+                  <!-- ⑦ Prestige particle sparks — Diamond+ -->
+                  <template v-if="lv.level >= 19 && lv.level <= agentLevel">
+                    <div class="absolute pointer-events-none"
+                      style="left:50%;top:50%;width:2px;height:2px;margin-left:-1px;margin-top:-1px;border-radius:50%;"
+                      :style="`background:rgba(255,255,255,0.9);box-shadow:0 0 5px rgba(255,255,255,0.8);animation:crown-prestige-a 1.2s ease-in-out infinite;`">
+                    </div>
+                    <div class="absolute pointer-events-none"
+                      style="left:50%;top:50%;width:2px;height:2px;margin-left:-1px;margin-top:-1px;border-radius:50%;"
+                      :style="`background:${lv.rimColor};box-shadow:0 0 5px ${lv.glowColor};animation:crown-prestige-b 1.5s ease-in-out infinite 0.6s;`">
+                    </div>
+                  </template>
+
+                  <!-- ⑧ YOU level — extra strong crown halo -->
+                  <div v-if="lv.level === agentLevel"
+                    class="absolute pointer-events-none"
+                    style="inset:-12px;border-radius:50%;animation:crown-you-halo 1.5s ease-in-out infinite;"
+                    :style="`background:radial-gradient(circle,${lv.glowColor}45 0%,transparent 65%);`">
+                  </div>
+
+                  <!-- ⑨ AG label centered on shield -->
+                  <div class="absolute inset-0 flex items-center justify-center" style="padding-top:4px;">
                     <div class="ag-on-shield relative overflow-hidden"
                       :class="lv.level <= agentLevel ? `ag-btn-tier-${lv.tierName.toLowerCase()}` : ''"
                       :style="lv.level <= agentLevel
-                        ? `background:linear-gradient(135deg,${lv.rimColor}45,${lv.rimColor}20);border:1px solid ${lv.rimColor}90;color:${lv.rimColor};text-shadow:0 0 12px ${lv.glowColor},0 1px 0 rgba(0,0,0,0.8);box-shadow:0 0 16px ${lv.glowColor}70,inset 0 1px 0 rgba(255,255,255,0.25);`
-                        : 'background:rgba(0,0,0,0.55);border:1px solid rgba(255,255,255,0.18);color:rgba(255,255,255,0.55)'">
+                        ? `background:linear-gradient(135deg,${lv.rimColor}55,${lv.rimColor}22);border:1px solid ${lv.rimColor}95;color:${lv.rimColor};text-shadow:0 0 14px ${lv.glowColor},0 1px 0 rgba(0,0,0,0.95);box-shadow:0 0 20px ${lv.glowColor}80,inset 0 1px 0 rgba(255,255,255,0.3);backdrop-filter:blur(4px);`
+                        : 'background:rgba(0,0,0,0.65);border:1px solid rgba(255,255,255,0.18);color:rgba(255,255,255,0.55);backdrop-filter:blur(4px);'">
                       <span class="relative z-10 font-black tracking-wide" style="font-size:9px;line-height:1;">AG{{ lv.level }}</span>
                       <div v-if="lv.level <= agentLevel" class="ag-btn-sweep absolute inset-0 pointer-events-none"
-                        :style="`background:linear-gradient(105deg,transparent 25%,${lv.rimColor}30 50%,transparent 75%);`"></div>
+                        :style="`background:linear-gradient(105deg,transparent 25%,${lv.rimColor}35 50%,transparent 75%);`"></div>
                     </div>
                   </div>
                 </div>
 
-                <!-- YOU / LOCKED label under shield -->
-                <div class="flex justify-center" style="margin-top:-2px;">
+                <!-- YOU / LOCKED under badge -->
+                <div class="flex justify-center mt-0.5">
                   <span v-if="lv.level === agentLevel"
                     class="text-[6px] px-1.5 py-0.5 rounded-full font-black lux-you-badge"
-                    style="background:linear-gradient(90deg,rgba(255,215,0,0.3),rgba(255,140,0,0.25));border:1px solid rgba(255,215,0,0.5);color:#FFD700;letter-spacing:0.05em;">
+                    style="background:linear-gradient(90deg,rgba(255,215,0,0.35),rgba(255,140,0,0.28));border:1px solid rgba(255,215,0,0.55);color:#FFD700;">
                     ▶ YOU
                   </span>
                   <span v-else-if="lv.level > agentLevel"
                     class="text-[6px] font-bold tracking-wider"
-                    :style="`color:${lv.rimColor}70;`">
+                    :style="`color:${lv.rimColor}65;`">
                     LOCKED
                   </span>
-                  <span v-else
-                    class="text-[6px] font-bold"
-                    style="color:rgba(255,255,255,0.28);">
-                    ✓
-                  </span>
+                  <span v-else class="text-[6px] font-bold" style="color:rgba(100,255,120,0.55);">✓</span>
                 </div>
               </div>
 
@@ -2847,6 +2879,87 @@ onUnmounted(() => {
   50%       { opacity: 1; box-shadow: 0 0 10px rgba(255,215,0,0.45); }
 }
 
+/* ═══════════════════════════════════════════════════════════
+   ✦ LEGENDARY CROWN SHIELD — all FX on badge, nothing outside ✦
+   Crown Aura · Rotating Rings · Royal Sweep · Orbiting Gems
+   ═══════════════════════════════════════════════════════════ */
+
+/* Crown aura base — every tier pulses, intensity escalates */
+.crown-aura { animation: crown-aura-pulse 2.2s ease-in-out infinite; }
+.crown-aura-bronze   { animation-duration: 3.6s; }
+.crown-aura-silver   { animation-duration: 3.2s; }
+.crown-aura-gold     { animation-duration: 2.8s; }
+.crown-aura-emerald  { animation-duration: 2.4s; }
+.crown-aura-sapphire { animation-duration: 2.1s; }
+.crown-aura-ruby     { animation-duration: 1.8s; }
+.crown-aura-diamond  { animation-duration: 1.5s; }
+.crown-aura-legend   { animation-duration: 1.3s; }
+.crown-aura-mythic   { animation-duration: 1.1s; }
+@keyframes crown-aura-pulse {
+  0%,100% { opacity: 0.55; transform: scale(1); }
+  50%     { opacity: 1.0;  transform: scale(1.12); }
+}
+
+/* Outer rotating ring — Silver+ CW, speed scales per tier */
+.crown-ring-outer { animation: crown-cw 5s linear infinite; }
+.crown-ring-silver   { animation-duration: 7s; }
+.crown-ring-gold     { animation-duration: 5.5s; }
+.crown-ring-emerald  { animation-duration: 4.5s; }
+.crown-ring-sapphire { animation-duration: 3.8s; }
+.crown-ring-ruby     { animation-duration: 3.2s; }
+.crown-ring-diamond  { animation-duration: 2.6s; }
+.crown-ring-legend   { animation-duration: 2.0s; }
+.crown-ring-mythic   { animation-duration: 1.5s; }
+@keyframes crown-cw  { to { transform: rotate(360deg);  } }
+@keyframes crown-ccw { to { transform: rotate(-360deg); } }
+
+/* Royal sweep shimmer across shield face */
+.crown-royal-sweep { animation: crown-sweep 2.6s linear infinite; }
+@keyframes crown-sweep {
+  0%   { transform: translateX(-120%); opacity: 0; }
+  15%  { opacity: 1; }
+  85%  { opacity: 1; }
+  100% { transform: translateX(220%);  opacity: 0; }
+}
+
+/* ── Orbiting gem particles (radius 20px from centre) ── */
+/* Gem A — CW from top */
+@keyframes crown-gem-a {
+  from { transform: rotate(0deg)   translateX(20px) rotate(0deg);   }
+  to   { transform: rotate(360deg) translateX(20px) rotate(-360deg); }
+}
+/* Gem B — CCW from bottom */
+@keyframes crown-gem-b {
+  from { transform: rotate(180deg)  translateX(20px) rotate(-180deg);  }
+  to   { transform: rotate(-180deg) translateX(20px) rotate(180deg);   }
+}
+/* Gem C — CW offset 120° */
+@keyframes crown-gem-c {
+  from { transform: rotate(120deg) translateX(20px) rotate(-120deg); }
+  to   { transform: rotate(480deg) translateX(20px) rotate(-480deg); }
+}
+/* Gem D — CCW offset 60° (Ruby+) */
+@keyframes crown-gem-d {
+  from { transform: rotate(60deg)   translateX(22px) rotate(-60deg);  }
+  to   { transform: rotate(-300deg) translateX(22px) rotate(300deg);  }
+}
+
+/* Prestige sparks — Diamond+ */
+@keyframes crown-prestige-a {
+  0%,100% { transform: translate(-14px,-14px) scale(0.5); opacity: 0; }
+  40%,60% { transform: translate(-16px,-18px) scale(1.4); opacity: 1; }
+}
+@keyframes crown-prestige-b {
+  0%,100% { transform: translate(14px,-12px) scale(0.5); opacity: 0; }
+  40%,60% { transform: translate(17px,-15px) scale(1.4); opacity: 1; }
+}
+
+/* YOU halo — extra strong radial pulse */
+@keyframes crown-you-halo {
+  0%,100% { opacity: 0.5; transform: scale(1);    }
+  50%     { opacity: 1.0; transform: scale(1.15);  }
+}
+
 /* ── AG label ON shield ─────────────────────────── */
 .ag-on-shield {
   border-radius: 7px;
@@ -2854,8 +2967,6 @@ onUnmounted(() => {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  backdrop-filter: blur(6px);
-  -webkit-backdrop-filter: blur(6px);
   letter-spacing: 0.04em;
   min-width: 32px;
   transition: box-shadow 0.3s;
