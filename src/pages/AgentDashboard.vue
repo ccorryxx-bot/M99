@@ -1347,11 +1347,11 @@
 
         <!-- Sheet -->
         <div class="relative rounded-t-[32px] overflow-hidden lux-modal-sheet"
-          style="max-height:91vh;background:linear-gradient(180deg,#0c0a1a 0%,#060410 100%);border-top:1px solid rgba(255,200,80,0.18);">
+          style="max-height:91vh;background:linear-gradient(180deg,#161228 0%,#0d0920 50%,#090616 100%);border-top:1.5px solid rgba(255,200,80,0.30);">
 
-          <!-- Top ambient radial glow -->
-          <div class="absolute top-0 left-0 right-0 h-48 pointer-events-none"
-            style="background:radial-gradient(ellipse at 50% -10%,rgba(255,180,0,0.2) 0%,rgba(120,60,200,0.06) 55%,transparent 80%)"></div>
+          <!-- Top ambient radial glow — brighter -->
+          <div class="absolute top-0 left-0 right-0 h-56 pointer-events-none"
+            style="background:radial-gradient(ellipse at 50% -5%,rgba(255,190,0,0.28) 0%,rgba(140,60,220,0.10) 55%,transparent 82%)"></div>
 
           <!-- Drag handle -->
           <div class="flex justify-center pt-3 pb-0 relative z-10">
@@ -1422,136 +1422,134 @@
           </div>
 
           <!-- ── COLUMN HEADERS ── -->
-          <div class="px-5 py-2 flex items-center gap-2" style="border-bottom:1px solid rgba(255,255,255,0.04)">
-            <div class="w-[88px] flex-shrink-0 text-[8px] font-bold tracking-widest uppercase" style="color:rgba(255,255,255,0.2)">Badge</div>
-            <div class="flex-1 text-[8px] font-bold tracking-widest uppercase" style="color:rgba(255,255,255,0.2)">Level</div>
-            <div class="w-[88px] text-right text-[8px] font-bold tracking-widest uppercase" style="color:rgba(255,255,255,0.2)">Min Commission</div>
-            <div class="w-10 text-right text-[8px] font-bold tracking-widest uppercase" style="color:rgba(255,255,255,0.2)">Rate</div>
+          <div class="px-5 py-2 flex items-center gap-3" style="border-bottom:1px solid rgba(255,255,255,0.08)">
+            <div class="w-[58px] flex-shrink-0 text-[8px] font-bold tracking-widest uppercase" style="color:rgba(255,255,255,0.45)">Badge</div>
+            <div class="flex-1 text-[8px] font-bold tracking-widest uppercase" style="color:rgba(255,255,255,0.45)">Min Commission</div>
+            <div class="w-10 text-right text-[8px] font-bold tracking-widest uppercase" style="color:rgba(255,255,255,0.45)">Rate</div>
           </div>
 
           <!-- ── SCROLLABLE LEVEL ROWS ── -->
-          <div class="overflow-y-auto px-3 pt-2 pb-12" style="max-height:54vh">
+          <div ref="levelScrollRef" class="overflow-y-auto px-3 pt-2 pb-12 relative" style="max-height:54vh">
+            <!-- Neural Flow Canvas overlay -->
+            <canvas ref="neuralCanvasRef" class="absolute inset-0 pointer-events-none z-[1]" style="opacity:0.55;"></canvas>
             <div v-for="lv in AGENT_LEVELS" :key="lv.level"
-              class="lv-row flex items-center gap-2 px-2 py-2.5 rounded-2xl mb-1.5 transition-all duration-300 overflow-hidden"
+              class="lv-row flex items-center gap-3 px-3 py-3 rounded-2xl mb-2 transition-all duration-300 overflow-hidden relative z-[2]"
               :class="[
                 lv.level === agentLevel ? 'lv-current' : lv.level < agentLevel ? 'lv-past' : 'lv-future',
                 `lv-tier-${lv.tierName.toLowerCase()}`
               ]">
 
-              <!-- ── ROW FX OVERLAYS (tier-progressive, always rendered) ── -->
-              <!-- Sweep shimmer: Gold+ (passess through row left→right) -->
-              <div v-if="lv.tierName === 'GOLD' || lv.tierName === 'EMERALD' || lv.tierName === 'SAPPHIRE' || lv.tierName === 'RUBY' || lv.tierName === 'DIAMOND' || lv.tierName === 'LEGEND' || lv.tierName === 'MYTHIC'"
+              <!-- ── ROW FX OVERLAYS ── -->
+              <div v-if="['GOLD','EMERALD','SAPPHIRE','RUBY','DIAMOND','LEGEND','MYTHIC'].includes(lv.tierName)"
                 class="lv-row-sweep absolute inset-0 pointer-events-none z-0"
-                :style="`background:linear-gradient(105deg,transparent 20%,${lv.rimColor}12 50%,transparent 80%);`">
+                :style="`background:linear-gradient(105deg,transparent 20%,${lv.rimColor}15 50%,transparent 80%);`">
               </div>
-              <!-- Animated left glow bar (colored per tier) -->
               <div class="lv-row-leftbar absolute left-0 top-2 bottom-2 w-[3px] rounded-full pointer-events-none z-0"
                 :style="lv.level <= agentLevel
-                  ? `background:linear-gradient(180deg,${lv.rimColor},${lv.glowColor});box-shadow:0 0 10px 2px ${lv.glowColor};`
-                  : 'background:rgba(255,255,255,0.06)'">
+                  ? `background:linear-gradient(180deg,${lv.rimColor},${lv.glowColor});box-shadow:0 0 12px 3px ${lv.glowColor};`
+                  : 'background:rgba(255,255,255,0.08)'">
               </div>
-              <!-- Rotating border for Sapphire+ -->
               <div v-if="['SAPPHIRE','RUBY','DIAMOND','LEGEND','MYTHIC'].includes(lv.tierName) && lv.level <= agentLevel"
                 class="lv-row-spin-border absolute inset-0 rounded-2xl pointer-events-none z-0"
-                :style="`background:conic-gradient(from 0deg,transparent,${lv.rimColor}55,transparent,${lv.rimColor}33,transparent);`">
+                :style="`background:conic-gradient(from 0deg,transparent,${lv.rimColor}44,transparent,${lv.rimColor}22,transparent);`">
               </div>
-              <!-- Fire flicker for Ruby+ (wave overlay) -->
               <div v-if="['RUBY','DIAMOND','LEGEND','MYTHIC'].includes(lv.tierName)"
                 class="lv-row-fire absolute inset-0 pointer-events-none z-0"
-                :style="`background:linear-gradient(180deg,transparent 60%,${lv.rimColor}10 100%);`">
+                :style="`background:linear-gradient(180deg,transparent 55%,${lv.rimColor}14 100%);`">
               </div>
-              <!-- Prismatic sheen: Diamond+ -->
               <div v-if="['DIAMOND','LEGEND','MYTHIC'].includes(lv.tierName) && lv.level <= agentLevel"
                 class="lv-row-prism absolute inset-0 pointer-events-none z-0"
-                style="background:linear-gradient(90deg,rgba(255,100,255,0.04),rgba(100,200,255,0.04),rgba(255,200,50,0.04),rgba(100,255,150,0.04));background-size:400% 100%;animation:lv-prism-scroll 3s linear infinite;">
+                style="background:linear-gradient(90deg,rgba(255,100,255,0.05),rgba(100,200,255,0.05),rgba(255,200,50,0.05),rgba(100,255,150,0.05));background-size:400% 100%;animation:lv-prism-scroll 3s linear infinite;">
               </div>
-              <!-- Cosmic shimmer line: Legend+ -->
               <div v-if="['LEGEND','MYTHIC'].includes(lv.tierName)"
                 class="lv-row-cosmic absolute pointer-events-none z-0"
-                style="left:0;right:0;top:50%;height:1px;transform:translateY(-50%);background:linear-gradient(90deg,transparent,rgba(255,140,0,0.3),rgba(220,80,255,0.3),transparent);animation:lv-cosmic-pulse 1.5s ease-in-out infinite;">
+                style="left:0;right:0;top:50%;height:1px;transform:translateY(-50%);background:linear-gradient(90deg,transparent,rgba(255,140,0,0.4),rgba(220,80,255,0.4),transparent);animation:lv-cosmic-pulse 1.5s ease-in-out infinite;">
               </div>
-              <!-- Mythic — full aura pulse -->
               <div v-if="lv.tierName === 'MYTHIC'"
                 class="absolute inset-0 rounded-2xl pointer-events-none z-0"
-                style="background:radial-gradient(ellipse at 50% 50%,rgba(220,80,255,0.08),transparent 70%);animation:lv-mythic-aura 1.8s ease-in-out infinite;">
+                style="background:radial-gradient(ellipse at 50% 50%,rgba(220,80,255,0.1),transparent 70%);animation:lv-mythic-aura 1.8s ease-in-out infinite;">
               </div>
 
-              <!-- Sparkle dots: Emerald+ (floating mini sparks) -->
+              <!-- Sparkle dots: Emerald+ -->
               <template v-if="['EMERALD','SAPPHIRE','RUBY','DIAMOND','LEGEND','MYTHIC'].includes(lv.tierName) && lv.level <= agentLevel">
-                <div class="lv-spark absolute pointer-events-none z-0" :style="`left:12%;top:20%;width:2px;height:2px;border-radius:50%;background:${lv.rimColor};animation:lv-spark-float 2.2s ease-in-out infinite;`"></div>
-                <div class="lv-spark absolute pointer-events-none z-0" :style="`left:30%;top:70%;width:2px;height:2px;border-radius:50%;background:${lv.rimColor};animation:lv-spark-float 2.8s ease-in-out infinite 0.7s;`"></div>
-                <div class="lv-spark absolute pointer-events-none z-0" :style="`left:55%;top:25%;width:1.5px;height:1.5px;border-radius:50%;background:${lv.rimColor};animation:lv-spark-float 1.9s ease-in-out infinite 1.1s;`"></div>
+                <div class="lv-spark absolute pointer-events-none z-0" :style="`left:18%;top:18%;width:2px;height:2px;border-radius:50%;background:${lv.rimColor};box-shadow:0 0 4px ${lv.glowColor};animation:lv-spark-float 2.2s ease-in-out infinite;`"></div>
+                <div class="lv-spark absolute pointer-events-none z-0" :style="`left:38%;top:72%;width:2px;height:2px;border-radius:50%;background:${lv.rimColor};box-shadow:0 0 4px ${lv.glowColor};animation:lv-spark-float 2.8s ease-in-out infinite 0.7s;`"></div>
+                <div class="lv-spark absolute pointer-events-none z-0" :style="`left:62%;top:22%;width:1.5px;height:1.5px;border-radius:50%;background:${lv.rimColor};animation:lv-spark-float 1.9s ease-in-out infinite 1.1s;`"></div>
                 <div v-if="['DIAMOND','LEGEND','MYTHIC'].includes(lv.tierName)"
-                  class="lv-spark absolute pointer-events-none z-0" :style="`left:72%;top:65%;width:2px;height:2px;border-radius:50%;background:${lv.rimColor};animation:lv-spark-float 2.4s ease-in-out infinite 0.4s;`"></div>
+                  class="lv-spark absolute pointer-events-none z-0" :style="`left:78%;top:68%;width:2px;height:2px;border-radius:50%;background:${lv.rimColor};box-shadow:0 0 6px ${lv.glowColor};animation:lv-spark-float 2.4s ease-in-out infinite 0.4s;`"></div>
                 <div v-if="['LEGEND','MYTHIC'].includes(lv.tierName)"
-                  class="lv-spark absolute pointer-events-none z-0" :style="`left:88%;top:40%;width:2.5px;height:2.5px;border-radius:50%;background:${lv.rimColor};box-shadow:0 0 6px ${lv.glowColor};animation:lv-spark-float 2.0s ease-in-out infinite 1.5s;`"></div>
+                  class="lv-spark absolute pointer-events-none z-0" :style="`left:90%;top:38%;width:2.5px;height:2.5px;border-radius:50%;background:${lv.rimColor};box-shadow:0 0 8px ${lv.glowColor};animation:lv-spark-float 2.0s ease-in-out infinite 1.5s;`"></div>
               </template>
 
-              <!-- ── EVOLUTION MINI SHIELD ── -->
-              <div class="flex-shrink-0 flex items-center gap-1.5 relative z-10"
-                style="width:90px;">
-                <div class="relative flex-shrink-0"
-                  style="width:44px;height:48px;">
+              <!-- ══════════════════════════════════════════════
+                   BADGE: Shield + AG label overlaid ON TOP
+                   ══════════════════════════════════════════════ -->
+              <div class="flex-shrink-0 relative z-10" style="width:58px;">
+                <!-- Shield SVG -->
+                <div class="relative" style="width:48px;height:52px;">
                   <div v-html="miniShieldHtml(lv)"
-                    :style="`width:36px;height:36px;position:absolute;left:4px;top:6px;overflow:visible;opacity:${lv.level > agentLevel ? '0.72' : '1'};`"></div>
-                  <!-- Glow pulse on current level -->
+                    :style="`width:44px;height:44px;position:absolute;left:2px;top:2px;overflow:visible;filter:${lv.level <= agentLevel ? `drop-shadow(0 0 8px ${lv.glowColor})` : 'none'};opacity:${lv.level > agentLevel ? '0.55' : '1'};`">
+                  </div>
+                  <!-- Glow pulse halo on current level -->
                   <div v-if="lv.level === agentLevel"
-                    class="absolute inset-0 pointer-events-none"
-                    :style="`box-shadow:0 0 20px 5px ${lv.glowColor};border-radius:6px;`"
-                    style="animation:lux-you-pulse 1.6s ease-in-out infinite;"></div>
-                  <!-- Tier-based shield glow (past+current) -->
-                  <div v-if="lv.level < agentLevel"
-                    class="absolute inset-0 pointer-events-none rounded"
-                    :style="`box-shadow:0 0 8px 2px ${lv.glowColor}44;`">
+                    class="absolute inset-0 pointer-events-none rounded-lg"
+                    :style="`box-shadow:0 0 24px 6px ${lv.glowColor};`"
+                    style="animation:lux-you-pulse 1.6s ease-in-out infinite;">
+                  </div>
+
+                  <!-- ★ AG LABEL — centered ON the shield ★ -->
+                  <div class="absolute inset-0 flex items-center justify-center">
+                    <div class="ag-on-shield relative overflow-hidden"
+                      :class="lv.level <= agentLevel ? `ag-btn-tier-${lv.tierName.toLowerCase()}` : ''"
+                      :style="lv.level <= agentLevel
+                        ? `background:linear-gradient(135deg,${lv.rimColor}45,${lv.rimColor}20);border:1px solid ${lv.rimColor}90;color:${lv.rimColor};text-shadow:0 0 12px ${lv.glowColor},0 1px 0 rgba(0,0,0,0.8);box-shadow:0 0 16px ${lv.glowColor}70,inset 0 1px 0 rgba(255,255,255,0.25);`
+                        : 'background:rgba(0,0,0,0.55);border:1px solid rgba(255,255,255,0.18);color:rgba(255,255,255,0.55)'">
+                      <span class="relative z-10 font-black tracking-wide" style="font-size:9px;line-height:1;">AG{{ lv.level }}</span>
+                      <div v-if="lv.level <= agentLevel" class="ag-btn-sweep absolute inset-0 pointer-events-none"
+                        :style="`background:linear-gradient(105deg,transparent 25%,${lv.rimColor}30 50%,transparent 75%);`"></div>
+                    </div>
                   </div>
                 </div>
 
-                <!-- Agency level label -->
-                <div class="flex-1 flex flex-col items-start gap-0.5">
-                  <div class="ag-level-btn relative rounded-xl px-2.5 py-1 text-[10px] font-black overflow-hidden"
-                    :class="lv.level <= agentLevel ? `ag-btn-tier-${lv.tierName.toLowerCase()}` : ''"
-                    :style="lv.level <= agentLevel
-                      ? `background:linear-gradient(135deg,${lv.rimColor}28,${lv.rimColor}12);border:1px solid ${lv.rimColor}70;color:${lv.rimColor};text-shadow:0 0 10px ${lv.glowColor};box-shadow:0 0 14px ${lv.glowColor}60,inset 0 1px 0 rgba(255,255,255,0.15);`
-                      : 'background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.1);color:rgba(255,255,255,0.3)'">
-                    <span class="relative z-10 tracking-wide">AG{{ lv.level }}</span>
-                    <div v-if="lv.level <= agentLevel" class="ag-btn-sweep absolute inset-0 pointer-events-none"
-                      :style="`background:linear-gradient(105deg,transparent 30%,${lv.rimColor}22 50%,transparent 70%);`"></div>
-                  </div>
+                <!-- YOU / LOCKED label under shield -->
+                <div class="flex justify-center" style="margin-top:-2px;">
                   <span v-if="lv.level === agentLevel"
-                    class="text-[7px] px-1.5 py-0.5 rounded-full font-black lux-you-badge"
-                    style="background:linear-gradient(90deg,rgba(255,215,0,0.25),rgba(255,140,0,0.2));border:1px solid rgba(255,215,0,0.4);color:#FFD700;">
+                    class="text-[6px] px-1.5 py-0.5 rounded-full font-black lux-you-badge"
+                    style="background:linear-gradient(90deg,rgba(255,215,0,0.3),rgba(255,140,0,0.25));border:1px solid rgba(255,215,0,0.5);color:#FFD700;letter-spacing:0.05em;">
                     ▶ YOU
                   </span>
                   <span v-else-if="lv.level > agentLevel"
-                    class="text-[7px] font-bold"
-                    :style="`color:${lv.rimColor}55;`">
+                    class="text-[6px] font-bold tracking-wider"
+                    :style="`color:${lv.rimColor}70;`">
                     LOCKED
+                  </span>
+                  <span v-else
+                    class="text-[6px] font-bold"
+                    style="color:rgba(255,255,255,0.28);">
+                    ✓
                   </span>
                 </div>
               </div>
 
-              <!-- Level number -->
-              <div class="flex-1 min-w-0 relative z-10">
-                <span class="font-black"
-                  :class="lv.level <= agentLevel && ['GOLD','EMERALD','SAPPHIRE','RUBY','DIAMOND','LEGEND','MYTHIC'].includes(lv.tierName) ? 'lv-num-glow' : ''"
-                  :style="`font-size:12px;` + (lv.level <= agentLevel ? lv.numberStyle : 'color:rgba(255,255,255,0.22)')">
-                  LV {{ lv.level }}
-                </span>
-              </div>
-
-              <!-- Required commission -->
-              <div class="w-[88px] text-right relative z-10">
-                <p class="text-[11px] font-bold"
-                  :style="lv.level <= agentLevel ? lv.numberStyle : 'color:rgba(255,255,255,0.18)'">
+              <!-- Commission (flex-1 — takes remaining space) -->
+              <div class="flex-1 relative z-10">
+                <p class="font-bold"
+                  :style="`font-size:12px;` + (lv.level <= agentLevel
+                    ? lv.numberStyle + ';text-shadow:0 0 12px currentColor;'
+                    : 'color:rgba(255,255,255,0.32)')">
                   {{ lv.required === 0 ? '—' : formatN(lv.required) + ' Ks' }}
                 </p>
               </div>
 
               <!-- Rate -->
-              <div class="w-10 text-right relative z-10">
-                <span class="font-black"
+              <div class="w-12 text-right relative z-10">
+                <span
                   :class="lv.level === agentLevel ? 'lv-rate-current' : ''"
-                  :style="`font-size:12px;` + (lv.level === agentLevel ? lv.numberStyle : lv.level < agentLevel ? 'color:rgba(255,255,255,0.35)' : 'color:rgba(255,255,255,0.13)')">
+                  :style="`font-size:13px;font-weight:900;` + (lv.level === agentLevel
+                    ? lv.numberStyle + ';text-shadow:0 0 16px currentColor;'
+                    : lv.level < agentLevel
+                      ? 'color:rgba(255,255,255,0.55)'
+                      : 'color:rgba(255,255,255,0.22)')">
                   {{ lv.rate }}%
                 </span>
               </div>
@@ -1714,6 +1712,141 @@ const newMemberFlash    = ref(false)
 const latestNewMemberId = ref(null)
 let   plexusRaf         = null
 let   realtimeChannel   = null
+
+// Neural Flow Canvas (Level Modal)
+const neuralCanvasRef = ref(null)
+const levelScrollRef  = ref(null)
+let   neuralRaf       = null
+
+function startNeuralFlow() {
+  const canvas = neuralCanvasRef.value
+  const container = levelScrollRef.value
+  if (!canvas || !container) return
+
+  canvas.width  = container.offsetWidth
+  canvas.height = container.scrollHeight || container.offsetHeight
+
+  const ctx = canvas.getContext('2d')
+  const W = canvas.width
+  const H = canvas.height
+
+  // Node positions along the left edge (badge centres) + right edge
+  const nodeCount = 30
+  const nodes = Array.from({ length: nodeCount }, (_, i) => ({
+    x: Math.random() * W,
+    y: Math.random() * H,
+    vx: (Math.random() - 0.5) * 0.55,
+    vy: (Math.random() - 0.5) * 0.35 + 0.15,
+    r: Math.random() * 1.8 + 0.6,
+    hue: Math.random() > 0.5 ? Math.random() * 60 + 200 : Math.random() * 40 + 30,
+    alpha: Math.random() * 0.5 + 0.3,
+    phase: Math.random() * Math.PI * 2,
+    speed: Math.random() * 0.012 + 0.006,
+  }))
+
+  // Flowing energy stream paths (3 bezier curves)
+  const streams = [
+    { oy: H * 0.25, freq: 0.42, amp: 22, hue: 210, speed: 0.7 },
+    { oy: H * 0.52, freq: 0.35, amp: 18, hue: 160, speed: 0.5 },
+    { oy: H * 0.78, freq: 0.50, amp: 26, hue: 280, speed: 0.9 },
+  ]
+  const pulses = streams.map(s => ({ t: Math.random(), speed: s.speed * 0.004 }))
+
+  let frame = 0
+
+  function draw() {
+    ctx.clearRect(0, 0, W, H)
+    frame++
+    const t = frame * 0.016
+
+    // ── 1. Energy streams (bezier wave lines) ──
+    streams.forEach((s, i) => {
+      const p = pulses[i]
+      p.t += p.speed
+      if (p.t > 1) p.t -= 1
+
+      const cp1x = W * 0.28, cp1y = s.oy + Math.sin(t * s.freq + 1.1) * s.amp
+      const cp2x = W * 0.72, cp2y = s.oy + Math.cos(t * s.freq + 2.3) * s.amp
+      const endY = s.oy + Math.sin(t * s.freq * 0.7) * (s.amp * 0.5)
+
+      const grad = ctx.createLinearGradient(0, 0, W, 0)
+      grad.addColorStop(0,   `hsla(${s.hue},90%,65%,0)`)
+      grad.addColorStop(0.35,`hsla(${s.hue},90%,65%,0.18)`)
+      grad.addColorStop(0.65,`hsla(${s.hue},90%,65%,0.18)`)
+      grad.addColorStop(1,   `hsla(${s.hue},90%,65%,0)`)
+
+      ctx.strokeStyle = grad
+      ctx.lineWidth = 1.2
+      ctx.beginPath()
+      ctx.moveTo(0, s.oy)
+      ctx.bezierCurveTo(cp1x, cp1y, cp2x, cp2y, W, endY)
+      ctx.stroke()
+
+      // Pulse dot travelling along the path
+      const px = W * p.t
+      const interp = (a, b, x) => a + (b - a) * x
+      const tt = p.t
+      const bx = interp(interp(0, cp1x, tt), interp(cp1x, cp2x, tt), tt)
+      const by = interp(interp(s.oy, cp1y, tt), interp(cp1y, cp2y, tt), tt)
+      ctx.fillStyle = `hsla(${s.hue},100%,75%,0.85)`
+      ctx.shadowColor = `hsla(${s.hue},100%,75%,0.9)`
+      ctx.shadowBlur = 8
+      ctx.beginPath()
+      ctx.arc(bx, by, 2.5, 0, Math.PI * 2)
+      ctx.fill()
+      ctx.shadowBlur = 0
+    })
+
+    // ── 2. Neural nodes + connection lines ──
+    for (let i = 0; i < nodes.length; i++) {
+      const n = nodes[i]
+      n.phase += n.speed
+      n.x += n.vx
+      n.y += n.vy
+
+      if (n.x < 0 || n.x > W) n.vx *= -1
+      if (n.y < 0) n.y = H
+      if (n.y > H) n.y = 0
+
+      // Connection lines
+      for (let j = i + 1; j < nodes.length; j++) {
+        const m = nodes[j]
+        const dx = n.x - m.x, dy = n.y - m.y
+        const dist = Math.sqrt(dx * dx + dy * dy)
+        if (dist < 90) {
+          const alpha = (1 - dist / 90) * 0.22
+          ctx.strokeStyle = `rgba(120,190,255,${alpha})`
+          ctx.lineWidth = 0.6
+          ctx.beginPath()
+          ctx.moveTo(n.x, n.y)
+          ctx.lineTo(m.x, m.y)
+          ctx.stroke()
+        }
+      }
+
+      // Node dot
+      const pulse = (Math.sin(n.phase) * 0.5 + 0.5)
+      const bright = 50 + pulse * 25
+      ctx.globalAlpha = n.alpha * (0.55 + pulse * 0.45)
+      ctx.fillStyle = `hsl(${n.hue},85%,${bright}%)`
+      ctx.shadowColor = `hsl(${n.hue},100%,70%)`
+      ctx.shadowBlur = 5
+      ctx.beginPath()
+      ctx.arc(n.x, n.y, n.r * (0.8 + pulse * 0.4), 0, Math.PI * 2)
+      ctx.fill()
+    }
+    ctx.globalAlpha = 1
+    ctx.shadowBlur = 0
+
+    neuralRaf = requestAnimationFrame(draw)
+  }
+
+  draw()
+}
+
+function stopNeuralFlow() {
+  if (neuralRaf) { cancelAnimationFrame(neuralRaf); neuralRaf = null }
+}
 
 // User info
 const userId          = ref('')
@@ -2278,21 +2411,30 @@ async function setupRealtimeDownline(myUserId) {
 
 onMounted(async () => {
   await loadAll()
-  // Start plexus canvas
   await nextTick()
   if (plexusRef.value) initPlexus(plexusRef.value)
-  // Watch plexusRef for when it mounts (tab switch)
   watch(plexusRef, (el) => { if (el) initPlexus(el) })
-  // Setup realtime if logged in
   if (userId.value) setupRealtimeDownline(userId.value)
   gsap.from('.fp-card', { opacity:0, y:18, duration:0.45, stagger:0.06, ease:'power2.out', delay:0.05 })
   setTimeout(initTicker, 400)
   if (activeTab.value === 1) animateReferralTab()
+
+  // Neural Flow: start when modal opens, stop when it closes
+  watch(showLevelModal, async (open) => {
+    if (open) {
+      await nextTick()
+      await nextTick()
+      startNeuralFlow()
+    } else {
+      stopNeuralFlow()
+    }
+  })
 })
 
 onUnmounted(() => {
   if (tickerTween) tickerTween.kill()
   if (plexusRaf) { cancelAnimationFrame(plexusRaf); plexusRaf = null }
+  if (neuralRaf)  { cancelAnimationFrame(neuralRaf);  neuralRaf  = null }
   if (realtimeChannel) { supabase.removeChannel(realtimeChannel); realtimeChannel = null }
 })
 </script>
@@ -2705,15 +2847,29 @@ onUnmounted(() => {
   50%       { opacity: 1; box-shadow: 0 0 10px rgba(255,215,0,0.45); }
 }
 
+/* ── AG label ON shield ─────────────────────────── */
+.ag-on-shield {
+  border-radius: 7px;
+  padding: 2px 6px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+  letter-spacing: 0.04em;
+  min-width: 32px;
+  transition: box-shadow 0.3s;
+}
+
 /* ── Level rows ─────────────────────────────────── */
 .lv-row { position: relative; }
 .lv-current {
-  background: rgba(255,255,255,0.04);
-  border: 1px solid rgba(255,200,0,0.18);
-  box-shadow: 0 2px 20px rgba(255,193,7,0.06), inset 0 1px 0 rgba(255,255,255,0.06);
+  background: rgba(255,255,255,0.06);
+  border: 1px solid rgba(255,200,0,0.28);
+  box-shadow: 0 2px 24px rgba(255,193,7,0.10), inset 0 1px 0 rgba(255,255,255,0.10);
 }
-.lv-past   { background: rgba(255,255,255,0.014); }
-.lv-future { opacity: 0.78; }
+.lv-past   { background: rgba(255,255,255,0.025); }
+.lv-future { opacity: 0.82; }
 
 /* ═══════════════════════════════════════════════════════
    ✦ TIER-PROGRESSIVE ROW ANIMATIONS                     ✦
