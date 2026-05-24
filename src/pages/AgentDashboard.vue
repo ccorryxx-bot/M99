@@ -298,29 +298,48 @@
                   </g>
                 </svg>
 
-                <!-- Number + tier label centred over shield body -->
+                <!-- Number + AG label centred over shield body -->
                 <div style="position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;padding-top:6px;z-index:20;pointer-events:none;">
                   <span class="evo-level-num font-black leading-none select-none"
                     :style="`font-size:${agentLevel>=10?'22px':'26px'};letter-spacing:-0.02em;filter:drop-shadow(0 3px 6px rgba(0,0,0,0.7));` + currentLevelData.numberStyle">{{ agentLevel }}</span>
                   <span class="text-[6.5px] font-black tracking-[0.2em] uppercase mt-0.5 select-none"
-                    :style="currentLevelData.tierStyle">{{ currentLevelData.tierName }}</span>
+                    :style="`color:${currentLevelData.rimColor};opacity:0.9;text-shadow:0 0 8px ${currentLevelData.glowColor};`">AG{{ agentLevel }}</span>
                 </div>
 
-                <!-- ORBIT RINGS: Emerald (LV8) → grows per tier -->
-                <div v-if="agentLevel>=8" class="evo-orbit evo-orbit-1 absolute pointer-events-none"
-                  :style="`border-color:${currentLevelData.rimColor}55;box-shadow:0 0 8px ${currentLevelData.glowColor};`"></div>
-                <div v-if="agentLevel>=10" class="evo-orbit evo-orbit-2 absolute pointer-events-none"
-                  :style="`border-color:${currentLevelData.rimColor}38;`"></div>
-                <div v-if="agentLevel>=13" class="evo-orbit evo-orbit-3 absolute pointer-events-none"
-                  :style="`border-color:${currentLevelData.rimColor}22;`"></div>
+                <!-- ═══ REACTOR ENERGY — always active from LV1 ═══ -->
+                <!-- Plasma pulse wave 1 -->
+                <div class="reactor-pulse-1 absolute pointer-events-none"
+                  :style="`border-color:${currentLevelData.rimColor}70;box-shadow:0 0 12px 2px ${currentLevelData.glowColor},inset 0 0 8px ${currentLevelData.glowColor};`"></div>
+                <!-- Plasma pulse wave 2 (offset) -->
+                <div class="reactor-pulse-2 absolute pointer-events-none"
+                  :style="`border-color:${currentLevelData.rimColor}45;`"></div>
+                <!-- Energy ripple 3 -->
+                <div class="reactor-pulse-3 absolute pointer-events-none"
+                  :style="`border-color:${currentLevelData.rimColor}28;`"></div>
 
-                <!-- FLOATING PARTICLES: Gold (LV6) → count increases per tier -->
-                <template v-if="agentLevel>=6">
-                  <div v-for="i in evoParticleCount" :key="`ep${i}`"
-                    :class="`evo-particle evo-ep${i} absolute pointer-events-none`"
-                    style="width:4px;height:4px;border-radius:50%;"
-                    :style="`background:${currentLevelData.rimColor};box-shadow:0 0 6px 1px ${currentLevelData.glowColor};`"></div>
-                </template>
+                <!-- ORBIT RINGS: LV1+ (always shown, intensity grows) -->
+                <div class="evo-orbit evo-orbit-1 absolute pointer-events-none"
+                  :style="`border-color:${currentLevelData.rimColor}66;box-shadow:0 0 10px ${currentLevelData.glowColor},0 0 20px ${currentLevelData.glowColor}44;`"></div>
+                <div v-if="agentLevel>=4" class="evo-orbit evo-orbit-2 absolute pointer-events-none"
+                  :style="`border-color:${currentLevelData.rimColor}44;box-shadow:0 0 6px ${currentLevelData.glowColor}66;`"></div>
+                <div v-if="agentLevel>=8" class="evo-orbit evo-orbit-3 absolute pointer-events-none"
+                  :style="`border-color:${currentLevelData.rimColor}30;`"></div>
+
+                <!-- PLASMA GLOW core -->
+                <div class="reactor-core absolute pointer-events-none"
+                  :style="`background:radial-gradient(ellipse at 50% 50%,${currentLevelData.glowColor} 0%,transparent 68%);`"></div>
+
+                <!-- FLOATING PARTICLES: always, count grows per level -->
+                <div v-for="i in Math.min(agentLevel + 2, 12)" :key="`ep${i}`"
+                  :class="`evo-particle evo-ep${i} absolute pointer-events-none`"
+                  style="width:3px;height:3px;border-radius:50%;"
+                  :style="`background:${currentLevelData.rimColor};box-shadow:0 0 8px 2px ${currentLevelData.glowColor};`"></div>
+
+                <!-- ENERGY RIPPLE — outward burst rings -->
+                <div class="reactor-ripple-a absolute pointer-events-none rounded-full"
+                  :style="`border:1px solid ${currentLevelData.rimColor}55;`"></div>
+                <div class="reactor-ripple-b absolute pointer-events-none rounded-full"
+                  :style="`border:1px solid ${currentLevelData.rimColor}33;`"></div>
 
                 <!-- HOLOGRAM OVERLAY: Diamond (LV13)+ -->
                 <div v-if="agentLevel>=13" class="evo-hologram absolute inset-0 pointer-events-none"></div>
@@ -1435,11 +1454,14 @@
 
                 <!-- Agency level label -->
                 <div class="flex-1 flex flex-col items-start gap-0.5">
-                  <div class="rounded-full px-2 py-0.5 text-[9px] font-black"
+                  <div class="ag-level-btn relative rounded-xl px-2.5 py-1 text-[10px] font-black overflow-hidden"
                     :style="lv.level <= agentLevel
-                      ? `background:${lv.rimColor}25;border:1px solid ${lv.rimColor}55;` + lv.tierStyle
-                      : 'background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.08);color:rgba(255,255,255,0.28)'">
-                    AG{{ lv.level }}
+                      ? `background:linear-gradient(135deg,${lv.rimColor}28,${lv.rimColor}12);border:1px solid ${lv.rimColor}70;color:${lv.rimColor};text-shadow:0 0 10px ${lv.glowColor};box-shadow:0 0 12px ${lv.glowColor}55,inset 0 1px 0 rgba(255,255,255,0.15);`
+                      : 'background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.1);color:rgba(255,255,255,0.3)'">
+                    <span class="relative z-10">AG{{ lv.level }}</span>
+                    <!-- inner glow sweep for unlocked levels -->
+                    <div v-if="lv.level <= agentLevel" class="ag-btn-sweep absolute inset-0 pointer-events-none"
+                      :style="`background:linear-gradient(105deg,transparent 30%,${lv.rimColor}22 50%,transparent 70%);`"></div>
                   </div>
                   <span v-if="lv.level === agentLevel"
                     class="text-[7px] px-1.5 py-0.5 rounded-full font-black lux-you-badge"
@@ -1448,7 +1470,7 @@
                   </span>
                   <span v-else-if="lv.level > agentLevel"
                     class="text-[7px] font-bold"
-                    :style="`color:${lv.rimColor}88;`">
+                    :style="`color:${lv.rimColor}66;`">
                     LOCKED
                   </span>
                 </div>
@@ -1460,10 +1482,6 @@
                   :style="lv.level <= agentLevel ? lv.numberStyle : 'color:rgba(255,255,255,0.22)'">
                   LV {{ lv.level }}
                 </span>
-                <p class="text-[9px] font-bold"
-                  :style="lv.level <= agentLevel ? lv.tierStyle : 'color:rgba(255,255,255,0.15)'">
-                  {{ lv.tierName }}
-                </p>
               </div>
 
               <!-- Required commission -->
@@ -2393,6 +2411,77 @@ onUnmounted(() => {
 /* ── Badge button base ──────────────────────────── */
 .evo-badge-btn { background: none; border: none; padding: 0; cursor: pointer; }
 
+/* ═══════════════════════════════════════════════════
+   ✦ REACTOR ENERGY SYSTEM — always active from LV1  ✦
+   Pulse waves · rotating rings · plasma glow · ripple
+   ═══════════════════════════════════════════════════ */
+
+/* Plasma pulse rings — concentric beat waves */
+.reactor-pulse-1 {
+  position: absolute;
+  width: 78px; height: 78px;
+  left: 6px; top: 6px;
+  border-radius: 50%;
+  border: 1.5px solid;
+  animation: reactor-beat 1.8s ease-in-out infinite;
+  pointer-events: none;
+}
+.reactor-pulse-2 {
+  position: absolute;
+  width: 94px; height: 94px;
+  left: -2px; top: -2px;
+  border-radius: 50%;
+  border: 1px solid;
+  animation: reactor-beat 1.8s ease-in-out infinite 0.45s;
+  pointer-events: none;
+}
+.reactor-pulse-3 {
+  position: absolute;
+  width: 110px; height: 110px;
+  left: -10px; top: -10px;
+  border-radius: 50%;
+  border: 1px solid;
+  animation: reactor-beat 1.8s ease-in-out infinite 0.9s;
+  pointer-events: none;
+}
+@keyframes reactor-beat {
+  0%, 100% { transform: scale(1);    opacity: 0.9; }
+  50%       { transform: scale(1.06); opacity: 0.4; }
+}
+
+/* Plasma glow core — radial bloom behind shield */
+.reactor-core {
+  position: absolute;
+  inset: -8px;
+  border-radius: 50%;
+  animation: reactor-glow 2.2s ease-in-out infinite;
+  pointer-events: none;
+}
+@keyframes reactor-glow {
+  0%, 100% { opacity: 0.45; transform: scale(1); }
+  50%       { opacity: 0.85; transform: scale(1.1); }
+}
+
+/* Energy ripple — expanding outward burst rings */
+.reactor-ripple-a {
+  position: absolute;
+  width: 90px; height: 90px;
+  left: 0px; top: 0px;
+  animation: reactor-ripple 2.6s linear infinite;
+  pointer-events: none;
+}
+.reactor-ripple-b {
+  position: absolute;
+  width: 90px; height: 90px;
+  left: 0px; top: 0px;
+  animation: reactor-ripple 2.6s linear infinite 1.3s;
+  pointer-events: none;
+}
+@keyframes reactor-ripple {
+  0%   { transform: scale(0.85); opacity: 0.8; }
+  100% { transform: scale(1.55); opacity: 0; }
+}
+
 /* Orbit rings — spin around the badge center */
 .evo-orbit {
   position: absolute;
@@ -2403,23 +2492,34 @@ onUnmounted(() => {
 .evo-orbit-1 {
   width: 82px; height: 82px;
   left: 4px; top: 4px;
-  border-width: 1px;
-  animation: evo-cw 4s linear infinite;
+  border-width: 1.5px;
+  border-style: dashed;
+  animation: evo-cw 3.5s linear infinite;
 }
 .evo-orbit-2 {
-  width: 100px; height: 100px;
-  left: -5px; top: -5px;
+  width: 102px; height: 102px;
+  left: -6px; top: -6px;
   border-width: 1px;
-  animation: evo-ccw 6.5s linear infinite;
+  animation: evo-ccw 5.5s linear infinite;
 }
 .evo-orbit-3 {
-  width: 118px; height: 118px;
-  left: -14px; top: -14px;
+  width: 122px; height: 122px;
+  left: -16px; top: -16px;
   border-width: 1px;
-  animation: evo-cw 9s linear infinite;
+  border-style: dashed;
+  animation: evo-cw 8s linear infinite;
 }
 @keyframes evo-cw  { to { transform: rotate(360deg);  } }
 @keyframes evo-ccw { to { transform: rotate(-360deg); } }
+
+/* AG Button sweep animation */
+.ag-btn-sweep {
+  animation: ag-sweep 2.4s linear infinite;
+}
+@keyframes ag-sweep {
+  0%   { background-position: -100% 0; transform: translateX(-100%); }
+  100% { background-position: 200% 0; transform: translateX(200%); }
+}
 
 /* Floating particles — orbit the badge at varying radii + speeds */
 .evo-particle {
@@ -2488,14 +2588,16 @@ onUnmounted(() => {
   50%       { opacity: 0.7; transform: scale(1.12); }
 }
 
-/* Tier glow filters — progressively more intense */
-.evo-gold    { animation: evo-glow-pulse 3.0s ease-in-out infinite; }
-.evo-emerald { animation: evo-glow-pulse 2.8s ease-in-out infinite; }
-.evo-sapphire{ animation: evo-glow-pulse 2.5s ease-in-out infinite; }
-.evo-ruby    { animation: evo-glow-pulse 2.2s ease-in-out infinite; }
-.evo-diamond { animation: evo-glow-pulse-strong 2.0s ease-in-out infinite; }
-.evo-legend  { animation: evo-fire-glow 1.8s ease-in-out infinite; }
-.evo-mythic  { animation: evo-cosmic-glow 1.5s ease-in-out infinite; }
+/* Tier glow filters — all tiers glow, intensity escalates */
+.evo-bronze  { animation: evo-glow-pulse 3.5s ease-in-out infinite; }
+.evo-silver  { animation: evo-glow-pulse 3.2s ease-in-out infinite; }
+.evo-gold    { animation: evo-glow-pulse 2.8s ease-in-out infinite; }
+.evo-emerald { animation: evo-glow-pulse 2.5s ease-in-out infinite; }
+.evo-sapphire{ animation: evo-glow-pulse 2.2s ease-in-out infinite; }
+.evo-ruby    { animation: evo-glow-pulse 2.0s ease-in-out infinite; }
+.evo-diamond { animation: evo-glow-pulse-strong 1.8s ease-in-out infinite; }
+.evo-legend  { animation: evo-fire-glow 1.6s ease-in-out infinite; }
+.evo-mythic  { animation: evo-cosmic-glow 1.4s ease-in-out infinite; }
 
 @keyframes evo-glow-pulse {
   0%, 100% { filter: brightness(1) drop-shadow(0 0 8px currentColor); }
