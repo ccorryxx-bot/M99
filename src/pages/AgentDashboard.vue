@@ -331,17 +331,17 @@
                 <span class="px-1.5 py-0.5 rounded text-[9px] font-bold"
                   style="background: rgba(255,193,7,0.12); color: rgba(255,193,7,0.8); border: 1px solid rgba(255,193,7,0.2);">AGENT</span>
               </div>
-              <p class="text-[10px] font-mono" style="color: rgba(255,255,255,0.3);">VIP {{ userVipLevel }}</p>
-              <p class="text-[10px] mt-0.5" style="color: rgba(255,255,255,0.25);">ဆက်ဆံရေး: {{ memberSince }}</p>
+              <p class="text-[11px] font-mono" style="color: rgba(255,255,255,0.48);">VIP {{ userVipLevel }}</p>
+              <p class="text-[11px] mt-0.5" style="color: rgba(255,255,255,0.42);">ဆက်ဆံရေး: {{ memberSince }}</p>
             </div>
 
             <div class="text-right flex-shrink-0">
-              <p class="text-[9px] tracking-wider" style="color: rgba(255,255,255,0.28);">DOWNLINE</p>
+              <p class="text-[11px] font-semibold tracking-wider" style="color: rgba(255,255,255,0.52);">DOWNLINE</p>
               <p class="text-xl font-black mt-0.5" style="color: rgba(255,255,255,0.88);">
                 <span v-if="loadingData" class="animate-pulse text-sm" style="color: rgba(255,255,255,0.2);">...</span>
                 <span v-else>{{ totalDownline }}</span>
               </p>
-              <p class="text-[9px]" style="color: rgba(100,220,120,0.7);">{{ activeDownline }} active</p>
+              <p class="text-[10px] font-medium" style="color: rgba(100,220,120,0.8);">{{ activeDownline }} active</p>
             </div>
           </div>
 
@@ -350,15 +350,15 @@
           <!-- Sub stats row -->
           <div class="flex justify-between mt-3">
             <div>
-              <p class="text-[9px]" style="color: rgba(255,255,255,0.28);">ကော်မရှင်ရက်</p>
+              <p class="text-[11px] font-medium" style="color: rgba(255,255,255,0.5);">ကော်မရှင်ရက်</p>
               <p class="text-xs font-semibold mt-0.5" style="color: rgba(255,255,255,0.6);">{{ todayDate }}</p>
             </div>
             <div class="text-center">
-              <p class="text-[9px]" style="color: rgba(255,255,255,0.28);">မျှဝေနှုန်း</p>
+              <p class="text-[11px] font-medium" style="color: rgba(255,255,255,0.5);">မျှဝေနှုန်း</p>
               <p class="text-xs font-bold mt-0.5" style="color: rgba(255,193,7,0.8);">1.00</p>
             </div>
             <div class="text-right">
-              <p class="text-[9px]" style="color: rgba(255,255,255,0.28);">Total Deposit</p>
+              <p class="text-[11px] font-medium" style="color: rgba(255,255,255,0.5);">Total Deposit</p>
               <p class="text-xs font-semibold mt-0.5" style="color: rgba(255,255,255,0.6);">{{ formatN(userTotalDeposit) }} Ks</p>
             </div>
           </div>
@@ -388,12 +388,12 @@
             style="background: rgba(18,12,42,0.70); border: 1px solid rgba(160,120,255,0.12); backdrop-filter: blur(24px); -webkit-backdrop-filter: blur(24px); box-shadow: 0 4px 20px rgba(0,0,0,0.4), inset 0 1px 0 rgba(255,255,255,0.07);">
             <div class="absolute top-0 right-0 w-12 h-12 pointer-events-none"
               :style="`background: radial-gradient(circle, ${s.glow} 0%, transparent 70%); filter: blur(8px);`"></div>
-            <p class="text-[9px] tracking-[0.08em] mb-1.5" style="color: rgba(255,255,255,0.28);">{{ s.label }}</p>
+            <p class="text-[11px] font-semibold tracking-[0.04em] mb-1.5" style="color: rgba(255,255,255,0.58);">{{ s.label }}</p>
             <p class="text-lg font-black" :style="`color: ${s.color};`">
               <span v-if="loadingData" class="text-sm animate-pulse" style="color:rgba(255,255,255,0.15);">...</span>
               <span v-else>{{ formatN(s.value) }}</span>
             </p>
-            <p class="text-[8px] mt-0.5" style="color: rgba(255,255,255,0.18);">Ks</p>
+            <p class="text-[10px] font-medium mt-0.5" style="color: rgba(255,255,255,0.38);">Ks</p>
           </div>
         </div>
 
@@ -535,7 +535,7 @@
             </div>
             <div class="min-w-0">
               <p class="text-xs font-bold" style="color: rgba(255,193,7,0.85);">အောက်လက်ငယ်သား</p>
-              <p class="text-[9px]" style="color: rgba(255,255,255,0.28);">Downline List</p>
+              <p class="text-[11px]" style="color: rgba(255,255,255,0.45);">Downline List</p>
             </div>
             <svg class="w-4 h-4 ml-auto flex-shrink-0" style="color: rgba(255,193,7,0.35);" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
           </button>
@@ -548,7 +548,7 @@
             </div>
             <div class="min-w-0">
               <p class="text-xs font-bold" style="color: rgba(100,220,120,0.85);">ကော်မရှင်</p>
-              <p class="text-[9px]" style="color: rgba(255,255,255,0.28);">History</p>
+              <p class="text-[11px]" style="color: rgba(255,255,255,0.45);">History</p>
             </div>
             <svg class="w-4 h-4 ml-auto flex-shrink-0" style="color: rgba(100,220,120,0.35);" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
           </button>
