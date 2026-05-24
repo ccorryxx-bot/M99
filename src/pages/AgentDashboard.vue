@@ -9,7 +9,32 @@
         <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/></svg>
         <span class="text-xs font-medium tracking-wider">NovaBETT</span>
       </button>
-      <h1 class="text-sm font-bold tracking-[0.15em]" style="color: rgba(255,255,255,0.7);">AGENT</h1>
+      <div class="relative flex flex-col items-center select-none">
+        <!-- scan line sweep -->
+        <div class="absolute inset-0 overflow-hidden rounded pointer-events-none">
+          <div class="nova-hud-scan-x absolute top-0 left-0 w-full h-px"
+            style="background:linear-gradient(90deg,transparent,rgba(80,200,255,0.55),transparent);"></div>
+        </div>
+        <!-- main label -->
+        <div class="flex items-center gap-1.5 px-3 py-1 rounded-md"
+          style="background:rgba(30,60,120,0.18);border:1px solid rgba(60,150,255,0.18);backdrop-filter:blur(8px);">
+          <!-- blink indicator dot -->
+          <div class="nova-hud-dot w-1.5 h-1.5 rounded-full flex-shrink-0"
+            style="background:rgba(0,210,255,0.9);box-shadow:0 0 6px rgba(0,210,255,0.8);"></div>
+          <span class="text-[11px] font-mono font-bold tracking-[0.22em] uppercase"
+            style="color:rgba(200,230,255,0.85);letter-spacing:0.2em;">Agent</span>
+          <div class="w-px h-3 mx-0.5" style="background:rgba(60,150,255,0.3);"></div>
+          <span class="text-[11px] font-mono font-bold tracking-[0.18em] uppercase"
+            style="color:rgba(0,200,255,0.75);letter-spacing:0.16em;">Dashboard</span>
+        </div>
+        <!-- tiny data row below -->
+        <div class="flex items-center gap-2 mt-0.5">
+          <span class="text-[7px] font-mono tracking-[0.2em]" style="color:rgba(60,150,255,0.38);">SYS</span>
+          <div class="w-3 h-px" style="background:rgba(60,150,255,0.25);"></div>
+          <span class="text-[7px] font-mono tracking-[0.2em]" style="color:rgba(0,200,255,0.3);">ONLINE</span>
+          <div class="nova-mini-blink w-1 h-1 rounded-full" style="background:rgba(80,220,180,0.75);"></div>
+        </div>
+      </div>
       <button @click="loadAll" :class="['w-8 h-8 flex items-center justify-center rounded-full transition-all active:scale-90', loading ? 'animate-spin' : '']"
         style="background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.07); color: rgba(255,255,255,0.4);">
         <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"/></svg>
@@ -38,18 +63,60 @@
            ═══════════════════════════════════════════ -->
       <div v-if="activeTab === 0" class="space-y-3 px-4 pt-4">
 
-        <!-- Banner -->
-        <div class="fp-card rounded-2xl overflow-hidden relative" style="height: 148px;">
-          <img src="/images/banners/banner2.jpg" class="w-full h-full object-cover" alt="Banner"
-            onerror="this.src='/images/banners/banner1.jpg'" />
-          <div class="absolute inset-0 pointer-events-none"
-            style="background: linear-gradient(to right, rgba(4,6,8,0.5) 0%, transparent 60%, rgba(4,6,8,0.25) 100%);"></div>
-          <div class="absolute top-3 right-3 px-2.5 py-1 rounded-full"
-            style="background: rgba(255,193,7,0.15); border: 1px solid rgba(255,193,7,0.3); backdrop-filter: blur(8px);">
-            <span class="text-[10px] font-bold tracking-wider" style="color: rgba(255,193,7,0.9);">10% COMMISSION</span>
-          </div>
-          <div class="absolute bottom-3 left-4">
-            <p class="text-[9px] font-black tracking-[0.25em] uppercase" style="color: rgba(255,255,255,0.5);">NOVABETT AGENT PROGRAM</p>
+        <!-- Banner — Soft Ambient (2026 Trend) -->
+        <div class="fp-card rounded-2xl relative overflow-hidden" style="height: 148px; background: linear-gradient(135deg, #0c1120 0%, #0a0e1c 40%, #0d1228 70%, #080c18 100%); border: 1px solid rgba(255,255,255,0.06);">
+          <!-- Layered ambient blobs -->
+          <div class="absolute -top-8 -left-8 w-48 h-48 rounded-full pointer-events-none"
+            style="background: radial-gradient(circle, rgba(100,140,255,0.08) 0%, transparent 65%); filter: blur(20px);"></div>
+          <div class="absolute -bottom-8 right-4 w-40 h-40 rounded-full pointer-events-none"
+            style="background: radial-gradient(circle, rgba(255,193,7,0.07) 0%, transparent 65%); filter: blur(18px);"></div>
+          <div class="absolute top-4 right-1/3 w-32 h-32 rounded-full pointer-events-none"
+            style="background: radial-gradient(circle, rgba(80,180,255,0.05) 0%, transparent 70%); filter: blur(14px);"></div>
+
+          <!-- Subtle grid lines overlay -->
+          <div class="absolute inset-0 pointer-events-none" style="background-image: linear-gradient(rgba(255,255,255,0.018) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.018) 1px, transparent 1px); background-size: 32px 32px;"></div>
+
+          <!-- Top shimmer line -->
+          <div class="absolute top-0 left-0 right-0 h-px pointer-events-none"
+            style="background: linear-gradient(90deg, transparent 5%, rgba(255,255,255,0.1) 30%, rgba(255,255,255,0.18) 50%, rgba(255,255,255,0.1) 70%, transparent 95%);"></div>
+
+          <!-- Content -->
+          <div class="absolute inset-0 flex flex-col justify-between px-5 py-4">
+            <!-- Top row: Logo word + commission badge -->
+            <div class="flex items-start justify-between">
+              <div>
+                <p class="text-[9px] font-mono tracking-[0.35em] uppercase mb-1" style="color: rgba(255,255,255,0.22);">NOVA BETT</p>
+                <p class="text-[18px] font-light tracking-[0.08em]" style="color: rgba(255,255,255,0.82); font-weight: 300; letter-spacing: 0.07em;">Agent<span style="color:rgba(255,255,255,0.38);font-weight:200;"> Program</span></p>
+              </div>
+              <!-- Commission badge — soft pill -->
+              <div class="px-3 py-1.5 rounded-full"
+                style="background: rgba(255,193,7,0.07); border: 1px solid rgba(255,193,7,0.2);">
+                <p class="text-[10px] font-medium tracking-[0.1em]" style="color: rgba(255,193,7,0.75);">10% Commission</p>
+              </div>
+            </div>
+
+            <!-- Bottom row: tagline + ambient bar -->
+            <div>
+              <!-- Mini stats row -->
+              <div class="flex items-center gap-4 mb-3">
+                <div>
+                  <p class="text-[8px] tracking-[0.18em] uppercase mb-0.5" style="color: rgba(255,255,255,0.2);">Earn</p>
+                  <p class="text-[13px] font-light" style="color: rgba(255,255,255,0.55); font-weight:300;">Unlimited</p>
+                </div>
+                <div class="w-px h-6" style="background: rgba(255,255,255,0.07);"></div>
+                <div>
+                  <p class="text-[8px] tracking-[0.18em] uppercase mb-0.5" style="color: rgba(255,255,255,0.2);">Network</p>
+                  <p class="text-[13px] font-light" style="color: rgba(255,255,255,0.55); font-weight:300;">Infinite Depth</p>
+                </div>
+                <div class="w-px h-6" style="background: rgba(255,255,255,0.07);"></div>
+                <div>
+                  <p class="text-[8px] tracking-[0.18em] uppercase mb-0.5" style="color: rgba(255,255,255,0.2);">Payout</p>
+                  <p class="text-[13px] font-light" style="color: rgba(255,255,255,0.55); font-weight:300;">Daily</p>
+                </div>
+              </div>
+              <!-- Soft progress ambient bar -->
+              <div class="h-px w-full rounded-full" style="background: linear-gradient(90deg, rgba(100,140,255,0.25) 0%, rgba(255,193,7,0.18) 50%, transparent 100%);"></div>
+            </div>
           </div>
         </div>
 
@@ -427,82 +494,77 @@
             </div>
           </div>
 
-          <!-- Floating QR + Neural Link row -->
-          <div class="flex gap-4 items-center">
+          <!-- QR + URL stacked layout -->
+          <div class="space-y-3">
 
-            <!-- ── FLOATING QR OBJECT ── -->
-            <div class="relative flex-shrink-0" style="width: 90px; height: 90px;">
-              <!-- Outer ambient ring 3 -->
-              <div class="nova-qr-ring-3 absolute -inset-4 rounded-3xl pointer-events-none"
-                style="border: 1px solid rgba(50,130,255,0.1);"></div>
-              <!-- Mid pulse ring 2 -->
-              <div class="nova-qr-ring-2 absolute -inset-2 rounded-2xl pointer-events-none"
-                style="border: 1px solid rgba(60,140,255,0.2);"></div>
-              <!-- Inner glow ring 1 -->
-              <div class="nova-qr-ring-1 absolute inset-0 rounded-2xl pointer-events-none"
-                style="border: 1px solid rgba(80,160,255,0.4);"></div>
-
-              <!-- QR floating card -->
-              <div class="nova-qr-float absolute inset-0 rounded-2xl overflow-hidden"
-                style="background: rgba(255,255,255,0.97); padding: 5px; box-shadow: 0 0 28px rgba(50,130,255,0.45), 0 4px 18px rgba(0,0,0,0.45), inset 0 1px 0 rgba(255,255,255,1);">
-                <img :src="qrUrl" class="w-full h-full object-contain" alt="QR" loading="lazy" />
-                <!-- Scan line sweep -->
-                <div class="nova-qr-scan absolute left-0 right-0 h-0.5 pointer-events-none"
-                  style="background: linear-gradient(90deg, transparent, rgba(50,130,255,0.55), transparent);"></div>
+            <!-- ── FLOATING QR OBJECT — centered ── -->
+            <div class="flex justify-center">
+              <div class="relative" style="width: 108px; height: 108px;">
+                <!-- Outer ambient ring 3 -->
+                <div class="nova-qr-ring-3 absolute -inset-4 rounded-3xl pointer-events-none"
+                  style="border: 1px solid rgba(50,130,255,0.1);"></div>
+                <!-- Mid pulse ring 2 -->
+                <div class="nova-qr-ring-2 absolute -inset-2 rounded-2xl pointer-events-none"
+                  style="border: 1px solid rgba(60,140,255,0.2);"></div>
+                <!-- Inner glow ring 1 -->
+                <div class="nova-qr-ring-1 absolute inset-0 rounded-2xl pointer-events-none"
+                  style="border: 1px solid rgba(80,160,255,0.4);"></div>
+                <!-- QR floating card -->
+                <div class="nova-qr-float absolute inset-0 rounded-2xl overflow-hidden"
+                  style="background: rgba(255,255,255,0.97); padding: 6px; box-shadow: 0 0 28px rgba(50,130,255,0.45), 0 4px 18px rgba(0,0,0,0.45), inset 0 1px 0 rgba(255,255,255,1);">
+                  <img :src="qrUrl" class="w-full h-full object-contain" alt="QR" loading="lazy" />
+                  <div class="nova-qr-scan absolute left-0 right-0 h-0.5 pointer-events-none"
+                    style="background: linear-gradient(90deg, transparent, rgba(50,130,255,0.55), transparent);"></div>
+                </div>
+                <!-- Corner accent dot -->
+                <div class="nova-corner-dot absolute -top-0.5 -right-0.5 w-2 h-2 rounded-full"
+                  style="background: rgba(80,180,255,0.9); box-shadow: 0 0 8px rgba(80,180,255,1);"></div>
               </div>
-
-              <!-- Corner accent dot -->
-              <div class="nova-corner-dot absolute -top-0.5 -right-0.5 w-2 h-2 rounded-full"
-                style="background: rgba(80,180,255,0.9); box-shadow: 0 0 8px rgba(80,180,255,1);"></div>
             </div>
 
-            <!-- ── NEURAL LINK IDENTITY NODE ── -->
-            <div class="flex-1 min-w-0 space-y-2">
-
-              <!-- Node type badge -->
-              <div class="flex items-center gap-1.5">
-                <div class="flex items-center gap-1 px-2 py-0.5 rounded-full"
-                  style="background: rgba(30,80,200,0.18); border: 1px solid rgba(60,140,255,0.3);">
-                  <svg class="w-2.5 h-2.5" style="color:rgba(90,170,255,0.85)" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-                    <circle cx="12" cy="12" r="3"/><path d="M12 2v3M12 19v3M4.22 4.22l2.12 2.12M17.66 17.66l2.12 2.12M2 12h3M19 12h3M4.22 19.78l2.12-2.12M17.66 6.34l2.12-2.12"/>
-                  </svg>
-                  <span class="text-[8px] font-black tracking-[0.15em]" style="color:rgba(90,170,255,0.9)">NODE</span>
-                </div>
-                <span class="text-[8px]" style="color:rgba(60,130,255,0.45)">·</span>
-                <span class="text-[8px] font-mono" style="color:rgba(90,160,255,0.5)">AGENT LINK</span>
+            <!-- ── NODE TYPE BADGE ── -->
+            <div class="flex items-center justify-center gap-1.5">
+              <div class="flex items-center gap-1 px-2 py-0.5 rounded-full"
+                style="background: rgba(30,80,200,0.18); border: 1px solid rgba(60,140,255,0.3);">
+                <svg class="w-2.5 h-2.5" style="color:rgba(90,170,255,0.85)" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                  <circle cx="12" cy="12" r="3"/><path d="M12 2v3M12 19v3M4.22 4.22l2.12 2.12M17.66 17.66l2.12 2.12M2 12h3M19 12h3M4.22 19.78l2.12-2.12M17.66 6.34l2.12-2.12"/>
+                </svg>
+                <span class="text-[8px] font-black tracking-[0.15em]" style="color:rgba(90,170,255,0.9)">NODE</span>
               </div>
-
-              <!-- URL Identity node container -->
-              <div class="nova-link-node relative rounded-xl overflow-hidden"
-                style="background: rgba(15,40,100,0.65); border: 1px solid rgba(55,130,255,0.32); box-shadow: 0 0 14px rgba(40,100,255,0.12), inset 0 1px 0 rgba(90,170,255,0.1);">
-                <!-- Sweep shimmer -->
-                <div class="nova-link-sweep absolute inset-0 pointer-events-none"
-                  style="background: linear-gradient(90deg, transparent 0%, rgba(80,160,255,0.07) 50%, transparent 100%); width: 60%;"></div>
-                <div class="flex items-center gap-2 px-3 py-2.5 relative z-10">
-                  <svg class="w-3 h-3 flex-shrink-0" style="color:rgba(70,150,255,0.65)" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" d="M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.102-1.101m-.758-4.899a4 4 0 005.656 0l4-4a4 4 0 00-5.656-5.656l-1.1 1.1"/>
-                  </svg>
-                  <p class="text-[10px] font-mono flex-1 overflow-x-auto whitespace-nowrap no-scrollbar"
-                    style="color: rgba(110,190,255,0.88); user-select: text; -webkit-user-select: text; cursor: text; letter-spacing: 0.01em;">{{ referralLink }}</p>
-                  <button @click="copyText(referralLink)" class="flex-shrink-0 active:scale-75 transition-all">
-                    <div class="px-1.5 py-1 rounded-lg transition-all"
-                      :style="copiedLink ? 'background:rgba(80,220,120,0.15);border:1px solid rgba(80,220,120,0.35)' : 'background:rgba(50,120,255,0.15);border:1px solid rgba(60,140,255,0.3)'">
-                      <svg v-if="!copiedLink" class="w-3 h-3" style="color:rgba(90,170,255,0.9)" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"/>
-                      </svg>
-                      <svg v-else class="w-3 h-3" style="color:rgba(80,220,120,0.95)" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/>
-                      </svg>
-                    </div>
-                  </button>
-                </div>
-              </div>
-
-              <!-- Token caption -->
-              <p class="text-[9px] pl-1" style="color: rgba(60,120,220,0.5);">
-                ဖိတ်ကုဒ်: <span style="color:rgba(100,180,255,0.8); font-weight:700;">{{ username }}</span>
-              </p>
+              <span class="text-[8px]" style="color:rgba(60,130,255,0.45)">·</span>
+              <span class="text-[8px] font-mono" style="color:rgba(90,160,255,0.5)">AGENT LINK</span>
             </div>
+
+            <!-- ── FULL URL — below QR, full width, soft color ── -->
+            <div class="nova-link-node relative rounded-xl overflow-hidden"
+              style="background: rgba(10,18,38,0.75); border: 1px solid rgba(255,255,255,0.1); box-shadow: inset 0 1px 0 rgba(255,255,255,0.06);">
+              <!-- Sweep shimmer -->
+              <div class="nova-link-sweep absolute inset-0 pointer-events-none"
+                style="background: linear-gradient(90deg, transparent 0%, rgba(255,255,255,0.03) 50%, transparent 100%); width: 60%;"></div>
+              <div class="flex items-start gap-2.5 px-3 py-3 relative z-10">
+                <svg class="w-3.5 h-3.5 flex-shrink-0 mt-0.5" style="color:rgba(255,255,255,0.3)" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.102-1.101m-.758-4.899a4 4 0 005.656 0l4-4a4 4 0 00-5.656-5.656l-1.1 1.1"/>
+                </svg>
+                <p class="text-[11px] font-mono flex-1 break-all leading-relaxed"
+                  style="color: rgba(220,230,245,0.72); user-select: text; -webkit-user-select: text; cursor: text; letter-spacing: 0.01em;">{{ referralLink }}</p>
+                <button @click="copyText(referralLink)" class="flex-shrink-0 active:scale-75 transition-all mt-0.5">
+                  <div class="px-2 py-1.5 rounded-lg transition-all"
+                    :style="copiedLink ? 'background:rgba(80,220,120,0.15);border:1px solid rgba(80,220,120,0.35)' : 'background:rgba(255,255,255,0.07);border:1px solid rgba(255,255,255,0.12)'">
+                    <svg v-if="!copiedLink" class="w-3.5 h-3.5" style="color:rgba(255,255,255,0.5)" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                      <path stroke-linecap="round" stroke-linejoin="round" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"/>
+                    </svg>
+                    <svg v-else class="w-3.5 h-3.5" style="color:rgba(80,220,120,0.95)" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
+                      <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/>
+                    </svg>
+                  </div>
+                </button>
+              </div>
+            </div>
+
+            <!-- ဖိတ်ကုဒ် caption -->
+            <p class="text-[11px] text-center font-mono" style="color: rgba(255,255,255,0.3);">
+              ဖိတ်ကုဒ်: <span style="color:rgba(100,220,180,0.85); font-weight:700;">{{ inviteCode }}</span>
+            </p>
           </div>
 
           <!-- Social Share Buttons -->
@@ -584,8 +646,8 @@
                 style="color: rgba(255,255,255,0.35);">သူငယ်ချင်းများကို ဖိတ်ကြားသည်</p>
               <div class="flex items-center gap-2 rounded-xl px-3 py-1.5"
                 style="background: rgba(255,193,7,0.08); border: 1px solid rgba(255,193,7,0.18);">
-                <p class="text-[11px] font-black tracking-widest" style="color: rgba(255,193,7,0.9);">ဖိတ်တိုကင်: {{ username }}</p>
-                <button @click="copyText(username)" class="active:scale-75 transition-transform">
+                <p class="text-[11px] font-black tracking-widest font-mono" style="color: rgba(255,193,7,0.9);">ဖိတ်ကုဒ်: {{ inviteCode }}</p>
+                <button @click="copyText(inviteCode)" class="active:scale-75 transition-transform">
                   <svg v-if="!copiedCode" class="w-3.5 h-3.5" style="color:rgba(255,193,7,0.6)" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"/></svg>
                   <svg v-else class="w-3.5 h-3.5" style="color:rgba(100,220,120,0.9)" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg>
                 </button>
@@ -611,7 +673,7 @@
                   </button>
                 </div>
                 <!-- Caption -->
-                <p class="text-[9px] pl-1" style="color: rgba(255,255,255,0.2);">ဖိတ်ကုဒ်: <span style="color:rgba(255,193,7,0.65)">{{ username }}</span></p>
+                <p class="text-[11px] pl-1 font-mono" style="color: rgba(255,255,255,0.35);">ဖိတ်ကုဒ်: <span style="color:rgba(255,193,7,0.8);font-weight:700;">{{ inviteCode }}</span></p>
               </div>
             </div>
 
@@ -1969,6 +2031,11 @@ const tickerItems = [
 // ── Computed ───────────────────────────────────────────────
 const referralLink = computed(() =>
   window.location.origin + '/?dl=' + (userId.value ? userId.value.substring(0, 8).toUpperCase() : username.value)
+)
+
+// Invite code = the dl= param in the URL (not the display username)
+const inviteCode = computed(() =>
+  userId.value ? userId.value.substring(0, 8).toUpperCase() : username.value
 )
 
 const qrUrl = computed(() =>
