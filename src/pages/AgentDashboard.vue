@@ -60,16 +60,68 @@
             style="background: radial-gradient(ellipse, rgba(255,193,7,0.06) 0%, transparent 70%); filter: blur(10px);"></div>
 
           <div class="flex items-center gap-3">
-            <!-- Rank Level Badge — click to open Level Modal -->
+            <!-- ═══ LUXURY VIP RANK BADGE ═══ -->
             <button @click="showLevelModal = true"
-              class="level-badge-btn w-[62px] h-[62px] rounded-2xl flex-shrink-0 relative flex flex-col items-center justify-center gap-0 active:scale-90 transition-all overflow-hidden"
-              :style="currentLevelData.badgeBg + ';' + currentLevelData.badgeBorder">
-              <div class="absolute inset-0 rounded-2xl pointer-events-none" :style="'background:radial-gradient(ellipse at 50% 25%,' + currentLevelData.glow + ' 0%,transparent 68%)'"></div>
-              <div class="level-badge-shine absolute inset-0 rounded-2xl pointer-events-none"></div>
-              <span class="relative z-10 font-black leading-none" :style="'font-size:26px;' + currentLevelData.numberStyle">{{ agentLevel }}</span>
-              <span class="relative z-10 text-[6px] font-black tracking-[0.18em] uppercase mt-0.5" :style="currentLevelData.tierStyle">{{ currentLevelData.tierName }}</span>
-              <div class="absolute -bottom-1.5 -right-1.5 w-5 h-5 rounded-full flex items-center justify-center" :style="currentLevelData.cornerStyle">
-                <svg class="w-2.5 h-2.5" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
+              class="lux-vip-badge flex-shrink-0 active:scale-90 transition-all duration-300"
+              style="width:76px;height:82px;position:relative;flex-shrink:0;">
+
+              <!-- Ambient outer glow -->
+              <div class="absolute pointer-events-none lux-outer-aura"
+                :style="`inset:-6px;border-radius:20px;background:radial-gradient(ellipse,${currentLevelData.rimColor}22 0%,transparent 72%);filter:blur(8px);`"></div>
+
+              <!-- Pulsing ring -->
+              <div class="absolute pointer-events-none lux-pulse-ring"
+                :style="`inset:0;border-radius:18px;border:1.5px solid ${currentLevelData.rimColor};box-shadow:0 0 14px 2px ${currentLevelData.glowColor},inset 0 0 10px 1px ${currentLevelData.glowColor}33;`"></div>
+
+              <!-- Badge body — layered metallic look -->
+              <div class="absolute inset-0 rounded-[18px] overflow-hidden"
+                :style="currentLevelData.badgeBg">
+                <!-- Top specular highlight -->
+                <div class="absolute inset-x-0 top-0 h-[45%] pointer-events-none"
+                  style="background:linear-gradient(180deg,rgba(255,255,255,0.18) 0%,transparent 100%);border-radius:inherit;"></div>
+                <!-- Bottom depth shadow -->
+                <div class="absolute inset-x-0 bottom-0 h-[38%] pointer-events-none"
+                  style="background:linear-gradient(0deg,rgba(0,0,0,0.42) 0%,transparent 100%);"></div>
+                <!-- Diagonal shine sweep -->
+                <div class="lux-badge-sweep absolute inset-0 pointer-events-none"></div>
+              </div>
+
+              <!-- Crown decoration Gold+ -->
+              <div v-if="agentLevel >= 6" class="absolute z-20 pointer-events-none lux-crown-float"
+                style="top:-11px;left:50%;transform:translateX(-50%);">
+                <svg width="30" height="17" viewBox="0 0 30 17" fill="none">
+                  <path d="M15 1L22 9.5L30 5L25.5 17H4.5L0 5L8 9.5L15 1Z"
+                    :fill="currentLevelData.crownColor"
+                    style="filter:drop-shadow(0 0 5px currentColor)"/>
+                  <circle cx="15" cy="1.5" r="2" :fill="currentLevelData.crownColor" opacity="0.9"/>
+                  <circle cx="30" cy="5" r="1.5" :fill="currentLevelData.crownColor" opacity="0.7"/>
+                  <circle cx="0" cy="5" r="1.5" :fill="currentLevelData.crownColor" opacity="0.7"/>
+                </svg>
+              </div>
+              <!-- Flame for Mythic/Legend -->
+              <div v-if="agentLevel >= 14" class="absolute z-20 pointer-events-none"
+                style="top:-14px;left:50%;transform:translateX(-50%);">
+                <svg width="24" height="22" viewBox="0 0 24 22" fill="none">
+                  <path d="M12 0C12 0 8 4 8 8C8 6 6 5 6 5C6 5 4 10 8 14C6 13 5 11 5 11C5 11 3 17 8 20C5 20 2 18 2 18C2 18 3 22 12 22C21 22 22 18 22 18C22 18 19 20 16 20C21 17 19 11 19 11C19 11 18 13 16 14C20 10 18 5 18 5C18 5 16 6 16 8C16 4 12 0 12 0Z"
+                    :fill="currentLevelData.crownColor"/>
+                </svg>
+              </div>
+
+              <!-- Number + tier label -->
+              <div class="absolute inset-0 z-10 flex flex-col items-center justify-center"
+                :style="agentLevel >= 6 ? 'padding-top:10px' : ''">
+                <span class="lux-embossed-number font-black leading-none select-none"
+                  :style="`font-size:${agentLevel >= 10 ? '23px' : '27px'};` + currentLevelData.numberStyle">{{ agentLevel }}</span>
+                <span class="text-[6.5px] font-black tracking-[0.2em] uppercase mt-0.5 select-none"
+                  :style="currentLevelData.tierStyle">{{ currentLevelData.tierName }}</span>
+              </div>
+
+              <!-- Corner star gem -->
+              <div class="absolute z-20 -bottom-1.5 -right-1.5 w-[18px] h-[18px] rounded-full flex items-center justify-center"
+                :style="currentLevelData.cornerStyle + ';box-shadow:0 0 8px ' + currentLevelData.glowColor">
+                <svg class="w-2.5 h-2.5" fill="currentColor" viewBox="0 0 20 20">
+                  <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/>
+                </svg>
               </div>
             </button>
 
@@ -1057,96 +1109,191 @@
       </div>
     </nav>
 
-    <!-- ══════════════════════════════════════════════════════
-         LUXURY GOLD AGENT LEVEL MODAL
-         ════════════════════════════════════════════════════ -->
+    <!-- ══════════════════════════════════════════════════════════════
+         ✦ ULTRA LUXURY VIP CASINO LEVEL SYSTEM MODAL ✦
+         ══════════════════════════════════════════════════════════════ -->
     <Transition name="level-modal">
       <div v-if="showLevelModal"
         class="fixed inset-0 z-50 flex flex-col justify-end"
-        style="background:rgba(0,0,0,0.78);backdrop-filter:blur(10px)">
+        style="background:rgba(0,0,0,0.85);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px)">
+
+        <!-- Tap-outside to close -->
         <div class="absolute inset-0" @click="showLevelModal = false"></div>
-        <div class="relative rounded-t-3xl overflow-hidden"
-          style="background:linear-gradient(180deg,rgba(10,8,22,0.99) 0%,rgba(5,3,12,1) 100%);border-top:1px solid rgba(255,200,0,0.14);max-height:88vh">
-          <div class="absolute top-0 left-0 right-0 h-36 pointer-events-none"
-            style="background:radial-gradient(ellipse at 50% -5%,rgba(255,180,0,0.14) 0%,transparent 68%)"></div>
-          <!-- Header -->
-          <div class="sticky top-0 z-10 px-5 pt-5 pb-3 flex items-center justify-between"
-            style="background:rgba(10,8,22,0.97);border-bottom:1px solid rgba(255,200,0,0.07)">
-            <div>
-              <p class="text-[10px] font-bold tracking-[0.22em] uppercase" style="color:rgba(255,193,7,0.45)">NOVABETT AGENT</p>
-              <h2 class="text-[17px] font-black tracking-wider mt-0.5" style="color:rgba(255,220,100,0.95);text-shadow:0 0 22px rgba(255,193,7,0.45)">Level System</h2>
-            </div>
-            <div class="flex items-center gap-2">
-              <div class="px-3 py-1.5 rounded-xl flex items-center gap-1.5 overflow-hidden relative"
-                :style="currentLevelData.badgeBg + ';' + currentLevelData.badgeBorder">
-                <div class="absolute inset-0 pointer-events-none" :style="'background:radial-gradient(ellipse at 50% 20%,' + currentLevelData.glow + ' 0%,transparent 68%)'"></div>
-                <span class="relative z-10 text-sm font-black" :style="currentLevelData.numberStyle">{{ agentLevel }}</span>
-                <span class="relative z-10 text-[9px] font-black" :style="currentLevelData.tierStyle">{{ currentLevelData.tierName }}</span>
-              </div>
-              <button @click="showLevelModal = false"
-                class="w-8 h-8 rounded-full flex items-center justify-center active:scale-90 transition-all"
-                style="background:rgba(255,255,255,0.07);border:1px solid rgba(255,255,255,0.1);color:rgba(255,255,255,0.4)">
-                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
-              </button>
-            </div>
+
+        <!-- Sheet -->
+        <div class="relative rounded-t-[32px] overflow-hidden lux-modal-sheet"
+          style="max-height:91vh;background:linear-gradient(180deg,#0c0a1a 0%,#060410 100%);border-top:1px solid rgba(255,200,80,0.18);">
+
+          <!-- Top ambient radial glow -->
+          <div class="absolute top-0 left-0 right-0 h-48 pointer-events-none"
+            style="background:radial-gradient(ellipse at 50% -10%,rgba(255,180,0,0.2) 0%,rgba(120,60,200,0.06) 55%,transparent 80%)"></div>
+
+          <!-- Drag handle -->
+          <div class="flex justify-center pt-3 pb-0 relative z-10">
+            <div class="w-10 h-1 rounded-full" style="background:rgba(255,255,255,0.15)"></div>
           </div>
-          <!-- Progress bar -->
-          <div v-if="nextLevelData" class="mx-4 mt-3 mb-1 rounded-2xl p-3"
-            style="background:rgba(255,193,7,0.04);border:1px solid rgba(255,193,7,0.09)">
-            <div class="flex items-center justify-between mb-1.5">
-              <p class="text-[10px]" style="color:rgba(255,255,255,0.38)">Next: <span :style="nextLevelData.tierStyle" class="font-bold">{{ nextLevelData.tierName }} LV{{ nextLevelData.level }}</span></p>
-              <p class="text-[10px] font-black" style="color:rgba(255,193,7,0.75)">{{ levelProgress }}%</p>
-            </div>
-            <div class="h-1.5 rounded-full overflow-hidden" style="background:rgba(255,255,255,0.06)">
-              <div class="h-full rounded-full transition-all duration-700"
-                :style="'width:' + levelProgress + '%;' + currentLevelData.badgeBg"></div>
-            </div>
-            <p class="text-[9px] mt-1" style="color:rgba(255,255,255,0.22)">
-              {{ formatN(Math.max(0, nextLevelData.required - totalCommission)) }} Ks more needed
-            </p>
-          </div>
-          <div v-else class="mx-4 mt-3 mb-1 rounded-2xl p-2.5 text-center"
-            style="background:rgba(220,80,255,0.07);border:1px solid rgba(220,80,255,0.22)">
-            <p class="text-[11px] font-black" style="color:rgba(220,120,255,0.95)">✦ MAX LEVEL REACHED ✦</p>
-          </div>
-          <!-- Column headers -->
-          <div class="px-4 py-2 flex items-center gap-2"
-            style="border-bottom:1px solid rgba(255,255,255,0.04)">
-            <div class="w-10 flex-shrink-0"></div>
-            <div class="flex-1 text-[9px] font-bold tracking-widest uppercase" style="color:rgba(255,255,255,0.22)">Level</div>
-            <div class="w-[100px] text-right text-[9px] font-bold tracking-widest uppercase" style="color:rgba(255,255,255,0.22)">Min Commission</div>
-            <div class="w-12 text-right text-[9px] font-bold tracking-widest uppercase" style="color:rgba(255,255,255,0.22)">Rate</div>
-          </div>
-          <!-- Scrollable level rows -->
-          <div class="overflow-y-auto px-3 pt-1 pb-10" style="max-height:55vh">
-            <div v-for="lv in AGENT_LEVELS" :key="lv.level"
-              class="lv-row flex items-center gap-2 px-2 py-2.5 rounded-2xl mb-1.5 transition-all"
-              :class="lv.level === agentLevel ? 'lv-current' : lv.level < agentLevel ? 'lv-past' : 'lv-future'">
-              <!-- Badge icon -->
-              <div class="w-10 h-10 rounded-xl flex-shrink-0 flex flex-col items-center justify-center relative overflow-hidden"
-                :style="lv.badgeBg + ';' + lv.badgeBorder + ';' + (lv.level === agentLevel ? 'box-shadow:0 0 20px ' + lv.glow : '')">
-                <div class="absolute inset-0 pointer-events-none" :style="'background:radial-gradient(ellipse at 50% 20%,' + lv.glow + ' 0%,transparent 65%)'"></div>
-                <span class="relative z-10 text-sm font-black leading-none" :style="lv.numberStyle">{{ lv.level }}</span>
-              </div>
-              <!-- Name + tier -->
-              <div class="flex-1 min-w-0">
-                <div class="flex items-center gap-1.5">
-                  <span class="text-[13px] font-black" :style="lv.level <= agentLevel ? lv.numberStyle : 'color:rgba(255,255,255,0.28)'">LV {{ lv.level }}</span>
-                  <span v-if="lv.level === agentLevel"
-                    class="text-[7px] px-1.5 py-0.5 rounded-full font-black animate-pulse"
-                    style="background:rgba(255,215,0,0.22);color:#FFD700">YOU</span>
+
+          <!-- ── HEADER ── -->
+          <div class="sticky top-0 z-20 px-5 pt-4 pb-3 flex items-center justify-between"
+            style="background:rgba(8,6,18,0.95);border-bottom:1px solid rgba(255,180,0,0.09);backdrop-filter:blur(20px);">
+
+            <!-- Left: current badge mini + title -->
+            <div class="flex items-center gap-3">
+              <!-- Mini current badge -->
+              <div class="lux-mini-badge relative w-11 h-11 rounded-[12px] overflow-hidden flex-shrink-0"
+                :style="currentLevelData.badgeBg + ';box-shadow:0 0 16px 3px ' + currentLevelData.glowColor + ',inset 0 1px 0 rgba(255,255,255,0.2)'">
+                <div class="absolute inset-x-0 top-0 h-1/2 pointer-events-none"
+                  style="background:linear-gradient(180deg,rgba(255,255,255,0.22) 0%,transparent 100%)"></div>
+                <div class="absolute inset-0 flex flex-col items-center justify-center">
+                  <span class="text-sm font-black leading-none" :style="currentLevelData.numberStyle">{{ agentLevel }}</span>
+                  <span class="text-[6px] font-black tracking-wider uppercase mt-0.5" :style="currentLevelData.tierStyle">{{ currentLevelData.tierName }}</span>
                 </div>
-                <span class="text-[9px] font-bold" :style="lv.level <= agentLevel ? lv.tierStyle : 'color:rgba(255,255,255,0.18)'">{{ lv.tierName }}</span>
               </div>
+              <div>
+                <p class="text-[9px] font-bold tracking-[0.28em] uppercase" style="color:rgba(255,193,7,0.5)">NOVABETT AGENT</p>
+                <h2 class="text-lg font-black tracking-wide" style="color:rgba(255,224,100,0.97);text-shadow:0 0 24px rgba(255,193,7,0.55),0 2px 4px rgba(0,0,0,0.8)">Level System</h2>
+              </div>
+            </div>
+
+            <!-- Close button -->
+            <button @click="showLevelModal = false"
+              class="w-9 h-9 rounded-full flex items-center justify-center active:scale-90 transition-all"
+              style="background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.1);color:rgba(255,255,255,0.45)">
+              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
+            </button>
+          </div>
+
+          <!-- ── PROGRESS CARD ── -->
+          <div class="mx-4 mt-3 mb-2">
+            <div v-if="nextLevelData" class="rounded-2xl p-4 relative overflow-hidden"
+              style="background:linear-gradient(135deg,rgba(255,180,0,0.07) 0%,rgba(255,120,0,0.04) 100%);border:1px solid rgba(255,180,0,0.14)">
+              <div class="absolute inset-0 pointer-events-none"
+                style="background:radial-gradient(ellipse at 0% 50%,rgba(255,193,7,0.07) 0%,transparent 60%)"></div>
+              <div class="flex items-center justify-between mb-2 relative z-10">
+                <div>
+                  <p class="text-[9px] tracking-[0.1em] uppercase" style="color:rgba(255,255,255,0.32)">Next Rank</p>
+                  <p class="text-[13px] font-black mt-0.5" :style="nextLevelData.numberStyle">{{ nextLevelData.tierName }} LV{{ nextLevelData.level }}</p>
+                </div>
+                <div class="text-right">
+                  <p class="text-[9px]" style="color:rgba(255,255,255,0.32)">Progress</p>
+                  <p class="text-lg font-black" style="color:rgba(255,193,7,0.95);text-shadow:0 0 12px rgba(255,193,7,0.5)">{{ levelProgress }}<span class="text-xs">%</span></p>
+                </div>
+              </div>
+              <!-- Progress bar -->
+              <div class="h-2 rounded-full overflow-hidden relative z-10" style="background:rgba(255,255,255,0.07)">
+                <div class="h-full rounded-full lux-progress-fill transition-all duration-1000 relative overflow-hidden"
+                  :style="'width:' + levelProgress + '%;' + currentLevelData.badgeBg">
+                  <div class="absolute inset-0 lux-progress-shimmer"></div>
+                </div>
+              </div>
+              <p class="text-[9px] mt-1.5 relative z-10" style="color:rgba(255,255,255,0.25)">
+                {{ formatN(Math.max(0, nextLevelData.required - totalCommission)) }} Ks more needed
+              </p>
+            </div>
+            <div v-else class="rounded-2xl p-3 text-center"
+              style="background:linear-gradient(135deg,rgba(220,80,255,0.1),rgba(120,0,255,0.08));border:1px solid rgba(220,80,255,0.3)">
+              <p class="text-[12px] font-black tracking-wider" style="color:rgba(220,120,255,0.95);text-shadow:0 0 16px rgba(220,80,255,0.6)">✦ MAX LEVEL REACHED ✦</p>
+            </div>
+          </div>
+
+          <!-- ── COLUMN HEADERS ── -->
+          <div class="px-5 py-2 flex items-center gap-2" style="border-bottom:1px solid rgba(255,255,255,0.04)">
+            <div class="w-[88px] flex-shrink-0 text-[8px] font-bold tracking-widest uppercase" style="color:rgba(255,255,255,0.2)">Badge</div>
+            <div class="flex-1 text-[8px] font-bold tracking-widest uppercase" style="color:rgba(255,255,255,0.2)">Level</div>
+            <div class="w-[88px] text-right text-[8px] font-bold tracking-widest uppercase" style="color:rgba(255,255,255,0.2)">Min Commission</div>
+            <div class="w-10 text-right text-[8px] font-bold tracking-widest uppercase" style="color:rgba(255,255,255,0.2)">Rate</div>
+          </div>
+
+          <!-- ── SCROLLABLE LEVEL ROWS ── -->
+          <div class="overflow-y-auto px-3 pt-2 pb-12" style="max-height:54vh">
+            <div v-for="lv in AGENT_LEVELS" :key="lv.level"
+              class="lv-row flex items-center gap-2 px-2 py-2.5 rounded-2xl mb-1.5 transition-all duration-300"
+              :class="lv.level === agentLevel ? 'lv-current' : lv.level < agentLevel ? 'lv-past' : 'lv-future'">
+
+              <!-- VIP Badge pill (reference-image style) -->
+              <div class="w-[88px] flex-shrink-0 flex items-center gap-1.5">
+                <!-- Hexagon badge shield -->
+                <div class="relative flex-shrink-0" style="width:38px;height:42px;">
+                  <!-- SVG shield shape -->
+                  <svg viewBox="0 0 38 42" class="absolute inset-0 w-full h-full" xmlns="http://www.w3.org/2000/svg">
+                    <defs>
+                      <linearGradient :id="`sg${lv.level}`" x1="0%" y1="0%" x2="100%" y2="100%">
+                        <stop :stop-color="lv.gradStart" offset="0%"/>
+                        <stop :stop-color="lv.gradEnd" offset="100%"/>
+                      </linearGradient>
+                    </defs>
+                    <!-- Shield outer -->
+                    <path d="M19 2L35 9V24C35 33 19 40 19 40C19 40 3 33 3 24V9L19 2Z"
+                      :fill="lv.level <= agentLevel ? `url(#sg${lv.level})` : 'rgba(255,255,255,0.04)'"
+                      :stroke="lv.level <= agentLevel ? lv.rimColor : 'rgba(255,255,255,0.08)'"
+                      stroke-width="1.2"/>
+                    <!-- Inner highlight -->
+                    <path d="M19 5L33 11.5V25C33 32 19 38 19 38C19 38 5 32 5 25V11.5L19 5Z"
+                      fill="rgba(255,255,255,0.07)"
+                      stroke="none"/>
+                  </svg>
+                  <!-- Crown for Gold+ -->
+                  <div v-if="lv.level >= 6 && lv.level <= agentLevel"
+                    class="absolute z-10 pointer-events-none"
+                    style="top:-6px;left:50%;transform:translateX(-50%);">
+                    <svg width="20" height="12" viewBox="0 0 20 12" fill="none">
+                      <path d="M10 1L14.5 7L20 4L17.5 12H2.5L0 4L5.5 7L10 1Z" :fill="lv.crownColor || '#FFD700'" opacity="0.9"/>
+                    </svg>
+                  </div>
+                  <!-- Number inside shield -->
+                  <div class="absolute inset-0 flex items-center justify-center"
+                    style="padding-top:4px">
+                    <span class="font-black leading-none select-none"
+                      :style="`font-size:${lv.level >= 10 ? '12px' : '14px'};` + (lv.level <= agentLevel ? lv.numberStyle : 'color:rgba(255,255,255,0.2)')">
+                      {{ lv.level }}
+                    </span>
+                  </div>
+                  <!-- Glow when current -->
+                  <div v-if="lv.level === agentLevel"
+                    class="absolute inset-0 pointer-events-none lux-row-badge-glow"
+                    :style="`box-shadow:0 0 18px 4px ${lv.glowColor};border-radius:4px;`"></div>
+                </div>
+
+                <!-- VIP label pill -->
+                <div class="flex-1 flex flex-col items-start gap-0.5">
+                  <div class="rounded-full px-2 py-0.5 text-[9px] font-black"
+                    :style="lv.level <= agentLevel
+                      ? `background:${lv.rimColor}22;border:1px solid ${lv.rimColor}55;` + lv.tierStyle
+                      : 'background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.07);color:rgba(255,255,255,0.2)'">
+                    VIP{{ lv.level }}
+                  </div>
+                  <span v-if="lv.level === agentLevel"
+                    class="text-[7px] px-1.5 py-0.5 rounded-full font-black lux-you-badge"
+                    style="background:linear-gradient(90deg,rgba(255,215,0,0.25),rgba(255,140,0,0.2));border:1px solid rgba(255,215,0,0.4);color:#FFD700;">
+                    ▶ YOU
+                  </span>
+                </div>
+              </div>
+
+              <!-- Level name -->
+              <div class="flex-1 min-w-0">
+                <span class="text-[12px] font-black"
+                  :style="lv.level <= agentLevel ? lv.numberStyle : 'color:rgba(255,255,255,0.22)'">
+                  LV {{ lv.level }}
+                </span>
+                <p class="text-[9px] font-bold"
+                  :style="lv.level <= agentLevel ? lv.tierStyle : 'color:rgba(255,255,255,0.15)'">
+                  {{ lv.tierName }}
+                </p>
+              </div>
+
               <!-- Required commission -->
-              <div class="w-[100px] text-right">
-                <p class="text-[11px] font-bold" :style="lv.level <= agentLevel ? lv.numberStyle : 'color:rgba(255,255,255,0.25)'">
+              <div class="w-[88px] text-right">
+                <p class="text-[11px] font-bold"
+                  :style="lv.level <= agentLevel ? lv.numberStyle : 'color:rgba(255,255,255,0.2)'">
                   {{ lv.required === 0 ? '—' : formatN(lv.required) + ' Ks' }}
                 </p>
               </div>
+
               <!-- Rate -->
-              <div class="w-12 text-right">
-                <span class="font-black" :style="'font-size:12px;' + (lv.level === agentLevel ? lv.numberStyle : lv.level < agentLevel ? 'color:rgba(255,255,255,0.38)' : 'color:rgba(255,255,255,0.18)')">
+              <div class="w-10 text-right">
+                <span class="font-black"
+                  :style="`font-size:12px;` + (lv.level === agentLevel ? lv.numberStyle : lv.level < agentLevel ? 'color:rgba(255,255,255,0.35)' : 'color:rgba(255,255,255,0.15)')">
                   {{ lv.rate }}%
                 </span>
               </div>
@@ -1177,23 +1324,130 @@ const treeSelectedNode = ref('self')
 const demoTab = ref('A')
 const showLevelModal = ref(false)
 
-// ── Agent Level System Data ──────────────────────────────────────────────────
+// ── Agent Level System Data (Luxury VIP Casino Edition) ─────────────────────
 const AGENT_LEVELS = [
-  { level:1,  required:0,       rate:10.0, tierName:'BRONZE',   badgeBg:'background:linear-gradient(135deg,rgba(139,90,43,0.55),rgba(100,60,20,0.35))',   badgeBorder:'border:1.5px solid rgba(205,127,50,0.55)',  glow:'rgba(205,127,50,0.5)',   numberStyle:'color:#F4A460;text-shadow:0 0 18px rgba(205,127,50,0.8)',   tierStyle:'color:rgba(244,164,96,0.8)',   cornerStyle:'background:rgba(205,127,50,0.25);border:1px solid rgba(205,127,50,0.5);color:#F4A460' },
-  { level:2,  required:100,     rate:10.5, tierName:'BRONZE',   badgeBg:'background:linear-gradient(135deg,rgba(145,95,48,0.6),rgba(105,65,25,0.38))',    badgeBorder:'border:1.5px solid rgba(210,135,55,0.58)',  glow:'rgba(210,135,55,0.5)',   numberStyle:'color:#F4A460;text-shadow:0 0 18px rgba(210,135,55,0.8)',   tierStyle:'color:rgba(244,164,96,0.8)',   cornerStyle:'background:rgba(210,135,55,0.25);border:1px solid rgba(210,135,55,0.5);color:#F4A460' },
-  { level:3,  required:300,     rate:11.0, tierName:'BRONZE',   badgeBg:'background:linear-gradient(135deg,rgba(155,100,52,0.65),rgba(110,70,28,0.4))',   badgeBorder:'border:1.5px solid rgba(215,140,60,0.62)',  glow:'rgba(215,140,60,0.5)',   numberStyle:'color:#FFB347;text-shadow:0 0 20px rgba(215,140,60,0.8)',   tierStyle:'color:rgba(255,179,71,0.85)',  cornerStyle:'background:rgba(215,140,60,0.28);border:1px solid rgba(215,140,60,0.55);color:#FFB347' },
-  { level:4,  required:500,     rate:11.5, tierName:'SILVER',   badgeBg:'background:linear-gradient(135deg,rgba(140,140,150,0.5),rgba(90,90,100,0.32))',  badgeBorder:'border:1.5px solid rgba(192,192,210,0.55)', glow:'rgba(192,192,210,0.45)', numberStyle:'color:#E8E8F0;text-shadow:0 0 18px rgba(192,192,210,0.7)',  tierStyle:'color:rgba(220,220,235,0.8)',  cornerStyle:'background:rgba(192,192,210,0.2);border:1px solid rgba(192,192,210,0.5);color:#E8E8F0' },
-  { level:5,  required:800,     rate:12.0, tierName:'SILVER',   badgeBg:'background:linear-gradient(135deg,rgba(155,155,165,0.55),rgba(100,100,112,0.35))', badgeBorder:'border:1.5px solid rgba(205,205,222,0.6)', glow:'rgba(205,205,222,0.45)', numberStyle:'color:#F0F0FF;text-shadow:0 0 20px rgba(200,200,220,0.7)',  tierStyle:'color:rgba(225,225,240,0.85)', cornerStyle:'background:rgba(205,205,222,0.22);border:1px solid rgba(205,205,222,0.52);color:#F0F0FF' },
-  { level:6,  required:1000,    rate:12.5, tierName:'GOLD',     badgeBg:'background:linear-gradient(135deg,rgba(180,140,0,0.62),rgba(130,100,0,0.38))',   badgeBorder:'border:2px solid rgba(255,210,0,0.7)',     glow:'rgba(255,210,0,0.55)',   numberStyle:'color:#FFE500;text-shadow:0 0 24px rgba(255,215,0,0.9)',    tierStyle:'color:rgba(255,230,0,0.9)',    cornerStyle:'background:rgba(255,210,0,0.25);border:1px solid rgba(255,210,0,0.6);color:#FFE500' },
-  { level:7,  required:10000,   rate:13.0, tierName:'GOLD',     badgeBg:'background:linear-gradient(135deg,rgba(190,150,0,0.65),rgba(140,108,0,0.42))',   badgeBorder:'border:2px solid rgba(255,215,0,0.75)',    glow:'rgba(255,215,0,0.6)',    numberStyle:'color:#FFE800;text-shadow:0 0 28px rgba(255,215,0,1)',      tierStyle:'color:rgba(255,232,0,0.95)',   cornerStyle:'background:rgba(255,215,0,0.28);border:1px solid rgba(255,215,0,0.65);color:#FFE800' },
-  { level:8,  required:30000,   rate:13.5, tierName:'EMERALD',  badgeBg:'background:linear-gradient(135deg,rgba(0,120,70,0.6),rgba(0,80,45,0.38))',       badgeBorder:'border:2px solid rgba(0,200,120,0.65)',    glow:'rgba(0,200,120,0.55)',   numberStyle:'color:#00F090;text-shadow:0 0 24px rgba(0,200,120,0.9)',    tierStyle:'color:rgba(0,220,130,0.9)',    cornerStyle:'background:rgba(0,200,120,0.22);border:1px solid rgba(0,200,120,0.55);color:#00F090' },
-  { level:9,  required:50000,   rate:14.0, tierName:'EMERALD',  badgeBg:'background:linear-gradient(135deg,rgba(0,130,80,0.65),rgba(0,90,50,0.42))',      badgeBorder:'border:2px solid rgba(0,210,130,0.7)',     glow:'rgba(0,210,130,0.6)',    numberStyle:'color:#00FFA0;text-shadow:0 0 28px rgba(0,210,130,1)',      tierStyle:'color:rgba(0,230,140,0.95)',   cornerStyle:'background:rgba(0,200,130,0.25);border:1px solid rgba(0,210,130,0.6);color:#00FFA0' },
-  { level:10, required:80000,   rate:14.5, tierName:'SAPPHIRE', badgeBg:'background:linear-gradient(135deg,rgba(0,80,180,0.65),rgba(0,50,130,0.42))',     badgeBorder:'border:2px solid rgba(0,160,255,0.7)',     glow:'rgba(0,160,255,0.6)',    numberStyle:'color:#40C8FF;text-shadow:0 0 26px rgba(0,180,255,0.9)',    tierStyle:'color:rgba(40,200,255,0.9)',   cornerStyle:'background:rgba(0,160,255,0.22);border:1px solid rgba(0,160,255,0.55);color:#40C8FF' },
-  { level:11, required:100000,  rate:15.0, tierName:'SAPPHIRE', badgeBg:'background:linear-gradient(135deg,rgba(0,90,200,0.7),rgba(0,60,150,0.45))',      badgeBorder:'border:2px solid rgba(0,180,255,0.75)',    glow:'rgba(0,180,255,0.65)',   numberStyle:'color:#60D8FF;text-shadow:0 0 30px rgba(0,200,255,1)',      tierStyle:'color:rgba(60,220,255,0.95)',  cornerStyle:'background:rgba(0,180,255,0.25);border:1px solid rgba(0,180,255,0.6);color:#60D8FF' },
-  { level:12, required:1000000, rate:15.5, tierName:'RUBY',     badgeBg:'background:linear-gradient(135deg,rgba(160,0,60,0.7),rgba(110,0,40,0.45))',      badgeBorder:'border:2px solid rgba(255,50,100,0.75)',   glow:'rgba(255,50,100,0.6)',   numberStyle:'color:#FF6080;text-shadow:0 0 28px rgba(255,50,100,1)',     tierStyle:'color:rgba(255,80,110,0.95)',  cornerStyle:'background:rgba(255,50,100,0.22);border:1px solid rgba(255,50,100,0.6);color:#FF6080' },
-  { level:13, required:3000000, rate:16.0, tierName:'DIAMOND',  badgeBg:'background:linear-gradient(135deg,rgba(100,40,200,0.72),rgba(70,20,150,0.48))',  badgeBorder:'border:2px solid rgba(180,120,255,0.78)',  glow:'rgba(180,120,255,0.65)', numberStyle:'color:#C090FF;text-shadow:0 0 30px rgba(180,120,255,1)',    tierStyle:'color:rgba(190,140,255,0.95)', cornerStyle:'background:rgba(180,120,255,0.22);border:1px solid rgba(180,120,255,0.6);color:#C090FF' },
-  { level:14, required:5000000, rate:16.5, tierName:'LEGEND',   badgeBg:'background:linear-gradient(135deg,rgba(200,80,0,0.75),rgba(150,50,0,0.5))',      badgeBorder:'border:2px solid rgba(255,140,0,0.82)',    glow:'rgba(255,140,0,0.7)',    numberStyle:'color:#FFB030;text-shadow:0 0 32px rgba(255,160,0,1)',      tierStyle:'color:rgba(255,160,30,1)',     cornerStyle:'background:rgba(255,140,0,0.28);border:1px solid rgba(255,140,0,0.68);color:#FFB030' },
-  { level:15, required:8000000, rate:17.0, tierName:'MYTHIC',   badgeBg:'background:linear-gradient(135deg,rgba(140,0,200,0.78),rgba(80,0,160,0.52))',    badgeBorder:'border:2px solid rgba(220,80,255,0.88)',   glow:'rgba(220,80,255,0.75)',  numberStyle:'color:#E080FF;text-shadow:0 0 35px rgba(220,80,255,1),0 0 60px rgba(180,0,255,0.5)', tierStyle:'color:rgba(220,120,255,1)', cornerStyle:'background:rgba(220,80,255,0.28);border:1px solid rgba(220,80,255,0.7);color:#E080FF' },
+  // BRONZE (LV 1-3) — warm copper-bronze metallic
+  { level:1,  required:0,       rate:10.0, tierName:'BRONZE',
+    gradStart:'#6B3A1F', gradEnd:'#3D1F0A', rimColor:'#CD7F32', glowColor:'rgba(205,127,50,0.6)', crownColor:'#CD7F32',
+    badgeBg:'background:linear-gradient(145deg,#6B3A1F 0%,#8B4513 35%,#5C2E0A 65%,#3D1F0A 100%)',
+    badgeBorder:'border:1.5px solid rgba(205,127,50,0.6)',  glow:'rgba(205,127,50,0.5)',
+    numberStyle:'color:#F4A460;text-shadow:0 2px 0 rgba(0,0,0,0.5),0 0 20px rgba(205,127,50,0.9),0 0 40px rgba(205,127,50,0.4)',
+    tierStyle:'color:rgba(244,164,96,0.85)',
+    cornerStyle:'background:linear-gradient(135deg,rgba(205,127,50,0.4),rgba(139,69,19,0.3));border:1px solid rgba(205,127,50,0.6);color:#F4A460' },
+  { level:2,  required:100,     rate:10.5, tierName:'BRONZE',
+    gradStart:'#7A4020', gradEnd:'#441F0B', rimColor:'#D2822A', glowColor:'rgba(210,130,42,0.6)', crownColor:'#D2822A',
+    badgeBg:'background:linear-gradient(145deg,#7A4020 0%,#9B4E18 35%,#63320C 65%,#441F0B 100%)',
+    badgeBorder:'border:1.5px solid rgba(210,130,42,0.62)',  glow:'rgba(210,135,55,0.5)',
+    numberStyle:'color:#F4A460;text-shadow:0 2px 0 rgba(0,0,0,0.5),0 0 20px rgba(210,130,42,0.9),0 0 40px rgba(210,130,42,0.4)',
+    tierStyle:'color:rgba(244,164,96,0.85)',
+    cornerStyle:'background:linear-gradient(135deg,rgba(210,130,42,0.4),rgba(145,75,20,0.3));border:1px solid rgba(210,130,42,0.6);color:#F4A460' },
+  { level:3,  required:300,     rate:11.0, tierName:'BRONZE',
+    gradStart:'#8B4A22', gradEnd:'#4E2510', rimColor:'#E8922E', glowColor:'rgba(232,146,46,0.65)', crownColor:'#E8922E',
+    badgeBg:'background:linear-gradient(145deg,#8B4A22 0%,#B05A1A 35%,#6E350E 65%,#4E2510 100%)',
+    badgeBorder:'border:1.5px solid rgba(232,146,46,0.65)',  glow:'rgba(215,140,60,0.5)',
+    numberStyle:'color:#FFB347;text-shadow:0 2px 0 rgba(0,0,0,0.5),0 0 22px rgba(232,146,46,0.9),0 0 45px rgba(232,146,46,0.4)',
+    tierStyle:'color:rgba(255,179,71,0.9)',
+    cornerStyle:'background:linear-gradient(135deg,rgba(232,146,46,0.4),rgba(160,80,20,0.3));border:1px solid rgba(232,146,46,0.65);color:#FFB347' },
+
+  // SILVER (LV 4-5) — cool chrome silver
+  { level:4,  required:500,     rate:11.5, tierName:'SILVER',
+    gradStart:'#5A5A70', gradEnd:'#2A2A3A', rimColor:'#C0C0D8', glowColor:'rgba(192,192,216,0.55)', crownColor:'#D8D8EE',
+    badgeBg:'background:linear-gradient(145deg,#6A6A80 0%,#8A8AA0 35%,#4A4A60 65%,#2A2A3A 100%)',
+    badgeBorder:'border:1.5px solid rgba(192,192,216,0.6)',  glow:'rgba(192,192,210,0.45)',
+    numberStyle:'color:#E8E8FF;text-shadow:0 2px 0 rgba(0,0,0,0.6),0 0 20px rgba(200,200,230,0.8),0 0 40px rgba(192,192,216,0.4)',
+    tierStyle:'color:rgba(220,220,245,0.85)',
+    cornerStyle:'background:linear-gradient(135deg,rgba(192,192,216,0.35),rgba(130,130,160,0.25));border:1px solid rgba(192,192,216,0.55);color:#E8E8FF' },
+  { level:5,  required:800,     rate:12.0, tierName:'SILVER',
+    gradStart:'#686880', gradEnd:'#323248', rimColor:'#D0D0E8', glowColor:'rgba(208,208,232,0.6)', crownColor:'#E0E0F8',
+    badgeBg:'background:linear-gradient(145deg,#767690 0%,#9898B0 35%,#565670 65%,#323248 100%)',
+    badgeBorder:'border:1.5px solid rgba(208,208,232,0.65)',  glow:'rgba(205,205,222,0.45)',
+    numberStyle:'color:#F0F0FF;text-shadow:0 2px 0 rgba(0,0,0,0.6),0 0 22px rgba(210,210,240,0.85),0 0 45px rgba(208,208,232,0.4)',
+    tierStyle:'color:rgba(230,230,250,0.9)',
+    cornerStyle:'background:linear-gradient(135deg,rgba(208,208,232,0.38),rgba(150,150,180,0.28));border:1px solid rgba(208,208,232,0.62);color:#F0F0FF' },
+
+  // GOLD (LV 6-7) — deep rich gold with warm luminosity
+  { level:6,  required:1000,    rate:12.5, tierName:'GOLD',
+    gradStart:'#7A5C00', gradEnd:'#3D2E00', rimColor:'#FFD700', glowColor:'rgba(255,215,0,0.65)', crownColor:'#FFD700',
+    badgeBg:'background:linear-gradient(145deg,#8A6800 0%,#B08800 35%,#6A5000 65%,#3D2E00 100%)',
+    badgeBorder:'border:2px solid rgba(255,210,0,0.75)',  glow:'rgba(255,210,0,0.55)',
+    numberStyle:'color:#FFE500;text-shadow:0 2px 0 rgba(0,0,0,0.5),0 0 26px rgba(255,215,0,1),0 0 50px rgba(255,193,7,0.5)',
+    tierStyle:'color:rgba(255,232,0,0.95)',
+    cornerStyle:'background:linear-gradient(135deg,rgba(255,210,0,0.35),rgba(180,140,0,0.25));border:1px solid rgba(255,210,0,0.7);color:#FFE500' },
+  { level:7,  required:10000,   rate:13.0, tierName:'GOLD',
+    gradStart:'#8A6800', gradEnd:'#4A3600', rimColor:'#FFD700', glowColor:'rgba(255,215,0,0.72)', crownColor:'#FFD700',
+    badgeBg:'background:linear-gradient(145deg,#9A7800 0%,#C09800 35%,#7A6000 65%,#4A3600 100%)',
+    badgeBorder:'border:2px solid rgba(255,215,0,0.82)',  glow:'rgba(255,215,0,0.6)',
+    numberStyle:'color:#FFEC00;text-shadow:0 2px 0 rgba(0,0,0,0.5),0 0 30px rgba(255,215,0,1),0 0 60px rgba(255,193,7,0.6)',
+    tierStyle:'color:rgba(255,236,0,1)',
+    cornerStyle:'background:linear-gradient(135deg,rgba(255,215,0,0.38),rgba(190,150,0,0.28));border:1px solid rgba(255,215,0,0.75);color:#FFEC00' },
+
+  // EMERALD (LV 8-9) — vivid emerald green
+  { level:8,  required:30000,   rate:13.5, tierName:'EMERALD',
+    gradStart:'#004A2A', gradEnd:'#002015', rimColor:'#00C878', glowColor:'rgba(0,200,120,0.65)', crownColor:'#00E090',
+    badgeBg:'background:linear-gradient(145deg,#005C32 0%,#007A45 35%,#003A20 65%,#002015 100%)',
+    badgeBorder:'border:2px solid rgba(0,200,120,0.7)',  glow:'rgba(0,200,120,0.55)',
+    numberStyle:'color:#00F090;text-shadow:0 2px 0 rgba(0,0,0,0.5),0 0 26px rgba(0,200,120,1),0 0 52px rgba(0,200,120,0.5)',
+    tierStyle:'color:rgba(0,230,140,0.95)',
+    cornerStyle:'background:linear-gradient(135deg,rgba(0,200,120,0.3),rgba(0,140,80,0.22));border:1px solid rgba(0,200,120,0.6);color:#00F090' },
+  { level:9,  required:50000,   rate:14.0, tierName:'EMERALD',
+    gradStart:'#005535', gradEnd:'#002A1A', rimColor:'#00DC90', glowColor:'rgba(0,220,144,0.7)', crownColor:'#00F0A0',
+    badgeBg:'background:linear-gradient(145deg,#006840 0%,#009055 35%,#004530 65%,#002A1A 100%)',
+    badgeBorder:'border:2px solid rgba(0,220,144,0.75)',  glow:'rgba(0,210,130,0.6)',
+    numberStyle:'color:#00FFA0;text-shadow:0 2px 0 rgba(0,0,0,0.5),0 0 30px rgba(0,220,144,1),0 0 60px rgba(0,200,130,0.5)',
+    tierStyle:'color:rgba(0,244,150,1)',
+    cornerStyle:'background:linear-gradient(135deg,rgba(0,220,144,0.33),rgba(0,160,96,0.25));border:1px solid rgba(0,220,144,0.65);color:#00FFA0' },
+
+  // SAPPHIRE (LV 10-11) — electric blue
+  { level:10, required:80000,   rate:14.5, tierName:'SAPPHIRE',
+    gradStart:'#003080', gradEnd:'#001540', rimColor:'#0090FF', glowColor:'rgba(0,144,255,0.65)', crownColor:'#40B8FF',
+    badgeBg:'background:linear-gradient(145deg,#003C98 0%,#0050C8 35%,#002870 65%,#001540 100%)',
+    badgeBorder:'border:2px solid rgba(0,160,255,0.75)',  glow:'rgba(0,160,255,0.6)',
+    numberStyle:'color:#40C8FF;text-shadow:0 2px 0 rgba(0,0,0,0.5),0 0 28px rgba(0,180,255,1),0 0 56px rgba(0,144,255,0.5)',
+    tierStyle:'color:rgba(40,208,255,0.95)',
+    cornerStyle:'background:linear-gradient(135deg,rgba(0,160,255,0.32),rgba(0,100,200,0.24));border:1px solid rgba(0,160,255,0.65);color:#40C8FF' },
+  { level:11, required:100000,  rate:15.0, tierName:'SAPPHIRE',
+    gradStart:'#003890', gradEnd:'#001C50', rimColor:'#00AAFF', glowColor:'rgba(0,170,255,0.7)', crownColor:'#60C8FF',
+    badgeBg:'background:linear-gradient(145deg,#0048B0 0%,#0064D8 35%,#003088 65%,#001C50 100%)',
+    badgeBorder:'border:2px solid rgba(0,180,255,0.8)',  glow:'rgba(0,180,255,0.65)',
+    numberStyle:'color:#60D8FF;text-shadow:0 2px 0 rgba(0,0,0,0.5),0 0 32px rgba(0,200,255,1),0 0 65px rgba(0,170,255,0.55)',
+    tierStyle:'color:rgba(60,224,255,1)',
+    cornerStyle:'background:linear-gradient(135deg,rgba(0,180,255,0.35),rgba(0,120,210,0.26));border:1px solid rgba(0,180,255,0.7);color:#60D8FF' },
+
+  // RUBY (LV 12) — deep crimson
+  { level:12, required:1000000, rate:15.5, tierName:'RUBY',
+    gradStart:'#6A0028', gradEnd:'#380012', rimColor:'#FF2060', glowColor:'rgba(255,32,96,0.7)', crownColor:'#FF5080',
+    badgeBg:'background:linear-gradient(145deg,#820032 0%,#A80040 35%,#5C001A 65%,#380012 100%)',
+    badgeBorder:'border:2px solid rgba(255,50,100,0.8)',  glow:'rgba(255,50,100,0.6)',
+    numberStyle:'color:#FF6080;text-shadow:0 2px 0 rgba(0,0,0,0.5),0 0 30px rgba(255,50,100,1),0 0 60px rgba(255,32,96,0.55)',
+    tierStyle:'color:rgba(255,90,118,1)',
+    cornerStyle:'background:linear-gradient(135deg,rgba(255,50,100,0.33),rgba(180,0,60,0.25));border:1px solid rgba(255,50,100,0.7);color:#FF6080' },
+
+  // DIAMOND (LV 13) — prismatic purple
+  { level:13, required:3000000, rate:16.0, tierName:'DIAMOND',
+    gradStart:'#420090', gradEnd:'#200050', rimColor:'#B060FF', glowColor:'rgba(176,96,255,0.72)', crownColor:'#C890FF',
+    badgeBg:'background:linear-gradient(145deg,#5000B0 0%,#6800D8 35%,#380088 65%,#200050 100%)',
+    badgeBorder:'border:2px solid rgba(180,120,255,0.82)',  glow:'rgba(180,120,255,0.65)',
+    numberStyle:'color:#C090FF;text-shadow:0 2px 0 rgba(0,0,0,0.5),0 0 32px rgba(180,120,255,1),0 0 65px rgba(176,96,255,0.55)',
+    tierStyle:'color:rgba(196,148,255,1)',
+    cornerStyle:'background:linear-gradient(135deg,rgba(180,120,255,0.35),rgba(120,40,200,0.26));border:1px solid rgba(180,120,255,0.72);color:#C090FF' },
+
+  // LEGEND (LV 14) — blazing orange fire
+  { level:14, required:5000000, rate:16.5, tierName:'LEGEND',
+    gradStart:'#803000', gradEnd:'#401800', rimColor:'#FF8C00', glowColor:'rgba(255,140,0,0.75)', crownColor:'#FFA020',
+    badgeBg:'background:linear-gradient(145deg,#983800 0%,#C84800 35%,#702800 65%,#401800 100%)',
+    badgeBorder:'border:2px solid rgba(255,140,0,0.85)',  glow:'rgba(255,140,0,0.7)',
+    numberStyle:'color:#FFB030;text-shadow:0 2px 0 rgba(0,0,0,0.5),0 0 35px rgba(255,160,0,1),0 0 70px rgba(255,100,0,0.6)',
+    tierStyle:'color:rgba(255,168,32,1)',
+    cornerStyle:'background:linear-gradient(135deg,rgba(255,140,0,0.38),rgba(200,80,0,0.28));border:1px solid rgba(255,140,0,0.78);color:#FFB030' },
+
+  // MYTHIC (LV 15) — cosmic purple void
+  { level:15, required:8000000, rate:17.0, tierName:'MYTHIC',
+    gradStart:'#580080', gradEnd:'#280040', rimColor:'#DC50FF', glowColor:'rgba(220,80,255,0.8)', crownColor:'#E870FF',
+    badgeBg:'background:linear-gradient(145deg,#6800A0 0%,#9000C0 35%,#480078 65%,#280040 100%)',
+    badgeBorder:'border:2px solid rgba(220,80,255,0.9)',  glow:'rgba(220,80,255,0.75)',
+    numberStyle:'color:#E080FF;text-shadow:0 2px 0 rgba(0,0,0,0.5),0 0 38px rgba(220,80,255,1),0 0 75px rgba(180,0,255,0.7)',
+    tierStyle:'color:rgba(224,128,255,1)',
+    cornerStyle:'background:linear-gradient(135deg,rgba(220,80,255,0.38),rgba(160,0,240,0.28));border:1px solid rgba(220,80,255,0.8);color:#E080FF' },
 ]
 
 // Plexus & realtime state
@@ -1876,41 +2130,154 @@ onUnmounted(() => {
   100% { box-shadow: none; }
 }
 
-/* ── Level Badge Button ─────────────────────────────── */
-.level-badge-btn { cursor: pointer; }
-.level-badge-shine {
-  background: linear-gradient(115deg,transparent 30%,rgba(255,255,255,0.14) 50%,transparent 70%);
-  background-size: 200% 100%;
-  animation: badge-shine 3.8s ease-in-out infinite;
+/* ══════════════════════════════════════════════════
+   ✦ LUXURY VIP BADGE & MODAL SYSTEM ✦
+   ══════════════════════════════════════════════════ */
+
+/* ── Main VIP Badge Button ──────────────────────── */
+.lux-vip-badge { cursor: pointer; }
+
+/* Ambient outer aura — subtle color bleed */
+.lux-outer-aura {
+  animation: lux-aura-breathe 3.2s ease-in-out infinite;
 }
-@keyframes badge-shine {
-  0%   { background-position: 200% 0; }
-  45%  { background-position: -20% 0; }
-  100% { background-position: -20% 0; }
+@keyframes lux-aura-breathe {
+  0%, 100% { opacity: 0.55; transform: scale(1); }
+  50%       { opacity: 1;    transform: scale(1.12); }
 }
-/* ── Level Modal Transition ─────────────────────────── */
-.level-modal-enter-active { transition: all 0.35s cubic-bezier(0.16,1,0.3,1); }
-.level-modal-leave-active { transition: all 0.22s ease-in; }
+
+/* Pulsing border ring */
+.lux-pulse-ring {
+  animation: lux-ring-pulse 2.6s ease-in-out infinite;
+}
+@keyframes lux-ring-pulse {
+  0%, 100% { opacity: 0.75; }
+  50%       { opacity: 1; box-shadow: inherit; filter: brightness(1.3); }
+}
+
+/* Diagonal shine sweep across badge body */
+.lux-badge-sweep {
+  background: linear-gradient(
+    118deg,
+    transparent 20%,
+    rgba(255,255,255,0.0) 35%,
+    rgba(255,255,255,0.18) 50%,
+    rgba(255,255,255,0.0) 65%,
+    transparent 80%
+  );
+  background-size: 300% 100%;
+  animation: lux-sweep 4.2s cubic-bezier(0.4,0,0.6,1) infinite;
+}
+@keyframes lux-sweep {
+  0%        { background-position: 300% 0; }
+  40%, 100% { background-position: -50% 0; }
+}
+
+/* Embossed number — depth feel */
+.lux-embossed-number {
+  letter-spacing: -0.02em;
+  filter: drop-shadow(0 3px 6px rgba(0,0,0,0.7));
+}
+
+/* Crown float animation */
+.lux-crown-float {
+  animation: lux-crown-float 2.8s ease-in-out infinite;
+}
+@keyframes lux-crown-float {
+  0%, 100% { transform: translateX(-50%) translateY(0);   }
+  50%       { transform: translateX(-50%) translateY(-2px); }
+}
+
+/* ── Level Modal ────────────────────────────────── */
+.lux-modal-sheet {
+  box-shadow:
+    0 -8px 60px rgba(0,0,0,0.8),
+    0 -2px 20px rgba(255,180,0,0.06);
+}
+
+/* ── Modal Transitions ──────────────────────────── */
+.level-modal-enter-active {
+  transition: all 0.38s cubic-bezier(0.16,1,0.3,1);
+}
+.level-modal-leave-active {
+  transition: all 0.24s cubic-bezier(0.4,0,1,1);
+}
 .level-modal-enter-from > div:last-child { transform: translateY(100%); }
 .level-modal-leave-to > div:last-child   { transform: translateY(100%); }
 .level-modal-enter-from { opacity: 0; }
 .level-modal-leave-to   { opacity: 0; }
-/* ── Level Rows ─────────────────────────────────────── */
+
+/* ── Progress bar shimmer ───────────────────────── */
+.lux-progress-shimmer {
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    rgba(255,255,255,0.28) 50%,
+    transparent 100%
+  );
+  background-size: 200% 100%;
+  animation: lux-shimmer 1.8s linear infinite;
+}
+@keyframes lux-shimmer {
+  0%   { background-position: -200% 0; }
+  100% { background-position: 200% 0; }
+}
+
+/* ── Level rows ─────────────────────────────────── */
 .lv-row { position: relative; }
+
 .lv-current {
   background: rgba(255,255,255,0.04);
-  border: 1px solid rgba(255,200,0,0.12);
+  border: 1px solid rgba(255,200,0,0.18);
+  box-shadow: 0 2px 20px rgba(255,193,7,0.06), inset 0 1px 0 rgba(255,255,255,0.06);
 }
 .lv-current::before {
-  content:'';
-  position:absolute;
-  left:0;top:0;bottom:0;
-  width:3px;
-  border-radius:8px 0 0 8px;
-  background:linear-gradient(180deg,rgba(255,215,0,0.9),rgba(255,140,0,0.7));
-  box-shadow:0 0 12px rgba(255,193,7,0.65);
+  content: '';
+  position: absolute;
+  left: 0; top: 0; bottom: 0;
+  width: 3px;
+  border-radius: 8px 0 0 8px;
+  background: linear-gradient(180deg, rgba(255,215,0,0.95), rgba(255,140,0,0.75));
+  box-shadow: 0 0 14px rgba(255,193,7,0.7);
 }
-.lv-past   { background: rgba(255,255,255,0.012); }
-.lv-future { opacity: 0.5; }
+
+.lv-past {
+  background: rgba(255,255,255,0.014);
+}
+
+.lv-future {
+  opacity: 0.42;
+}
+
+/* Row badge glow pulse for current level */
+.lux-row-badge-glow {
+  animation: lux-row-glow 2.5s ease-in-out infinite;
+  pointer-events: none;
+}
+@keyframes lux-row-glow {
+  0%, 100% { opacity: 0.7; }
+  50%       { opacity: 1; filter: brightness(1.2); }
+}
+
+/* "YOU" badge bounce */
+.lux-you-badge {
+  animation: lux-you-pulse 2s ease-in-out infinite;
+}
+@keyframes lux-you-pulse {
+  0%, 100% { opacity: 0.9; transform: scale(1); }
+  50%       { opacity: 1;   transform: scale(1.06); }
+}
+
+/* Mini badge in modal header */
+.lux-mini-badge {
+  animation: lux-mini-glow 2.8s ease-in-out infinite;
+}
+@keyframes lux-mini-glow {
+  0%, 100% { filter: brightness(1); }
+  50%       { filter: brightness(1.18) saturate(1.15); }
+}
+
+/* Old class kept for compatibility */
+.level-badge-btn { cursor: pointer; }
 
 </style>
