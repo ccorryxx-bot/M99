@@ -1432,17 +1432,66 @@
           <!-- ── SCROLLABLE LEVEL ROWS ── -->
           <div class="overflow-y-auto px-3 pt-2 pb-12" style="max-height:54vh">
             <div v-for="lv in AGENT_LEVELS" :key="lv.level"
-              class="lv-row flex items-center gap-2 px-2 py-2.5 rounded-2xl mb-1.5 transition-all duration-300"
-              :class="lv.level === agentLevel ? 'lv-current' : lv.level < agentLevel ? 'lv-past' : 'lv-future'">
+              class="lv-row flex items-center gap-2 px-2 py-2.5 rounded-2xl mb-1.5 transition-all duration-300 overflow-hidden"
+              :class="[
+                lv.level === agentLevel ? 'lv-current' : lv.level < agentLevel ? 'lv-past' : 'lv-future',
+                `lv-tier-${lv.tierName.toLowerCase()}`
+              ]">
 
-              <!-- ── EVOLUTION MINI SHIELD (tier shape changes per level) ── -->
-              <!-- ALL levels shown including future ones — psychology: show what to unlock! -->
-              <div class="flex-shrink-0 flex items-center gap-1.5"
+              <!-- ── ROW FX OVERLAYS (tier-progressive, always rendered) ── -->
+              <!-- Sweep shimmer: Gold+ (passess through row left→right) -->
+              <div v-if="lv.tierName === 'GOLD' || lv.tierName === 'EMERALD' || lv.tierName === 'SAPPHIRE' || lv.tierName === 'RUBY' || lv.tierName === 'DIAMOND' || lv.tierName === 'LEGEND' || lv.tierName === 'MYTHIC'"
+                class="lv-row-sweep absolute inset-0 pointer-events-none z-0"
+                :style="`background:linear-gradient(105deg,transparent 20%,${lv.rimColor}12 50%,transparent 80%);`">
+              </div>
+              <!-- Animated left glow bar (colored per tier) -->
+              <div class="lv-row-leftbar absolute left-0 top-2 bottom-2 w-[3px] rounded-full pointer-events-none z-0"
+                :style="lv.level <= agentLevel
+                  ? `background:linear-gradient(180deg,${lv.rimColor},${lv.glowColor});box-shadow:0 0 10px 2px ${lv.glowColor};`
+                  : 'background:rgba(255,255,255,0.06)'">
+              </div>
+              <!-- Rotating border for Sapphire+ -->
+              <div v-if="['SAPPHIRE','RUBY','DIAMOND','LEGEND','MYTHIC'].includes(lv.tierName) && lv.level <= agentLevel"
+                class="lv-row-spin-border absolute inset-0 rounded-2xl pointer-events-none z-0"
+                :style="`background:conic-gradient(from 0deg,transparent,${lv.rimColor}55,transparent,${lv.rimColor}33,transparent);`">
+              </div>
+              <!-- Fire flicker for Ruby+ (wave overlay) -->
+              <div v-if="['RUBY','DIAMOND','LEGEND','MYTHIC'].includes(lv.tierName)"
+                class="lv-row-fire absolute inset-0 pointer-events-none z-0"
+                :style="`background:linear-gradient(180deg,transparent 60%,${lv.rimColor}10 100%);`">
+              </div>
+              <!-- Prismatic sheen: Diamond+ -->
+              <div v-if="['DIAMOND','LEGEND','MYTHIC'].includes(lv.tierName) && lv.level <= agentLevel"
+                class="lv-row-prism absolute inset-0 pointer-events-none z-0"
+                style="background:linear-gradient(90deg,rgba(255,100,255,0.04),rgba(100,200,255,0.04),rgba(255,200,50,0.04),rgba(100,255,150,0.04));background-size:400% 100%;animation:lv-prism-scroll 3s linear infinite;">
+              </div>
+              <!-- Cosmic shimmer line: Legend+ -->
+              <div v-if="['LEGEND','MYTHIC'].includes(lv.tierName)"
+                class="lv-row-cosmic absolute pointer-events-none z-0"
+                style="left:0;right:0;top:50%;height:1px;transform:translateY(-50%);background:linear-gradient(90deg,transparent,rgba(255,140,0,0.3),rgba(220,80,255,0.3),transparent);animation:lv-cosmic-pulse 1.5s ease-in-out infinite;">
+              </div>
+              <!-- Mythic — full aura pulse -->
+              <div v-if="lv.tierName === 'MYTHIC'"
+                class="absolute inset-0 rounded-2xl pointer-events-none z-0"
+                style="background:radial-gradient(ellipse at 50% 50%,rgba(220,80,255,0.08),transparent 70%);animation:lv-mythic-aura 1.8s ease-in-out infinite;">
+              </div>
+
+              <!-- Sparkle dots: Emerald+ (floating mini sparks) -->
+              <template v-if="['EMERALD','SAPPHIRE','RUBY','DIAMOND','LEGEND','MYTHIC'].includes(lv.tierName) && lv.level <= agentLevel">
+                <div class="lv-spark absolute pointer-events-none z-0" :style="`left:12%;top:20%;width:2px;height:2px;border-radius:50%;background:${lv.rimColor};animation:lv-spark-float 2.2s ease-in-out infinite;`"></div>
+                <div class="lv-spark absolute pointer-events-none z-0" :style="`left:30%;top:70%;width:2px;height:2px;border-radius:50%;background:${lv.rimColor};animation:lv-spark-float 2.8s ease-in-out infinite 0.7s;`"></div>
+                <div class="lv-spark absolute pointer-events-none z-0" :style="`left:55%;top:25%;width:1.5px;height:1.5px;border-radius:50%;background:${lv.rimColor};animation:lv-spark-float 1.9s ease-in-out infinite 1.1s;`"></div>
+                <div v-if="['DIAMOND','LEGEND','MYTHIC'].includes(lv.tierName)"
+                  class="lv-spark absolute pointer-events-none z-0" :style="`left:72%;top:65%;width:2px;height:2px;border-radius:50%;background:${lv.rimColor};animation:lv-spark-float 2.4s ease-in-out infinite 0.4s;`"></div>
+                <div v-if="['LEGEND','MYTHIC'].includes(lv.tierName)"
+                  class="lv-spark absolute pointer-events-none z-0" :style="`left:88%;top:40%;width:2.5px;height:2.5px;border-radius:50%;background:${lv.rimColor};box-shadow:0 0 6px ${lv.glowColor};animation:lv-spark-float 2.0s ease-in-out infinite 1.5s;`"></div>
+              </template>
+
+              <!-- ── EVOLUTION MINI SHIELD ── -->
+              <div class="flex-shrink-0 flex items-center gap-1.5 relative z-10"
                 style="width:90px;">
-                <!-- Evolution mini shield - different silhouette per tier -->
                 <div class="relative flex-shrink-0"
                   style="width:44px;height:48px;">
-                  <!-- SVG with overflow:visible so wings show -->
                   <div v-html="miniShieldHtml(lv)"
                     :style="`width:36px;height:36px;position:absolute;left:4px;top:6px;overflow:visible;opacity:${lv.level > agentLevel ? '0.72' : '1'};`"></div>
                   <!-- Glow pulse on current level -->
@@ -1450,16 +1499,21 @@
                     class="absolute inset-0 pointer-events-none"
                     :style="`box-shadow:0 0 20px 5px ${lv.glowColor};border-radius:6px;`"
                     style="animation:lux-you-pulse 1.6s ease-in-out infinite;"></div>
+                  <!-- Tier-based shield glow (past+current) -->
+                  <div v-if="lv.level < agentLevel"
+                    class="absolute inset-0 pointer-events-none rounded"
+                    :style="`box-shadow:0 0 8px 2px ${lv.glowColor}44;`">
+                  </div>
                 </div>
 
                 <!-- Agency level label -->
                 <div class="flex-1 flex flex-col items-start gap-0.5">
                   <div class="ag-level-btn relative rounded-xl px-2.5 py-1 text-[10px] font-black overflow-hidden"
+                    :class="lv.level <= agentLevel ? `ag-btn-tier-${lv.tierName.toLowerCase()}` : ''"
                     :style="lv.level <= agentLevel
-                      ? `background:linear-gradient(135deg,${lv.rimColor}28,${lv.rimColor}12);border:1px solid ${lv.rimColor}70;color:${lv.rimColor};text-shadow:0 0 10px ${lv.glowColor};box-shadow:0 0 12px ${lv.glowColor}55,inset 0 1px 0 rgba(255,255,255,0.15);`
+                      ? `background:linear-gradient(135deg,${lv.rimColor}28,${lv.rimColor}12);border:1px solid ${lv.rimColor}70;color:${lv.rimColor};text-shadow:0 0 10px ${lv.glowColor};box-shadow:0 0 14px ${lv.glowColor}60,inset 0 1px 0 rgba(255,255,255,0.15);`
                       : 'background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.1);color:rgba(255,255,255,0.3)'">
-                    <span class="relative z-10">AG{{ lv.level }}</span>
-                    <!-- inner glow sweep for unlocked levels -->
+                    <span class="relative z-10 tracking-wide">AG{{ lv.level }}</span>
                     <div v-if="lv.level <= agentLevel" class="ag-btn-sweep absolute inset-0 pointer-events-none"
                       :style="`background:linear-gradient(105deg,transparent 30%,${lv.rimColor}22 50%,transparent 70%);`"></div>
                   </div>
@@ -1470,32 +1524,34 @@
                   </span>
                   <span v-else-if="lv.level > agentLevel"
                     class="text-[7px] font-bold"
-                    :style="`color:${lv.rimColor}66;`">
+                    :style="`color:${lv.rimColor}55;`">
                     LOCKED
                   </span>
                 </div>
               </div>
 
-              <!-- Level name -->
-              <div class="flex-1 min-w-0">
-                <span class="text-[12px] font-black"
-                  :style="lv.level <= agentLevel ? lv.numberStyle : 'color:rgba(255,255,255,0.22)'">
+              <!-- Level number -->
+              <div class="flex-1 min-w-0 relative z-10">
+                <span class="font-black"
+                  :class="lv.level <= agentLevel && ['GOLD','EMERALD','SAPPHIRE','RUBY','DIAMOND','LEGEND','MYTHIC'].includes(lv.tierName) ? 'lv-num-glow' : ''"
+                  :style="`font-size:12px;` + (lv.level <= agentLevel ? lv.numberStyle : 'color:rgba(255,255,255,0.22)')">
                   LV {{ lv.level }}
                 </span>
               </div>
 
               <!-- Required commission -->
-              <div class="w-[88px] text-right">
+              <div class="w-[88px] text-right relative z-10">
                 <p class="text-[11px] font-bold"
-                  :style="lv.level <= agentLevel ? lv.numberStyle : 'color:rgba(255,255,255,0.2)'">
+                  :style="lv.level <= agentLevel ? lv.numberStyle : 'color:rgba(255,255,255,0.18)'">
                   {{ lv.required === 0 ? '—' : formatN(lv.required) + ' Ks' }}
                 </p>
               </div>
 
               <!-- Rate -->
-              <div class="w-10 text-right">
+              <div class="w-10 text-right relative z-10">
                 <span class="font-black"
-                  :style="`font-size:12px;` + (lv.level === agentLevel ? lv.numberStyle : lv.level < agentLevel ? 'color:rgba(255,255,255,0.35)' : 'color:rgba(255,255,255,0.15)')">
+                  :class="lv.level === agentLevel ? 'lv-rate-current' : ''"
+                  :style="`font-size:12px;` + (lv.level === agentLevel ? lv.numberStyle : lv.level < agentLevel ? 'color:rgba(255,255,255,0.35)' : 'color:rgba(255,255,255,0.13)')">
                   {{ lv.rate }}%
                 </span>
               </div>
@@ -2656,17 +2712,177 @@ onUnmounted(() => {
   border: 1px solid rgba(255,200,0,0.18);
   box-shadow: 0 2px 20px rgba(255,193,7,0.06), inset 0 1px 0 rgba(255,255,255,0.06);
 }
-.lv-current::before {
-  content: '';
-  position: absolute;
-  left: 0; top: 0; bottom: 0;
-  width: 3px;
-  border-radius: 8px 0 0 8px;
-  background: linear-gradient(180deg, rgba(255,215,0,0.95), rgba(255,140,0,0.75));
-  box-shadow: 0 0 14px rgba(255,193,7,0.7);
-}
 .lv-past   { background: rgba(255,255,255,0.014); }
-.lv-future { opacity: 0.78;
+.lv-future { opacity: 0.78; }
+
+/* ═══════════════════════════════════════════════════════
+   ✦ TIER-PROGRESSIVE ROW ANIMATIONS                     ✦
+   Bronze (subtle) → Mythic (full cosmic) escalating FX  ✦
+   ═══════════════════════════════════════════════════════ */
+
+/* BRONZE (LV1-3): Warm slow pulse on row bg */
+.lv-tier-bronze { animation: lv-bronze-pulse 3.5s ease-in-out infinite; }
+@keyframes lv-bronze-pulse {
+  0%,100% { background-color: rgba(205,127,50,0.03); }
+  50%     { background-color: rgba(205,127,50,0.07); }
+}
+
+/* SILVER (LV4-6): Metallic cool shimmer */
+.lv-tier-silver { animation: lv-silver-pulse 3.0s ease-in-out infinite; }
+@keyframes lv-silver-pulse {
+  0%,100% { background-color: rgba(192,192,192,0.03); }
+  50%     { background-color: rgba(192,192,192,0.08); }
+}
+
+/* GOLD (LV7-9): Golden glow with animated left bar */
+.lv-tier-gold { animation: lv-gold-glow 2.5s ease-in-out infinite; }
+@keyframes lv-gold-glow {
+  0%,100% { background-color: rgba(255,215,0,0.04); box-shadow: none; }
+  50%     { background-color: rgba(255,215,0,0.09); box-shadow: 0 0 12px rgba(255,215,0,0.08) inset; }
+}
+
+/* EMERALD (LV10-12): Green sparkle bg pulse */
+.lv-tier-emerald { animation: lv-emerald-glow 2.2s ease-in-out infinite; }
+@keyframes lv-emerald-glow {
+  0%,100% { background-color: rgba(0,200,100,0.04); }
+  50%     { background-color: rgba(0,220,120,0.10); box-shadow: 0 0 16px rgba(0,200,100,0.10) inset; }
+}
+
+/* SAPPHIRE (LV13-15): Blue wave + spinning border */
+.lv-tier-sapphire { animation: lv-sapphire-glow 2.0s ease-in-out infinite; }
+@keyframes lv-sapphire-glow {
+  0%,100% { background-color: rgba(30,100,255,0.04); }
+  50%     { background-color: rgba(60,130,255,0.10); box-shadow: 0 0 18px rgba(30,100,255,0.12) inset; }
+}
+
+/* RUBY (LV16-18): Red fire pulse */
+.lv-tier-ruby { animation: lv-ruby-fire 1.8s ease-in-out infinite; }
+@keyframes lv-ruby-fire {
+  0%,100% { background-color: rgba(220,30,60,0.05); }
+  33%     { background-color: rgba(255,60,0,0.10); }
+  66%     { background-color: rgba(220,0,80,0.08); }
+}
+
+/* DIAMOND (LV19-21): Prismatic sheen + strong pulse */
+.lv-tier-diamond { animation: lv-diamond-pulse 1.6s ease-in-out infinite; }
+@keyframes lv-diamond-pulse {
+  0%,100% { background-color: rgba(120,210,255,0.05); box-shadow: 0 0 0 rgba(180,230,255,0); }
+  50%     { background-color: rgba(180,230,255,0.12); box-shadow: 0 0 22px rgba(120,210,255,0.14) inset; }
+}
+
+/* LEGEND (LV22-24): Fire + aura + orange-purple gradient bg */
+.lv-tier-legend { animation: lv-legend-aura 1.4s ease-in-out infinite; }
+@keyframes lv-legend-aura {
+  0%    { background-color: rgba(255,100,0,0.06); }
+  33%   { background-color: rgba(200,0,255,0.07); }
+  66%   { background-color: rgba(255,60,0,0.08); }
+  100%  { background-color: rgba(255,100,0,0.06); }
+}
+
+/* MYTHIC (LV25): Full cosmic pulse, rainbow aura */
+.lv-tier-mythic { animation: lv-mythic-cosmic 1.2s ease-in-out infinite; }
+@keyframes lv-mythic-cosmic {
+  0%   { background-color: rgba(180,0,255,0.08); box-shadow: 0 0 30px rgba(220,80,255,0.12) inset; }
+  25%  { background-color: rgba(255,0,100,0.07); }
+  50%  { background-color: rgba(80,0,255,0.09);  box-shadow: 0 0 40px rgba(180,0,255,0.18) inset; }
+  75%  { background-color: rgba(0,200,255,0.06); }
+  100% { background-color: rgba(180,0,255,0.08); box-shadow: 0 0 30px rgba(220,80,255,0.12) inset; }
+}
+
+/* Left bar pulse animation */
+.lv-row-leftbar { animation: lv-leftbar-pulse 2s ease-in-out infinite; }
+@keyframes lv-leftbar-pulse {
+  0%,100% { opacity: 0.7; }
+  50%     { opacity: 1; }
+}
+
+/* Row sweep shimmer: Gold+ */
+.lv-row-sweep { animation: lv-row-sweep-anim 3.5s linear infinite; }
+@keyframes lv-row-sweep-anim {
+  0%   { transform: translateX(-100%); opacity: 0; }
+  10%  { opacity: 1; }
+  90%  { opacity: 1; }
+  100% { transform: translateX(100%); opacity: 0; }
+}
+
+/* Rotating conic border: Sapphire+ */
+.lv-row-spin-border { animation: lv-spin-border 4s linear infinite; opacity: 0.18; }
+@keyframes lv-spin-border {
+  from { --angle: 0deg; transform: rotate(0deg); }
+  to   { transform: rotate(360deg); }
+}
+
+/* Fire flicker: Ruby+ */
+.lv-row-fire { animation: lv-fire-flicker 0.8s ease-in-out infinite alternate; }
+@keyframes lv-fire-flicker {
+  0%   { opacity: 0.4; }
+  100% { opacity: 0.9; }
+}
+
+/* Prismatic scroll: Diamond+ */
+@keyframes lv-prism-scroll {
+  0%   { background-position: 0% 0; }
+  100% { background-position: 400% 0; }
+}
+
+/* Cosmic center line: Legend+ */
+@keyframes lv-cosmic-pulse {
+  0%,100% { opacity: 0.2; transform: translateY(-50%) scaleX(0.6); }
+  50%     { opacity: 0.7; transform: translateY(-50%) scaleX(1); }
+}
+
+/* Mythic full aura */
+@keyframes lv-mythic-aura {
+  0%,100% { opacity: 0.4; transform: scale(1); }
+  50%     { opacity: 0.85; transform: scale(1.03); }
+}
+
+/* Floating spark dots: Emerald+ */
+@keyframes lv-spark-float {
+  0%,100% { opacity: 0; transform: translateY(0) scale(0.8); }
+  30%     { opacity: 1; transform: translateY(-4px) scale(1.2); }
+  70%     { opacity: 0.7; transform: translateY(-2px) scale(1); }
+}
+
+/* LV number glow shimmer: Gold+ */
+.lv-num-glow { animation: lv-num-shimmer 2.5s ease-in-out infinite; }
+@keyframes lv-num-shimmer {
+  0%,100% { text-shadow: 0 0 6px currentColor; }
+  50%     { text-shadow: 0 0 14px currentColor, 0 0 28px currentColor; }
+}
+
+/* Rate % pulse on current level */
+.lv-rate-current { animation: lv-rate-pulse 1.8s ease-in-out infinite; }
+@keyframes lv-rate-pulse {
+  0%,100% { filter: brightness(1); }
+  50%     { filter: brightness(1.25) drop-shadow(0 0 8px currentColor); }
+}
+
+/* AG button tier-specific animations */
+.ag-btn-tier-gold     { animation: ag-btn-pulse 2.5s ease-in-out infinite; }
+.ag-btn-tier-emerald  { animation: ag-btn-pulse 2.2s ease-in-out infinite; }
+.ag-btn-tier-sapphire { animation: ag-btn-pulse 2.0s ease-in-out infinite; }
+.ag-btn-tier-ruby     { animation: ag-btn-pulse 1.8s ease-in-out infinite; }
+.ag-btn-tier-diamond  { animation: ag-btn-strong-pulse 1.6s ease-in-out infinite; }
+.ag-btn-tier-legend   { animation: ag-btn-fire-pulse  1.4s ease-in-out infinite; }
+.ag-btn-tier-mythic   { animation: ag-btn-cosmic-pulse 1.2s ease-in-out infinite; }
+@keyframes ag-btn-pulse {
+  0%,100% { box-shadow: 0 0 8px currentColor; }
+  50%     { box-shadow: 0 0 18px currentColor, 0 0 30px currentColor; }
+}
+@keyframes ag-btn-strong-pulse {
+  0%,100% { box-shadow: 0 0 12px currentColor; filter: brightness(1); }
+  50%     { box-shadow: 0 0 24px currentColor, 0 0 40px currentColor; filter: brightness(1.2); }
+}
+@keyframes ag-btn-fire-pulse {
+  0%,100% { box-shadow: 0 0 14px rgba(255,140,0,0.8); }
+  50%     { box-shadow: 0 0 28px rgba(255,60,0,1), 0 0 48px rgba(255,140,0,0.6); }
+}
+@keyframes ag-btn-cosmic-pulse {
+  0%   { box-shadow: 0 0 16px rgba(220,80,255,0.9); }
+  33%  { box-shadow: 0 0 30px rgba(180,0,255,1), 0 0 50px rgba(220,80,255,0.7); }
+  66%  { box-shadow: 0 0 20px rgba(100,0,255,0.9); }
+  100% { box-shadow: 0 0 16px rgba(220,80,255,0.9); }
 }
 
 /* Row badge glow pulse for current level */
