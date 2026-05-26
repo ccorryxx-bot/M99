@@ -1419,7 +1419,7 @@
     <Transition name="level-modal">
       <div v-if="showLevelModal"
         class="fixed inset-0 z-50 flex flex-col justify-end"
-        style="background:rgba(0,0,0,0.85);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px)">
+        style="background:rgba(0,0,0,0.88)">
 
         <!-- Tap-outside to close -->
         <div class="absolute inset-0" @click="showLevelModal = false"></div>
@@ -1508,7 +1508,7 @@
           </div>
 
           <!-- ── SCROLLABLE LEVEL ROWS ── -->
-          <div ref="levelScrollRef" class="overflow-y-auto px-3 pt-2 pb-12 relative" style="max-height:54vh">
+          <div ref="levelScrollRef" class="overflow-y-auto px-3 pt-2 pb-12 relative" style="max-height:54vh;-webkit-overflow-scrolling:touch;overscroll-behavior:contain;will-change:scroll-position;">
             <div v-for="lv in AGENT_LEVELS" :key="lv.level"
               class="lv-row flex items-center gap-3 px-3 py-3 rounded-2xl mb-2 overflow-hidden relative z-[2]"
               :class="lv.level === agentLevel ? 'lv-current' : lv.level < agentLevel ? 'lv-past' : 'lv-future'">
@@ -1617,8 +1617,8 @@
                     <div class="ag-on-shield relative overflow-hidden"
                       :class="lv.level <= agentLevel ? `ag-btn-tier-${lv.tierName.toLowerCase()}` : ''"
                       :style="lv.level <= agentLevel
-                        ? `background:linear-gradient(135deg,${lv.rimColor}55,${lv.rimColor}22);border:1px solid ${lv.rimColor}95;color:${lv.rimColor};text-shadow:0 0 14px ${lv.glowColor},0 1px 0 rgba(0,0,0,0.95);box-shadow:0 0 20px ${lv.glowColor}80,inset 0 1px 0 rgba(255,255,255,0.3);backdrop-filter:blur(4px);`
-                        : 'background:rgba(0,0,0,0.65);border:1px solid rgba(255,255,255,0.18);color:rgba(255,255,255,0.55);backdrop-filter:blur(4px);'">
+                        ? `background:linear-gradient(135deg,${lv.rimColor}55,${lv.rimColor}22);border:1px solid ${lv.rimColor}95;color:${lv.rimColor};text-shadow:0 0 14px ${lv.glowColor},0 1px 0 rgba(0,0,0,0.95);box-shadow:0 0 20px ${lv.glowColor}80,inset 0 1px 0 rgba(255,255,255,0.3);`
+                        : 'background:rgba(20,10,40,0.92);border:1px solid rgba(255,255,255,0.18);color:rgba(255,255,255,0.55);'">
                       <span class="relative z-10 font-black tracking-wide" style="font-size:9px;line-height:1;">AG{{ lv.level }}</span>
                       <div v-if="lv.level <= agentLevel" class="ag-btn-sweep absolute inset-0 pointer-events-none"
                         :style="`background:linear-gradient(105deg,transparent 25%,${lv.rimColor}35 50%,transparent 75%);`"></div>
@@ -2999,7 +2999,7 @@ onUnmounted(() => {
    ═══════════════════════════════════════════════════════════ */
 
 /* Crown aura base — every tier pulses, intensity escalates */
-.crown-aura { animation: crown-aura-pulse 2.2s ease-in-out infinite; }
+.crown-aura { animation: crown-aura-pulse 2.2s ease-in-out infinite; will-change: transform, opacity; transform: translateZ(0); }
 .crown-aura-bronze   { animation-duration: 3.6s; }
 .crown-aura-silver   { animation-duration: 3.2s; }
 .crown-aura-gold     { animation-duration: 2.8s; }
@@ -3015,7 +3015,7 @@ onUnmounted(() => {
 }
 
 /* Outer rotating ring — Silver+ CW, speed scales per tier */
-.crown-ring-outer { animation: crown-cw 5s linear infinite; }
+.crown-ring-outer { animation: crown-cw 5s linear infinite; will-change: transform; transform: translateZ(0); }
 .crown-ring-silver   { animation-duration: 7s; }
 .crown-ring-gold     { animation-duration: 5.5s; }
 .crown-ring-emerald  { animation-duration: 4.5s; }
@@ -3028,7 +3028,7 @@ onUnmounted(() => {
 @keyframes crown-ccw { to { transform: rotate(-360deg); } }
 
 /* Royal sweep shimmer across shield face */
-.crown-royal-sweep { animation: crown-sweep 2.6s linear infinite; }
+.crown-royal-sweep { animation: crown-sweep 2.6s linear infinite; will-change: transform; transform: translateZ(0); }
 @keyframes crown-sweep {
   0%   { transform: translateX(-120%); opacity: 0; }
   15%  { opacity: 1; }
@@ -3038,6 +3038,8 @@ onUnmounted(() => {
 
 /* ── Orbiting gem particles (radius 20px from centre) ── */
 /* Gem A — CW from top */
+.crown-gem { will-change: transform; transform: translateZ(0); }
+
 @keyframes crown-gem-a {
   from { transform: rotate(0deg)   translateX(20px) rotate(0deg);   }
   to   { transform: rotate(360deg) translateX(20px) rotate(-360deg); }
@@ -3087,7 +3089,7 @@ onUnmounted(() => {
 }
 
 /* ── Level rows ─────────────────────────────────── */
-.lv-row { position: relative; }
+.lv-row { position: relative; contain: layout style paint; }
 .lv-current {
   background: rgba(255,255,255,0.06);
   border: 1px solid rgba(255,200,0,0.28);
