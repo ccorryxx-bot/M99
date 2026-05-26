@@ -36,7 +36,7 @@
         </div>
       </div>
       <button @click="loadAll" :class="['w-8 h-8 flex items-center justify-center rounded-full transition-all active:scale-90', loading ? 'animate-spin' : '']"
-        style="background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.07); color: rgba(255,255,255,0.4);">
+        style="background: rgba(60,180,100,0.12); border: 1px solid rgba(60,210,110,0.28); color: rgba(80,220,130,0.9);">
         <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"/></svg>
       </button>
     </header>
@@ -63,60 +63,20 @@
            ═══════════════════════════════════════════ -->
       <div v-if="activeTab === 0" class="space-y-3 px-4 pt-4">
 
-        <!-- Banner — Soft Ambient (2026 Trend) -->
-        <div class="fp-card rounded-2xl relative overflow-hidden" style="height: 148px; background: linear-gradient(135deg, #0c1120 0%, #0a0e1c 40%, #0d1228 70%, #080c18 100%); border: 1px solid rgba(255,255,255,0.06);">
-          <!-- Layered ambient blobs -->
-          <div class="absolute -top-8 -left-8 w-48 h-48 rounded-full pointer-events-none"
-            style="background: radial-gradient(circle, rgba(100,140,255,0.08) 0%, transparent 65%); filter: blur(20px);"></div>
-          <div class="absolute -bottom-8 right-4 w-40 h-40 rounded-full pointer-events-none"
-            style="background: radial-gradient(circle, rgba(255,193,7,0.07) 0%, transparent 65%); filter: blur(18px);"></div>
-          <div class="absolute top-4 right-1/3 w-32 h-32 rounded-full pointer-events-none"
-            style="background: radial-gradient(circle, rgba(80,180,255,0.05) 0%, transparent 70%); filter: blur(14px);"></div>
-
-          <!-- Subtle grid lines overlay -->
-          <div class="absolute inset-0 pointer-events-none" style="background-image: linear-gradient(rgba(255,255,255,0.018) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.018) 1px, transparent 1px); background-size: 32px 32px;"></div>
-
-          <!-- Top shimmer line -->
-          <div class="absolute top-0 left-0 right-0 h-px pointer-events-none"
-            style="background: linear-gradient(90deg, transparent 5%, rgba(255,255,255,0.1) 30%, rgba(255,255,255,0.18) 50%, rgba(255,255,255,0.1) 70%, transparent 95%);"></div>
-
-          <!-- Content -->
-          <div class="absolute inset-0 flex flex-col justify-between px-5 py-4">
-            <!-- Top row: Logo word + commission badge -->
-            <div class="flex items-start justify-between">
-              <div>
-                <p class="text-[9px] font-mono tracking-[0.35em] uppercase mb-1" style="color: rgba(255,255,255,0.22);">NOVA BETT</p>
-                <p class="text-[18px] font-light tracking-[0.08em]" style="color: rgba(255,255,255,0.82); font-weight: 300; letter-spacing: 0.07em;">Agent<span style="color:rgba(255,255,255,0.38);font-weight:200;"> Program</span></p>
-              </div>
-              <!-- Commission badge — soft pill -->
-              <div class="px-3 py-1.5 rounded-full"
-                style="background: rgba(255,193,7,0.07); border: 1px solid rgba(255,193,7,0.2);">
-                <p class="text-[10px] font-medium tracking-[0.1em]" style="color: rgba(255,193,7,0.75);">10% Commission</p>
-              </div>
-            </div>
-
-            <!-- Bottom row: tagline + ambient bar -->
-            <div>
-              <!-- Mini stats row -->
-              <div class="flex items-center gap-4 mb-3">
-                <div>
-                  <p class="text-[8px] tracking-[0.18em] uppercase mb-0.5" style="color: rgba(255,255,255,0.2);">Earn</p>
-                  <p class="text-[13px] font-light" style="color: rgba(255,255,255,0.55); font-weight:300;">Unlimited</p>
-                </div>
-                <div class="w-px h-6" style="background: rgba(255,255,255,0.07);"></div>
-                <div>
-                  <p class="text-[8px] tracking-[0.18em] uppercase mb-0.5" style="color: rgba(255,255,255,0.2);">Network</p>
-                  <p class="text-[13px] font-light" style="color: rgba(255,255,255,0.55); font-weight:300;">Infinite Depth</p>
-                </div>
-                <div class="w-px h-6" style="background: rgba(255,255,255,0.07);"></div>
-                <div>
-                  <p class="text-[8px] tracking-[0.18em] uppercase mb-0.5" style="color: rgba(255,255,255,0.2);">Payout</p>
-                  <p class="text-[13px] font-light" style="color: rgba(255,255,255,0.55); font-weight:300;">Daily</p>
-                </div>
-              </div>
-              <!-- Soft progress ambient bar -->
-              <div class="h-px w-full rounded-full" style="background: linear-gradient(90deg, rgba(100,140,255,0.25) 0%, rgba(255,193,7,0.18) 50%, transparent 100%);"></div>
-            </div>
+        <!-- Banner — Dynamic image (from settings / upload) -->
+        <div class="fp-card rounded-2xl overflow-hidden relative" style="height: 148px;">
+          <img :src="agentBannerUrl" class="w-full h-full object-cover" alt="Agent Banner"
+            @error="agentBannerUrl = '/images/banners/banner1.jpg'" />
+          <div class="absolute inset-0 pointer-events-none"
+            style="background: linear-gradient(to right, rgba(4,6,8,0.55) 0%, transparent 55%, rgba(4,6,8,0.2) 100%);"></div>
+          <!-- Commission badge -->
+          <div class="absolute top-3 right-3 px-2.5 py-1 rounded-full"
+            style="background: rgba(255,193,7,0.15); border: 1px solid rgba(255,193,7,0.3); backdrop-filter: blur(8px);">
+            <span class="text-[10px] font-bold tracking-wider" style="color: rgba(255,193,7,0.9);">10% COMMISSION</span>
+          </div>
+          <!-- Bottom label -->
+          <div class="absolute bottom-3 left-4">
+            <p class="text-[9px] font-black tracking-[0.25em] uppercase" style="color: rgba(255,255,255,0.5);">NOVABETT AGENT PROGRAM</p>
           </div>
         </div>
 
@@ -546,7 +506,7 @@
                   <path stroke-linecap="round" stroke-linejoin="round" d="M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.102-1.101m-.758-4.899a4 4 0 005.656 0l4-4a4 4 0 00-5.656-5.656l-1.1 1.1"/>
                 </svg>
                 <p class="text-[11px] font-mono flex-1 break-all leading-relaxed"
-                  style="color: rgba(220,230,245,0.72); user-select: text; -webkit-user-select: text; cursor: text; letter-spacing: 0.01em;">{{ referralLink }}</p>
+                  style="color: rgba(80,220,140,0.88); user-select: text; -webkit-user-select: text; cursor: text; letter-spacing: 0.01em;">{{ referralLink }}</p>
                 <button @click="copyText(referralLink)" class="flex-shrink-0 active:scale-75 transition-all mt-0.5">
                   <div class="px-2 py-1.5 rounded-lg transition-all"
                     :style="copiedLink ? 'background:rgba(80,220,120,0.15);border:1px solid rgba(80,220,120,0.35)' : 'background:rgba(255,255,255,0.07);border:1px solid rgba(255,255,255,0.12)'">
@@ -1720,6 +1680,7 @@ import { supabase } from '@/lib/supabase'
 const activeTab    = ref(0)
 const loading      = ref(false)
 const loadingData  = ref(true)
+const agentBannerUrl = ref('/images/banners/banner2.jpg')
 const copiedCode   = ref(false)
 const copiedLink   = ref(false)
 const dlSearch     = ref('')
@@ -2360,6 +2321,14 @@ async function loadAll() {
         level: l.level, commission: l.commission, count: l.users.size
       })).sort((a,b) => a.level - b.level)
     }
+
+    // 6b. Load agent banner from settings table (key = 'agent_banner_url')
+    const { data: bannerSetting } = await supabase
+      .from('settings')
+      .select('value')
+      .eq('key', 'agent_banner_url')
+      .maybeSingle()
+    if (bannerSetting?.value) agentBannerUrl.value = bannerSetting.value
 
     // 6. Load user's own transactions
     const { data: txData } = await supabase
