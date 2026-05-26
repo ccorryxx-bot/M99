@@ -1443,14 +1443,26 @@
 
             <!-- Left: current badge mini + title -->
             <div class="flex items-center gap-3">
-              <!-- Mini current badge -->
-              <div class="lux-mini-badge relative w-11 h-11 rounded-[12px] overflow-hidden flex-shrink-0"
-                :style="currentLevelData.badgeBg + ';box-shadow:0 0 16px 3px ' + currentLevelData.glowColor + ',inset 0 1px 0 rgba(255,255,255,0.2)'">
-                <div class="absolute inset-x-0 top-0 h-1/2 pointer-events-none"
-                  style="background:linear-gradient(180deg,rgba(255,255,255,0.22) 0%,transparent 100%)"></div>
-                <div class="absolute inset-0 flex flex-col items-center justify-center">
-                  <span class="text-sm font-black leading-none" :style="currentLevelData.numberStyle">{{ agentLevel }}</span>
-                  <span class="text-[6px] font-black tracking-wider uppercase mt-0.5" :style="currentLevelData.tierStyle">{{ currentLevelData.tierName }}</span>
+              <!-- Mini current badge — Shield shape -->
+              <div class="flex-shrink-0 relative" style="width:48px;height:52px;">
+                <!-- Shield SVG -->
+                <div v-html="miniShieldHtml(currentLevelData)"
+                  class="absolute inset-0"
+                  :style="`overflow:visible;filter:drop-shadow(0 0 10px ${currentLevelData.glowColor}) drop-shadow(0 2px 4px rgba(0,0,0,0.9));`">
+                </div>
+                <!-- AG level text overlay on shield -->
+                <div class="absolute inset-0 flex items-center justify-center" style="padding-top:6px;">
+                  <div class="ag-on-shield"
+                    :style="`background:linear-gradient(135deg,${currentLevelData.rimColor}55,${currentLevelData.rimColor}22);border:1px solid ${currentLevelData.rimColor}95;color:${currentLevelData.rimColor};text-shadow:0 0 12px ${currentLevelData.glowColor},0 1px 0 rgba(0,0,0,0.9);box-shadow:0 0 14px ${currentLevelData.glowColor}60;`">
+                    <span class="relative z-10 font-black tracking-wide" style="font-size:9px;line-height:1;">AG{{ agentLevel }}</span>
+                  </div>
+                </div>
+                <!-- Tier label below shield -->
+                <div class="absolute w-full text-center" style="bottom:-10px;">
+                  <span class="font-black tracking-wider" style="font-size:5px;letter-spacing:0.1em;"
+                    :style="`color:${currentLevelData.rimColor};text-shadow:0 0 6px ${currentLevelData.glowColor};`">
+                    {{ currentLevelData.tierName }}
+                  </span>
                 </div>
               </div>
               <div>
@@ -1523,10 +1535,10 @@
               <!-- ═══════════════════════════════════════════════
                    ✦ LEGENDARY CROWN SHIELD — all FX on badge ✦
                    ═══════════════════════════════════════════════ -->
-              <div class="flex-shrink-0 relative z-10" style="width:64px;">
+              <div class="flex-shrink-0 relative z-10" style="width:64px;overflow:visible;">
 
                 <!-- Crown Shield container (all FX inside here) -->
-                <div class="relative mx-auto" style="width:56px;height:56px;">
+                <div class="relative mx-auto" style="width:56px;height:56px;isolation:isolate;">
 
                   <!-- ① Crown Aura — radial glow bloom behind shield -->
                   <div class="absolute pointer-events-none crown-aura"
@@ -3089,7 +3101,7 @@ onUnmounted(() => {
 }
 
 /* ── Level rows ─────────────────────────────────── */
-.lv-row { position: relative; contain: layout style paint; }
+.lv-row { position: relative; contain: style paint; }
 .lv-current {
   background: rgba(255,255,255,0.06);
   border: 1px solid rgba(255,200,0,0.28);
