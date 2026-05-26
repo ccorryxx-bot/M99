@@ -21,56 +21,34 @@
     </Teleport>
 
     <div class="flex-1">
-      <!-- Top Header Bar -->
-      <div class="px-4 pt-4 pb-0 relative z-10">
+      <!-- Top Header Bar — labels only, no extra rows -->
+      <div class="px-4 pt-3 pb-0 relative z-10">
         <div class="flex items-center justify-between">
-          <!-- Left: Welcome Text -->
+          <!-- Left: Welcome -->
           <div>
-            <p class="text-cyan-500/80 text-[10px] font-semibold uppercase tracking-[0.2em] animate-fade-in leading-tight">
-              Welcome to
-            </p>
-            <p class="text-cyan-400 text-[13px] font-black uppercase tracking-[0.15em] leading-tight">
-              NovaBETT
-            </p>
+            <p class="text-cyan-500/80 text-[10px] font-semibold uppercase tracking-[0.2em] leading-tight">Welcome to</p>
+            <p class="text-cyan-400 text-[13px] font-black uppercase tracking-[0.15em] leading-tight">NovaBETT</p>
           </div>
-          <!-- Right: Brand label (small) -->
-          <div class="text-right">
-            <p class="text-[11px] font-black tracking-tight leading-tight">
-              <span class="bg-gradient-to-r from-cyan-400 to-teal-400 bg-clip-text text-transparent animate-shimmer bg-[length:200%_auto]">NovaBETT</span>
-            </p>
-            <p class="text-[8px] text-gray-500 font-semibold uppercase tracking-wider leading-tight">Premium Online Casino</p>
-          </div>
-        </div>
-
-        <!-- Search + Login/Language row -->
-        <div class="flex items-center justify-between mt-3">
+          <!-- Right: Brand + login (not logged in) -->
           <div class="flex items-center gap-2">
-            <button @click="toggleSearch" class="text-gray-400 hover:text-cyan-400 transition-colors p-2 rounded-full hover:bg-cyan-500/10">
-              <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/></svg>
-            </button>
+            <div class="text-right">
+              <p class="text-[11px] font-black tracking-tight leading-tight">
+                <span class="bg-gradient-to-r from-cyan-400 to-teal-400 bg-clip-text text-transparent animate-shimmer bg-[length:200%_auto]">NovaBETT</span>
+              </p>
+              <p class="text-[8px] text-gray-500 font-semibold uppercase tracking-wider leading-tight">Premium Online Casino</p>
+            </div>
             <template v-if="!isLoggedIn">
               <button @click="showAuthModal = true; authTab = 'login'"
-                class="relative overflow-hidden bg-gradient-to-r from-cyan-500 to-teal-600 text-white text-sm font-bold px-5 py-2 rounded-full shadow-lg shadow-cyan-500/20 hover:shadow-cyan-500/40 hover:-translate-y-0.5 active:scale-95 transition-all duration-200">
-                <span class="relative z-10">Login</span>
+                class="ml-2 bg-gradient-to-r from-cyan-500 to-teal-600 text-white text-xs font-bold px-4 py-1.5 rounded-full shadow-lg shadow-cyan-500/20 active:scale-95 transition-all">
+                Login
               </button>
             </template>
           </div>
-          <div class="flex items-center gap-2">
-            <button @click="toggleLanguage" class="text-xs bg-cyan-500/10 hover:bg-cyan-500/20 text-gray-400 px-3 py-1 rounded-full transition-all">
-              {{ currentLang === 'en' ? 'မြန်မာ' : 'English' }}
-            </button>
-          </div>
-        </div>
-
-        <!-- Search bar -->
-        <div v-if="searchVisible" class="relative mt-2">
-          <input v-model="searchQuery" type="text" placeholder="Search games..." class="w-full pl-10 pr-4 py-3 rounded-xl bg-[#111d26] border border-cyan-500/20 text-white placeholder-gray-500 focus:outline-none focus:border-cyan-500/50 transition-all text-sm" />
-          <svg class="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/></svg>
         </div>
       </div>
 
-      <!-- Carousel (Banner) — moved to top -->
-      <div class="px-4 pt-3">
+      <!-- Carousel (Banner) — directly under labels, no gap -->
+      <div class="px-4 pt-2">
         <div class="rounded-2xl overflow-hidden relative h-40 bg-[#111d26] border border-cyan-500/10 shadow-sm">
           <div class="absolute inset-0 flex transition-transform duration-500" :style="{ transform: `translateX(-${carouselIndex * 100}%)` }">
             <div v-for="(img, i) in carouselImages" :key="i" class="w-full h-full flex-shrink-0 relative">
@@ -84,28 +62,71 @@
         </div>
       </div>
 
-      <!-- User Info Row (if logged in) — below banner -->
-      <div class="px-4 pt-3">
-        <div v-if="isLoggedIn" class="flex items-center justify-between bg-[#111d26] border border-cyan-500/10 rounded-2xl px-4 py-3 shadow-sm">
+      <!-- Account Card (if logged in) — below banner, contains NFT avatar + actions + search/lang -->
+      <div class="px-4 pt-2">
+        <div v-if="isLoggedIn" class="bg-[#111d26] border border-cyan-500/10 rounded-2xl px-3 py-3 shadow-sm">
           <div class="flex items-center gap-3">
-            <div class="w-10 h-10 rounded-full bg-gradient-to-br from-cyan-400 to-teal-600 flex items-center justify-center text-sm font-black text-white shadow-lg">
-              {{ username.charAt(0).toUpperCase() }}
-            </div>
-            <div>
-              <p class="text-sm font-bold text-white">{{ username }}</p>
+            <!-- Animated NFT Avatar -->
+            <NftAvatar :username="username" :size="52" />
+
+            <!-- Name + Balance -->
+            <div class="flex-1 min-w-0">
+              <p class="text-sm font-bold text-white truncate">{{ username }}</p>
               <p class="text-xs text-gray-400">
-                <span v-if="balanceLoading" class="animate-pulse">...</span>
+                <span v-if="balanceLoading" class="animate-pulse text-gray-500">Loading...</span>
                 <span v-else class="text-cyan-400 font-semibold">{{ formatCurrency(mainBalance) }} Ks</span>
               </p>
             </div>
-          </div>
-          <div class="flex flex-col items-center gap-2">
-            <img src="/images/kpay_wavepay.png" alt="KPay & WavePay" class="h-5 object-contain" />
-            <div class="flex gap-2">
-              <button @click="showDepositModal = true" class="relative overflow-hidden bg-gradient-to-r from-cyan-500 to-teal-600 text-white font-bold rounded-full shadow-lg shadow-cyan-500/20 hover:shadow-cyan-500/40 hover:-translate-y-0.5 active:scale-95 transition-all duration-200 text-xs py-2 px-4">Deposit</button>
-              <button @click="showWithdrawModal = true" class="bg-cyan-500/10 hover:bg-cyan-500/20 text-cyan-300 font-bold rounded-full border border-cyan-500/30 active:scale-95 transition-all text-xs py-2 px-4">Withdraw</button>
+
+            <!-- Right side: KPay badge + Deposit/Withdraw + Search/Lang icons -->
+            <div class="flex flex-col items-end gap-1.5">
+              <img src="/images/kpay_wavepay.png" alt="KPay & WavePay" class="h-4 object-contain" />
+              <div class="flex items-center gap-1.5">
+                <button @click="showDepositModal = true"
+                  class="bg-gradient-to-r from-cyan-500 to-teal-600 text-white font-bold rounded-full text-[11px] py-1.5 px-3 shadow-md active:scale-95 transition-all">
+                  Deposit
+                </button>
+                <button @click="showWithdrawModal = true"
+                  class="bg-cyan-500/10 text-cyan-300 font-bold rounded-full border border-cyan-500/30 text-[11px] py-1.5 px-3 active:scale-95 transition-all">
+                  Withdraw
+                </button>
+                <!-- Search icon (small) -->
+                <button @click="toggleSearch"
+                  class="w-7 h-7 flex items-center justify-center rounded-full bg-cyan-500/10 hover:bg-cyan-500/20 text-gray-400 hover:text-cyan-400 transition-all active:scale-95">
+                  <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/></svg>
+                </button>
+                <!-- Language toggle (small) -->
+                <button @click="toggleLanguage"
+                  class="w-7 h-7 flex items-center justify-center rounded-full bg-cyan-500/10 hover:bg-cyan-500/20 text-gray-400 hover:text-cyan-400 transition-all active:scale-95 text-[9px] font-bold">
+                  {{ currentLang === 'en' ? 'မြ' : 'EN' }}
+                </button>
+              </div>
             </div>
           </div>
+
+          <!-- Search bar (inside card, visible when toggled) -->
+          <div v-if="searchVisible" class="relative mt-2">
+            <input v-model="searchQuery" type="text" placeholder="Search games..."
+              class="w-full pl-9 pr-4 py-2 rounded-xl bg-[#0b141a] border border-cyan-500/20 text-white placeholder-gray-500 focus:outline-none focus:border-cyan-500/50 transition-all text-sm" />
+            <svg class="absolute left-2.5 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/></svg>
+          </div>
+        </div>
+
+        <!-- Not logged in: search + language only -->
+        <div v-else class="flex items-center justify-between px-1 py-1">
+          <button @click="toggleSearch" class="flex items-center gap-1.5 text-gray-400 hover:text-cyan-400 transition-colors p-2 rounded-full hover:bg-cyan-500/10">
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/></svg>
+          </button>
+          <button @click="toggleLanguage" class="text-xs bg-cyan-500/10 hover:bg-cyan-500/20 text-gray-400 px-3 py-1 rounded-full transition-all">
+            {{ currentLang === 'en' ? 'မြန်မာ' : 'English' }}
+          </button>
+        </div>
+
+        <!-- Search bar for not-logged-in state -->
+        <div v-if="!isLoggedIn && searchVisible" class="relative mt-2">
+          <input v-model="searchQuery" type="text" placeholder="Search games..."
+            class="w-full pl-10 pr-4 py-2.5 rounded-xl bg-[#111d26] border border-cyan-500/20 text-white placeholder-gray-500 focus:outline-none focus:border-cyan-500/50 transition-all text-sm" />
+          <svg class="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/></svg>
         </div>
       </div>
 
@@ -440,6 +461,7 @@ import { useRoute } from 'vue-router'
 import { supabase } from '@/lib/supabase'
 import DepositModal from '@/components/DepositModal.vue'
 import WithdrawModal from '@/components/WithdrawModal.vue'
+import NftAvatar from '@/components/NftAvatar.vue'
 import { gsap } from 'gsap'
 
 // ── GSAP Modal Transition Hooks ──
