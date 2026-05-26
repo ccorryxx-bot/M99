@@ -1553,7 +1553,7 @@
                     :style="`width:52px;height:52px;left:2px;top:2px;overflow:visible;`
                       + (lv.level <= agentLevel
                         ? `filter:drop-shadow(0 0 12px ${lv.glowColor}) drop-shadow(0 3px 6px rgba(0,0,0,0.9));`
-                        : `filter:drop-shadow(0 2px 4px rgba(0,0,0,0.7)) brightness(0.65) saturate(0.7);`)">
+                        : `filter:drop-shadow(0 0 10px ${lv.glowColor}80) drop-shadow(0 3px 6px rgba(0,0,0,0.8)) brightness(1.05) saturate(1.25);`)">
                   </div>
 
                   <!-- ⑤ Royal sweep shimmer across shield face — Bronze+ always -->
@@ -1618,7 +1618,7 @@
                       :class="lv.level <= agentLevel ? `ag-btn-tier-${lv.tierName.toLowerCase()}` : ''"
                       :style="lv.level <= agentLevel
                         ? `background:linear-gradient(135deg,${lv.rimColor}55,${lv.rimColor}22);border:1px solid ${lv.rimColor}95;color:${lv.rimColor};text-shadow:0 0 14px ${lv.glowColor},0 1px 0 rgba(0,0,0,0.95);box-shadow:0 0 20px ${lv.glowColor}80,inset 0 1px 0 rgba(255,255,255,0.3);`
-                        : 'background:rgba(20,10,40,0.92);border:1px solid rgba(255,255,255,0.18);color:rgba(255,255,255,0.55);'">
+                        : 'background:rgba(30,15,55,0.92);border:1px solid rgba(255,255,255,0.35);color:rgba(255,255,255,0.92);font-weight:900;'">
                       <span class="relative z-10 font-black tracking-wide" style="font-size:9px;line-height:1;">AG{{ lv.level }}</span>
                       <div v-if="lv.level <= agentLevel" class="ag-btn-sweep absolute inset-0 pointer-events-none"
                         :style="`background:linear-gradient(105deg,transparent 25%,${lv.rimColor}35 50%,transparent 75%);`"></div>
@@ -1635,10 +1635,10 @@
                   </span>
                   <span v-else-if="lv.level > agentLevel"
                     class="text-[6px] font-bold tracking-wider"
-                    :style="`color:${lv.rimColor}65;`">
+                    :style="`color:${lv.rimColor};text-shadow:0 0 8px ${lv.glowColor};`">
                     LOCKED
                   </span>
-                  <span v-else class="text-[6px] font-bold" style="color:rgba(100,255,120,0.55);">✓</span>
+                  <span v-else class="text-[6px] font-bold" style="color:rgba(80,240,120,0.95);text-shadow:0 0 8px rgba(80,240,120,0.6);">✓</span>
                 </div>
               </div>
 
@@ -1647,7 +1647,7 @@
                 <p class="font-bold"
                   :style="`font-size:12px;` + (lv.level <= agentLevel
                     ? lv.numberStyle + ';text-shadow:0 0 12px currentColor;'
-                    : 'color:rgba(255,255,255,0.32)')">
+                    : 'color:rgba(255,255,255,0.82);font-weight:600')">
                   {{ lv.required === 0 ? '—' : formatN(lv.required) + ' Ks' }}
                 </p>
               </div>
@@ -1659,8 +1659,8 @@
                   :style="`font-size:13px;font-weight:900;` + (lv.level === agentLevel
                     ? lv.numberStyle + ';text-shadow:0 0 16px currentColor;'
                     : lv.level < agentLevel
-                      ? 'color:rgba(255,255,255,0.55)'
-                      : 'color:rgba(255,255,255,0.22)')">
+                      ? 'color:rgba(255,255,255,0.80)'
+                      : 'color:rgba(255,255,255,0.75);font-weight:700')">
                   {{ lv.rate }}%
                 </span>
               </div>
@@ -3096,7 +3096,7 @@ onUnmounted(() => {
   box-shadow: 0 2px 24px rgba(255,193,7,0.10), inset 0 1px 0 rgba(255,255,255,0.10);
 }
 .lv-past   { background: rgba(255,255,255,0.025); }
-.lv-future { opacity: 0.82; }
+.lv-future { opacity: 1; }
 
 /* ═══════════════════════════════════════════════════════
    ✦ TIER-PROGRESSIVE ROW ANIMATIONS                     ✦
