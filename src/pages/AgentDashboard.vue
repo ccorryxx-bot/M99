@@ -1251,52 +1251,266 @@
       <!-- ═══════════════════════════════════════════
            TAB 2: ငါ့ ဒေတာ (My Data)
            ═══════════════════════════════════════════ -->
-      <div v-else-if="activeTab === 2" class="space-y-3 px-4 pt-4">
+      <!-- ═══════════════════════════════════════════
+           TAB 2: ငါ့ ဒေတာ — My Detailed Stats
+           ═══════════════════════════════════════════ -->
+      <div v-else-if="activeTab === 2" class="pb-8">
 
-        <div class="fp-card rounded-2xl overflow-hidden">
-          <div class="px-4 py-3" style="border-bottom: 1px solid rgba(255,255,255,0.05);">
-            <p class="text-xs font-bold tracking-widest" style="color: rgba(255,255,255,0.5);">ACCOUNT INFO</p>
-          </div>
-          <div class="divide-y" style="--tw-divide-opacity: 1;">
-            <div v-for="row in myDataRows" :key="row.label" class="flex items-center justify-between px-4 py-3.5"
-              style="border-bottom: 1px solid rgba(255,255,255,0.04);">
-              <p class="text-xs" style="color: rgba(255,255,255,0.38);">{{ row.label }}</p>
-              <p class="text-xs font-semibold" :style="row.style || 'color: rgba(255,255,255,0.75);'">
-                <span v-if="loadingData" class="animate-pulse" style="color: rgba(255,255,255,0.2);">...</span>
-                <span v-else>{{ row.value }}</span>
-              </p>
-            </div>
+        <!-- ── Period Sub-tabs (sticky) ── -->
+        <div class="sticky top-0 z-20 px-3 pt-3 pb-2.5" style="background:rgba(8,5,22,0.95);backdrop-filter:blur(16px);border-bottom:1px solid rgba(255,255,255,0.04);">
+          <div class="flex gap-1.5 overflow-x-auto no-scrollbar">
+            <button v-for="p in myDataPeriods" :key="p.key" @click="switchMyDataPeriod(p.key)"
+              class="flex-shrink-0 px-3.5 py-1.5 rounded-full text-[10px] font-bold tracking-wide transition-all active:scale-90"
+              :style="myDataPeriod===p.key
+                ? 'background:rgba(255,193,7,0.18);border:1.5px solid rgba(255,193,7,0.52);color:rgba(255,193,7,0.95);box-shadow:0 0 12px rgba(255,193,7,0.15)'
+                : 'background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.08);color:rgba(255,255,255,0.52)'">
+              {{ p.label }}
+            </button>
           </div>
         </div>
 
-        <!-- Transaction History -->
-        <div class="fp-card rounded-2xl overflow-hidden">
-          <div class="px-4 py-3" style="border-bottom: 1px solid rgba(255,255,255,0.05);">
-            <p class="text-xs font-bold tracking-widest" style="color: rgba(255,255,255,0.5);">TRANSACTIONS</p>
-          </div>
-          <div v-if="loadingData" class="p-8 text-center">
-            <div class="w-5 h-5 border-2 rounded-full animate-spin mx-auto" style="border-color: rgba(255,255,255,0.1); border-top-color: rgba(255,255,255,0.5);"></div>
-          </div>
-          <div v-else-if="userTransactions.length === 0" class="p-8 text-center">
-            <p class="text-xs" style="color: rgba(255,255,255,0.25);">Transaction မှတ်တမ်း မရှိသေးပါ</p>
-          </div>
-          <div v-else v-for="tx in userTransactions" :key="tx.id" class="flex items-center justify-between px-4 py-3"
-            style="border-bottom: 1px solid rgba(255,255,255,0.04);">
-            <div>
-              <p class="text-xs font-semibold capitalize" style="color: rgba(255,255,255,0.7);">{{ tx.type }}</p>
-              <p class="text-[9px] mt-0.5" style="color: rgba(255,255,255,0.25);">{{ fmtDate(tx.created_at) }}</p>
-            </div>
-            <div class="text-right">
-              <p class="text-sm font-bold" :style="tx.type === 'deposit' ? 'color:rgba(100,220,120,0.85)' : tx.type === 'withdraw' ? 'color:rgba(255,100,100,0.8)' : 'color:rgba(255,193,7,0.85)'">
-                {{ tx.type === 'withdraw' ? '-' : '+' }}{{ formatN(tx.amount) }}
-              </p>
-              <span class="text-[9px] px-1.5 py-0.5 rounded" :style="tx.status === 'confirmed' ? 'background:rgba(100,220,120,0.1);color:rgba(100,220,120,0.7)' : 'background:rgba(255,193,7,0.1);color:rgba(255,193,7,0.6)'">
-                {{ tx.status }}
-              </span>
-            </div>
-          </div>
+        <!-- ── Loading ── -->
+        <div v-if="myDataLoading" class="flex flex-col items-center justify-center py-16 gap-3">
+          <div class="w-7 h-7 border-2 rounded-full animate-spin" style="border-color:rgba(255,255,255,0.08);border-top-color:rgba(255,193,7,0.85)"></div>
+          <p class="text-[10px]" style="color:rgba(255,255,255,0.35)">ဒေတာ ဖတ်နေသည်...</p>
         </div>
 
+        <div v-else class="px-3 pt-3 space-y-3">
+
+          <!-- ════════════════════════════════════════════
+               SECTION 1: အောက်လက်ငယ်သားများ၏ စာရင်း
+               ════════════════════════════════════════════ -->
+          <div class="fp-card rounded-2xl overflow-hidden">
+            <div class="px-4 pt-3.5 pb-2.5 flex items-center justify-between" style="border-bottom:1px solid rgba(255,255,255,0.06);">
+              <p class="text-[11px] font-black tracking-wide" style="color:rgba(255,255,255,0.88);">အောက်လက်ငယ်သားများ၏ စာရင်းယောင်</p>
+              <span class="text-[8px] px-2 py-0.5 rounded-full" style="background:rgba(255,193,7,0.1);border:1px solid rgba(255,193,7,0.2);color:rgba(255,193,7,0.7);">Direct</span>
+            </div>
+            <!-- 3-col grid -->
+            <div class="grid grid-cols-3" style="border-color:rgba(255,255,255,0.05);">
+
+              <!-- Row 1 -->
+              <div class="p-3 text-center border-b border-r" style="border-color:rgba(255,255,255,0.05);">
+                <p class="text-[8.5px] leading-snug mb-2" style="color:rgba(255,255,255,0.58);">တိုက်ရိုက်<br>ဆော်တွင်းသောသူ</p>
+                <p class="text-[16px] font-black tabular-nums" style="color:rgba(255,255,255,0.92);">{{ myStats.directNewReg }}</p>
+              </div>
+              <div class="p-3 text-center border-b border-r" style="border-color:rgba(255,255,255,0.05);">
+                <p class="text-[8.5px] leading-snug mb-2" style="color:rgba(255,255,255,0.58);">အပ်ငွေ ထည့်သော<br>ကေရးသုံးသူ အရေ</p>
+                <p class="text-[16px] font-black tabular-nums" style="color:rgba(255,255,255,0.92);">{{ myStats.depositingCount }}</p>
+              </div>
+              <div class="p-3 text-center border-b" style="border-color:rgba(255,255,255,0.05);">
+                <p class="text-[8.5px] leading-snug mb-2" style="color:rgba(255,255,255,0.58);">ပထမအကြိမ် အပ်ငွေ<br>ထည့်သောသူ အရေ</p>
+                <p class="text-[16px] font-black tabular-nums" style="color:rgba(255,255,255,0.92);">{{ myStats.firstDepositCount }}</p>
+              </div>
+
+              <!-- Row 2 -->
+              <div class="p-3 text-center border-b border-r" style="border-color:rgba(255,255,255,0.05);">
+                <p class="text-[8.5px] leading-snug mb-2" style="color:rgba(255,255,255,0.58);">လှုပ်ရှားသော ပထမ<br>အပ်ငွေ ထည့်သူ</p>
+                <p class="text-[16px] font-black tabular-nums" style="color:rgba(255,255,255,0.92);">{{ myStats.activeFirstDeposit }}</p>
+              </div>
+              <div class="p-3 text-center border-b border-r" style="border-color:rgba(255,255,255,0.05);">
+                <p class="text-[8.5px] leading-snug mb-2" style="color:rgba(255,255,255,0.58);">အပ်ဝေ<br>ပမာဏ</p>
+                <p class="text-[14px] font-black tabular-nums" style="color:rgba(255,255,255,0.92);">{{ formatN(myStats.depositAmount) }}</p>
+              </div>
+              <div class="p-3 text-center border-b" style="border-color:rgba(255,255,255,0.05);">
+                <p class="text-[8.5px] leading-snug mb-2" style="color:rgba(255,255,255,0.58);">ပထမဆုံး<br>အပ်ဝေပမာဏ</p>
+                <p class="text-[14px] font-black tabular-nums" style="color:rgba(255,255,255,0.92);">{{ formatN(myStats.firstDepositAmount) }}</p>
+              </div>
+
+              <!-- Row 3 -->
+              <div class="p-3 text-center border-b border-r" style="border-color:rgba(255,255,255,0.05);">
+                <p class="text-[8.5px] leading-snug mb-2" style="color:rgba(255,255,255,0.58);">လှုပ်ရှားသော ပထမ<br>ဆော်တွင်းသောသူ</p>
+                <p class="text-[16px] font-black tabular-nums" style="color:rgba(255,255,255,0.92);">{{ myStats.activeRegistrations }}</p>
+              </div>
+              <div class="p-3 text-center border-b border-r" style="border-color:rgba(255,255,255,0.05);">
+                <p class="text-[8.5px] leading-snug mb-2" style="color:rgba(255,255,255,0.58);">ငွေထုတ်<br>ပမာဏ</p>
+                <p class="text-[14px] font-black tabular-nums" style="color:rgba(255,255,255,0.92);">{{ formatN(myStats.withdrawalAmount) }}</p>
+              </div>
+              <div class="p-3 text-center border-b" style="border-color:rgba(255,255,255,0.05);">
+                <p class="text-[8.5px] leading-snug mb-2" style="color:rgba(255,255,255,0.58);">ငွေထုတ်သော<br>အရေအတွက်</p>
+                <p class="text-[16px] font-black tabular-nums" style="color:rgba(255,255,255,0.92);">{{ myStats.withdrawalCount }}</p>
+              </div>
+
+              <!-- Row 4 -->
+              <div class="p-3 text-center border-b border-r" style="border-color:rgba(255,255,255,0.05);">
+                <p class="text-[8.5px] leading-snug mb-2" style="color:rgba(255,255,255,0.58);">ဆုလာဘ်<br>တောင်းဆို</p>
+                <p class="text-[14px] font-black tabular-nums" style="color:rgba(255,255,255,0.92);">{{ formatN(myStats.bonusRequests) }}</p>
+              </div>
+              <div class="p-3 text-center border-b border-r" style="border-color:rgba(255,255,255,0.05);">
+                <p class="text-[8.5px] leading-snug mb-2" style="color:rgba(255,255,255,0.58);">လက်ခံသော<br>အရေအတွက်</p>
+                <p class="text-[16px] font-black tabular-nums" style="color:rgba(255,255,255,0.92);">{{ myStats.acceptedBonuses }}</p>
+              </div>
+              <div class="p-3 text-center border-b" style="border-color:rgba(255,255,255,0.05);">
+                <p class="text-[8.5px] leading-snug mb-2" style="color:rgba(255,255,255,0.58);">တစ်ကြောင်<br>လောင်းကြေး</p>
+                <p class="text-[14px] font-black tabular-nums" style="color:rgba(255,255,255,0.92);">{{ formatN(myStats.singleBetAmount) }}</p>
+              </div>
+
+              <!-- Row 5 -->
+              <div class="p-3 text-center border-r" style="border-color:rgba(255,255,255,0.05);">
+                <p class="text-[8.5px] leading-snug mb-2" style="color:rgba(255,255,255,0.58);">လောင်းကြေးစုလုံး/<br>အရေအတွက်</p>
+                <p class="text-[14px] font-black tabular-nums" style="color:rgba(255,255,255,0.92);">{{ formatN(myStats.totalTurnover) }}</p>
+              </div>
+              <div class="p-3 text-center border-r" style="border-color:rgba(255,255,255,0.05);">
+                <p class="text-[8.5px] leading-snug mb-2" style="color:rgba(255,255,255,0.58);">တိုက်ရိုက် တနှိပ်/<br>အစွဲများ</p>
+                <p class="text-[14px] font-black tabular-nums" style="color:rgba(255,255,255,0.92);">{{ formatN(myStats.directBetAmount) }}</p>
+              </div>
+              <div class="p-3 text-center" style="border-color:rgba(255,255,255,0.05);">
+                <p class="text-[8.5px] leading-snug mb-2" style="color:rgba(255,255,255,0.58);">တိုက်ရိုက် ဈေးကျ<br>ချပ်ထုတ်</p>
+                <p class="text-[14px] font-black tabular-nums" style="color:rgba(255,255,255,0.92);">{{ formatN(myStats.directEffectiveTurnover) }}</p>
+              </div>
+
+            </div>
+          </div>
+
+          <!-- ════════════════════════════════════════════
+               SECTION 2: တိုက်ရိုက်ဝင်ငွေ (Direct Commission)
+               ════════════════════════════════════════════ -->
+          <div class="fp-card rounded-2xl overflow-hidden">
+            <div class="px-4 pt-3.5 pb-2.5" style="border-bottom:1px solid rgba(255,255,255,0.06);">
+              <p class="text-[11px] font-black tracking-wide" style="color:rgba(255,255,255,0.88);">တိုက်ရိုက်ဝင်ငွေ</p>
+            </div>
+            <div class="grid grid-cols-3" style="border-color:rgba(255,255,255,0.05);">
+              <!-- Row 1: highlighted yellow -->
+              <div class="p-3 text-center border-b border-r" style="border-color:rgba(255,255,255,0.05);">
+                <p class="text-[8.5px] leading-snug mb-2" style="color:rgba(255,255,255,0.58);">တိုက်ရိုက်<br>ကော်မရှင်</p>
+                <p class="text-[15px] font-black tabular-nums" style="color:rgba(255,193,7,0.95);">{{ formatDec(myStats.directComm) }}</p>
+              </div>
+              <div class="p-3 text-center border-b border-r" style="border-color:rgba(255,255,255,0.05);">
+                <p class="text-[8.5px] leading-snug mb-2" style="color:rgba(255,255,255,0.58);">အခြား<br>ကော်မရှင်များ</p>
+                <p class="text-[15px] font-black tabular-nums" style="color:rgba(255,193,7,0.95);">{{ formatDec(myStats.indirectComm) }}</p>
+              </div>
+              <div class="p-3 text-center border-b" style="border-color:rgba(255,255,255,0.05);">
+                <p class="text-[8.5px] leading-snug mb-2" style="color:rgba(255,255,255,0.58);">စုစုပေါင်း<br>ကော်မရှင်</p>
+                <p class="text-[15px] font-black tabular-nums" style="color:rgba(255,193,7,0.95);">{{ formatDec(myStats.totalComm) }}</p>
+              </div>
+              <!-- Row 2 -->
+              <div class="p-3 text-center border-r" style="border-color:rgba(255,255,255,0.05);">
+                <p class="text-[8.5px] leading-snug mb-2" style="color:rgba(255,255,255,0.58);">ကော်မရှင်<br>ဝယ်ကူလက်ဆောင်</p>
+                <p class="text-[15px] font-black tabular-nums" style="color:rgba(255,255,255,0.88);">{{ formatDec(0) }}</p>
+              </div>
+              <div class="p-3 text-center border-r" style="border-color:rgba(255,255,255,0.05);">
+                <p class="text-[8.5px] leading-snug mb-2" style="color:rgba(255,255,255,0.58);">ဆိုင်းငံ့<br>ကော်မရှင်</p>
+                <p class="text-[15px] font-black tabular-nums" style="color:rgba(255,255,255,0.88);">{{ formatDec(myStats.pendingComm) }}</p>
+              </div>
+              <div class="p-3 text-center" style="border-color:rgba(255,255,255,0.05);">
+                <p class="text-[8.5px] leading-snug mb-2" style="color:rgba(255,255,255,0.58);">အကျုံးမဝင်<br>ကော်မရှင်</p>
+                <p class="text-[15px] font-black tabular-nums" style="color:rgba(255,255,255,0.88);">{{ formatDec(0) }}</p>
+              </div>
+            </div>
+          </div>
+
+          <!-- ════════════════════════════════════════════
+               SECTION 3: ဒေတာအားလုံး (All Downline Data)
+               ════════════════════════════════════════════ -->
+          <div class="fp-card rounded-2xl overflow-hidden">
+            <div class="px-4 pt-3.5 pb-2.5" style="border-bottom:1px solid rgba(255,255,255,0.06);">
+              <p class="text-[11px] font-black tracking-wide" style="color:rgba(255,255,255,0.88);">ဒေတာအားလုံး</p>
+              <p class="text-[8.5px] mt-0.5" style="color:rgba(255,255,255,0.42);">(အခြားလက်အောက်ငယ်သားများပါဝင်သည်)</p>
+            </div>
+            <div class="grid grid-cols-3" style="border-color:rgba(255,255,255,0.05);">
+              <!-- Row 1: Members -->
+              <div class="p-3 text-center border-b border-r" style="border-color:rgba(255,255,255,0.05);">
+                <p class="text-[8.5px] leading-snug mb-2" style="color:rgba(255,255,255,0.58);">စုစုပေါင်းလူ</p>
+                <p class="text-[16px] font-black tabular-nums" style="color:rgba(255,255,255,0.92);">{{ myStats.totalMembers }}</p>
+              </div>
+              <div class="p-3 text-center border-b border-r" style="border-color:rgba(255,255,255,0.05);">
+                <p class="text-[8.5px] leading-snug mb-2" style="color:rgba(255,255,255,0.58);">တိုက်ရိုက်</p>
+                <p class="text-[16px] font-black tabular-nums" style="color:rgba(100,220,120,0.92);">{{ myStats.directMembers }}</p>
+              </div>
+              <div class="p-3 text-center border-b" style="border-color:rgba(255,255,255,0.05);">
+                <p class="text-[8.5px] leading-snug mb-2" style="color:rgba(255,255,255,0.58);">အခြားအရေ</p>
+                <p class="text-[16px] font-black tabular-nums" style="color:rgba(100,180,255,0.92);">{{ myStats.indirectMembers }}</p>
+              </div>
+              <!-- Row 2: Turnover -->
+              <div class="p-3 text-center border-b border-r" style="border-color:rgba(255,255,255,0.05);">
+                <p class="text-[8.5px] leading-snug mb-2" style="color:rgba(255,255,255,0.58);">တိုက်ရိုက်<br>လောင်းကြေး</p>
+                <p class="text-[14px] font-black tabular-nums" style="color:rgba(255,255,255,0.88);">{{ formatDec(myStats.allDirectTurnover) }}</p>
+              </div>
+              <div class="p-3 text-center border-b border-r" style="border-color:rgba(255,255,255,0.05);">
+                <p class="text-[8.5px] leading-snug mb-2" style="color:rgba(255,255,255,0.58);">အခြား<br>လောင်းကြေး</p>
+                <p class="text-[14px] font-black tabular-nums" style="color:rgba(255,255,255,0.88);">{{ formatDec(myStats.allIndirectTurnover) }}</p>
+              </div>
+              <div class="p-3 text-center border-b" style="border-color:rgba(255,255,255,0.05);">
+                <p class="text-[8.5px] leading-snug mb-2" style="color:rgba(255,255,255,0.58);">စုစုပေါင်း<br>လောင်းကြေး</p>
+                <p class="text-[14px] font-black tabular-nums" style="color:rgba(255,255,255,0.88);">{{ formatDec(myStats.allTotalTurnover) }}</p>
+              </div>
+              <!-- Row 3: Effective turnover -->
+              <div class="p-3 text-center border-b border-r" style="border-color:rgba(255,255,255,0.05);">
+                <p class="text-[8.5px] leading-snug mb-2" style="color:rgba(255,255,255,0.58);">ဈေးကျချပ် Direct<br>တိုက်ရိုက်</p>
+                <p class="text-[14px] font-black tabular-nums" style="color:rgba(255,255,255,0.88);">{{ formatDec(myStats.directEffectiveTurnover) }}</p>
+              </div>
+              <div class="p-3 text-center border-b border-r" style="border-color:rgba(255,255,255,0.05);">
+                <p class="text-[8.5px] leading-snug mb-2" style="color:rgba(255,255,255,0.58);">ဈေးကျချပ်<br>Override</p>
+                <p class="text-[14px] font-black tabular-nums" style="color:rgba(255,255,255,0.88);">{{ formatDec(myStats.overrideTurnover) }}</p>
+              </div>
+              <div class="p-3 text-center border-b" style="border-color:rgba(255,255,255,0.05);">
+                <p class="text-[8.5px] leading-snug mb-2" style="color:rgba(255,255,255,0.58);">ဈေးကျချပ်<br>စုစုပေါင်း</p>
+                <p class="text-[14px] font-black tabular-nums" style="color:rgba(255,255,255,0.88);">{{ formatDec(myStats.allTotalTurnover) }}</p>
+              </div>
+              <!-- Row 4: 2-col win/lose -->
+              <div class="p-3 text-center border-r col-span-1" style="border-color:rgba(255,255,255,0.05);">
+                <p class="text-[8.5px] leading-snug mb-2" style="color:rgba(255,255,255,0.58);">နိုင်သောအလောင်း<br>တိုက်ရိုက် အရေ</p>
+                <p class="text-[14px] font-black tabular-nums" style="color:rgba(100,220,120,0.88);">{{ formatDec(0) }}</p>
+              </div>
+              <div class="p-3 text-center col-span-2" style="border-color:rgba(255,255,255,0.05);">
+                <p class="text-[8.5px] leading-snug mb-2" style="color:rgba(255,255,255,0.58);">ရှုံးသောအလောင်း<br>နှင်ငြ အစွဲများ</p>
+                <p class="text-[14px] font-black tabular-nums" style="color:rgba(255,100,100,0.88);">{{ formatDec(0) }}</p>
+              </div>
+            </div>
+          </div>
+
+          <!-- ════════════════════════════════════════════
+               SECTION 4: ငါ့စုစုပေါင်းဝင်ငွေ (My Total Commission)
+               ════════════════════════════════════════════ -->
+          <div class="fp-card rounded-2xl overflow-hidden">
+            <div class="px-4 pt-3.5 pb-2.5" style="border-bottom:1px solid rgba(255,255,255,0.06);">
+              <p class="text-[11px] font-black tracking-wide" style="color:rgba(255,255,255,0.88);">ငါ့စုစုပေါင်းဝင်ငွေ</p>
+            </div>
+            <div class="grid grid-cols-3" style="border-color:rgba(255,255,255,0.05);">
+              <!-- Row 1: yellow commissions -->
+              <div class="p-3 text-center border-b border-r" style="border-color:rgba(255,255,255,0.05);">
+                <p class="text-[8.5px] leading-snug mb-2" style="color:rgba(255,255,255,0.58);">တိုက်ရိုက်<br>ကော်မရှင်</p>
+                <p class="text-[15px] font-black tabular-nums" style="color:rgba(255,193,7,0.95);">{{ formatDec(myStats.directComm) }}</p>
+              </div>
+              <div class="p-3 text-center border-b border-r" style="border-color:rgba(255,255,255,0.05);">
+                <p class="text-[8.5px] leading-snug mb-2" style="color:rgba(255,255,255,0.58);">အခြား<br>ကော်မရှင်များ</p>
+                <p class="text-[15px] font-black tabular-nums" style="color:rgba(255,193,7,0.95);">{{ formatDec(myStats.indirectComm) }}</p>
+              </div>
+              <div class="p-3 text-center border-b" style="border-color:rgba(255,255,255,0.05);">
+                <p class="text-[8.5px] leading-snug mb-2" style="color:rgba(255,255,255,0.58);">စုစုပေါင်း<br>ကော်မရှင်</p>
+                <p class="text-[15px] font-black tabular-nums" style="color:rgba(255,193,7,0.95);">{{ formatDec(myStats.totalComm) }}</p>
+              </div>
+              <!-- Row 2: bonus, rank, monthly -->
+              <div class="p-3 text-center border-b border-r" style="border-color:rgba(255,255,255,0.05);">
+                <p class="text-[8.5px] leading-snug mb-2" style="color:rgba(255,255,255,0.58);">ဆုလာဘ်</p>
+                <p class="text-[15px] font-black tabular-nums" style="color:rgba(255,193,7,0.95);">{{ formatDec(myStats.bonusComm) }}</p>
+              </div>
+              <div class="p-3 text-center border-b border-r" style="border-color:rgba(255,255,255,0.05);">
+                <p class="text-[8.5px] leading-snug mb-2" style="color:rgba(255,255,255,0.58);">ရာထူး<br>ဆုကြေး</p>
+                <p class="text-[15px] font-black tabular-nums" style="color:rgba(255,193,7,0.95);">{{ formatDec(0) }}</p>
+              </div>
+              <div class="p-3 text-center border-b" style="border-color:rgba(255,255,255,0.05);">
+                <p class="text-[8.5px] leading-snug mb-2" style="color:rgba(255,255,255,0.58);">လစဉ်<br>ဆုကြေး</p>
+                <p class="text-[15px] font-black tabular-nums" style="color:rgba(255,193,7,0.95);">{{ formatDec(0) }}</p>
+              </div>
+              <!-- Row 3: pending, invalid — 2-col -->
+              <div class="p-3 text-center border-r col-span-1" style="border-color:rgba(255,255,255,0.05);">
+                <p class="text-[8.5px] leading-snug mb-2" style="color:rgba(255,255,255,0.58);">ဆိုင်းငံ့ ဆုနှင့်<br>ကော်မရှင်</p>
+                <p class="text-[15px] font-black tabular-nums" style="color:rgba(255,255,255,0.88);">{{ formatDec(myStats.pendingComm) }}</p>
+              </div>
+              <div class="p-3 text-center col-span-2" style="border-color:rgba(255,255,255,0.05);">
+                <p class="text-[8.5px] leading-snug mb-2" style="color:rgba(255,255,255,0.58);">အကျုံးမဝင်<br>ကော်မရှင် ငွေပမာဏ</p>
+                <p class="text-[15px] font-black tabular-nums" style="color:rgba(255,255,255,0.88);">{{ formatDec(0) }}</p>
+              </div>
+            </div>
+          </div>
+
+          <!-- Real-time indicator -->
+          <div class="flex items-center justify-center gap-2 py-2">
+            <div class="w-1.5 h-1.5 rounded-full animate-pulse" style="background:rgba(100,220,120,0.85);box-shadow:0 0 6px rgba(100,220,120,0.6)"></div>
+            <p class="text-[9px]" style="color:rgba(255,255,255,0.3)">Real-Time • ဒေတာ အလိုအလျောက် ပြောင်းနေသည်</p>
+          </div>
+
+        </div>
       </div>
 
       <!-- ═══════════════════════════════════════════
@@ -1877,6 +2091,51 @@ const treeSelectedNode = ref('self')
 const demoTab = ref('A')
 const showLevelModal = ref(false)
 
+// ── My Data Tab State ──────────────────────────────────────────
+const myDataPeriod  = ref('today')
+const myDataLoading = ref(false)
+const myStats = ref({
+  // Section 1 — direct downline stats
+  directNewReg:          0,
+  depositingCount:       0,
+  firstDepositCount:     0,
+  activeFirstDeposit:    0,
+  depositAmount:         0,
+  firstDepositAmount:    0,
+  activeRegistrations:   0,
+  withdrawalAmount:      0,
+  withdrawalCount:       0,
+  bonusRequests:         0,
+  acceptedBonuses:       0,
+  singleBetAmount:       0,
+  totalTurnover:         0,
+  directBetAmount:       0,
+  directEffectiveTurnover: 0,
+  // Section 2 — commission
+  directComm:            0,
+  indirectComm:          0,
+  totalComm:             0,
+  pendingComm:           0,
+  bonusComm:             0,
+  // Section 3 — all downline
+  totalMembers:          0,
+  directMembers:         0,
+  indirectMembers:       0,
+  allDirectTurnover:     0,
+  allIndirectTurnover:   0,
+  allTotalTurnover:      0,
+  overrideTurnover:      0,
+})
+
+const myDataPeriods = [
+  { key: 'today',     label: 'ဒိုင်' },
+  { key: 'yesterday', label: 'မနေ့' },
+  { key: 'thisweek',  label: 'ယခုအပတ်' },
+  { key: 'lastweek',  label: 'ပြီးခဲ့သောအပတ်' },
+  { key: 'thismonth', label: 'ဒါလ' },
+  { key: 'all',       label: 'ပြ' },
+]
+
 // ── Agent Level System Data (Luxury VIP Casino Edition) ─────────────────────
 const AGENT_LEVELS = [
   // BRONZE (LV 1-3) — warm copper-bronze metallic
@@ -2417,6 +2676,129 @@ const bottomNav = [
   { to:'/account',    label:'You',   icon:`<svg width="20" height="20" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 3c1.66 0 3 1.34 3 3s-1.34 3-3 3-3-1.34-3-3 1.34-3 3-3zm0 14.2c-2.5 0-4.71-1.28-6-3.22.03-1.99 4-3.08 6-3.08 1.99 0 5.97 1.09 6 3.08-1.29 1.94-3.5 3.22-6 3.22z"/></svg>` },
 ]
 
+
+// ── My Data Period Helper ──────────────────────────────────────
+function getMyDataDateRange(period) {
+  const now  = new Date()
+  const todayStart = new Date(now.getFullYear(), now.getMonth(), now.getDate())
+  switch (period) {
+    case 'today':     return { start: todayStart, end: null }
+    case 'yesterday': return { start: new Date(todayStart.getTime() - 86400000), end: todayStart }
+    case 'thisweek':  { const dow = now.getDay(); return { start: new Date(todayStart.getTime() - dow*86400000), end: null } }
+    case 'lastweek':  { const dow = now.getDay(); const ws = new Date(todayStart.getTime() - dow*86400000); return { start: new Date(ws.getTime()-7*86400000), end: ws } }
+    case 'thismonth': return { start: new Date(now.getFullYear(), now.getMonth(), 1), end: null }
+    default:          return { start: null, end: null }
+  }
+}
+
+function inRange(dateStr, range) {
+  const d = new Date(dateStr)
+  if (range.start && d < range.start) return false
+  if (range.end   && d >= range.end)  return false
+  return true
+}
+
+function formatDec(n) {
+  return new Intl.NumberFormat('en-US', { minimumFractionDigits:2, maximumFractionDigits:2 }).format(Number(n)||0)
+}
+
+async function loadMyDataStats(period) {
+  if (!userId.value) return
+  myDataLoading.value = true
+  try {
+    const range = getMyDataDateRange(period)
+
+    // Direct downline ids (level 1)
+    const directIds = allDownline.value.filter(u => u.level === 1).map(u => u.descendant_id || u.id)
+    const allIds    = allDownline.value.map(u => u.descendant_id || u.id)
+
+    // ── Filter commission records by period ──
+    const filteredComm = commissionRecords.value.filter(r => inRange(r.created_at, range))
+    const directComm   = filteredComm.filter(r => r.level === 1)
+    const indirectComm = filteredComm.filter(r => r.level > 1)
+    const dCommSum     = directComm.reduce((s, r) => s + Number(r.commission_amount), 0)
+    const iCommSum     = indirectComm.reduce((s, r) => s + Number(r.commission_amount), 0)
+    const dTurnover    = directComm.reduce((s, r) => s + Number(r.bet_turnover), 0)
+    const iTurnover    = indirectComm.reduce((s, r) => s + Number(r.bet_turnover), 0)
+
+    // ── Load downline transactions for the period ──
+    let dlTxRows = []
+    if (directIds.length > 0) {
+      let query = supabase
+        .from('transactions')
+        .select('user_id, type, amount, status, created_at')
+        .in('user_id', directIds)
+      if (range.start) query = query.gte('created_at', range.start.toISOString())
+      if (range.end)   query = query.lt('created_at', range.end.toISOString())
+      const { data } = await query.limit(500)
+      dlTxRows = data || []
+    }
+
+    // ── New registrations (filter affiliate_tree rows by period) ──
+    const newRegMembers = allDownline.value.filter(u => u.level === 1 && u.created_at && inRange(u.created_at, range))
+
+    // ── Deposits ──
+    const deposits    = dlTxRows.filter(t => t.type === 'deposit' && t.status === 'confirmed')
+    const withdrawals = dlTxRows.filter(t => t.type === 'withdraw' && t.status === 'confirmed')
+    const bonuses     = dlTxRows.filter(t => t.type === 'bonus')
+
+    // First-deposit members: members whose first ever deposit was in this period
+    // Approximate: members who appear in our deposit list but joined recently
+    const depositingUserIds = [...new Set(deposits.map(t => t.user_id))]
+    const firstDepositUserIds = newRegMembers.filter(u => depositingUserIds.includes(u.descendant_id || u.id))
+
+    const depositSum     = deposits.reduce((s,t) => s + Number(t.amount), 0)
+    const withdrawalSum  = withdrawals.reduce((s,t) => s + Number(t.amount), 0)
+    const bonusSum       = bonuses.reduce((s,t) => s + Number(t.amount), 0)
+    const bonusAccepted  = bonuses.filter(t => t.status === 'confirmed')
+
+    myStats.value = {
+      // Section 1
+      directNewReg:          newRegMembers.length,
+      depositingCount:       depositingUserIds.length,
+      firstDepositCount:     firstDepositUserIds.length,
+      activeFirstDeposit:    firstDepositUserIds.length,
+      depositAmount:         depositSum,
+      firstDepositAmount:    firstDepositUserIds.reduce((s,u) => {
+        const d = deposits.filter(t => t.user_id === (u.descendant_id||u.id))
+        return s + (d.length ? Number(d[0].amount) : 0)
+      }, 0),
+      activeRegistrations:   newRegMembers.length,
+      withdrawalAmount:      withdrawalSum,
+      withdrawalCount:       withdrawals.length,
+      bonusRequests:         bonusSum,
+      acceptedBonuses:       bonusAccepted.length,
+      singleBetAmount:       dTurnover,
+      totalTurnover:         dTurnover + iTurnover,
+      directBetAmount:       dTurnover,
+      directEffectiveTurnover: dTurnover,
+      // Section 2
+      directComm:            dCommSum,
+      indirectComm:          iCommSum,
+      totalComm:             dCommSum + iCommSum,
+      pendingComm:           0,
+      bonusComm:             0,
+      // Section 3
+      totalMembers:          allIds.length,
+      directMembers:         directIds.length,
+      indirectMembers:       allIds.length - directIds.length,
+      allDirectTurnover:     dTurnover,
+      allIndirectTurnover:   iTurnover,
+      allTotalTurnover:      dTurnover + iTurnover,
+      overrideTurnover:      iTurnover,
+    }
+  } catch (e) {
+    console.error('[myDataStats]', e)
+  } finally {
+    myDataLoading.value = false
+  }
+}
+
+async function switchMyDataPeriod(p) {
+  myDataPeriod.value = p
+  await loadMyDataStats(p)
+}
+
 // ── Supabase Data Load ─────────────────────────────────────
 async function loadAll() {
   loading.value = true
@@ -2688,6 +3070,18 @@ async function setupRealtimeDownline(myUserId) {
     .channel('downline-watch-' + myUserId)
     .on(
       'postgres_changes',
+      { event: 'INSERT', schema: 'public', table: 'affiliate_commissions', filter: `agent_id=eq.${myUserId}` },
+      async (payload) => {
+        const r = payload.new
+        if (!r) return
+        commissionRecords.value = [r, ...commissionRecords.value].slice(0, 50)
+        totalCommission.value = commissionRecords.value.reduce((s,x) => s + Number(x.commission_amount), 0)
+        totalTurnover.value   = commissionRecords.value.reduce((s,x) => s + Number(x.bet_turnover), 0)
+        await loadMyDataStats(myDataPeriod.value)
+      }
+    )
+    .on(
+      'postgres_changes',
       { event: 'INSERT', schema: 'public', table: 'affiliate_tree', filter: `ancestor_id=eq.${myUserId}` },
       async (payload) => {
         const newRow = payload.new
@@ -2721,6 +3115,7 @@ async function setupRealtimeDownline(myUserId) {
 
 onMounted(async () => {
   await loadAll()
+  await loadMyDataStats('today')
   await nextTick()
   if (plexusRef.value) initPlexus(plexusRef.value)
   watch(plexusRef, (el) => { if (el) initPlexus(el) })
