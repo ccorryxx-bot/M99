@@ -1282,7 +1282,7 @@
                ════════════════════════════════════════════ -->
           <div class="fp-card rounded-2xl overflow-hidden">
             <div class="px-4 pt-3.5 pb-2.5 flex items-center justify-between" style="border-bottom:1px solid rgba(255,255,255,0.06);">
-              <p class="text-[11px] font-black tracking-wide" style="color:rgba(255,255,255,0.88);">အောက်လက်ငယ်သားများ၏ စာရင်းယောင်</p>
+              <p class="text-[11px] font-black tracking-wide" style="color:rgba(255,255,255,0.88);">အောက်လက်ငယ်သားများ၏ စာရင်းဇယား</p>
               <span class="text-[8px] px-2 py-0.5 rounded-full" style="background:rgba(255,193,7,0.1);border:1px solid rgba(255,193,7,0.2);color:rgba(255,193,7,0.7);">Direct</span>
             </div>
             <!-- 3-col grid -->
@@ -1290,11 +1290,11 @@
 
               <!-- Row 1 -->
               <div class="p-3 text-center border-b border-r" style="border-color:rgba(255,255,255,0.05);">
-                <p class="text-[8.5px] leading-snug mb-2" style="color:rgba(255,255,255,0.58);">တိုက်ရိုက်<br>ဆော်တွင်းသောသူ</p>
+                <p class="text-[8.5px] leading-snug mb-2" style="color:rgba(255,255,255,0.58);">တိုက်ရိုက်<br>အစီရင်ခံစာများ</p>
                 <p class="text-[16px] font-black tabular-nums" style="color:rgba(255,255,255,0.92);">{{ myStats.directNewReg }}</p>
               </div>
               <div class="p-3 text-center border-b border-r" style="border-color:rgba(255,255,255,0.05);">
-                <p class="text-[8.5px] leading-snug mb-2" style="color:rgba(255,255,255,0.58);">အပ်ငွေ ထည့်သော<br>ကေရးသုံးသူ အရေ</p>
+                <p class="text-[8.5px] leading-snug mb-2" style="color:rgba(255,255,255,0.58);">အပ်ငွေ ထည့်သော<br>ကစားသူ အရေအတွက်</p>
                 <p class="text-[16px] font-black tabular-nums" style="color:rgba(255,255,255,0.92);">{{ myStats.depositingCount }}</p>
               </div>
               <div class="p-3 text-center border-b" style="border-color:rgba(255,255,255,0.05);">
@@ -1304,21 +1304,21 @@
 
               <!-- Row 2 -->
               <div class="p-3 text-center border-b border-r" style="border-color:rgba(255,255,255,0.05);">
-                <p class="text-[8.5px] leading-snug mb-2" style="color:rgba(255,255,255,0.58);">လှုပ်ရှားသော ပထမ<br>အပ်ငွေ ထည့်သူ</p>
+                <p class="text-[8.5px] leading-snug mb-2" style="color:rgba(255,255,255,0.58);">အကောက်ဖွင့်ပြီး ပထမ<br>အပ်ငွေ ထည့်သူများ</p>
                 <p class="text-[16px] font-black tabular-nums" style="color:rgba(255,255,255,0.92);">{{ myStats.activeFirstDeposit }}</p>
               </div>
               <div class="p-3 text-center border-b border-r" style="border-color:rgba(255,255,255,0.05);">
-                <p class="text-[8.5px] leading-snug mb-2" style="color:rgba(255,255,255,0.58);">အပ်ဝေ<br>ပမာဏ</p>
+                <p class="text-[8.5px] leading-snug mb-2" style="color:rgba(255,255,255,0.58);">အပ်ငွေ<br>ပမာဏ</p>
                 <p class="text-[14px] font-black tabular-nums" style="color:rgba(255,255,255,0.92);">{{ formatN(myStats.depositAmount) }}</p>
               </div>
               <div class="p-3 text-center border-b" style="border-color:rgba(255,255,255,0.05);">
-                <p class="text-[8.5px] leading-snug mb-2" style="color:rgba(255,255,255,0.58);">ပထမဆုံး<br>အပ်ဝေပမာဏ</p>
+                <p class="text-[8.5px] leading-snug mb-2" style="color:rgba(255,255,255,0.58);">ပထမဆုံး<br>အပ်ငွေပမာဏ</p>
                 <p class="text-[14px] font-black tabular-nums" style="color:rgba(255,255,255,0.92);">{{ formatN(myStats.firstDepositAmount) }}</p>
               </div>
 
               <!-- Row 3 -->
               <div class="p-3 text-center border-b border-r" style="border-color:rgba(255,255,255,0.05);">
-                <p class="text-[8.5px] leading-snug mb-2" style="color:rgba(255,255,255,0.58);">လှုပ်ရှားသော ပထမ<br>ဆော်တွင်းသောသူ</p>
+                <p class="text-[8.5px] leading-snug mb-2" style="color:rgba(255,255,255,0.58);">အကောက်ဝင်ပြီး ပထမ<br>အပ်ငွေသွင်းသည်</p>
                 <p class="text-[16px] font-black tabular-nums" style="color:rgba(255,255,255,0.92);">{{ myStats.activeRegistrations }}</p>
               </div>
               <div class="p-3 text-center border-b border-r" style="border-color:rgba(255,255,255,0.05);">
@@ -1340,21 +1340,21 @@
                 <p class="text-[16px] font-black tabular-nums" style="color:rgba(255,255,255,0.92);">{{ myStats.acceptedBonuses }}</p>
               </div>
               <div class="p-3 text-center border-b" style="border-color:rgba(255,255,255,0.05);">
-                <p class="text-[8.5px] leading-snug mb-2" style="color:rgba(255,255,255,0.58);">တစ်ကြောင်<br>လောင်းကြေး</p>
+                <p class="text-[8.5px] leading-snug mb-2" style="color:rgba(255,255,255,0.58);">တရားဝင်<br>လောင်းကြေး</p>
                 <p class="text-[14px] font-black tabular-nums" style="color:rgba(255,255,255,0.92);">{{ formatN(myStats.singleBetAmount) }}</p>
               </div>
 
               <!-- Row 5 -->
               <div class="p-3 text-center border-r" style="border-color:rgba(255,255,255,0.05);">
-                <p class="text-[8.5px] leading-snug mb-2" style="color:rgba(255,255,255,0.58);">လောင်းကြေးစုလုံး/<br>အရေအတွက်</p>
+                <p class="text-[8.5px] leading-snug mb-2" style="color:rgba(255,255,255,0.58);">လောင်းကစားသူ/<br>အရေအတွက်</p>
                 <p class="text-[14px] font-black tabular-nums" style="color:rgba(255,255,255,0.92);">{{ formatN(myStats.totalTurnover) }}</p>
               </div>
               <div class="p-3 text-center border-r" style="border-color:rgba(255,255,255,0.05);">
-                <p class="text-[8.5px] leading-snug mb-2" style="color:rgba(255,255,255,0.58);">တိုက်ရိုက် တနှိပ်/<br>အစွဲများ</p>
+                <p class="text-[8.5px] leading-snug mb-2" style="color:rgba(255,255,255,0.58);">တိုက်ရိုက် အနိုင်/<br>အရှုံးများ</p>
                 <p class="text-[14px] font-black tabular-nums" style="color:rgba(255,255,255,0.92);">{{ formatN(myStats.directBetAmount) }}</p>
               </div>
               <div class="p-3 text-center" style="border-color:rgba(255,255,255,0.05);">
-                <p class="text-[8.5px] leading-snug mb-2" style="color:rgba(255,255,255,0.58);">တိုက်ရိုက် ဈေးကျ<br>ချပ်ထုတ်</p>
+                <p class="text-[8.5px] leading-snug mb-2" style="color:rgba(255,255,255,0.58);">တိုက်ရိုက် <br>စွမ်းဆောင်ရည်</p>
                 <p class="text-[14px] font-black tabular-nums" style="color:rgba(255,255,255,0.92);">{{ formatN(myStats.directEffectiveTurnover) }}</p>
               </div>
 
@@ -1384,7 +1384,7 @@
               </div>
               <!-- Row 2 -->
               <div class="p-3 text-center border-r" style="border-color:rgba(255,255,255,0.05);">
-                <p class="text-[8.5px] leading-snug mb-2" style="color:rgba(255,255,255,0.58);">ကော်မရှင်<br>ဝယ်ကူလက်ဆောင်</p>
+                <p class="text-[8.5px] leading-snug mb-2" style="color:rgba(255,255,255,0.58);">ကော်မရှင်<br>ရယူပါ!</p>
                 <p class="text-[15px] font-black tabular-nums" style="color:rgba(255,255,255,0.88);">{{ formatDec(0) }}</p>
               </div>
               <div class="p-3 text-center border-r" style="border-color:rgba(255,255,255,0.05);">
@@ -1392,7 +1392,7 @@
                 <p class="text-[15px] font-black tabular-nums" style="color:rgba(255,255,255,0.88);">{{ formatDec(myStats.pendingComm) }}</p>
               </div>
               <div class="p-3 text-center" style="border-color:rgba(255,255,255,0.05);">
-                <p class="text-[8.5px] leading-snug mb-2" style="color:rgba(255,255,255,0.58);">အကျုံးမဝင်<br>ကော်မရှင်</p>
+                <p class="text-[8.5px] leading-snug mb-2" style="color:rgba(255,255,255,0.58);">အေးဂျင့်များ၏<br>လှုပ်ရှားမှု့များ</p>
                 <p class="text-[15px] font-black tabular-nums" style="color:rgba(255,255,255,0.88);">{{ formatDec(0) }}</p>
               </div>
             </div>
@@ -1417,7 +1417,7 @@
                 <p class="text-[16px] font-black tabular-nums" style="color:rgba(100,220,120,0.92);">{{ myStats.directMembers }}</p>
               </div>
               <div class="p-3 text-center border-b" style="border-color:rgba(255,255,255,0.05);">
-                <p class="text-[8.5px] leading-snug mb-2" style="color:rgba(255,255,255,0.58);">အခြားအရေ</p>
+                <p class="text-[8.5px] leading-snug mb-2" style="color:rgba(255,255,255,0.58);">အခြားအရေအတွက်</p>
                 <p class="text-[16px] font-black tabular-nums" style="color:rgba(100,180,255,0.92);">{{ myStats.indirectMembers }}</p>
               </div>
               <!-- Row 2: Turnover -->
@@ -1435,24 +1435,24 @@
               </div>
               <!-- Row 3: Effective turnover -->
               <div class="p-3 text-center border-b border-r" style="border-color:rgba(255,255,255,0.05);">
-                <p class="text-[8.5px] leading-snug mb-2" style="color:rgba(255,255,255,0.58);">ဈေးကျချပ် Direct<br>တိုက်ရိုက်</p>
+                <p class="text-[8.5px] leading-snug mb-2" style="color:rgba(255,255,255,0.58);">စုဆောင်းမိသောတိုက်ရိုက်<br>ငွေပေးချေမှု့</p>
                 <p class="text-[14px] font-black tabular-nums" style="color:rgba(255,255,255,0.88);">{{ formatDec(myStats.directEffectiveTurnover) }}</p>
               </div>
               <div class="p-3 text-center border-b border-r" style="border-color:rgba(255,255,255,0.05);">
-                <p class="text-[8.5px] leading-snug mb-2" style="color:rgba(255,255,255,0.58);">ဈေးကျချပ်<br>Override</p>
+                <p class="text-[8.5px] leading-snug mb-2" style="color:rgba(255,255,255,0.58);">စုဆောင်းငွေတိုက်ရိုက်<br>ငွေထုတ်</p>
                 <p class="text-[14px] font-black tabular-nums" style="color:rgba(255,255,255,0.88);">{{ formatDec(myStats.overrideTurnover) }}</p>
               </div>
               <div class="p-3 text-center border-b" style="border-color:rgba(255,255,255,0.05);">
-                <p class="text-[8.5px] leading-snug mb-2" style="color:rgba(255,255,255,0.58);">ဈေးကျချပ်<br>စုစုပေါင်း</p>
+                <p class="text-[8.5px] leading-snug mb-2" style="color:rgba(255,255,255,0.58);">စုစုပေါင်းတိုက်ရိုက်<br>စုစည်းမှု့</p>
                 <p class="text-[14px] font-black tabular-nums" style="color:rgba(255,255,255,0.88);">{{ formatDec(myStats.allTotalTurnover) }}</p>
               </div>
               <!-- Row 4: 2-col win/lose -->
               <div class="p-3 text-center border-r col-span-1" style="border-color:rgba(255,255,255,0.05);">
-                <p class="text-[8.5px] leading-snug mb-2" style="color:rgba(255,255,255,0.58);">နိုင်သောအလောင်း<br>တိုက်ရိုက် အရေ</p>
+                <p class="text-[8.5px] leading-snug mb-2" style="color:rgba(255,255,255,0.58);">စုစည်းမှူတိုက်ရိုက်ထိရောက်သော<br>အလောင်းအစား</p>
                 <p class="text-[14px] font-black tabular-nums" style="color:rgba(100,220,120,0.88);">{{ formatDec(0) }}</p>
               </div>
               <div class="p-3 text-center col-span-2" style="border-color:rgba(255,255,255,0.05);">
-                <p class="text-[8.5px] leading-snug mb-2" style="color:rgba(255,255,255,0.58);">ရှုံးသောအလောင်း<br>နှင်ငြ အစွဲများ</p>
+                <p class="text-[8.5px] leading-snug mb-2" style="color:rgba(255,255,255,0.58);">တိုက်ရိုက်အရှုံးအမြတ်<br>စုစည်းမှု့!</p>
                 <p class="text-[14px] font-black tabular-nums" style="color:rgba(255,100,100,0.88);">{{ formatDec(0) }}</p>
               </div>
             </div>
@@ -1485,20 +1485,20 @@
                 <p class="text-[15px] font-black tabular-nums" style="color:rgba(255,193,7,0.95);">{{ formatDec(myStats.bonusComm) }}</p>
               </div>
               <div class="p-3 text-center border-b border-r" style="border-color:rgba(255,255,255,0.05);">
-                <p class="text-[8.5px] leading-snug mb-2" style="color:rgba(255,255,255,0.58);">ရာထူး<br>ဆုကြေး</p>
+                <p class="text-[8.5px] leading-snug mb-2" style="color:rgba(255,255,255,0.58);">ရရှိ<br>ခဲ့သော</p>
                 <p class="text-[15px] font-black tabular-nums" style="color:rgba(255,193,7,0.95);">{{ formatDec(0) }}</p>
               </div>
               <div class="p-3 text-center border-b" style="border-color:rgba(255,255,255,0.05);">
-                <p class="text-[8.5px] leading-snug mb-2" style="color:rgba(255,255,255,0.58);">လစဉ်<br>ဆုကြေး</p>
+                <p class="text-[8.5px] leading-snug mb-2" style="color:rgba(255,255,255,0.58);">လစာ<br>အပြည့်(Full)</p>
                 <p class="text-[15px] font-black tabular-nums" style="color:rgba(255,193,7,0.95);">{{ formatDec(0) }}</p>
               </div>
               <!-- Row 3: pending, invalid — 2-col -->
               <div class="p-3 text-center border-r col-span-1" style="border-color:rgba(255,255,255,0.05);">
-                <p class="text-[8.5px] leading-snug mb-2" style="color:rgba(255,255,255,0.58);">ဆိုင်းငံ့ ဆုနှင့်<br>ကော်မရှင်</p>
+                <p class="text-[8.5px] leading-snug mb-2" style="color:rgba(255,255,255,0.58);">Promotionလုပ်ဆောင်မှူ့<br>စုဆောင်းငွေများ</p>
                 <p class="text-[15px] font-black tabular-nums" style="color:rgba(255,255,255,0.88);">{{ formatDec(myStats.pendingComm) }}</p>
               </div>
               <div class="p-3 text-center col-span-2" style="border-color:rgba(255,255,255,0.05);">
-                <p class="text-[8.5px] leading-snug mb-2" style="color:rgba(255,255,255,0.58);">အကျုံးမဝင်<br>ကော်မရှင် ငွေပမာဏ</p>
+                <p class="text-[8.5px] leading-snug mb-2" style="color:rgba(255,255,255,0.58);">အေဂျင်စီလုပ်ငန်းများအတွက်<br>စုဆောင်းငွေများ</p>
                 <p class="text-[15px] font-black tabular-nums" style="color:rgba(255,255,255,0.88);">{{ formatDec(0) }}</p>
               </div>
             </div>
@@ -1507,7 +1507,7 @@
           <!-- Real-time indicator -->
           <div class="flex items-center justify-center gap-2 py-2">
             <div class="w-1.5 h-1.5 rounded-full animate-pulse" style="background:rgba(100,220,120,0.85);box-shadow:0 0 6px rgba(100,220,120,0.6)"></div>
-            <p class="text-[9px]" style="color:rgba(255,255,255,0.3)">Real-Time • ဒေတာ အလိုအလျောက် ပြောင်းနေသည်</p>
+            <p class="text-[9px]" style="color:rgba(255,255,255,0.3)">Real-Time • ဒေတာ အလိုအလျောက် ပြောင်းနေသည်!!</p>
           </div>
 
         </div>
