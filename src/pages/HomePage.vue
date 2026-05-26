@@ -21,32 +21,36 @@
     </Teleport>
 
     <div class="flex-1">
-      <div class="px-4 pt-6 pb-2 space-y-4 relative z-10">
-        <!-- Welcome Text -->
-        <p class="text-center text-cyan-500/80 text-[11px] font-semibold uppercase tracking-[0.3em] animate-fade-in">
-          Welcome to <span class="text-cyan-400">NovaBETT</span>
-        </p>
-
-        <!-- Brand Name -->
-        <div class="text-center">
-          <h1 class="text-4xl font-black tracking-tighter relative inline-block">
-            <span class="bg-gradient-to-r from-cyan-400 to-teal-400 bg-clip-text text-transparent animate-shimmer bg-[length:200%_auto] drop-shadow-[0_0_15px_rgba(0,188,212,0.5)]">
+      <!-- Top Header Bar -->
+      <div class="px-4 pt-4 pb-0 relative z-10">
+        <div class="flex items-center justify-between">
+          <!-- Left: Welcome Text -->
+          <div>
+            <p class="text-cyan-500/80 text-[10px] font-semibold uppercase tracking-[0.2em] animate-fade-in leading-tight">
+              Welcome to
+            </p>
+            <p class="text-cyan-400 text-[13px] font-black uppercase tracking-[0.15em] leading-tight">
               NovaBETT
-            </span>
-            <div class="absolute -bottom-1 left-1/2 -translate-x-1/2 w-3/4 h-[3px] bg-gradient-to-r from-transparent via-cyan-400 to-transparent animate-pulse"></div>
-          </h1>
-          <p class="text-[10px] text-gray-500 font-semibold uppercase tracking-wider mt-1">Premium Online Casino</p>
+            </p>
+          </div>
+          <!-- Right: Brand label (small) -->
+          <div class="text-right">
+            <p class="text-[11px] font-black tracking-tight leading-tight">
+              <span class="bg-gradient-to-r from-cyan-400 to-teal-400 bg-clip-text text-transparent animate-shimmer bg-[length:200%_auto]">NovaBETT</span>
+            </p>
+            <p class="text-[8px] text-gray-500 font-semibold uppercase tracking-wider leading-tight">Premium Online Casino</p>
+          </div>
         </div>
 
-        <!-- Top row: Search + Login/User info -->
-        <div class="flex items-center justify-between">
-          <div class="flex items-center gap-3">
+        <!-- Search + Login/Language row -->
+        <div class="flex items-center justify-between mt-3">
+          <div class="flex items-center gap-2">
             <button @click="toggleSearch" class="text-gray-400 hover:text-cyan-400 transition-colors p-2 rounded-full hover:bg-cyan-500/10">
               <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/></svg>
             </button>
             <template v-if="!isLoggedIn">
               <button @click="showAuthModal = true; authTab = 'login'"
-                class="relative overflow-hidden bg-gradient-to-r from-cyan-500 to-teal-600 text-white text-sm font-bold px-5 py-2.5 rounded-full shadow-lg shadow-cyan-500/20 hover:shadow-cyan-500/40 hover:-translate-y-0.5 active:scale-95 transition-all duration-200">
+                class="relative overflow-hidden bg-gradient-to-r from-cyan-500 to-teal-600 text-white text-sm font-bold px-5 py-2 rounded-full shadow-lg shadow-cyan-500/20 hover:shadow-cyan-500/40 hover:-translate-y-0.5 active:scale-95 transition-all duration-200">
                 <span class="relative z-10">Login</span>
               </button>
             </template>
@@ -58,7 +62,30 @@
           </div>
         </div>
 
-        <!-- User Info Row (if logged in) -->
+        <!-- Search bar -->
+        <div v-if="searchVisible" class="relative mt-2">
+          <input v-model="searchQuery" type="text" placeholder="Search games..." class="w-full pl-10 pr-4 py-3 rounded-xl bg-[#111d26] border border-cyan-500/20 text-white placeholder-gray-500 focus:outline-none focus:border-cyan-500/50 transition-all text-sm" />
+          <svg class="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/></svg>
+        </div>
+      </div>
+
+      <!-- Carousel (Banner) — moved to top -->
+      <div class="px-4 pt-3">
+        <div class="rounded-2xl overflow-hidden relative h-40 bg-[#111d26] border border-cyan-500/10 shadow-sm">
+          <div class="absolute inset-0 flex transition-transform duration-500" :style="{ transform: `translateX(-${carouselIndex * 100}%)` }">
+            <div v-for="(img, i) in carouselImages" :key="i" class="w-full h-full flex-shrink-0 relative">
+              <img :src="img.image" class="w-full h-full object-cover brightness-110" alt="" />
+              <div class="absolute inset-0 bg-black/20"></div>
+            </div>
+          </div>
+          <div class="absolute bottom-3 left-1/2 -translate-x-1/2 flex gap-1.5 z-10">
+            <button v-for="(img, i) in carouselImages" :key="i" @click="carouselIndex = i" class="w-2 h-2 rounded-full transition-all" :class="i === carouselIndex ? 'bg-cyan-400 w-4' : 'bg-gray-600'"></button>
+          </div>
+        </div>
+      </div>
+
+      <!-- User Info Row (if logged in) — below banner -->
+      <div class="px-4 pt-3">
         <div v-if="isLoggedIn" class="flex items-center justify-between bg-[#111d26] border border-cyan-500/10 rounded-2xl px-4 py-3 shadow-sm">
           <div class="flex items-center gap-3">
             <div class="w-10 h-10 rounded-full bg-gradient-to-br from-cyan-400 to-teal-600 flex items-center justify-center text-sm font-black text-white shadow-lg">
@@ -73,33 +100,11 @@
             </div>
           </div>
           <div class="flex flex-col items-center gap-2">
-            <!-- Payment Methods Badge -->
             <img src="/images/kpay_wavepay.png" alt="KPay & WavePay" class="h-5 object-contain" />
             <div class="flex gap-2">
               <button @click="showDepositModal = true" class="relative overflow-hidden bg-gradient-to-r from-cyan-500 to-teal-600 text-white font-bold rounded-full shadow-lg shadow-cyan-500/20 hover:shadow-cyan-500/40 hover:-translate-y-0.5 active:scale-95 transition-all duration-200 text-xs py-2 px-4">Deposit</button>
               <button @click="showWithdrawModal = true" class="bg-cyan-500/10 hover:bg-cyan-500/20 text-cyan-300 font-bold rounded-full border border-cyan-500/30 active:scale-95 transition-all text-xs py-2 px-4">Withdraw</button>
             </div>
-          </div>
-        </div>
-
-        <!-- Search bar -->
-        <div v-if="searchVisible" class="relative">
-          <input v-model="searchQuery" type="text" placeholder="Search games..." class="w-full pl-10 pr-4 py-3 rounded-xl bg-[#111d26] border border-cyan-500/20 text-white placeholder-gray-500 focus:outline-none focus:border-cyan-500/50 transition-all text-sm" />
-          <svg class="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/></svg>
-        </div>
-      </div>
-
-      <!-- Carousel -->
-      <div class="px-4 pt-4">
-        <div class="rounded-2xl overflow-hidden relative h-40 bg-[#111d26] border border-cyan-500/10 shadow-sm">
-          <div class="absolute inset-0 flex transition-transform duration-500" :style="{ transform: `translateX(-${carouselIndex * 100}%)` }">
-            <div v-for="(img, i) in carouselImages" :key="i" class="w-full h-full flex-shrink-0 relative">
-              <img :src="img.image" class="w-full h-full object-cover brightness-110" alt="" />
-              <div class="absolute inset-0 bg-black/20"></div>
-            </div>
-          </div>
-          <div class="absolute bottom-3 left-1/2 -translate-x-1/2 flex gap-1.5 z-10">
-            <button v-for="(img, i) in carouselImages" :key="i" @click="carouselIndex = i" class="w-2 h-2 rounded-full transition-all" :class="i === carouselIndex ? 'bg-cyan-400 w-4' : 'bg-gray-600'"></button>
           </div>
         </div>
       </div>
