@@ -1060,16 +1060,189 @@
 
           </div><!-- /real downline card -->
 
-          <!-- ── HOW TO INVITE (steps) ── -->
-          <div class="rounded-2xl px-4 py-4" style="background:rgba(255,255,255,0.025);border:1px solid rgba(255,255,255,0.055);">
-            <p class="text-[9px] tracking-[0.18em] uppercase mb-3" style="color:rgba(255,255,255,0.28)">ဘောနပ်ရရှိရန် အဆင့်များ</p>
-            <div class="space-y-2.5">
-              <div v-for="(step, i) in inviteSteps" :key="i" class="flex items-start gap-3">
-                <div class="w-4 h-4 rounded-full flex items-center justify-center text-[8px] font-black flex-shrink-0 mt-0.5"
-                  :style="step.style">{{ i+1 }}</div>
-                <p class="text-[11px] leading-relaxed" style="color:rgba(255,255,255,0.45)">{{ step.text }}</p>
+          <!-- ── AGENT SYSTEM EXAMPLE EXPLANATION ── -->
+          <div class="rounded-2xl px-4 py-5" style="background:rgba(255,255,255,0.025);border:1px solid rgba(255,255,255,0.055);">
+
+            <!-- Header -->
+            <div class="flex items-center gap-2.5 mb-5">
+              <div class="w-1 h-5 rounded-full flex-shrink-0" style="background:linear-gradient(180deg,rgba(100,220,120,0.9),rgba(0,180,100,0.4));"></div>
+              <p class="text-[10px] font-bold tracking-[0.18em] uppercase" style="color:rgba(255,255,255,0.45)">အေးဂျင့် စနစ် ဥပမာပေး ရှင်းလင်းချက်</p>
+            </div>
+
+            <!-- ① Commission rates -->
+            <div class="mb-5">
+              <div class="flex items-center gap-2.5 mb-3">
+                <div class="w-5 h-5 rounded-full flex items-center justify-center flex-shrink-0 text-[9px] font-black" style="background:rgba(255,193,7,0.14);border:1px solid rgba(255,193,7,0.3);color:rgba(255,193,7,0.9);">①</div>
+                <p class="text-[11px] font-bold" style="color:rgba(255,255,255,0.72);line-height:1.6;">အခြေခံ ကော်မရှင်နှုန်းထားများ</p>
+              </div>
+              <div class="pl-8 space-y-2">
+                <div class="flex items-start gap-2">
+                  <div class="w-1.5 h-1.5 rounded-full mt-1.5 flex-shrink-0" style="background:rgba(255,193,7,0.6);"></div>
+                  <p class="text-[11px]" style="color:rgba(255,255,255,0.42);line-height:1.75;">တိုက်ရိုက်လက်အောက်ခံများထံမှ ကော်မရှင်နှုန်း — <span style="color:rgba(255,193,7,0.9);font-weight:700">10%</span></p>
+                </div>
+                <div class="flex items-start gap-2">
+                  <div class="w-1.5 h-1.5 rounded-full mt-1.5 flex-shrink-0" style="background:rgba(100,200,255,0.55);"></div>
+                  <p class="text-[11px]" style="color:rgba(255,255,255,0.42);line-height:1.75;">အဆင့်ကျော် Override ကော်မရှင် (ပိုင်ရှင်မှ လက်ဆောင်) — <span style="color:rgba(100,200,255,0.9);font-weight:700">30%</span></p>
+                </div>
               </div>
             </div>
+
+            <div class="mb-5" style="height:1px;background:rgba(255,255,255,0.05);"></div>
+
+            <!-- ② Member tree -->
+            <div class="mb-5">
+              <div class="flex items-center gap-2.5 mb-3">
+                <div class="w-5 h-5 rounded-full flex items-center justify-center flex-shrink-0 text-[9px] font-black" style="background:rgba(140,180,255,0.12);border:1px solid rgba(140,180,255,0.25);color:rgba(140,180,255,0.9);">②</div>
+                <p class="text-[11px] font-bold" style="color:rgba(255,255,255,0.72);line-height:1.6;">အဖွဲ့ဝင်များ တိုးချဲ့မှု ပုံစံ</p>
+              </div>
+              <div class="pl-8">
+                <div class="rounded-xl p-3" style="background:rgba(255,255,255,0.025);border:1px solid rgba(255,255,255,0.06);">
+                  <!-- A -->
+                  <div class="flex items-center gap-2 mb-3">
+                    <div class="w-6 h-6 rounded-lg flex items-center justify-center text-[9px] font-black flex-shrink-0" style="background:rgba(255,193,7,0.18);border:1px solid rgba(255,193,7,0.32);color:rgba(255,193,7,0.95);">A</div>
+                    <p class="text-[10px]" style="color:rgba(255,255,255,0.45);line-height:1.6;">ပထမဆုံး စီးပွားရေးအခွင့်အလမ်း တွေ့ရှိသူ</p>
+                  </div>
+                  <!-- L1 branch -->
+                  <div class="ml-2 pl-3 mb-2.5" style="border-left:1px dashed rgba(100,200,255,0.2);">
+                    <div class="flex items-center gap-2 mb-2">
+                      <div class="w-5 h-5 rounded-md flex items-center justify-center text-[8px] font-black flex-shrink-0" style="background:rgba(100,200,255,0.13);border:1px solid rgba(100,200,255,0.22);color:rgba(100,200,255,0.9);">B1</div>
+                      <div class="w-5 h-5 rounded-md flex items-center justify-center text-[8px] font-black flex-shrink-0" style="background:rgba(100,200,255,0.13);border:1px solid rgba(100,200,255,0.22);color:rgba(100,200,255,0.9);">B2</div>
+                      <span class="text-[9px]" style="color:rgba(255,255,255,0.22)">← A ၏ တိုက်ရိုက် (Level 1)</span>
+                    </div>
+                    <!-- L2 branch -->
+                    <div class="ml-2 pl-3" style="border-left:1px dashed rgba(100,220,120,0.18);">
+                      <div class="flex items-center gap-1.5">
+                        <div class="w-5 h-5 rounded-md flex items-center justify-center text-[8px] font-black flex-shrink-0" style="background:rgba(100,220,120,0.1);border:1px solid rgba(100,220,120,0.18);color:rgba(100,220,120,0.85);">C1</div>
+                        <div class="w-5 h-5 rounded-md flex items-center justify-center text-[8px] font-black flex-shrink-0" style="background:rgba(100,220,120,0.1);border:1px solid rgba(100,220,120,0.18);color:rgba(100,220,120,0.85);">C2</div>
+                        <div class="w-5 h-5 rounded-md flex items-center justify-center text-[8px] font-black flex-shrink-0" style="background:rgba(100,220,120,0.1);border:1px solid rgba(100,220,120,0.18);color:rgba(100,220,120,0.85);">C3</div>
+                        <span class="text-[9px]" style="color:rgba(255,255,255,0.2)">← B1,B2 ၏ တိုက်ရိုက် (Level 2)</span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="mb-5" style="height:1px;background:rgba(255,255,255,0.05);"></div>
+
+            <!-- ③ Turnover data table -->
+            <div class="mb-5">
+              <div class="flex items-center gap-2.5 mb-3">
+                <div class="w-5 h-5 rounded-full flex items-center justify-center flex-shrink-0 text-[9px] font-black" style="background:rgba(200,150,255,0.12);border:1px solid rgba(200,150,255,0.25);color:rgba(200,150,255,0.88);">③</div>
+                <p class="text-[11px] font-bold" style="color:rgba(255,255,255,0.72);line-height:1.6;">နောက်တစ်နေ့ ထိရောက်သောလောင်းကြေးများ</p>
+              </div>
+              <div class="pl-8 space-y-1.5">
+                <div class="flex items-center justify-between py-1.5 px-3 rounded-lg" style="background:rgba(100,200,255,0.04);">
+                  <div class="flex items-center gap-2">
+                    <div class="w-5 h-5 rounded-md flex items-center justify-center text-[8px] font-black flex-shrink-0" style="background:rgba(100,200,255,0.12);border:1px solid rgba(100,200,255,0.2);color:rgba(100,200,255,0.9);">B1</div>
+                    <span class="text-[10px]" style="color:rgba(255,255,255,0.32)">ထိရောက်သောလောင်းကြေး</span>
+                  </div>
+                  <span class="text-[12px] font-bold tabular-nums" style="color:rgba(100,200,255,0.88)">500 Ks</span>
+                </div>
+                <div class="flex items-center justify-between py-1.5 px-3 rounded-lg" style="background:rgba(100,200,255,0.04);">
+                  <div class="flex items-center gap-2">
+                    <div class="w-5 h-5 rounded-md flex items-center justify-center text-[8px] font-black flex-shrink-0" style="background:rgba(100,200,255,0.12);border:1px solid rgba(100,200,255,0.2);color:rgba(100,200,255,0.9);">B2</div>
+                    <span class="text-[10px]" style="color:rgba(255,255,255,0.32)">ထိရောက်သောလောင်းကြေး</span>
+                  </div>
+                  <span class="text-[12px] font-bold tabular-nums" style="color:rgba(100,200,255,0.88)">3,000 Ks</span>
+                </div>
+                <div class="flex items-center justify-between py-1.5 px-3 rounded-lg" style="background:rgba(100,220,120,0.03);">
+                  <div class="flex items-center gap-2">
+                    <div class="w-5 h-5 rounded-md flex items-center justify-center text-[8px] font-black flex-shrink-0" style="background:rgba(100,220,120,0.1);border:1px solid rgba(100,220,120,0.18);color:rgba(100,220,120,0.85);">C1</div>
+                    <span class="text-[10px]" style="color:rgba(255,255,255,0.32)">ထိရောက်သောလောင်းကြေး</span>
+                  </div>
+                  <span class="text-[12px] font-bold tabular-nums" style="color:rgba(100,220,120,0.82)">1,000 Ks</span>
+                </div>
+                <div class="flex items-center justify-between py-1.5 px-3 rounded-lg" style="background:rgba(100,220,120,0.03);">
+                  <div class="flex items-center gap-2">
+                    <div class="w-5 h-5 rounded-md flex items-center justify-center text-[8px] font-black flex-shrink-0" style="background:rgba(100,220,120,0.1);border:1px solid rgba(100,220,120,0.18);color:rgba(100,220,120,0.85);">C2</div>
+                    <span class="text-[10px]" style="color:rgba(255,255,255,0.32)">ထိရောက်သောလောင်းကြေး</span>
+                  </div>
+                  <span class="text-[12px] font-bold tabular-nums" style="color:rgba(100,220,120,0.82)">2,000 Ks</span>
+                </div>
+                <div class="flex items-center justify-between py-1.5 px-3 rounded-lg" style="background:rgba(100,220,120,0.05);">
+                  <div class="flex items-center gap-2">
+                    <div class="w-5 h-5 rounded-md flex items-center justify-center text-[8px] font-black flex-shrink-0" style="background:rgba(100,220,120,0.12);border:1px solid rgba(100,220,120,0.22);color:rgba(100,220,120,0.9);">C3</div>
+                    <span class="text-[10px]" style="color:rgba(255,255,255,0.32)">ထိရောက်သောလောင်းကြေး</span>
+                  </div>
+                  <span class="text-[12px] font-bold tabular-nums" style="color:rgba(100,220,120,0.9)">20,000 Ks</span>
+                </div>
+              </div>
+            </div>
+
+            <div class="mb-5" style="height:1px;background:rgba(255,255,255,0.05);"></div>
+
+            <!-- ④ A's commission calculation -->
+            <div class="mb-5">
+              <div class="flex items-center gap-2.5 mb-3">
+                <div class="w-5 h-5 rounded-full flex items-center justify-center flex-shrink-0 text-[9px] font-black" style="background:rgba(255,193,7,0.14);border:1px solid rgba(255,193,7,0.28);color:rgba(255,193,7,0.9);">④</div>
+                <p class="text-[11px] font-bold" style="color:rgba(255,255,255,0.72);line-height:1.6;">A ၏ ဝင်ငွေတွက်ချက်ပုံ</p>
+              </div>
+              <div class="pl-8 space-y-3">
+
+                <!-- Direct commission block -->
+                <div class="rounded-xl p-3.5" style="background:rgba(100,200,255,0.04);border:1px solid rgba(100,200,255,0.1);">
+                  <p class="text-[9px] font-bold tracking-widest uppercase mb-2.5" style="color:rgba(100,200,255,0.5)">တိုက်ရိုက် ကော်မရှင်</p>
+                  <div class="space-y-2">
+                    <div class="flex items-baseline justify-between">
+                      <span class="text-[10px]" style="color:rgba(255,255,255,0.35);line-height:1.6;">တိုက်ရိုက်စွမ်းဆောင်ရည် = B1 + B2</span>
+                      <span class="text-[11px] font-semibold tabular-nums" style="color:rgba(255,255,255,0.5)">500 + 3,000</span>
+                    </div>
+                    <div class="flex items-baseline justify-between">
+                      <span class="text-[10px]" style="color:rgba(255,255,255,0.35);">= စုစုပေါင်း</span>
+                      <span class="text-[12px] font-bold tabular-nums" style="color:rgba(100,200,255,0.88)">3,500 Ks</span>
+                    </div>
+                    <div class="flex items-baseline justify-between pt-2" style="border-top:1px solid rgba(100,200,255,0.1);">
+                      <span class="text-[10px]" style="color:rgba(255,255,255,0.38);line-height:1.6;">3,500 × <span style="color:rgba(255,193,7,0.8);font-weight:700">10%</span></span>
+                      <span class="text-[14px] font-black tabular-nums" style="color:rgba(255,193,7,0.95)">= 350 Ks</span>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- Indirect commission block -->
+                <div class="rounded-xl p-3.5" style="background:rgba(100,220,120,0.04);border:1px solid rgba(100,220,120,0.1);">
+                  <p class="text-[9px] font-bold tracking-widest uppercase mb-2.5" style="color:rgba(100,220,120,0.5)">အခြားကော်မရှင် (Override)</p>
+                  <div class="space-y-2">
+                    <div class="flex items-baseline justify-between">
+                      <span class="text-[10px]" style="color:rgba(255,255,255,0.35);line-height:1.6;">C1 + C2 + C3 Turnover</span>
+                      <span class="text-[11px] font-semibold tabular-nums" style="color:rgba(255,255,255,0.5)">1,000+2,000+20,000</span>
+                    </div>
+                    <div class="flex items-baseline justify-between">
+                      <span class="text-[10px]" style="color:rgba(255,255,255,0.35);">= စုစုပေါင်း</span>
+                      <span class="text-[12px] font-bold tabular-nums" style="color:rgba(100,220,120,0.82)">23,000 Ks</span>
+                    </div>
+                    <div class="flex items-baseline justify-between pt-2" style="border-top:1px solid rgba(100,220,120,0.1);">
+                      <span class="text-[10px]" style="color:rgba(255,255,255,0.38);line-height:1.6;">23,000 × <span style="color:rgba(255,193,7,0.8);font-weight:700">10%</span> × <span style="color:rgba(100,200,255,0.8);font-weight:700">30%</span></span>
+                      <span class="text-[14px] font-black tabular-nums" style="color:rgba(100,220,120,0.95)">= 690 Ks</span>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- Total result -->
+                <div class="rounded-xl p-4 flex items-center justify-between" style="background:linear-gradient(135deg,rgba(255,193,7,0.08),rgba(255,140,0,0.04));border:1px solid rgba(255,193,7,0.2);">
+                  <div>
+                    <p class="text-[9px] font-bold tracking-widest uppercase mb-1" style="color:rgba(255,193,7,0.5)">A ၏ ယခုကာလ ကော်မရှင်</p>
+                    <p class="text-[11px]" style="color:rgba(255,255,255,0.4)">350 + 690</p>
+                  </div>
+                  <div class="text-right">
+                    <span class="text-2xl font-black tabular-nums" style="color:rgba(255,193,7,0.97);text-shadow:0 0 24px rgba(255,193,7,0.35);">1,040</span>
+                    <span class="text-[12px] font-bold ml-1" style="color:rgba(255,193,7,0.6)">Ks</span>
+                  </div>
+                </div>
+
+              </div>
+            </div>
+
+            <div class="mb-4" style="height:1px;background:rgba(255,255,255,0.05);"></div>
+
+            <!-- Note -->
+            <div class="flex items-start gap-2.5">
+              <div class="w-5 h-5 rounded-full flex items-center justify-center flex-shrink-0 mt-0.5 text-[9px] font-black" style="background:rgba(200,150,255,0.1);border:1px solid rgba(200,150,255,0.2);color:rgba(200,150,255,0.8);">N</div>
+              <p class="text-[10px]" style="color:rgba(255,255,255,0.32);line-height:1.85;">
+                အေးဂျင့်စနစ်သည် <span style="color:rgba(200,150,255,0.82);font-weight:700">အကန့်အသတ်မရှိ</span> လက်အောက်ခံများကို တိုးချဲ့နိုင်သည်။ ဘေးတိုက်ရော ဒေါင်လိုက်ပါ တစ်ပြိုင်နက် တိုးချဲ့နိုင်ပြီး ဤဥပမာတွင် <span style="color:rgba(200,150,255,0.75)">အဆင့် ၂ ဆင့်</span> သာ ဖော်ပြထားသည်။
+              </p>
+            </div>
+
           </div>
 
         </div><!-- /relative z-10 -->
