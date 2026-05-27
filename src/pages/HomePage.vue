@@ -241,7 +241,7 @@
 
               <!-- REGISTER FORM -->
               <div v-if="authTab==='register'" class="nova-auth-form-body">
-                <p class="nova-auth-subtitle">အထောက်အပံ့များသာဘဖြစ်သည်။ အကောင့် မှတ်ပုံတင်</p>
+                <p class="nova-auth-subtitle">အထောက်အပံ့များသာဖြစ်သည်။ အကောင့် မှတ်ပုံတင်ပါ!</p>
                 <!-- Username -->
                 <div class="nova-auth-field">
                   <svg width="15" height="15" fill="rgba(180,180,180,0.5)" viewBox="0 0 24 24"><path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/></svg>
@@ -293,7 +293,7 @@
                   <span>{{ regLoading ? 'Loading...' : 'မှတ်ပုံတင်' }}</span>
                 </button>
                 <div style="text-align:center;margin-top:12px;">
-                  <span style="font-size:11px;color:rgba(255,255,255,0.35);cursor:pointer;">ဘည်ဝန်ဆောင်မှု</span>
+                  <span style="font-size:11px;color:rgba(255,255,255,0.35);cursor:pointer;">ဧည့်ဝန်ဆောင်မှု</span>
                 </div>
                 <div class="nova-auth-divider">
                   <div style="flex:1;height:1px;background:rgba(255,255,255,0.1);"></div>
@@ -309,7 +309,7 @@
 
               <!-- LOGIN FORM -->
               <div v-if="authTab==='login'" class="nova-auth-form-body">
-                <p class="nova-auth-subtitle">ဖုန်းနံပါတ်/အကောင့် ဖြင့် လောဂ်အင်ဝင်ပါ</p>
+                <p class="nova-auth-subtitle">အကောင့် လောဂ်အင်ဝင်ပါ</p>
                 <!-- Username/Phone -->
                 <div class="nova-auth-field">
                   <svg width="15" height="15" fill="rgba(180,180,180,0.5)" viewBox="0 0 24 24"><path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/></svg>
@@ -321,10 +321,10 @@
                 <!-- Password type toggle -->
                 <div style="display:flex;gap:8px;margin-bottom:9px;">
                   <button @click="loginType='password'" :class="['nova-login-type-btn', loginType==='password'?'nova-login-type-btn--active':'']">
-                    <span style="font-size:13px;">🔒</span> ကားဝှက် လောဂ်အင်
+                    <span style="font-size:13px;">🔒</span> စကားဝှက် လောဂ်အင်
                   </button>
                   <button @click="loginType='otp'" :class="['nova-login-type-btn', loginType==='otp'?'nova-login-type-btn--active':'']">
-                    <span style="font-size:13px;">🔢</span> အတည်ပြကုဒ်
+                    <span style="font-size:13px;">🔢</span> အတည်ပြကုဒ်!
                   </button>
                 </div>
                 <!-- Password -->
@@ -343,19 +343,19 @@
                   <div @click="rememberMe=!rememberMe" :style="rememberMe?'background:#22c55e;border-color:#22c55e;':''" style="width:18px;height:18px;border-radius:4px;border:2px solid rgba(255,255,255,0.3);flex-shrink:0;display:flex;align-items:center;justify-content:center;cursor:pointer;transition:all 0.2s;">
                     <svg v-if="rememberMe" width="10" height="10" fill="white" viewBox="0 0 24 24"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg>
                   </div>
-                  <span style="font-size:11px;color:rgba(255,255,255,0.45);">အကောင့်ကားဝှက်ကို မှတ်ထားပါ</span>
+                  <span style="font-size:11px;color:rgba(255,255,255,0.45);">အကောင့်စကားဝှက်ကို မှတ်ထားပါ</span>
                 </div>
                 <p v-if="loginError" class="nova-auth-error">{{ loginError }}</p>
                 <button @click="handleLogin" :disabled="loginLoading" class="nova-auth-submit-btn">
                   <span>{{ loginLoading ? 'Loading...' : 'လောဂ်အင်' }}</span>
                 </button>
                 <div style="display:flex;justify-content:space-between;margin-top:12px;">
-                  <span style="font-size:11px;color:rgba(255,255,255,0.35);cursor:pointer;">ဘည်ဝန်ဆောင်မှု</span>
-                  <span style="font-size:11px;color:rgba(34,197,94,0.7);cursor:pointer;">ကားဝှက်မေ့နေသည်</span>
+                  <span style="font-size:11px;color:rgba(255,255,255,0.35);cursor:pointer;">ဧည့်ဝန်ဆောင်မှု</span>
+                  <span style="font-size:11px;color:rgba(34,197,94,0.7);cursor:pointer;">စကားဝှက်မေ့နေသည်</span>
                 </div>
                 <div class="nova-auth-divider">
                   <div style="flex:1;height:1px;background:rgba(255,255,255,0.1);"></div>
-                  <span style="font-size:11px;color:rgba(255,255,255,0.25);">အဂြန်ဝင်ရောက်မှု</span>
+                  <span style="font-size:11px;color:rgba(255,255,255,0.25);">အမြန်ဝင်ရောက်မှု</span>
                   <div style="flex:1;height:1px;background:rgba(255,255,255,0.1);"></div>
                 </div>
                 <div style="display:flex;justify-content:center;">
