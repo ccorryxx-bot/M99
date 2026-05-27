@@ -57,22 +57,97 @@
           <button @click="openAuth('login')" class="glass-btn-auth">လောဂ်အင်</button>
           <button @click="openAuth('register')" class="glass-btn-auth glass-btn-auth--primary">မှတ်ပုံတင်</button>
         </div>
-        <div style="display:flex;align-items:center;gap:12px;">
-          <div @click="openAuth('login')" class="nova-quick-icon">
-            <svg width="16" height="16" fill="none" stroke="rgba(255,255,255,0.65)" stroke-width="1.8" viewBox="0 0 24 24"><rect x="2" y="5" width="20" height="14" rx="2"/><path d="M2 10h20"/></svg>
+        <div style="display:flex;align-items:center;gap:10px;">
+          <!-- Deposit icon — green frame -->
+          <div @click="openAuth('login')" class="nova-quick-icon nova-quick-icon--framed">
+            <div class="nova-quick-frame">
+              <svg width="17" height="17" fill="none" viewBox="0 0 24 24">
+                <rect x="2" y="6" width="20" height="13" rx="2.5" fill="rgba(34,197,94,0.12)" stroke="rgba(34,197,94,0.7)" stroke-width="1.4"/>
+                <path d="M2 10h20" stroke="rgba(34,197,94,0.7)" stroke-width="1.4"/>
+                <path d="M6 14h4" stroke="rgba(255,255,255,0.6)" stroke-width="1.5" stroke-linecap="round"/>
+                <!-- animated coin drop -->
+                <circle cx="18" cy="4" r="2.2" fill="rgba(34,197,94,0.9)">
+                  <animate attributeName="cy" values="2;6;6;2" dur="1.6s" repeatCount="indefinite"/>
+                  <animate attributeName="opacity" values="1;1;0;1" dur="1.6s" repeatCount="indefinite"/>
+                </circle>
+              </svg>
+            </div>
             <span>ငွေသွင်းရန်</span>
           </div>
-          <div @click="openAuth('login')" class="nova-quick-icon">
-            <svg width="16" height="16" fill="none" stroke="rgba(255,255,255,0.65)" stroke-width="1.8" viewBox="0 0 24 24"><rect x="2" y="5" width="20" height="14" rx="2"/><path d="M7 15h4m1-5h3"/></svg>
+          <!-- Withdraw icon — green frame -->
+          <div @click="openAuth('login')" class="nova-quick-icon nova-quick-icon--framed">
+            <div class="nova-quick-frame">
+              <svg width="17" height="17" fill="none" viewBox="0 0 24 24">
+                <rect x="2" y="6" width="20" height="13" rx="2.5" fill="rgba(34,197,94,0.08)" stroke="rgba(34,197,94,0.6)" stroke-width="1.4"/>
+                <path d="M2 10h20" stroke="rgba(34,197,94,0.6)" stroke-width="1.4"/>
+                <!-- animated up arrow -->
+                <path d="M12 19v-6" stroke="rgba(34,197,94,0.85)" stroke-width="1.6" stroke-linecap="round">
+                  <animate attributeName="opacity" values="1;0.3;1" dur="1.2s" repeatCount="indefinite"/>
+                </path>
+                <path d="M9.5 15.5l2.5-2.5 2.5 2.5" stroke="rgba(34,197,94,0.85)" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+                  <animate attributeName="opacity" values="1;0.3;1" dur="1.2s" repeatCount="indefinite"/>
+                </path>
+              </svg>
+            </div>
             <span>ငွေထုတ်ရန်</span>
           </div>
+          <!-- VIP — AI Bot Hologram Logo -->
           <div class="nova-quick-icon">
-            <svg width="16" height="16" fill="none" stroke="rgba(234,179,8,0.85)" stroke-width="1.8" viewBox="0 0 24 24"><polygon points="12,2 15.09,8.26 22,9.27 17,14.14 18.18,21.02 12,17.77 5.82,21.02 7,14.14 2,9.27 8.91,8.26"/></svg>
-            <span>VIP</span>
+            <svg width="20" height="20" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+              <!-- HUD corner brackets -->
+              <path d="M3 3h4v1.5H4.5V8H3z" fill="rgba(34,197,94,0.85)"/>
+              <path d="M21 3h-4v1.5h2.5V8H21z" fill="rgba(34,197,94,0.85)"/>
+              <path d="M3 21h4v-1.5H4.5V16H3z" fill="rgba(34,197,94,0.85)"/>
+              <path d="M21 21h-4v-1.5h2.5V16H21z" fill="rgba(34,197,94,0.85)"/>
+              <!-- outer ring dashed -->
+              <circle cx="12" cy="12" r="6" fill="none" stroke="rgba(34,197,94,0.35)" stroke-width="0.7" stroke-dasharray="2.5 1.5"/>
+              <!-- eye ring -->
+              <circle cx="12" cy="12" r="4" fill="rgba(0,0,0,0.5)" stroke="rgba(34,197,94,0.65)" stroke-width="0.9"/>
+              <!-- eye core pulse -->
+              <circle cx="12" cy="12" r="2" fill="rgba(34,197,94,0.95)">
+                <animate attributeName="r" values="2;2.5;2" dur="1.8s" repeatCount="indefinite"/>
+                <animate attributeName="fill-opacity" values="0.95;0.7;0.95" dur="1.8s" repeatCount="indefinite"/>
+              </circle>
+              <!-- pupil -->
+              <circle cx="12" cy="12" r="0.9" fill="#fff"/>
+              <!-- scan line sweep -->
+              <line x1="6" y1="12" x2="18" y2="12" stroke="rgba(34,197,94,0.5)" stroke-width="0.6">
+                <animate attributeName="y1" values="8;16;8" dur="2s" repeatCount="indefinite"/>
+                <animate attributeName="y2" values="8;16;8" dur="2s" repeatCount="indefinite"/>
+                <animate attributeName="opacity" values="0.7;0;0.7" dur="2s" repeatCount="indefinite"/>
+              </line>
+              <!-- side data bars -->
+              <line x1="3" y1="10.5" x2="5.5" y2="10.5" stroke="rgba(34,197,94,0.6)" stroke-width="0.8"/>
+              <line x1="3" y1="13.5" x2="4.5" y2="13.5" stroke="rgba(34,197,94,0.35)" stroke-width="0.6"/>
+              <line x1="18.5" y1="10.5" x2="21" y2="10.5" stroke="rgba(34,197,94,0.6)" stroke-width="0.8"/>
+              <line x1="19.5" y1="13.5" x2="21" y2="13.5" stroke="rgba(34,197,94,0.35)" stroke-width="0.6"/>
+            </svg>
+            <span style="color:rgba(34,197,94,0.85);">VIP</span>
           </div>
+          <!-- Install/Download — Animated Flow Arrows -->
           <div class="nova-quick-icon">
-            <svg width="16" height="16" fill="none" stroke="rgba(255,255,255,0.65)" stroke-width="1.8" viewBox="0 0 24 24"><path d="M20 12V8H6a2 2 0 01-2-2c0-1.1.9-2 2-2h12v4"/><path d="M4 6v12c0 1.1.9 2 2 2h14v-4"/><path d="M18 12a2 2 0 000 4h4v-4h-4z"/></svg>
-            <span>ပံ့ပိုးမှု</span>
+            <svg width="19" height="19" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+              <!-- flowing arrow 1 -->
+              <path d="M8 3l4 4.5 4-4.5" fill="none" stroke="rgba(34,197,94,0.9)" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                <animate attributeName="opacity" values="0;1;1;0" dur="1.5s" repeatCount="indefinite" begin="0s"/>
+                <animate attributeName="transform" attributeType="XML" type="translate" values="0,-2;0,0;0,0;0,2" dur="1.5s" repeatCount="indefinite" begin="0s"/>
+              </path>
+              <!-- flowing arrow 2 -->
+              <path d="M8 9l4 4.5 4-4.5" fill="none" stroke="rgba(34,197,94,0.65)" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                <animate attributeName="opacity" values="0;1;1;0" dur="1.5s" repeatCount="indefinite" begin="0.35s"/>
+                <animate attributeName="transform" attributeType="XML" type="translate" values="0,-2;0,0;0,0;0,2" dur="1.5s" repeatCount="indefinite" begin="0.35s"/>
+              </path>
+              <!-- flowing arrow 3 -->
+              <path d="M8 15l4 4.5 4-4.5" fill="none" stroke="rgba(34,197,94,0.35)" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                <animate attributeName="opacity" values="0;1;1;0" dur="1.5s" repeatCount="indefinite" begin="0.7s"/>
+                <animate attributeName="transform" attributeType="XML" type="translate" values="0,-2;0,0;0,0;0,2" dur="1.5s" repeatCount="indefinite" begin="0.7s"/>
+              </path>
+              <!-- glow line at bottom -->
+              <line x1="7" y1="22" x2="17" y2="22" stroke="rgba(34,197,94,0.4)" stroke-width="1.5" stroke-linecap="round">
+                <animate attributeName="opacity" values="0.2;0.8;0.2" dur="1.5s" repeatCount="indefinite"/>
+              </line>
+            </svg>
+            <span>တပ်ဆင်မည်</span>
           </div>
         </div>
       </div>
@@ -82,8 +157,19 @@
           <div style="font-size:17px;font-weight:900;color:#4ade80;">{{ formatCurrency(mainBalance) }} <span style="font-size:10px;color:rgba(255,255,255,0.3);">MMK</span></div>
         </div>
         <div style="display:flex;gap:8px;">
-          <button @click="showDepositModal=true" class="glass-btn-auth glass-btn-auth--primary">ငွေသွင်း</button>
-          <button @click="showWithdrawModal=true" class="glass-btn-auth">ငွေထုတ်</button>
+          <button @click="showDepositModal=true" class="glass-btn-auth glass-btn-auth--primary nova-cash-btn">
+            <span class="nova-cash-particles">
+              <span class="nova-coin c1">💰</span>
+              <span class="nova-coin c2">💵</span>
+              <span class="nova-coin c3">🪙</span>
+            </span>
+            <svg width="13" height="13" fill="none" viewBox="0 0 24 24" style="flex-shrink:0;"><rect x="2" y="6" width="20" height="13" rx="2" fill="rgba(255,255,255,0.3)"/><path d="M2 10h20" stroke="rgba(255,255,255,0.7)" stroke-width="1.5"/><circle cx="18" cy="15" r="2" fill="rgba(255,255,255,0.85)"/></svg>
+            ငွေသွင်း
+          </button>
+          <button @click="showWithdrawModal=true" class="glass-btn-auth nova-withdraw-btn">
+            <svg width="13" height="13" fill="none" viewBox="0 0 24 24" style="flex-shrink:0;"><path d="M12 17V7" stroke="rgba(34,197,94,0.9)" stroke-width="2" stroke-linecap="round"><animate attributeName="opacity" values="1;0.4;1" dur="1s" repeatCount="indefinite"/></path><path d="M8 11l4-4 4 4" stroke="rgba(34,197,94,0.9)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><animate attributeName="opacity" values="1;0.4;1" dur="1s" repeatCount="indefinite"/></path><rect x="4" y="18" width="16" height="2" rx="1" fill="rgba(34,197,94,0.5)"/></svg>
+            ငွေထုတ်
+          </button>
         </div>
       </div>
 
@@ -95,8 +181,11 @@
           <button v-for="cat in categories" :key="cat.id" @click="activeCategory=cat.id"
             :class="['nova-cat-btn', activeCategory===cat.id ? 'nova-cat-btn--active' : '']">
             <canvas v-if="activeCategory===cat.id" class="nova-cat-glow" :ref="el=>registerGlowCanvas(el,cat.id)" width="72" height="74"></canvas>
-            <div class="nova-cat-icon-wrap">
-              <svg class="nova-cat-svg" viewBox="0 0 28 28" xmlns="http://www.w3.org/2000/svg">
+            <div class="nova-cat-icon-wrap" :class="cat.brandBg ? 'nova-cat-icon-wrap--brand' : ''">
+              <!-- Brand provider logo (JILI, PP, PG, JDB) -->
+              <svg v-if="cat.brandSvg" class="nova-cat-svg nova-cat-svg--brand" viewBox="0 0 28 28" xmlns="http://www.w3.org/2000/svg" v-html="cat.brandSvg"></svg>
+              <!-- Generic icon -->
+              <svg v-else class="nova-cat-svg" viewBox="0 0 28 28" xmlns="http://www.w3.org/2000/svg">
                 <defs>
                   <radialGradient :id="'rg-'+cat.id" cx="35%" cy="30%" r="70%">
                     <stop offset="0%" :stop-color="activeCategory===cat.id?'rgba(120,255,160,0.9)':'rgba(200,210,220,0.5)'"/>
@@ -241,7 +330,7 @@
 
               <!-- REGISTER FORM -->
               <div v-if="authTab==='register'" class="nova-auth-form-body">
-                <p class="nova-auth-subtitle">အထောက်အပံ့များသာဖြစ်သည်။ အကောင့် မှတ်ပုံတင်ပါ!</p>
+                <p class="nova-auth-subtitle">အထောက်အပံ့များသာဘဖြစ်သည်။ အကောင့် မှတ်ပုံတင်</p>
                 <!-- Username -->
                 <div class="nova-auth-field">
                   <svg width="15" height="15" fill="rgba(180,180,180,0.5)" viewBox="0 0 24 24"><path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/></svg>
@@ -293,7 +382,7 @@
                   <span>{{ regLoading ? 'Loading...' : 'မှတ်ပုံတင်' }}</span>
                 </button>
                 <div style="text-align:center;margin-top:12px;">
-                  <span style="font-size:11px;color:rgba(255,255,255,0.35);cursor:pointer;">ဧည့်ဝန်ဆောင်မှု</span>
+                  <span style="font-size:11px;color:rgba(255,255,255,0.35);cursor:pointer;">ဘည်ဝန်ဆောင်မှု</span>
                 </div>
                 <div class="nova-auth-divider">
                   <div style="flex:1;height:1px;background:rgba(255,255,255,0.1);"></div>
@@ -309,7 +398,7 @@
 
               <!-- LOGIN FORM -->
               <div v-if="authTab==='login'" class="nova-auth-form-body">
-                <p class="nova-auth-subtitle">အကောင့် လောဂ်အင်ဝင်ပါ</p>
+                <p class="nova-auth-subtitle">ဖုန်းနံပါတ်/အကောင့် ဖြင့် လောဂ်အင်ဝင်ပါ</p>
                 <!-- Username/Phone -->
                 <div class="nova-auth-field">
                   <svg width="15" height="15" fill="rgba(180,180,180,0.5)" viewBox="0 0 24 24"><path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/></svg>
@@ -321,10 +410,10 @@
                 <!-- Password type toggle -->
                 <div style="display:flex;gap:8px;margin-bottom:9px;">
                   <button @click="loginType='password'" :class="['nova-login-type-btn', loginType==='password'?'nova-login-type-btn--active':'']">
-                    <span style="font-size:13px;">🔒</span> စကားဝှက် လောဂ်အင်
+                    <span style="font-size:13px;">🔒</span> ကားဝှက် လောဂ်အင်
                   </button>
                   <button @click="loginType='otp'" :class="['nova-login-type-btn', loginType==='otp'?'nova-login-type-btn--active':'']">
-                    <span style="font-size:13px;">🔢</span> အတည်ပြကုဒ်!
+                    <span style="font-size:13px;">🔢</span> အတည်ပြကုဒ်
                   </button>
                 </div>
                 <!-- Password -->
@@ -343,19 +432,19 @@
                   <div @click="rememberMe=!rememberMe" :style="rememberMe?'background:#22c55e;border-color:#22c55e;':''" style="width:18px;height:18px;border-radius:4px;border:2px solid rgba(255,255,255,0.3);flex-shrink:0;display:flex;align-items:center;justify-content:center;cursor:pointer;transition:all 0.2s;">
                     <svg v-if="rememberMe" width="10" height="10" fill="white" viewBox="0 0 24 24"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg>
                   </div>
-                  <span style="font-size:11px;color:rgba(255,255,255,0.45);">အကောင့်စကားဝှက်ကို မှတ်ထားပါ</span>
+                  <span style="font-size:11px;color:rgba(255,255,255,0.45);">အကောင့်ကားဝှက်ကို မှတ်ထားပါ</span>
                 </div>
                 <p v-if="loginError" class="nova-auth-error">{{ loginError }}</p>
                 <button @click="handleLogin" :disabled="loginLoading" class="nova-auth-submit-btn">
                   <span>{{ loginLoading ? 'Loading...' : 'လောဂ်အင်' }}</span>
                 </button>
                 <div style="display:flex;justify-content:space-between;margin-top:12px;">
-                  <span style="font-size:11px;color:rgba(255,255,255,0.35);cursor:pointer;">ဧည့်ဝန်ဆောင်မှု</span>
-                  <span style="font-size:11px;color:rgba(34,197,94,0.7);cursor:pointer;">စကားဝှက်မေ့နေသည်</span>
+                  <span style="font-size:11px;color:rgba(255,255,255,0.35);cursor:pointer;">ဘည်ဝန်ဆောင်မှု</span>
+                  <span style="font-size:11px;color:rgba(34,197,94,0.7);cursor:pointer;">ကားဝှက်မေ့နေသည်</span>
                 </div>
                 <div class="nova-auth-divider">
                   <div style="flex:1;height:1px;background:rgba(255,255,255,0.1);"></div>
-                  <span style="font-size:11px;color:rgba(255,255,255,0.25);">အမြန်ဝင်ရောက်မှု</span>
+                  <span style="font-size:11px;color:rgba(255,255,255,0.25);">အဂြန်ဝင်ရောက်မှု</span>
                   <div style="flex:1;height:1px;background:rgba(255,255,255,0.1);"></div>
                 </div>
                 <div style="display:flex;justify-content:center;">
@@ -422,10 +511,94 @@
   const categories = ref([
     { id:'popular', name:'နာမည်ကြီး',  svgPath:'M12 2C9 7 4 8 4 13a8 8 0 0016 0c0-5-5-6-8-11zm0 14a3 3 0 01-3-3c0-2 2-3 3-5 1 2 3 3 3 5a3 3 0 01-3 3z' },
     { id:'slot',    name:'777 စလော့', svgPath:'M5 3h14a2 2 0 012 2v14a2 2 0 01-2 2H5a2 2 0 01-2-2V5a2 2 0 012-2zm3 5v8h2V8H8zm4 0v8h2V8h-2zm4 0v8h2V8h-2z' },
-    { id:'pp',      name:'Pragmatic',  svgPath:'M4 4h16a2 2 0 012 2v12a2 2 0 01-2 2H4a2 2 0 01-2-2V6a2 2 0 012-2zm8 3a5 5 0 100 10A5 5 0 0012 7zm0 2a3 3 0 110 6 3 3 0 010-6z' },
-    { id:'jili',    name:'JILI Slot',  svgPath:'M12 2l2.4 7.4H22l-6.2 4.5 2.4 7.4L12 17l-6.2 4.3 2.4-7.4L2 9.4h7.6z' },
-    { id:'pg',      name:'PG Soft',    svgPath:'M3 3h8v8H3zm10 0h8v8h-8zm0 10h8v8h-8zM3 13h8v8H3z' },
-    { id:'jdb',     name:'JDB Slot',   svgPath:'M12 3C7 3 3 7 3 12s4 9 9 9 9-4 9-9-4-9-9-9zm0 4l1.5 4.5H18l-3.7 2.7 1.4 4.3L12 16l-3.7 2.5 1.4-4.3L6 11.5h4.5z' },
+    {
+      id:'pp', name:'Pragmatic',
+      brandSvg: `
+        <defs>
+          <linearGradient id="pp-g" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" stop-color="#e8420a"/>
+            <stop offset="100%" stop-color="#b02d06"/>
+          </linearGradient>
+        </defs>
+        <rect x="1" y="1" width="26" height="26" rx="6" fill="url(#pp-g)"/>
+        <!-- Lion head silhouette — Pragmatic Play style -->
+        <path d="M14 5.5c-1 0-1.8.4-2.3 1-.3.3-.5.7-.6 1.1-.6.1-1.1.4-1.5.8-.5.6-.6 1.4-.4 2.1-.8.4-1.4 1.2-1.4 2.2 0 .9.5 1.7 1.2 2.1-.1.3-.1.6-.1.9 0 2.2 2 3.8 4.6 3.8s4.6-1.7 4.6-3.8c0-.3 0-.6-.1-.9.7-.4 1.2-1.2 1.2-2.1 0-1-.6-1.8-1.4-2.2.2-.7.1-1.5-.4-2.1-.4-.4-.9-.7-1.5-.8-.1-.4-.3-.8-.6-1.1C15.8 5.9 15 5.5 14 5.5z" fill="rgba(255,255,255,0.95)"/>
+        <circle cx="11.5" cy="11" r="0.9" fill="#e8420a"/>
+        <circle cx="16.5" cy="11" r="0.9" fill="#e8420a"/>
+        <path d="M12 14c.5.6 1 .9 2 .9s1.5-.3 2-.9" fill="none" stroke="#e8420a" stroke-width="0.8" stroke-linecap="round"/>
+        <!-- PP letters -->
+        <text x="14" y="24" text-anchor="middle" font-size="5" font-weight="900" fill="rgba(255,255,255,0.9)" font-family="Arial,sans-serif">PP</text>
+      `
+    },
+    {
+      id:'jili', name:'JILI Slot',
+      brandSvg: `
+        <defs>
+          <linearGradient id="jili-g" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" stop-color="#ff4500"/>
+            <stop offset="100%" stop-color="#cc2200"/>
+          </linearGradient>
+          <linearGradient id="jili-flame" x1="0%" y1="100%" x2="0%" y2="0%">
+            <stop offset="0%" stop-color="#ff8c00"/>
+            <stop offset="100%" stop-color="#ffdd00"/>
+          </linearGradient>
+        </defs>
+        <rect x="1" y="1" width="26" height="26" rx="6" fill="url(#jili-g)"/>
+        <!-- Flame shape -->
+        <path d="M14 3.5c0 0-4.5 4.5-3 8.5-1.5-1-2-3.5-2-3.5s-2.5 4 0 7.5c1 1.5 2.5 2.5 5 2.5s4-1 5-2.5c2.5-3.5 0-7.5 0-7.5s-.5 2.5-2 3.5c1.5-4-3-8.5-3-8.5z" fill="url(#jili-flame)"/>
+        <path d="M14 10c0 0-2 2.5-1 4.5.5-1 1.5-1.5 1-3 .5 1.5 1.5 2 1 3 1-2-1-4.5-1-4.5z" fill="rgba(255,255,255,0.7)"/>
+        <!-- JILI text -->
+        <text x="14" y="25.5" text-anchor="middle" font-size="5.5" font-weight="900" fill="rgba(255,255,255,0.95)" font-family="Arial,sans-serif" letter-spacing="0.5">JILI</text>
+      `
+    },
+    {
+      id:'pg', name:'PG Soft',
+      brandSvg: `
+        <defs>
+          <linearGradient id="pg-g" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" stop-color="#1a6bcc"/>
+            <stop offset="100%" stop-color="#0d4a8f"/>
+          </linearGradient>
+        </defs>
+        <rect x="1" y="1" width="26" height="26" rx="6" fill="url(#pg-g)"/>
+        <!-- PG hexagon geometry -->
+        <polygon points="14,4 20,7.5 20,14.5 14,18 8,14.5 8,7.5" fill="none" stroke="rgba(255,255,255,0.35)" stroke-width="1"/>
+        <polygon points="14,6.5 18,9 18,14 14,16.5 10,14 10,9" fill="rgba(255,255,255,0.12)"/>
+        <!-- P shape -->
+        <text x="10.5" y="15.5" font-size="9" font-weight="900" fill="rgba(255,255,255,0.95)" font-family="Arial,sans-serif">P</text>
+        <!-- G shape -->
+        <text x="15.5" y="15.5" font-size="9" font-weight="900" fill="rgba(100,200,255,0.9)" font-family="Arial,sans-serif">G</text>
+        <!-- SOFT text -->
+        <text x="14" y="24" text-anchor="middle" font-size="4" font-weight="700" fill="rgba(255,255,255,0.5)" font-family="Arial,sans-serif" letter-spacing="0.5">SOFT</text>
+      `
+    },
+    {
+      id:'jdb', name:'JDB Slot',
+      brandSvg: `
+        <defs>
+          <linearGradient id="jdb-g" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" stop-color="#8b2fc9"/>
+            <stop offset="100%" stop-color="#5b0f99"/>
+          </linearGradient>
+          <linearGradient id="gem-g" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" stop-color="#e879f9"/>
+            <stop offset="50%" stop-color="#a855f7"/>
+            <stop offset="100%" stop-color="#7c3aed"/>
+          </linearGradient>
+        </defs>
+        <rect x="1" y="1" width="26" height="26" rx="6" fill="url(#jdb-g)"/>
+        <!-- Gem/Diamond shape — JDB identity -->
+        <polygon points="14,4 20,9.5 17.5,18 10.5,18 8,9.5" fill="url(#gem-g)"/>
+        <polygon points="14,4 20,9.5 14,8" fill="rgba(255,255,255,0.4)"/>
+        <polygon points="14,8 20,9.5 17.5,18" fill="rgba(255,255,255,0.08)"/>
+        <polygon points="14,8 10.5,18 8,9.5" fill="rgba(255,255,255,0.15)"/>
+        <polygon points="14,8 17.5,18 10.5,18" fill="rgba(255,255,255,0.06)"/>
+        <!-- shine -->
+        <circle cx="12" cy="7.5" r="1" fill="rgba(255,255,255,0.6)"/>
+        <!-- JDB text -->
+        <text x="14" y="25" text-anchor="middle" font-size="5.5" font-weight="900" fill="rgba(255,255,255,0.9)" font-family="Arial,sans-serif" letter-spacing="0.3">JDB</text>
+      `
+    },
     { id:'live',    name:'Live Casino', svgPath:'M17 10.5V7a1 1 0 00-1-1H4a1 1 0 00-1 1v10a1 1 0 001 1h12a1 1 0 001-1v-3.5l4 4v-11l-4 4z' },
     { id:'fish',    name:'ငါးမျှားရ', svgPath:'M12 2a10 10 0 100 20A10 10 0 0012 2zm-1 14H9V8h2v8zm4 0h-2V8h2v8z' },
     { id:'fav',     name:'အကြိုက်ဆုံး',svgPath:'M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z' },
@@ -711,4 +884,47 @@
 
   /* ── VANT ── */
   :deep(.van-overlay) { background:rgba(0,0,0,0.7) !important; }
+
+  /* ── QUICK ICON — green frame ── */
+  .nova-quick-frame {
+    width:30px; height:30px; border-radius:8px;
+    border:1.5px solid rgba(34,197,94,0.55);
+    background:rgba(34,197,94,0.07);
+    box-shadow:0 0 8px rgba(34,197,94,0.18), inset 0 0 6px rgba(34,197,94,0.08);
+    display:flex; align-items:center; justify-content:center;
+    position:relative; overflow:hidden;
+  }
+  .nova-quick-frame::after {
+    content:''; position:absolute; top:0; left:-60%; width:40%; height:100%;
+    background:linear-gradient(90deg,transparent,rgba(34,197,94,0.22),transparent);
+    animation:nova-frame-shine 2.8s ease-in-out infinite;
+  }
+  @keyframes nova-frame-shine { 0%,100%{left:-60%} 50%{left:140%} }
+
+  /* ── CASH BUTTON ANIMATIONS ── */
+  .nova-cash-btn { position:relative; overflow:hidden; display:flex; align-items:center; gap:5px; }
+  .nova-withdraw-btn { display:flex; align-items:center; gap:5px; }
+  .nova-cash-particles { position:absolute; inset:0; pointer-events:none; overflow:hidden; }
+  .nova-coin {
+    position:absolute; font-size:9px; opacity:0;
+    animation:nova-coin-burst 2.4s ease-in-out infinite;
+  }
+  .nova-coin.c1 { left:15%; animation-delay:0s; }
+  .nova-coin.c2 { left:45%; animation-delay:0.6s; }
+  .nova-coin.c3 { left:72%; animation-delay:1.2s; }
+  @keyframes nova-coin-burst {
+    0%   { opacity:0; transform:translateY(20px) scale(0.6) rotate(0deg); }
+    20%  { opacity:0.9; }
+    60%  { opacity:0.6; transform:translateY(-18px) scale(1.1) rotate(25deg); }
+    100% { opacity:0; transform:translateY(-30px) scale(0.7) rotate(45deg); }
+  }
+
+  /* ── BRAND LOGOS in sidebar ── */
+  .nova-cat-icon-wrap--brand {
+    background:transparent !important;
+    border-color:transparent !important;
+    box-shadow:0 2px 8px rgba(0,0,0,0.5) !important;
+    padding:0;
+  }
+  .nova-cat-svg--brand { width:32px !important; height:32px !important; border-radius:6px; overflow:visible; }
   </style>
