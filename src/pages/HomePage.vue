@@ -151,9 +151,17 @@
         </div>
       </div>
       <div v-if="isLoggedIn" style="padding:10px 14px;display:flex;align-items:center;justify-content:space-between;">
-        <div>
-          <div style="font-size:10px;color:rgba(255,255,255,0.32);margin-bottom:2px;">{{ username }}</div>
-          <div style="font-size:17px;font-weight:900;color:#4ade80;">{{ formatCurrency(mainBalance) }} <span style="font-size:10px;color:rgba(255,255,255,0.3);">MMK</span></div>
+        <div style="display:flex;align-items:center;gap:10px;">
+          <NftAvatar :username="username" :size="46" />
+          <div>
+            <div style="font-size:11px;font-weight:700;color:#4ade80;margin-bottom:3px;letter-spacing:0.04em;text-shadow:0 0 8px rgba(74,222,128,0.6);">{{ username }}</div>
+            <div style="display:flex;align-items:center;gap:6px;">
+              <div style="font-size:17px;font-weight:900;color:#4ade80;">{{ formatCurrency(mainBalance) }} <span style="font-size:10px;color:rgba(255,255,255,0.3);">MMK</span></div>
+              <button @click="refreshBalance" style="background:transparent;border:none;padding:3px;cursor:pointer;display:flex;align-items:center;">
+                <svg :style="{animation: balanceRefreshing ? 'nft-spin 0.6s linear infinite' : 'none', opacity: balanceRefreshing ? 0.5 : 0.85}" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#4ade80" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M23 4v6h-6"/><path d="M1 20v-6h6"/><path d="M3.51 9a9 9 0 0114.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0020.49 15"/></svg>
+              </button>
+            </div>
+          </div>
         </div>
         <div style="display:flex;gap:8px;">
           <button @click="showDepositModal=true" class="glass-btn-auth glass-btn-auth--primary nova-cash-btn">
@@ -472,6 +480,7 @@
   import { supabase } from '@/lib/supabase'
   import DepositModal from '@/components/DepositModal.vue'
   import WithdrawModal from '@/components/WithdrawModal.vue'
+  import NftAvatar from '@/components/NftAvatar.vue'
 
   const route = useRoute()
 
@@ -488,6 +497,7 @@
   const regUsername = ref(''); const regPhone = ref(''); const regPassword = ref(''); const regShowPassword = ref(false); const regLoading = ref(false); const regError = ref(''); const reg18Agreed = ref(false)
   const searchVisible = ref(false); const searchQuery = ref('')
   const showDepositModal = ref(false); const showWithdrawModal = ref(false)
+  const balanceRefreshing = ref(false)
 
   // ── Scroll lock when auth modal is open ──
   watch(showAuthModal, (val) => {
@@ -632,6 +642,12 @@
   async function fetchBalance() {
     try { const {data:{session}}=await supabase.auth.getSession(); if(!session)return; const {data}=await supabase.from('wallets').select('balance').eq('user_id',session.user.id).single(); if(data)mainBalance.value=Number(data.balance)||0 }
     catch {}
+  }
+  async function refreshBalance() {
+    if (balanceRefreshing.value) return
+    balanceRefreshing.value = true
+    await fetchBalance()
+    setTimeout(() => { balanceRefreshing.value = false }, 700)
   }
   async function handleLogin() {
     loginError.value=''; if(!loginUsername.value||!loginPassword.value){loginError.value='အချက်အလက်များ ဖြည့်ပါ';return}
@@ -931,4 +947,9 @@
     padding:0;
   }
   .nova-cat-svg--brand { width:32px !important; height:32px !important; border-radius:6px; overflow:visible; }
-  </style>
+  
+@keyframes nft-spin {
+  from { transform: rotate(0deg); }
+  to   { transform: rotate(360deg); }
+}
+</style>
