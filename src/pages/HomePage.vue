@@ -1,5 +1,5 @@
 <template>
-  <div class="min-h-screen bg-[#0b141a] text-gray-200 flex flex-col selection:bg-cyan-500/30">
+  <div class="min-h-screen text-gray-200 flex flex-col selection:bg-cyan-500/30" style="background:linear-gradient(160deg,#060a18 0%,#080e1e 50%,#060d0e 100%)">
     <!-- Toast Container -->
     <Teleport to="body">
       <div class="fixed top-4 right-4 z-[100] space-y-2 w-72 pointer-events-none">
@@ -110,65 +110,6 @@
         </div>
       </div>
 
-      <!-- Account Card (if logged in) — below banner -->
-      <div class="px-4 pt-2">
-        <div v-if="isLoggedIn" class="bg-[#111d26] border border-cyan-500/10 rounded-2xl px-3 py-3 shadow-sm">
-          <div class="flex items-center gap-3">
-            <!-- Animated NFT Avatar -->
-            <NftAvatar :username="username" :size="52" />
-
-            <!-- Name + Balance -->
-            <div class="flex-1 min-w-0">
-              <p class="text-sm font-bold text-white">{{ username.slice(0, 4) }}</p>
-              <p class="text-xs text-gray-400">
-                <span v-if="balanceLoading" class="animate-pulse text-gray-500">Loading...</span>
-                <span v-else class="text-cyan-400 font-semibold">{{ formatCurrency(mainBalance) }} Ks</span>
-              </p>
-            </div>
-
-            <!-- Right side: Deposit + Withdraw buttons only -->
-            <div class="flex items-center gap-1.5">
-              <button @click="showDepositModal = true"
-                class="bg-gradient-to-r from-cyan-500 to-teal-600 text-white font-bold rounded-full text-[11px] py-1.5 px-3 shadow-md active:scale-95 transition-all">
-                Deposit
-              </button>
-              <button @click="showWithdrawModal = true"
-                class="bg-cyan-500/10 text-cyan-300 font-bold rounded-full border border-cyan-500/30 text-[11px] py-1.5 px-3 active:scale-95 transition-all">
-                Withdraw
-              </button>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <!-- ══ LIVE JACKPOT TICKER ══ -->
-      <div class="mx-3 mt-3 rounded-2xl relative overflow-hidden"
-           style="background:linear-gradient(135deg,#07100a,#0a1614,#06080f);border:1px solid rgba(240,165,0,0.22);box-shadow:0 0 20px rgba(240,165,0,0.06),inset 0 1px 0 rgba(255,255,255,0.05);">
-        <div class="flex items-center gap-3 px-4 py-2.5">
-          <div class="flex-shrink-0 w-8 h-8 rounded-full flex items-center justify-center"
-               style="background:linear-gradient(135deg,#f0a500,#ff6b00);box-shadow:0 0 14px rgba(240,165,0,0.55),0 2px 6px rgba(0,0,0,0.4);">
-            <svg class="w-4 h-4 text-white drop-shadow" fill="currentColor" viewBox="0 0 24 24">
-              <path d="M11.48 3.499a.562.562 0 011.04 0l2.125 5.111a.563.563 0 00.475.345l5.518.442c.499.04.701.663.321.988l-4.204 3.602a.563.563 0 00-.182.557l1.285 5.385a.562.562 0 01-.84.61l-4.725-2.885a.563.563 0 00-.586 0L6.982 20.54a.562.562 0 01-.84-.61l1.285-5.386a.562.562 0 00-.182-.557l-4.204-3.602a.563.563 0 01.321-.988l5.518-.442a.563.563 0 00.475-.345L11.48 3.5z"/>
-            </svg>
-          </div>
-          <div class="flex-1 min-w-0">
-            <p class="text-[9px] font-bold uppercase tracking-widest mb-0.5" style="color:rgba(240,165,0,0.55);">🔴 Live Jackpot Pool</p>
-            <p class="font-black text-base leading-none tracking-tight"
-               style="background:linear-gradient(135deg,#f0a500,#ffdd57,#f0a500);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;filter:drop-shadow(0 0 6px rgba(240,165,0,0.35));">
-              {{ displayedJackpot }} Ks
-            </p>
-          </div>
-          <div class="text-right flex-shrink-0">
-            <div class="flex items-center gap-1 justify-end mb-0.5">
-              <span class="w-1.5 h-1.5 rounded-full bg-green-400 animate-pulse"></span>
-              <p class="text-[9px] font-semibold" style="color:rgba(74,222,128,0.7);">{{ onlinePlayers }} online</p>
-            </div>
-            <p class="text-[8px]" style="color:rgba(255,255,255,0.18);">Updated live</p>
-          </div>
-        </div>
-        <div class="absolute bottom-0 left-0 right-0 h-px"
-             style="background:linear-gradient(90deg,transparent,rgba(240,165,0,0.4),transparent);"></div>
-      </div>
 
       <!-- ══ GAME ZONE: Vertical Sidebar + Cards ══ -->
       <div class="flex gap-0 pt-4 pb-2 px-2">
@@ -230,7 +171,7 @@
 
         <!-- ── RIGHT: Premium 2-Column Game Cards ── -->
         <div class="flex-1 min-w-0">
-          <div class="grid grid-cols-2 gap-2">
+          <div class="grid grid-cols-3 gap-2">
 
             <!-- Skeleton loaders -->
             <template v-if="loadingGames">
@@ -332,7 +273,7 @@
     </div>
 
     <!-- Bottom Navigation -->
-    <nav class="fixed bottom-0 left-0 right-0 bg-[#0b141a]/95 backdrop-blur-xl border-t border-cyan-500/10 z-50 pointer-events-auto safe-area-bottom">
+    <nav class="fixed bottom-0 left-0 right-0 backdrop-blur-xl border-t border-cyan-500/10 z-50 pointer-events-auto safe-area-bottom" style="background:rgba(6,9,24,0.96)">
       <div class="flex justify-around items-center py-2 px-1">
         <router-link to="/home" class="flex flex-col items-center gap-1 px-4 py-1 rounded-xl transition-all duration-200" :class="$route.path === '/home' ? 'text-cyan-400' : 'text-gray-500 hover:text-gray-300'">
           <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/></svg>
