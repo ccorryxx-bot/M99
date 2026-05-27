@@ -6,24 +6,16 @@
         <div style="display:flex;align-items:center;gap:6px;">
           <!-- Cinematic 3D Geo Logo (spins internally, not like a wheel) -->
           <div class="nova-geo-logo-wrap">
-            <svg class="nova-geo-svg" viewBox="0 0 60 60" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <defs>
-                <linearGradient id="geoGrad1" x1="0%" y1="0%" x2="100%" y2="100%">
-                  <stop offset="0%" stop-color="#22c55e"/>
-                  <stop offset="45%" stop-color="#06b6d4"/>
-                  <stop offset="100%" stop-color="#ec4899"/>
-                </linearGradient>
-              </defs>
-              <polygon points="30,3 57,52 3,52" stroke="url(#geoGrad1)" stroke-width="2" fill="none" stroke-linejoin="round"/>
-              <polygon points="30,27 17,52 43,52" stroke="url(#geoGrad1)" stroke-width="1.1" fill="none" opacity="0.8"/>
-              <line x1="30" y1="3" x2="30" y2="52" stroke="url(#geoGrad1)" stroke-width="0.9" opacity="0.65"/>
-              <line x1="3" y1="52" x2="30" y2="27" stroke="url(#geoGrad1)" stroke-width="0.9" opacity="0.65"/>
-              <line x1="57" y1="52" x2="30" y2="27" stroke="url(#geoGrad1)" stroke-width="0.9" opacity="0.65"/>
-              <line x1="30" y1="3" x2="17" y2="52" stroke="url(#geoGrad1)" stroke-width="0.7" opacity="0.45"/>
-              <line x1="30" y1="3" x2="43" y2="52" stroke="url(#geoGrad1)" stroke-width="0.7" opacity="0.45"/>
-              <line x1="3" y1="52" x2="43" y2="27" stroke="url(#geoGrad1)" stroke-width="0.6" opacity="0.35"/>
-              <line x1="57" y1="52" x2="17" y2="27" stroke="url(#geoGrad1)" stroke-width="0.6" opacity="0.35"/>
-            </svg>
+            <div class="nova-cube-scene">
+              <div class="nova-cube">
+                <div class="nova-cube-face face-front"></div>
+                <div class="nova-cube-face face-back"></div>
+                <div class="nova-cube-face face-left"></div>
+                <div class="nova-cube-face face-right"></div>
+                <div class="nova-cube-face face-top"></div>
+                <div class="nova-cube-face face-bottom"></div>
+              </div>
+            </div>
           </div>
           <div class="nova-brand-wrap">
             <div class="nova-welcome">WELCOME TO</div>
@@ -855,17 +847,61 @@
   .nova-geo-logo-wrap {
     flex-shrink:0; width:38px; height:44px;
     display:flex; align-items:center; justify-content:center;
-    perspective: 240px;
   }
-  .nova-geo-svg {
-    width:38px; height:44px;
-    animation: geo-3d-spin 7s linear infinite, geo-hue 9s linear infinite;
-    transform-style: preserve-3d;
-    transform-origin: center center;
+  .nova-cube-scene {
+    width:26px; height:26px;
+    perspective:110px;
   }
-  @keyframes geo-3d-spin {
-    0%   { transform: rotateY(0deg); }
-    100% { transform: rotateY(360deg); }
+  .nova-cube {
+    width:26px; height:26px;
+    position:relative;
+    transform-style:preserve-3d;
+    animation:nova-cube-spin 4.5s linear infinite;
+  }
+  @keyframes nova-cube-spin {
+    0%   { transform: rotateX(22deg) rotateY(0deg); }
+    100% { transform: rotateX(22deg) rotateY(360deg); }
+  }
+  .nova-cube-face {
+    position:absolute;
+    width:26px; height:26px;
+    border:1.5px solid;
+  }
+  .face-front {
+    transform:translateZ(13px);
+    border-color:#22c55e;
+    background:rgba(34,197,94,0.09);
+    box-shadow:0 0 10px rgba(34,197,94,0.8), inset 0 0 7px rgba(34,197,94,0.18);
+  }
+  .face-back {
+    transform:rotateY(180deg) translateZ(13px);
+    border-color:#ec4899;
+    background:rgba(236,72,153,0.09);
+    box-shadow:0 0 10px rgba(236,72,153,0.7), inset 0 0 7px rgba(236,72,153,0.14);
+  }
+  .face-left {
+    transform:rotateY(-90deg) translateZ(13px);
+    border-color:#06b6d4;
+    background:rgba(6,182,212,0.09);
+    box-shadow:0 0 10px rgba(6,182,212,0.7), inset 0 0 7px rgba(6,182,212,0.14);
+  }
+  .face-right {
+    transform:rotateY(90deg) translateZ(13px);
+    border-color:#a855f7;
+    background:rgba(168,85,247,0.09);
+    box-shadow:0 0 10px rgba(168,85,247,0.7), inset 0 0 7px rgba(168,85,247,0.14);
+  }
+  .face-top {
+    transform:rotateX(90deg) translateZ(13px);
+    border-color:#f59e0b;
+    background:rgba(245,158,11,0.09);
+    box-shadow:0 0 10px rgba(245,158,11,0.7), inset 0 0 7px rgba(245,158,11,0.14);
+  }
+  .face-bottom {
+    transform:rotateX(-90deg) translateZ(13px);
+    border-color:#ef4444;
+    background:rgba(239,68,68,0.09);
+    box-shadow:0 0 10px rgba(239,68,68,0.65), inset 0 0 7px rgba(239,68,68,0.13);
   }
   @keyframes geo-hue {
     0%   { filter: drop-shadow(0 0 5px rgba(34,197,94,0.9))  hue-rotate(0deg); }
