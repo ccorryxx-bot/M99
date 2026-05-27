@@ -3,27 +3,26 @@
 
       <!-- ══ HEADER ══ -->
       <header class="nova-header">
-        <div style="display:flex;align-items:center;gap:10px;">
-          <!-- Cinematic Rotating Geo Logo -->
+        <div style="display:flex;align-items:center;gap:6px;">
+          <!-- Cinematic 3D Geo Logo (spins internally, not like a wheel) -->
           <div class="nova-geo-logo-wrap">
-            <svg class="nova-geo-svg" viewBox="0 0 70 70" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <svg class="nova-geo-svg" viewBox="0 0 60 60" fill="none" xmlns="http://www.w3.org/2000/svg">
               <defs>
                 <linearGradient id="geoGrad1" x1="0%" y1="0%" x2="100%" y2="100%">
                   <stop offset="0%" stop-color="#22c55e"/>
-                  <stop offset="50%" stop-color="#06b6d4"/>
+                  <stop offset="45%" stop-color="#06b6d4"/>
                   <stop offset="100%" stop-color="#ec4899"/>
                 </linearGradient>
-                <filter id="geoGlow"><feGaussianBlur stdDeviation="1.5" result="blur"/><feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
               </defs>
-              <polygon points="35,4 67,61 3,61" stroke="url(#geoGrad1)" stroke-width="2.2" fill="none" stroke-linejoin="round" filter="url(#geoGlow)"/>
-              <polygon points="35,31 19,61 51,61" stroke="url(#geoGrad1)" stroke-width="1.2" fill="none" opacity="0.75"/>
-              <line x1="35" y1="4" x2="35" y2="61" stroke="url(#geoGrad1)" stroke-width="1" opacity="0.7"/>
-              <line x1="3" y1="61" x2="35" y2="31" stroke="url(#geoGrad1)" stroke-width="1" opacity="0.7"/>
-              <line x1="67" y1="61" x2="35" y2="31" stroke="url(#geoGrad1)" stroke-width="1" opacity="0.7"/>
-              <line x1="35" y1="4" x2="19" y2="61" stroke="url(#geoGrad1)" stroke-width="0.8" opacity="0.5"/>
-              <line x1="35" y1="4" x2="51" y2="61" stroke="url(#geoGrad1)" stroke-width="0.8" opacity="0.5"/>
-              <line x1="3" y1="61" x2="51" y2="31" stroke="url(#geoGrad1)" stroke-width="0.7" opacity="0.45"/>
-              <line x1="67" y1="61" x2="19" y2="31" stroke="url(#geoGrad1)" stroke-width="0.7" opacity="0.45"/>
+              <polygon points="30,3 57,52 3,52" stroke="url(#geoGrad1)" stroke-width="2" fill="none" stroke-linejoin="round"/>
+              <polygon points="30,27 17,52 43,52" stroke="url(#geoGrad1)" stroke-width="1.1" fill="none" opacity="0.8"/>
+              <line x1="30" y1="3" x2="30" y2="52" stroke="url(#geoGrad1)" stroke-width="0.9" opacity="0.65"/>
+              <line x1="3" y1="52" x2="30" y2="27" stroke="url(#geoGrad1)" stroke-width="0.9" opacity="0.65"/>
+              <line x1="57" y1="52" x2="30" y2="27" stroke="url(#geoGrad1)" stroke-width="0.9" opacity="0.65"/>
+              <line x1="30" y1="3" x2="17" y2="52" stroke="url(#geoGrad1)" stroke-width="0.7" opacity="0.45"/>
+              <line x1="30" y1="3" x2="43" y2="52" stroke="url(#geoGrad1)" stroke-width="0.7" opacity="0.45"/>
+              <line x1="3" y1="52" x2="43" y2="27" stroke="url(#geoGrad1)" stroke-width="0.6" opacity="0.35"/>
+              <line x1="57" y1="52" x2="17" y2="27" stroke="url(#geoGrad1)" stroke-width="0.6" opacity="0.35"/>
             </svg>
           </div>
           <div class="nova-brand-wrap">
@@ -820,7 +819,7 @@
 .nova-bg-orb--3 { width:240px; height:240px; bottom:70px; left:-20px; background:radial-gradient(circle,rgba(168,85,247,0.1) 0%,rgba(236,72,153,0.05) 50%,transparent 70%); animation:orb-drift3 14s ease-in-out infinite; }
 
   /* ══ CINEMATIC GLOW BRAND ══ */
-  .nova-brand-wrap { display:flex; flex-direction:column; gap:1px; }
+  /* .nova-brand-wrap defined in HEADER section below */
   .nova-welcome {
     font-size:8px; letter-spacing:0.35em; text-transform:uppercase;
     color:rgba(34,197,94,0.45); font-weight:500;
@@ -839,25 +838,41 @@
   }
 
   /* ── HEADER ── */
-  .nova-header { position:relative; z-index:10; background:transparent; padding:10px 16px; display:flex; align-items:center; justify-content:space-between; }
+  .nova-header {
+    position:relative; z-index:10; background:transparent;
+    padding:8px 14px 6px; display:flex; align-items:center; justify-content:space-between;
+  }
+  /* Radial glow behind brand text — "floating text on background" cinematic vibe */
+  .nova-header::before {
+    content:'';
+    position:absolute; left:0; top:0; width:65%; height:100%;
+    background: radial-gradient(ellipse at 28% 50%, rgba(34,197,94,0.07) 0%, rgba(6,182,212,0.04) 40%, transparent 70%);
+    pointer-events:none; z-index:0;
+  }
+  .nova-brand-wrap { position:relative; z-index:1; display:flex; flex-direction:column; gap:0; }
 
   /* ── GEO LOGO ── */
-  .nova-geo-logo-wrap { flex-shrink:0; width:46px; height:46px; display:flex; align-items:center; justify-content:center; }
-  .nova-geo-svg {
-    animation: geo-spin 10s linear infinite, geo-hue 8s linear infinite;
-    transform-origin: 35px 35px;
-    filter: drop-shadow(0 0 6px rgba(34,197,94,0.7));
+  .nova-geo-logo-wrap {
+    flex-shrink:0; width:38px; height:44px;
+    display:flex; align-items:center; justify-content:center;
+    perspective: 240px;
   }
-  @keyframes geo-spin {
-    0% { transform: rotate(0deg); }
-    100% { transform: rotate(360deg); }
+  .nova-geo-svg {
+    width:38px; height:44px;
+    animation: geo-3d-spin 7s linear infinite, geo-hue 9s linear infinite;
+    transform-style: preserve-3d;
+    transform-origin: center center;
+  }
+  @keyframes geo-3d-spin {
+    0%   { transform: rotateY(0deg); }
+    100% { transform: rotateY(360deg); }
   }
   @keyframes geo-hue {
-    0%   { filter: drop-shadow(0 0 6px rgba(34,197,94,0.8)) hue-rotate(0deg); }
-    25%  { filter: drop-shadow(0 0 8px rgba(6,182,212,0.8)) hue-rotate(90deg); }
-    50%  { filter: drop-shadow(0 0 8px rgba(236,72,153,0.8)) hue-rotate(180deg); }
-    75%  { filter: drop-shadow(0 0 8px rgba(129,140,248,0.8)) hue-rotate(270deg); }
-    100% { filter: drop-shadow(0 0 6px rgba(34,197,94,0.8)) hue-rotate(360deg); }
+    0%   { filter: drop-shadow(0 0 5px rgba(34,197,94,0.9))  hue-rotate(0deg); }
+    25%  { filter: drop-shadow(0 0 7px rgba(6,182,212,0.9))  hue-rotate(90deg); }
+    50%  { filter: drop-shadow(0 0 7px rgba(236,72,153,0.9)) hue-rotate(180deg); }
+    75%  { filter: drop-shadow(0 0 7px rgba(129,140,248,0.9)) hue-rotate(270deg); }
+    100% { filter: drop-shadow(0 0 5px rgba(34,197,94,0.9))  hue-rotate(360deg); }
   }
 
   /* ── BELL ── */
