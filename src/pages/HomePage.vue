@@ -42,7 +42,7 @@
       </div>
 
       <!-- ══ MARQUEE ══ -->
-      <div style="display:flex;align-items:center;background:#111;border-top:1px solid rgba(255,255,255,0.04);border-bottom:1px solid rgba(255,255,255,0.04);padding:7px 12px;gap:8px;overflow:hidden;">
+      <div class="nova-marquee-bar" style="display:flex;align-items:center;background:rgba(7,12,26,0.92);border-top:1px solid rgba(34,197,94,0.1);border-bottom:1px solid rgba(34,197,94,0.1);padding:7px 12px;gap:8px;overflow:hidden;">
         <svg width="15" height="15" fill="rgba(34,197,94,0.85)" viewBox="0 0 24 24" style="flex-shrink:0;"><path d="M18 9v-3a6 6 0 10-12 0v3l-2 2v1h16v-1l-2-2zm-6 13a3 3 0 003-3H9a3 3 0 003 3z"/></svg>
         <div style="flex:1;overflow:hidden;"><span class="nova-marquee">NovaBETT မှ ကြိုဆိုပါသည်&nbsp;&nbsp;&nbsp;ငွေသွင်းငွေထုတ် 24/7&nbsp;&nbsp;&nbsp;JILI, PP, PG ဂိမ်းများ&nbsp;&nbsp;&nbsp;VIP အဖွဲ့ဝင်များ အထူးဆုများ&nbsp;&nbsp;&nbsp;Customer Support 24/7&nbsp;&nbsp;&nbsp;</span></div>
         <div style="position:relative;flex-shrink:0;">
@@ -150,7 +150,7 @@
           </div>
         </div>
       </div>
-      <div v-if="isLoggedIn" style="padding:10px 14px;display:flex;align-items:center;justify-content:space-between;">
+      <div v-if="isLoggedIn" style="padding:10px 14px;display:flex;align-items:center;justify-content:space-between;background:rgba(34,197,94,0.04);border-bottom:1px solid rgba(34,197,94,0.08);">
         <!-- LEFT: Avatar + info -->
         <div style="display:flex;align-items:center;gap:10px;">
           <NftAvatar :username="username" :size="38" />
@@ -224,7 +224,7 @@
         </div>
       </div>
       <!-- ══ SIDEBAR + GAME GRID ══ -->
-      <div style="display:flex;position:relative;">
+      <div style="display:flex;position:relative;" class="nova-game-area">
 
         <!-- LEFT SIDEBAR -->
         <div class="nova-sidebar">
@@ -710,17 +710,52 @@
   async function handleDepositSubmit(data) { try { const token=(await supabase.auth.getSession()).data.session?.access_token; if(!token){showToast({type:'fail',message:'ဝင်ရောက်ပါ'});return}; const res=await fetch('https://vuywhhmwrqykukcemifd.supabase.co/functions/v1/deposit',{method:'POST',headers:{'Authorization':'Bearer '+token,'Content-Type':'application/json'},body:JSON.stringify({method:data.method,amount:data.amount,slip:data.slip})}); const result=await res.json(); if(result.error)throw new Error(result.error); showToast({type:'success',message:'ငွေသွင်းမှု အောင်မြင်ပါသည်'}); setTimeout(()=>fetchBalance(),2000) } catch(e){showToast({type:'fail',message:e.message})} }
   async function handleWithdrawSubmit(data) { try { const token=(await supabase.auth.getSession()).data.session?.access_token; if(!token){showToast({type:'fail',message:'ဝင်ရောက်ပါ'});return}; const res=await fetch('https://vuywhhmwrqykukcemifd.supabase.co/functions/v1/withdraw',{method:'POST',headers:{'Authorization':'Bearer '+token,'Content-Type':'application/json'},body:JSON.stringify({method:data.method,phone:data.phone,accountName:data.accountName,amount:data.amount})}); const result=await res.json(); if(result.error)throw new Error(result.error); showToast({type:'success',message:'ငွေထုတ်မှု အောင်မြင်ပါသည်'}); setTimeout(()=>fetchBalance(),2000) } catch(e){showToast({type:'fail',message:e.message})} }
 
-  onMounted(()=>{ loadUserInfo(); fetchGames(); startBannerTimer() })
-  onUnmounted(()=>{ clearInterval(bannerTimer); document.body.style.overflow=''; document.body.style.touchAction='' })
+
+  // ── HIGH FPS SMOOTH SCROLL BOOSTER ──
+  let rafId = null
+  let lastScrollY = 0
+  let currentScrollY = 0
+  const EASE = 0.12   // smoothing factor (lower = smoother/slower)
+
+  function smoothScrollTick() {
+    const diff = lastScrollY - currentScrollY
+    if (Math.abs(diff) > 0.5) {
+      currentScrollY += diff * EASE
+      window.scrollTo(0, currentScrollY)
+    } else {
+      currentScrollY = lastScrollY
+    }
+    rafId = requestAnimationFrame(smoothScrollTick)
+  }
+
+  function onWheelSmooth(e) {
+    e.preventDefault()
+    lastScrollY = Math.max(0, Math.min(lastScrollY + e.deltaY * 0.85, document.body.scrollHeight - window.innerHeight))
+    if (!rafId) rafId = requestAnimationFrame(smoothScrollTick)
+  }
+  onMounted(()=>{
+    loadUserInfo(); fetchGames(); startBannerTimer()
+    // GPU layer hints
+    document.documentElement.style.setProperty('--perf-hint','auto')
+    // 61 FPS smooth scroll on desktop wheel events
+    window.addEventListener('wheel', onWheelSmooth, { passive: false })
+  })
+  onUnmounted(()=>{
+    clearInterval(bannerTimer)
+    document.body.style.overflow=''
+    document.body.style.touchAction=''
+    window.removeEventListener('wheel', onWheelSmooth)
+    if (rafId) { cancelAnimationFrame(rafId); rafId = null }
+  })
   </script>
 
   <style scoped>
   /* ── BASE ── */
-  .nova-app { background: linear-gradient(160deg,#0b1120 0%,#0d1528 35%,#0a1018 65%,#060c14 100%); min-height:100vh; color:#fff; -webkit-tap-highlight-color:rgba(0,0,0,0); -webkit-overflow-scrolling:touch; scroll-behavior:smooth; }
+  .nova-app { background: linear-gradient(160deg,#08102a 0%,#0d1a36 20%,#0c1828 40%,#091420 60%,#07101a 80%,#050c14 100%); min-height:100vh; color:#fff; -webkit-tap-highlight-color:rgba(0,0,0,0); overscroll-behavior:contain; -webkit-overflow-scrolling:touch; scroll-behavior:smooth; }
 .nova-bg-orb { position:fixed; border-radius:50%; pointer-events:none; z-index:0; }
-.nova-bg-orb--1 { width:260px; height:260px; top:-60px; left:-80px; background:radial-gradient(circle,rgba(34,197,94,0.07) 0%,transparent 70%); }
-.nova-bg-orb--2 { width:300px; height:300px; top:40%; right:-100px; background:radial-gradient(circle,rgba(56,189,248,0.05) 0%,transparent 70%); }
-.nova-bg-orb--3 { width:200px; height:200px; bottom:80px; left:20px; background:radial-gradient(circle,rgba(168,85,247,0.05) 0%,transparent 70%); }
+.nova-bg-orb--1 { width:300px; height:300px; top:-80px; left:-80px; background:radial-gradient(circle,rgba(34,197,94,0.13) 0%,rgba(34,197,94,0.04) 50%,transparent 70%); animation:orb-drift1 12s ease-in-out infinite; }
+.nova-bg-orb--2 { width:340px; height:340px; top:38%; right:-110px; background:radial-gradient(circle,rgba(99,102,241,0.12) 0%,rgba(56,189,248,0.06) 45%,transparent 70%); animation:orb-drift2 16s ease-in-out infinite; }
+.nova-bg-orb--3 { width:240px; height:240px; bottom:70px; left:-20px; background:radial-gradient(circle,rgba(168,85,247,0.1) 0%,rgba(236,72,153,0.05) 50%,transparent 70%); animation:orb-drift3 14s ease-in-out infinite; }
 
   /* ══ CINEMATIC GLOW BRAND ══ */
   .nova-brand-wrap { display:flex; flex-direction:column; gap:1px; }
@@ -757,25 +792,21 @@
   .nova-marquee { display:inline-block; animation:nova-marquee 30s linear infinite; will-change:transform; white-space:nowrap; font-size:12px; color:rgba(255,255,255,0.58); }
 
   /* ── SIDEBAR — scrolls together with game grid ── */
-  .nova-sidebar { width:72px; flex-shrink:0; align-self:flex-start; background:rgba(8,14,28,0.82); backdrop-filter:blur(16px); -webkit-backdrop-filter:blur(16px); border-right:1px solid rgba(255,255,255,0.07); padding:6px 0; box-shadow:4px 0 20px rgba(0,0,0,0.3); }
+  .nova-sidebar { width:72px; flex-shrink:0; align-self:flex-start; background:rgba(7,12,26,0.88); backdrop-filter:blur(18px); -webkit-backdrop-filter:blur(18px); border-right:1px solid rgba(34,197,94,0.12); padding:6px 0; box-shadow:4px 0 24px rgba(0,0,0,0.4), 1px 0 0 rgba(34,197,94,0.06); will-change:transform; transform:translateZ(0); }
   .nova-cat-btn { position:relative; width:100%; display:flex; flex-direction:column; align-items:center; gap:5px; padding:10px 4px; background:transparent; border:none; cursor:pointer; -webkit-tap-highlight-color:transparent; overflow:hidden; transition:background 0.2s; }
   .nova-cat-btn--active { background:rgba(34,197,94,0.06); }
   .nova-cat-glow { position:absolute; inset:0; width:100%; height:100%; pointer-events:none; z-index:0; }
   .nova-cat-icon-wrap { position:relative; z-index:1; width:40px; height:40px; border-radius:12px; display:flex; align-items:center; justify-content:center; background:linear-gradient(145deg,rgba(255,255,255,0.09) 0%,rgba(255,255,255,0.03) 50%,rgba(0,0,0,0.18) 100%); border:1px solid rgba(255,255,255,0.13); box-shadow: 0 2px 6px rgba(0,0,0,0.5), 0 6px 18px rgba(0,0,0,0.35), inset 0 1px 0 rgba(255,255,255,0.15), inset 0 -1px 0 rgba(0,0,0,0.25); backdrop-filter:blur(10px); -webkit-backdrop-filter:blur(10px); transform:perspective(120px) rotateX(4deg); transition:all 0.2s; }
-  .nova-cat-btn--active .nova-cat-icon-wrap {
-    background:linear-gradient(145deg,rgba(34,197,94,0.18) 0%,rgba(34,197,94,0.06) 50%,rgba(0,0,0,0.1) 100%);
-    border-color:rgba(34,197,94,0.35);
-    box-shadow: 0 2px 4px rgba(0,0,0,0.35), 0 6px 18px rgba(34,197,94,0.2), 0 0 22px rgba(34,197,94,0.1), inset 0 1px 0 rgba(255,255,255,0.18), inset 0 -1px 0 rgba(0,0,0,0.15);
-    transform:perspective(120px) rotateX(4deg) translateY(-1px);
-  }
+  .nova-cat-btn--active .nova-cat-icon-wrap { background:linear-gradient(145deg,rgba(34,197,94,0.25) 0%,rgba(34,197,94,0.1) 50%,rgba(0,0,0,0.08) 100%); border-color:rgba(34,197,94,0.5); box-shadow: 0 2px 4px rgba(0,0,0,0.35), 0 6px 22px rgba(34,197,94,0.28), 0 0 28px rgba(34,197,94,0.18), inset 0 1px 0 rgba(255,255,255,0.22), inset 0 -1px 0 rgba(0,0,0,0.12); transform:perspective(120px) rotateX(4deg) translateY(-2px); }
   .nova-cat-svg { width:18px; height:18px; }
   .nova-cat-label { position:relative; z-index:1; font-size:9px; font-weight:700; color:rgba(255,255,255,0.38); text-align:center; line-height:1.2; letter-spacing:0.01em; word-break:break-all; transition:color 0.2s; }
   .nova-cat-btn--active .nova-cat-label { color:rgba(74,222,128,0.9); }
   .nova-cat-active-bar { position:absolute; left:0; top:20%; bottom:20%; width:3px; border-radius:0 2px 2px 0; background:linear-gradient(to bottom,#4ade80,#22c55e); box-shadow:0 0 8px rgba(34,197,94,0.6); }
 
   /* ── GAME CARDS ── */
-  .nova-game-card { border-radius:14px; overflow:hidden; cursor:pointer; background:rgba(255,255,255,0.055); border:1px solid rgba(255,255,255,0.12); box-shadow:0 4px 20px rgba(0,0,0,0.5), 0 1px 0 rgba(255,255,255,0.06) inset; backdrop-filter:blur(10px); -webkit-backdrop-filter:blur(10px); transform:translateZ(0); transition:transform 0.15s ease, box-shadow 0.15s ease; -webkit-tap-highlight-color:transparent; }
-.nova-game-card:active { transform:scale(0.96) translateZ(0); box-shadow:0 2px 10px rgba(0,0,0,0.6); }
+  .nova-game-card { border-radius:14px; overflow:hidden; cursor:pointer; background:rgba(255,255,255,0.058); border:1px solid rgba(255,255,255,0.14); box-shadow:0 4px 22px rgba(0,0,0,0.55), 0 1px 0 rgba(255,255,255,0.08) inset, 0 0 0 0.5px rgba(34,197,94,0.08); backdrop-filter:blur(10px); -webkit-backdrop-filter:blur(10px); will-change:transform; transform:translateZ(0); transition:transform 0.15s ease, box-shadow 0.15s ease; -webkit-tap-highlight-color:transparent; contain:layout style; }
+.nova-game-card:active { transform:scale(0.95) translateZ(0); box-shadow:0 2px 10px rgba(0,0,0,0.65); }
+.nova-game-card:hover { transform:translateY(-2px) translateZ(0); box-shadow:0 8px 32px rgba(0,0,0,0.6), 0 0 0 1px rgba(34,197,94,0.18), 0 1px 0 rgba(255,255,255,0.1) inset; }
   .nova-badge { position:absolute; font-size:7px; font-weight:900; border-radius:5px; padding:2px 4px; }
   .nova-badge--hot { top:5px; right:5px; background:linear-gradient(135deg,#ef4444,#dc2626); color:#fff; box-shadow:0 2px 6px rgba(239,68,68,0.4); }
   .nova-badge--provider { top:5px; left:5px; background:rgba(0,0,0,0.65); color:rgba(255,255,255,0.65); backdrop-filter:blur(4px); }
@@ -1029,4 +1060,39 @@
   .qsc-icon { animation: qsc-bounce 1.8s ease-in-out infinite; backdrop-filter:blur(8px); -webkit-backdrop-filter:blur(8px); }
   /* Game card hover lift */
   .nova-game-card:hover { transform:translateY(-2px) translateZ(0); box-shadow:0 8px 28px rgba(0,0,0,0.6), 0 1px 0 rgba(255,255,255,0.08) inset; }
+
+  /* ══ HIGH FPS GPU ACCELERATION ══ */
+  /* Promote scroll container to own GPU layer */
+  .nova-game-scroll, .nova-sidebar { will-change:transform; transform:translateZ(0); }
+  /* Prevent layout thrash on animated elements */
+  .nova-game-card, .qsc-icon, .nova-cat-icon-wrap, .nova-cash-btn, .nova-coin,
+  .nova-bottom-nav, .nova-header, .holo-scan, .portrait-svg {
+    will-change:transform; transform:translateZ(0);
+  }
+  /* Touch action: let browser know we only scroll vertically */
+  .nova-app { touch-action:pan-y; }
+  .nova-sidebar { touch-action:pan-y; }
+  /* Contain paint for isolated sections */
+  .nova-game-card, .nova-cat-icon-wrap { contain:layout style paint; }
+  /* Smooth momentum for game grid container */
+  .nova-game-area { -webkit-overflow-scrolling:touch; overscroll-behavior-y:contain; scroll-behavior:smooth; }
+  /* Reduce layout shift during scroll */
+  .nova-cat-btn { contain:layout style; }
+  /* Orb drift animations (smooth, low CPU) */
+  @keyframes orb-drift1 { 0%,100%{transform:translate(0,0) scale(1);}50%{transform:translate(12px,-18px) scale(1.08);} }
+  @keyframes orb-drift2 { 0%,100%{transform:translate(0,0) scale(1);}50%{transform:translate(-14px,16px) scale(1.06);} }
+  @keyframes orb-drift3 { 0%,100%{transform:translate(0,0) scale(1);}50%{transform:translate(10px,-12px) scale(1.1);} }
+  /* Banner swipe — high FPS with cubic-bezier */
+  .nova-banner-track { transition:transform 0.38s cubic-bezier(0.22,0.61,0.36,1); will-change:transform; transform:translateZ(0); }
+  /* Active nav item glow */
+  .nova-nav-active svg { filter:drop-shadow(0 0 5px rgba(34,197,94,0.7)); }
+  /* Color boost — green glow on active cat bar */
+  .nova-cat-active-bar { box-shadow:0 0 12px rgba(34,197,94,0.8), 0 0 24px rgba(34,197,94,0.4); }
+  /* Bottom nav item hover color */
+  .nova-nav-item:active { color:rgba(34,197,94,0.8) !important; transform:scale(0.92); }
+  /* Colorful header logo pulse */
+  .nova-logo { animation:logo-pulse 4s ease-in-out infinite; }
+  @keyframes logo-pulse { 0%,100%{box-shadow:0 0 18px rgba(34,197,94,0.45);}50%{box-shadow:0 0 28px rgba(34,197,94,0.7), 0 0 48px rgba(34,197,94,0.2);} }
+  /* Marquee bar color accent */
+  .nova-marquee-bar { background:rgba(7,12,26,0.92) !important; border-top:1px solid rgba(34,197,94,0.1) !important; border-bottom:1px solid rgba(34,197,94,0.1) !important; }
 </style>
