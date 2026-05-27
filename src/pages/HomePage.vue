@@ -8,12 +8,168 @@
           <div class="nova-geo-logo-wrap">
             <div class="nova-cube-scene">
               <div class="nova-cube">
-                <div class="nova-cube-face face-front"></div>
-                <div class="nova-cube-face face-back"></div>
-                <div class="nova-cube-face face-left"></div>
-                <div class="nova-cube-face face-right"></div>
-                <div class="nova-cube-face face-top"></div>
-                <div class="nova-cube-face face-bottom"></div>
+                <!-- FRONT — green -->
+                <div class="nova-cube-face face-front">
+                  <svg viewBox="0 0 26 26" fill="none" width="26" height="26">
+                    <line x1="1" y1="1" x2="25" y2="25" stroke="#22c55e" stroke-width="0.45" opacity="0.28"/>
+                    <line x1="25" y1="1" x2="1" y2="25" stroke="#22c55e" stroke-width="0.45" opacity="0.28"/>
+                    <line x1="13" y1="1" x2="13" y2="25" stroke="#22c55e" stroke-width="0.4" opacity="0.22"/>
+                    <line x1="1" y1="13" x2="25" y2="13" stroke="#22c55e" stroke-width="0.4" opacity="0.22"/>
+                    <line x1="1" y1="1" x2="13" y2="6" stroke="#22c55e" stroke-width="0.65" opacity="0.7"/>
+                    <line x1="25" y1="1" x2="13" y2="6" stroke="#22c55e" stroke-width="0.65" opacity="0.7"/>
+                    <line x1="25" y1="1" x2="20" y2="13" stroke="#22c55e" stroke-width="0.65" opacity="0.7"/>
+                    <line x1="25" y1="25" x2="20" y2="13" stroke="#22c55e" stroke-width="0.65" opacity="0.7"/>
+                    <line x1="25" y1="25" x2="13" y2="20" stroke="#22c55e" stroke-width="0.65" opacity="0.7"/>
+                    <line x1="1" y1="25" x2="13" y2="20" stroke="#22c55e" stroke-width="0.65" opacity="0.7"/>
+                    <line x1="1" y1="25" x2="6" y2="13" stroke="#22c55e" stroke-width="0.65" opacity="0.7"/>
+                    <line x1="1" y1="1" x2="6" y2="13" stroke="#22c55e" stroke-width="0.65" opacity="0.7"/>
+                    <polygon points="13,6 20,13 13,20 6,13" stroke="#22c55e" stroke-width="0.75" fill="none" opacity="0.8"/>
+                    <line x1="13" y1="6" x2="13" y2="13" stroke="#22c55e" stroke-width="0.5" opacity="0.48"/>
+                    <line x1="20" y1="13" x2="13" y2="13" stroke="#22c55e" stroke-width="0.5" opacity="0.48"/>
+                    <line x1="13" y1="20" x2="13" y2="13" stroke="#22c55e" stroke-width="0.5" opacity="0.48"/>
+                    <line x1="6" y1="13" x2="13" y2="13" stroke="#22c55e" stroke-width="0.5" opacity="0.48"/>
+                    <circle cx="13" cy="13" r="0.9" fill="#22c55e" opacity="0.8"/>
+                    <circle cx="13" cy="6" r="0.65" fill="#22c55e" opacity="0.7"/>
+                    <circle cx="20" cy="13" r="0.65" fill="#22c55e" opacity="0.7"/>
+                    <circle cx="13" cy="20" r="0.65" fill="#22c55e" opacity="0.7"/>
+                    <circle cx="6" cy="13" r="0.65" fill="#22c55e" opacity="0.7"/>
+                  </svg>
+                </div>
+                <!-- BACK — pink -->
+                <div class="nova-cube-face face-back">
+                  <svg viewBox="0 0 26 26" fill="none" width="26" height="26">
+                    <line x1="1" y1="1" x2="25" y2="25" stroke="#ec4899" stroke-width="0.45" opacity="0.28"/>
+                    <line x1="25" y1="1" x2="1" y2="25" stroke="#ec4899" stroke-width="0.45" opacity="0.28"/>
+                    <line x1="13" y1="1" x2="13" y2="25" stroke="#ec4899" stroke-width="0.4" opacity="0.22"/>
+                    <line x1="1" y1="13" x2="25" y2="13" stroke="#ec4899" stroke-width="0.4" opacity="0.22"/>
+                    <line x1="1" y1="1" x2="13" y2="6" stroke="#ec4899" stroke-width="0.65" opacity="0.7"/>
+                    <line x1="25" y1="1" x2="13" y2="6" stroke="#ec4899" stroke-width="0.65" opacity="0.7"/>
+                    <line x1="25" y1="1" x2="20" y2="13" stroke="#ec4899" stroke-width="0.65" opacity="0.7"/>
+                    <line x1="25" y1="25" x2="20" y2="13" stroke="#ec4899" stroke-width="0.65" opacity="0.7"/>
+                    <line x1="25" y1="25" x2="13" y2="20" stroke="#ec4899" stroke-width="0.65" opacity="0.7"/>
+                    <line x1="1" y1="25" x2="13" y2="20" stroke="#ec4899" stroke-width="0.65" opacity="0.7"/>
+                    <line x1="1" y1="25" x2="6" y2="13" stroke="#ec4899" stroke-width="0.65" opacity="0.7"/>
+                    <line x1="1" y1="1" x2="6" y2="13" stroke="#ec4899" stroke-width="0.65" opacity="0.7"/>
+                    <polygon points="13,6 20,13 13,20 6,13" stroke="#ec4899" stroke-width="0.75" fill="none" opacity="0.8"/>
+                    <line x1="13" y1="6" x2="13" y2="13" stroke="#ec4899" stroke-width="0.5" opacity="0.48"/>
+                    <line x1="20" y1="13" x2="13" y2="13" stroke="#ec4899" stroke-width="0.5" opacity="0.48"/>
+                    <line x1="13" y1="20" x2="13" y2="13" stroke="#ec4899" stroke-width="0.5" opacity="0.48"/>
+                    <line x1="6" y1="13" x2="13" y2="13" stroke="#ec4899" stroke-width="0.5" opacity="0.48"/>
+                    <circle cx="13" cy="13" r="0.9" fill="#ec4899" opacity="0.8"/>
+                    <circle cx="13" cy="6" r="0.65" fill="#ec4899" opacity="0.7"/>
+                    <circle cx="20" cy="13" r="0.65" fill="#ec4899" opacity="0.7"/>
+                    <circle cx="13" cy="20" r="0.65" fill="#ec4899" opacity="0.7"/>
+                    <circle cx="6" cy="13" r="0.65" fill="#ec4899" opacity="0.7"/>
+                  </svg>
+                </div>
+                <!-- LEFT — cyan -->
+                <div class="nova-cube-face face-left">
+                  <svg viewBox="0 0 26 26" fill="none" width="26" height="26">
+                    <line x1="1" y1="1" x2="25" y2="25" stroke="#06b6d4" stroke-width="0.45" opacity="0.28"/>
+                    <line x1="25" y1="1" x2="1" y2="25" stroke="#06b6d4" stroke-width="0.45" opacity="0.28"/>
+                    <line x1="13" y1="1" x2="13" y2="25" stroke="#06b6d4" stroke-width="0.4" opacity="0.22"/>
+                    <line x1="1" y1="13" x2="25" y2="13" stroke="#06b6d4" stroke-width="0.4" opacity="0.22"/>
+                    <line x1="1" y1="1" x2="13" y2="6" stroke="#06b6d4" stroke-width="0.65" opacity="0.7"/>
+                    <line x1="25" y1="1" x2="13" y2="6" stroke="#06b6d4" stroke-width="0.65" opacity="0.7"/>
+                    <line x1="25" y1="1" x2="20" y2="13" stroke="#06b6d4" stroke-width="0.65" opacity="0.7"/>
+                    <line x1="25" y1="25" x2="20" y2="13" stroke="#06b6d4" stroke-width="0.65" opacity="0.7"/>
+                    <line x1="25" y1="25" x2="13" y2="20" stroke="#06b6d4" stroke-width="0.65" opacity="0.7"/>
+                    <line x1="1" y1="25" x2="13" y2="20" stroke="#06b6d4" stroke-width="0.65" opacity="0.7"/>
+                    <line x1="1" y1="25" x2="6" y2="13" stroke="#06b6d4" stroke-width="0.65" opacity="0.7"/>
+                    <line x1="1" y1="1" x2="6" y2="13" stroke="#06b6d4" stroke-width="0.65" opacity="0.7"/>
+                    <polygon points="13,6 20,13 13,20 6,13" stroke="#06b6d4" stroke-width="0.75" fill="none" opacity="0.8"/>
+                    <line x1="13" y1="6" x2="13" y2="13" stroke="#06b6d4" stroke-width="0.5" opacity="0.48"/>
+                    <line x1="20" y1="13" x2="13" y2="13" stroke="#06b6d4" stroke-width="0.5" opacity="0.48"/>
+                    <line x1="13" y1="20" x2="13" y2="13" stroke="#06b6d4" stroke-width="0.5" opacity="0.48"/>
+                    <line x1="6" y1="13" x2="13" y2="13" stroke="#06b6d4" stroke-width="0.5" opacity="0.48"/>
+                    <circle cx="13" cy="13" r="0.9" fill="#06b6d4" opacity="0.8"/>
+                    <circle cx="13" cy="6" r="0.65" fill="#06b6d4" opacity="0.7"/>
+                    <circle cx="20" cy="13" r="0.65" fill="#06b6d4" opacity="0.7"/>
+                    <circle cx="13" cy="20" r="0.65" fill="#06b6d4" opacity="0.7"/>
+                    <circle cx="6" cy="13" r="0.65" fill="#06b6d4" opacity="0.7"/>
+                  </svg>
+                </div>
+                <!-- RIGHT — purple -->
+                <div class="nova-cube-face face-right">
+                  <svg viewBox="0 0 26 26" fill="none" width="26" height="26">
+                    <line x1="1" y1="1" x2="25" y2="25" stroke="#a855f7" stroke-width="0.45" opacity="0.28"/>
+                    <line x1="25" y1="1" x2="1" y2="25" stroke="#a855f7" stroke-width="0.45" opacity="0.28"/>
+                    <line x1="13" y1="1" x2="13" y2="25" stroke="#a855f7" stroke-width="0.4" opacity="0.22"/>
+                    <line x1="1" y1="13" x2="25" y2="13" stroke="#a855f7" stroke-width="0.4" opacity="0.22"/>
+                    <line x1="1" y1="1" x2="13" y2="6" stroke="#a855f7" stroke-width="0.65" opacity="0.7"/>
+                    <line x1="25" y1="1" x2="13" y2="6" stroke="#a855f7" stroke-width="0.65" opacity="0.7"/>
+                    <line x1="25" y1="1" x2="20" y2="13" stroke="#a855f7" stroke-width="0.65" opacity="0.7"/>
+                    <line x1="25" y1="25" x2="20" y2="13" stroke="#a855f7" stroke-width="0.65" opacity="0.7"/>
+                    <line x1="25" y1="25" x2="13" y2="20" stroke="#a855f7" stroke-width="0.65" opacity="0.7"/>
+                    <line x1="1" y1="25" x2="13" y2="20" stroke="#a855f7" stroke-width="0.65" opacity="0.7"/>
+                    <line x1="1" y1="25" x2="6" y2="13" stroke="#a855f7" stroke-width="0.65" opacity="0.7"/>
+                    <line x1="1" y1="1" x2="6" y2="13" stroke="#a855f7" stroke-width="0.65" opacity="0.7"/>
+                    <polygon points="13,6 20,13 13,20 6,13" stroke="#a855f7" stroke-width="0.75" fill="none" opacity="0.8"/>
+                    <line x1="13" y1="6" x2="13" y2="13" stroke="#a855f7" stroke-width="0.5" opacity="0.48"/>
+                    <line x1="20" y1="13" x2="13" y2="13" stroke="#a855f7" stroke-width="0.5" opacity="0.48"/>
+                    <line x1="13" y1="20" x2="13" y2="13" stroke="#a855f7" stroke-width="0.5" opacity="0.48"/>
+                    <line x1="6" y1="13" x2="13" y2="13" stroke="#a855f7" stroke-width="0.5" opacity="0.48"/>
+                    <circle cx="13" cy="13" r="0.9" fill="#a855f7" opacity="0.8"/>
+                    <circle cx="13" cy="6" r="0.65" fill="#a855f7" opacity="0.7"/>
+                    <circle cx="20" cy="13" r="0.65" fill="#a855f7" opacity="0.7"/>
+                    <circle cx="13" cy="20" r="0.65" fill="#a855f7" opacity="0.7"/>
+                    <circle cx="6" cy="13" r="0.65" fill="#a855f7" opacity="0.7"/>
+                  </svg>
+                </div>
+                <!-- TOP — amber -->
+                <div class="nova-cube-face face-top">
+                  <svg viewBox="0 0 26 26" fill="none" width="26" height="26">
+                    <line x1="1" y1="1" x2="25" y2="25" stroke="#f59e0b" stroke-width="0.45" opacity="0.28"/>
+                    <line x1="25" y1="1" x2="1" y2="25" stroke="#f59e0b" stroke-width="0.45" opacity="0.28"/>
+                    <line x1="13" y1="1" x2="13" y2="25" stroke="#f59e0b" stroke-width="0.4" opacity="0.22"/>
+                    <line x1="1" y1="13" x2="25" y2="13" stroke="#f59e0b" stroke-width="0.4" opacity="0.22"/>
+                    <line x1="1" y1="1" x2="13" y2="6" stroke="#f59e0b" stroke-width="0.65" opacity="0.7"/>
+                    <line x1="25" y1="1" x2="13" y2="6" stroke="#f59e0b" stroke-width="0.65" opacity="0.7"/>
+                    <line x1="25" y1="1" x2="20" y2="13" stroke="#f59e0b" stroke-width="0.65" opacity="0.7"/>
+                    <line x1="25" y1="25" x2="20" y2="13" stroke="#f59e0b" stroke-width="0.65" opacity="0.7"/>
+                    <line x1="25" y1="25" x2="13" y2="20" stroke="#f59e0b" stroke-width="0.65" opacity="0.7"/>
+                    <line x1="1" y1="25" x2="13" y2="20" stroke="#f59e0b" stroke-width="0.65" opacity="0.7"/>
+                    <line x1="1" y1="25" x2="6" y2="13" stroke="#f59e0b" stroke-width="0.65" opacity="0.7"/>
+                    <line x1="1" y1="1" x2="6" y2="13" stroke="#f59e0b" stroke-width="0.65" opacity="0.7"/>
+                    <polygon points="13,6 20,13 13,20 6,13" stroke="#f59e0b" stroke-width="0.75" fill="none" opacity="0.8"/>
+                    <line x1="13" y1="6" x2="13" y2="13" stroke="#f59e0b" stroke-width="0.5" opacity="0.48"/>
+                    <line x1="20" y1="13" x2="13" y2="13" stroke="#f59e0b" stroke-width="0.5" opacity="0.48"/>
+                    <line x1="13" y1="20" x2="13" y2="13" stroke="#f59e0b" stroke-width="0.5" opacity="0.48"/>
+                    <line x1="6" y1="13" x2="13" y2="13" stroke="#f59e0b" stroke-width="0.5" opacity="0.48"/>
+                    <circle cx="13" cy="13" r="0.9" fill="#f59e0b" opacity="0.8"/>
+                    <circle cx="13" cy="6" r="0.65" fill="#f59e0b" opacity="0.7"/>
+                    <circle cx="20" cy="13" r="0.65" fill="#f59e0b" opacity="0.7"/>
+                    <circle cx="13" cy="20" r="0.65" fill="#f59e0b" opacity="0.7"/>
+                    <circle cx="6" cy="13" r="0.65" fill="#f59e0b" opacity="0.7"/>
+                  </svg>
+                </div>
+                <!-- BOTTOM — red -->
+                <div class="nova-cube-face face-bottom">
+                  <svg viewBox="0 0 26 26" fill="none" width="26" height="26">
+                    <line x1="1" y1="1" x2="25" y2="25" stroke="#ef4444" stroke-width="0.45" opacity="0.28"/>
+                    <line x1="25" y1="1" x2="1" y2="25" stroke="#ef4444" stroke-width="0.45" opacity="0.28"/>
+                    <line x1="13" y1="1" x2="13" y2="25" stroke="#ef4444" stroke-width="0.4" opacity="0.22"/>
+                    <line x1="1" y1="13" x2="25" y2="13" stroke="#ef4444" stroke-width="0.4" opacity="0.22"/>
+                    <line x1="1" y1="1" x2="13" y2="6" stroke="#ef4444" stroke-width="0.65" opacity="0.7"/>
+                    <line x1="25" y1="1" x2="13" y2="6" stroke="#ef4444" stroke-width="0.65" opacity="0.7"/>
+                    <line x1="25" y1="1" x2="20" y2="13" stroke="#ef4444" stroke-width="0.65" opacity="0.7"/>
+                    <line x1="25" y1="25" x2="20" y2="13" stroke="#ef4444" stroke-width="0.65" opacity="0.7"/>
+                    <line x1="25" y1="25" x2="13" y2="20" stroke="#ef4444" stroke-width="0.65" opacity="0.7"/>
+                    <line x1="1" y1="25" x2="13" y2="20" stroke="#ef4444" stroke-width="0.65" opacity="0.7"/>
+                    <line x1="1" y1="25" x2="6" y2="13" stroke="#ef4444" stroke-width="0.65" opacity="0.7"/>
+                    <line x1="1" y1="1" x2="6" y2="13" stroke="#ef4444" stroke-width="0.65" opacity="0.7"/>
+                    <polygon points="13,6 20,13 13,20 6,13" stroke="#ef4444" stroke-width="0.75" fill="none" opacity="0.8"/>
+                    <line x1="13" y1="6" x2="13" y2="13" stroke="#ef4444" stroke-width="0.5" opacity="0.48"/>
+                    <line x1="20" y1="13" x2="13" y2="13" stroke="#ef4444" stroke-width="0.5" opacity="0.48"/>
+                    <line x1="13" y1="20" x2="13" y2="13" stroke="#ef4444" stroke-width="0.5" opacity="0.48"/>
+                    <line x1="6" y1="13" x2="13" y2="13" stroke="#ef4444" stroke-width="0.5" opacity="0.48"/>
+                    <circle cx="13" cy="13" r="0.9" fill="#ef4444" opacity="0.8"/>
+                    <circle cx="13" cy="6" r="0.65" fill="#ef4444" opacity="0.7"/>
+                    <circle cx="20" cy="13" r="0.65" fill="#ef4444" opacity="0.7"/>
+                    <circle cx="13" cy="20" r="0.65" fill="#ef4444" opacity="0.7"/>
+                    <circle cx="6" cy="13" r="0.65" fill="#ef4444" opacity="0.7"/>
+                  </svg>
+                </div>
               </div>
             </div>
           </div>
