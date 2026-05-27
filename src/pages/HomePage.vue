@@ -1012,11 +1012,15 @@
     width:26px; height:26px;
     position:relative;
     transform-style:preserve-3d;
-    animation:nova-cube-spin 4.5s linear infinite;
+    animation:nova-cube-tumble 9s linear infinite;
   }
-  @keyframes nova-cube-spin {
-    0%   { transform: rotateX(22deg) rotateY(0deg); }
-    100% { transform: rotateX(22deg) rotateY(360deg); }
+  @keyframes nova-cube-tumble {
+    0%   { transform: rotateX(0deg)   rotateY(0deg)   rotateZ(0deg);   }
+    20%  { transform: rotateX(72deg)  rotateY(135deg) rotateZ(54deg);  }
+    40%  { transform: rotateX(144deg) rotateY(216deg) rotateZ(162deg); }
+    60%  { transform: rotateX(252deg) rotateY(324deg) rotateZ(108deg); }
+    80%  { transform: rotateX(288deg) rotateY(432deg) rotateZ(216deg); }
+    100% { transform: rotateX(360deg) rotateY(540deg) rotateZ(270deg); }
   }
   .nova-cube-face {
     position:absolute;
