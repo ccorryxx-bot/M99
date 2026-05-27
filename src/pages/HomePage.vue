@@ -528,7 +528,68 @@
         <div style="display:flex;justify-content:space-around;align-items:center;padding:8px 0 4px;">
           <router-link to="/home" style="text-decoration:none;" :class="['nova-nav-item',$route.path==='/home'?'nova-nav-active':'']"><svg width="24" height="24" fill="currentColor" viewBox="0 0 24 24"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/></svg><span>ပင်မ</span></router-link>
           <router-link to="/promotions" style="text-decoration:none;" :class="['nova-nav-item',$route.path==='/promotions'?'nova-nav-active':'']"><svg width="24" height="24" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 14.5v-9l6 4.5-6 4.5z"/></svg><span>ပရိုမို</span></router-link>
-          <router-link to="/agent" style="text-decoration:none;" :class="['nova-nav-item',$route.path==='/agent'?'nova-nav-active':'']"><svg width="24" height="24" fill="currentColor" viewBox="0 0 24 24"><path d="M16 11c1.66 0 2.99-1.34 2.99-3S17.66 5 16 5c-1.66 0-3 1.34-3 3s1.34 3 3 3zm-8 0c1.66 0 2.99-1.34 2.99-3S9.66 5 8 5C6.34 5 5 6.34 5 8s1.34 3 3 3zm0 2c-2.33 0-7 1.17-7 3.5V19h14v-2.5c0-2.33-4.67-3.5-7-3.5zm8 0c-.29 0-.62.02-.97.05 1.16.84 1.97 1.97 1.97 3.45V19h6v-2.5c0-2.33-4.67-3.5-7-3.5z"/></svg><span>အေးဂျင့်</span></router-link>
+          <router-link to="/agent" style="text-decoration:none;" :class="['nova-nav-item','nova-agent-btn',$route.path==='/agent'?'nova-nav-active':'']">
+            <div class="nova-brain-wrap">
+              <svg viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg" width="32" height="32">
+                <defs>
+                  <filter id="bglow" x="-40%" y="-40%" width="180%" height="180%">
+                    <feGaussianBlur stdDeviation="1.4" result="b"/>
+                    <feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
+                  </filter>
+                  <filter id="dglow" x="-80%" y="-80%" width="260%" height="260%">
+                    <feGaussianBlur stdDeviation="2.8" result="b"/>
+                    <feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
+                  </filter>
+                </defs>
+                <!-- pulse halo ring -->
+                <circle cx="24" cy="24" r="22" stroke="#06b6d4" stroke-width="0.7" fill="none" class="nova-brain-halo"/>
+                <!-- BRAIN — left hemisphere -->
+                <path d="M24 10 C20 10 15 11 12 14 C9 17 8 20 8 23 C8 27 10 31 13 34 C15 37 18 39 21 39 L24 39 L24 10Z"
+                      stroke="#06b6d4" stroke-width="1.5" fill="rgba(6,182,212,0.07)" filter="url(#bglow)"/>
+                <!-- BRAIN — right hemisphere -->
+                <path d="M24 10 C28 10 33 11 36 14 C39 17 40 20 40 23 C40 27 38 31 35 34 C33 37 30 39 27 39 L24 39 L24 10Z"
+                      stroke="#06b6d4" stroke-width="1.5" fill="rgba(6,182,212,0.07)" filter="url(#bglow)"/>
+                <!-- center divider -->
+                <line x1="24" y1="10" x2="24" y2="39" stroke="#06b6d4" stroke-width="0.7" opacity="0.45"/>
+                <!-- LEFT gyri folds -->
+                <path d="M13 16 C16 13 20 13 22 16" stroke="#06b6d4" stroke-width="0.95" stroke-linecap="round" fill="none" opacity="0.8"/>
+                <path d="M10 22 C12 19 17 18 20 20" stroke="#06b6d4" stroke-width="0.95" stroke-linecap="round" fill="none" opacity="0.78"/>
+                <path d="M9 28 C11 25 16 24 19 26"  stroke="#06b6d4" stroke-width="0.95" stroke-linecap="round" fill="none" opacity="0.78"/>
+                <path d="M11 34 C13 31 17 30 20 32" stroke="#06b6d4" stroke-width="0.9"  stroke-linecap="round" fill="none" opacity="0.72"/>
+                <path d="M16 38 C18 36 21 36 22 37" stroke="#06b6d4" stroke-width="0.8"  stroke-linecap="round" fill="none" opacity="0.6"/>
+                <!-- RIGHT gyri folds (mirror) -->
+                <path d="M35 16 C32 13 28 13 26 16" stroke="#06b6d4" stroke-width="0.95" stroke-linecap="round" fill="none" opacity="0.8"/>
+                <path d="M38 22 C36 19 31 18 28 20" stroke="#06b6d4" stroke-width="0.95" stroke-linecap="round" fill="none" opacity="0.78"/>
+                <path d="M39 28 C37 25 32 24 29 26" stroke="#06b6d4" stroke-width="0.95" stroke-linecap="round" fill="none" opacity="0.78"/>
+                <path d="M37 34 C35 31 31 30 28 32" stroke="#06b6d4" stroke-width="0.9"  stroke-linecap="round" fill="none" opacity="0.72"/>
+                <path d="M32 38 C30 36 27 36 26 37" stroke="#06b6d4" stroke-width="0.8"  stroke-linecap="round" fill="none" opacity="0.6"/>
+                <!-- ORBIT ring 1 — horizontal, green, flows right -->
+                <ellipse cx="24" cy="24" rx="22" ry="7.5"
+                         stroke="#22c55e" stroke-width="1.7" fill="none"
+                         stroke-dasharray="75 6"
+                         class="nova-orbit1" filter="url(#bglow)"/>
+                <!-- ORBIT ring 2 — 60° tilt, cyan, flows left -->
+                <ellipse cx="24" cy="24" rx="22" ry="7.5"
+                         stroke="#06b6d4" stroke-width="1.7" fill="none"
+                         transform="rotate(60 24 24)"
+                         stroke-dasharray="75 6"
+                         class="nova-orbit2" filter="url(#bglow)"/>
+                <!-- ring 1 endpoint dots (left & right) -->
+                <circle cx="46" cy="24" r="3" fill="#22c55e" filter="url(#dglow)" class="nova-odot-g"/>
+                <circle cx="2"  cy="24" r="3" fill="#22c55e" filter="url(#dglow)" class="nova-odot-g"/>
+                <!-- ring 2 endpoint dots (60° rotation of ±22,0 around 24,24) → (35,43) & (13,5) -->
+                <circle cx="35" cy="43" r="3" fill="#06b6d4" filter="url(#dglow)" class="nova-odot-c"/>
+                <circle cx="13" cy="5"  r="3" fill="#06b6d4" filter="url(#dglow)" class="nova-odot-c"/>
+                <!-- energy beams from ring 1 tips -->
+                <line x1="46" y1="24" x2="48" y2="24" stroke="#22c55e" stroke-width="3" stroke-linecap="round" class="nova-beam-g" filter="url(#dglow)"/>
+                <line x1="2"  y1="24" x2="0"  y2="24" stroke="#22c55e" stroke-width="3" stroke-linecap="round" class="nova-beam-g" filter="url(#dglow)"/>
+                <!-- energy beams from ring 2 tips -->
+                <line x1="13" y1="5"  x2="11" y2="3"  stroke="#06b6d4" stroke-width="3" stroke-linecap="round" class="nova-beam-c" filter="url(#dglow)"/>
+                <line x1="35" y1="43" x2="37" y2="45" stroke="#06b6d4" stroke-width="3" stroke-linecap="round" class="nova-beam-c" filter="url(#dglow)"/>
+              </svg>
+            </div>
+            <span>အေးဂျင့်</span>
+          </router-link>
           <router-link to="/service" style="text-decoration:none;" :class="['nova-nav-item',$route.path==='/service'?'nova-nav-active':'']"><svg width="24" height="24" fill="currentColor" viewBox="0 0 24 24"><path d="M20 2H4c-1.1 0-2 .9-2 2v18l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2z"/></svg><span>ဆက်သွယ်</span></router-link>
           <router-link to="/account" style="text-decoration:none;" :class="['nova-nav-item',$route.path==='/account'?'nova-nav-active':'']"><svg width="24" height="24" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 3c1.66 0 3 1.34 3 3s-1.34 3-3 3-3-1.34-3-3 1.34-3 3-3zm0 14.2c-2.5 0-4.71-1.28-6-3.22.03-1.99 4-3.08 6-3.08 1.99 0 5.97 1.09 6 3.08-1.29 1.94-3.5 3.22-6 3.22z"/></svg><span>အကောင့်</span></router-link>
         </div>
@@ -1423,4 +1484,67 @@
   @keyframes logo-pulse { 0%,100%{box-shadow:0 0 18px rgba(34,197,94,0.45);}50%{box-shadow:0 0 28px rgba(34,197,94,0.7), 0 0 48px rgba(34,197,94,0.2);} }
   /* Marquee bar color accent */
   .nova-marquee-bar { background:rgba(7,12,26,0.92) !important; border-top:1px solid rgba(34,197,94,0.1) !important; border-bottom:1px solid rgba(34,197,94,0.1) !important; }
+
+  /* ══ AI BRAIN AGENT BUTTON ══ */
+  .nova-agent-btn { padding:4px 4px 2px; }
+  .nova-brain-wrap { display:flex; align-items:center; justify-content:center; position:relative; }
+
+  /* Orbit ring 1 — green, dashoffset flows clockwise */
+  .nova-orbit1 { animation: orbit-flow1 3s linear infinite; }
+  @keyframes orbit-flow1 {
+    0%   { stroke-dashoffset: 0;   opacity: 0.9; }
+    50%  { opacity: 1; }
+    100% { stroke-dashoffset: -81; opacity: 0.9; }
+  }
+  /* Orbit ring 2 — cyan, dashoffset flows counter-clockwise, slower */
+  .nova-orbit2 { animation: orbit-flow2 4.5s linear infinite; }
+  @keyframes orbit-flow2 {
+    0%   { stroke-dashoffset: 81; opacity: 0.85; }
+    50%  { opacity: 1; }
+    100% { stroke-dashoffset: 0;  opacity: 0.85; }
+  }
+  /* Halo pulse ring */
+  .nova-brain-halo {
+    transform-origin: 24px 24px;
+    animation: brain-halo 3s ease-in-out infinite;
+  }
+  @keyframes brain-halo {
+    0%, 100% { opacity: 0.12; transform: scale(1); }
+    50%       { opacity: 0.5;  transform: scale(1.08); }
+  }
+  /* Green endpoint dots (ring 1) */
+  .nova-odot-g {
+    transform-box: fill-box;
+    transform-origin: center;
+    animation: odot-pulse-g 2s ease-in-out infinite;
+  }
+  @keyframes odot-pulse-g {
+    0%, 100% { opacity: 1;   transform: scale(1); }
+    50%       { opacity: 0.3; transform: scale(0.55); }
+  }
+  /* Cyan endpoint dots (ring 2) — offset timing */
+  .nova-odot-c {
+    transform-box: fill-box;
+    transform-origin: center;
+    animation: odot-pulse-c 2s ease-in-out infinite 1s;
+  }
+  @keyframes odot-pulse-c {
+    0%, 100% { opacity: 1;   transform: scale(1); }
+    50%       { opacity: 0.3; transform: scale(0.55); }
+  }
+  /* Energy beam flash — green (ring 1 tips) */
+  .nova-beam-g { animation: beam-flash-g 2.5s ease-in-out infinite; }
+  @keyframes beam-flash-g {
+    0%, 30%, 100% { opacity: 0.15; }
+    45%, 55%      { opacity: 1; }
+  }
+  /* Energy beam flash — cyan (ring 2 tips), offset */
+  .nova-beam-c { animation: beam-flash-c 2.5s ease-in-out infinite 1.25s; }
+  @keyframes beam-flash-c {
+    0%, 30%, 100% { opacity: 0.15; }
+    45%, 55%      { opacity: 1; }
+  }
+  /* Active state — whole brain glows green */
+  .nova-nav-active .nova-orbit1 { stroke: #4ade80; }
+  .nova-nav-active .nova-brain-halo { stroke: #22c55e; }
 </style>
