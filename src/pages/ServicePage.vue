@@ -1,6 +1,9 @@
 <template>
-  <div class="min-h-screen bg-[#0b141a] text-gray-200 pb-20">
-    <header class="sticky top-0 z-30 bg-[#0b141a]/80 backdrop-blur-lg border-b border-cyan-500/10 px-4 py-2">
+  <div class="nova-page-bg min-h-screen text-gray-200 pb-20 relative overflow-hidden">
+    <div class="nova-bg-orb nova-bg-orb--1"></div>
+    <div class="nova-bg-orb nova-bg-orb--2"></div>
+    <div class="nova-bg-orb nova-bg-orb--3"></div>
+    <header class="sticky top-0 z-30 bg-transparent backdrop-blur-sm border-b border-white/5 px-4 py-2">
       <h2 class="text-lg font-bold text-center text-cyan-300">Customer Service</h2>
     </header>
 
@@ -83,3 +86,14 @@ const viberLink = 'viber://chat?number=+959123456789'
 const openChat = (url) => window.open(url, '_blank')
 const comingSoon = () => alert('Coming Soon')
 </script>
+
+<style scoped>
+.nova-page-bg { background: linear-gradient(160deg,#08102a 0%,#0d1a36 20%,#0c1828 40%,#091420 60%,#07101a 80%,#050c14 100%); min-height:100vh; color:#fff; overscroll-behavior:contain; -webkit-tap-highlight-color:rgba(0,0,0,0); }
+.nova-bg-orb { position:fixed; border-radius:50%; pointer-events:none; z-index:0; }
+.nova-bg-orb--1 { width:300px; height:300px; top:-80px; left:-80px; background:radial-gradient(circle,rgba(34,197,94,0.13) 0%,rgba(34,197,94,0.04) 50%,transparent 70%); animation:orb-drift1 12s ease-in-out infinite; }
+.nova-bg-orb--2 { width:340px; height:340px; top:38%; right:-110px; background:radial-gradient(circle,rgba(99,102,241,0.12) 0%,rgba(56,189,248,0.06) 45%,transparent 70%); animation:orb-drift2 16s ease-in-out infinite; }
+.nova-bg-orb--3 { width:240px; height:240px; bottom:70px; left:-20px; background:radial-gradient(circle,rgba(168,85,247,0.1) 0%,rgba(236,72,153,0.05) 50%,transparent 70%); animation:orb-drift3 14s ease-in-out infinite; }
+@keyframes orb-drift1 { 0%,100%{transform:translate(0,0) scale(1);}50%{transform:translate(12px,-18px) scale(1.08);} }
+@keyframes orb-drift2 { 0%,100%{transform:translate(0,0) scale(1);}50%{transform:translate(-14px,16px) scale(1.06);} }
+@keyframes orb-drift3 { 0%,100%{transform:translate(0,0) scale(1);}50%{transform:translate(10px,-12px) scale(1.1);} }
+</style>
