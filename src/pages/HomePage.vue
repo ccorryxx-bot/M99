@@ -152,7 +152,7 @@
       </div>
       <div v-if="isLoggedIn" style="padding:10px 14px;display:flex;align-items:center;justify-content:space-between;">
         <div style="display:flex;align-items:center;gap:10px;">
-          <NftAvatar :username="username" :size="46" />
+          <NftAvatar :username="username" :size="38" />
           <div>
             <div style="font-size:11px;font-weight:700;color:#4ade80;margin-bottom:3px;letter-spacing:0.04em;text-shadow:0 0 8px rgba(74,222,128,0.6);">{{ username }}</div>
             <div style="display:flex;align-items:center;gap:6px;">
