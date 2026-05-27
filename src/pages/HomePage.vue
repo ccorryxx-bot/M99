@@ -20,13 +20,13 @@
       </div>
     </Teleport>
 
-    <div class="flex-1">
+    <div class="flex-1" @click.capture="handleGlobalClick">
       <!-- ══ CINEMATIC TOP HEADER ══ -->
       <div class="px-4 pt-4 pb-0 relative z-10">
         <div class="flex items-start justify-between gap-2">
 
           <!-- LEFT: Giant cinematic label block -->
-          <div class="flex-1">
+          <div class="flex-1 auth-allow">
             <!-- "WELCOME TO" ambient label -->
             <p class="text-[9px] font-bold uppercase tracking-[0.35em] leading-none mb-0.5"
                style="color:rgba(0,229,255,0.55); text-shadow: 0 0 12px rgba(0,229,255,0.4);">
@@ -77,9 +77,9 @@
             </div>
             <template v-if="!isLoggedIn">
               <button @click="showAuthModal = true; authTab = 'login'"
-                class="bg-gradient-to-r from-cyan-500 to-teal-600 text-white text-[11px] font-bold px-4 py-1.5 rounded-full shadow-lg active:scale-95 transition-all"
-                style="box-shadow:0 0 14px rgba(0,229,255,0.3);">
-                Login
+                class="auth-allow text-white font-black active:scale-95 transition-all"
+                style="font-size:15px;padding:10px 22px;border-radius:14px;background:linear-gradient(135deg,#00c6e0,#0077a0);box-shadow:0 0 20px rgba(0,198,224,0.5),0 4px 12px rgba(0,0,0,0.4),inset 0 1px 0 rgba(255,255,255,0.2);border:1px solid rgba(0,229,255,0.4);letter-spacing:0.05em;">
+                ဝင်ရောက်မည်
               </button>
             </template>
           </div>
@@ -385,21 +385,21 @@
                   :style="authTab === 'login'
                     ? 'background: rgba(255,255,255,0.09); color: rgba(255,255,255,0.88); border: 1px solid rgba(255,255,255,0.10); box-shadow: 0 2px 12px rgba(0,0,0,0.3);'
                     : 'color: rgba(255,255,255,0.28); border: 1px solid transparent;'">
-                  LOGIN
+                  ဝင်ရောက်မည်
                 </button>
                 <button @click="authTab = 'register'"
                   class="flex-1 py-2 rounded-full text-[11px] font-semibold tracking-[0.1em] transition-all duration-400"
                   :style="authTab === 'register'
                     ? 'background: rgba(255,255,255,0.09); color: rgba(255,255,255,0.88); border: 1px solid rgba(255,255,255,0.10); box-shadow: 0 2px 12px rgba(0,0,0,0.3);'
                     : 'color: rgba(255,255,255,0.28); border: 1px solid transparent;'">
-                  REGISTER
+                  အကောင့်ဖွင့်မည်
                 </button>
               </div>
 
               <!-- ── LOGIN FORM ── -->
               <div v-if="authTab === 'login'" class="space-y-3">
                 <div>
-                  <label class="block text-[10px] font-semibold mb-1.5 tracking-[0.08em]" style="color: rgba(255,255,255,0.38);">USERNAME</label>
+                  <label class="block text-[10px] font-semibold mb-1.5 tracking-[0.08em]" style="color: rgba(255,255,255,0.38);">အသုံးပြုသူ အမည်</label>
                   <div class="relative">
                     <svg class="absolute left-3.5 top-1/2 -translate-y-1/2 w-3.5 h-3.5" style="color: rgba(255,255,255,0.22);" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/></svg>
                     <input v-model="loginUsername" type="text"
@@ -414,7 +414,7 @@
                 </div>
 
                 <div>
-                  <label class="block text-[10px] font-semibold mb-1.5 tracking-[0.08em]" style="color: rgba(255,255,255,0.38);">PASSWORD</label>
+                  <label class="block text-[10px] font-semibold mb-1.5 tracking-[0.08em]" style="color: rgba(255,255,255,0.38);">စကားဝှက်</label>
                   <div class="relative">
                     <svg class="absolute left-3.5 top-1/2 -translate-y-1/2 w-3.5 h-3.5" style="color: rgba(255,255,255,0.22);" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"/></svg>
                     <input v-model="loginPassword" :type="loginShowPassword ? 'text' : 'password'"
@@ -441,9 +441,9 @@
                     onmouseout="this.style.background='rgba(255,255,255,0.08)'; this.style.borderColor='rgba(255,255,255,0.12)';">
                     <span v-if="loginLoading" class="flex items-center justify-center gap-2">
                       <svg class="animate-spin h-4 w-4" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4" fill="none"/><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z"/></svg>
-                      Signing In...
+                      ဝင်ရောက်နေသည်...
                     </span>
-                    <span v-else>Sign In</span>
+                    <span v-else>ဝင်ရောက်မည်</span>
                   </button>
                 </div>
 
@@ -453,7 +453,7 @@
               <!-- ── REGISTER FORM ── -->
               <div v-else class="space-y-3">
                 <div>
-                  <label class="block text-[10px] font-semibold mb-1.5 tracking-[0.08em]" style="color: rgba(255,255,255,0.38);">USERNAME</label>
+                  <label class="block text-[10px] font-semibold mb-1.5 tracking-[0.08em]" style="color: rgba(255,255,255,0.38);">အသုံးပြုသူ အမည်</label>
                   <div class="relative">
                     <svg class="absolute left-3.5 top-1/2 -translate-y-1/2 w-3.5 h-3.5" style="color: rgba(255,255,255,0.22);" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/></svg>
                     <input v-model="regUsername" type="text"
@@ -467,7 +467,7 @@
                 </div>
 
                 <div>
-                  <label class="block text-[10px] font-semibold mb-1.5 tracking-[0.08em]" style="color: rgba(255,255,255,0.38);">PASSWORD</label>
+                  <label class="block text-[10px] font-semibold mb-1.5 tracking-[0.08em]" style="color: rgba(255,255,255,0.38);">စကားဝှက်</label>
                   <div class="relative">
                     <svg class="absolute left-3.5 top-1/2 -translate-y-1/2 w-3.5 h-3.5" style="color: rgba(255,255,255,0.22);" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"/></svg>
                     <input v-model="regPassword" :type="regShowPassword ? 'text' : 'password'"
@@ -491,7 +491,7 @@
                 </div>
 
                 <div>
-                  <label class="block text-[10px] font-semibold mb-1.5 tracking-[0.08em]" style="color: rgba(255,255,255,0.38);">PHONE NUMBER</label>
+                  <label class="block text-[10px] font-semibold mb-1.5 tracking-[0.08em]" style="color: rgba(255,255,255,0.38);">ဖုန်းနံပါတ်</label>
                   <div class="flex items-center rounded-xl transition-all duration-300"
                     style="background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.07);">
                     <span class="pl-3.5 pr-2 text-sm" style="color: rgba(255,255,255,0.55); border-right: 1px solid rgba(255,255,255,0.07);">🇲🇲 +95</span>
@@ -521,9 +521,9 @@
                     onmouseout="this.style.background='rgba(255,255,255,0.08)'; this.style.borderColor='rgba(255,255,255,0.12)';">
                     <span v-if="regLoading" class="flex items-center justify-center gap-2">
                       <svg class="animate-spin h-4 w-4" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4" fill="none"/><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z"/></svg>
-                      Creating Account...
+                      အကောင့်ဖွင့်နေသည်...
                     </span>
-                    <span v-else>Join NovaBETT</span>
+                    <span v-else>အကောင့်ဖွင့်မည်</span>
                   </button>
                 </div>
 
@@ -657,9 +657,11 @@ onMounted(async () => {
       if (saved) username.value = saved
     }
   }
+  // Always default to Myanmar — only keep saved if user explicitly chose
   const savedLang = localStorage.getItem('lang') || 'mm'
-  locale.value = savedLang; currentLang.value = savedLang
   if (!localStorage.getItem('lang')) localStorage.setItem('lang', 'mm')
+  locale.value = savedLang
+  currentLang.value = savedLang
   let storedAvatar = localStorage.getItem('avatarIndex')
   if (storedAvatar === null) {
     storedAvatar = Math.floor(Math.random() * avatarColors.length)
@@ -867,7 +869,18 @@ const filteredGames = computed(() => {
   if (searchQuery.value) { list = list.filter(g => g.name.toLowerCase().includes(searchQuery.value.toLowerCase())) }
   return list
 })
-const openGame = (game) => alert(`Opening ${game.name}`)
+const openGame = (game) => {
+  if (!isLoggedIn.value) { showAuthModal.value = true; authTab.value = 'login'; return }
+  alert(`Opening ${game.name}`)
+}
+
+function handleGlobalClick(e) {
+  if (isLoggedIn.value) return
+  if (e.target.closest('.auth-allow') || e.target.closest('.auth-modal-wrapper')) return
+  e.stopPropagation()
+  showAuthModal.value = true
+  authTab.value = 'login'
+}
 
 // Deposit / Withdraw (Real Edge Function Calls)
 const showDepositModal = ref(false)
