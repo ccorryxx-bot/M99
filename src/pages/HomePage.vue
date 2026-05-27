@@ -20,7 +20,7 @@
       </div>
     </Teleport>
 
-    <div class="flex-1" @click.capture="handleGlobalClick">
+    <div class="flex-1">
       <!-- ══ CINEMATIC TOP HEADER ══ -->
       <div class="px-4 pt-4 pb-0 relative z-10">
         <div class="flex items-start justify-between gap-2">
@@ -155,7 +155,7 @@
         <!-- ── LEFT: 3D Vertical Category Sidebar ── -->
         <div class="flex flex-col gap-2 w-[68px] flex-shrink-0 mr-2">
           <button v-for="cat in categories" :key="cat.name" @click="activeCategory = cat.name"
-            class="relative flex flex-col items-center gap-1.5 py-3 px-1 rounded-2xl transition-all duration-200 active:scale-[0.91] w-full overflow-hidden"
+            class="relative flex flex-col items-center gap-1.5 py-3 px-1 rounded-2xl transition-colors duration-150 active:scale-[0.91] w-full overflow-hidden"
             :style="activeCategory === cat.name
               ? 'background:linear-gradient(160deg,rgba(0,229,255,0.14),rgba(0,180,210,0.06));border:1px solid rgba(0,229,255,0.45);box-shadow:0 0 18px rgba(0,229,255,0.18),0 4px 12px rgba(0,0,0,0.5),inset 0 1px 0 rgba(255,255,255,0.12);'
               : 'background:linear-gradient(160deg,rgba(255,255,255,0.045),rgba(255,255,255,0.02));border:1px solid rgba(255,255,255,0.07);box-shadow:0 2px 8px rgba(0,0,0,0.4),inset 0 1px 0 rgba(255,255,255,0.06);'">
@@ -225,14 +225,14 @@
 
             <!-- Game Cards -->
             <div v-else v-for="(game, idx) in filteredGames" :key="game.id" @click="openGame(game)"
-              class="group relative rounded-2xl overflow-hidden cursor-pointer active:scale-[0.94] transition-all duration-200"
+              class="group relative rounded-2xl overflow-hidden cursor-pointer active:scale-[0.94] transition-transform duration-150"
               style="background:linear-gradient(155deg,#0d1d2c,#081320);border:1px solid rgba(255,255,255,0.08);box-shadow:0 4px 12px rgba(0,0,0,0.45),inset 0 1px 0 rgba(255,255,255,0.06);"
               onmouseover="this.style.borderColor='rgba(0,229,255,0.35)';this.style.boxShadow='0 6px 20px rgba(0,229,255,0.1),0 2px 8px rgba(0,0,0,0.5),inset 0 1px 0 rgba(255,255,255,0.08)'"
               onmouseout="this.style.borderColor='rgba(255,255,255,0.08)';this.style.boxShadow='0 4px 12px rgba(0,0,0,0.45),inset 0 1px 0 rgba(255,255,255,0.06)'">
 
               <!-- Image -->
               <div class="relative w-full aspect-square overflow-hidden">
-                <img :src="game.image_url" class="w-full h-full object-cover transition-transform duration-300 group-active:scale-110" alt="" />
+                <img :src="game.image_url" class="w-full h-full object-cover" alt="" />
                 <!-- Dark gradient overlay bottom -->
                 <div class="absolute inset-0"
                      style="background:linear-gradient(to top,rgba(6,12,20,0.85) 0%,rgba(6,12,20,0.1) 45%,transparent 100%);"></div>
@@ -256,7 +256,7 @@
 
                 <!-- Provider tag -->
                 <div class="absolute top-1.5 left-1.5 px-1.5 py-0.5 rounded-full text-[7px] font-bold"
-                     style="background:rgba(0,0,0,0.6);backdrop-filter:blur(8px);color:rgba(255,255,255,0.55);border:0.5px solid rgba(255,255,255,0.1);">
+                     style="background:rgba(0,0,0,0.75);color:rgba(255,255,255,0.55);border:0.5px solid rgba(255,255,255,0.1);">
                   {{ game.provider }}
                 </div>
               </div>
@@ -311,7 +311,7 @@
     </div>
 
     <!-- Bottom Navigation -->
-    <nav class="fixed bottom-0 left-0 right-0 backdrop-blur-xl border-t border-cyan-500/10 z-50 pointer-events-auto safe-area-bottom" style="background:rgba(6,9,24,0.96)">
+    <nav class="fixed bottom-0 left-0 right-0 border-t border-cyan-500/10 z-50 pointer-events-auto safe-area-bottom" style="background:#060918">
       <div class="flex justify-around items-center py-2 px-1">
         <router-link to="/home" class="flex flex-col items-center gap-1 px-4 py-1 rounded-xl transition-all duration-200" :class="$route.path === '/home' ? 'text-cyan-400' : 'text-gray-500 hover:text-gray-300'">
           <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/></svg>
@@ -874,13 +874,6 @@ const openGame = (game) => {
   alert(`Opening ${game.name}`)
 }
 
-function handleGlobalClick(e) {
-  if (isLoggedIn.value) return
-  if (e.target.closest('.auth-allow') || e.target.closest('.auth-modal-wrapper')) return
-  e.stopPropagation()
-  showAuthModal.value = true
-  authTab.value = 'login'
-}
 
 // Deposit / Withdraw (Real Edge Function Calls)
 const showDepositModal = ref(false)
