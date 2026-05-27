@@ -716,7 +716,11 @@
 
   <style scoped>
   /* ── BASE ── */
-  .nova-app { background:#0a0a0a; min-height:100vh; color:#fff; -webkit-tap-highlight-color:rgba(0,0,0,0); }
+  .nova-app { background: linear-gradient(160deg,#0b1120 0%,#0d1528 35%,#0a1018 65%,#060c14 100%); min-height:100vh; color:#fff; -webkit-tap-highlight-color:rgba(0,0,0,0); -webkit-overflow-scrolling:touch; scroll-behavior:smooth; }
+.nova-bg-orb { position:fixed; border-radius:50%; pointer-events:none; z-index:0; }
+.nova-bg-orb--1 { width:260px; height:260px; top:-60px; left:-80px; background:radial-gradient(circle,rgba(34,197,94,0.07) 0%,transparent 70%); }
+.nova-bg-orb--2 { width:300px; height:300px; top:40%; right:-100px; background:radial-gradient(circle,rgba(56,189,248,0.05) 0%,transparent 70%); }
+.nova-bg-orb--3 { width:200px; height:200px; bottom:80px; left:20px; background:radial-gradient(circle,rgba(168,85,247,0.05) 0%,transparent 70%); }
 
   /* ══ CINEMATIC GLOW BRAND ══ */
   .nova-brand-wrap { display:flex; flex-direction:column; gap:1px; }
@@ -738,11 +742,7 @@
   }
 
   /* ── HEADER ── */
-  .nova-header {
-    position:sticky; top:0; z-index:100;
-    background:rgba(10,10,10,0.96); backdrop-filter:blur(14px); -webkit-backdrop-filter:blur(14px);
-    border-bottom:1px solid rgba(255,255,255,0.06); padding:10px 16px; display:flex; align-items:center; justify-content:space-between;
-  }
+  .nova-header { position:sticky; top:0; z-index:100; background:rgba(6,10,22,0.92); backdrop-filter:blur(20px); -webkit-backdrop-filter:blur(20px); border-bottom:1px solid rgba(255,255,255,0.08); padding:10px 16px; display:flex; align-items:center; justify-content:space-between; box-shadow:0 2px 24px rgba(0,0,0,0.4); }
   .nova-logo {
     width:36px; height:36px; border-radius:10px; background:linear-gradient(135deg,#22c55e,#15803d);
     display:flex; align-items:center; justify-content:center; font-weight:900; font-size:16px; color:#fff; flex-shrink:0;
@@ -750,30 +750,18 @@
   }
 
   /* ── SEARCH ── */
-  .nova-search-bar { position:relative; padding:8px 16px; background:#0a0a0a; border-bottom:1px solid rgba(255,255,255,0.06); }
+  .nova-search-bar { position:relative; padding:8px 16px; background:rgba(6,10,22,0.85); backdrop-filter:blur(12px); -webkit-backdrop-filter:blur(12px); border-bottom:1px solid rgba(255,255,255,0.07); }
 
   /* ── MARQUEE ── */
   @keyframes nova-marquee { from{transform:translateX(100vw);}to{transform:translateX(-100%);} }
   .nova-marquee { display:inline-block; animation:nova-marquee 30s linear infinite; will-change:transform; white-space:nowrap; font-size:12px; color:rgba(255,255,255,0.58); }
 
   /* ── SIDEBAR — scrolls together with game grid ── */
-  .nova-sidebar {
-    width:72px; flex-shrink:0;
-    align-self:flex-start;
-    background:rgba(10,10,10,0.98); border-right:1px solid rgba(255,255,255,0.055); padding:6px 0;
-  }
+  .nova-sidebar { width:72px; flex-shrink:0; align-self:flex-start; background:rgba(8,14,28,0.82); backdrop-filter:blur(16px); -webkit-backdrop-filter:blur(16px); border-right:1px solid rgba(255,255,255,0.07); padding:6px 0; box-shadow:4px 0 20px rgba(0,0,0,0.3); }
   .nova-cat-btn { position:relative; width:100%; display:flex; flex-direction:column; align-items:center; gap:5px; padding:10px 4px; background:transparent; border:none; cursor:pointer; -webkit-tap-highlight-color:transparent; overflow:hidden; transition:background 0.2s; }
   .nova-cat-btn--active { background:rgba(34,197,94,0.06); }
   .nova-cat-glow { position:absolute; inset:0; width:100%; height:100%; pointer-events:none; z-index:0; }
-  .nova-cat-icon-wrap {
-    position:relative; z-index:1; width:40px; height:40px; border-radius:12px;
-    display:flex; align-items:center; justify-content:center;
-    background:linear-gradient(145deg,rgba(255,255,255,0.07) 0%,rgba(255,255,255,0.02) 50%,rgba(0,0,0,0.15) 100%);
-    border:1px solid rgba(255,255,255,0.1);
-    box-shadow: 0 2px 4px rgba(0,0,0,0.4), 0 4px 12px rgba(0,0,0,0.3), inset 0 1px 0 rgba(255,255,255,0.12), inset 0 -1px 0 rgba(0,0,0,0.2);
-    backdrop-filter:blur(6px); -webkit-backdrop-filter:blur(6px);
-    transform:perspective(120px) rotateX(4deg); transition:all 0.2s;
-  }
+  .nova-cat-icon-wrap { position:relative; z-index:1; width:40px; height:40px; border-radius:12px; display:flex; align-items:center; justify-content:center; background:linear-gradient(145deg,rgba(255,255,255,0.09) 0%,rgba(255,255,255,0.03) 50%,rgba(0,0,0,0.18) 100%); border:1px solid rgba(255,255,255,0.13); box-shadow: 0 2px 6px rgba(0,0,0,0.5), 0 6px 18px rgba(0,0,0,0.35), inset 0 1px 0 rgba(255,255,255,0.15), inset 0 -1px 0 rgba(0,0,0,0.25); backdrop-filter:blur(10px); -webkit-backdrop-filter:blur(10px); transform:perspective(120px) rotateX(4deg); transition:all 0.2s; }
   .nova-cat-btn--active .nova-cat-icon-wrap {
     background:linear-gradient(145deg,rgba(34,197,94,0.18) 0%,rgba(34,197,94,0.06) 50%,rgba(0,0,0,0.1) 100%);
     border-color:rgba(34,197,94,0.35);
@@ -786,7 +774,8 @@
   .nova-cat-active-bar { position:absolute; left:0; top:20%; bottom:20%; width:3px; border-radius:0 2px 2px 0; background:linear-gradient(to bottom,#4ade80,#22c55e); box-shadow:0 0 8px rgba(34,197,94,0.6); }
 
   /* ── GAME CARDS ── */
-  .nova-game-card { border-radius:12px; overflow:hidden; cursor:pointer; background:rgba(255,255,255,0.04); border:1px solid rgba(255,255,255,0.07); box-shadow:0 2px 10px rgba(0,0,0,0.45); transform:translateZ(0); transition:transform 0.12s ease; -webkit-tap-highlight-color:transparent; }
+  .nova-game-card { border-radius:14px; overflow:hidden; cursor:pointer; background:rgba(255,255,255,0.055); border:1px solid rgba(255,255,255,0.12); box-shadow:0 4px 20px rgba(0,0,0,0.5), 0 1px 0 rgba(255,255,255,0.06) inset; backdrop-filter:blur(10px); -webkit-backdrop-filter:blur(10px); transform:translateZ(0); transition:transform 0.15s ease, box-shadow 0.15s ease; -webkit-tap-highlight-color:transparent; }
+.nova-game-card:active { transform:scale(0.96) translateZ(0); box-shadow:0 2px 10px rgba(0,0,0,0.6); }
   .nova-badge { position:absolute; font-size:7px; font-weight:900; border-radius:5px; padding:2px 4px; }
   .nova-badge--hot { top:5px; right:5px; background:linear-gradient(135deg,#ef4444,#dc2626); color:#fff; box-shadow:0 2px 6px rgba(239,68,68,0.4); }
   .nova-badge--provider { top:5px; left:5px; background:rgba(0,0,0,0.65); color:rgba(255,255,255,0.65); backdrop-filter:blur(4px); }
@@ -797,7 +786,7 @@
   .nova-quick-icon:active { opacity:0.65; }
 
   /* ── GLASS BUTTONS ── */
-  .glass-btn-auth { height:34px;padding:0 13px;border-radius:9px;cursor:pointer;font-size:11.5px;font-weight:700;letter-spacing:0.03em;color:rgba(255,255,255,0.72);position:relative;overflow:hidden;background:rgba(255,255,255,0.065);border:1px solid rgba(255,255,255,0.13);box-shadow:inset 0 1px 0 rgba(255,255,255,0.09),0 2px 8px rgba(0,0,0,0.3);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);transition:all 0.18s;-webkit-tap-highlight-color:transparent;white-space:nowrap; }
+  .glass-btn-auth { height:34px;padding:0 13px;border-radius:10px;cursor:pointer;font-size:11.5px;font-weight:700;letter-spacing:0.03em;color:rgba(255,255,255,0.8);position:relative;overflow:hidden;background:rgba(255,255,255,0.08);border:1px solid rgba(255,255,255,0.16);box-shadow:inset 0 1px 0 rgba(255,255,255,0.12),0 4px 14px rgba(0,0,0,0.35),0 1px 3px rgba(0,0,0,0.25);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);transition:all 0.18s;-webkit-tap-highlight-color:transparent;white-space:nowrap; }
   .glass-btn-auth:active { transform:scale(0.95);opacity:0.82; }
   .glass-btn-auth--primary { background:linear-gradient(135deg,rgba(34,197,94,0.78),rgba(21,128,61,0.85));border-color:rgba(34,197,94,0.38);color:#fff;box-shadow:0 4px 14px rgba(34,197,94,0.24),inset 0 1px 0 rgba(255,255,255,0.16); }
   .glass-btn-sm { border-radius:8px;cursor:pointer;background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.1);box-shadow:inset 0 1px 0 rgba(255,255,255,0.07);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);-webkit-tap-highlight-color:transparent;transition:opacity 0.15s; }
@@ -931,14 +920,14 @@
   .nova-auth-fade-enter-from,.nova-auth-fade-leave-to { opacity:0; transform:scale(0.96) translateY(8px); }
 
   /* ── FOOTER ── */
-  .nova-contact-icon { display:flex;flex-direction:column;align-items:center;gap:5px;padding:10px 14px;border-radius:14px;cursor:pointer;border:1px solid rgba(255,255,255,0.08);-webkit-tap-highlight-color:transparent; }
+  .nova-contact-icon { display:flex;flex-direction:column;align-items:center;gap:5px;padding:10px 14px;border-radius:14px;cursor:pointer;border:1px solid rgba(255,255,255,0.1);background:rgba(255,255,255,0.04);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);box-shadow:0 2px 12px rgba(0,0,0,0.3);-webkit-tap-highlight-color:transparent; }
   .nova-contact-icon span { font-size:10px;color:rgba(255,255,255,0.45);font-weight:600; }
-  .nova-social-icon { width:62px;height:62px;border-radius:18px;display:flex;align-items:center;justify-content:center;cursor:pointer;border:1px solid rgba(255,255,255,0.08); }
-  .nova-license-slot { height:50px;border-radius:10px;background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.07);display:flex;align-items:center;justify-content:center; }
+  .nova-social-icon { width:62px;height:62px;border-radius:18px;display:flex;align-items:center;justify-content:center;cursor:pointer;border:1px solid rgba(255,255,255,0.1);background:rgba(255,255,255,0.05);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);box-shadow:0 2px 12px rgba(0,0,0,0.3); }
+  .nova-license-slot { height:50px;border-radius:10px;background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.1);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);display:flex;align-items:center;justify-content:center;box-shadow:0 2px 12px rgba(0,0,0,0.3); }
   .nova-footer-link { font-size:11px;color:rgba(255,255,255,0.45);cursor:pointer;line-height:1.5; }
 
   /* ── BOTTOM NAV ── */
-  .nova-bottom-nav { position:fixed;bottom:0;left:0;right:0;z-index:200;background:rgba(10,10,10,0.96);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);border-top:1px solid rgba(255,255,255,0.07);padding-bottom:env(safe-area-inset-bottom,0); }
+  .nova-bottom-nav { position:fixed;bottom:0;left:0;right:0;z-index:200;background:rgba(6,10,22,0.92);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);border-top:1px solid rgba(255,255,255,0.1);padding-bottom:env(safe-area-inset-bottom,0);box-shadow:0 -4px 28px rgba(0,0,0,0.45), 0 -1px 0 rgba(255,255,255,0.05) inset; }
   .nova-nav-item { display:flex;flex-direction:column;align-items:center;gap:2px;color:rgba(255,255,255,0.28);font-size:9px;font-weight:700;padding:4px 10px;border-radius:10px;transition:color 0.2s;-webkit-tap-highlight-color:transparent;user-select:none;letter-spacing:0.03em; }
   .nova-nav-active { color:#22c55e !important; }
 
@@ -1029,4 +1018,15 @@
   6%  { transform: scale(1.25) translateY(-5px); filter: brightness(1.7); }
   10% { transform: scale(0.93) translateY(0); filter: brightness(1); }
 }
+
+  /* ── GLASS SECTIONS ── */
+  .glass-section { background:rgba(255,255,255,0.03); backdrop-filter:blur(8px); -webkit-backdrop-filter:blur(8px); border-top:1px solid rgba(255,255,255,0.06); border-bottom:1px solid rgba(255,255,255,0.06); }
+  .glass-user-row { background:rgba(255,255,255,0.03); backdrop-filter:blur(6px); -webkit-backdrop-filter:blur(6px); border-bottom:1px solid rgba(255,255,255,0.06); }
+  .glass-marquee { background:rgba(8,14,28,0.85) !important; backdrop-filter:blur(12px) !important; -webkit-backdrop-filter:blur(12px) !important; }
+  /* Smooth mobile scroll on game grid */
+  .nova-game-scroll { -webkit-overflow-scrolling:touch; overflow-y:auto; scroll-behavior:smooth; }
+  /* Floating card feel on QSC icons */
+  .qsc-icon { animation: qsc-bounce 1.8s ease-in-out infinite; backdrop-filter:blur(8px); -webkit-backdrop-filter:blur(8px); }
+  /* Game card hover lift */
+  .nova-game-card:hover { transform:translateY(-2px) translateZ(0); box-shadow:0 8px 28px rgba(0,0,0,0.6), 0 1px 0 rgba(255,255,255,0.08) inset; }
 </style>
