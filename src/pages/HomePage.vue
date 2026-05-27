@@ -528,67 +528,65 @@
         <div style="display:flex;justify-content:space-around;align-items:center;padding:8px 0 4px;">
           <router-link to="/home" style="text-decoration:none;" :class="['nova-nav-item',$route.path==='/home'?'nova-nav-active':'']"><svg width="24" height="24" fill="currentColor" viewBox="0 0 24 24"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/></svg><span>ပင်မ</span></router-link>
           <router-link to="/promotions" style="text-decoration:none;" :class="['nova-nav-item',$route.path==='/promotions'?'nova-nav-active':'']"><svg width="24" height="24" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 14.5v-9l6 4.5-6 4.5z"/></svg><span>ပရိုမို</span></router-link>
-          <router-link to="/agent" style="text-decoration:none;" :class="['nova-nav-item','nova-agent-btn',$route.path==='/agent'?'nova-nav-active':'']">
+          <router-link to="/agent" style="text-decoration:none;flex:none;width:64px;display:flex;flex-direction:column;align-items:center;gap:3px;" :class="[$route.path==='/agent'?'nova-agent-active':'nova-agent-inactive']">
             <div class="nova-brain-wrap">
-              <svg viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg" width="32" height="32">
+              <svg viewBox="0 0 56 56" fill="none" xmlns="http://www.w3.org/2000/svg" width="44" height="44">
                 <defs>
-                  <filter id="bglow" x="-40%" y="-40%" width="180%" height="180%">
-                    <feGaussianBlur stdDeviation="1.4" result="b"/>
+                  <filter id="nb-wg" x="-35%" y="-35%" width="170%" height="170%">
+                    <feGaussianBlur stdDeviation="1.6" result="b"/>
                     <feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
                   </filter>
-                  <filter id="dglow" x="-80%" y="-80%" width="260%" height="260%">
-                    <feGaussianBlur stdDeviation="2.8" result="b"/>
+                  <filter id="nb-ng" x="-100%" y="-100%" width="300%" height="300%">
+                    <feGaussianBlur stdDeviation="3.2" result="b"/>
                     <feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
+                  </filter>
+                  <filter id="nb-amb" x="-50%" y="-50%" width="200%" height="200%">
+                    <feGaussianBlur stdDeviation="5"/>
                   </filter>
                 </defs>
-                <!-- pulse halo ring -->
-                <circle cx="24" cy="24" r="22" stroke="#06b6d4" stroke-width="0.7" fill="none" class="nova-brain-halo"/>
-                <!-- BRAIN — left hemisphere -->
-                <path d="M24 10 C20 10 15 11 12 14 C9 17 8 20 8 23 C8 27 10 31 13 34 C15 37 18 39 21 39 L24 39 L24 10Z"
-                      stroke="#06b6d4" stroke-width="1.5" fill="rgba(6,182,212,0.07)" filter="url(#bglow)"/>
-                <!-- BRAIN — right hemisphere -->
-                <path d="M24 10 C28 10 33 11 36 14 C39 17 40 20 40 23 C40 27 38 31 35 34 C33 37 30 39 27 39 L24 39 L24 10Z"
-                      stroke="#06b6d4" stroke-width="1.5" fill="rgba(6,182,212,0.07)" filter="url(#bglow)"/>
+                <!-- ambient warm glow behind brain -->
+                <ellipse cx="28" cy="36" rx="18" ry="14" fill="rgba(245,158,11,0.18)" filter="url(#nb-amb)"/>
+                <!-- BRAIN left hemisphere — amber neon -->
+                <path d="M28 17 C23 17 17 19 14 23 C11 27 10 30 10 33 C10 38 12 42 16 45 C18 47 22 49 25 49 L28 49 L28 17Z"
+                      stroke="#f59e0b" stroke-width="1.8" fill="rgba(245,158,11,0.06)" filter="url(#nb-wg)"/>
+                <!-- BRAIN right hemisphere — amber neon -->
+                <path d="M28 17 C33 17 39 19 42 23 C45 27 46 30 46 33 C46 38 44 42 40 45 C38 47 34 49 31 49 L28 49 L28 17Z"
+                      stroke="#f59e0b" stroke-width="1.8" fill="rgba(245,158,11,0.06)" filter="url(#nb-wg)"/>
                 <!-- center divider -->
-                <line x1="24" y1="10" x2="24" y2="39" stroke="#06b6d4" stroke-width="0.7" opacity="0.45"/>
+                <line x1="28" y1="17" x2="28" y2="49" stroke="#f59e0b" stroke-width="0.75" opacity="0.4"/>
                 <!-- LEFT gyri folds -->
-                <path d="M13 16 C16 13 20 13 22 16" stroke="#06b6d4" stroke-width="0.95" stroke-linecap="round" fill="none" opacity="0.8"/>
-                <path d="M10 22 C12 19 17 18 20 20" stroke="#06b6d4" stroke-width="0.95" stroke-linecap="round" fill="none" opacity="0.78"/>
-                <path d="M9 28 C11 25 16 24 19 26"  stroke="#06b6d4" stroke-width="0.95" stroke-linecap="round" fill="none" opacity="0.78"/>
-                <path d="M11 34 C13 31 17 30 20 32" stroke="#06b6d4" stroke-width="0.9"  stroke-linecap="round" fill="none" opacity="0.72"/>
-                <path d="M16 38 C18 36 21 36 22 37" stroke="#06b6d4" stroke-width="0.8"  stroke-linecap="round" fill="none" opacity="0.6"/>
+                <path d="M15 24 C18 21 22 21 25 24" stroke="#f59e0b" stroke-width="1.05" stroke-linecap="round" fill="none" opacity="0.72"/>
+                <path d="M11 30 C14 27 19 26 22 28" stroke="#f59e0b" stroke-width="1.05" stroke-linecap="round" fill="none" opacity="0.72"/>
+                <path d="M11 36 C14 33 18 32 21 34" stroke="#f59e0b" stroke-width="1.05" stroke-linecap="round" fill="none" opacity="0.72"/>
+                <path d="M13 42 C16 39 19 38 22 40" stroke="#f59e0b" stroke-width="0.95" stroke-linecap="round" fill="none" opacity="0.62"/>
+                <path d="M18 47 C21 45 24 45 25 46" stroke="#f59e0b" stroke-width="0.85" stroke-linecap="round" fill="none" opacity="0.5"/>
                 <!-- RIGHT gyri folds (mirror) -->
-                <path d="M35 16 C32 13 28 13 26 16" stroke="#06b6d4" stroke-width="0.95" stroke-linecap="round" fill="none" opacity="0.8"/>
-                <path d="M38 22 C36 19 31 18 28 20" stroke="#06b6d4" stroke-width="0.95" stroke-linecap="round" fill="none" opacity="0.78"/>
-                <path d="M39 28 C37 25 32 24 29 26" stroke="#06b6d4" stroke-width="0.95" stroke-linecap="round" fill="none" opacity="0.78"/>
-                <path d="M37 34 C35 31 31 30 28 32" stroke="#06b6d4" stroke-width="0.9"  stroke-linecap="round" fill="none" opacity="0.72"/>
-                <path d="M32 38 C30 36 27 36 26 37" stroke="#06b6d4" stroke-width="0.8"  stroke-linecap="round" fill="none" opacity="0.6"/>
-                <!-- ORBIT ring 1 — horizontal, green, flows right -->
-                <ellipse cx="24" cy="24" rx="22" ry="7.5"
-                         stroke="#22c55e" stroke-width="1.7" fill="none"
-                         stroke-dasharray="75 6"
-                         class="nova-orbit1" filter="url(#bglow)"/>
-                <!-- ORBIT ring 2 — 60° tilt, cyan, flows left -->
-                <ellipse cx="24" cy="24" rx="22" ry="7.5"
-                         stroke="#06b6d4" stroke-width="1.7" fill="none"
-                         transform="rotate(60 24 24)"
-                         stroke-dasharray="75 6"
-                         class="nova-orbit2" filter="url(#bglow)"/>
-                <!-- ring 1 endpoint dots (left & right) -->
-                <circle cx="46" cy="24" r="3" fill="#22c55e" filter="url(#dglow)" class="nova-odot-g"/>
-                <circle cx="2"  cy="24" r="3" fill="#22c55e" filter="url(#dglow)" class="nova-odot-g"/>
-                <!-- ring 2 endpoint dots (60° rotation of ±22,0 around 24,24) → (35,43) & (13,5) -->
-                <circle cx="35" cy="43" r="3" fill="#06b6d4" filter="url(#dglow)" class="nova-odot-c"/>
-                <circle cx="13" cy="5"  r="3" fill="#06b6d4" filter="url(#dglow)" class="nova-odot-c"/>
-                <!-- energy beams from ring 1 tips -->
-                <line x1="46" y1="24" x2="48" y2="24" stroke="#22c55e" stroke-width="3" stroke-linecap="round" class="nova-beam-g" filter="url(#dglow)"/>
-                <line x1="2"  y1="24" x2="0"  y2="24" stroke="#22c55e" stroke-width="3" stroke-linecap="round" class="nova-beam-g" filter="url(#dglow)"/>
-                <!-- energy beams from ring 2 tips -->
-                <line x1="13" y1="5"  x2="11" y2="3"  stroke="#06b6d4" stroke-width="3" stroke-linecap="round" class="nova-beam-c" filter="url(#dglow)"/>
-                <line x1="35" y1="43" x2="37" y2="45" stroke="#06b6d4" stroke-width="3" stroke-linecap="round" class="nova-beam-c" filter="url(#dglow)"/>
+                <path d="M41 24 C38 21 34 21 31 24" stroke="#f59e0b" stroke-width="1.05" stroke-linecap="round" fill="none" opacity="0.72"/>
+                <path d="M45 30 C42 27 37 26 34 28" stroke="#f59e0b" stroke-width="1.05" stroke-linecap="round" fill="none" opacity="0.72"/>
+                <path d="M45 36 C42 33 38 32 35 34" stroke="#f59e0b" stroke-width="1.05" stroke-linecap="round" fill="none" opacity="0.72"/>
+                <path d="M43 42 C40 39 37 38 34 40" stroke="#f59e0b" stroke-width="0.95" stroke-linecap="round" fill="none" opacity="0.62"/>
+                <path d="M38 47 C35 45 32 45 31 46" stroke="#f59e0b" stroke-width="0.85" stroke-linecap="round" fill="none" opacity="0.5"/>
+                <!-- neural tendrils from each node shooting upward/outward -->
+                <path d="M17 21 C13 14 9 9 5 5"    stroke="#06b6d4" stroke-width="1"   stroke-linecap="round" fill="none" class="nb-tdl" stroke-dasharray="12 4"/>
+                <path d="M22 17 C20 11 18 5 17 1"   stroke="#22c55e" stroke-width="1"   stroke-linecap="round" fill="none" class="nb-tdl" stroke-dasharray="12 4"/>
+                <path d="M28 16 C28 9 28 4 28 0"    stroke="#a855f7" stroke-width="1.1" stroke-linecap="round" fill="none" class="nb-tdl" stroke-dasharray="12 4"/>
+                <path d="M34 17 C36 11 38 5 39 1"   stroke="#f59e0b" stroke-width="1"   stroke-linecap="round" fill="none" class="nb-tdl" stroke-dasharray="12 4"/>
+                <path d="M39 21 C43 14 47 9 51 5"   stroke="#ec4899" stroke-width="1"   stroke-linecap="round" fill="none" class="nb-tdl" stroke-dasharray="12 4"/>
+                <!-- ENERGY NODES — 5 colored synapses on brain crown -->
+                <circle cx="17" cy="21" r="4.5" fill="#06b6d4" filter="url(#nb-ng)" class="nb-node-1"/>
+                <circle cx="22" cy="17" r="4.5" fill="#22c55e" filter="url(#nb-ng)" class="nb-node-2"/>
+                <circle cx="28" cy="15" r="5.2" fill="#a855f7" filter="url(#nb-ng)" class="nb-node-3"/>
+                <circle cx="34" cy="17" r="4.5" fill="#f59e0b" filter="url(#nb-ng)" class="nb-node-4"/>
+                <circle cx="39" cy="21" r="4.5" fill="#ec4899" filter="url(#nb-ng)" class="nb-node-5"/>
+                <!-- node shine highlights (inner white) -->
+                <circle cx="15.5" cy="19.5" r="1.5" fill="rgba(255,255,255,0.65)"/>
+                <circle cx="20.5" cy="15.5" r="1.5" fill="rgba(255,255,255,0.65)"/>
+                <circle cx="26.5" cy="13"   r="1.8" fill="rgba(255,255,255,0.65)"/>
+                <circle cx="32.5" cy="15.5" r="1.5" fill="rgba(255,255,255,0.65)"/>
+                <circle cx="37.5" cy="19.5" r="1.5" fill="rgba(255,255,255,0.65)"/>
               </svg>
             </div>
-            <span>အေးဂျင့်</span>
+            <span style="font-size:9px;font-weight:700;letter-spacing:0.04em;color:rgba(255,255,255,0.5);">အေးဂျင့်</span>
           </router-link>
           <router-link to="/service" style="text-decoration:none;" :class="['nova-nav-item',$route.path==='/service'?'nova-nav-active':'']"><svg width="24" height="24" fill="currentColor" viewBox="0 0 24 24"><path d="M20 2H4c-1.1 0-2 .9-2 2v18l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2z"/></svg><span>ဆက်သွယ်</span></router-link>
           <router-link to="/account" style="text-decoration:none;" :class="['nova-nav-item',$route.path==='/account'?'nova-nav-active':'']"><svg width="24" height="24" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 3c1.66 0 3 1.34 3 3s-1.34 3-3 3-3-1.34-3-3 1.34-3 3-3zm0 14.2c-2.5 0-4.71-1.28-6-3.22.03-1.99 4-3.08 6-3.08 1.99 0 5.97 1.09 6 3.08-1.29 1.94-3.5 3.22-6 3.22z"/></svg><span>အကောင့်</span></router-link>
@@ -1485,66 +1483,46 @@
   /* Marquee bar color accent */
   .nova-marquee-bar { background:rgba(7,12,26,0.92) !important; border-top:1px solid rgba(34,197,94,0.1) !important; border-bottom:1px solid rgba(34,197,94,0.1) !important; }
 
-  /* ══ AI BRAIN AGENT BUTTON ══ */
-  .nova-agent-btn { padding:4px 4px 2px; }
-  .nova-brain-wrap { display:flex; align-items:center; justify-content:center; position:relative; }
-
-  /* Orbit ring 1 — green, dashoffset flows clockwise */
-  .nova-orbit1 { animation: orbit-flow1 3s linear infinite; }
-  @keyframes orbit-flow1 {
-    0%   { stroke-dashoffset: 0;   opacity: 0.9; }
+  /* ══ AI BRAIN AGENT BUTTON — elevated floating ══ */
+  .nova-agent-inactive { color: rgba(255,255,255,0.45); }
+  .nova-agent-active   { color: #f59e0b; }
+  .nova-brain-wrap {
+    width: 60px; height: 60px;
+    border-radius: 50%;
+    background: radial-gradient(circle at 42% 38%, rgba(245,158,11,0.14) 0%, rgba(5,8,20,0.98) 65%);
+    border: 1.5px solid rgba(245,158,11,0.55);
+    box-shadow:
+      0 0 0 3px rgba(6,10,22,0.75),
+      0 0 18px rgba(245,158,11,0.42),
+      0 0 38px rgba(245,158,11,0.16),
+      0 -8px 22px rgba(0,0,0,0.75);
+    display: flex; align-items: center; justify-content: center;
+    margin: 0 auto;
+    margin-top: -20px;
+    animation: bwrap-pulse 3s ease-in-out infinite;
+  }
+  @keyframes bwrap-pulse {
+    0%,100% { box-shadow: 0 0 0 3px rgba(6,10,22,0.75), 0 0 16px rgba(245,158,11,0.38), 0 0 32px rgba(245,158,11,0.12), 0 -8px 22px rgba(0,0,0,0.75); }
+    50%      { box-shadow: 0 0 0 3px rgba(6,10,22,0.75), 0 0 28px rgba(245,158,11,0.62), 0 0 54px rgba(245,158,11,0.24), 0 -8px 22px rgba(0,0,0,0.75); }
+  }
+  /* Neural tendril flow — signal moving outward */
+  .nb-tdl { animation: tdl-flow 1.8s linear infinite; }
+  @keyframes tdl-flow {
+    0%   { stroke-dashoffset: 16; opacity: 0.65; }
     50%  { opacity: 1; }
-    100% { stroke-dashoffset: -81; opacity: 0.9; }
+    100% { stroke-dashoffset: 0;  opacity: 0.65; }
   }
-  /* Orbit ring 2 — cyan, dashoffset flows counter-clockwise, slower */
-  .nova-orbit2 { animation: orbit-flow2 4.5s linear infinite; }
-  @keyframes orbit-flow2 {
-    0%   { stroke-dashoffset: 81; opacity: 0.85; }
-    50%  { opacity: 1; }
-    100% { stroke-dashoffset: 0;  opacity: 0.85; }
+  /* Energy nodes — staggered pulse per node */
+  .nb-node-1,.nb-node-2,.nb-node-3,.nb-node-4,.nb-node-5 {
+    transform-box: fill-box; transform-origin: center;
   }
-  /* Halo pulse ring */
-  .nova-brain-halo {
-    transform-origin: 24px 24px;
-    animation: brain-halo 3s ease-in-out infinite;
+  .nb-node-1 { animation: nb-node 2s ease-in-out infinite 0s;    }
+  .nb-node-2 { animation: nb-node 2s ease-in-out infinite 0.4s;  }
+  .nb-node-3 { animation: nb-node 2s ease-in-out infinite 0.8s;  }
+  .nb-node-4 { animation: nb-node 2s ease-in-out infinite 1.2s;  }
+  .nb-node-5 { animation: nb-node 2s ease-in-out infinite 1.6s;  }
+  @keyframes nb-node {
+    0%, 100% { opacity: 0.6;  transform: scale(0.8);  }
+    50%       { opacity: 1;    transform: scale(1.3);  }
   }
-  @keyframes brain-halo {
-    0%, 100% { opacity: 0.12; transform: scale(1); }
-    50%       { opacity: 0.5;  transform: scale(1.08); }
-  }
-  /* Green endpoint dots (ring 1) */
-  .nova-odot-g {
-    transform-box: fill-box;
-    transform-origin: center;
-    animation: odot-pulse-g 2s ease-in-out infinite;
-  }
-  @keyframes odot-pulse-g {
-    0%, 100% { opacity: 1;   transform: scale(1); }
-    50%       { opacity: 0.3; transform: scale(0.55); }
-  }
-  /* Cyan endpoint dots (ring 2) — offset timing */
-  .nova-odot-c {
-    transform-box: fill-box;
-    transform-origin: center;
-    animation: odot-pulse-c 2s ease-in-out infinite 1s;
-  }
-  @keyframes odot-pulse-c {
-    0%, 100% { opacity: 1;   transform: scale(1); }
-    50%       { opacity: 0.3; transform: scale(0.55); }
-  }
-  /* Energy beam flash — green (ring 1 tips) */
-  .nova-beam-g { animation: beam-flash-g 2.5s ease-in-out infinite; }
-  @keyframes beam-flash-g {
-    0%, 30%, 100% { opacity: 0.15; }
-    45%, 55%      { opacity: 1; }
-  }
-  /* Energy beam flash — cyan (ring 2 tips), offset */
-  .nova-beam-c { animation: beam-flash-c 2.5s ease-in-out infinite 1.25s; }
-  @keyframes beam-flash-c {
-    0%, 30%, 100% { opacity: 0.15; }
-    45%, 55%      { opacity: 1; }
-  }
-  /* Active state — whole brain glows green */
-  .nova-nav-active .nova-orbit1 { stroke: #4ade80; }
-  .nova-nav-active .nova-brain-halo { stroke: #22c55e; }
 </style>
