@@ -184,7 +184,7 @@
               <span style="font-size:8px;color:rgba(255,255,255,0.6);font-weight:600;">UAB</span>
             </div>
             <!-- VIP -->
-            <div style="display:flex;flex-direction:column;align-items:center;gap:1px;cursor:pointer;" @click="$router.push(\`/vip\`)">
+            <div style="display:flex;flex-direction:column;align-items:center;gap:1px;cursor:pointer;" @click="$router.push('/vip')">
               <div style="width:30px;height:30px;border-radius:7px;background:linear-gradient(135deg,rgba(245,158,11,0.22),rgba(217,119,6,0.12));border:1.5px solid rgba(251,191,36,0.6);box-shadow:0 0 8px rgba(251,191,36,0.25);display:flex;align-items:center;justify-content:center;">
                 <svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M2 17h20l-2-9-5 5-3-7-3 7-5-5-2 9z" fill="url(#vg2)" stroke="#f59e0b" stroke-width="0.5"/><defs><linearGradient id="vg2" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#fbbf24"/><stop offset="100%" stop-color="#d97706"/></linearGradient></defs><circle cx="12" cy="8" r="1.5" fill="#fef3c7"/><circle cx="2.5" cy="8.5" r="1" fill="#fef3c7"/><circle cx="21.5" cy="8.5" r="1" fill="#fef3c7"/></svg>
               </div>
