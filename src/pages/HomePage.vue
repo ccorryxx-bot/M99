@@ -777,7 +777,7 @@
   }
 
   /* ── HEADER ── */
-  .nova-header { position:sticky; top:0; z-index:100; background:rgba(6,10,22,0.92); backdrop-filter:blur(20px); -webkit-backdrop-filter:blur(20px); border-bottom:1px solid rgba(255,255,255,0.08); padding:10px 16px; display:flex; align-items:center; justify-content:space-between; box-shadow:0 2px 24px rgba(0,0,0,0.4); }
+  .nova-header { position:relative; z-index:10; background:transparent; padding:10px 16px; display:flex; align-items:center; justify-content:space-between; }
   .nova-logo {
     width:36px; height:36px; border-radius:10px; background:linear-gradient(135deg,#22c55e,#15803d);
     display:flex; align-items:center; justify-content:center; font-weight:900; font-size:16px; color:#fff; flex-shrink:0;
@@ -785,7 +785,7 @@
   }
 
   /* ── SEARCH ── */
-  .nova-search-bar { position:relative; padding:8px 16px; background:rgba(6,10,22,0.85); backdrop-filter:blur(12px); -webkit-backdrop-filter:blur(12px); border-bottom:1px solid rgba(255,255,255,0.07); }
+  .nova-search-bar { position:relative; padding:8px 16px; background:transparent; border-bottom:1px solid rgba(255,255,255,0.07); }
 
   /* ── MARQUEE ── */
   @keyframes nova-marquee { from{transform:translateX(100vw);}to{transform:translateX(-100%);} }
