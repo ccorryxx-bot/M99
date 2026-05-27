@@ -141,58 +141,180 @@
         </div>
       </div>
 
-      <!-- Game Categories -->
-      <div class="px-4 pt-6 pb-3">
-        <h2 class="text-xs font-semibold text-gray-500 uppercase tracking-wider mb-3">Game Categories</h2>
-        <div class="flex gap-2 overflow-x-auto no-scrollbar">
-          <button v-for="cat in categories" :key="cat.name" @click="activeCategory = cat.name"
-            class="flex items-center gap-2 px-4 py-2 rounded-full text-xs font-semibold transition-all whitespace-nowrap border"
-            :class="activeCategory === cat.name ? 'bg-cyan-500/20 text-cyan-300 border-cyan-500/50 shadow-sm' : 'bg-cyan-500/5 border-gray-700 text-gray-400 hover:bg-cyan-500/10'">
-            <img v-if="cat.logo" :src="cat.logo" class="w-4 h-4 object-contain rounded-full" alt="" />
-            <span v-else class="text-[10px] font-bold tracking-tight">{{ cat.name.toUpperCase() }}</span>
-            <span>{{ cat.name }}</span>
-          </button>
-        </div>
-      </div>
-
-      <!-- Game Cards Grid -->
-      <div class="px-4">
-        <div class="grid grid-cols-3 gap-3">
-          <!-- Skeleton Loader -->
-          <template v-if="loadingGames">
-            <div v-for="n in 9" :key="n" class="rounded-2xl bg-[#111d26] border border-cyan-500/10 overflow-hidden animate-pulse">
-              <div class="aspect-square bg-cyan-500/5"></div>
-              <div class="p-2 h-5 bg-cyan-500/5 rounded mt-1"></div>
+      <!-- ══ LIVE JACKPOT TICKER ══ -->
+      <div class="mx-3 mt-3 rounded-2xl relative overflow-hidden"
+           style="background:linear-gradient(135deg,#07100a,#0a1614,#06080f);border:1px solid rgba(240,165,0,0.22);box-shadow:0 0 20px rgba(240,165,0,0.06),inset 0 1px 0 rgba(255,255,255,0.05);">
+        <div class="flex items-center gap-3 px-4 py-2.5">
+          <div class="flex-shrink-0 w-8 h-8 rounded-full flex items-center justify-center"
+               style="background:linear-gradient(135deg,#f0a500,#ff6b00);box-shadow:0 0 14px rgba(240,165,0,0.55),0 2px 6px rgba(0,0,0,0.4);">
+            <svg class="w-4 h-4 text-white drop-shadow" fill="currentColor" viewBox="0 0 24 24">
+              <path d="M11.48 3.499a.562.562 0 011.04 0l2.125 5.111a.563.563 0 00.475.345l5.518.442c.499.04.701.663.321.988l-4.204 3.602a.563.563 0 00-.182.557l1.285 5.385a.562.562 0 01-.84.61l-4.725-2.885a.563.563 0 00-.586 0L6.982 20.54a.562.562 0 01-.84-.61l1.285-5.386a.562.562 0 00-.182-.557l-4.204-3.602a.563.563 0 01.321-.988l5.518-.442a.563.563 0 00.475-.345L11.48 3.5z"/>
+            </svg>
+          </div>
+          <div class="flex-1 min-w-0">
+            <p class="text-[9px] font-bold uppercase tracking-widest mb-0.5" style="color:rgba(240,165,0,0.55);">🔴 Live Jackpot Pool</p>
+            <p class="font-black text-base leading-none tracking-tight"
+               style="background:linear-gradient(135deg,#f0a500,#ffdd57,#f0a500);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;filter:drop-shadow(0 0 6px rgba(240,165,0,0.35));">
+              {{ displayedJackpot }} Ks
+            </p>
+          </div>
+          <div class="text-right flex-shrink-0">
+            <div class="flex items-center gap-1 justify-end mb-0.5">
+              <span class="w-1.5 h-1.5 rounded-full bg-green-400 animate-pulse"></span>
+              <p class="text-[9px] font-semibold" style="color:rgba(74,222,128,0.7);">{{ onlinePlayers }} online</p>
             </div>
-          </template>
-          <!-- Actual Cards -->
-          <div v-else v-for="game in filteredGames" :key="game.id" @click="openGame(game)"
-            class="group bg-[#111d26] border border-cyan-500/10 rounded-2xl overflow-hidden active:scale-95 transition-all duration-200 cursor-pointer hover:border-cyan-500/40 hover:shadow-lg hover:shadow-cyan-500/10">
-            <div class="relative w-full aspect-square bg-black/20 flex items-center justify-center overflow-hidden">
-              <div class="absolute inset-0 bg-gradient-to-br from-cyan-500/5 to-teal-500/5"></div>
-              <span class="absolute top-2 left-2 bg-black/70 backdrop-blur-sm rounded-full px-2 py-0.5 text-[9px] font-bold text-cyan-300">{{ game.provider }}</span>
-              <img :src="game.image_url" class="absolute inset-0 w-full h-full object-cover" alt="" />
-            </div>
-            <div class="p-2"><h3 class="text-[11px] font-semibold leading-tight truncate text-gray-300">{{ game.name }}</h3></div>
+            <p class="text-[8px]" style="color:rgba(255,255,255,0.18);">Updated live</p>
           </div>
         </div>
-        <!-- Error State -->
-        <div v-if="!loadingGames && fetchError" class="text-center py-8">
-          <p class="text-red-400 text-sm">{{ fetchError }}</p>
-          <button @click="fetchGames" class="mt-3 bg-cyan-500/10 hover:bg-cyan-500/20 text-cyan-300 text-xs font-bold px-4 py-2 rounded-full">Retry</button>
+        <div class="absolute bottom-0 left-0 right-0 h-px"
+             style="background:linear-gradient(90deg,transparent,rgba(240,165,0,0.4),transparent);"></div>
+      </div>
+
+      <!-- ══ GAME ZONE: Vertical Sidebar + Cards ══ -->
+      <div class="flex gap-0 pt-4 pb-2 px-2">
+
+        <!-- ── LEFT: 3D Vertical Category Sidebar ── -->
+        <div class="flex flex-col gap-2 w-[68px] flex-shrink-0 mr-2">
+          <button v-for="cat in categories" :key="cat.name" @click="activeCategory = cat.name"
+            class="relative flex flex-col items-center gap-1.5 py-3 px-1 rounded-2xl transition-all duration-200 active:scale-[0.91] w-full overflow-hidden"
+            :style="activeCategory === cat.name
+              ? 'background:linear-gradient(160deg,rgba(0,229,255,0.14),rgba(0,180,210,0.06));border:1px solid rgba(0,229,255,0.45);box-shadow:0 0 18px rgba(0,229,255,0.18),0 4px 12px rgba(0,0,0,0.5),inset 0 1px 0 rgba(255,255,255,0.12);'
+              : 'background:linear-gradient(160deg,rgba(255,255,255,0.045),rgba(255,255,255,0.02));border:1px solid rgba(255,255,255,0.07);box-shadow:0 2px 8px rgba(0,0,0,0.4),inset 0 1px 0 rgba(255,255,255,0.06);'">
+
+            <!-- Active left glow bar -->
+            <div v-if="activeCategory === cat.name"
+              class="absolute left-0 top-1/2 -translate-y-1/2 w-0.5 h-9 rounded-r-full"
+              style="background:linear-gradient(180deg,#00e5ff,#00bcd4);box-shadow:0 0 8px 1px #00e5ff;"></div>
+
+            <!-- ── 3D Icon Box ── -->
+            <div class="w-10 h-10 rounded-xl relative overflow-hidden flex items-center justify-center"
+              :style="activeCategory === cat.name
+                ? 'background:linear-gradient(145deg,rgba(0,229,255,0.25),rgba(0,150,180,0.15));box-shadow:0 4px 12px rgba(0,229,255,0.25),0 1px 0 rgba(255,255,255,0.2) inset,0 -1px 0 rgba(0,0,0,0.3) inset;'
+                : 'background:linear-gradient(145deg,rgba(255,255,255,0.08),rgba(255,255,255,0.03));box-shadow:0 3px 8px rgba(0,0,0,0.5),inset 0 1px 0 rgba(255,255,255,0.1),inset 0 -1px 0 rgba(0,0,0,0.2);'">
+
+              <!-- Logo image for provider categories -->
+              <img v-if="cat.logo" :src="cat.logo" class="w-8 h-8 object-cover rounded-lg" alt=""
+                :style="activeCategory !== cat.name ? 'filter:grayscale(60%) brightness(0.7);' : 'filter:grayscale(0%) brightness(1.1) drop-shadow(0 0 4px rgba(0,229,255,0.3));'" />
+
+              <!-- SVG icon for "All" -->
+              <svg v-else viewBox="0 0 32 32" class="w-8 h-8" xmlns="http://www.w3.org/2000/svg">
+                <defs>
+                  <linearGradient id="gAll1" x1="0%" y1="0%" x2="100%" y2="100%">
+                    <stop offset="0%" :stop-color="activeCategory === cat.name ? '#00e5ff' : '#3a5a70'"/>
+                    <stop offset="100%" :stop-color="activeCategory === cat.name ? '#0099bb' : '#1e3040'"/>
+                  </linearGradient>
+                  <filter id="fAll"><feDropShadow dx="0" dy="1" stdDeviation="1.5" :flood-color="activeCategory === cat.name ? 'rgba(0,229,255,0.8)' : 'rgba(0,0,0,0.5)'" flood-opacity="0.9"/></filter>
+                </defs>
+                <rect x="3" y="3" width="11" height="11" rx="3" fill="url(#gAll1)" filter="url(#fAll)"/>
+                <rect x="18" y="3" width="11" height="11" rx="3" fill="url(#gAll1)" filter="url(#fAll)" opacity="0.75"/>
+                <rect x="3" y="18" width="11" height="11" rx="3" fill="url(#gAll1)" filter="url(#fAll)" opacity="0.75"/>
+                <rect x="18" y="18" width="11" height="11" rx="3" fill="url(#gAll1)" filter="url(#fAll)" opacity="0.55"/>
+                <!-- Shine highlight -->
+                <rect x="3" y="3" width="11" height="4" rx="2" fill="rgba(255,255,255,0.25)"/>
+              </svg>
+
+              <!-- Top shine overlay (3D depth) -->
+              <div class="absolute top-0 left-0 right-0 h-2/5 rounded-t-xl pointer-events-none"
+                   style="background:linear-gradient(to bottom,rgba(255,255,255,0.18),transparent);"></div>
+            </div>
+
+            <!-- Category label -->
+            <span class="text-[8px] font-bold text-center leading-tight px-0.5"
+              :style="activeCategory === cat.name
+                ? 'color:#00e5ff;text-shadow:0 0 8px rgba(0,229,255,0.6);'
+                : 'color:rgba(255,255,255,0.32);'">
+              {{ cat.name.length > 7 ? cat.name.slice(0,7) : cat.name }}
+            </span>
+          </button>
         </div>
-        <!-- Empty State -->
-        <div v-if="!loadingGames && !fetchError && filteredGames.length === 0" class="text-center py-8 text-gray-500">
-          <p>No games found.</p>
+
+        <!-- ── RIGHT: Premium 2-Column Game Cards ── -->
+        <div class="flex-1 min-w-0">
+          <div class="grid grid-cols-2 gap-2">
+
+            <!-- Skeleton loaders -->
+            <template v-if="loadingGames">
+              <div v-for="n in 6" :key="n"
+                class="rounded-2xl overflow-hidden animate-pulse"
+                style="background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.06);">
+                <div class="aspect-square" style="background:rgba(255,255,255,0.03);"></div>
+                <div class="px-2 py-2 space-y-1.5">
+                  <div class="h-2 rounded-full" style="background:rgba(255,255,255,0.06);width:75%;"></div>
+                </div>
+              </div>
+            </template>
+
+            <!-- Game Cards -->
+            <div v-else v-for="(game, idx) in filteredGames" :key="game.id" @click="openGame(game)"
+              class="group relative rounded-2xl overflow-hidden cursor-pointer active:scale-[0.94] transition-all duration-200"
+              style="background:linear-gradient(155deg,#0d1d2c,#081320);border:1px solid rgba(255,255,255,0.08);box-shadow:0 4px 12px rgba(0,0,0,0.45),inset 0 1px 0 rgba(255,255,255,0.06);"
+              onmouseover="this.style.borderColor='rgba(0,229,255,0.35)';this.style.boxShadow='0 6px 20px rgba(0,229,255,0.1),0 2px 8px rgba(0,0,0,0.5),inset 0 1px 0 rgba(255,255,255,0.08)'"
+              onmouseout="this.style.borderColor='rgba(255,255,255,0.08)';this.style.boxShadow='0 4px 12px rgba(0,0,0,0.45),inset 0 1px 0 rgba(255,255,255,0.06)'">
+
+              <!-- Image -->
+              <div class="relative w-full aspect-square overflow-hidden">
+                <img :src="game.image_url" class="w-full h-full object-cover transition-transform duration-300 group-active:scale-110" alt="" />
+                <!-- Dark gradient overlay bottom -->
+                <div class="absolute inset-0"
+                     style="background:linear-gradient(to top,rgba(6,12,20,0.85) 0%,rgba(6,12,20,0.1) 45%,transparent 100%);"></div>
+                <!-- Top shine line (3D card effect) -->
+                <div class="absolute top-0 left-0 right-0 h-px"
+                     style="background:linear-gradient(90deg,transparent,rgba(255,255,255,0.25),transparent);"></div>
+
+                <!-- HOT badge (first 3 games) -->
+                <div v-if="idx < 3"
+                  class="absolute top-1.5 right-1.5 px-1.5 py-0.5 rounded-full text-[7px] font-black tracking-wide"
+                  style="background:linear-gradient(135deg,#ff6b00,#f0a500);color:#fff;box-shadow:0 0 10px rgba(255,100,0,0.6),0 1px 3px rgba(0,0,0,0.4);">
+                  🔥HOT
+                </div>
+
+                <!-- NEW badge (games 3-6) -->
+                <div v-else-if="idx >= 3 && idx < 6"
+                  class="absolute top-1.5 right-1.5 px-1.5 py-0.5 rounded-full text-[7px] font-black tracking-wide"
+                  style="background:linear-gradient(135deg,#7c3aed,#a855f7);color:#fff;box-shadow:0 0 8px rgba(124,58,237,0.5);">
+                  NEW
+                </div>
+
+                <!-- Provider tag -->
+                <div class="absolute top-1.5 left-1.5 px-1.5 py-0.5 rounded-full text-[7px] font-bold"
+                     style="background:rgba(0,0,0,0.6);backdrop-filter:blur(8px);color:rgba(255,255,255,0.55);border:0.5px solid rgba(255,255,255,0.1);">
+                  {{ game.provider }}
+                </div>
+              </div>
+
+              <!-- Game name -->
+              <div class="px-2 py-1.5">
+                <h3 class="text-[10px] font-bold leading-tight truncate"
+                    style="color:rgba(255,255,255,0.8);">{{ game.name }}</h3>
+              </div>
+
+              <!-- Bottom glow line when active -->
+              <div class="absolute bottom-0 left-2 right-2 h-px opacity-0 group-hover:opacity-100 transition-opacity"
+                   style="background:linear-gradient(90deg,transparent,rgba(0,229,255,0.5),transparent);"></div>
+            </div>
+          </div>
+
+          <!-- Error State -->
+          <div v-if="!loadingGames && fetchError" class="text-center py-10">
+            <p class="text-sm mb-3" style="color:rgba(255,80,80,0.8);">{{ fetchError }}</p>
+            <button @click="fetchGames"
+              class="text-xs font-bold px-5 py-2 rounded-full transition-all active:scale-95"
+              style="background:rgba(0,229,255,0.1);border:1px solid rgba(0,229,255,0.25);color:#00e5ff;">
+              Retry
+            </button>
+          </div>
+
+          <!-- Empty State -->
+          <div v-if="!loadingGames && !fetchError && filteredGames.length === 0"
+            class="text-center py-10">
+            <p class="text-sm" style="color:rgba(255,255,255,0.2);">No games found.</p>
+          </div>
         </div>
       </div>
 
-      <!-- Extra space & more games -->
-      <div class="h-6"></div>
-      <div class="px-4 text-center text-xs text-gray-600">
-        <p class="py-4">More games coming soon...</p>
-      </div>
-      <div class="h-8 border-t border-cyan-500/10 mx-4"></div>
+      <!-- More games footer line -->
+      <div class="h-4"></div>
+      <div class="mx-4 h-px" style="background:linear-gradient(90deg,transparent,rgba(0,229,255,0.12),transparent);"></div>
 
       <!-- Footer -->
       <div class="px-4 pb-40 space-y-3 mt-4">
@@ -705,9 +827,10 @@ async function fetchGames() {
   }
 }
 
-// Jackpot (animated counter)
+// Jackpot (animated counter) + Online Players
 const jackpot = ref(893619157998)
 const displayedJackpot = ref('893,619,157,998')
+const onlinePlayers = ref(247)
 const formatNumber = (num) => new Intl.NumberFormat('en-US').format(num)
 onMounted(() => {
   setInterval(() => {
@@ -715,6 +838,10 @@ onMounted(() => {
     jackpot.value += inc
     animateValue(jackpot.value - inc, jackpot.value)
   }, 5000)
+  setInterval(() => {
+    const delta = Math.floor(Math.random() * 7) - 3
+    onlinePlayers.value = Math.max(180, Math.min(999, onlinePlayers.value + delta))
+  }, 3000)
 })
 function animateValue(start, end) {
   let current = start
