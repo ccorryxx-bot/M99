@@ -3,8 +3,29 @@
 
       <!-- ══ HEADER ══ -->
       <header class="nova-header">
-        <div style="display:flex;align-items:center;gap:12px;">
-          <div class="nova-logo">N</div>
+        <div style="display:flex;align-items:center;gap:10px;">
+          <!-- Cinematic Rotating Geo Logo -->
+          <div class="nova-geo-logo-wrap">
+            <svg class="nova-geo-svg" viewBox="0 0 70 70" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <defs>
+                <linearGradient id="geoGrad1" x1="0%" y1="0%" x2="100%" y2="100%">
+                  <stop offset="0%" stop-color="#22c55e"/>
+                  <stop offset="50%" stop-color="#06b6d4"/>
+                  <stop offset="100%" stop-color="#ec4899"/>
+                </linearGradient>
+                <filter id="geoGlow"><feGaussianBlur stdDeviation="1.5" result="blur"/><feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
+              </defs>
+              <polygon points="35,4 67,61 3,61" stroke="url(#geoGrad1)" stroke-width="2.2" fill="none" stroke-linejoin="round" filter="url(#geoGlow)"/>
+              <polygon points="35,31 19,61 51,61" stroke="url(#geoGrad1)" stroke-width="1.2" fill="none" opacity="0.75"/>
+              <line x1="35" y1="4" x2="35" y2="61" stroke="url(#geoGrad1)" stroke-width="1" opacity="0.7"/>
+              <line x1="3" y1="61" x2="35" y2="31" stroke="url(#geoGrad1)" stroke-width="1" opacity="0.7"/>
+              <line x1="67" y1="61" x2="35" y2="31" stroke="url(#geoGrad1)" stroke-width="1" opacity="0.7"/>
+              <line x1="35" y1="4" x2="19" y2="61" stroke="url(#geoGrad1)" stroke-width="0.8" opacity="0.5"/>
+              <line x1="35" y1="4" x2="51" y2="61" stroke="url(#geoGrad1)" stroke-width="0.8" opacity="0.5"/>
+              <line x1="3" y1="61" x2="51" y2="31" stroke="url(#geoGrad1)" stroke-width="0.7" opacity="0.45"/>
+              <line x1="67" y1="61" x2="19" y2="31" stroke="url(#geoGrad1)" stroke-width="0.7" opacity="0.45"/>
+            </svg>
+          </div>
           <div class="nova-brand-wrap">
             <div class="nova-welcome">WELCOME TO</div>
             <div class="nova-brand" data-text="NovaBETT">NovaBETT</div>
@@ -43,12 +64,23 @@
 
       <!-- ══ MARQUEE ══ -->
       <div class="nova-marquee-bar" style="display:flex;align-items:center;background:rgba(7,12,26,0.92);border-top:1px solid rgba(34,197,94,0.1);border-bottom:1px solid rgba(34,197,94,0.1);padding:7px 12px;gap:8px;overflow:hidden;">
-        <svg width="15" height="15" fill="rgba(34,197,94,0.85)" viewBox="0 0 24 24" style="flex-shrink:0;"><path d="M18 9v-3a6 6 0 10-12 0v3l-2 2v1h16v-1l-2-2zm-6 13a3 3 0 003-3H9a3 3 0 003 3z"/></svg>
-        <div style="flex:1;overflow:hidden;"><span class="nova-marquee">NovaBETT မှ ကြိုဆိုပါသည်&nbsp;&nbsp;&nbsp;ငွေသွင်းငွေထုတ် 24/7&nbsp;&nbsp;&nbsp;JILI, PP, PG ဂိမ်းများ&nbsp;&nbsp;&nbsp;VIP အဖွဲ့ဝင်များ အထူးဆုများ&nbsp;&nbsp;&nbsp;Customer Support 24/7&nbsp;&nbsp;&nbsp;</span></div>
-        <div style="position:relative;flex-shrink:0;">
-          <svg width="17" height="17" fill="rgba(255,255,255,0.32)" viewBox="0 0 24 24"><path d="M20 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/></svg>
-          <span style="position:absolute;top:-5px;right:-6px;background:#ef4444;color:#fff;font-size:8px;font-weight:900;border-radius:10px;padding:1px 4px;line-height:14px;">99+</span>
+        <!-- Modern animated bell -->
+        <div class="nova-bell-wrap" style="flex-shrink:0;">
+          <svg class="nova-bell-svg" width="19" height="19" viewBox="0 0 24 24" fill="none">
+            <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9" stroke="rgba(34,197,94,0.95)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            <path d="M13.73 21a2 2 0 0 1-3.46 0" stroke="rgba(34,197,94,0.95)" stroke-width="2" stroke-linecap="round"/>
+            <circle cx="18" cy="6" r="3" fill="#ef4444" stroke="#0d1222" stroke-width="1.5"/>
+          </svg>
         </div>
+        <div style="flex:1;overflow:hidden;"><span class="nova-marquee">NovaBETT မှ ကြိုဆိုပါသည်&nbsp;&nbsp;&nbsp;ငွေသွင်းငွေထုတ် 24/7&nbsp;&nbsp;&nbsp;JILI, PP, PG ဂိမ်းများ&nbsp;&nbsp;&nbsp;VIP အဖွဲ့ဝင်များ အထူးဆုများ&nbsp;&nbsp;&nbsp;Customer Support 24/7&nbsp;&nbsp;&nbsp;</span></div>
+        <!-- Clickable inbox envelope -->
+        <button @click="showInbox=true" class="nova-inbox-btn" style="position:relative;flex-shrink:0;background:none;border:none;cursor:pointer;padding:2px;-webkit-tap-highlight-color:transparent;">
+          <svg class="nova-inbox-svg" width="20" height="20" viewBox="0 0 24 24" fill="none">
+            <rect x="2" y="4" width="20" height="16" rx="2.5" stroke="rgba(255,255,255,0.55)" stroke-width="1.8"/>
+            <path d="M2 8l10 7 10-7" stroke="rgba(255,255,255,0.55)" stroke-width="1.8" stroke-linecap="round"/>
+          </svg>
+          <span class="nova-inbox-badge">{{ adminMessages.length > 0 ? (adminMessages.length > 99 ? '99+' : adminMessages.length) : '0' }}</span>
+        </button>
       </div>
 
       <!-- ══ ACTION ROW ══ -->
@@ -359,6 +391,34 @@
       <DepositModal v-model="showDepositModal" @submit="handleDepositSubmit"/>
       <WithdrawModal v-model="showWithdrawModal" :balance="mainBalance" @submit="handleWithdrawSubmit"/>
 
+      <!-- ══ INBOX MODAL ══ -->
+      <Transition name="inbox-slide">
+        <div v-if="showInbox" class="nova-inbox-overlay" @click.self="showInbox=false">
+          <div class="nova-inbox-sheet">
+            <div class="nova-inbox-handle"></div>
+            <div class="nova-inbox-header">
+              <div style="display:flex;align-items:center;gap:8px;">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none"><rect x="2" y="4" width="20" height="16" rx="2.5" stroke="#22c55e" stroke-width="2"/><path d="M2 8l10 7 10-7" stroke="#22c55e" stroke-width="2" stroke-linecap="round"/></svg>
+                <span style="font-size:15px;font-weight:800;color:#fff;letter-spacing:0.04em;">Admin Inbox</span>
+              </div>
+              <button @click="showInbox=false" style="background:rgba(255,255,255,0.08);border:1px solid rgba(255,255,255,0.1);border-radius:50%;width:28px;height:28px;display:flex;align-items:center;justify-content:center;cursor:pointer;color:rgba(255,255,255,0.6);font-size:14px;">✕</button>
+            </div>
+            <div v-if="adminMessages.length === 0" class="nova-inbox-empty">
+              <svg width="48" height="48" viewBox="0 0 24 24" fill="none" style="opacity:0.25;margin-bottom:12px;"><rect x="2" y="4" width="20" height="16" rx="2.5" stroke="#fff" stroke-width="1.5"/><path d="M2 8l10 7 10-7" stroke="#fff" stroke-width="1.5" stroke-linecap="round"/></svg>
+              <div style="color:rgba(255,255,255,0.35);font-size:13px;font-weight:600;">မက်ဆေ့ မရှိသေးပါ</div>
+              <div style="color:rgba(255,255,255,0.2);font-size:11px;margin-top:4px;">Admin မှ မက်ဆေ့များ ဤနေရာတွင် ပေါ်လာပါမည်</div>
+            </div>
+            <div v-for="msg in adminMessages" :key="msg.id" class="nova-inbox-item">
+              <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:4px;">
+                <span class="nova-inbox-item-title">{{ msg.title }}</span>
+                <span class="nova-inbox-item-time">{{ msg.time }}</span>
+              </div>
+              <div class="nova-inbox-item-body">{{ msg.body }}</div>
+            </div>
+          </div>
+        </div>
+      </Transition>
+
       <!-- ══ AUTH MODAL — Green Theme ══ -->
       <Teleport to="body">
         <Transition name="nova-auth-fade">
@@ -540,6 +600,8 @@
   const regUsername = ref(''); const regPhone = ref(''); const regPassword = ref(''); const regShowPassword = ref(false); const regLoading = ref(false); const regError = ref(''); const reg18Agreed = ref(false)
   const searchVisible = ref(false); const searchQuery = ref('')
   const showDepositModal = ref(false); const showWithdrawModal = ref(false)
+  const showInbox = ref(false)
+  const adminMessages = ref([])
   const balanceRefreshing = ref(false)
 
   // ── Scroll lock when auth modal is open ──
@@ -778,11 +840,65 @@
 
   /* ── HEADER ── */
   .nova-header { position:relative; z-index:10; background:transparent; padding:10px 16px; display:flex; align-items:center; justify-content:space-between; }
-  .nova-logo {
-    width:36px; height:36px; border-radius:10px; background:linear-gradient(135deg,#22c55e,#15803d);
-    display:flex; align-items:center; justify-content:center; font-weight:900; font-size:16px; color:#fff; flex-shrink:0;
-    box-shadow:0 0 18px rgba(34,197,94,0.45);
+
+  /* ── GEO LOGO ── */
+  .nova-geo-logo-wrap { flex-shrink:0; width:46px; height:46px; display:flex; align-items:center; justify-content:center; }
+  .nova-geo-svg {
+    animation: geo-spin 10s linear infinite, geo-hue 8s linear infinite;
+    transform-origin: 35px 35px;
+    filter: drop-shadow(0 0 6px rgba(34,197,94,0.7));
   }
+  @keyframes geo-spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+  }
+  @keyframes geo-hue {
+    0%   { filter: drop-shadow(0 0 6px rgba(34,197,94,0.8)) hue-rotate(0deg); }
+    25%  { filter: drop-shadow(0 0 8px rgba(6,182,212,0.8)) hue-rotate(90deg); }
+    50%  { filter: drop-shadow(0 0 8px rgba(236,72,153,0.8)) hue-rotate(180deg); }
+    75%  { filter: drop-shadow(0 0 8px rgba(129,140,248,0.8)) hue-rotate(270deg); }
+    100% { filter: drop-shadow(0 0 6px rgba(34,197,94,0.8)) hue-rotate(360deg); }
+  }
+
+  /* ── BELL ── */
+  .nova-bell-wrap { display:flex; align-items:center; justify-content:center; }
+  .nova-bell-svg { animation: bell-ring 4s ease-in-out infinite; transform-origin: 12px 4px; }
+  @keyframes bell-ring {
+    0%,100%  { transform: rotate(0deg); }
+    5%       { transform: rotate(14deg); }
+    10%      { transform: rotate(-14deg); }
+    15%      { transform: rotate(10deg); }
+    20%      { transform: rotate(-6deg); }
+    25%      { transform: rotate(0deg); }
+  }
+
+  /* ── INBOX BUTTON ── */
+  .nova-inbox-btn { }
+  .nova-inbox-svg { animation: inbox-bounce 3s ease-in-out infinite; }
+  @keyframes inbox-bounce {
+    0%,100% { transform: translateY(0); }
+    45%     { transform: translateY(0); }
+    50%     { transform: translateY(-3px); }
+    55%     { transform: translateY(0); }
+    60%     { transform: translateY(-2px); }
+    65%     { transform: translateY(0); }
+  }
+  .nova-inbox-badge { position:absolute; top:-5px; right:-6px; background:#ef4444; color:#fff; font-size:8px; font-weight:900; border-radius:10px; padding:1px 4px; line-height:14px; pointer-events:none; }
+
+  /* ── INBOX MODAL ── */
+  .nova-inbox-overlay { position:fixed; inset:0; z-index:500; background:rgba(0,0,0,0.72); display:flex; flex-direction:column; justify-content:flex-end; }
+  .nova-inbox-sheet { background:linear-gradient(180deg,#0f1e2e 0%,#091420 100%); border-radius:20px 20px 0 0; border-top:1px solid rgba(34,197,94,0.2); max-height:70vh; overflow-y:auto; padding:0 0 80px; }
+  .nova-inbox-handle { width:36px; height:4px; background:rgba(255,255,255,0.15); border-radius:2px; margin:12px auto 0; }
+  .nova-inbox-header { display:flex; justify-content:space-between; align-items:center; padding:14px 18px 12px; border-bottom:1px solid rgba(255,255,255,0.06); }
+  .nova-inbox-empty { display:flex; flex-direction:column; align-items:center; justify-content:center; padding:48px 20px; }
+  .nova-inbox-item { margin:8px 14px; padding:12px 14px; background:rgba(255,255,255,0.04); border:1px solid rgba(255,255,255,0.07); border-radius:12px; }
+  .nova-inbox-item-title { font-size:13px; font-weight:700; color:#fff; }
+  .nova-inbox-item-time { font-size:10px; color:rgba(255,255,255,0.3); flex-shrink:0; margin-left:8px; }
+  .nova-inbox-item-body { font-size:12px; color:rgba(255,255,255,0.55); margin-top:4px; line-height:1.5; }
+  .inbox-slide-enter-active { transition: transform 0.35s cubic-bezier(0.25,0.46,0.45,0.94), opacity 0.25s; }
+  .inbox-slide-leave-active { transition: transform 0.28s ease-in, opacity 0.2s; }
+  .inbox-slide-enter-from, .inbox-slide-leave-to { transform: translateY(100%); opacity:0; }
+  .inbox-slide-enter-to, .inbox-slide-leave-from { transform: translateY(0); opacity:1; }
 
   /* ── SEARCH ── */
   .nova-search-bar { position:relative; padding:8px 16px; background:transparent; border-bottom:1px solid rgba(255,255,255,0.07); }
