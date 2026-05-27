@@ -959,7 +959,10 @@
 
   /* ── BOTTOM NAV ── */
   .nova-bottom-nav { position:fixed;bottom:0;left:0;right:0;z-index:200;background:rgba(6,10,22,0.92);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);border-top:1px solid rgba(255,255,255,0.1);padding-bottom:env(safe-area-inset-bottom,0);box-shadow:0 -4px 28px rgba(0,0,0,0.45), 0 -1px 0 rgba(255,255,255,0.05) inset; }
-  .nova-nav-item { display:flex;flex-direction:column;align-items:center;gap:2px;color:rgba(255,255,255,0.28);font-size:9px;font-weight:700;padding:4px 10px;border-radius:10px;transition:color 0.2s;-webkit-tap-highlight-color:transparent;user-select:none;letter-spacing:0.03em; }
+  .nova-nav-item { flex:1;min-width:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;color:rgba(255,255,255,0.28);font-size:9px;font-weight:700;padding:6px 4px;border-radius:10px;transition:color 0.2s,opacity 0.15s;-webkit-tap-highlight-color:transparent;user-select:none;letter-spacing:0.03em;contain:layout style; }
+  .nova-nav-item svg { flex-shrink:0;width:24px;height:24px;display:block; }
+  .nova-nav-item span { display:block;white-space:nowrap;line-height:1; }
+  .nova-nav-item:active { opacity:0.6; }
   .nova-nav-active { color:#22c55e !important; }
 
   /* ── SKELETON ── */
@@ -1088,8 +1091,7 @@
   .nova-nav-active svg { filter:drop-shadow(0 0 5px rgba(34,197,94,0.7)); }
   /* Color boost — green glow on active cat bar */
   .nova-cat-active-bar { box-shadow:0 0 12px rgba(34,197,94,0.8), 0 0 24px rgba(34,197,94,0.4); }
-  /* Bottom nav item hover color */
-  .nova-nav-item:active { color:rgba(34,197,94,0.8) !important; transform:scale(0.92); }
+  /* Bottom nav item press — opacity only, no layout shift */
   /* Colorful header logo pulse */
   .nova-logo { animation:logo-pulse 4s ease-in-out infinite; }
   @keyframes logo-pulse { 0%,100%{box-shadow:0 0 18px rgba(34,197,94,0.45);}50%{box-shadow:0 0 28px rgba(34,197,94,0.7), 0 0 48px rgba(34,197,94,0.2);} }
