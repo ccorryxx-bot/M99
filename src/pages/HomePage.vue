@@ -157,8 +157,8 @@
             <div style="font-size:11px;font-weight:700;color:#4ade80;margin-bottom:3px;letter-spacing:0.04em;text-shadow:0 0 8px rgba(74,222,128,0.6);">{{ username }}</div>
             <div style="display:flex;align-items:center;gap:6px;">
               <div style="font-size:17px;font-weight:900;color:#4ade80;">{{ formatCurrency(mainBalance) }} <span style="font-size:10px;color:rgba(255,255,255,0.3);">MMK</span></div>
-              <button @click="refreshBalance" style="background:transparent;border:none;padding:3px;cursor:pointer;display:flex;align-items:center;">
-                <svg :style="{animation: balanceRefreshing ? 'nft-spin 0.6s linear infinite' : 'none', opacity: balanceRefreshing ? 0.5 : 0.85}" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#4ade80" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M23 4v6h-6"/><path d="M1 20v-6h6"/><path d="M3.51 9a9 9 0 0114.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0020.49 15"/></svg>
+              <button @click="refreshBalance" :class="['refresh-toggle', { 'refresh-toggle--spin': balanceRefreshing }]">
+                <svg class="refresh-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#4ade80" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M23 4v6h-6"/><path d="M1 20v-6h6"/><path d="M3.51 9a9 9 0 0114.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0020.49 15"/></svg>
               </button>
             </div>
           </div>
@@ -952,4 +952,30 @@
   from { transform: rotate(0deg); }
   to   { transform: rotate(360deg); }
 }
+
+.refresh-btn {
+    background: transparent;
+    border: none;
+    padding: 3px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0.85;
+    transition: opacity 0.2s;
+  }
+  .refresh-btn svg {
+    transition: transform 0.1s;
+  }
+  .refresh-btn.spinning {
+    opacity: 0.55;
+  }
+  .refresh-btn.spinning svg {
+    animation: btn-spin 0.6s linear infinite;
+  }
+  @keyframes btn-spin {
+    from { transform: rotate(0deg); }
+    to   { transform: rotate(360deg); }
+  }
+.refresh-toggle {  background: transparent;  border: none;  padding: 3px;  cursor: pointer;  display: flex;  align-items: center;  justify-content: center;  opacity: 0.85;  transition: opacity 0.2s;}.refresh-toggle .refresh-icon {  display: block;  transition: opacity 0.2s;}.refresh-toggle--spin .refresh-icon {  animation: refresh-spin 0.65s linear infinite;  opacity: 0.55;}@keyframes refresh-spin {  from { transform: rotate(0deg); }  to   { transform: rotate(360deg); }}
 </style>
