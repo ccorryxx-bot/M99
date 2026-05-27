@@ -107,58 +107,58 @@
         </defs>
 
         <!-- Dark BG fill -->
-        <rect width="120" height="120" :fill="'url(#'+u+'-bg'+')'"/>
+        <rect width="120" height="120" :fill="furl('bg')"/>
 
         <!-- ── BODY / JACKET ── cinematic crop at bottom -->
-        <ellipse cx="60" cy="130" rx="42" ry="28" :fill="'url(#'+u+'-jk'+')'"/>
+        <ellipse cx="60" cy="130" rx="42" ry="28" :fill="furl('jk')"/>
         <!-- Jacket gloss -->
-        <ellipse cx="60" cy="130" rx="42" ry="28" :fill="'url(#'+u+'-jg'+')'"/>
+        <ellipse cx="60" cy="130" rx="42" ry="28" :fill="furl('jg')"/>
         <!-- Jacket collar/zipper line -->
         <line x1="60" y1="97" x2="60" y2="120" :stroke="t.jacket1" stroke-width="1.5" opacity="0.8"/>
         <path d="M54 100 L60 98 L66 100" :stroke="pal.left" stroke-width="0.7" fill="none" opacity="0.8"/>
         <!-- Jacket neon edge highlights -->
-        <path d="M18 130 Q30 105 44 100" :stroke="pal.left" stroke-width="0.8" fill="none" opacity="0.6" :filter="'url(#'+u+'-sub'+')'"/>
-        <path d="M102 130 Q90 105 76 100" :stroke="pal.right" stroke-width="0.8" fill="none" opacity="0.6" :filter="'url(#'+u+'-sub'+')'"/>
+        <path d="M18 130 Q30 105 44 100" :stroke="pal.left" stroke-width="0.8" fill="none" opacity="0.6" :filter="furl('sub')"/>
+        <path d="M102 130 Q90 105 76 100" :stroke="pal.right" stroke-width="0.8" fill="none" opacity="0.6" :filter="furl('sub')"/>
 
         <!-- ── NECK ── -->
-        <path d="M50 88 Q50 100 52 104 L68 104 Q70 100 70 88" :fill="'url(#'+u+'-sk'+')'"/>
+        <path d="M50 88 Q50 100 52 104 L68 104 Q70 100 70 88" :fill="furl('sk')"/>
         <!-- Neck shadow -->
         <path d="M55 90 Q60 96 65 90" fill="none" :stroke="t.skinShadow" stroke-width="2" opacity="0.3"/>
 
         <!-- ── HAIR BACK LAYER ── (behind face) -->
         <template v-if="t.hairStyle===0">
           <!-- Flowing bob — side volumes behind ears -->
-          <path d="M22 55 Q18 72 22 92 Q28 108 38 112 Q30 88 32 68 Q30 55 38 40Z" :fill="'url(#'+u+'-hr'+')'"/>
-          <path d="M98 55 Q102 72 98 92 Q92 108 82 112 Q90 88 88 68 Q90 55 82 40Z" :fill="'url(#'+u+'-hr'+')'"/>
+          <path d="M22 55 Q18 72 22 92 Q28 108 38 112 Q30 88 32 68 Q30 55 38 40Z" :fill="furl('hr')"/>
+          <path d="M98 55 Q102 72 98 92 Q92 108 82 112 Q90 88 88 68 Q90 55 82 40Z" :fill="furl('hr')"/>
         </template>
         <template v-else-if="t.hairStyle===1">
           <!-- Long straight — side curtains -->
-          <path d="M20 52 Q15 80 20 115 Q28 120 36 115 Q28 85 30 60 Q28 50 36 38Z" :fill="'url(#'+u+'-hr'+')'"/>
-          <path d="M100 52 Q105 80 100 115 Q92 120 84 115 Q92 85 90 60 Q92 50 84 38Z" :fill="'url(#'+u+'-hr'+')'"/>
+          <path d="M20 52 Q15 80 20 115 Q28 120 36 115 Q28 85 30 60 Q28 50 36 38Z" :fill="furl('hr')"/>
+          <path d="M100 52 Q105 80 100 115 Q92 120 84 115 Q92 85 90 60 Q92 50 84 38Z" :fill="furl('hr')"/>
         </template>
         <template v-else-if="t.hairStyle===2">
           <!-- Voluminous curly — big side puffs -->
-          <path d="M18 50 Q12 65 16 82 Q20 98 30 105 Q24 82 26 62 Q24 48 32 38Z" :fill="'url(#'+u+'-hr'+')'"/>
-          <path d="M102 50 Q108 65 104 82 Q100 98 90 105 Q96 82 94 62 Q96 48 88 38Z" :fill="'url(#'+u+'-hr'+')'"/>
+          <path d="M18 50 Q12 65 16 82 Q20 98 30 105 Q24 82 26 62 Q24 48 32 38Z" :fill="furl('hr')"/>
+          <path d="M102 50 Q108 65 104 82 Q100 98 90 105 Q96 82 94 62 Q96 48 88 38Z" :fill="furl('hr')"/>
         </template>
         <template v-else-if="t.hairStyle===3">
           <!-- Sleek back — minimal sides -->
-          <path d="M26 52 Q24 68 26 84 Q30 98 38 104 Q34 80 34 62Z" :fill="'url(#'+u+'-hr'+')'"/>
-          <path d="M94 52 Q96 68 94 84 Q90 98 82 104 Q86 80 86 62Z" :fill="'url(#'+u+'-hr'+')'"/>
+          <path d="M26 52 Q24 68 26 84 Q30 98 38 104 Q34 80 34 62Z" :fill="furl('hr')"/>
+          <path d="M94 52 Q96 68 94 84 Q90 98 82 104 Q86 80 86 62Z" :fill="furl('hr')"/>
         </template>
         <template v-else>
           <!-- Wild spiky — asymmetric -->
-          <path d="M16 52 Q12 68 16 88 Q22 106 34 110 Q26 84 28 62Z" :fill="'url(#'+u+'-hr'+')'"/>
-          <path d="M104 52 Q108 68 104 88 Q98 106 86 110 Q94 84 92 62Z" :fill="'url(#'+u+'-hr'+')'"/>
+          <path d="M16 52 Q12 68 16 88 Q22 106 34 110 Q26 84 28 62Z" :fill="furl('hr')"/>
+          <path d="M104 52 Q108 68 104 88 Q98 106 86 110 Q94 84 92 62Z" :fill="furl('hr')"/>
         </template>
 
         <!-- ── FACE ── -->
-        <ellipse cx="60" cy="62" rx="30" ry="34" :fill="'url(#'+u+'-sk'+')'"/>
+        <ellipse cx="60" cy="62" rx="30" ry="34" :fill="furl('sk')"/>
 
         <!-- Cinematic neon color washes over face -->
-        <ellipse cx="60" cy="62" rx="30" ry="34" :fill="'url(#'+u+'-nl'+')'"/>
-        <ellipse cx="60" cy="62" rx="30" ry="34" :fill="'url(#'+u+'-nr'+')'"/>
-        <ellipse cx="60" cy="62" rx="30" ry="34" :fill="'url(#'+u+'-bu'+')'"/>
+        <ellipse cx="60" cy="62" rx="30" ry="34" :fill="furl('nl')"/>
+        <ellipse cx="60" cy="62" rx="30" ry="34" :fill="furl('nr')"/>
+        <ellipse cx="60" cy="62" rx="30" ry="34" :fill="furl('bu')"/>
 
         <!-- Face shadow sides (cheek contour) -->
         <path d="M30 58 Q28 72 32 84" :stroke="t.skinShadow" stroke-width="4" fill="none" opacity="0.18" stroke-linecap="round"/>
@@ -173,8 +173,8 @@
         <ellipse cx="30" cy="64" rx="2.5" ry="3.5" :fill="t.skinMid" opacity="0.5"/>
         <ellipse cx="90" cy="64" rx="2.5" ry="3.5" :fill="t.skinMid" opacity="0.5"/>
         <!-- Earring drop -->
-        <circle cx="30" cy="71" r="2" :fill="pal.left" :filter="'url(#'+u+'-gw')"/>
-        <circle cx="90" cy="71" r="2" :fill="pal.right" :filter="'url(#'+u+'-gw')"/>
+        <circle cx="30" cy="71" r="2" :fill="pal.left" :filter="furl('gw')"/>
+        <circle cx="90" cy="71" r="2" :fill="pal.right" :filter="furl('gw')"/>
         <path d="M30 69 L30 71" :stroke="pal.left" stroke-width="0.8"/>
         <path d="M90 69 L90 71" :stroke="pal.right" stroke-width="0.8"/>
 
@@ -182,42 +182,42 @@
         <!-- Top hair mass — covers forehead -->
         <template v-if="t.hairStyle===0">
           <!-- Bob: smooth rounded top -->
-          <path d="M30 56 Q30 20 60 18 Q90 20 90 56 Q82 32 60 30 Q38 32 30 56Z" :fill="'url(#'+u+'-hr'+')'"/>
-          <path d="M30 56 Q30 20 60 18 Q90 20 90 56 Q82 32 60 30 Q38 32 30 56Z" :fill="'url(#'+u+'-hs')'" opacity="0.5"/>
+          <path d="M30 56 Q30 20 60 18 Q90 20 90 56 Q82 32 60 30 Q38 32 30 56Z" :fill="furl('hr')"/>
+          <path d="M30 56 Q30 20 60 18 Q90 20 90 56 Q82 32 60 30 Q38 32 30 56Z" :fill="furl('hs')" opacity="0.5"/>
         </template>
         <template v-else-if="t.hairStyle===1">
           <!-- Long straight: flat top, center part -->
-          <path d="M30 56 Q28 24 60 18 Q92 24 90 56 Q84 30 60 28 Q36 30 30 56Z" :fill="'url(#'+u+'-hr'+')'"/>
+          <path d="M30 56 Q28 24 60 18 Q92 24 90 56 Q84 30 60 28 Q36 30 30 56Z" :fill="furl('hr')"/>
           <!-- Center part line highlight -->
           <line x1="60" y1="18" x2="60" y2="36" stroke="rgba(255,255,255,0.35)" stroke-width="0.8"/>
-          <path d="M30 56 Q28 24 60 18 Q92 24 90 56" :fill="'url(#'+u+'-hs')'" opacity="0.4"/>
+          <path d="M30 56 Q28 24 60 18 Q92 24 90 56" :fill="furl('hs')" opacity="0.4"/>
         </template>
         <template v-else-if="t.hairStyle===2">
           <!-- Curly voluminous -->
-          <path d="M28 56 Q24 20 60 16 Q96 20 92 56 Q86 28 60 26 Q34 28 28 56Z" :fill="'url(#'+u+'-hr'+')'"/>
+          <path d="M28 56 Q24 20 60 16 Q96 20 92 56 Q86 28 60 26 Q34 28 28 56Z" :fill="furl('hr')"/>
           <!-- Curly texture bumps -->
           <path d="M32 40 Q38 34 44 40 Q50 34 56 40 Q62 34 68 40 Q74 34 80 40 Q86 34 88 40" :stroke="t.h2" stroke-width="1.8" fill="none" opacity="0.45"/>
-          <path d="M28 56 Q24 20 60 16 Q96 20 92 56" :fill="'url(#'+u+'-hs')'" opacity="0.35"/>
+          <path d="M28 56 Q24 20 60 16 Q96 20 92 56" :fill="furl('hs')" opacity="0.35"/>
         </template>
         <template v-else-if="t.hairStyle===3">
           <!-- Sleek back — tight skullcap look -->
-          <path d="M32 52 Q30 22 60 18 Q90 22 88 52 Q82 30 60 28 Q38 30 32 52Z" :fill="'url(#'+u+'-hr'+')'"/>
+          <path d="M32 52 Q30 22 60 18 Q90 22 88 52 Q82 30 60 28 Q38 30 32 52Z" :fill="furl('hr')"/>
           <!-- Sleek shine streak -->
           <path d="M38 28 Q55 20 72 26" stroke="rgba(255,255,255,0.5)" stroke-width="1.2" fill="none" stroke-linecap="round"/>
-          <path d="M32 52 Q30 22 60 18 Q90 22 88 52" :fill="'url(#'+u+'-hs')'" opacity="0.55"/>
+          <path d="M32 52 Q30 22 60 18 Q90 22 88 52" :fill="furl('hs')" opacity="0.55"/>
         </template>
         <template v-else>
           <!-- Wild spiky punk -->
-          <path d="M30 54 Q28 24 60 18 Q92 24 90 54 Q84 30 60 28 Q36 30 30 54Z" :fill="'url(#'+u+'-hr'+')'"/>
+          <path d="M30 54 Q28 24 60 18 Q92 24 90 54 Q84 30 60 28 Q36 30 30 54Z" :fill="furl('hr')"/>
           <polygon points="36,44 32,22 42,38" :fill="t.h1"/>
           <polygon points="52,36 50,14 58,34" :fill="t.h2"/>
           <polygon points="68,36 70,14 62,34" :fill="t.h3"/>
           <polygon points="84,44 88,22 78,38" :fill="t.h4"/>
           <!-- Spike glow tips -->
-          <circle cx="32" cy="22" r="2.5" :fill="t.h1" :filter="'url(#'+u+'-sg')'" opacity="0.9"/>
-          <circle cx="50" cy="14" r="2.5" :fill="t.h2" :filter="'url(#'+u+'-sg')'" opacity="0.9"/>
-          <circle cx="70" cy="14" r="2.5" :fill="t.h3" :filter="'url(#'+u+'-sg')'" opacity="0.9"/>
-          <circle cx="88" cy="22" r="2.5" :fill="t.h4" :filter="'url(#'+u+'-sg')'" opacity="0.9"/>
+          <circle cx="32" cy="22" r="2.5" :fill="t.h1" :filter="furl('sg')" opacity="0.9"/>
+          <circle cx="50" cy="14" r="2.5" :fill="t.h2" :filter="furl('sg')" opacity="0.9"/>
+          <circle cx="70" cy="14" r="2.5" :fill="t.h3" :filter="furl('sg')" opacity="0.9"/>
+          <circle cx="88" cy="22" r="2.5" :fill="t.h4" :filter="furl('sg')" opacity="0.9"/>
         </template>
 
         <!-- ── EYEBROWS ── (bold, defined) -->
@@ -226,18 +226,18 @@
 
         <!-- ── EYESHADOW ── (dramatic, colorful) -->
         <!-- Left eyeshadow -->
-        <ellipse cx="44" cy="58" rx="10" ry="6" :fill="'url(#'+u+'-es')'" opacity="0.75"/>
+        <ellipse cx="44" cy="58" rx="10" ry="6" :fill="furl('es')" opacity="0.75"/>
         <!-- Right eyeshadow -->
-        <ellipse cx="76" cy="58" rx="10" ry="6" :fill="'url(#'+u+'-es')'" opacity="0.75"/>
+        <ellipse cx="76" cy="58" rx="10" ry="6" :fill="furl('es')" opacity="0.75"/>
         <!-- Inner corner highlight -->
-        <circle cx="37" cy="57" r="1.5" :fill="pal.left" opacity="0.6" :filter="'url(#'+u+'-sub'+')'"/>
-        <circle cx="83" cy="57" r="1.5" :fill="pal.right" opacity="0.6" :filter="'url(#'+u+'-sub'+')'"/>
+        <circle cx="37" cy="57" r="1.5" :fill="pal.left" opacity="0.6" :filter="furl('sub')"/>
+        <circle cx="83" cy="57" r="1.5" :fill="pal.right" opacity="0.6" :filter="furl('sub')"/>
 
         <!-- ── EYES ── (large, expressive) -->
         <!-- Left eye white -->
         <ellipse cx="44" cy="60" rx="9" ry="6.5" fill="rgba(255,252,248,0.96)"/>
         <!-- Left iris -->
-        <circle cx="44" cy="60" r="5" :fill="'url(#'+u+'-ir')'" :filter="'url(#'+u+'-sub'+')'"/>
+        <circle cx="44" cy="60" r="5" :fill="furl('ir')" :filter="furl('sub')"/>
         <!-- Left pupil -->
         <circle cx="44" cy="60" r="2.5" fill="#050508"/>
         <!-- Left eye highlight -->
@@ -253,7 +253,7 @@
         <!-- Right eye white -->
         <ellipse cx="76" cy="60" rx="9" ry="6.5" fill="rgba(255,252,248,0.96)"/>
         <!-- Right iris -->
-        <circle cx="76" cy="60" r="5" :fill="'url(#'+u+'-ir')'" :filter="'url(#'+u+'-sub'+')'"/>
+        <circle cx="76" cy="60" r="5" :fill="furl('ir')" :filter="furl('sub')"/>
         <!-- Right pupil -->
         <circle cx="76" cy="60" r="2.5" fill="#050508"/>
         <!-- Right eye highlight -->
@@ -276,7 +276,7 @@
         <!-- Lip shadow base -->
         <path d="M44 88 Q52 85 60 86 Q68 85 76 88 Q68 96 60 97 Q52 96 44 88Z" :fill="t.lip" opacity="0.9"/>
         <!-- Upper lip -->
-        <path d="M44 88 Q48 84 53 86 Q57 83 60 86 Q63 83 67 86 Q72 84 76 88 Q68 85 60 86 Q52 85 44 88Z" :fill="'url(#'+u+'-lp')"/>
+        <path d="M44 88 Q48 84 53 86 Q57 83 60 86 Q63 83 67 86 Q72 84 76 88 Q68 85 60 86 Q52 85 44 88Z" :fill="furl('lp')"/>
         <!-- Lower lip -->
         <path d="M44 88 Q52 96 60 97 Q68 96 76 88 Q68 93 60 94 Q52 93 44 88Z" :fill="t.lip"/>
         <!-- Cupid bow highlight -->
@@ -292,9 +292,9 @@
 
         <!-- ── NEON LIGHTING GLOWS (atmospheric) ── -->
         <!-- Left neon haze -->
-        <ellipse cx="10" cy="60" rx="25" ry="35" :fill="pal.left" opacity="0.12" :filter="'url(#'+u+'-sg'+')'"/>
+        <ellipse cx="10" cy="60" rx="25" ry="35" :fill="pal.left" opacity="0.12" :filter="furl('sg')"/>
         <!-- Right neon haze -->
-        <ellipse cx="110" cy="58" rx="25" ry="35" :fill="pal.right" opacity="0.10" :filter="'url(#'+u+'-sg'+')'"/>
+        <ellipse cx="110" cy="58" rx="25" ry="35" :fill="pal.right" opacity="0.10" :filter="furl('sg')"/>
 
         <!-- Hologram scan lines overlay -->
         <line x1="0" y1="45" x2="120" y2="45" :stroke="pal.left" stroke-width="0.3" opacity="0.12"/>
@@ -333,6 +333,7 @@ function hash(s, salt = '') {
 
 const u = computed(() => 'na' + hash(props.username).toString(36))
 const hashId = computed(() => hash(props.username).toString(16).slice(0,6).toUpperCase())
+const furl = (suffix) => `url(#${u.value}-${suffix})`
 
 // Neon palette — cinematic color pair
 const pal = computed(() => {
