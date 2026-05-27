@@ -110,6 +110,44 @@
         </div>
       </div>
 
+      <!-- ══ ACCOUNT STRIP — right side, between banner & games ══ -->
+      <div v-if="isLoggedIn" class="flex justify-end items-start px-4 pt-2.5 pb-0">
+        <div class="flex flex-col items-end gap-2">
+
+          <!-- Deposit + Withdraw buttons row -->
+          <div class="flex items-center gap-2">
+            <button @click="showDepositModal = true"
+              class="flex items-center gap-1.5 px-3.5 py-1.5 rounded-full text-[11px] font-bold active:scale-95 transition-all"
+              style="background:linear-gradient(135deg,#00c6e0,#007a94);box-shadow:0 0 12px rgba(0,198,224,0.35),0 2px 6px rgba(0,0,0,0.4);color:#fff;border:1px solid rgba(0,229,255,0.3);">
+              <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M12 4v16m8-8H4"/>
+              </svg>
+              Deposit
+            </button>
+            <button @click="showWithdrawModal = true"
+              class="flex items-center gap-1.5 px-3.5 py-1.5 rounded-full text-[11px] font-bold active:scale-95 transition-all"
+              style="background:rgba(0,229,255,0.07);border:1px solid rgba(0,229,255,0.25);color:rgba(0,229,255,0.85);box-shadow:0 2px 8px rgba(0,0,0,0.3);">
+              <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M20 12H4m0 0l4-4m-4 4l4 4"/>
+              </svg>
+              Withdraw
+            </button>
+          </div>
+
+          <!-- NFT Avatar + username + balance (right-aligned below buttons) -->
+          <div class="flex items-center gap-2">
+            <div class="text-right">
+              <p class="text-[11px] font-bold leading-tight" style="color:rgba(255,255,255,0.85);">{{ username.slice(0,4) }}</p>
+              <p class="text-[10px] leading-tight">
+                <span v-if="balanceLoading" class="animate-pulse" style="color:rgba(255,255,255,0.3);">…</span>
+                <span v-else class="font-semibold" style="color:#00e5ff;">{{ formatCurrency(mainBalance) }} Ks</span>
+              </p>
+            </div>
+            <NftAvatar :username="username" :size="44" />
+          </div>
+
+        </div>
+      </div>
 
       <!-- ══ GAME ZONE: Vertical Sidebar + Cards ══ -->
       <div class="flex gap-0 pt-4 pb-2 px-2">
