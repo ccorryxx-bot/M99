@@ -1012,15 +1012,13 @@
     width:26px; height:26px;
     position:relative;
     transform-style:preserve-3d;
-    animation:nova-cube-tumble 9s linear infinite;
+    animation: nova-cube-turbo 5s linear infinite;
   }
-  @keyframes nova-cube-tumble {
-    0%   { transform: rotateX(0deg)   rotateY(0deg)   rotateZ(0deg);   }
-    20%  { transform: rotateX(72deg)  rotateY(135deg) rotateZ(54deg);  }
-    40%  { transform: rotateX(144deg) rotateY(216deg) rotateZ(162deg); }
-    60%  { transform: rotateX(252deg) rotateY(324deg) rotateZ(108deg); }
-    80%  { transform: rotateX(288deg) rotateY(432deg) rotateZ(216deg); }
-    100% { transform: rotateX(360deg) rotateY(540deg) rotateZ(270deg); }
+  /* 0-60% = 3s fast blast (100x speed), 60-100% = 2s slow elegant tumble, loop */
+  @keyframes nova-cube-turbo {
+    0%   { transform: rotateX(0deg)    rotateY(0deg)    rotateZ(0deg);    }
+    60%  { transform: rotateX(3240deg) rotateY(5400deg) rotateZ(2160deg); }
+    100% { transform: rotateX(3420deg) rotateY(5580deg) rotateZ(2250deg); }
   }
   .nova-cube-face {
     position:absolute;
