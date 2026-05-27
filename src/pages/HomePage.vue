@@ -59,7 +59,7 @@
         </div>
         <div style="display:flex;align-items:center;gap:10px;">
           <!-- Deposit icon — green frame -->
-          <div @click="openAuth('login')" class="nova-quick-icon nova-quick-icon--framed">
+          <div @click="goUrl(depositUrl)" class="nova-quick-icon nova-quick-icon--framed">
             <div class="nova-quick-frame">
               <svg width="17" height="17" fill="none" viewBox="0 0 24 24">
                 <rect x="2" y="6" width="20" height="13" rx="2.5" fill="rgba(34,197,94,0.12)" stroke="rgba(34,197,94,0.7)" stroke-width="1.4"/>
@@ -75,7 +75,7 @@
             <span>ငွေသွင်းရန်</span>
           </div>
           <!-- Withdraw icon — green frame -->
-          <div @click="openAuth('login')" class="nova-quick-icon nova-quick-icon--framed">
+          <div @click="goUrl(withdrawUrl)" class="nova-quick-icon nova-quick-icon--framed">
             <div class="nova-quick-frame">
               <svg width="17" height="17" fill="none" viewBox="0 0 24 24">
                 <rect x="2" y="6" width="20" height="13" rx="2.5" fill="rgba(34,197,94,0.08)" stroke="rgba(34,197,94,0.6)" stroke-width="1.4"/>
@@ -91,61 +91,60 @@
             </div>
             <span>ငွေထုတ်ရန်</span>
           </div>
-          <!-- VIP — AI Bot Hologram Logo -->
-          <div class="nova-quick-icon">
-            <svg width="20" height="20" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-              <!-- HUD corner brackets -->
-              <path d="M3 3h4v1.5H4.5V8H3z" fill="rgba(34,197,94,0.85)"/>
-              <path d="M21 3h-4v1.5h2.5V8H21z" fill="rgba(34,197,94,0.85)"/>
-              <path d="M3 21h4v-1.5H4.5V16H3z" fill="rgba(34,197,94,0.85)"/>
-              <path d="M21 21h-4v-1.5h2.5V16H21z" fill="rgba(34,197,94,0.85)"/>
-              <!-- outer ring dashed -->
-              <circle cx="12" cy="12" r="6" fill="none" stroke="rgba(34,197,94,0.35)" stroke-width="0.7" stroke-dasharray="2.5 1.5"/>
-              <!-- eye ring -->
-              <circle cx="12" cy="12" r="4" fill="rgba(0,0,0,0.5)" stroke="rgba(34,197,94,0.65)" stroke-width="0.9"/>
-              <!-- eye core pulse -->
-              <circle cx="12" cy="12" r="2" fill="rgba(34,197,94,0.95)">
-                <animate attributeName="r" values="2;2.5;2" dur="1.8s" repeatCount="indefinite"/>
-                <animate attributeName="fill-opacity" values="0.95;0.7;0.95" dur="1.8s" repeatCount="indefinite"/>
+          <!-- VIP — AI Bot Head Logo -->
+          <div class="nova-quick-icon" @click="goUrl(vipUrl)">
+            <svg width="22" height="22" viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg">
+              <!-- antenna -->
+              <line x1="16" y1="2" x2="16" y2="7" stroke="rgba(34,197,94,0.8)" stroke-width="1.4" stroke-linecap="round"/>
+              <circle cx="16" cy="2" r="1.5" fill="rgba(34,197,94,0.9)">
+                <animate attributeName="opacity" values="1;0.4;1" dur="1.2s" repeatCount="indefinite"/>
               </circle>
-              <!-- pupil -->
-              <circle cx="12" cy="12" r="0.9" fill="#fff"/>
-              <!-- scan line sweep -->
-              <line x1="6" y1="12" x2="18" y2="12" stroke="rgba(34,197,94,0.5)" stroke-width="0.6">
-                <animate attributeName="y1" values="8;16;8" dur="2s" repeatCount="indefinite"/>
-                <animate attributeName="y2" values="8;16;8" dur="2s" repeatCount="indefinite"/>
-                <animate attributeName="opacity" values="0.7;0;0.7" dur="2s" repeatCount="indefinite"/>
+              <!-- ear left -->
+              <rect x="3" y="12" width="3.5" height="6" rx="1.5" fill="rgba(34,197,94,0.5)" stroke="rgba(34,197,94,0.7)" stroke-width="0.8"/>
+              <!-- ear right -->
+              <rect x="25.5" y="12" width="3.5" height="6" rx="1.5" fill="rgba(34,197,94,0.5)" stroke="rgba(34,197,94,0.7)" stroke-width="0.8"/>
+              <!-- head body -->
+              <rect x="6.5" y="7" width="19" height="18" rx="4" fill="rgba(15,30,20,0.95)" stroke="rgba(34,197,94,0.75)" stroke-width="1.2"/>
+              <!-- visor / face plate -->
+              <rect x="8.5" y="9.5" width="15" height="9" rx="2.5" fill="rgba(34,197,94,0.08)" stroke="rgba(34,197,94,0.35)" stroke-width="0.7"/>
+              <!-- left eye -->
+              <rect x="10" y="11.5" width="5" height="5" rx="1.5" fill="rgba(34,197,94,0.15)" stroke="rgba(34,197,94,0.8)" stroke-width="0.8"/>
+              <rect x="11.2" y="12.7" width="2.6" height="2.6" rx="0.8" fill="rgba(34,197,94,0.95)">
+                <animate attributeName="fill-opacity" values="1;0.5;1" dur="1.5s" repeatCount="indefinite"/>
+              </rect>
+              <!-- right eye -->
+              <rect x="17" y="11.5" width="5" height="5" rx="1.5" fill="rgba(34,197,94,0.15)" stroke="rgba(34,197,94,0.8)" stroke-width="0.8"/>
+              <rect x="18.2" y="12.7" width="2.6" height="2.6" rx="0.8" fill="rgba(34,197,94,0.95)">
+                <animate attributeName="fill-opacity" values="1;0.5;1" dur="1.5s" begin="0.4s" repeatCount="indefinite"/>
+              </rect>
+              <!-- scan line across visor -->
+              <line x1="8.5" y1="14" x2="23.5" y2="14" stroke="rgba(34,197,94,0.5)" stroke-width="0.6">
+                <animate attributeName="y1" values="10;18;10" dur="2s" repeatCount="indefinite"/>
+                <animate attributeName="y2" values="10;18;10" dur="2s" repeatCount="indefinite"/>
+                <animate attributeName="opacity" values="0.6;0;0.6" dur="2s" repeatCount="indefinite"/>
               </line>
-              <!-- side data bars -->
-              <line x1="3" y1="10.5" x2="5.5" y2="10.5" stroke="rgba(34,197,94,0.6)" stroke-width="0.8"/>
-              <line x1="3" y1="13.5" x2="4.5" y2="13.5" stroke="rgba(34,197,94,0.35)" stroke-width="0.6"/>
-              <line x1="18.5" y1="10.5" x2="21" y2="10.5" stroke="rgba(34,197,94,0.6)" stroke-width="0.8"/>
-              <line x1="19.5" y1="13.5" x2="21" y2="13.5" stroke="rgba(34,197,94,0.35)" stroke-width="0.6"/>
+              <!-- mouth / data bar -->
+              <rect x="11" y="21" width="10" height="2" rx="1" fill="rgba(34,197,94,0.25)"/>
+              <rect x="13" y="21" width="3" height="2" rx="1" fill="rgba(34,197,94,0.8)">
+                <animate attributeName="width" values="3;7;3" dur="1.8s" repeatCount="indefinite"/>
+              </rect>
             </svg>
-            <span style="color:rgba(34,197,94,0.85);">VIP</span>
+            <span style="color:rgba(34,197,94,0.9);">VIP</span>
           </div>
-          <!-- Install/Download — Animated Flow Arrows -->
-          <div class="nova-quick-icon">
-            <svg width="19" height="19" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-              <!-- flowing arrow 1 -->
-              <path d="M8 3l4 4.5 4-4.5" fill="none" stroke="rgba(34,197,94,0.9)" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
-                <animate attributeName="opacity" values="0;1;1;0" dur="1.5s" repeatCount="indefinite" begin="0s"/>
-                <animate attributeName="transform" attributeType="XML" type="translate" values="0,-2;0,0;0,0;0,2" dur="1.5s" repeatCount="indefinite" begin="0s"/>
-              </path>
-              <!-- flowing arrow 2 -->
-              <path d="M8 9l4 4.5 4-4.5" fill="none" stroke="rgba(34,197,94,0.65)" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
-                <animate attributeName="opacity" values="0;1;1;0" dur="1.5s" repeatCount="indefinite" begin="0.35s"/>
-                <animate attributeName="transform" attributeType="XML" type="translate" values="0,-2;0,0;0,0;0,2" dur="1.5s" repeatCount="indefinite" begin="0.35s"/>
-              </path>
-              <!-- flowing arrow 3 -->
-              <path d="M8 15l4 4.5 4-4.5" fill="none" stroke="rgba(34,197,94,0.35)" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
-                <animate attributeName="opacity" values="0;1;1;0" dur="1.5s" repeatCount="indefinite" begin="0.7s"/>
-                <animate attributeName="transform" attributeType="XML" type="translate" values="0,-2;0,0;0,0;0,2" dur="1.5s" repeatCount="indefinite" begin="0.7s"/>
-              </path>
-              <!-- glow line at bottom -->
-              <line x1="7" y1="22" x2="17" y2="22" stroke="rgba(34,197,94,0.4)" stroke-width="1.5" stroke-linecap="round">
-                <animate attributeName="opacity" values="0.2;0.8;0.2" dur="1.5s" repeatCount="indefinite"/>
+          <!-- Install — Single animated download arrow -->
+          <div class="nova-quick-icon" @click="goUrl(installUrl)">
+            <svg width="20" height="20" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+              <!-- shaft -->
+              <line x1="12" y1="3" x2="12" y2="15" stroke="rgba(34,197,94,0.85)" stroke-width="2" stroke-linecap="round">
+                <animate attributeName="opacity" values="1;0.35;1" dur="1.1s" repeatCount="indefinite"/>
               </line>
+              <!-- arrowhead -->
+              <path d="M7.5 11l4.5 5 4.5-5" fill="none" stroke="rgba(34,197,94,0.9)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <animate attributeName="transform" attributeType="XML" type="translate" values="0,0;0,2;0,0" dur="1.1s" repeatCount="indefinite"/>
+                <animate attributeName="opacity" values="1;0.4;1" dur="1.1s" repeatCount="indefinite"/>
+              </path>
+              <!-- ground bar -->
+              <line x1="6" y1="20" x2="18" y2="20" stroke="rgba(34,197,94,0.6)" stroke-width="1.8" stroke-linecap="round"/>
             </svg>
             <span>တပ်ဆင်မည်</span>
           </div>
@@ -476,6 +475,13 @@
 
   const route = useRoute()
 
+  // ── Blank URL slots — fill these with real links ──
+  const depositUrl  = ref('')   // TODO: add deposit page URL
+  const withdrawUrl = ref('')   // TODO: add withdraw page URL
+  const vipUrl      = ref('')   // TODO: add VIP page URL
+  const installUrl  = ref('')   // TODO: add app install URL
+  function goUrl(url) { if (url) window.open(url, '_blank') }
+
   const isLoggedIn = ref(false); const username = ref(''); const mainBalance = ref(0); const currentLang = ref('en')
   const showAuthModal = ref(false); const authTab = ref('login')
   const loginUsername = ref(''); const loginPassword = ref(''); const loginShowPassword = ref(false); const loginLoading = ref(false); const loginError = ref(''); const loginType = ref('password'); const rememberMe = ref(false)
@@ -691,14 +697,12 @@
   @keyframes nova-marquee { from{transform:translateX(100vw);}to{transform:translateX(-100%);} }
   .nova-marquee { display:inline-block; animation:nova-marquee 30s linear infinite; will-change:transform; white-space:nowrap; font-size:12px; color:rgba(255,255,255,0.58); }
 
-  /* ── SIDEBAR ── */
+  /* ── SIDEBAR — scrolls together with game grid ── */
   .nova-sidebar {
-    width:72px; flex-shrink:0; position:sticky; top:53px;
-    height:calc(100vh - 53px); overflow-y:auto; align-self:flex-start;
+    width:72px; flex-shrink:0;
+    align-self:flex-start;
     background:rgba(10,10,10,0.98); border-right:1px solid rgba(255,255,255,0.055); padding:6px 0;
-    -ms-overflow-style:none; scrollbar-width:none;
   }
-  .nova-sidebar::-webkit-scrollbar { display:none; }
   .nova-cat-btn { position:relative; width:100%; display:flex; flex-direction:column; align-items:center; gap:5px; padding:10px 4px; background:transparent; border:none; cursor:pointer; -webkit-tap-highlight-color:transparent; overflow:hidden; transition:background 0.2s; }
   .nova-cat-btn--active { background:rgba(34,197,94,0.06); }
   .nova-cat-glow { position:absolute; inset:0; width:100%; height:100%; pointer-events:none; z-index:0; }
