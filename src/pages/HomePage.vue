@@ -1014,11 +1014,12 @@
     transform-style:preserve-3d;
     animation: nova-cube-turbo 5s linear infinite;
   }
-  /* 0-60% = 3s fast blast (100x speed), 60-100% = 2s slow elegant tumble, loop */
+  /* Rolls smoothly around the diagonal corner axis (1,1,1) — like a sphere */
+  /* 0-60% = 3s fast blast, 60-100% = 2s slow elegant roll, loop */
   @keyframes nova-cube-turbo {
-    0%   { transform: rotateX(0deg)    rotateY(0deg)    rotateZ(0deg);    }
-    60%  { transform: rotateX(3240deg) rotateY(5400deg) rotateZ(2160deg); }
-    100% { transform: rotateX(3420deg) rotateY(5580deg) rotateZ(2250deg); }
+    0%   { transform: rotate3d(1, 1, 1, 0deg);    }
+    60%  { transform: rotate3d(1, 1, 1, 3600deg); }
+    100% { transform: rotate3d(1, 1, 1, 3780deg); }
   }
   .nova-cube-face {
     position:absolute;
