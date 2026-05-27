@@ -1,15 +1,8 @@
 <template>
   <div class="nft-root" :style="{ width: size + 'px', height: size + 'px' }">
 
-    <!-- Aura rings -->
-    <div class="aura-r aura-r3" :style="{ borderColor: pal.ring, boxShadow: '0 0 10px ' + pal.ring }"></div>
-    <div class="aura-r aura-r2" :style="{ borderColor: pal.mid }"></div>
-
-    <!-- Orbit particles -->
-    <div class="orbit-wrap">
-      <div v-for="(p,i) in orbs" :key="i" class="orb"
-        :style="{ '--c': p.color, '--r': p.r+'px', '--s': p.s+'px', animationDuration: p.d+'s', animationDelay: p.dl+'s', animationDirection: p.rev?'reverse':'normal' }"/>
-    </div>
+    <!-- Single soft green glow ring -->
+    <div class="soft-ring"></div>
 
     <!-- Main portrait circle -->
     <div class="nft-circle" :style="{ background: bg }">
@@ -504,35 +497,19 @@ const orbs = computed(() => {
   position: absolute; inset: 0; border-radius: 50%;
   z-index: 4; pointer-events: none;
 }
-.orbit-wrap {
-  position: absolute; inset: 0; pointer-events: none; z-index: 1;
-}
-.orb {
+.soft-ring {
   position: absolute;
-  width: var(--s); height: var(--s); border-radius: 50%;
-  background: var(--c);
-  box-shadow: 0 0 5px var(--c), 0 0 10px var(--c);
-  top: 50%; left: 50%;
-  margin: calc(var(--s) / -2);
-  animation: orbit linear infinite;
-  transform-origin: calc(var(--r) * -1) 0;
-}
-.aura-r {
-  position: absolute; border-radius: 50%; border: 1px solid;
+  inset: -3px;
+  border-radius: 50%;
+  border: 1.5px solid rgba(74, 222, 128, 0.4);
+  box-shadow: 0 0 8px rgba(74, 222, 128, 0.2), inset 0 0 4px rgba(74, 222, 128, 0.08);
   pointer-events: none;
-  animation: aura-pulse 2.8s ease-in-out infinite;
+  animation: ring-breathe 3s ease-in-out infinite;
+  z-index: 5;
 }
-.aura-r1 { inset: -4px; }
-.aura-r2 { inset: -3px; animation-delay: 0.4s; }
-.aura-r3 { inset: -8px; animation-delay: 0.8s; }
-
-@keyframes orbit {
-  from { transform: rotate(0deg) translateX(var(--r)); }
-  to   { transform: rotate(360deg) translateX(var(--r)); }
-}
-@keyframes aura-pulse {
-  0%,100% { opacity: 0.65; }
-  50%      { opacity: 1; }
+@keyframes ring-breathe {
+  0%,100% { opacity: 0.55; box-shadow: 0 0 6px rgba(74,222,128,0.15); }
+  50%      { opacity: 1;    box-shadow: 0 0 14px rgba(74,222,128,0.35); }
 }
 @keyframes nft-breathe {
   0%,100% { transform: scale(1); }
