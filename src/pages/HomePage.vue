@@ -150,11 +150,11 @@
           </div>
         </div>
       </div>
-      <div v-if="isLoggedIn" style="padding:10px 14px 6px;">
-        <!-- Row 1: User info -->
-        <div style="display:flex;align-items:center;margin-bottom:8px;">
+      <div v-if="isLoggedIn" style="padding:10px 14px;display:flex;align-items:center;justify-content:space-between;">
+        <!-- LEFT: Avatar + info -->
+        <div style="display:flex;align-items:center;gap:10px;">
           <NftAvatar :username="username" :size="38" />
-          <div style="margin-left:10px;">
+          <div>
             <div style="font-size:11px;font-weight:700;color:#4ade80;margin-bottom:3px;letter-spacing:0.04em;text-shadow:0 0 8px rgba(74,222,128,0.6);">{{ username }}</div>
             <div style="display:flex;align-items:center;gap:6px;">
               <div style="font-size:17px;font-weight:900;color:#4ade80;">{{ formatCurrency(mainBalance) }} <span style="font-size:10px;color:rgba(255,255,255,0.3);">MMK</span></div>
@@ -164,60 +164,63 @@
             </div>
           </div>
         </div>
-        <!-- Row 2: 6 compact quick shortcut buttons -->
-        <div class="qrow qrow--compact">
-          <!-- KPay -->
-          <div class="qbtn qbtn--pay" @click="showDepositModal=true">
-            <div class="qbtn-frame qbtn-frame--sm"><div class="qbtn-img-blank"></div></div>
-            <span class="qbtn-lbl">KPay</span>
-          </div>
-          <!-- Wave -->
-          <div class="qbtn qbtn--pay" @click="showDepositModal=true">
-            <div class="qbtn-frame qbtn-frame--sm"><div class="qbtn-img-blank"></div></div>
-            <span class="qbtn-lbl">Wave</span>
-          </div>
-          <!-- UABPay -->
-          <div class="qbtn qbtn--pay" @click="showDepositModal=true">
-            <div class="qbtn-frame qbtn-frame--sm"><div class="qbtn-img-blank"></div></div>
-            <span class="qbtn-lbl">UAB</span>
-          </div>
-          <!-- VIP -->
-          <div class="qbtn qbtn--vip" @click="$router.push(`/vip`)">
-            <div class="qbtn-icon-wrap qbtn-icon-wrap--vip qbtn-icon-wrap--sm">
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M2 17h20l-2-9-5 5-3-7-3 7-5-5-2 9z" fill="url(#vipGrad)" stroke="#f59e0b" stroke-width="0.5"/><defs><linearGradient id="vipGrad" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#fbbf24"/><stop offset="50%" stop-color="#f59e0b"/><stop offset="100%" stop-color="#d97706"/></linearGradient></defs><circle cx="12" cy="8" r="1.5" fill="#fef3c7"/><circle cx="2.5" cy="8.5" r="1" fill="#fef3c7"/><circle cx="21.5" cy="8.5" r="1" fill="#fef3c7"/></svg>
+        <!-- RIGHT: 6 tiny shortcut buttons above + deposit/withdraw below -->
+        <div style="display:flex;flex-direction:column;align-items:flex-end;gap:5px;">
+          <!-- 6 buttons row: same size, tight together -->
+          <div style="display:flex;gap:3px;">
+            <!-- KPay -->
+            <div style="display:flex;flex-direction:column;align-items:center;gap:1px;cursor:pointer;" @click="showDepositModal=true">
+              <div style="width:30px;height:30px;border-radius:7px;border:1.5px solid rgba(74,222,128,0.55);background:rgba(74,222,128,0.06);box-shadow:0 0 6px rgba(74,222,128,0.15);"></div>
+              <span style="font-size:8px;color:rgba(255,255,255,0.6);font-weight:600;">KPay</span>
             </div>
-            <span class="qbtn-lbl qbtn-lbl--vip">VIP</span>
-          </div>
-          <!-- Bot -->
-          <div class="qbtn qbtn--bot" @click="">
-            <div class="qbtn-icon-wrap qbtn-icon-wrap--bot qbtn-icon-wrap--sm">
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><rect x="4" y="8" width="16" height="12" rx="3" fill="#0f2a1a" stroke="#4ade80" stroke-width="1.2"/><rect x="7" y="4" width="10" height="5" rx="2" fill="#0f2a1a" stroke="#4ade80" stroke-width="1"/><line x1="12" y1="4" x2="12" y2="2" stroke="#4ade80" stroke-width="1.2" stroke-linecap="round"/><circle cx="12" cy="2" r="1" fill="#4ade80"/><circle cx="9" cy="13" r="1.8" fill="#4ade80" opacity="0.9"/><circle cx="15" cy="13" r="1.8" fill="#4ade80" opacity="0.9"/><rect x="8" y="17" width="8" height="1.5" rx="0.75" fill="#4ade80" opacity="0.6"/><line x1="2" y1="13" x2="4" y2="13" stroke="#4ade80" stroke-width="1.2" stroke-linecap="round"/><line x1="20" y1="13" x2="22" y2="13" stroke="#4ade80" stroke-width="1.2" stroke-linecap="round"/></svg>
+            <!-- Wave -->
+            <div style="display:flex;flex-direction:column;align-items:center;gap:1px;cursor:pointer;" @click="showDepositModal=true">
+              <div style="width:30px;height:30px;border-radius:7px;border:1.5px solid rgba(74,222,128,0.55);background:rgba(74,222,128,0.06);box-shadow:0 0 6px rgba(74,222,128,0.15);"></div>
+              <span style="font-size:8px;color:rgba(255,255,255,0.6);font-weight:600;">Wave</span>
             </div>
-            <span class="qbtn-lbl qbtn-lbl--bot">Bot</span>
-          </div>
-          <!-- Download -->
-          <div class="qbtn qbtn--dl" @click="">
-            <div class="qbtn-icon-wrap qbtn-icon-wrap--dl qbtn-icon-wrap--sm">
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><rect x="3" y="3" width="18" height="18" rx="4" fill="#061828" stroke="#22d3ee" stroke-width="1.2"/><path d="M12 7v7" stroke="#22d3ee" stroke-width="1.8" stroke-linecap="round"/><path d="M8.5 11l3.5 4 3.5-4" stroke="#22d3ee" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/><line x1="7" y1="18" x2="17" y2="18" stroke="#22d3ee" stroke-width="1.4" stroke-linecap="round"/></svg>
+            <!-- UAB -->
+            <div style="display:flex;flex-direction:column;align-items:center;gap:1px;cursor:pointer;" @click="showDepositModal=true">
+              <div style="width:30px;height:30px;border-radius:7px;border:1.5px solid rgba(74,222,128,0.55);background:rgba(74,222,128,0.06);box-shadow:0 0 6px rgba(74,222,128,0.15);"></div>
+              <span style="font-size:8px;color:rgba(255,255,255,0.6);font-weight:600;">UAB</span>
             </div>
-            <span class="qbtn-lbl qbtn-lbl--dl">ဒေါင်း</span>
+            <!-- VIP -->
+            <div style="display:flex;flex-direction:column;align-items:center;gap:1px;cursor:pointer;" @click="$router.push(\`/vip\`)">
+              <div style="width:30px;height:30px;border-radius:7px;background:linear-gradient(135deg,rgba(245,158,11,0.22),rgba(217,119,6,0.12));border:1.5px solid rgba(251,191,36,0.6);box-shadow:0 0 8px rgba(251,191,36,0.25);display:flex;align-items:center;justify-content:center;">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M2 17h20l-2-9-5 5-3-7-3 7-5-5-2 9z" fill="url(#vg2)" stroke="#f59e0b" stroke-width="0.5"/><defs><linearGradient id="vg2" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#fbbf24"/><stop offset="100%" stop-color="#d97706"/></linearGradient></defs><circle cx="12" cy="8" r="1.5" fill="#fef3c7"/><circle cx="2.5" cy="8.5" r="1" fill="#fef3c7"/><circle cx="21.5" cy="8.5" r="1" fill="#fef3c7"/></svg>
+              </div>
+              <span style="font-size:8px;color:#fbbf24;font-weight:600;text-shadow:0 0 5px rgba(251,191,36,0.4);">VIP</span>
+            </div>
+            <!-- Bot -->
+            <div style="display:flex;flex-direction:column;align-items:center;gap:1px;cursor:pointer;" @click="">
+              <div style="width:30px;height:30px;border-radius:7px;background:linear-gradient(135deg,rgba(74,222,128,0.15),rgba(16,185,129,0.08));border:1.5px solid rgba(74,222,128,0.55);box-shadow:0 0 8px rgba(74,222,128,0.2);display:flex;align-items:center;justify-content:center;">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none"><rect x="4" y="8" width="16" height="12" rx="3" fill="#0f2a1a" stroke="#4ade80" stroke-width="1.2"/><rect x="7" y="4" width="10" height="5" rx="2" fill="#0f2a1a" stroke="#4ade80" stroke-width="1"/><line x1="12" y1="4" x2="12" y2="2" stroke="#4ade80" stroke-width="1.2" stroke-linecap="round"/><circle cx="12" cy="2" r="1" fill="#4ade80"/><circle cx="9" cy="13" r="1.8" fill="#4ade80" opacity="0.9"/><circle cx="15" cy="13" r="1.8" fill="#4ade80" opacity="0.9"/><rect x="8" y="17" width="8" height="1.5" rx="0.75" fill="#4ade80" opacity="0.6"/></svg>
+              </div>
+              <span style="font-size:8px;color:#4ade80;font-weight:600;text-shadow:0 0 5px rgba(74,222,128,0.3);">Bot</span>
+            </div>
+            <!-- Download -->
+            <div style="display:flex;flex-direction:column;align-items:center;gap:1px;cursor:pointer;" @click="">
+              <div style="width:30px;height:30px;border-radius:7px;background:linear-gradient(135deg,rgba(34,211,238,0.15),rgba(6,182,212,0.08));border:1.5px solid rgba(34,211,238,0.55);box-shadow:0 0 8px rgba(34,211,238,0.2);display:flex;align-items:center;justify-content:center;">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none"><rect x="3" y="3" width="18" height="18" rx="4" fill="#061828" stroke="#22d3ee" stroke-width="1.2"/><path d="M12 7v7" stroke="#22d3ee" stroke-width="1.8" stroke-linecap="round"/><path d="M8.5 11l3.5 4 3.5-4" stroke="#22d3ee" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/><line x1="7" y1="18" x2="17" y2="18" stroke="#22d3ee" stroke-width="1.4" stroke-linecap="round"/></svg>
+              </div>
+              <span style="font-size:8px;color:#22d3ee;font-weight:600;text-shadow:0 0 5px rgba(34,211,238,0.3);">ဒေါင်း</span>
+            </div>
           </div>
-        </div>
-        <!-- Row 3: Deposit / Withdraw buttons -->
-        <div style="display:flex;gap:8px;margin-top:8px;">
-          <button @click="showDepositModal=true" class="glass-btn-auth glass-btn-auth--primary nova-cash-btn" style="flex:1;">
-            <span class="nova-cash-particles">
-              <span class="nova-coin c1">💰</span>
-              <span class="nova-coin c2">💵</span>
-              <span class="nova-coin c3">🪙</span>
-            </span>
-            <svg width="13" height="13" fill="none" viewBox="0 0 24 24" style="flex-shrink:0;"><rect x="2" y="6" width="20" height="13" rx="2" fill="rgba(255,255,255,0.3)"/><path d="M2 10h20" stroke="rgba(255,255,255,0.7)" stroke-width="1.5"/><circle cx="18" cy="15" r="2" fill="rgba(255,255,255,0.85)"/></svg>
-            ငွေသွင်း
-          </button>
-          <button @click="showWithdrawModal=true" class="glass-btn-auth nova-withdraw-btn" style="flex:1;">
-            <svg width="13" height="13" fill="none" viewBox="0 0 24 24" style="flex-shrink:0;"><path d="M12 17V7" stroke="rgba(34,197,94,0.9)" stroke-width="2" stroke-linecap="round"><animate attributeName="opacity" values="1;0.4;1" dur="1s" repeatCount="indefinite"/></path><path d="M8 11l4-4 4 4" stroke="rgba(34,197,94,0.9)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><animate attributeName="opacity" values="1;0.4;1" dur="1s" repeatCount="indefinite"/></path><rect x="4" y="18" width="16" height="2" rx="1" fill="rgba(34,197,94,0.5)"/></svg>
-            ငွေထုတ်
-          </button>
+          <!-- Deposit / Withdraw buttons -->
+          <div style="display:flex;gap:6px;">
+            <button @click="showDepositModal=true" class="glass-btn-auth glass-btn-auth--primary nova-cash-btn">
+              <span class="nova-cash-particles">
+                <span class="nova-coin c1">💰</span>
+                <span class="nova-coin c2">💵</span>
+                <span class="nova-coin c3">🪙</span>
+              </span>
+              <svg width="13" height="13" fill="none" viewBox="0 0 24 24" style="flex-shrink:0;"><rect x="2" y="6" width="20" height="13" rx="2" fill="rgba(255,255,255,0.3)"/><path d="M2 10h20" stroke="rgba(255,255,255,0.7)" stroke-width="1.5"/><circle cx="18" cy="15" r="2" fill="rgba(255,255,255,0.85)"/></svg>
+              ငွေသွင်း
+            </button>
+            <button @click="showWithdrawModal=true" class="glass-btn-auth nova-withdraw-btn">
+              <svg width="13" height="13" fill="none" viewBox="0 0 24 24" style="flex-shrink:0;"><path d="M12 17V7" stroke="rgba(34,197,94,0.9)" stroke-width="2" stroke-linecap="round"><animate attributeName="opacity" values="1;0.4;1" dur="1s" repeatCount="indefinite"/></path><path d="M8 11l4-4 4 4" stroke="rgba(34,197,94,0.9)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><animate attributeName="opacity" values="1;0.4;1" dur="1s" repeatCount="indefinite"/></path><rect x="4" y="18" width="16" height="2" rx="1" fill="rgba(34,197,94,0.5)"/></svg>
+              ငွေထုတ်
+            </button>
+          </div>
         </div>
       </div>
       <!-- ══ SIDEBAR + GAME GRID ══ -->
