@@ -180,6 +180,45 @@
         </div>
       </div>
 
+      <!-- ══ QUICK SHORTCUT ROW ══ -->
+      <div v-if="isLoggedIn" class="qrow">
+        <!-- KPay -->
+        <div class="qbtn qbtn--pay" @click="showDepositModal=true">
+          <div class="qbtn-frame"><div class="qbtn-img-blank"></div></div>
+          <span class="qbtn-lbl">KPay</span>
+        </div>
+        <!-- Wave -->
+        <div class="qbtn qbtn--pay" @click="showDepositModal=true">
+          <div class="qbtn-frame"><div class="qbtn-img-blank"></div></div>
+          <span class="qbtn-lbl">Wave</span>
+        </div>
+        <!-- UABPay -->
+        <div class="qbtn qbtn--pay" @click="showDepositModal=true">
+          <div class="qbtn-frame"><div class="qbtn-img-blank"></div></div>
+          <span class="qbtn-lbl">UAB</span>
+        </div>
+        <!-- VIP -->
+        <div class="qbtn qbtn--vip" @click="$router.push(`/vip`)">
+          <div class="qbtn-icon-wrap qbtn-icon-wrap--vip">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M2 17h20l-2-9-5 5-3-7-3 7-5-5-2 9z" fill="url(#vipGrad)" stroke="#f59e0b" stroke-width="0.5"/><defs><linearGradient id="vipGrad" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#fbbf24"/><stop offset="50%" stop-color="#f59e0b"/><stop offset="100%" stop-color="#d97706"/></linearGradient></defs><circle cx="12" cy="8" r="1.5" fill="#fef3c7"/><circle cx="2.5" cy="8.5" r="1" fill="#fef3c7"/><circle cx="21.5" cy="8.5" r="1" fill="#fef3c7"/></svg>
+          </div>
+          <span class="qbtn-lbl qbtn-lbl--vip">VIP</span>
+        </div>
+        <!-- Bot -->
+        <div class="qbtn qbtn--bot" @click="">
+          <div class="qbtn-icon-wrap qbtn-icon-wrap--bot">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><rect x="4" y="8" width="16" height="12" rx="3" fill="#0f2a1a" stroke="#4ade80" stroke-width="1.2"/><rect x="7" y="4" width="10" height="5" rx="2" fill="#0f2a1a" stroke="#4ade80" stroke-width="1"/><line x1="12" y1="4" x2="12" y2="2" stroke="#4ade80" stroke-width="1.2" stroke-linecap="round"/><circle cx="12" cy="2" r="1" fill="#4ade80"/><circle cx="9" cy="13" r="1.8" fill="#4ade80" opacity="0.9"/><circle cx="15" cy="13" r="1.8" fill="#4ade80" opacity="0.9"/><rect x="8" y="17" width="8" height="1.5" rx="0.75" fill="#4ade80" opacity="0.6"/><line x1="2" y1="13" x2="4" y2="13" stroke="#4ade80" stroke-width="1.2" stroke-linecap="round"/><line x1="20" y1="13" x2="22" y2="13" stroke="#4ade80" stroke-width="1.2" stroke-linecap="round"/></svg>
+          </div>
+          <span class="qbtn-lbl qbtn-lbl--bot">Bot</span>
+        </div>
+        <!-- Download -->
+        <div class="qbtn qbtn--dl" @click="">
+          <div class="qbtn-icon-wrap qbtn-icon-wrap--dl">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><rect x="3" y="3" width="18" height="18" rx="4" fill="#061828" stroke="#22d3ee" stroke-width="1.2"/><path d="M12 7v7" stroke="#22d3ee" stroke-width="1.8" stroke-linecap="round"/><path d="M8.5 11l3.5 4 3.5-4" stroke="#22d3ee" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/><line x1="7" y1="18" x2="17" y2="18" stroke="#22d3ee" stroke-width="1.4" stroke-linecap="round"/></svg>
+          </div>
+          <span class="qbtn-lbl qbtn-lbl--dl">ဒေါင်း</span>
+        </div>
+      </div>
       <!-- ══ SIDEBAR + GAME GRID ══ -->
       <div style="display:flex;position:relative;">
 
@@ -978,4 +1017,5 @@
     to   { transform: rotate(360deg); }
   }
 .refresh-toggle {  background: transparent;  border: none;  padding: 3px;  cursor: pointer;  display: flex;  align-items: center;  justify-content: center;  opacity: 0.85;  transition: opacity 0.2s;}.refresh-toggle .refresh-icon {  display: block;  transition: opacity 0.2s;}.refresh-toggle--spin .refresh-icon {  animation: refresh-spin 0.65s linear infinite;  opacity: 0.55;}@keyframes refresh-spin {  from { transform: rotate(0deg); }  to   { transform: rotate(360deg); }}
+.qrow { display:flex; align-items:center; justify-content:space-around; padding:0 10px 10px; gap:4px; }.qbtn { display:flex; flex-direction:column; align-items:center; gap:3px; cursor:pointer; -webkit-tap-highlight-color:transparent; user-select:none; flex:1; }.qbtn-frame { width:42px; height:42px; border-radius:10px; border:1.5px solid rgba(74,222,128,0.55); background:rgba(74,222,128,0.06); display:flex; align-items:center; justify-content:center; box-shadow:0 0 8px rgba(74,222,128,0.18); overflow:hidden; position:relative; }.qbtn-img-blank { width:100%; height:100%; background:rgba(74,222,128,0.04); }.qbtn-frame::after { content:''; position:absolute; inset:0; border-radius:9px; border:1px solid rgba(74,222,128,0.25); pointer-events:none; }.qbtn-icon-wrap { width:42px; height:42px; border-radius:10px; display:flex; align-items:center; justify-content:center; }.qbtn-icon-wrap--vip { background:linear-gradient(135deg,rgba(245,158,11,0.22),rgba(217,119,6,0.12)); border:1.5px solid rgba(251,191,36,0.6); box-shadow:0 0 10px rgba(251,191,36,0.28); }.qbtn-icon-wrap--bot { background:linear-gradient(135deg,rgba(74,222,128,0.15),rgba(16,185,129,0.08)); border:1.5px solid rgba(74,222,128,0.55); box-shadow:0 0 10px rgba(74,222,128,0.22); }.qbtn-icon-wrap--dl { background:linear-gradient(135deg,rgba(34,211,238,0.15),rgba(6,182,212,0.08)); border:1.5px solid rgba(34,211,238,0.55); box-shadow:0 0 10px rgba(34,211,238,0.22); }.qbtn-lbl { font-size:9px; font-weight:600; color:rgba(255,255,255,0.65); letter-spacing:0.02em; text-align:center; }.qbtn-lbl--vip { color:#fbbf24; text-shadow:0 0 6px rgba(251,191,36,0.5); }.qbtn-lbl--bot { color:#4ade80; text-shadow:0 0 6px rgba(74,222,128,0.4); }.qbtn-lbl--dl { color:#22d3ee; text-shadow:0 0 6px rgba(34,211,238,0.4); }.qbtn:active .qbtn-frame,.qbtn:active .qbtn-icon-wrap { transform:scale(0.93); opacity:0.8; }
 </style>
