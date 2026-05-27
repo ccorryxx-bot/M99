@@ -1,212 +1,302 @@
 <template>
-  <div class="nft-avatar-root" :style="{ width: size + 'px', height: size + 'px' }">
-    <!-- Aura outer glow rings -->
-    <div class="aura-ring aura-ring-3" :style="{ borderColor: aura.ring3 }"></div>
-    <div class="aura-ring aura-ring-2" :style="{ borderColor: aura.ring2 }"></div>
-    <div class="aura-ring aura-ring-1" :style="{ borderColor: aura.ring1 }"></div>
+  <div class="nft-root" :style="{ width: size + 'px', height: size + 'px' }">
 
-    <!-- Orbiting particles -->
-    <div class="orbit-container">
-      <div v-for="(p, i) in particles" :key="i"
-        class="orbit-particle"
-        :style="{
-          animationDuration: p.duration + 's',
-          animationDelay: p.delay + 's',
-          animationDirection: p.reverse ? 'reverse' : 'normal',
-          '--orbit-r': p.radius + 'px',
-          '--p-color': p.color,
-          '--p-size': p.size + 'px'
-        }">
+    <!-- Outer aura rings -->
+    <div class="aura-r aura-r3" :style="{ borderColor: palette.ring, boxShadow: '0 0 14px ' + palette.ring }"></div>
+    <div class="aura-r aura-r2" :style="{ borderColor: palette.mid }"></div>
+    <div class="aura-r aura-r1" :style="{ borderColor: palette.inner }"></div>
+
+    <!-- Orbit particles -->
+    <div class="orbit-wrap">
+      <div v-for="(p,i) in orbs" :key="i" class="orb"
+        :style="{ '--c': p.color, '--r': p.r+'px', '--s': p.s+'px', animationDuration: p.d+'s', animationDelay: p.dl+'s', animationDirection: p.rev?'reverse':'normal' }">
       </div>
     </div>
 
-    <!-- Main avatar circle -->
-    <div class="avatar-circle" :style="{ background: avatarBg }">
-      <!-- Hologram scan line -->
-      <div class="holo-scan"></div>
+    <!-- Main circle -->
+    <div class="nft-circle" :style="{ background: bg }">
 
-      <!-- SVG Character -->
-      <svg
-        :width="size * 0.85"
-        :height="size * 0.85"
-        viewBox="0 0 80 80"
-        xmlns="http://www.w3.org/2000/svg"
-        class="avatar-svg"
-      >
+      <!-- SVG portrait -->
+      <svg :width="size*0.92" :height="size*0.92" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg" class="portrait-svg">
         <defs>
-          <!-- Skin gradient -->
-          <radialGradient :id="'skin-' + uid" cx="50%" cy="40%" r="60%">
-            <stop offset="0%" :stop-color="traits.skinLight" />
-            <stop offset="100%" :stop-color="traits.skin" />
+          <!-- Skin gradient - cinematic side-lit -->
+          <radialGradient :id="uid+'-sk'" cx="35%" cy="35%" r="65%">
+            <stop offset="0%" :stop-color="t.skinHi"/>
+            <stop offset="55%" :stop-color="t.skin"/>
+            <stop offset="100%" :stop-color="t.skinShadow"/>
           </radialGradient>
-          <!-- Eye glow -->
-          <filter :id="'glow-' + uid" x="-50%" y="-50%" width="200%" height="200%">
-            <feGaussianBlur stdDeviation="1.5" result="blur" />
-            <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
-          </filter>
-          <!-- Body gradient -->
-          <linearGradient :id="'body-' + uid" x1="0%" y1="0%" x2="100%" y2="100%">
-            <stop offset="0%" :stop-color="traits.bodyColor1" />
-            <stop offset="100%" :stop-color="traits.bodyColor2" />
-          </linearGradient>
+
+          <!-- Neon left light wash -->
+          <radialGradient :id="uid+'-nl'" cx="0%" cy="45%" r="70%">
+            <stop offset="0%" :stop-color="palette.neon1" stop-opacity="0.55"/>
+            <stop offset="100%" :stop-color="palette.neon1" stop-opacity="0"/>
+          </radialGradient>
+
+          <!-- Neon right light wash -->
+          <radialGradient :id="uid+'-nr'" cx="100%" cy="45%" r="70%">
+            <stop offset="0%" :stop-color="palette.neon2" stop-opacity="0.45"/>
+            <stop offset="100%" :stop-color="palette.neon2" stop-opacity="0"/>
+          </radialGradient>
+
           <!-- Hair gradient -->
-          <linearGradient :id="'hair-' + uid" x1="0%" y1="0%" x2="0%" y2="100%">
-            <stop offset="0%" :stop-color="traits.hairColor1" />
-            <stop offset="100%" :stop-color="traits.hairColor2" />
+          <linearGradient :id="uid+'-hr'" x1="0%" y1="0%" x2="60%" y2="100%">
+            <stop offset="0%" :stop-color="t.hair1"/>
+            <stop offset="100%" :stop-color="t.hair2"/>
           </linearGradient>
+
+          <!-- Body/suit gradient -->
+          <linearGradient :id="uid+'-bd'" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" :stop-color="t.suit1"/>
+            <stop offset="100%" :stop-color="t.suit2"/>
+          </linearGradient>
+
+          <!-- Eye glow filter -->
+          <filter :id="uid+'-eg'" x="-80%" y="-80%" width="260%" height="260%">
+            <feGaussianBlur stdDeviation="1.8" result="b"/>
+            <feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
+          </filter>
+
+          <!-- Neon glow filter -->
+          <filter :id="uid+'-ng'" x="-50%" y="-50%" width="200%" height="200%">
+            <feGaussianBlur stdDeviation="2.5" result="b"/>
+            <feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
+          </filter>
+
+          <!-- Strong glow -->
+          <filter :id="uid+'-sg'" x="-100%" y="-100%" width="300%" height="300%">
+            <feGaussianBlur stdDeviation="3.5" result="b"/>
+            <feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
+          </filter>
+
+          <!-- Clip for face -->
+          <clipPath :id="uid+'-fc'">
+            <ellipse cx="50" cy="42" rx="18" ry="20"/>
+          </clipPath>
         </defs>
 
-        <!-- Body / Torso -->
-        <ellipse cx="40" cy="68" rx="16" ry="10" :fill="'url(#body-' + uid + ')'" opacity="0.9"/>
-        <!-- Collar/chest detail -->
-        <rect x="33" y="57" width="14" height="8" rx="2" :fill="traits.bodyColor2" opacity="0.8"/>
-        <!-- Chest circuit line -->
-        <path :d="'M36 60 L40 63 L44 60'" :stroke="traits.eyeColor" stroke-width="0.8" fill="none" opacity="0.9"/>
+        <!-- ── BODY / SUIT ── -->
+        <ellipse cx="50" cy="88" rx="26" ry="16" :fill="'url(#'+uid+'-bd'+')'"/>
+
+        <!-- Suit detail lines -->
+        <path d="M40 76 L50 82 L60 76" :stroke="palette.neon1" stroke-width="0.7" fill="none" opacity="0.7"/>
+        <line x1="50" y1="72" x2="50" y2="84" :stroke="palette.neon1" stroke-width="0.5" opacity="0.5"/>
 
         <!-- Neck -->
-        <rect x="37" y="52" width="6" height="6" rx="1" :fill="'url(#skin-' + uid + ')'"/>
+        <rect x="46" y="60" width="8" height="14" rx="2" :fill="'url(#'+uid+'-sk'+')'"/>
+        <!-- Neck circuit mark -->
+        <path d="M47 65 L49 67 L53 63" :stroke="palette.neon2" stroke-width="0.6" fill="none" opacity="0.8"/>
 
-        <!-- Head -->
-        <ellipse cx="40" cy="44" rx="14" ry="15" :fill="'url(#skin-' + uid + ')'"/>
-
-        <!-- Hair / Helmet based on type -->
-        <!-- Type 0: spiky hair -->
-        <template v-if="traits.hairType === 0">
-          <path d="M26 44 Q27 28 40 26 Q53 28 54 44 Q48 30 40 29 Q32 30 26 44Z" :fill="'url(#hair-' + uid + ')'"/>
-          <polygon points="32,36 29,24 35,32" :fill="traits.hairColor1"/>
-          <polygon points="40,34 38,20 43,32" :fill="traits.hairColor1"/>
-          <polygon points="48,36 51,24 45,32" :fill="traits.hairColor1"/>
+        <!-- ── HAIR BASE ── -->
+        <!-- Type 0: Neon bob cut -->
+        <template v-if="t.hairType===0">
+          <path d="M32 42 Q32 20 50 19 Q68 20 68 42 Q62 26 50 24 Q38 26 32 42Z" :fill="'url(#'+uid+'-hr'+')'"/>
+          <path d="M32 46 Q30 38 32 34 Q30 42 28 48Z" :fill="t.hair1" opacity="0.8"/>
+          <path d="M68 46 Q70 38 68 34 Q70 42 72 48Z" :fill="t.hair1" opacity="0.8"/>
+          <!-- Hair neon highlight -->
+          <path d="M36 26 Q50 21 64 26" :stroke="palette.neon1" stroke-width="0.8" fill="none" opacity="0.6" :filter="'url(#'+uid+'-ng'+')'"/>
         </template>
-        <!-- Type 1: cyber visor/helmet -->
-        <template v-else-if="traits.hairType === 1">
-          <path d="M26 42 Q26 26 40 25 Q54 26 54 42 L52 42 Q52 28 40 27 Q28 28 28 42Z" :fill="'url(#hair-' + uid + ')'"/>
-          <rect x="27" y="38" width="26" height="5" rx="2" :fill="traits.eyeColor" opacity="0.7"/>
-          <rect x="29" y="39" width="22" height="2" rx="1" :fill="traits.eyeColor" opacity="0.5"/>
+        <!-- Type 1: Spiked punk hair -->
+        <template v-else-if="t.hairType===1">
+          <path d="M33 43 Q33 22 50 20 Q67 22 67 43 Q60 27 50 25 Q40 27 33 43Z" :fill="'url(#'+uid+'-hr'+')'"/>
+          <polygon points="38,36 34,18 42,32" :fill="t.hair1"/>
+          <polygon points="50,33 47,15 53,30" :fill="t.hair2"/>
+          <polygon points="62,36 66,18 58,32" :fill="t.hair1"/>
+          <!-- Neon tips -->
+          <circle cx="34" cy="18" r="2" :fill="palette.neon1" :filter="'url(#'+uid+'-sg'+')'"/>
+          <circle cx="50" cy="15" r="2" :fill="palette.neon2" :filter="'url(#'+uid+'-sg'+')'"/>
+          <circle cx="66" cy="18" r="2" :fill="palette.neon1" :filter="'url(#'+uid+'-sg'+')'"/>
         </template>
-        <!-- Type 2: horns -->
-        <template v-else-if="traits.hairType === 2">
-          <path d="M26 43 Q27 28 40 26 Q53 28 54 43 Q48 30 40 29 Q32 30 26 43Z" :fill="'url(#hair-' + uid + ')'"/>
-          <polygon points="30,38 27,22 34,36" :fill="traits.hairColor2"/>
-          <polygon points="50,38 53,22 46,36" :fill="traits.hairColor2"/>
+        <!-- Type 2: Slick back with neon streak -->
+        <template v-else-if="t.hairType===2">
+          <path d="M33 43 Q32 22 50 20 Q68 22 67 43 Q64 28 50 25 Q36 28 33 43Z" :fill="'url(#'+uid+'-hr'+')'"/>
+          <path d="M33 36 Q42 23 58 22 Q66 24 68 30" :stroke="palette.neon1" stroke-width="1.5" fill="none" opacity="0.8" :filter="'url(#'+uid+'-ng'+')'"/>
+          <path d="M36 30 Q44 20 56 20" :stroke="palette.neon2" stroke-width="0.8" fill="none" opacity="0.6"/>
         </template>
-        <!-- Type 3: antenna -->
-        <template v-else-if="traits.hairType === 3">
-          <path d="M26 43 Q27 28 40 26 Q53 28 54 43 Q48 30 40 29 Q32 30 26 43Z" :fill="'url(#hair-' + uid + ')'"/>
-          <line x1="40" y1="27" x2="40" y2="16" :stroke="traits.eyeColor" stroke-width="1.5"/>
-          <circle cx="40" cy="14" r="3" :fill="traits.eyeColor" opacity="0.9"/>
-          <circle cx="40" cy="14" r="5" :fill="traits.eyeColor" opacity="0.2"/>
+        <!-- Type 3: Short with neon undercut -->
+        <template v-else-if="t.hairType===3">
+          <path d="M34 38 Q34 22 50 20 Q66 22 66 38 Q62 26 50 24 Q38 26 34 38Z" :fill="'url(#'+uid+'-hr'+')'"/>
+          <!-- Undercut glow line -->
+          <path d="M34 38 Q42 42 50 42 Q58 42 66 38" :stroke="palette.neon2" stroke-width="1.2" fill="none" opacity="0.9" :filter="'url(#'+uid+'-ng'+')'"/>
+          <path d="M34 38 Q42 42 50 42 Q58 42 66 38" :stroke="palette.neon2" stroke-width="0.4" fill="none" opacity="1"/>
         </template>
-        <!-- Type 4: cat ears -->
+        <!-- Type 4: Long flowing with circuit -->
         <template v-else>
-          <path d="M26 43 Q27 28 40 26 Q53 28 54 43 Q48 30 40 29 Q32 30 26 43Z" :fill="'url(#hair-' + uid + ')'"/>
-          <polygon points="28,36 25,22 34,34" :fill="traits.hairColor1"/>
-          <polygon points="29,34 27,24 33,33" :fill="traits.hairColor2" opacity="0.6"/>
-          <polygon points="52,36 55,22 46,34" :fill="traits.hairColor1"/>
-          <polygon points="51,34 53,24 47,33" :fill="traits.hairColor2" opacity="0.6"/>
+          <path d="M32 42 Q30 24 50 20 Q70 24 68 42 Q65 28 50 25 Q35 28 32 42Z" :fill="'url(#'+uid+'-hr'+')'"/>
+          <path d="M32 42 Q28 55 30 68" :fill="t.hair2" opacity="0.7"/>
+          <path d="M68 42 Q72 55 70 68" :fill="t.hair2" opacity="0.7"/>
+          <!-- Circuit on hair -->
+          <path d="M38 28 L40 26 L44 26 L44 24" :stroke="palette.neon1" stroke-width="0.5" fill="none" opacity="0.7"/>
         </template>
 
-        <!-- Eyes -->
-        <!-- Left eye -->
-        <template v-if="traits.eyeType === 0">
-          <!-- Normal round eyes -->
-          <ellipse cx="34" cy="44" rx="4" ry="4.5" fill="white"/>
-          <circle cx="34" cy="44" r="2.5" :fill="traits.eyeColor" class="eye-l"/>
-          <circle cx="34" cy="44" r="1.2" fill="#0a0a1a"/>
-          <circle cx="35" cy="43" r="0.7" fill="white" opacity="0.8"/>
-          <ellipse cx="46" cy="44" rx="4" ry="4.5" fill="white"/>
-          <circle cx="46" cy="44" r="2.5" :fill="traits.eyeColor" class="eye-r"/>
-          <circle cx="46" cy="44" r="1.2" fill="#0a0a1a"/>
-          <circle cx="47" cy="43" r="0.7" fill="white" opacity="0.8"/>
+        <!-- ── FACE ── -->
+        <ellipse cx="50" cy="42" rx="18" ry="20" :fill="'url(#'+uid+'-sk'+')'"/>
+
+        <!-- Cinematic neon light washes over face -->
+        <ellipse cx="50" cy="42" rx="18" ry="20" :fill="'url(#'+uid+'-nl'+')'"/>
+        <ellipse cx="50" cy="42" rx="18" ry="20" :fill="'url(#'+uid+'-nr'+')'"/>
+
+        <!-- Jawline shadow -->
+        <ellipse cx="50" cy="57" rx="12" ry="4" fill="#000" opacity="0.25"/>
+
+        <!-- Ears -->
+        <ellipse cx="32" cy="43" rx="3.5" ry="4.5" :fill="t.skin" opacity="0.9"/>
+        <ellipse cx="68" cy="43" rx="3.5" ry="4.5" :fill="t.skin" opacity="0.9"/>
+        <ellipse cx="32" cy="43" rx="2" ry="3" :fill="t.skinHi" opacity="0.4"/>
+        <ellipse cx="68" cy="43" rx="2" ry="3" :fill="t.skinHi" opacity="0.4"/>
+        <!-- Ear neon stud -->
+        <circle cx="32" cy="46" r="1.2" :fill="palette.neon2" :filter="'url(#'+uid+'-eg'+')'"/>
+        <circle cx="68" cy="46" r="1.2" :fill="palette.neon1" :filter="'url(#'+uid+'-eg'+')'"/>
+
+        <!-- ── EYES / VISOR ── -->
+        <!-- Type 0: Cyber visor (key cyberpunk element) -->
+        <template v-if="t.eyeType===0">
+          <rect x="34" y="38.5" width="32" height="7" rx="2.5" fill="#050510" opacity="0.95"/>
+          <rect x="34" y="38.5" width="32" height="7" rx="2.5" :stroke="palette.neon1" stroke-width="0.8" fill="none" :filter="'url(#'+uid+'-eg'+')'"/>
+          <!-- Visor lens gradient scan line -->
+          <rect x="35.5" y="40" width="29" height="4" rx="1.5" :fill="palette.neon1" opacity="0.18"/>
+          <rect x="35.5" y="40.5" width="14" height="2.5" rx="1" :fill="palette.neon1" opacity="0.55"/>
+          <rect x="51" y="40.5" width="13" height="2.5" rx="1" :fill="palette.neon2" opacity="0.45"/>
+          <!-- Visor side glow -->
+          <rect x="34" y="38.5" width="32" height="7" rx="2.5" :fill="palette.neon1" opacity="0.06"/>
+          <!-- Scan line animation via filter -->
+          <line x1="34" y1="42" x2="66" y2="42" :stroke="palette.neon1" stroke-width="0.4" opacity="0.4"/>
         </template>
-        <template v-else-if="traits.eyeType === 1">
-          <!-- Cyber eyes -->
-          <rect x="30" y="41" width="8" height="5" rx="1.5" fill="#0a0a1a" :filter="'url(#glow-' + uid + ')'"/>
-          <rect x="31" y="42.5" width="6" height="2" rx="1" :fill="traits.eyeColor" opacity="0.9"/>
-          <rect x="42" y="41" width="8" height="5" rx="1.5" fill="#0a0a1a" :filter="'url(#glow-' + uid + ')'"/>
-          <rect x="43" y="42.5" width="6" height="2" rx="1" :fill="traits.eyeColor" opacity="0.9"/>
+        <!-- Type 1: Glowing alien eyes -->
+        <template v-else-if="t.eyeType===1">
+          <ellipse cx="43" cy="42" rx="5.5" ry="4" fill="#030310"/>
+          <ellipse cx="43" cy="42" rx="4" ry="2.8" :fill="palette.neon1" opacity="0.9" :filter="'url(#'+uid+'-eg'+')'"/>
+          <ellipse cx="43" cy="42" rx="2" ry="1.5" fill="#fff" opacity="0.7"/>
+          <ellipse cx="57" cy="42" rx="5.5" ry="4" fill="#030310"/>
+          <ellipse cx="57" cy="42" rx="4" ry="2.8" :fill="palette.neon2" opacity="0.9" :filter="'url(#'+uid+'-eg'+')'"/>
+          <ellipse cx="57" cy="42" rx="2" ry="1.5" fill="#fff" opacity="0.7"/>
         </template>
-        <template v-else-if="traits.eyeType === 2">
-          <!-- Star/sparkle eyes -->
-          <circle cx="34" cy="44" r="4" fill="white"/>
-          <text x="34" y="46.5" text-anchor="middle" font-size="5" :fill="traits.eyeColor">★</text>
-          <circle cx="46" cy="44" r="4" fill="white"/>
-          <text x="46" y="46.5" text-anchor="middle" font-size="5" :fill="traits.eyeColor">★</text>
+        <!-- Type 2: Vertical slit cyber eyes -->
+        <template v-else-if="t.eyeType===2">
+          <ellipse cx="43" cy="42" rx="5" ry="4.5" fill="white" opacity="0.92"/>
+          <ellipse cx="43" cy="42" rx="2" ry="4" :fill="palette.neon1" :filter="'url(#'+uid+'-eg'+')'"/>
+          <ellipse cx="43" cy="42" rx="1" ry="2.5" fill="#000"/>
+          <ellipse cx="57" cy="42" rx="5" ry="4.5" fill="white" opacity="0.92"/>
+          <ellipse cx="57" cy="42" rx="2" ry="4" :fill="palette.neon2" :filter="'url(#'+uid+'-eg'+')'"/>
+          <ellipse cx="57" cy="42" rx="1" ry="2.5" fill="#000"/>
         </template>
-        <template v-else-if="traits.eyeType === 3">
-          <!-- Alien slit eyes -->
-          <ellipse cx="34" cy="44" rx="4.5" ry="3" fill="white"/>
-          <ellipse cx="34" cy="44" rx="1.5" ry="2.8" :fill="traits.eyeColor"/>
-          <ellipse cx="46" cy="44" rx="4.5" ry="3" fill="white"/>
-          <ellipse cx="46" cy="44" rx="1.5" ry="2.8" :fill="traits.eyeColor"/>
+        <!-- Type 3: RGB multi-color eyes -->
+        <template v-else-if="t.eyeType===3">
+          <circle cx="43" cy="42" r="5" fill="#0a0a1e"/>
+          <circle cx="43" cy="42" r="3.5" :fill="palette.neon1" opacity="0.8" :filter="'url(#'+uid+'-eg'+')'"/>
+          <circle cx="43" cy="42" r="1.8" fill="#0a0a1e"/>
+          <circle cx="44.2" cy="40.8" r="1" fill="white" opacity="0.7"/>
+          <circle cx="57" cy="42" r="5" fill="#0a0a1e"/>
+          <circle cx="57" cy="42" r="3.5" :fill="palette.neon2" opacity="0.8" :filter="'url(#'+uid+'-eg'+')'"/>
+          <circle cx="57" cy="42" r="1.8" fill="#0a0a1e"/>
+          <circle cx="58.2" cy="40.8" r="1" fill="white" opacity="0.7"/>
         </template>
+        <!-- Type 4: Half-visor + one glowing eye -->
         <template v-else>
-          <!-- X eyes (edgy/robot) -->
-          <circle cx="34" cy="44" r="4" fill="#1a1a2e"/>
-          <path d="M31.5 41.5 L36.5 46.5 M36.5 41.5 L31.5 46.5" :stroke="traits.eyeColor" stroke-width="1.5" stroke-linecap="round"/>
-          <circle cx="46" cy="44" r="4" fill="#1a1a2e"/>
-          <path d="M43.5 41.5 L48.5 46.5 M48.5 41.5 L43.5 46.5" :stroke="traits.eyeColor" stroke-width="1.5" stroke-linecap="round"/>
+          <rect x="34" y="38.5" width="14" height="7" rx="2" fill="#050510" opacity="0.92"/>
+          <rect x="34" y="38.5" width="14" height="7" rx="2" :stroke="palette.neon1" stroke-width="0.7" fill="none"/>
+          <rect x="35.5" y="40" width="11" height="3.5" rx="1" :fill="palette.neon1" opacity="0.4"/>
+          <circle cx="57" cy="42" r="5" fill="#0a0a1e"/>
+          <circle cx="57" cy="42" r="3.5" :fill="palette.neon2" opacity="0.85" :filter="'url(#'+uid+'-eg'+')'"/>
+          <circle cx="57" cy="42" r="1.5" fill="#000"/>
+          <circle cx="58.2" cy="40.8" r="0.9" fill="white" opacity="0.7"/>
         </template>
 
-        <!-- Nose (subtle) -->
-        <path d="M39 47 Q40 49 41 47" :stroke="traits.skin" stroke-width="0.8" fill="none" opacity="0.5"/>
+        <!-- Eyebrows -->
+        <path :d="'M38 '+(t.eyeType===0?'37.5':'36.5')+' Q43 34.5 47.5 '+(t.eyeType===0?'37':'36')" :stroke="t.hair1" stroke-width="1.3" fill="none" stroke-linecap="round"/>
+        <path :d="'M52.5 '+(t.eyeType===0?'37.5':'36.5')+' Q57 34.5 62 '+(t.eyeType===0?'37':'36')" :stroke="t.hair1" stroke-width="1.3" fill="none" stroke-linecap="round"/>
+
+        <!-- Nose -->
+        <path d="M49 48 Q50 51 51 48" :stroke="t.skinShadow" stroke-width="0.9" fill="none" opacity="0.55"/>
+        <circle cx="47.5" cy="49.5" r="1.2" :fill="t.skinShadow" opacity="0.2"/>
+        <circle cx="52.5" cy="49.5" r="1.2" :fill="t.skinShadow" opacity="0.2"/>
 
         <!-- Mouth -->
-        <path v-if="traits.mouthType === 0" d="M36 51 Q40 54 44 51" :stroke="traits.eyeColor" stroke-width="1.2" fill="none" stroke-linecap="round"/>
-        <path v-else-if="traits.mouthType === 1" d="M36 52 L38 50 L40 52 L42 50 L44 52" :stroke="traits.eyeColor" stroke-width="1" fill="none"/>
-        <path v-else d="M37 51 Q40 53 43 51" stroke="#ff6b9d" stroke-width="1.2" fill="none" stroke-linecap="round"/>
+        <path v-if="t.mouthType===0" d="M43 54 Q50 58 57 54" :stroke="palette.lip" stroke-width="1.4" fill="none" stroke-linecap="round"/>
+        <path v-else-if="t.mouthType===1" d="M44 55 Q50 57 56 55" :stroke="palette.lip" stroke-width="1.3" fill="none" stroke-linecap="round"/>
+        <path v-else d="M44 53 Q50 56 56 53 Q50 58 44 53Z" :fill="palette.lip" opacity="0.85"/>
 
-        <!-- Ear detail -->
-        <ellipse cx="26" cy="44" rx="3" ry="4" :fill="traits.skin" opacity="0.8"/>
-        <ellipse cx="54" cy="44" rx="3" ry="4" :fill="traits.skin" opacity="0.8"/>
-        <ellipse cx="26" cy="44" rx="1.5" ry="2.5" :fill="traits.skinLight" opacity="0.5"/>
-        <ellipse cx="54" cy="44" rx="1.5" ry="2.5" :fill="traits.skinLight" opacity="0.5"/>
+        <!-- Lip shine -->
+        <path d="M47 53.5 Q50 52.5 53 53.5" stroke="rgba(255,255,255,0.4)" stroke-width="0.6" fill="none" stroke-linecap="round"/>
 
-        <!-- Hologram lines over character -->
-        <line x1="20" y1="35" x2="60" y2="35" :stroke="traits.eyeColor" stroke-width="0.3" opacity="0.2"/>
-        <line x1="20" y1="45" x2="60" y2="45" :stroke="traits.eyeColor" stroke-width="0.3" opacity="0.15"/>
-        <line x1="20" y1="55" x2="60" y2="55" :stroke="traits.eyeColor" stroke-width="0.3" opacity="0.1"/>
+        <!-- Face circuit tattoo marks (cyberpunk) -->
+        <template v-if="t.circuitSide === 0">
+          <!-- Right cheek circuit -->
+          <path d="M60 46 L63 46 L63 50 L65 50" :stroke="palette.neon1" stroke-width="0.5" fill="none" opacity="0.75"/>
+          <circle cx="65" cy="50" r="1" :fill="palette.neon1" opacity="0.8" :filter="'url(#'+uid+'-eg'+')'"/>
+          <path d="M63 46 L63 44 L65 44" :stroke="palette.neon1" stroke-width="0.4" fill="none" opacity="0.5"/>
+        </template>
+        <template v-else>
+          <!-- Left cheek circuit -->
+          <path d="M40 46 L37 46 L37 50 L35 50" :stroke="palette.neon2" stroke-width="0.5" fill="none" opacity="0.75"/>
+          <circle cx="35" cy="50" r="1" :fill="palette.neon2" opacity="0.8" :filter="'url(#'+uid+'-eg'+')'"/>
+          <path d="M37 46 L37 44 L35 44" :stroke="palette.neon2" stroke-width="0.4" fill="none" opacity="0.5"/>
+        </template>
 
-        <!-- Ground glow shadow -->
-        <ellipse cx="40" cy="78" rx="14" ry="3" :fill="aura.ring1" opacity="0.25"/>
+        <!-- Forehead scan mark -->
+        <path d="M45 30 L50 28 L55 30" :stroke="palette.neon1" stroke-width="0.5" fill="none" opacity="0.45"/>
+        <circle cx="50" cy="28" r="1.2" :fill="palette.neon1" opacity="0.6" :filter="'url(#'+uid+'-eg'+')'"/>
+
+        <!-- Holographic scanlines overlay -->
+        <line x1="32" y1="37" x2="68" y2="37" :stroke="palette.neon1" stroke-width="0.25" opacity="0.18"/>
+        <line x1="32" y1="44" x2="68" y2="44" :stroke="palette.neon1" stroke-width="0.25" opacity="0.12"/>
+        <line x1="32" y1="51" x2="68" y2="51" :stroke="palette.neon2" stroke-width="0.25" opacity="0.10"/>
+        <line x1="32" y1="58" x2="68" y2="58" :stroke="palette.neon2" stroke-width="0.2" opacity="0.08"/>
+
+        <!-- Ground shadow glow -->
+        <ellipse cx="50" cy="100" rx="22" ry="5" :fill="palette.ring" opacity="0.2"/>
       </svg>
 
-      <!-- Eye blink overlay -->
-      <div class="blink-overlay" :style="{ background: avatarBg }"></div>
+      <!-- Holo scan line animation -->
+      <div class="holo-scan" :style="{ background: 'linear-gradient(90deg,transparent,' + palette.neon1 + '80,transparent)' }"></div>
+
+      <!-- RGB reflection edge -->
+      <div class="rgb-edge" :style="{ boxShadow: 'inset 0 0 12px ' + palette.neon1 + '55, inset 0 0 6px ' + palette.neon2 + '33' }"></div>
     </div>
 
-    <!-- NFT label badge -->
-    <div class="nft-badge" :style="{ background: aura.ring1, boxShadow: '0 0 8px ' + aura.ring1 }">
-      NFT
-    </div>
+    <!-- NFT badge -->
+    <div class="nft-badge" :style="{ background: palette.neon1, boxShadow: '0 0 10px ' + palette.neon1 }">NFT</div>
   </div>
 </template>
 
 <script setup>
-import { computed, onMounted, onUnmounted, ref } from 'vue'
+import { computed } from 'vue'
 
 const props = defineProps({
   username: { type: String, default: 'PLAYER' },
   size: { type: Number, default: 52 }
 })
 
-const uid = computed(() => 'nft_' + props.username.replace(/[^a-z0-9]/gi, ''))
+const uid = computed(() => 'na' + Math.abs(hashStr(props.username)).toString(36))
 
-function hashStr(str) {
+function hashStr(s) {
   let h = 0
-  for (let i = 0; i < str.length; i++) {
-    h = ((h << 5) - h) + str.charCodeAt(i)
-    h |= 0
-  }
-  return Math.abs(h)
+  for (let i = 0; i < s.length; i++) { h = Math.imul(31, h) + s.charCodeAt(i) | 0 }
+  return h
 }
-
-function pickFrom(arr, seed) {
-  return arr[seed % arr.length]
+function seededRandom(seed) {
+  const x = Math.sin(seed + 1) * 43758.5453123
+  return x - Math.floor(x)
 }
+function pickSeed(arr, seed) { return arr[Math.abs(seed) % arr.length] }
 
-const traits = computed(() => {
+const palette = computed(() => {
+  const h = hashStr(props.username.toUpperCase() + 'p')
+  const palettes = [
+    { neon1: '#00e5ff', neon2: '#a855f7', ring: '#00e5ff66', mid: '#00e5ff33', inner: '#00e5ff22', lip: '#f472b6' },
+    { neon1: '#a855f7', neon2: '#f472b6', ring: '#a855f766', mid: '#a855f733', inner: '#a855f722', lip: '#fb7185' },
+    { neon1: '#facc15', neon2: '#00e5ff', ring: '#facc1566', mid: '#facc1533', inner: '#facc1522', lip: '#f87171' },
+    { neon1: '#4ade80', neon2: '#00e5ff', ring: '#4ade8066', mid: '#4ade8033', inner: '#4ade8022', lip: '#fb923c' },
+    { neon1: '#f87171', neon2: '#facc15', ring: '#f8717166', mid: '#f8717133', inner: '#f8717122', lip: '#f472b6' },
+    { neon1: '#60a5fa', neon2: '#a855f7', ring: '#60a5fa66', mid: '#60a5fa33', inner: '#60a5fa22', lip: '#fb7185' },
+    { neon1: '#fb923c', neon2: '#facc15', ring: '#fb923c66', mid: '#fb923c33', inner: '#fb923c22', lip: '#f87171' },
+    { neon1: '#f472b6', neon2: '#60a5fa', ring: '#f472b666', mid: '#f472b633', inner: '#f472b622', lip: '#fb923c' },
+  ]
+  return palettes[Math.abs(h) % palettes.length]
+})
+
+const t = computed(() => {
   const s = props.username.toUpperCase()
-  const h = hashStr(s)
+  const h1 = hashStr(s)
   const h2 = hashStr(s + '2')
   const h3 = hashStr(s + '3')
   const h4 = hashStr(s + '4')
@@ -214,90 +304,77 @@ const traits = computed(() => {
   const h6 = hashStr(s + '6')
 
   const skins = [
-    { skin: '#c68642', skinLight: '#f5c077' },
-    { skin: '#4a90d9', skinLight: '#7ab8f5' },
-    { skin: '#9b59b6', skinLight: '#c39bd3' },
-    { skin: '#27ae60', skinLight: '#52d68a' },
-    { skin: '#e74c3c', skinLight: '#f1948a' },
-    { skin: '#1abc9c', skinLight: '#76d7c4' },
-    { skin: '#f39c12', skinLight: '#f8c471' },
-    { skin: '#8e44ad', skinLight: '#bb8fce' },
+    { skin: '#d4956a', skinHi: '#f5c48a', skinShadow: '#9a6040' },
+    { skin: '#e8b89a', skinHi: '#ffdcca', skinShadow: '#b07850' },
+    { skin: '#7a5c4a', skinHi: '#a07860', skinShadow: '#4a3020' },
+    { skin: '#c0a898', skinHi: '#e8d0c0', skinShadow: '#907060' },
+    { skin: '#5a8090', skinHi: '#8ab8c8', skinShadow: '#304858' },  // cyber blue-toned
+    { skin: '#8060b0', skinHi: '#b090e0', skinShadow: '#503080' },  // purple cyber
   ]
-  const skinPick = skins[h % skins.length]
+  const sk = skins[Math.abs(h1) % skins.length]
 
-  const eyeColors = ['#00e5ff', '#a855f7', '#facc15', '#4ade80', '#f87171', '#60a5fa', '#fb923c', '#f472b6']
-  const bodyPairs = [
-    ['#0f3460', '#16213e'], ['#2d1b69', '#1a0533'], ['#003300', '#001100'],
-    ['#330000', '#1a0000'], ['#00334d', '#001a26'], ['#1a1a2e', '#0f0f23'],
+  const hairs = [
+    { hair1: '#facc15', hair2: '#d97706' },
+    { hair1: '#a855f7', hair2: '#6d28d9' },
+    { hair1: '#00e5ff', hair2: '#0891b2' },
+    { hair1: '#f87171', hair2: '#dc2626' },
+    { hair1: '#4ade80', hair2: '#15803d' },
+    { hair1: '#f8fafc', hair2: '#94a3b8' },
+    { hair1: '#1e1e1e', hair2: '#374151' },
+    { hair1: '#f472b6', hair2: '#db2777' },
+    { hair1: '#818cf8', hair2: '#4338ca' },
   ]
-  const hairColors = [
-    ['#facc15', '#f59e0b'], ['#a855f7', '#7c3aed'], ['#00e5ff', '#0891b2'],
-    ['#f87171', '#dc2626'], ['#4ade80', '#16a34a'], ['#f8fafc', '#94a3b8'],
-    ['#fb923c', '#ea580c'], ['#1e1e1e', '#374151'],
+  const hr = hairs[Math.abs(h2) % hairs.length]
+
+  const suits = [
+    ['#0f1728', '#0a0e1a'], ['#1a0d2e', '#100820'],
+    ['#0d1a0d', '#080d08'], ['#1a0000', '#0d0000'],
+    ['#0d1a2e', '#060d1a'], ['#1a1a1a', '#0a0a0a'],
+    ['#2d1b00', '#1a1000'], ['#001a2e', '#000d1a'],
   ]
-  const hair = hairColors[h2 % hairColors.length]
-  const body = bodyPairs[h3 % bodyPairs.length]
+  const su = suits[Math.abs(h3) % suits.length]
 
   return {
-    skin: skinPick.skin,
-    skinLight: skinPick.skinLight,
-    eyeColor: eyeColors[h4 % eyeColors.length],
-    bodyColor1: body[0],
-    bodyColor2: body[1],
-    hairColor1: hair[0],
-    hairColor2: hair[1],
-    hairType: h5 % 5,
-    eyeType: h6 % 5,
-    mouthType: h % 3,
+    ...sk,
+    hair1: hr.hair1, hair2: hr.hair2,
+    suit1: su[0], suit2: su[1],
+    hairType: Math.abs(h4) % 5,
+    eyeType: Math.abs(h5) % 5,
+    mouthType: Math.abs(h1) % 3,
+    circuitSide: Math.abs(h6) % 2,
   }
 })
 
-const auraColors = [
-  { ring1: '#00e5ff44', ring2: '#00e5ff22', ring3: '#00e5ff11', glow: '#00e5ff' },
-  { ring1: '#a855f744', ring2: '#a855f722', ring3: '#a855f711', glow: '#a855f7' },
-  { ring1: '#facc1544', ring2: '#facc1522', ring3: '#facc1511', glow: '#facc15' },
-  { ring1: '#4ade8044', ring2: '#4ade8022', ring3: '#4ade8011', glow: '#4ade80' },
-  { ring1: '#f8717144', ring2: '#f8717122', ring3: '#f8717111', glow: '#f87171' },
-  { ring1: '#60a5fa44', ring2: '#60a5fa22', ring3: '#60a5fa11', glow: '#60a5fa' },
-  { ring1: '#fb923c44', ring2: '#fb923c22', ring3: '#fb923c11', glow: '#fb923c' },
-  { ring1: '#f472b644', ring2: '#f472b622', ring3: '#f472b611', glow: '#f472b6' },
-]
-
-const aura = computed(() => {
-  const h = hashStr(props.username.toUpperCase() + 'aura')
-  return auraColors[h % auraColors.length]
-})
-
-const avatarBg = computed(() => {
+const bg = computed(() => {
   const h = hashStr(props.username.toUpperCase())
   const bgs = [
-    'radial-gradient(circle at 30% 30%, #0f3460, #0a0a1a)',
-    'radial-gradient(circle at 30% 30%, #2d1b69, #0d0d1a)',
-    'radial-gradient(circle at 30% 30%, #003300, #000d00)',
-    'radial-gradient(circle at 30% 30%, #1a0533, #0a0015)',
-    'radial-gradient(circle at 30% 30%, #00334d, #000f1a)',
-    'radial-gradient(circle at 30% 30%, #1a1a2e, #0f0f23)',
+    'radial-gradient(circle at 30% 30%, #0f1a3d, #050810)',
+    'radial-gradient(circle at 70% 30%, #1a0d2e, #06030f)',
+    'radial-gradient(circle at 30% 60%, #0d1a0d, #020602)',
+    'radial-gradient(circle at 50% 20%, #1a1428, #050310)',
+    'radial-gradient(circle at 40% 40%, #0a1a2e, #020508)',
+    'radial-gradient(circle at 60% 50%, #1a0a14, #060204)',
   ]
-  return bgs[h % bgs.length]
+  return bgs[Math.abs(h) % bgs.length]
 })
 
-const particles = computed(() => {
-  const h = hashStr(props.username.toUpperCase() + 'p')
-  const colors = ['#00e5ff', '#a855f7', '#facc15', '#4ade80', '#f87171', '#60a5fa']
-  const count = 4 + (h % 3)
+const orbs = computed(() => {
+  const h = Math.abs(hashStr(props.username.toUpperCase() + 'orb'))
+  const colors = [palette.value.neon1, palette.value.neon2, '#ffffff88']
+  const count = 3 + (h % 3)
   return Array.from({ length: count }, (_, i) => ({
-    duration: 3 + ((h + i * 7) % 4),
-    delay: -((h + i * 3) % 4),
-    reverse: i % 2 === 0,
-    radius: (props.size / 2) + 4 + (i * 4),
-    color: colors[(h + i) % colors.length],
-    size: 2 + (i % 2),
+    color: colors[i % colors.length],
+    r: (props.size / 2) + 5 + (i * 5),
+    s: 2 + (i % 2),
+    d: 3.5 + ((h + i * 7) % 4),
+    dl: -((h + i * 3) % 4),
+    rev: i % 2 === 0,
   }))
 })
 </script>
 
 <style scoped>
-.nft-avatar-root {
+.nft-root {
   position: relative;
   display: flex;
   align-items: center;
@@ -305,7 +382,7 @@ const particles = computed(() => {
   flex-shrink: 0;
 }
 
-.avatar-circle {
+.nft-circle {
   width: 100%;
   height: 100%;
   border-radius: 50%;
@@ -314,146 +391,105 @@ const particles = computed(() => {
   display: flex;
   align-items: center;
   justify-content: center;
-  animation: nft-float 3s ease-in-out infinite, nft-breathe 4s ease-in-out infinite;
+  animation: nft-breathe 3.5s ease-in-out infinite;
   z-index: 2;
 }
 
-.avatar-svg {
+.portrait-svg {
   position: relative;
   z-index: 2;
-  animation: nft-float-svg 3s ease-in-out infinite;
+  animation: nft-float 3s ease-in-out infinite;
 }
 
-/* Hologram scan line */
 .holo-scan {
   position: absolute;
-  left: 0;
-  right: 0;
+  left: 0; right: 0;
   height: 2px;
-  background: linear-gradient(90deg, transparent, rgba(0, 229, 255, 0.6), transparent);
   z-index: 3;
-  animation: nft-scan 2.8s linear infinite;
+  opacity: 0.7;
+  animation: holo-scan 2.6s linear infinite;
 }
 
-/* Eye blink overlay */
-.blink-overlay {
+.rgb-edge {
   position: absolute;
-  left: 30%;
-  right: 30%;
-  top: 48%;
-  height: 1px;
+  inset: 0;
+  border-radius: 50%;
   z-index: 4;
-  border-radius: 50%;
-  transform: scaleY(0);
-  animation: nft-blink 5s ease-in-out infinite;
-}
-
-/* Aura rings */
-.aura-ring {
-  position: absolute;
-  border-radius: 50%;
-  border-style: solid;
   pointer-events: none;
-}
-.aura-ring-1 {
-  inset: -4px;
-  border-width: 1.5px;
-  animation: nft-aura-1 2.5s ease-in-out infinite;
-  z-index: 1;
-}
-.aura-ring-2 {
-  inset: -9px;
-  border-width: 1px;
-  animation: nft-aura-2 3.5s ease-in-out infinite;
-  z-index: 0;
-}
-.aura-ring-3 {
-  inset: -15px;
-  border-width: 1px;
-  animation: nft-aura-3 5s ease-in-out infinite;
-  z-index: 0;
-  opacity: 0.4;
 }
 
 /* Orbit particles */
-.orbit-container {
+.orbit-wrap {
   position: absolute;
   inset: 0;
-  z-index: 3;
   pointer-events: none;
+  z-index: 1;
 }
-.orbit-particle {
+
+.orb {
   position: absolute;
+  width: var(--s);
+  height: var(--s);
+  border-radius: 50%;
+  background: var(--c);
+  box-shadow: 0 0 6px var(--c), 0 0 12px var(--c);
   top: 50%;
   left: 50%;
-  width: var(--p-size);
-  height: var(--p-size);
+  margin: calc(var(--s) / -2);
+  animation: orbit linear infinite;
+  transform-origin: calc(var(--r) * -1) 0;
+}
+
+@keyframes orbit {
+  from { transform: rotate(0deg) translateX(var(--r)); }
+  to   { transform: rotate(360deg) translateX(var(--r)); }
+}
+
+/* Aura rings */
+.aura-r {
+  position: absolute;
   border-radius: 50%;
-  background: var(--p-color);
-  box-shadow: 0 0 6px var(--p-color), 0 0 12px var(--p-color);
-  transform-origin: calc(-1 * var(--orbit-r)) 0;
-  margin-top: calc(-1 * var(--p-size) / 2);
-  margin-left: calc(-1 * var(--p-size) / 2);
-  animation: nft-orbit linear infinite;
-  animation-duration: var(--orbit-duration, 4s);
+  border: 1.5px solid;
+  pointer-events: none;
+  animation: aura-pulse 2.5s ease-in-out infinite;
+}
+.aura-r1 { inset: -4px; animation-delay: 0s; }
+.aura-r2 { inset: -9px; animation-delay: 0.3s; }
+.aura-r3 { inset: -14px; animation-delay: 0.6s; }
+
+@keyframes aura-pulse {
+  0%,100% { opacity: 0.7; transform: scale(1); }
+  50%      { opacity: 1;   transform: scale(1.02); }
+}
+
+@keyframes nft-breathe {
+  0%,100% { transform: scale(1); }
+  50%     { transform: scale(1.025); }
+}
+
+@keyframes nft-float {
+  0%,100% { transform: translateY(0); }
+  50%     { transform: translateY(-2px); }
+}
+
+@keyframes holo-scan {
+  0%   { top: 5%; opacity: 0; }
+  10%  { opacity: 0.7; }
+  90%  { opacity: 0.7; }
+  100% { top: 95%; opacity: 0; }
 }
 
 /* NFT badge */
 .nft-badge {
   position: absolute;
-  bottom: -2px;
-  right: -2px;
-  font-size: 6px;
+  bottom: -3px;
+  right: -3px;
+  font-size: 7px;
   font-weight: 900;
-  color: white;
-  padding: 1px 3px;
-  border-radius: 3px;
+  color: #000;
+  padding: 2px 5px;
+  border-radius: 999px;
   letter-spacing: 0.05em;
   z-index: 10;
-  animation: nft-badge-pulse 2s ease-in-out infinite;
-}
-
-/* ── Keyframes ── */
-@keyframes nft-float {
-  0%, 100% { transform: translateY(0px); }
-  50% { transform: translateY(-3px); }
-}
-@keyframes nft-float-svg {
-  0%, 100% { transform: translateY(0px); }
-  50% { transform: translateY(-1.5px); }
-}
-@keyframes nft-breathe {
-  0%, 100% { filter: brightness(1) drop-shadow(0 0 4px rgba(0,229,255,0.3)); }
-  50% { filter: brightness(1.08) drop-shadow(0 0 10px rgba(0,229,255,0.6)); }
-}
-@keyframes nft-scan {
-  0% { top: -2px; opacity: 0; }
-  5% { opacity: 1; }
-  90% { opacity: 0.5; }
-  100% { top: 100%; opacity: 0; }
-}
-@keyframes nft-blink {
-  0%, 45%, 55%, 100% { transform: scaleY(0); opacity: 0; }
-  48%, 52% { transform: scaleY(8); opacity: 1; }
-}
-@keyframes nft-aura-1 {
-  0%, 100% { opacity: 0.8; transform: scale(1); }
-  50% { opacity: 1; transform: scale(1.05); }
-}
-@keyframes nft-aura-2 {
-  0%, 100% { opacity: 0.4; transform: scale(1); }
-  50% { opacity: 0.7; transform: scale(1.04); }
-}
-@keyframes nft-aura-3 {
-  0%, 100% { opacity: 0.2; transform: scale(1); }
-  50% { opacity: 0.4; transform: scale(1.06); }
-}
-@keyframes nft-orbit {
-  from { transform: rotate(0deg) translateX(var(--orbit-r)); }
-  to { transform: rotate(360deg) translateX(var(--orbit-r)); }
-}
-@keyframes nft-badge-pulse {
-  0%, 100% { opacity: 0.8; transform: scale(1); }
-  50% { opacity: 1; transform: scale(1.1); }
 }
 </style>
