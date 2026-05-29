@@ -1,83 +1,60 @@
 <template>
   <Teleport to="body">
     <Transition name="nova-modal">
-      <div v-if="visible" class="nova-overlay"
-        @click.self="close">
+      <div v-if="visible" class="nova-overlay" @click.self="close">
+        <div class="nova-sheet" :class="step===2&&'nova-sheet--white'">
 
-        <div class="nova-sheet">
-
-          <!-- ░░ BACKGROUND ░░ -->
-          <div aria-hidden="true" class="nova-bg">
+          <!-- ░░ BACKGROUND (step 1 only) ░░ -->
+          <div v-if="step===1" aria-hidden="true" class="nova-bg">
             <div class="nova-bg-base"></div>
             <div class="nova-orb nova-orb--1"></div>
             <div class="nova-orb nova-orb--2"></div>
             <div class="nova-orb nova-orb--3"></div>
           </div>
 
-          <!-- content wrapper -->
-          <div class="nova-content">
-
-            <!-- ── Header ── -->
-            <div class="nova-header-wrap">
-              <div class="nova-header-row">
-                <button v-if="step===2" @click="step=1" class="nova-icon-btn">
-                  <svg width="14" height="14" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/>
-                  </svg>
-                </button>
-                <div v-else style="width:26px;"></div>
-
-                <span class="nova-title">ငွေသွင်းရန်</span>
-
-                <button @click="close" class="nova-icon-btn">
-                  <svg width="14" height="14" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
-                  </svg>
-                </button>
-              </div>
-
-              <!-- Balance bar -->
-              <div v-if="step===1" class="nova-balance-bar">
-                <span class="nova-balance-label">ငွေလွှဲရန် ဘက်အမျိုးအစား ရွေးချယ်ပါ။</span>
-                <div style="display:flex;align-items:center;gap:5px;">
-                  <span style="font-size:14px;line-height:1;">🇲🇲</span>
-                  <span class="nova-balance-num">{{ walletBalance.toLocaleString() }}</span>
-                  <button @click="refreshBalance" class="nova-refresh-btn" :class="refreshing&&'nova-spin'">
-                    <svg width="11" height="11" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5"
-                        d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"/>
+          <!-- ══ STEP 1 LAYOUT ══ -->
+          <template v-if="step===1">
+            <div class="nova-content">
+              <!-- Header -->
+              <div class="nova-header-wrap">
+                <div class="nova-header-row">
+                  <div style="width:26px;"></div>
+                  <span class="nova-title">ငွေသွင်းရန်</span>
+                  <button @click="close" class="nova-icon-btn">
+                    <svg width="14" height="14" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
                     </svg>
                   </button>
                 </div>
+                <div class="nova-balance-bar">
+                  <span class="nova-balance-label">ငွေလွှဲရန် ဘက်အမျိုးအစား ရွေးချယ်ပါ။</span>
+                  <div style="display:flex;align-items:center;gap:5px;">
+                    <span style="font-size:14px;line-height:1;">🇲🇲</span>
+                    <span class="nova-balance-num">{{ walletBalance.toLocaleString() }}</span>
+                    <button @click="refreshBalance" class="nova-refresh-btn" :class="refreshing&&'nova-spin'">
+                      <svg width="11" height="11" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5"
+                          d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"/>
+                      </svg>
+                    </button>
+                  </div>
+                </div>
+                <div class="nova-divider"></div>
               </div>
 
-              <div class="nova-divider"></div>
-            </div>
-
-            <!-- ── Scroll body ── -->
-            <div class="nova-body">
-
-              <!-- ══ STEP 1 ══ -->
-              <div v-if="step===1">
-
+              <!-- Body -->
+              <div class="nova-body">
                 <p class="nova-label">ငွေပေးချေနည်းလမ်း</p>
-
-                <!-- Payment 2×2 -->
                 <div class="nova-pm-grid">
-                  <button
-                    v-for="pm in paymentMethods"
-                    :key="pm.key"
+                  <button v-for="pm in paymentMethods" :key="pm.key"
                     @click="method=pm.key"
                     class="nova-pm-btn"
                     :class="method===pm.key?'nova-pm-active':'nova-pm-idle'">
-
                     <span v-if="pm.popular" class="nova-popular-badge">လူကြိုက်များ</span>
-
                     <div class="nova-pm-icon" :style="{background:pm.iconBg}">
                       <img v-if="pm.img" :src="pm.img" style="width:22px;height:22px;object-fit:contain;"/>
                       <span v-else style="font-size:13px;font-weight:900;" :style="{color:pm.iconColor}">{{pm.iconText}}</span>
                     </div>
-
                     <span class="nova-pm-label" :style="method===pm.key?{color:'#e2e8f0'}:{color:'rgba(148,163,184,0.85)'}">
                       {{pm.label}}
                     </span>
@@ -85,12 +62,8 @@
                 </div>
 
                 <p class="nova-label">သွင်းမည့်ပမာဏ</p>
-
-                <!-- Amount 4×2 — yellow border -->
                 <div class="nova-amt-grid">
-                  <button
-                    v-for="amt in amountPresets"
-                    :key="amt"
+                  <button v-for="amt in amountPresets" :key="amt"
                     @click="selectAmount(amt)"
                     class="nova-amt-btn"
                     :class="amount===amt?'nova-amt-active':'nova-amt-idle'">
@@ -98,23 +71,15 @@
                   </button>
                 </div>
 
-                <!-- Input — yellow border -->
                 <div class="nova-input-wrap">
                   <span class="nova-k-prefix">K</span>
-                  <input
-                    :value="displayAmount"
-                    @input="onAmountInput"
-                    @focus="onAmountFocus"
-                    @blur="onAmountBlur"
-                    type="text"
-                    inputmode="numeric"
+                  <input :value="displayAmount" @input="onAmountInput" @focus="onAmountFocus" @blur="onAmountBlur"
+                    type="text" inputmode="numeric"
                     placeholder="အနည်းဆုံး: 3,000 ~ အများဆုံး: 1,000,000"
                     class="nova-input"/>
                 </div>
 
-                <!-- Bonus section -->
                 <div class="nova-bonus-card">
-                  <!-- Header -->
                   <div class="nova-bonus-header">
                     <div style="display:flex;align-items:center;gap:5px;">
                       <span style="font-size:12px;">🎁</span>
@@ -125,8 +90,6 @@
                       <span class="nova-countdown">{{countdown}}</span>
                     </div>
                   </div>
-
-                  <!-- Radio: no bonus -->
                   <label class="nova-radio-row" @click="bonusOption='none'">
                     <div style="display:flex;align-items:center;gap:8px;flex:1;min-width:0;">
                       <span style="font-size:13px;flex-shrink:0;">😔</span>
@@ -134,10 +97,7 @@
                     </div>
                     <div class="nova-radio" :class="bonusOption==='none'&&'nova-radio-on'"></div>
                   </label>
-
                   <div class="nova-row-divider"></div>
-
-                  <!-- Radio: 1% -->
                   <label class="nova-radio-row" @click="bonusOption='1pct'">
                     <div style="display:flex;align-items:center;gap:8px;flex:1;min-width:0;">
                       <span style="font-size:13px;flex-shrink:0;">🎁</span>
@@ -148,10 +108,7 @@
                     </div>
                     <div class="nova-radio" :class="bonusOption==='1pct'&&'nova-radio-on'"></div>
                   </label>
-
                   <div class="nova-row-divider"></div>
-
-                  <!-- Radio: 20% -->
                   <label class="nova-radio-row" @click="bonusOption='20pct'">
                     <div style="display:flex;align-items:center;gap:8px;flex:1;min-width:0;">
                       <span style="font-size:13px;flex-shrink:0;">🎁</span>
@@ -163,94 +120,127 @@
                     <div class="nova-radio" :class="bonusOption==='20pct'&&'nova-radio-on'"></div>
                   </label>
                 </div>
+              </div>
 
-              </div><!-- /step 1 -->
+              <!-- CTA -->
+              <div class="nova-cta-wrap">
+                <button @click="nextStep" :disabled="!method||!amount||amount<3000" class="nova-cta">
+                  ယခု ငွေသွင်းပါ
+                </button>
+              </div>
+            </div>
+          </template>
 
-              <!-- ══ STEP 2 ══ -->
-              <div v-else-if="step===2">
+          <!-- ══ STEP 2 — WHITE PAGE ══ -->
+          <template v-else-if="step===2">
+            <div class="s2-page">
 
-                <div class="nova-method-summary">
-                  <div class="nova-pm-icon" style="width:24px;height:24px;border-radius:7px;"
-                    :style="{background:selectedMethod?.iconBg}">
-                    <img v-if="selectedMethod?.img" :src="selectedMethod.img" style="width:18px;height:18px;object-fit:contain;"/>
-                    <span v-else style="font-size:11px;font-weight:900;" :style="{color:selectedMethod?.iconColor}">
-                      {{selectedMethod?.iconText}}
-                    </span>
-                  </div>
-                  <span style="font-size:12px;font-weight:600;color:rgba(203,213,225,0.9);">{{selectedMethod?.label}}</span>
-                  <span style="margin-left:auto;font-size:12px;font-weight:900;color:#22c55e;">
-                    {{amount.toLocaleString()}} Ks
-                  </span>
+              <!-- Top bar: step dots + language -->
+              <div class="s2-topbar">
+                <div class="s2-steps">
+                  <div class="s2-dot s2-dot--done">1</div>
+                  <div class="s2-dot-line"></div>
+                  <div class="s2-dot s2-dot--active">2</div>
                 </div>
+                <div class="s2-lang-pill">မြန်မာ</div>
+              </div>
 
-                <p class="nova-label">ငွေလွှဲပေးရမည့် အကောင့်</p>
+              <!-- Scrollable body -->
+              <div class="s2-body">
 
-                <div class="nova-recipient-card">
-                  <div class="nova-recipient-row">
-                    <div>
-                      <p class="nova-rec-sub">လက်ခံသူ</p>
-                      <p class="nova-rec-name">{{recipientName}}</p>
-                    </div>
-                    <button @click="copyText(recipientName)" class="nova-copy-btn">
-                      <svg width="11" height="11" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                          d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"/>
-                      </svg>
-                      Copy
-                    </button>
-                  </div>
-                  <div class="nova-divider" style="margin:0;"></div>
-                  <div class="nova-recipient-row">
-                    <div>
-                      <p class="nova-rec-sub">ဖုန်းနံပါတ်</p>
-                      <p class="nova-rec-phone">{{recipientAccount}}</p>
-                    </div>
-                    <button @click="copyText(recipientAccount)" class="nova-copy-btn">
-                      <svg width="11" height="11" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                          d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"/>
-                      </svg>
-                      Copy
-                    </button>
+                <!-- Method badge + countdown -->
+                <div class="s2-method-row">
+                  <div class="s2-method-badge">{{ selectedMethod?.label?.toUpperCase() }}</div>
+                  <div class="s2-timer-badge">
+                    <svg width="13" height="13" fill="none" stroke="currentColor" viewBox="0 0 24 24" style="flex-shrink:0;">
+                      <circle cx="12" cy="12" r="10" stroke-width="2"/>
+                      <path stroke-linecap="round" stroke-width="2" d="M12 6v6l4 2"/>
+                    </svg>
+                    <span class="s2-timer-text">{{ step2Timer }}</span>
                   </div>
                 </div>
 
+                <!-- Account number -->
+                <div class="s2-field-label">အကောင့်နံပါတ်</div>
+                <div class="s2-account-row">
+                  <span class="s2-account-num">{{ recipientAccount }}</span>
+                  <button @click="copyText(recipientAccount)" class="s2-copy-btn">
+                    <svg width="12" height="12" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                        d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"/>
+                    </svg>
+                    ကော်ပီ
+                  </button>
+                </div>
+
+                <!-- Account name -->
+                <div class="s2-field-label">အကောင့် နာမည်</div>
+                <div class="s2-account-row">
+                  <span class="s2-account-name">{{ recipientName }}</span>
+                  <button @click="copyText(recipientName)" class="s2-copy-btn">
+                    <svg width="12" height="12" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                        d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"/>
+                    </svg>
+                    ကော်ပီ
+                  </button>
+                </div>
+
+                <!-- Copy toast -->
                 <Transition name="toast">
-                  <div v-if="copied" style="text-align:center;margin-bottom:8px;">
-                    <span class="nova-copied-toast">✅ ကူးယူပြီးပါပြီ</span>
-                  </div>
+                  <div v-if="copied" class="s2-toast">✅ ကူးယူပြီးပါပြီ</div>
                 </Transition>
 
-                <p class="nova-label">ပြေစာနောက် ၅ လုံး</p>
-                <input v-model="slip" maxlength="5" type="text" inputmode="numeric"
-                  placeholder="X  X  X  X  X"
-                  class="nova-input nova-slip-input"/>
-
-                <div class="nova-amount-row">
-                  <span style="font-size:11px;color:rgba(107,114,128,0.8);">သွင်းမည့်ပမာဏ</span>
-                  <span style="font-size:12px;font-weight:900;color:#22c55e;">{{amount.toLocaleString()}} Ks</span>
+                <!-- Big amount -->
+                <div class="s2-amount-big">Ks. {{ Number(amount).toLocaleString() }}.00</div>
+                <div style="display:flex;justify-content:center;margin-bottom:6px;">
+                  <button @click="copyText(String(amount))" class="s2-copy-btn">
+                    <svg width="12" height="12" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                        d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"/>
+                    </svg>
+                    ကော်ပီ
+                  </button>
                 </div>
-              </div><!-- /step 2 -->
+                <p class="s2-exact-hint">ညြပမာဏအတိုင်းငွေလွှဲပါ</p>
 
-            </div><!-- /body -->
+                <!-- Supported apps -->
+                <div class="s2-apps-section">
+                  <p class="s2-apps-label">အောက်ပါ အက်ပ်များကို ပံ့ပိုးပါသည်</p>
+                  <div class="s2-app-chip">
+                    <img v-if="selectedMethod?.img" :src="selectedMethod.img" style="width:20px;height:20px;object-fit:contain;border-radius:4px;"/>
+                    <span v-else class="s2-app-text-icon" :style="{background:selectedMethod?.iconBg,color:selectedMethod?.iconColor}">{{ selectedMethod?.iconText }}</span>
+                    <span class="s2-app-name">{{ selectedMethod?.label }}</span>
+                  </div>
+                </div>
 
-            <!-- ── CTA ── -->
-            <div class="nova-cta-wrap">
-              <button v-if="step===1"
-                @click="nextStep"
-                :disabled="!method||!amount||amount<3000"
-                class="nova-cta">
-                ယခု ငွေသွင်းပါ
-              </button>
-              <button v-else
-                @click="submitDeposit"
-                :disabled="slip.length<5"
-                class="nova-cta nova-cta--green">
-                အတည်ပြုမည် ✓
-              </button>
+                <!-- Tips -->
+                <div class="s2-tips-card">
+                  <p class="s2-tips-title">အကြံပြုချက်များ</p>
+                  <ol class="s2-tips-list">
+                    <li>ငွေပေးချေမှုအတွက် သတ်မှတ်ချိန်အတွင်း ငွေအော်ဒါတင်ပါ။ သတ်မှတ်ချိန် ကျော်လွန်သွားပါက ငွေအော်ဒါတင်ထားခြင်း ပျက်ပြယ်သွားမည်။ နောက်တစ်ကြိမ် ငွေထပ်လွှဲရန်မလိုပါ။ ငွေသွင်းပမာဏနှင့် ငွေလွှဲဖုန်းနံပါတ်ကိုမှန်ကန်စွာ ရွေးချယ်ထည့်သွင်းပါ။ ငွေသွင်းနည်းမှန်ကန်မှုမရှိပါက ငွေဝင်မည်မဟုတ်ပါ။</li>
+                    <li>ငွေလွှဲရန်အတွက် ဖုန်းနံပါတ်ကိုကော်ပီယူပါ။ ငွေအော်ဒါမှန်ကန်စွာတင်ပြီး ငွေလွှဲပါက ဂိမ်းထဲသို့ ငွေအော်တိုဝင်မည်။ ဂိမ်းထဲမှ ငွေလက်ခံဖုန်းနံပါတ်သည် အမြဲပြောင်းလဲနေသည့်အတွက် ဖုန်းနံပါတ်တစ်ခုတည်းကို အတည်မသတ်မှတ်ပါနှင့်။</li>
+                    <li>ငွေအော်ဒါတင်ထားသော ပမာဏနှင့် ငွေသွင်းပမာဏသည် တူညီရမည်။ တူညီမှုမရှိပါက ငွေအော်ဒါပျက်ပြယ်ပြီး အမှတ်ရရှိရန် ကြန့်ကြာနိုင်သည်။ သင့်သွင်းငွေအတွက် ငွေအော်ဒါမှန်ကန်စွာတင်ပြီးပါက မိနစ် ၃၀ အတွင်း အချိန်မီ ငွေသွင်းရမည်ဖြစ်သည်။</li>
+                  </ol>
+                </div>
+
+              </div><!-- /s2-body -->
+
+              <!-- Back + Confirm -->
+              <div class="s2-footer">
+                <button @click="step=1" class="s2-back-btn">
+                  <svg width="14" height="14" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M15 19l-7-7 7-7"/>
+                  </svg>
+                </button>
+                <button @click="submitDeposit" class="s2-confirm-btn">
+                  အတည်ပြုမည် ✓
+                </button>
+              </div>
+
             </div>
+          </template>
 
-          </div><!-- /nova-content -->
         </div>
       </div>
     </Transition>
@@ -268,19 +258,17 @@ const visible       = ref(props.modelValue)
 const step          = ref(1)
 const method        = ref('kpay')
 const amount        = ref(5000)
-const slip          = ref('')
 const copied        = ref(false)
 const bonusOption   = ref('none')
 const walletBalance = ref(0)
 const refreshing    = ref(false)
 const focusMode     = ref(false)
 
-// ── Body scroll lock ──────────────────────────────────────────────
 function lockScroll()   { document.body.style.overflow = 'hidden'; document.body.style.touchAction = 'none' }
 function unlockScroll() { document.body.style.overflow = ''; document.body.style.touchAction = '' }
 
-// ── Countdown ─────────────────────────────────────────────────────
-const countdown = ref('00:00:00.0')
+// ── Bonus countdown (step 1) ───────────────────────────────────────
+const countdown = ref('00:00:00')
 let timerInterval = null
 function startTimer() {
   let total = 23 * 3600 + 30 * 60 + 57
@@ -289,11 +277,32 @@ function startTimer() {
     const h = String(Math.floor(total / 3600)).padStart(2,'0')
     const m = String(Math.floor((total % 3600) / 60)).padStart(2,'0')
     const s = String(total % 60).padStart(2,'0')
-    countdown.value = `${h}:${m}:${s}.${Math.floor(Math.random()*9)}`
+    countdown.value = `${h}:${m}:${s}`
   }, 1000)
 }
+
+// ── Step 2 countdown (3 min) ──────────────────────────────────────
+const step2Secs = ref(180)
+let step2Interval = null
+const step2Timer = computed(() => {
+  const m = String(Math.floor(step2Secs.value / 60)).padStart(2,'0')
+  const s = String(step2Secs.value % 60).padStart(2,'0')
+  return `${m}:${s}`
+})
+function startStep2Timer() {
+  step2Secs.value = 180
+  clearInterval(step2Interval)
+  step2Interval = setInterval(() => {
+    if (step2Secs.value > 0) step2Secs.value--
+  }, 1000)
+}
+function stopStep2Timer() {
+  clearInterval(step2Interval)
+  step2Interval = null
+}
+
 onMounted(() => startTimer())
-onUnmounted(() => { clearInterval(timerInterval); unlockScroll() })
+onUnmounted(() => { clearInterval(timerInterval); stopStep2Timer(); unlockScroll() })
 
 // ── Balance ───────────────────────────────────────────────────────
 async function fetchBalance() {
@@ -310,7 +319,6 @@ async function refreshBalance() {
 
 // ── Payment ───────────────────────────────────────────────────────
 const amountPresets = [3000,5000,10000,30000,50000,100000,500000,1000000]
-
 const paymentMethods = [
   { key:'kpay',   label:'KBZ Pay', popular:true,  img:'/images/payments/kpay.png', iconBg:'rgba(37,99,235,0.3)' },
   { key:'wave',   label:'WavePay', popular:false, img:'/images/payments/wave.png', iconBg:'rgba(5,150,105,0.25)' },
@@ -333,17 +341,21 @@ async function fetchPaymentSettings() {
 }
 
 watch(method, fetchPaymentSettings)
+watch(step, (val) => {
+  if (val === 2) startStep2Timer()
+  else stopStep2Timer()
+})
 watch(() => props.modelValue, (val) => {
   visible.value = val
   if (val) {
-    step.value=1; amount.value=5000; slip.value=''; bonusOption.value='none'; focusMode.value=false
+    step.value=1; amount.value=5000; bonusOption.value='none'; focusMode.value=false
     fetchPaymentSettings(); fetchBalance(); lockScroll()
   } else {
-    unlockScroll()
+    stopStep2Timer(); unlockScroll()
   }
 })
 
-// ── Amount display ────────────────────────────────────────────────
+// ── Amount ────────────────────────────────────────────────────────
 const displayAmount = computed(() => {
   if (!amount.value) return ''
   return focusMode.value ? String(amount.value) : amount.value.toLocaleString()
@@ -362,8 +374,7 @@ const copyText = async (text) => {
   catch { prompt('Copy manually:', text) }
 }
 const submitDeposit = () => {
-  if (slip.value.length !== 5) return
-  emit('submit', { method:method.value, amount:amount.value, slip:slip.value, bonus:bonusOption.value })
+  emit('submit', { method:method.value, amount:amount.value, bonus:bonusOption.value })
   close()
 }
 </script>
@@ -376,22 +387,19 @@ const submitDeposit = () => {
   background:rgba(0,0,0,0.75);
   backdrop-filter:blur(8px);
   -webkit-backdrop-filter:blur(8px);
-  /* leave space for the fixed bottom nav bar (~64px) */
   padding-bottom:64px;
 }
 
 /* ── Sheet ── */
 .nova-sheet {
   position:relative;
-  width:100%;
-  max-width:480px;
-  /* Fill space above the nav bar (overlay has 64px bottom padding) */
+  width:100%;max-width:480px;
   height:calc(100dvh - 80px);
   border-radius:20px 20px 0 0;
   overflow:hidden;
-  display:flex;
-  flex-direction:column;
+  display:flex;flex-direction:column;
 }
+.nova-sheet--white { background:#f5f6fa; }
 
 /* ── BG ── */
 .nova-bg { position:absolute;inset:0;overflow:hidden;pointer-events:none;z-index:0;border-radius:20px 20px 0 0; }
@@ -404,117 +412,40 @@ const submitDeposit = () => {
 @keyframes orbB { 0%{transform:translate(0,0);}50%{transform:translate(-15px,14px);}100%{transform:translate(0,0);} }
 @keyframes orbC { 0%{transform:translate(0,0);}50%{transform:translate(10px,-12px);}100%{transform:translate(0,0);} }
 
-/* ── Content ── */
+/* ── Step 1 Content ── */
 .nova-content { position:relative;z-index:1;display:flex;flex-direction:column;height:100%; }
-
-/* ── Header ── */
 .nova-header-wrap { flex-shrink:0;padding:12px 16px 0; }
 .nova-header-row  { display:flex;align-items:center;justify-content:space-between;margin-bottom:8px; }
 .nova-title       { font-size:13px;font-weight:700;color:rgba(226,232,240,0.95);letter-spacing:0.04em; }
-.nova-balance-bar {
-  display:flex;align-items:center;justify-content:space-between;
-  margin-bottom:8px;padding:5px 10px;border-radius:9px;
-  background:rgba(255,255,255,0.04);
-  box-shadow:inset 0 1px 0 rgba(255,255,255,0.07);
-}
+.nova-balance-bar { display:flex;align-items:center;justify-content:space-between;margin-bottom:8px;padding:5px 10px;border-radius:9px;background:rgba(255,255,255,0.04);box-shadow:inset 0 1px 0 rgba(255,255,255,0.07); }
 .nova-balance-label { font-size:10px;color:rgba(148,163,184,0.7); }
 .nova-balance-num   { font-size:12px;font-weight:700;color:rgba(253,224,71,0.9); }
 .nova-divider       { height:1px;background:rgba(255,255,255,0.07);margin-bottom:10px; }
-
-/* ── Scroll body ── */
-.nova-body {
-  flex:1;overflow-y:auto;padding:0 16px;
-  overscroll-behavior:contain;
-  -webkit-overflow-scrolling:touch;
-}
+.nova-body { flex:1;overflow-y:auto;padding:0 16px;overscroll-behavior:contain;-webkit-overflow-scrolling:touch; }
 .nova-body::-webkit-scrollbar { width:2px; }
-.nova-body::-webkit-scrollbar-track { background:transparent; }
 .nova-body::-webkit-scrollbar-thumb { background:rgba(100,116,139,0.22);border-radius:10px; }
-
-/* ── CTA strip ── */
 .nova-cta-wrap { flex-shrink:0;padding:8px 16px 12px; }
-
-/* ── Labels ── */
 .nova-label { font-size:11px;color:rgba(156,163,175,0.75);margin:0 0 7px 0; }
-
-/* ── Payment grid ── */
 .nova-pm-grid { display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:12px; }
-.nova-pm-btn {
-  position:relative;display:flex;align-items:center;gap:9px;
-  padding:9px 11px;border-radius:12px;cursor:pointer;border:none;outline:none;
-  transition:all 0.18s ease;text-align:left;user-select:none;
-}
+.nova-pm-btn { position:relative;display:flex;align-items:center;gap:9px;padding:9px 11px;border-radius:12px;cursor:pointer;border:none;outline:none;transition:all 0.18s ease;text-align:left;user-select:none; }
 .nova-pm-idle   { background:rgba(255,255,255,0.05);box-shadow:inset 0 1px 0 rgba(255,255,255,0.09),0 1px 4px rgba(0,0,0,0.3); }
 .nova-pm-active { background:rgba(255,255,255,0.09);box-shadow:inset 0 1px 0 rgba(255,255,255,0.15),inset 0 0 0 1px rgba(34,197,94,0.4),0 0 12px rgba(34,197,94,0.15); }
 .nova-pm-btn:active { transform:scale(0.97); }
 .nova-pm-icon  { width:28px;height:28px;border-radius:8px;flex-shrink:0;display:flex;align-items:center;justify-content:center;overflow:hidden; }
 .nova-pm-label { font-size:12px;font-weight:600; }
-.nova-popular-badge {
-  position:absolute;top:-7px;left:50%;transform:translateX(-50%);
-  font-size:8px;font-weight:900;padding:2px 8px;border-radius:99px;
-  background:linear-gradient(90deg,#f97316,#ef4444);color:#fff;
-  white-space:nowrap;box-shadow:0 1px 6px rgba(249,115,22,0.5);
-}
-
-/* ── Amount grid — yellow frame ── */
+.nova-popular-badge { position:absolute;top:-7px;left:50%;transform:translateX(-50%);font-size:8px;font-weight:900;padding:2px 8px;border-radius:99px;background:linear-gradient(90deg,#f97316,#ef4444);color:#fff;white-space:nowrap;box-shadow:0 1px 6px rgba(249,115,22,0.5); }
 .nova-amt-grid { display:grid;grid-template-columns:repeat(4,1fr);gap:6px;margin-bottom:8px; }
-.nova-amt-btn {
-  padding:8px 2px;border-radius:10px;border:none;outline:none;
-  font-size:11px;font-weight:700;cursor:pointer;
-  transition:all 0.15s ease;text-align:center;user-select:none;
-}
-.nova-amt-idle {
-  background:rgba(255,255,255,0.05);
-  color:rgba(203,213,225,0.85);
-  border:1px solid rgba(234,179,8,0.25);
-}
-.nova-amt-active {
-  background:rgba(6,182,212,0.82);color:#fff;
-  border:1px solid rgba(6,182,212,0.6);
-  box-shadow:inset 0 1px 0 rgba(255,255,255,0.2),0 2px 10px rgba(6,182,212,0.4);
-}
-.nova-amt-btn:hover { filter:brightness(1.12); }
+.nova-amt-btn { padding:8px 2px;border-radius:10px;border:none;outline:none;font-size:11px;font-weight:700;cursor:pointer;transition:all 0.15s ease;text-align:center;user-select:none; }
+.nova-amt-idle  { background:rgba(255,255,255,0.05);color:rgba(203,213,225,0.85);border:1px solid rgba(234,179,8,0.25); }
+.nova-amt-active { background:rgba(6,182,212,0.82);color:#fff;border:1px solid rgba(6,182,212,0.6);box-shadow:inset 0 1px 0 rgba(255,255,255,0.2),0 2px 10px rgba(6,182,212,0.4); }
 .nova-amt-btn:active { transform:scale(0.95); }
-
-/* ── Input wrap — yellow frame ── */
 .nova-input-wrap { position:relative;margin-bottom:12px; }
-.nova-k-prefix {
-  position:absolute;left:12px;top:50%;transform:translateY(-50%);
-  font-size:11px;font-weight:700;color:rgba(156,163,175,0.6);z-index:1;
-}
-.nova-input {
-  width:100%;padding:10px 12px 10px 26px;border-radius:11px;
-  border:1px solid rgba(234,179,8,0.3);outline:none;
-  font-size:12px;font-weight:600;box-sizing:border-box;
-  background:rgba(255,255,255,0.06);
-  box-shadow:inset 0 1px 0 rgba(255,255,255,0.07);
-  color:rgba(226,232,240,0.9);
-  caret-color:#22c55e;
-  transition:border-color 0.15s;
-}
-.nova-input:focus {
-  border-color:rgba(234,179,8,0.6);
-  box-shadow:inset 0 1px 0 rgba(255,255,255,0.09),0 0 0 1.5px rgba(234,179,8,0.15);
-}
+.nova-k-prefix { position:absolute;left:12px;top:50%;transform:translateY(-50%);font-size:11px;font-weight:700;color:rgba(156,163,175,0.6);z-index:1; }
+.nova-input { width:100%;padding:10px 12px 10px 26px;border-radius:11px;border:1px solid rgba(234,179,8,0.3);outline:none;font-size:12px;font-weight:600;box-sizing:border-box;background:rgba(255,255,255,0.06);box-shadow:inset 0 1px 0 rgba(255,255,255,0.07);color:rgba(226,232,240,0.9);caret-color:#22c55e;transition:border-color 0.15s; }
+.nova-input:focus { border-color:rgba(234,179,8,0.6);box-shadow:inset 0 1px 0 rgba(255,255,255,0.09),0 0 0 1.5px rgba(234,179,8,0.15); }
 .nova-input::placeholder { color:rgba(107,114,128,0.45); }
-
-/* Slip input (full width, centered) */
-.nova-slip-input {
-  padding:10px;text-align:center;letter-spacing:0.45em;
-  font-family:monospace;font-size:17px;font-weight:900;
-  margin-bottom:10px;
-}
-
-/* ── Bonus card ── */
-.nova-bonus-card {
-  border-radius:13px;overflow:hidden;margin-bottom:8px;
-  background:rgba(255,255,255,0.04);
-  box-shadow:inset 0 1px 0 rgba(255,255,255,0.07),0 2px 8px rgba(0,0,0,0.3);
-}
-.nova-bonus-header {
-  display:flex;align-items:center;justify-content:space-between;
-  padding:8px 12px;border-bottom:1px solid rgba(255,255,255,0.05);
-}
+.nova-bonus-card { border-radius:13px;overflow:hidden;margin-bottom:8px;background:rgba(255,255,255,0.04);box-shadow:inset 0 1px 0 rgba(255,255,255,0.07),0 2px 8px rgba(0,0,0,0.3); }
+.nova-bonus-header { display:flex;align-items:center;justify-content:space-between;padding:8px 12px;border-bottom:1px solid rgba(255,255,255,0.05); }
 .nova-bonus-title    { font-size:11px;font-weight:700;color:rgba(253,224,71,0.85); }
 .nova-countdown-badge { display:flex;align-items:center;gap:3px;padding:2px 7px;border-radius:99px;background:rgba(239,68,68,0.18); }
 .nova-countdown      { font-size:9px;font-weight:700;color:#fca5a5;font-variant-numeric:tabular-nums; }
@@ -524,82 +455,184 @@ const submitDeposit = () => {
 .nova-radio-title { font-size:11px;font-weight:600;color:rgba(203,213,225,0.9);margin:0 0 1px 0; }
 .nova-radio-sub   { font-size:9px;color:rgba(107,114,128,0.75);margin:0; }
 .nova-row-divider { height:1px;background:rgba(255,255,255,0.04);margin:0 12px; }
-.nova-radio {
-  width:16px;height:16px;border-radius:50%;flex-shrink:0;
-  border:1.5px solid rgba(100,116,139,0.5);
-  background:transparent;transition:all 0.18s;
-}
-.nova-radio-on {
-  border-color:#22c55e;
-  background:radial-gradient(circle,#22c55e 0%,#22c55e 40%,transparent 60%);
-  box-shadow:0 0 6px rgba(34,197,94,0.5);
-}
-
-/* ── Step 2 ── */
-.nova-method-summary {
-  display:flex;align-items:center;gap:8px;margin-bottom:12px;
-  padding:8px 11px;border-radius:11px;
-  background:rgba(255,255,255,0.05);
-  box-shadow:inset 0 1px 0 rgba(255,255,255,0.08);
-}
-.nova-recipient-card {
-  border-radius:13px;overflow:hidden;margin-bottom:10px;
-  background:rgba(255,255,255,0.05);
-  box-shadow:inset 0 1px 0 rgba(255,255,255,0.09),0 2px 8px rgba(0,0,0,0.25);
-}
-.nova-recipient-row { display:flex;align-items:center;justify-content:space-between;padding:10px 12px; }
-.nova-rec-sub   { font-size:9px;color:rgba(107,114,128,0.8);margin:0 0 2px 0; }
-.nova-rec-name  { font-size:12px;font-weight:600;color:rgba(226,232,240,0.95);margin:0; }
-.nova-rec-phone { font-family:monospace;font-size:17px;font-weight:900;letter-spacing:0.2em;color:#e2e8f0;margin:0; }
-.nova-copy-btn {
-  display:flex;align-items:center;gap:4px;font-size:10px;font-weight:600;
-  padding:4px 9px;border-radius:7px;border:none;outline:none;cursor:pointer;
-  background:rgba(255,255,255,0.07);box-shadow:inset 0 1px 0 rgba(255,255,255,0.1);
-  color:rgba(148,163,184,0.9);transition:all 0.15s;
-}
-.nova-copy-btn:hover { background:rgba(255,255,255,0.11); }
-.nova-copy-btn:active { transform:scale(0.95); }
-.nova-copied-toast {
-  font-size:10px;padding:3px 12px;border-radius:99px;font-weight:600;
-  background:rgba(34,197,94,0.12);color:#86efac;
-  box-shadow:inset 0 1px 0 rgba(255,255,255,0.08);
-}
-.nova-amount-row { display:flex;justify-content:space-between;margin-bottom:10px;padding:0 2px; }
-
-/* ── CTA ── */
-.nova-cta {
-  width:100%;padding:11px;border-radius:99px;border:none;outline:none;
-  font-size:13px;font-weight:700;letter-spacing:0.04em;cursor:pointer;
-  background:rgba(30,41,59,0.95);
-  box-shadow:inset 0 1px 0 rgba(255,255,255,0.12),0 3px 10px rgba(0,0,0,0.4);
-  color:rgba(226,232,240,0.9);transition:all 0.2s;
-}
-.nova-cta:hover   { background:rgba(51,65,85,0.95); }
-.nova-cta:active  { transform:scale(0.98); }
+.nova-radio { width:16px;height:16px;border-radius:50%;flex-shrink:0;border:1.5px solid rgba(100,116,139,0.5);background:transparent;transition:all 0.18s; }
+.nova-radio-on { border-color:#22c55e;background:radial-gradient(circle,#22c55e 0%,#22c55e 40%,transparent 60%);box-shadow:0 0 6px rgba(34,197,94,0.5); }
+.nova-cta { width:100%;padding:11px;border-radius:99px;border:none;outline:none;font-size:13px;font-weight:700;letter-spacing:0.04em;cursor:pointer;background:rgba(30,41,59,0.95);box-shadow:inset 0 1px 0 rgba(255,255,255,0.12),0 3px 10px rgba(0,0,0,0.4);color:rgba(226,232,240,0.9);transition:all 0.2s; }
 .nova-cta:disabled { opacity:0.3;cursor:not-allowed; }
-.nova-cta--green {
-  background:rgba(5,150,105,0.9);
-  box-shadow:inset 0 1px 0 rgba(255,255,255,0.18),0 3px 12px rgba(34,197,94,0.3);
-  color:#fff;
-}
-.nova-cta--green:hover    { background:rgba(4,120,87,0.95); }
-.nova-cta--green:disabled { opacity:0.3;cursor:not-allowed; }
-
-/* ── Buttons ── */
-.nova-icon-btn {
-  width:26px;height:26px;border-radius:8px;border:none;outline:none;cursor:pointer;
-  background:rgba(255,255,255,0.07);box-shadow:inset 0 1px 0 rgba(255,255,255,0.1);
-  color:rgba(156,163,175,0.8);display:flex;align-items:center;justify-content:center;transition:background 0.15s;
-}
-.nova-icon-btn:hover { background:rgba(255,255,255,0.12); }
-.nova-refresh-btn {
-  width:22px;height:22px;border-radius:6px;border:none;outline:none;cursor:pointer;
-  background:rgba(255,255,255,0.07);display:flex;align-items:center;justify-content:center;
-  color:rgba(156,163,175,0.8);transition:all 0.15s;
-}
-.nova-refresh-btn:hover { background:rgba(255,255,255,0.12); }
+.nova-icon-btn { width:26px;height:26px;border-radius:8px;border:none;outline:none;cursor:pointer;background:rgba(255,255,255,0.07);box-shadow:inset 0 1px 0 rgba(255,255,255,0.1);color:rgba(156,163,175,0.8);display:flex;align-items:center;justify-content:center;transition:background 0.15s; }
+.nova-refresh-btn { width:22px;height:22px;border-radius:6px;border:none;outline:none;cursor:pointer;background:rgba(255,255,255,0.07);display:flex;align-items:center;justify-content:center;color:rgba(156,163,175,0.8);transition:all 0.15s; }
 .nova-spin svg { animation:spin 0.6s linear infinite; }
 @keyframes spin { to { transform:rotate(360deg); } }
+
+/* ══ STEP 2 WHITE PAGE ══ */
+.s2-page {
+  display:flex;flex-direction:column;height:100%;
+  background:#f5f6fa;border-radius:20px 20px 0 0;
+}
+
+/* Top bar */
+.s2-topbar {
+  flex-shrink:0;display:flex;align-items:center;justify-content:space-between;
+  padding:14px 18px 10px;
+  background:#fff;
+  border-bottom:1px solid #eaecf0;
+}
+.s2-steps { display:flex;align-items:center;gap:0; }
+.s2-dot {
+  width:28px;height:28px;border-radius:50%;
+  display:flex;align-items:center;justify-content:center;
+  font-size:13px;font-weight:700;
+}
+.s2-dot--done   { background:#22c55e;color:#fff; }
+.s2-dot--active { background:#1e293b;color:#fff; }
+.s2-dot-line { width:32px;height:2px;background:#22c55e; }
+.s2-lang-pill {
+  font-size:12px;font-weight:600;color:#374151;
+  padding:4px 11px;border-radius:99px;
+  border:1.5px solid #d1d5db;background:#fff;
+}
+
+/* Scrollable body */
+.s2-body {
+  flex:1;overflow-y:auto;padding:16px;
+  -webkit-overflow-scrolling:touch;
+  overscroll-behavior:contain;
+}
+.s2-body::-webkit-scrollbar { width:2px; }
+.s2-body::-webkit-scrollbar-thumb { background:#d1d5db;border-radius:10px; }
+
+/* Method + timer row */
+.s2-method-row {
+  display:flex;align-items:center;justify-content:space-between;
+  margin-bottom:16px;
+}
+.s2-method-badge {
+  padding:6px 14px;border-radius:8px;
+  background:#1e293b;color:#fff;
+  font-size:13px;font-weight:800;letter-spacing:0.04em;
+}
+.s2-timer-badge {
+  display:flex;align-items:center;gap:5px;
+  padding:6px 12px;border-radius:8px;
+  background:#fef2f2;border:1.5px solid #fecaca;
+  color:#dc2626;
+}
+.s2-timer-text { font-size:13px;font-weight:700;font-variant-numeric:tabular-nums; }
+
+/* Account rows */
+.s2-field-label {
+  font-size:11px;font-weight:600;color:#6b7280;
+  margin:0 0 5px 0;
+}
+.s2-account-row {
+  display:flex;align-items:center;justify-content:space-between;
+  padding:10px 14px;border-radius:12px;
+  background:#fff;
+  border:1.5px solid #e5e7eb;
+  margin-bottom:12px;
+  box-shadow:0 1px 3px rgba(0,0,0,0.06);
+}
+.s2-account-num {
+  font-family:monospace;font-size:18px;font-weight:800;
+  color:#dc2626;letter-spacing:0.06em;
+}
+.s2-account-name {
+  font-size:15px;font-weight:700;color:#111827;
+  letter-spacing:0.08em;
+}
+.s2-copy-btn {
+  display:flex;align-items:center;gap:4px;
+  padding:5px 12px;border-radius:7px;border:none;outline:none;cursor:pointer;
+  background:#2563eb;color:#fff;
+  font-size:11px;font-weight:700;
+  transition:all 0.15s;
+  flex-shrink:0;
+}
+.s2-copy-btn:active { transform:scale(0.95);background:#1d4ed8; }
+
+/* Toast */
+.s2-toast {
+  text-align:center;margin:0 0 10px 0;
+  font-size:11px;font-weight:600;color:#16a34a;
+  padding:4px 0;
+}
+
+/* Big amount */
+.s2-amount-big {
+  text-align:center;
+  font-size:32px;font-weight:900;color:#111827;
+  margin:8px 0 8px 0;letter-spacing:-0.01em;
+}
+.s2-exact-hint {
+  text-align:center;font-size:11px;color:#6b7280;
+  margin:0 0 16px 0;
+}
+
+/* Supported apps */
+.s2-apps-section {
+  margin-bottom:16px;
+  padding:12px 14px;border-radius:12px;
+  background:#fff;border:1.5px solid #e5e7eb;
+  box-shadow:0 1px 3px rgba(0,0,0,0.05);
+}
+.s2-apps-label { font-size:11px;font-weight:600;color:#374151;margin:0 0 10px 0; }
+.s2-app-chip {
+  display:inline-flex;align-items:center;gap:8px;
+  padding:6px 12px;border-radius:8px;
+  background:#f1f5f9;border:1px solid #e2e8f0;
+}
+.s2-app-text-icon {
+  width:20px;height:20px;border-radius:4px;
+  display:flex;align-items:center;justify-content:center;
+  font-size:11px;font-weight:900;
+}
+.s2-app-name { font-size:12px;font-weight:700;color:#374151; }
+
+/* Tips card */
+.s2-tips-card {
+  padding:14px 16px;border-radius:14px;
+  background:#fff;
+  border:1.5px solid #fde68a;
+  box-shadow:0 1px 3px rgba(0,0,0,0.05);
+  margin-bottom:8px;
+}
+.s2-tips-title {
+  font-size:13px;font-weight:800;color:#92400e;
+  margin:0 0 10px 0;
+}
+.s2-tips-list {
+  padding-left:18px;margin:0;
+  display:flex;flex-direction:column;gap:10px;
+}
+.s2-tips-list li {
+  font-size:12px;line-height:1.65;color:#374151;
+}
+
+/* Footer */
+.s2-footer {
+  flex-shrink:0;
+  display:flex;align-items:center;gap:10px;
+  padding:10px 16px 14px;
+  background:#fff;
+  border-top:1px solid #eaecf0;
+}
+.s2-back-btn {
+  width:44px;height:44px;border-radius:12px;
+  border:1.5px solid #d1d5db;background:#f9fafb;
+  display:flex;align-items:center;justify-content:center;
+  color:#374151;cursor:pointer;flex-shrink:0;
+  transition:all 0.15s;
+}
+.s2-back-btn:active { background:#e5e7eb;transform:scale(0.96); }
+.s2-confirm-btn {
+  flex:1;padding:13px;border-radius:12px;
+  border:none;outline:none;cursor:pointer;
+  background:linear-gradient(135deg,#16a34a,#15803d);
+  color:#fff;font-size:14px;font-weight:700;
+  box-shadow:0 4px 14px rgba(22,163,74,0.35);
+  transition:all 0.2s;
+}
+.s2-confirm-btn:active { transform:scale(0.98); }
 
 /* ── Transitions ── */
 .nova-modal-enter-active { animation:sheetUp 0.28s cubic-bezier(0.22,1,0.36,1); }
