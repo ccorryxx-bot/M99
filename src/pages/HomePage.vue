@@ -450,12 +450,14 @@
               class="nova-game-card" @click="openGame(game)"
               @touchstart="e=>e.currentTarget.style.transform='scale(0.93)'"
               @touchend="e=>e.currentTarget.style.transform='scale(1)'">
-              <div style="position:relative;aspect-ratio:3/4;overflow:hidden;">
-                <img :src="game.image_url" style="width:100%;height:100%;object-fit:cover;display:block;" :alt="game.name" loading="lazy"/>
-                <div style="position:absolute;inset:0;background:linear-gradient(to top,rgba(10,10,10,0.9) 0%,rgba(10,10,10,0.05) 45%,transparent 100%);"></div>
+              <div style="position:relative;aspect-ratio:3/4;overflow:hidden;background:#0d1222;">
+                <img :src="game.image_url" alt="" @error="e=>e.target.style.display='none'" style="width:100%;height:100%;object-fit:cover;display:block;" loading="lazy"/>
+                <div style="position:absolute;inset:0;background:linear-gradient(to top,rgba(6,8,18,0.95) 0%,rgba(6,8,18,0.3) 40%,transparent 100%);"></div>
                 <div v-if="idx%5<2" class="nova-badge nova-badge--hot">HOT</div>
                 <div class="nova-badge nova-badge--provider">{{ game.provider }}</div>
-                <div style="position:absolute;bottom:0;left:0;right:0;padding:5px;"><div style="font-size:9px;font-weight:700;color:rgba(255,255,255,0.85);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">{{ game.name }}</div></div>
+                <div style="position:absolute;bottom:0;left:0;right:0;padding:4px 5px 5px;">
+                  <div style="font-size:9px;font-weight:700;color:rgba(255,255,255,0.9);overflow:hidden;text-overflow:ellipsis;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;line-height:1.3;">{{ game.name }}</div>
+                </div>
               </div>
             </div>
           </div>
