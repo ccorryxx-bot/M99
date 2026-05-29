@@ -2,8 +2,7 @@
   <Teleport to="body">
     <Transition name="nova-modal">
       <div v-if="visible" class="nova-overlay"
-        @click.self="close"
-        @touchmove.prevent>
+        @click.self="close">
 
         <div class="nova-sheet">
 
@@ -377,9 +376,8 @@ const submitDeposit = () => {
   background:rgba(0,0,0,0.75);
   backdrop-filter:blur(8px);
   -webkit-backdrop-filter:blur(8px);
-  /* prevent background page scroll */
-  touch-action:none;
-  overscroll-behavior:contain;
+  /* leave space for the fixed bottom nav bar (~64px) */
+  padding-bottom:64px;
 }
 
 /* ── Sheet ── */
@@ -387,8 +385,8 @@ const submitDeposit = () => {
   position:relative;
   width:100%;
   max-width:480px;
-  /* Use dvh so it doesn't overlap nav bar */
-  height:82dvh;
+  /* Fill space above the nav bar (overlay has 64px bottom padding) */
+  height:calc(100dvh - 80px);
   border-radius:20px 20px 0 0;
   overflow:hidden;
   display:flex;
