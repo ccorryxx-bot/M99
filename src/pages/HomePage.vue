@@ -1119,7 +1119,7 @@
   .nova-cat-active-bar { position:absolute; left:0; top:20%; bottom:20%; width:3px; border-radius:0 2px 2px 0; background:linear-gradient(to bottom,#4ade80,#22c55e); box-shadow:0 0 8px rgba(34,197,94,0.6); }
 
   /* ── GAME CARDS ── */
-  .nova-game-card { border-radius:14px; overflow:hidden; cursor:pointer; background:rgba(255,255,255,0.058); border:1px solid rgba(255,255,255,0.14); box-shadow:0 4px 22px rgba(0,0,0,0.55), 0 1px 0 rgba(255,255,255,0.08) inset, 0 0 0 0.5px rgba(34,197,94,0.08); backdrop-filter:blur(10px); -webkit-backdrop-filter:blur(10px); will-change:transform; transform:translateZ(0); transition:transform 0.15s ease, box-shadow 0.15s ease; -webkit-tap-highlight-color:transparent; contain:layout style; }
+  .nova-game-card { border-radius:14px; overflow:hidden; cursor:pointer; background:rgba(255,255,255,0.058); border:1px solid rgba(255,255,255,0.14); box-shadow:0 4px 22px rgba(0,0,0,0.55), 0 1px 0 rgba(255,255,255,0.08) inset, 0 0 0 0.5px rgba(34,197,94,0.08); will-change:transform; transform:translateZ(0); transition:transform 0.15s ease, box-shadow 0.15s ease; -webkit-tap-highlight-color:transparent; contain:layout style; }
 .nova-game-card:active { transform:scale(0.95) translateZ(0); box-shadow:0 2px 10px rgba(0,0,0,0.65); }
 .nova-game-card:hover { transform:translateY(-2px) translateZ(0); box-shadow:0 8px 32px rgba(0,0,0,0.6), 0 0 0 1px rgba(34,197,94,0.18), 0 1px 0 rgba(255,255,255,0.1) inset; }
   .nova-badge { position:absolute; font-size:7px; font-weight:900; border-radius:5px; padding:2px 4px; }
