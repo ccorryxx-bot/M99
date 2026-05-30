@@ -36,13 +36,13 @@
       <div class="pt-2">
         <p class="text-xs text-gray-500 mb-2 px-1">Other Services</p>
         <div class="space-y-2">
-          <button @click="comingSoon" class="w-full flex items-center gap-3 bg-[#111d26] hover:bg-[#111d26]/80 border border-cyan-500/10 rounded-xl p-3 text-left transition-all">
+          <button @click="comingSoon" class="nova-glass-menu-item w-full flex items-center gap-3 rounded-xl p-3 text-left">
             <span class="text-lg">📖</span><span class="text-sm font-semibold">User Guide</span>
           </button>
-          <button @click="comingSoon" class="w-full flex items-center gap-3 bg-[#111d26] hover:bg-[#111d26]/80 border border-cyan-500/10 rounded-xl p-3 text-left transition-all">
+          <button @click="comingSoon" class="nova-glass-menu-item w-full flex items-center gap-3 rounded-xl p-3 text-left">
             <span class="text-lg">🔒</span><span class="text-sm font-semibold">Privacy Policy</span>
           </button>
-          <button @click="comingSoon" class="w-full flex items-center gap-3 bg-[#111d26] hover:bg-[#111d26]/80 border border-cyan-500/10 rounded-xl p-3 text-left transition-all">
+          <button @click="comingSoon" class="nova-glass-menu-item w-full flex items-center gap-3 rounded-xl p-3 text-left">
             <span class="text-lg">⚠️</span><span class="text-sm font-semibold">Responsible Gaming</span>
           </button>
         </div>
