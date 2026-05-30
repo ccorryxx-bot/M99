@@ -17,6 +17,22 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 
+/* ══ CANONICAL PAGE BACKGROUND ══════════════════════════════════
+   ONE background for ALL pages — body, nova-page-bg, nova-app,
+   agent-page all share the same gradient so they never look different.
+═══════════════════════════════════════════════════════════════ */
+:root {
+  --nova-bg: linear-gradient(160deg, #08102a 0%, #0d1a36 20%, #0c1828 40%, #091420 60%, #07101a 80%, #050c14 100%);
+}
+
+.nova-page-bg,
+.nova-app,
+.agent-page {
+  background: var(--nova-bg);
+  min-height: 100vh;
+  color: #fff;
+}
+
 /* ══ GLASSMORPHISM DESIGN SYSTEM ═════════════════════════════════
    3 core rules:
    1. Background ≠ Card — card slightly darker → depth illusion
