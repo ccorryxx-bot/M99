@@ -12,7 +12,7 @@
       <!-- ══ AGENT — elevated AI brain ══ -->
       <router-link to="/agent" class="gnav-agent" :class="{active: route.path==='/agent'}">
         <div class="brain-wrap">
-          <svg viewBox="0 0 60 60" fill="none" xmlns="http://www.w3.org/2000/svg" width="48" height="48" style="overflow:visible">
+          <svg viewBox="0 0 60 60" fill="none" xmlns="http://www.w3.org/2000/svg" width="36" height="36" style="overflow:visible">
             <defs>
               <filter id="gnav-wg" x="-35%" y="-35%" width="170%" height="170%">
                 <feGaussianBlur stdDeviation="1.5" result="b"/>
@@ -114,28 +114,28 @@ const route = useRoute()
 .gnav-item.active svg { filter: drop-shadow(0 0 5px rgba(34,197,94,0.7)); }
 .gnav-item:active { opacity: 0.6; }
 .gnav-agent {
-  flex: none; width: 68px; text-decoration: none;
+  flex: none; width: 52px; text-decoration: none;
   display: flex; flex-direction: column; align-items: center; gap: 3px;
   color: rgba(255,255,255,0.45);
   -webkit-tap-highlight-color: transparent; user-select: none;
 }
 .gnav-agent.active { color: #f59e0b; }
 .brain-wrap {
-  width: 62px; height: 62px; border-radius: 50%;
+  width: 46px; height: 46px; border-radius: 50%;
   background: radial-gradient(circle at 42% 38%, rgba(245,158,11,0.18) 0%, rgba(5,8,20,0.98) 65%);
   border: 1.5px solid rgba(245,158,11,0.62);
   box-shadow:
-    0 0 0 3px rgba(6,10,22,0.82),
-    0 0 20px rgba(245,158,11,0.48),
-    0 0 44px rgba(245,158,11,0.18),
-    0 -8px 24px rgba(0,0,0,0.82);
+    0 0 0 2px rgba(6,10,22,0.82),
+    0 0 14px rgba(245,158,11,0.44),
+    0 0 30px rgba(245,158,11,0.14),
+    0 -6px 18px rgba(0,0,0,0.82);
   display: flex; align-items: center; justify-content: center;
-  margin: 0 auto; margin-top: -22px;
+  margin: 0 auto; margin-top: -14px;
   animation: bwrap-pulse 3s ease-in-out infinite;
 }
 @keyframes bwrap-pulse {
-  0%,100% { box-shadow: 0 0 0 3px rgba(6,10,22,0.82), 0 0 18px rgba(245,158,11,0.44), 0 0 38px rgba(245,158,11,0.14), 0 -8px 24px rgba(0,0,0,0.82); }
-  50%      { box-shadow: 0 0 0 3px rgba(6,10,22,0.82), 0 0 34px rgba(245,158,11,0.72), 0 0 64px rgba(245,158,11,0.3),  0 -8px 24px rgba(0,0,0,0.82); }
+  0%,100% { box-shadow: 0 0 0 2px rgba(6,10,22,0.82), 0 0 12px rgba(245,158,11,0.4), 0 0 26px rgba(245,158,11,0.12), 0 -6px 18px rgba(0,0,0,0.82); }
+  50%      { box-shadow: 0 0 0 2px rgba(6,10,22,0.82), 0 0 24px rgba(245,158,11,0.65), 0 0 46px rgba(245,158,11,0.26), 0 -6px 18px rgba(0,0,0,0.82); }
 }
 .agent-lbl { font-size: 9px; font-weight: 700; letter-spacing: 0.04em; line-height: 1; }
 .nb-tdl { animation: tdl-flow 1.8s linear infinite; }
