@@ -1,2 +1,58 @@
 @import "tailwindcss";
-html { scroll-behavior: smooth; }
+
+html {
+  scroll-behavior: smooth;
+  box-sizing: border-box;
+}
+
+*, *::before, *::after {
+  box-sizing: inherit;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  min-height: 100vh;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* ══ DESKTOP RESPONSIVE ══════════════════════════════════════════
+   On desktop (≥768px) the bottom nav is hidden and replaced by the
+   left sidebar. Remove the pb-20 bottom padding that was reserved
+   for the bottom nav so pages don't have wasted space.
+═══════════════════════════════════════════════════════════════ */
+@media (min-width: 768px) {
+  /* Pages using Tailwind pb-20 for bottom nav clearance */
+  .nova-page-bg.pb-20,
+  .nova-page-bg[class*="pb-20"] {
+    padding-bottom: 1.5rem !important;
+  }
+
+  /* HomePage uses .nova-app (its own scoped class) */
+  .nova-app {
+    padding-bottom: 1rem !important;
+  }
+
+  /* Subtle frame borders on desktop */
+  .nova-page-frame {
+    border-left: 1px solid rgba(255,255,255,0.03);
+    border-right: 1px solid rgba(255,255,255,0.03);
+  }
+
+  /* Ensure Vant overlays / modals cover full viewport incl. sidebar */
+  .van-overlay {
+    left: 0 !important;
+    right: 0 !important;
+  }
+
+  /* Position fixed elements inside pages (orbs, modals) use full viewport — OK */
+}
+
+/* ── Custom scrollbar on desktop ─────────────────────────────── */
+@media (min-width: 768px) {
+  ::-webkit-scrollbar             { width: 5px; }
+  ::-webkit-scrollbar-track       { background: rgba(255,255,255,0.02); }
+  ::-webkit-scrollbar-thumb       { background: rgba(34,197,94,0.22); border-radius: 3px; }
+  ::-webkit-scrollbar-thumb:hover { background: rgba(34,197,94,0.42); }
+}
