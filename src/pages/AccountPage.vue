@@ -113,7 +113,7 @@
       <!-- ══ MENU BLOCK 1 ══ -->
       <div class="menu-block">
         <button @click="comingSoon" class="menu-row">
-          <div class="m-icon" style="background:rgba(251,146,60,0.14);border-color:rgba(251,146,60,0.3);">
+          <div class="m-icon" style="background:rgba(251,146,60,0.14);">
             <svg class="w-[15px] h-[15px] text-orange-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"/>
             </svg>
@@ -124,9 +124,8 @@
           </div>
           <svg class="m-arr" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
         </button>
-        <div class="m-div"></div>
         <button @click="comingSoon" class="menu-row">
-          <div class="m-icon" style="background:rgba(239,68,68,0.12);border-color:rgba(239,68,68,0.28);">
+          <div class="m-icon" style="background:rgba(239,68,68,0.12);">
             <svg class="w-[15px] h-[15px] text-red-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z"/>
             </svg>
@@ -139,7 +138,7 @@
       <!-- ══ MENU BLOCK 2 ══ -->
       <div class="menu-block">
         <button @click="$router.push('/agent')" class="menu-row">
-          <div class="m-icon" style="background:rgba(245,158,11,0.14);border-color:rgba(245,158,11,0.32);">
+          <div class="m-icon" style="background:rgba(245,158,11,0.14);">
             <svg class="w-[15px] h-[15px] text-amber-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0z"/>
             </svg>
@@ -148,10 +147,9 @@
           <span class="text-[11px] font-bold mr-1" style="color:#f59e0b;">တစ်လဝင်ငွေ တစ်သန်း</span>
           <svg class="w-[15px] h-[15px] flex-shrink-0" style="color:#f59e0b;" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
         </button>
-        <div class="m-div"></div>
 
         <button @click="comingSoon" class="menu-row">
-          <div class="m-icon" style="background:rgba(99,102,241,0.13);border-color:rgba(99,102,241,0.3);">
+          <div class="m-icon" style="background:rgba(99,102,241,0.13);">
             <svg class="w-[15px] h-[15px] text-indigo-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/>
             </svg>
@@ -159,10 +157,9 @@
           <p class="flex-1 text-left m-title">ကိုယ်ရေးအချက်အလက်များ</p>
           <svg class="m-arr" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
         </button>
-        <div class="m-div"></div>
 
         <button @click="comingSoon" class="menu-row">
-          <div class="m-icon" style="background:rgba(34,197,94,0.12);border-color:rgba(34,197,94,0.28);">
+          <div class="m-icon" style="background:rgba(34,197,94,0.12);">
             <svg class="w-[15px] h-[15px] text-green-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/>
             </svg>
@@ -170,10 +167,9 @@
           <p class="flex-1 text-left m-title">လုံခြုံရေးစင်တာ</p>
           <svg class="m-arr" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
         </button>
-        <div class="m-div"></div>
 
         <button @click="comingSoon" class="menu-row">
-          <div class="m-icon" style="background:rgba(14,165,233,0.13);border-color:rgba(14,165,233,0.28);">
+          <div class="m-icon" style="background:rgba(14,165,233,0.13);">
             <svg class="w-[15px] h-[15px] text-sky-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 12a9 9 0 01-9 9m9-9a9 9 0 00-9-9m9 9H3m9 9a9 9 0 01-9-9m9 9c1.657 0 3-4.03 3-9s-1.343-9-3-9m0 18c-1.657 0-3-4.03-3-9s1.343-9 3-9m-9 9a9 9 0 019-9"/>
             </svg>
@@ -182,10 +178,9 @@
           <span class="text-[11px] text-gray-400 mr-1">မြန်မာဘာသာ</span>
           <svg class="m-arr" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
         </button>
-        <div class="m-div"></div>
 
         <button @click="comingSoon" class="menu-row">
-          <div class="m-icon" style="background:rgba(168,85,247,0.13);border-color:rgba(168,85,247,0.28);">
+          <div class="m-icon" style="background:rgba(168,85,247,0.13);">
             <svg class="w-[15px] h-[15px] text-purple-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8.228 9c.549-1.165 2.03-2 3.772-2 2.21 0 4 1.343 4 3 0 1.4-1.278 2.575-3.006 2.907-.542.104-.994.54-.994 1.093m0 3h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
             </svg>
@@ -193,10 +188,9 @@
           <p class="flex-1 text-left m-title">တောက်သည်ဝန်ဆောင်မှု</p>
           <svg class="m-arr" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
         </button>
-        <div class="m-div"></div>
 
         <button @click="comingSoon" class="menu-row">
-          <div class="m-icon" style="background:rgba(20,184,166,0.13);border-color:rgba(20,184,166,0.28);">
+          <div class="m-icon" style="background:rgba(20,184,166,0.13);">
             <svg class="w-[15px] h-[15px] text-teal-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"/>
             </svg>
@@ -204,10 +198,9 @@
           <p class="flex-1 text-left m-title">အကြံပေးချုပ်</p>
           <svg class="m-arr" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
         </button>
-        <div class="m-div"></div>
 
         <button @click="comingSoon" class="menu-row">
-          <div class="m-icon" style="background:rgba(100,116,139,0.14);border-color:rgba(100,116,139,0.3);">
+          <div class="m-icon" style="background:rgba(100,116,139,0.14);">
             <svg class="w-[15px] h-[15px] text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17H3a2 2 0 01-2-2V5a2 2 0 012-2h14a2 2 0 012 2v10a2 2 0 01-2 2h-2"/>
             </svg>
@@ -215,10 +208,9 @@
           <p class="flex-1 text-left m-title">စက်ပစ္စည်းသို့ ဝင်ရောက်ပါ</p>
           <svg class="m-arr" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
         </button>
-        <div class="m-div"></div>
 
         <button @click="logout" class="menu-row">
-          <div class="m-icon" style="background:rgba(239,68,68,0.12);border-color:rgba(239,68,68,0.28);">
+          <div class="m-icon" style="background:rgba(239,68,68,0.12);">
             <svg class="w-[15px] h-[15px] text-red-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"/>
             </svg>
@@ -482,7 +474,6 @@ const comingSoon = () => alert('Coming Soon')
 .m-title { font-size: 13px; font-weight: 600; color: #fff; }
 .m-sub { font-size: 9.5px; color: #6b7280; margin-top: 1px; }
 .m-arr { width: 14px; height: 14px; color: #6b7280; flex-shrink: 0; }
-.m-div { height: 1px; background: rgba(255,255,255,0.05); margin: 0 12px; }
 
 /* Spin */
 @keyframes nova-spin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
