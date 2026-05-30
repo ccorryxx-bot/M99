@@ -9,11 +9,11 @@
           <!-- Payment Method with Logos -->
           <label class="block text-gray-400 text-xs mb-2 ml-1">နည်းလမ်းရွေးပါ</label>
           <div class="flex gap-2 mb-5">
-            <button @click="method = 'wave'" :class="method === 'wave' ? 'bg-emerald-500/20 border-emerald-500 text-emerald-400' : 'bg-white/5 border-white/10 text-gray-400'" class="flex-1 flex flex-col items-center gap-2 justify-center py-4 rounded-xl border transition-all font-semibold text-sm">
+            <button @click="method = 'wave'" class="nova-glass-method flex-1 flex flex-col items-center gap-2 justify-center py-4 rounded-xl font-semibold text-sm" :class="method === 'wave' ? 'selected-wave' : 'text-gray-400'">
               <img src="/images/payments/wave.png" alt="WavePay" class="w-10 h-10 object-contain" />
               <span class="text-xs">WavePay</span>
             </button>
-            <button @click="method = 'kpay'" :class="method === 'kpay' ? 'bg-blue-500/20 border-blue-500 text-blue-400' : 'bg-white/5 border-white/10 text-gray-400'" class="flex-1 flex flex-col items-center gap-2 justify-center py-4 rounded-xl border transition-all font-semibold text-sm">
+            <button @click="method = 'kpay'" class="nova-glass-method flex-1 flex flex-col items-center gap-2 justify-center py-4 rounded-xl font-semibold text-sm" :class="method === 'kpay' ? 'selected-kpay' : 'text-gray-400'">
               <img src="/images/payments/kpay.png" alt="KBZ Pay" class="w-10 h-10 object-contain" />
               <span class="text-xs">KBZ Pay</span>
             </button>
@@ -49,7 +49,7 @@
           </div>
 
           <!-- Submit -->
-          <button @click="submitWithdraw" :disabled="!isValid" class="w-full bg-gradient-to-r from-rose-500 to-pink-600 text-white font-bold py-3 rounded-xl shadow-lg shadow-rose-500/30 transition-all hover:shadow-rose-500/50 disabled:opacity-40 disabled:cursor-not-allowed">
+          <button @click="submitWithdraw" :disabled="!isValid" class="nova-glass-cta-danger w-full text-white font-bold py-3 rounded-xl">
             ငွေထုတ်မည်
           </button>
 
