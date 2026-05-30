@@ -66,21 +66,21 @@
 
       <!-- ══ ACTION BUTTONS ══ -->
       <div class="action-row">
-        <button @click="$router.push('/home')" class="action-btn">
-          <div class="action-icon" style="background:rgba(245,158,11,0.18);border-color:rgba(245,158,11,0.38);">
-            <svg class="w-5 h-5 text-amber-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z"/>
+        <button @click="$router.push('/home')" class="action-flat-btn">
+          <div class="action-flat-icon" style="background:rgba(245,158,11,0.15);">
+            <svg width="22" height="22" fill="none" stroke="#f59e0b" stroke-width="1.8" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z"/>
             </svg>
           </div>
-          <span class="action-label">ငွေထုတ်ရန်</span>
+          <span class="action-flat-lbl">ငွေထုတ်ရန်</span>
         </button>
-        <button @click="$router.push('/home')" class="action-btn">
-          <div class="action-icon" style="background:rgba(14,165,233,0.18);border-color:rgba(14,165,233,0.38);">
-            <svg class="w-5 h-5 text-sky-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M3 10h10a8 8 0 018 8v2M3 10l6 6m-6-6l6-6"/>
+        <button @click="$router.push('/home')" class="action-flat-btn">
+          <div class="action-flat-icon" style="background:rgba(14,165,233,0.15);">
+            <svg width="22" height="22" fill="none" stroke="#38bdf8" stroke-width="1.8" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M3 10h10a8 8 0 018 8v2M3 10l6 6m-6-6l6-6"/>
             </svg>
           </div>
-          <span class="action-label">ငွေသွင်းရန်</span>
+          <span class="action-flat-lbl">ငွေသွင်းရန်</span>
         </button>
       </div>
 
@@ -373,10 +373,7 @@ const comingSoon = () => alert('Coming Soon')
   display: flex;
   align-items: center;
   gap: 10px;
-  padding: 11px 12px;
-  background: rgba(255,255,255,0.05);
-  border-radius: 14px;
-  backdrop-filter: blur(12px);
+  padding: 6px 4px;
 }
 .avatar-wrap { position: relative; flex-shrink: 0; }
 .avatar-circle {
@@ -415,24 +412,25 @@ const comingSoon = () => alert('Coming Soon')
 }
 .refresh-btn:active { transform: scale(0.85); }
 
-/* ── Action buttons ── */
-.action-row { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
-.action-btn {
-  display: flex; align-items: center; gap: 9px;
-  padding: 9px 12px;
-  border-radius: 12px;
-  background: rgba(255,255,255,0.05);
-  cursor: pointer;
-  transition: transform 0.12s;
+/* ── Action buttons (flat style) ── */
+.action-row { display: grid; grid-template-columns: 1fr 1fr; gap: 4px; }
+.action-flat-btn {
+  display: flex; flex-direction: column; align-items: center; gap: 7px;
+  padding: 10px 8px 8px;
+  background: none; border: none; cursor: pointer;
+  transition: opacity 0.12s;
+  -webkit-tap-highlight-color: transparent;
 }
-.action-btn:active { transform: scale(0.97); }
-.action-icon {
-  width: 34px; height: 34px;
-  border-radius: 9px;
+.action-flat-btn:active { opacity: 0.65; }
+.action-flat-icon {
+  width: 48px; height: 48px;
+  border-radius: 14px;
   display: flex; align-items: center; justify-content: center;
-  flex-shrink: 0;
 }
-.action-label { font-size: 12px; font-weight: 700; color: #fff; }
+.action-flat-lbl {
+  font-size: 12px; font-weight: 700; color: #e2e8f0;
+  letter-spacing: 0.01em;
+}
 
 /* ── VIP card ── */
 .vip-card {
