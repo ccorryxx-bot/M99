@@ -82,23 +82,19 @@
 
       <!-- Quick Actions -->
       <div class="grid grid-cols-4 gap-2">
-        <button @click="$router.push('/home')" class="bg-cyan-500/10 border border-cyan-500/20 rounded-xl p-3 text-center hover:bg-cyan-500/20 transition-all active:scale-95">
-          <!-- Deposit Icon SVG -->
+        <button @click="$router.push('/home')" class="nova-glass-btn rounded-xl p-3 text-center">
           <svg class="w-6 h-6 mx-auto text-cyan-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/><circle cx="12" cy="12" r="3"/></svg>
           <p class="text-[10px] font-bold text-cyan-300 mt-1">{{ $t('depositBtn') }}</p>
         </button>
-        <button @click="$router.push('/home')" class="bg-cyan-500/10 border border-cyan-500/20 rounded-xl p-3 text-center hover:bg-cyan-500/20 transition-all active:scale-95">
-          <!-- Withdraw Icon SVG -->
+        <button @click="$router.push('/home')" class="nova-glass-btn rounded-xl p-3 text-center">
           <svg class="w-6 h-6 mx-auto text-cyan-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 20V4m-8 8h16"/><circle cx="12" cy="12" r="3"/></svg>
           <p class="text-[10px] font-bold text-cyan-300 mt-1">{{ $t('withdrawBtn') }}</p>
         </button>
-        <button @click="comingSoon" class="bg-cyan-500/10 border border-cyan-500/20 rounded-xl p-3 text-center hover:bg-cyan-500/20 transition-all active:scale-95">
-          <!-- History Icon SVG -->
+        <button @click="comingSoon" class="nova-glass-btn rounded-xl p-3 text-center">
           <svg class="w-6 h-6 mx-auto text-cyan-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
           <p class="text-[10px] font-bold text-cyan-300 mt-1">{{ $t('history') }}</p>
         </button>
-        <button @click="logout" class="bg-red-500/10 border border-red-500/20 rounded-xl p-3 text-center hover:bg-red-500/20 transition-all active:scale-95">
-          <!-- Logout Icon SVG -->
+        <button @click="logout" class="nova-glass-btn rounded-xl p-3 text-center" style="border-color: rgba(239,68,68,0.18); box-shadow: 0 4px 16px rgba(0,0,0,0.30), inset 0 1px 0 rgba(239,68,68,0.08);">
           <svg class="w-6 h-6 mx-auto text-red-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"/></svg>
           <p class="text-[10px] font-bold text-red-400 mt-1">{{ $t('logout') }}</p>
         </button>
