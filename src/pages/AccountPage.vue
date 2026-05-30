@@ -51,12 +51,15 @@
           </div>
         </div>
         <div class="balance-area">
-          <div class="flex items-center gap-1">
-            <span style="font-size:13px;">🇲🇲</span>
-            <span class="balance-amount">{{ formatCurrency(mainBalance) }}</span>
-            <button @click="fetchWallet" class="refresh-btn">
-              <svg class="w-3.5 h-3.5" :class="{ 'spin-icon': refreshing }" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"/>
+          <div class="flex items-center gap-1.5">
+            <span class="balance-flag">🇲🇲</span>
+            <span class="balance-amount">{{ formatBalance(mainBalance) }}</span>
+            <button @click="fetchWallet" class="refresh-btn" :class="{ 'refreshing': refreshing }">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" class="refresh-svg">
+                <circle cx="12" cy="12" r="9" stroke="currentColor" stroke-width="1.5" stroke-dasharray="4 2" opacity="0.35"/>
+                <path d="M12 5C8.13 5 5 8.13 5 12s3.13 7 7 7c2.76 0 5.16-1.59 6.34-3.93" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                <path d="M17 7.5l1.5 3.5-3.5 0.5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                <circle cx="12" cy="12" r="2.2" fill="currentColor" opacity="0.9"/>
               </svg>
             </button>
           </div>
@@ -371,23 +374,38 @@ const nextBonus = computed(() =>
 
 const vipBadgeBg = computed(() => {
   const glowMap = {
-    Silver:   'linear-gradient(135deg,#6b7280,#9ca3af)',
+    Silver:   'linear-gradient(135deg,#b45309,#facc15)',
     Green:    'linear-gradient(135deg,#16a34a,#22c55e)',
     Blue:     'linear-gradient(135deg,#1d4ed8,#3b82f6)',
     Purple:   'linear-gradient(135deg,#7c3aed,#a855f7)',
-    Gold:     'linear-gradient(135deg,#ca8a04,#facc15)',
+    Gold:     'linear-gradient(135deg,#ca8a04,#fde047)',
     Red:      'linear-gradient(135deg,#dc2626,#f87171)',
     Diamond:  'linear-gradient(135deg,#0e7490,#22d3ee)',
     Platinum: 'linear-gradient(135deg,#475569,#cbd5e1)',
-    Master:   'linear-gradient(135deg,#b45309,#fde68a)',
-    Royal:    'linear-gradient(135deg,#d97706,#fbbf24)',
+    Master:   'linear-gradient(135deg,#92400e,#fbbf24)',
+    Royal:    'linear-gradient(135deg,#d97706,#fef08a)',
+  }
+  const glowColorMap = {
+    Silver: 'rgba(250,204,21,0.7)', Green: 'rgba(34,197,94,0.6)',
+    Blue: 'rgba(59,130,246,0.6)', Purple: 'rgba(168,85,247,0.6)',
+    Gold: 'rgba(250,204,21,0.7)', Red: 'rgba(248,113,113,0.6)',
+    Diamond: 'rgba(34,211,238,0.6)', Platinum: 'rgba(203,213,225,0.5)',
+    Master: 'rgba(251,191,36,0.7)', Royal: 'rgba(254,240,138,0.7)',
   }
   const currentRow = vipLevelsData.value.find(r => r.level === vipLevel.value)
   const glow = currentRow?.glow_color || 'Silver'
-  return `background:${glowMap[glow] || glowMap.Silver};color:#fff;`
+  const bg = glowMap[glow] || glowMap.Silver
+  const shadow = glowColorMap[glow] || glowColorMap.Silver
+  return `background:${bg};color:#fff;box-shadow:0 0 8px ${shadow},0 0 2px ${shadow};text-shadow:0 0 6px rgba(0,0,0,0.4);`
 })
 
 const formatCurrency = (num) => new Intl.NumberFormat('en-US').format(num || 0)
+const formatBalance = (num) => {
+  const n = Number(num) || 0
+  if (n >= 1000000) return (n / 1000000).toFixed(1) + 'M'
+  if (n >= 1000) return (n / 1000).toFixed(1) + 'K'
+  return n.toFixed(1)
+}
 const copyText = async (text) => { try { await navigator.clipboard.writeText(text) } catch {} }
 const logout = async () => {
   await supabase.auth.signOut()
@@ -450,16 +468,25 @@ const comingSoon = () => alert('Coming Soon')
   display: flex;
   align-items: center;
   gap: 10px;
-  padding: 6px 4px;
+  padding: 10px 12px;
+  border: 1px solid rgba(34,197,94,0.35);
+  border-radius: 14px;
+  background: rgba(34,197,94,0.03);
+  box-shadow: 0 0 10px rgba(34,197,94,0.08), inset 0 0 8px rgba(34,197,94,0.03);
+  animation: green-pulse 3s ease-in-out infinite;
+}
+@keyframes green-pulse {
+  0%, 100% { border-color: rgba(34,197,94,0.35); box-shadow: 0 0 10px rgba(34,197,94,0.08); }
+  50%       { border-color: rgba(74,222,128,0.55); box-shadow: 0 0 16px rgba(74,222,128,0.18); }
 }
 .avatar-wrap { position: relative; flex-shrink: 0; }
 
 /* NFT Avatar handled by NftAvatar component */
 .vip-badge-pill {
   position: absolute; bottom: -3px; right: -4px;
-  padding: 1.5px 5px;
+  padding: 2px 6px;
   border-radius: 5px;
-  font-size: 8px; font-weight: 900; color: #fff;
+  font-size: 9px; font-weight: 900; color: #fff;
   line-height: 1.4;
 }
 .profile-info { flex: 1; min-width: 0; }
@@ -478,16 +505,22 @@ const comingSoon = () => alert('Coming Soon')
 .copy-btn:active { transform: scale(0.82); background: rgba(255,255,255,0.16); }
 .copy-btn--id { color: #7dd3fc; border-color: rgba(125,211,252,0.25); background: rgba(125,211,252,0.08); }
 .balance-area { flex-shrink: 0; }
-.balance-amount { font-size: 14px; font-weight: 900; color: #67e8f9; }
+.balance-flag { font-size: 15px; line-height: 1; }
+.balance-amount { font-size: 18px; font-weight: 900; color: #67e8f9; letter-spacing: -0.01em; text-shadow: 0 0 10px rgba(103,232,249,0.5); }
 .refresh-btn {
-  width: 20px; height: 20px;
-  background: rgba(34,197,94,0.1);
+  width: 26px; height: 26px;
+  background: radial-gradient(circle, rgba(74,222,128,0.18) 0%, rgba(34,197,94,0.06) 100%);
+  border: 1px solid rgba(74,222,128,0.4);
   border-radius: 50%;
   display: inline-flex; align-items: center; justify-content: center;
   cursor: pointer; color: #4ade80;
-  transition: transform 0.1s;
+  transition: transform 0.15s, box-shadow 0.15s;
+  box-shadow: 0 0 8px rgba(74,222,128,0.2);
 }
-.refresh-btn:active { transform: scale(0.85); }
+.refresh-btn:active { transform: scale(0.82); box-shadow: 0 0 14px rgba(74,222,128,0.45); }
+.refresh-btn.refreshing .refresh-svg { animation: nova-spin 0.7s linear infinite; }
+.refresh-svg { transition: filter 0.15s; }
+.refresh-btn:hover .refresh-svg { filter: drop-shadow(0 0 3px rgba(74,222,128,0.8)); }
 
 /* ── Action buttons (flat style) ── */
 .action-row { display: grid; grid-template-columns: 1fr 1fr; gap: 4px; }
