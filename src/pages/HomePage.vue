@@ -3,180 +3,13 @@
 
       <!-- ══ HEADER ══ -->
       <header class="nova-header">
-        <div style="display:flex;align-items:center;gap:6px;">
-          <!-- Cinematic 3D Geo Logo (spins internally, not like a wheel) -->
-          <div class="nova-geo-logo-wrap">
-            <div class="nova-cube-scene">
-              <div class="nova-cube">
-                <!-- FRONT — green -->
-                <div class="nova-cube-face face-front">
-                  <svg viewBox="0 0 26 26" fill="none" width="26" height="26">
-                    <line x1="1" y1="1" x2="25" y2="25" stroke="#22c55e" stroke-width="0.45" opacity="0.28"/>
-                    <line x1="25" y1="1" x2="1" y2="25" stroke="#22c55e" stroke-width="0.45" opacity="0.28"/>
-                    <line x1="13" y1="1" x2="13" y2="25" stroke="#22c55e" stroke-width="0.4" opacity="0.22"/>
-                    <line x1="1" y1="13" x2="25" y2="13" stroke="#22c55e" stroke-width="0.4" opacity="0.22"/>
-                    <line x1="1" y1="1" x2="13" y2="6" stroke="#22c55e" stroke-width="0.65" opacity="0.7"/>
-                    <line x1="25" y1="1" x2="13" y2="6" stroke="#22c55e" stroke-width="0.65" opacity="0.7"/>
-                    <line x1="25" y1="1" x2="20" y2="13" stroke="#22c55e" stroke-width="0.65" opacity="0.7"/>
-                    <line x1="25" y1="25" x2="20" y2="13" stroke="#22c55e" stroke-width="0.65" opacity="0.7"/>
-                    <line x1="25" y1="25" x2="13" y2="20" stroke="#22c55e" stroke-width="0.65" opacity="0.7"/>
-                    <line x1="1" y1="25" x2="13" y2="20" stroke="#22c55e" stroke-width="0.65" opacity="0.7"/>
-                    <line x1="1" y1="25" x2="6" y2="13" stroke="#22c55e" stroke-width="0.65" opacity="0.7"/>
-                    <line x1="1" y1="1" x2="6" y2="13" stroke="#22c55e" stroke-width="0.65" opacity="0.7"/>
-                    <polygon points="13,6 20,13 13,20 6,13" stroke="#22c55e" stroke-width="0.75" fill="none" opacity="0.8"/>
-                    <line x1="13" y1="6" x2="13" y2="13" stroke="#22c55e" stroke-width="0.5" opacity="0.48"/>
-                    <line x1="20" y1="13" x2="13" y2="13" stroke="#22c55e" stroke-width="0.5" opacity="0.48"/>
-                    <line x1="13" y1="20" x2="13" y2="13" stroke="#22c55e" stroke-width="0.5" opacity="0.48"/>
-                    <line x1="6" y1="13" x2="13" y2="13" stroke="#22c55e" stroke-width="0.5" opacity="0.48"/>
-                    <circle cx="13" cy="13" r="0.9" fill="#22c55e" opacity="0.8"/>
-                    <circle cx="13" cy="6" r="0.65" fill="#22c55e" opacity="0.7"/>
-                    <circle cx="20" cy="13" r="0.65" fill="#22c55e" opacity="0.7"/>
-                    <circle cx="13" cy="20" r="0.65" fill="#22c55e" opacity="0.7"/>
-                    <circle cx="6" cy="13" r="0.65" fill="#22c55e" opacity="0.7"/>
-                  </svg>
-                </div>
-                <!-- BACK — pink -->
-                <div class="nova-cube-face face-back">
-                  <svg viewBox="0 0 26 26" fill="none" width="26" height="26">
-                    <line x1="1" y1="1" x2="25" y2="25" stroke="#ec4899" stroke-width="0.45" opacity="0.28"/>
-                    <line x1="25" y1="1" x2="1" y2="25" stroke="#ec4899" stroke-width="0.45" opacity="0.28"/>
-                    <line x1="13" y1="1" x2="13" y2="25" stroke="#ec4899" stroke-width="0.4" opacity="0.22"/>
-                    <line x1="1" y1="13" x2="25" y2="13" stroke="#ec4899" stroke-width="0.4" opacity="0.22"/>
-                    <line x1="1" y1="1" x2="13" y2="6" stroke="#ec4899" stroke-width="0.65" opacity="0.7"/>
-                    <line x1="25" y1="1" x2="13" y2="6" stroke="#ec4899" stroke-width="0.65" opacity="0.7"/>
-                    <line x1="25" y1="1" x2="20" y2="13" stroke="#ec4899" stroke-width="0.65" opacity="0.7"/>
-                    <line x1="25" y1="25" x2="20" y2="13" stroke="#ec4899" stroke-width="0.65" opacity="0.7"/>
-                    <line x1="25" y1="25" x2="13" y2="20" stroke="#ec4899" stroke-width="0.65" opacity="0.7"/>
-                    <line x1="1" y1="25" x2="13" y2="20" stroke="#ec4899" stroke-width="0.65" opacity="0.7"/>
-                    <line x1="1" y1="25" x2="6" y2="13" stroke="#ec4899" stroke-width="0.65" opacity="0.7"/>
-                    <line x1="1" y1="1" x2="6" y2="13" stroke="#ec4899" stroke-width="0.65" opacity="0.7"/>
-                    <polygon points="13,6 20,13 13,20 6,13" stroke="#ec4899" stroke-width="0.75" fill="none" opacity="0.8"/>
-                    <line x1="13" y1="6" x2="13" y2="13" stroke="#ec4899" stroke-width="0.5" opacity="0.48"/>
-                    <line x1="20" y1="13" x2="13" y2="13" stroke="#ec4899" stroke-width="0.5" opacity="0.48"/>
-                    <line x1="13" y1="20" x2="13" y2="13" stroke="#ec4899" stroke-width="0.5" opacity="0.48"/>
-                    <line x1="6" y1="13" x2="13" y2="13" stroke="#ec4899" stroke-width="0.5" opacity="0.48"/>
-                    <circle cx="13" cy="13" r="0.9" fill="#ec4899" opacity="0.8"/>
-                    <circle cx="13" cy="6" r="0.65" fill="#ec4899" opacity="0.7"/>
-                    <circle cx="20" cy="13" r="0.65" fill="#ec4899" opacity="0.7"/>
-                    <circle cx="13" cy="20" r="0.65" fill="#ec4899" opacity="0.7"/>
-                    <circle cx="6" cy="13" r="0.65" fill="#ec4899" opacity="0.7"/>
-                  </svg>
-                </div>
-                <!-- LEFT — cyan -->
-                <div class="nova-cube-face face-left">
-                  <svg viewBox="0 0 26 26" fill="none" width="26" height="26">
-                    <line x1="1" y1="1" x2="25" y2="25" stroke="#06b6d4" stroke-width="0.45" opacity="0.28"/>
-                    <line x1="25" y1="1" x2="1" y2="25" stroke="#06b6d4" stroke-width="0.45" opacity="0.28"/>
-                    <line x1="13" y1="1" x2="13" y2="25" stroke="#06b6d4" stroke-width="0.4" opacity="0.22"/>
-                    <line x1="1" y1="13" x2="25" y2="13" stroke="#06b6d4" stroke-width="0.4" opacity="0.22"/>
-                    <line x1="1" y1="1" x2="13" y2="6" stroke="#06b6d4" stroke-width="0.65" opacity="0.7"/>
-                    <line x1="25" y1="1" x2="13" y2="6" stroke="#06b6d4" stroke-width="0.65" opacity="0.7"/>
-                    <line x1="25" y1="1" x2="20" y2="13" stroke="#06b6d4" stroke-width="0.65" opacity="0.7"/>
-                    <line x1="25" y1="25" x2="20" y2="13" stroke="#06b6d4" stroke-width="0.65" opacity="0.7"/>
-                    <line x1="25" y1="25" x2="13" y2="20" stroke="#06b6d4" stroke-width="0.65" opacity="0.7"/>
-                    <line x1="1" y1="25" x2="13" y2="20" stroke="#06b6d4" stroke-width="0.65" opacity="0.7"/>
-                    <line x1="1" y1="25" x2="6" y2="13" stroke="#06b6d4" stroke-width="0.65" opacity="0.7"/>
-                    <line x1="1" y1="1" x2="6" y2="13" stroke="#06b6d4" stroke-width="0.65" opacity="0.7"/>
-                    <polygon points="13,6 20,13 13,20 6,13" stroke="#06b6d4" stroke-width="0.75" fill="none" opacity="0.8"/>
-                    <line x1="13" y1="6" x2="13" y2="13" stroke="#06b6d4" stroke-width="0.5" opacity="0.48"/>
-                    <line x1="20" y1="13" x2="13" y2="13" stroke="#06b6d4" stroke-width="0.5" opacity="0.48"/>
-                    <line x1="13" y1="20" x2="13" y2="13" stroke="#06b6d4" stroke-width="0.5" opacity="0.48"/>
-                    <line x1="6" y1="13" x2="13" y2="13" stroke="#06b6d4" stroke-width="0.5" opacity="0.48"/>
-                    <circle cx="13" cy="13" r="0.9" fill="#06b6d4" opacity="0.8"/>
-                    <circle cx="13" cy="6" r="0.65" fill="#06b6d4" opacity="0.7"/>
-                    <circle cx="20" cy="13" r="0.65" fill="#06b6d4" opacity="0.7"/>
-                    <circle cx="13" cy="20" r="0.65" fill="#06b6d4" opacity="0.7"/>
-                    <circle cx="6" cy="13" r="0.65" fill="#06b6d4" opacity="0.7"/>
-                  </svg>
-                </div>
-                <!-- RIGHT — purple -->
-                <div class="nova-cube-face face-right">
-                  <svg viewBox="0 0 26 26" fill="none" width="26" height="26">
-                    <line x1="1" y1="1" x2="25" y2="25" stroke="#a855f7" stroke-width="0.45" opacity="0.28"/>
-                    <line x1="25" y1="1" x2="1" y2="25" stroke="#a855f7" stroke-width="0.45" opacity="0.28"/>
-                    <line x1="13" y1="1" x2="13" y2="25" stroke="#a855f7" stroke-width="0.4" opacity="0.22"/>
-                    <line x1="1" y1="13" x2="25" y2="13" stroke="#a855f7" stroke-width="0.4" opacity="0.22"/>
-                    <line x1="1" y1="1" x2="13" y2="6" stroke="#a855f7" stroke-width="0.65" opacity="0.7"/>
-                    <line x1="25" y1="1" x2="13" y2="6" stroke="#a855f7" stroke-width="0.65" opacity="0.7"/>
-                    <line x1="25" y1="1" x2="20" y2="13" stroke="#a855f7" stroke-width="0.65" opacity="0.7"/>
-                    <line x1="25" y1="25" x2="20" y2="13" stroke="#a855f7" stroke-width="0.65" opacity="0.7"/>
-                    <line x1="25" y1="25" x2="13" y2="20" stroke="#a855f7" stroke-width="0.65" opacity="0.7"/>
-                    <line x1="1" y1="25" x2="13" y2="20" stroke="#a855f7" stroke-width="0.65" opacity="0.7"/>
-                    <line x1="1" y1="25" x2="6" y2="13" stroke="#a855f7" stroke-width="0.65" opacity="0.7"/>
-                    <line x1="1" y1="1" x2="6" y2="13" stroke="#a855f7" stroke-width="0.65" opacity="0.7"/>
-                    <polygon points="13,6 20,13 13,20 6,13" stroke="#a855f7" stroke-width="0.75" fill="none" opacity="0.8"/>
-                    <line x1="13" y1="6" x2="13" y2="13" stroke="#a855f7" stroke-width="0.5" opacity="0.48"/>
-                    <line x1="20" y1="13" x2="13" y2="13" stroke="#a855f7" stroke-width="0.5" opacity="0.48"/>
-                    <line x1="13" y1="20" x2="13" y2="13" stroke="#a855f7" stroke-width="0.5" opacity="0.48"/>
-                    <line x1="6" y1="13" x2="13" y2="13" stroke="#a855f7" stroke-width="0.5" opacity="0.48"/>
-                    <circle cx="13" cy="13" r="0.9" fill="#a855f7" opacity="0.8"/>
-                    <circle cx="13" cy="6" r="0.65" fill="#a855f7" opacity="0.7"/>
-                    <circle cx="20" cy="13" r="0.65" fill="#a855f7" opacity="0.7"/>
-                    <circle cx="13" cy="20" r="0.65" fill="#a855f7" opacity="0.7"/>
-                    <circle cx="6" cy="13" r="0.65" fill="#a855f7" opacity="0.7"/>
-                  </svg>
-                </div>
-                <!-- TOP — amber -->
-                <div class="nova-cube-face face-top">
-                  <svg viewBox="0 0 26 26" fill="none" width="26" height="26">
-                    <line x1="1" y1="1" x2="25" y2="25" stroke="#f59e0b" stroke-width="0.45" opacity="0.28"/>
-                    <line x1="25" y1="1" x2="1" y2="25" stroke="#f59e0b" stroke-width="0.45" opacity="0.28"/>
-                    <line x1="13" y1="1" x2="13" y2="25" stroke="#f59e0b" stroke-width="0.4" opacity="0.22"/>
-                    <line x1="1" y1="13" x2="25" y2="13" stroke="#f59e0b" stroke-width="0.4" opacity="0.22"/>
-                    <line x1="1" y1="1" x2="13" y2="6" stroke="#f59e0b" stroke-width="0.65" opacity="0.7"/>
-                    <line x1="25" y1="1" x2="13" y2="6" stroke="#f59e0b" stroke-width="0.65" opacity="0.7"/>
-                    <line x1="25" y1="1" x2="20" y2="13" stroke="#f59e0b" stroke-width="0.65" opacity="0.7"/>
-                    <line x1="25" y1="25" x2="20" y2="13" stroke="#f59e0b" stroke-width="0.65" opacity="0.7"/>
-                    <line x1="25" y1="25" x2="13" y2="20" stroke="#f59e0b" stroke-width="0.65" opacity="0.7"/>
-                    <line x1="1" y1="25" x2="13" y2="20" stroke="#f59e0b" stroke-width="0.65" opacity="0.7"/>
-                    <line x1="1" y1="25" x2="6" y2="13" stroke="#f59e0b" stroke-width="0.65" opacity="0.7"/>
-                    <line x1="1" y1="1" x2="6" y2="13" stroke="#f59e0b" stroke-width="0.65" opacity="0.7"/>
-                    <polygon points="13,6 20,13 13,20 6,13" stroke="#f59e0b" stroke-width="0.75" fill="none" opacity="0.8"/>
-                    <line x1="13" y1="6" x2="13" y2="13" stroke="#f59e0b" stroke-width="0.5" opacity="0.48"/>
-                    <line x1="20" y1="13" x2="13" y2="13" stroke="#f59e0b" stroke-width="0.5" opacity="0.48"/>
-                    <line x1="13" y1="20" x2="13" y2="13" stroke="#f59e0b" stroke-width="0.5" opacity="0.48"/>
-                    <line x1="6" y1="13" x2="13" y2="13" stroke="#f59e0b" stroke-width="0.5" opacity="0.48"/>
-                    <circle cx="13" cy="13" r="0.9" fill="#f59e0b" opacity="0.8"/>
-                    <circle cx="13" cy="6" r="0.65" fill="#f59e0b" opacity="0.7"/>
-                    <circle cx="20" cy="13" r="0.65" fill="#f59e0b" opacity="0.7"/>
-                    <circle cx="13" cy="20" r="0.65" fill="#f59e0b" opacity="0.7"/>
-                    <circle cx="6" cy="13" r="0.65" fill="#f59e0b" opacity="0.7"/>
-                  </svg>
-                </div>
-                <!-- BOTTOM — red -->
-                <div class="nova-cube-face face-bottom">
-                  <svg viewBox="0 0 26 26" fill="none" width="26" height="26">
-                    <line x1="1" y1="1" x2="25" y2="25" stroke="#ef4444" stroke-width="0.45" opacity="0.28"/>
-                    <line x1="25" y1="1" x2="1" y2="25" stroke="#ef4444" stroke-width="0.45" opacity="0.28"/>
-                    <line x1="13" y1="1" x2="13" y2="25" stroke="#ef4444" stroke-width="0.4" opacity="0.22"/>
-                    <line x1="1" y1="13" x2="25" y2="13" stroke="#ef4444" stroke-width="0.4" opacity="0.22"/>
-                    <line x1="1" y1="1" x2="13" y2="6" stroke="#ef4444" stroke-width="0.65" opacity="0.7"/>
-                    <line x1="25" y1="1" x2="13" y2="6" stroke="#ef4444" stroke-width="0.65" opacity="0.7"/>
-                    <line x1="25" y1="1" x2="20" y2="13" stroke="#ef4444" stroke-width="0.65" opacity="0.7"/>
-                    <line x1="25" y1="25" x2="20" y2="13" stroke="#ef4444" stroke-width="0.65" opacity="0.7"/>
-                    <line x1="25" y1="25" x2="13" y2="20" stroke="#ef4444" stroke-width="0.65" opacity="0.7"/>
-                    <line x1="1" y1="25" x2="13" y2="20" stroke="#ef4444" stroke-width="0.65" opacity="0.7"/>
-                    <line x1="1" y1="25" x2="6" y2="13" stroke="#ef4444" stroke-width="0.65" opacity="0.7"/>
-                    <line x1="1" y1="1" x2="6" y2="13" stroke="#ef4444" stroke-width="0.65" opacity="0.7"/>
-                    <polygon points="13,6 20,13 13,20 6,13" stroke="#ef4444" stroke-width="0.75" fill="none" opacity="0.8"/>
-                    <line x1="13" y1="6" x2="13" y2="13" stroke="#ef4444" stroke-width="0.5" opacity="0.48"/>
-                    <line x1="20" y1="13" x2="13" y2="13" stroke="#ef4444" stroke-width="0.5" opacity="0.48"/>
-                    <line x1="13" y1="20" x2="13" y2="13" stroke="#ef4444" stroke-width="0.5" opacity="0.48"/>
-                    <line x1="6" y1="13" x2="13" y2="13" stroke="#ef4444" stroke-width="0.5" opacity="0.48"/>
-                    <circle cx="13" cy="13" r="0.9" fill="#ef4444" opacity="0.8"/>
-                    <circle cx="13" cy="6" r="0.65" fill="#ef4444" opacity="0.7"/>
-                    <circle cx="20" cy="13" r="0.65" fill="#ef4444" opacity="0.7"/>
-                    <circle cx="13" cy="20" r="0.65" fill="#ef4444" opacity="0.7"/>
-                    <circle cx="6" cy="13" r="0.65" fill="#ef4444" opacity="0.7"/>
-                  </svg>
-                </div>
-              </div>
-            </div>
+        <div class="nova-brand-wrap">
+          <div class="nova-neural-dots">
+            <span class="nova-ndot nova-ndot--1"></span>
+            <span class="nova-ndot nova-ndot--2"></span>
+            <span class="nova-ndot nova-ndot--3"></span>
           </div>
-          <div class="nova-brand-wrap">
-            <div class="nova-welcome">WELCOME TO</div>
-            <div class="nova-brand" data-text="NovaBETT">NovaBETT</div>
-          </div>
+          <div class="nova-brand"><span class="nbr-thin">NOVA</span><span class="nbr-bold">BETT</span></div>
         </div>
         <div style="display:flex;align-items:center;gap:8px;">
           <button @click="toggleLanguage" class="glass-btn-sm" style="color:rgba(34,197,94,0.9);font-size:11px;font-weight:700;padding:5px 10px;">{{ currentLang === 'en' ? '🇲🇲 မြန်မာ' : '🇬🇧 EN' }}</button>
@@ -950,6 +783,7 @@
   </script>
 
   <style scoped>
+  @import url('https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@300;600&display=swap');
   /* ── BASE ── */
   .nova-app { background: linear-gradient(160deg,#08102a 0%,#0d1a36 20%,#0c1828 40%,#091420 60%,#07101a 80%,#050c14 100%); min-height:100vh; color:#fff; -webkit-tap-highlight-color:rgba(0,0,0,0); overscroll-behavior:contain; -webkit-overflow-scrolling:touch; scroll-behavior:smooth; }
 .nova-bg-orb { position:fixed; border-radius:50%; pointer-events:none; z-index:0; }
@@ -957,23 +791,54 @@
 .nova-bg-orb--2 { width:340px; height:340px; top:38%; right:-110px; background:radial-gradient(circle,rgba(99,102,241,0.12) 0%,rgba(56,189,248,0.06) 45%,transparent 70%); animation:orb-drift2 16s ease-in-out infinite; }
 .nova-bg-orb--3 { width:240px; height:240px; bottom:70px; left:-20px; background:radial-gradient(circle,rgba(168,85,247,0.1) 0%,rgba(236,72,153,0.05) 50%,transparent 70%); animation:orb-drift3 14s ease-in-out infinite; }
 
-  /* ══ CINEMATIC GLOW BRAND ══ */
-  /* .nova-brand-wrap defined in HEADER section below */
-  .nova-welcome {
-    font-size:8px; letter-spacing:0.35em; text-transform:uppercase;
-    color:rgba(34,197,94,0.45); font-weight:500;
-    text-shadow: 0 0 12px rgba(34,197,94,0.4);
-  }
+  /* ══ BRAND TEXT — Sticker-on-screen style ══ */
+  .nova-brand-wrap { position:relative; z-index:1; display:flex; flex-direction:column; gap:2px; }
   .nova-brand {
-    font-size:21px; font-weight:900; letter-spacing:0.18em; text-transform:uppercase;
-    line-height:1.1; position:relative;
-    background: linear-gradient(170deg,#ffffff 0%,rgba(255,255,255,0.95) 30%,rgba(200,230,210,0.85) 65%,rgba(134,239,172,0.9) 100%);
-    -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
-    filter: drop-shadow(0 0 8px rgba(34,197,94,0.55)) drop-shadow(0 0 20px rgba(34,197,94,0.25)) drop-shadow(0 2px 4px rgba(0,0,0,0.6));
+    font-family: 'Chakra Petch', 'Orbitron', system-ui, sans-serif;
+    font-size: 20px;
+    letter-spacing: 0.28em;
+    text-transform: uppercase;
+    line-height: 1;
+    position: relative;
+    user-select: none;
   }
-  .nova-brand-wrap::after {
-    content: 'NovaBETT'; position:absolute; font-size:21px; font-weight:900; letter-spacing:0.18em; text-transform:uppercase;
-    color: rgba(34,197,94,0.35); filter: blur(14px); pointer-events:none; z-index:-1; top:18px; left:46px; white-space:nowrap;
+  .nbr-thin {
+    font-weight: 300;
+    color: rgba(255,255,255,0.9);
+    text-shadow: 0 0 10px rgba(6,182,212,0.45), 0 0 28px rgba(6,182,212,0.12);
+  }
+  .nbr-bold {
+    font-weight: 600;
+    color: #fff;
+    text-shadow: 0 0 8px rgba(6,182,212,0.6), 0 0 22px rgba(6,182,212,0.18);
+  }
+  /* Neural dots */
+  .nova-neural-dots { display:flex; gap:4px; align-items:center; padding-left:1px; }
+  .nova-ndot {
+    display:inline-block; border-radius:50%;
+    will-change:opacity,transform;
+  }
+  .nova-ndot--1 {
+    width:4px; height:4px;
+    background:rgba(6,182,212,0.95);
+    box-shadow:0 0 5px rgba(6,182,212,0.9);
+    animation:ndot-pulse 2.4s ease-in-out infinite;
+  }
+  .nova-ndot--2 {
+    width:3px; height:3px;
+    background:rgba(6,182,212,0.65);
+    box-shadow:0 0 4px rgba(6,182,212,0.6);
+    animation:ndot-pulse 2.4s ease-in-out 0.5s infinite;
+  }
+  .nova-ndot--3 {
+    width:2.5px; height:2.5px;
+    background:rgba(6,182,212,0.4);
+    box-shadow:0 0 3px rgba(6,182,212,0.4);
+    animation:ndot-pulse 2.4s ease-in-out 1s infinite;
+  }
+  @keyframes ndot-pulse {
+    0%,100% { opacity:1; transform:scale(1); }
+    50%     { opacity:0.3; transform:scale(0.6); }
   }
 
   /* ── HEADER ── */
@@ -988,78 +853,9 @@
     background: radial-gradient(ellipse at 28% 50%, rgba(34,197,94,0.07) 0%, rgba(6,182,212,0.04) 40%, transparent 70%);
     pointer-events:none; z-index:0;
   }
-  .nova-brand-wrap { position:relative; z-index:1; display:flex; flex-direction:column; gap:0; }
+  /* nova-brand-wrap defined above */
 
-  /* ── GEO LOGO ── */
-  .nova-geo-logo-wrap {
-    flex-shrink:0; width:38px; height:44px;
-    display:flex; align-items:center; justify-content:center;
-  }
-  .nova-cube-scene {
-    width:26px; height:26px;
-    perspective:110px;
-  }
-  .nova-cube {
-    width:26px; height:26px;
-    position:relative;
-    transform-style:preserve-3d;
-    animation: nova-cube-turbo 5s linear infinite;
-  }
-  /* Rolls smoothly around the diagonal corner axis (1,1,1) — like a sphere */
-  /* 0-60% = 3s fast blast, 60-100% = 2s slow elegant roll, loop */
-  @keyframes nova-cube-turbo {
-    0%   { transform: rotate3d(1, 1, 1, 0deg);    }
-    60%  { transform: rotate3d(1, 1, 1, 3600deg); }
-    100% { transform: rotate3d(1, 1, 1, 3780deg); }
-  }
-  .nova-cube-face {
-    position:absolute;
-    width:26px; height:26px;
-    border:1.5px solid;
-  }
-  .face-front {
-    transform:translateZ(13px);
-    border-color:#22c55e;
-    background:rgba(34,197,94,0.09);
-    box-shadow:0 0 10px rgba(34,197,94,0.8), inset 0 0 7px rgba(34,197,94,0.18);
-  }
-  .face-back {
-    transform:rotateY(180deg) translateZ(13px);
-    border-color:#ec4899;
-    background:rgba(236,72,153,0.09);
-    box-shadow:0 0 10px rgba(236,72,153,0.7), inset 0 0 7px rgba(236,72,153,0.14);
-  }
-  .face-left {
-    transform:rotateY(-90deg) translateZ(13px);
-    border-color:#06b6d4;
-    background:rgba(6,182,212,0.09);
-    box-shadow:0 0 10px rgba(6,182,212,0.7), inset 0 0 7px rgba(6,182,212,0.14);
-  }
-  .face-right {
-    transform:rotateY(90deg) translateZ(13px);
-    border-color:#a855f7;
-    background:rgba(168,85,247,0.09);
-    box-shadow:0 0 10px rgba(168,85,247,0.7), inset 0 0 7px rgba(168,85,247,0.14);
-  }
-  .face-top {
-    transform:rotateX(90deg) translateZ(13px);
-    border-color:#f59e0b;
-    background:rgba(245,158,11,0.09);
-    box-shadow:0 0 10px rgba(245,158,11,0.7), inset 0 0 7px rgba(245,158,11,0.14);
-  }
-  .face-bottom {
-    transform:rotateX(-90deg) translateZ(13px);
-    border-color:#ef4444;
-    background:rgba(239,68,68,0.09);
-    box-shadow:0 0 10px rgba(239,68,68,0.65), inset 0 0 7px rgba(239,68,68,0.13);
-  }
-  @keyframes geo-hue {
-    0%   { filter: drop-shadow(0 0 5px rgba(34,197,94,0.9))  hue-rotate(0deg); }
-    25%  { filter: drop-shadow(0 0 7px rgba(6,182,212,0.9))  hue-rotate(90deg); }
-    50%  { filter: drop-shadow(0 0 7px rgba(236,72,153,0.9)) hue-rotate(180deg); }
-    75%  { filter: drop-shadow(0 0 7px rgba(129,140,248,0.9)) hue-rotate(270deg); }
-    100% { filter: drop-shadow(0 0 5px rgba(34,197,94,0.9))  hue-rotate(360deg); }
-  }
+
 
   /* ── BELL ── */
   .nova-bell-wrap { display:flex; align-items:center; justify-content:center; }
