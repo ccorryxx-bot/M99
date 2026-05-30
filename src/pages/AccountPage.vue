@@ -28,8 +28,48 @@
       <!-- ══ PROFILE ROW ══ -->
       <div class="profile-row">
         <div class="avatar-wrap">
-          <div class="avatar-circle">
-            <span>{{ username.charAt(0).toUpperCase() }}</span>
+          <!-- NFT Spinning Cube Logo (same as HomePage) -->
+          <div class="acc-cube-wrap">
+            <div class="acc-cube-scene">
+              <div class="acc-cube">
+                <div class="acc-face acc-front">
+                  <svg viewBox="0 0 26 26" fill="none" width="26" height="26">
+                    <line x1="1" y1="1" x2="25" y2="25" stroke="#22c55e" stroke-width="0.45" opacity="0.28"/><line x1="25" y1="1" x2="1" y2="25" stroke="#22c55e" stroke-width="0.45" opacity="0.28"/><line x1="13" y1="1" x2="13" y2="25" stroke="#22c55e" stroke-width="0.4" opacity="0.22"/><line x1="1" y1="13" x2="25" y2="13" stroke="#22c55e" stroke-width="0.4" opacity="0.22"/>
+                    <line x1="1" y1="1" x2="13" y2="6" stroke="#22c55e" stroke-width="0.65" opacity="0.7"/><line x1="25" y1="1" x2="13" y2="6" stroke="#22c55e" stroke-width="0.65" opacity="0.7"/><line x1="25" y1="1" x2="20" y2="13" stroke="#22c55e" stroke-width="0.65" opacity="0.7"/><line x1="25" y1="25" x2="20" y2="13" stroke="#22c55e" stroke-width="0.65" opacity="0.7"/><line x1="25" y1="25" x2="13" y2="20" stroke="#22c55e" stroke-width="0.65" opacity="0.7"/><line x1="1" y1="25" x2="13" y2="20" stroke="#22c55e" stroke-width="0.65" opacity="0.7"/><line x1="1" y1="25" x2="6" y2="13" stroke="#22c55e" stroke-width="0.65" opacity="0.7"/><line x1="1" y1="1" x2="6" y2="13" stroke="#22c55e" stroke-width="0.65" opacity="0.7"/>
+                    <polygon points="13,6 20,13 13,20 6,13" stroke="#22c55e" stroke-width="0.75" fill="none" opacity="0.8"/><circle cx="13" cy="13" r="0.9" fill="#22c55e" opacity="0.8"/>
+                  </svg>
+                </div>
+                <div class="acc-face acc-back">
+                  <svg viewBox="0 0 26 26" fill="none" width="26" height="26">
+                    <line x1="1" y1="1" x2="25" y2="25" stroke="#ec4899" stroke-width="0.45" opacity="0.28"/><line x1="25" y1="1" x2="1" y2="25" stroke="#ec4899" stroke-width="0.45" opacity="0.28"/>
+                    <line x1="1" y1="1" x2="13" y2="6" stroke="#ec4899" stroke-width="0.65" opacity="0.7"/><line x1="25" y1="1" x2="13" y2="6" stroke="#ec4899" stroke-width="0.65" opacity="0.7"/><line x1="25" y1="25" x2="13" y2="20" stroke="#ec4899" stroke-width="0.65" opacity="0.7"/><line x1="1" y1="25" x2="13" y2="20" stroke="#ec4899" stroke-width="0.65" opacity="0.7"/>
+                    <polygon points="13,6 20,13 13,20 6,13" stroke="#ec4899" stroke-width="0.75" fill="none" opacity="0.8"/><circle cx="13" cy="13" r="0.9" fill="#ec4899" opacity="0.8"/>
+                  </svg>
+                </div>
+                <div class="acc-face acc-left">
+                  <svg viewBox="0 0 26 26" fill="none" width="26" height="26">
+                    <line x1="1" y1="1" x2="25" y2="25" stroke="#06b6d4" stroke-width="0.45" opacity="0.28"/><line x1="25" y1="1" x2="1" y2="25" stroke="#06b6d4" stroke-width="0.45" opacity="0.28"/>
+                    <line x1="25" y1="1" x2="20" y2="13" stroke="#06b6d4" stroke-width="0.65" opacity="0.7"/><line x1="25" y1="25" x2="20" y2="13" stroke="#06b6d4" stroke-width="0.65" opacity="0.7"/><line x1="1" y1="25" x2="6" y2="13" stroke="#06b6d4" stroke-width="0.65" opacity="0.7"/><line x1="1" y1="1" x2="6" y2="13" stroke="#06b6d4" stroke-width="0.65" opacity="0.7"/>
+                    <polygon points="13,6 20,13 13,20 6,13" stroke="#06b6d4" stroke-width="0.75" fill="none" opacity="0.8"/><circle cx="13" cy="13" r="0.9" fill="#06b6d4" opacity="0.8"/>
+                  </svg>
+                </div>
+                <div class="acc-face acc-right">
+                  <svg viewBox="0 0 26 26" fill="none" width="26" height="26">
+                    <polygon points="13,6 20,13 13,20 6,13" stroke="#a855f7" stroke-width="0.75" fill="none" opacity="0.8"/><circle cx="13" cy="13" r="0.9" fill="#a855f7" opacity="0.8"/>
+                  </svg>
+                </div>
+                <div class="acc-face acc-top">
+                  <svg viewBox="0 0 26 26" fill="none" width="26" height="26">
+                    <polygon points="13,6 20,13 13,20 6,13" stroke="#f59e0b" stroke-width="0.75" fill="none" opacity="0.8"/><circle cx="13" cy="13" r="0.9" fill="#f59e0b" opacity="0.8"/>
+                  </svg>
+                </div>
+                <div class="acc-face acc-bottom">
+                  <svg viewBox="0 0 26 26" fill="none" width="26" height="26">
+                    <polygon points="13,6 20,13 13,20 6,13" stroke="#ef4444" stroke-width="0.75" fill="none" opacity="0.8"/><circle cx="13" cy="13" r="0.9" fill="#ef4444" opacity="0.8"/>
+                  </svg>
+                </div>
+              </div>
+            </div>
           </div>
           <div class="vip-badge-pill" :style="vipBadgeBg">V{{ vipLevel }}</div>
         </div>
@@ -87,26 +127,60 @@
       <!-- ══ VIP CARD ══ -->
       <div class="vip-card">
         <div class="vip-shimmer"></div>
-        <div class="vip-inner">
+        <!-- Top row -->
+        <div class="vip-top-row">
           <div class="vip-lvl-badge">
-            <span class="text-xs font-black text-white">V{{ vipLevel }}</span>
+            <span class="vip-badge-txt">VIP{{ vipLevel }}</span>
           </div>
-          <div class="flex-1 min-w-0">
-            <div class="flex items-center justify-between mb-1.5">
-              <span class="text-xs font-bold text-yellow-900">ပရိမိုးရှင်း ဘောနပ်</span>
-              <span class="text-xs font-semibold text-yellow-900">{{ nextBonus }}%</span>
+          <div class="flex-1 min-w-0 pl-3">
+            <div class="flex flex-wrap items-baseline gap-x-1">
+              <span class="vip-top-label">လက်ကျန် </span>
+              <span class="vip-top-accent">VIP{{ nextLevel }}</span>
+              <span class="vip-top-label"> အားပြန်သင့်ရန် </span>
+              <span class="vip-top-bold">{{ formatCurrency(nextLevelTarget) }}</span>
+              <span class="vip-top-label"> လောင်းကြေး အတွက်</span>
             </div>
-            <div class="vip-bar-track">
-              <div class="vip-bar-fill" :style="{ width: progressPercent + '%' }"></div>
-            </div>
-            <div class="flex justify-between mt-1">
-              <span class="vip-meta">{{ formatCurrency(deposited) }}/{{ formatCurrency(nextLevelTarget) }}</span>
-              <span class="vip-meta font-semibold">VIP {{ nextLevel }} → {{ formatCurrency(remaining) }} ကျပ်</span>
+            <div class="flex items-baseline gap-1 mt-0.5">
+              <span class="vip-top-label">အတွက် </span>
+              <span class="vip-top-bold">{{ formatCurrency(nextLevelMaxDeposit) }}</span>
             </div>
           </div>
-          <svg class="w-4 h-4 flex-shrink-0" style="color:rgba(92,65,0,0.5);" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
+          <svg width="14" height="14" fill="none" stroke="rgba(255,255,255,0.55)" stroke-width="2" viewBox="0 0 24 24" class="flex-shrink-0">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7"/>
           </svg>
+        </div>
+        <!-- Divider -->
+        <div class="vip-divider"></div>
+        <!-- Progress rows -->
+        <div class="vip-prog-wrap">
+          <!-- Row 1: deposit toward next level -->
+          <div class="vip-prog-row">
+            <div class="vip-coin-badge">
+              <span style="font-size:11px;font-weight:900;color:#fbbf24;">{{ vipLevel }}</span>
+            </div>
+            <div class="flex-1 min-w-0">
+              <div class="flex justify-between items-center mb-1">
+                <span class="vip-prog-lbl">ပရိမိုးရှင်းအတွက် အားပြန်သင့်ဗုဒ္ဓ</span>
+                <span class="vip-prog-val">{{ formatCurrency(deposited) }}/ {{ formatCurrency(nextLevelTarget) }}</span>
+              </div>
+              <div class="vip-bar-track">
+                <div class="vip-bar-fill" :style="{ width: progressPercent + '%' }"></div>
+              </div>
+            </div>
+          </div>
+          <!-- Row 2: bonus % info -->
+          <div class="vip-prog-row" style="margin-top:10px;">
+            <div style="width:28px;"></div>
+            <div class="flex-1 min-w-0">
+              <div class="flex justify-between items-center mb-1">
+                <span class="vip-prog-lbl">ပရိမိုးရှင်းအတွက် လောင်းကြေး</span>
+                <span class="vip-prog-val">{{ formatCurrency(deposited) }}/ {{ formatCurrency(nextLevelMaxDeposit) }}</span>
+              </div>
+              <div class="vip-bar-track">
+                <div class="vip-bar-fill2" :style="{ width: wagProgressPercent + '%' }"></div>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
 
@@ -268,44 +342,89 @@ async function fetchTotalDeposited(userId) {
 
 onMounted(() => {
   fetchWallet()
+  loadVipLevels()
   setInterval(fetchWallet, 5000)
+  // Real-time VIP updates
+  supabase.channel('vip-levels-watch')
+    .on('postgres_changes', { event: '*', schema: 'public', table: 'vip_levels' }, () => loadVipLevels())
+    .subscribe()
 })
 
-const vipLevelThresholds = [0, 10000, 40000, 60000, 80000, 100000, 150000, 200000, 300000, 500000]
+// ── VIP levels from Supabase ───────────────────────────────────
+const vipLevelsData = ref([])
+
+async function loadVipLevels() {
+  const { data } = await supabase.from('vip_levels').select('*').order('level')
+  if (data) vipLevelsData.value = data
+}
+
 const vipLevel = computed(() => {
+  if (!vipLevelsData.value.length) {
+    // fallback until loaded
+    const thresholds = [0,10000,40000,60000,80000,100000,150000,200000,300000,500000]
+    let lvl = 1
+    thresholds.forEach((t,i) => { if (deposited.value >= t) lvl = i + 1 })
+    return Math.min(lvl, 10)
+  }
   let lvl = 1
-  for (let i = 0; i < vipLevelThresholds.length; i++) {
-    if (deposited.value >= vipLevelThresholds[i]) lvl = i + 1
-  }
-  return Math.min(lvl, 10)
+  vipLevelsData.value.forEach(row => {
+    if (deposited.value >= Number(row.min_deposit)) lvl = row.level
+  })
+  return lvl
 })
-const vipLevels = { 1: 10000, 2: 40000, 3: 60000, 4: 80000, 5: 100000, 6: 150000, 7: 200000, 8: 300000, 9: 500000, 10: Infinity }
-const nextLevel = computed(() => Math.min(vipLevel.value + 1, 10))
-const nextLevelTarget = computed(() => vipLevels[nextLevel.value] || 0)
+
+const nextLevel = computed(() => {
+  const max = vipLevelsData.value.length || 10
+  return Math.min(vipLevel.value + 1, max)
+})
+
+const nextLevelRow = computed(() =>
+  vipLevelsData.value.find(r => r.level === nextLevel.value) || null
+)
+
+const nextLevelTarget = computed(() =>
+  nextLevelRow.value ? Number(nextLevelRow.value.min_deposit) : 10000
+)
+
+const nextLevelMaxDeposit = computed(() =>
+  nextLevelRow.value ? Number(nextLevelRow.value.max_deposit) : 40000
+)
+
 const remaining = computed(() => Math.max(0, nextLevelTarget.value - deposited.value))
+
 const progressPercent = computed(() => {
-  if (nextLevelTarget.value === Infinity) return 100
-  const prevTarget = vipLevels[vipLevel.value] || 0
-  return Math.min(100, Math.max(0, Math.round((deposited.value - prevTarget) / (nextLevelTarget.value - prevTarget) * 100)))
+  const currentRow = vipLevelsData.value.find(r => r.level === vipLevel.value)
+  const prevTarget = currentRow ? Number(currentRow.min_deposit) : 0
+  const span = nextLevelTarget.value - prevTarget
+  if (!span) return 100
+  return Math.min(100, Math.max(0, Math.round((deposited.value - prevTarget) / span * 100)))
 })
-const nextBonus = computed(() => {
-  const bonuses = { 1: 10, 2: 30, 3: 40, 4: 50, 5: 55, 6: 60, 7: 70, 8: 80, 9: 100, 10: 120 }
-  return bonuses[nextLevel.value] || 0
+
+const wagProgressPercent = computed(() => {
+  if (!nextLevelMaxDeposit.value) return 0
+  return Math.min(100, Math.max(0, Math.round(deposited.value / nextLevelMaxDeposit.value * 100)))
 })
+
+const nextBonus = computed(() =>
+  nextLevelRow.value ? Number(nextLevelRow.value.recurring_deposit_bonus_pct) : 10
+)
+
 const vipBadgeBg = computed(() => {
-  const g = {
-    1: 'background:linear-gradient(135deg,#6b7280,#9ca3af)',
-    2: 'background:linear-gradient(135deg,#16a34a,#22c55e)',
-    3: 'background:linear-gradient(135deg,#1d4ed8,#3b82f6)',
-    4: 'background:linear-gradient(135deg,#7c3aed,#a855f7)',
-    5: 'background:linear-gradient(135deg,#ca8a04,#facc15)',
-    6: 'background:linear-gradient(135deg,#dc2626,#f87171)',
-    7: 'background:linear-gradient(135deg,#0e7490,#22d3ee)',
-    8: 'background:linear-gradient(135deg,#475569,#cbd5e1)',
-    9: 'background:linear-gradient(135deg,#b45309,#fde68a)',
-    10: 'background:linear-gradient(135deg,#d97706,#fbbf24)',
+  const glowMap = {
+    Silver:   'linear-gradient(135deg,#6b7280,#9ca3af)',
+    Green:    'linear-gradient(135deg,#16a34a,#22c55e)',
+    Blue:     'linear-gradient(135deg,#1d4ed8,#3b82f6)',
+    Purple:   'linear-gradient(135deg,#7c3aed,#a855f7)',
+    Gold:     'linear-gradient(135deg,#ca8a04,#facc15)',
+    Red:      'linear-gradient(135deg,#dc2626,#f87171)',
+    Diamond:  'linear-gradient(135deg,#0e7490,#22d3ee)',
+    Platinum: 'linear-gradient(135deg,#475569,#cbd5e1)',
+    Master:   'linear-gradient(135deg,#b45309,#fde68a)',
+    Royal:    'linear-gradient(135deg,#d97706,#fbbf24)',
   }
-  return (g[vipLevel.value] || g[1]) + ';color:#fff;'
+  const currentRow = vipLevelsData.value.find(r => r.level === vipLevel.value)
+  const glow = currentRow?.glow_color || 'Silver'
+  return `background:${glowMap[glow] || glowMap.Silver};color:#fff;`
 })
 
 const formatCurrency = (num) => new Intl.NumberFormat('en-US').format(num || 0)
@@ -376,13 +495,41 @@ const comingSoon = () => alert('Coming Soon')
   padding: 6px 4px;
 }
 .avatar-wrap { position: relative; flex-shrink: 0; }
-.avatar-circle {
+
+/* NFT cube avatar */
+.acc-cube-wrap {
   width: 46px; height: 46px;
-  border-radius: 50%;
-  background: linear-gradient(135deg,#22c55e,#0ea5e9);
   display: flex; align-items: center; justify-content: center;
-  font-size: 19px; font-weight: 900; color: #fff;
+  border-radius: 50%;
+  background: rgba(34,197,94,0.08);
+  border: 1.5px solid rgba(34,197,94,0.3);
+  box-shadow: 0 0 14px rgba(34,197,94,0.25);
 }
+.acc-cube-scene {
+  width: 26px; height: 26px;
+  perspective: 110px;
+}
+.acc-cube {
+  width: 26px; height: 26px;
+  position: relative;
+  transform-style: preserve-3d;
+  animation: acc-cube-spin 6s linear infinite;
+}
+@keyframes acc-cube-spin {
+  0%   { transform: rotate3d(1,1,1,0deg); }
+  60%  { transform: rotate3d(1,1,1,3600deg); }
+  100% { transform: rotate3d(1,1,1,3780deg); }
+}
+.acc-face {
+  position: absolute; width: 26px; height: 26px;
+  border: 1.5px solid;
+}
+.acc-front  { transform: translateZ(13px);           border-color:#22c55e; background:rgba(34,197,94,0.09);  box-shadow:0 0 8px rgba(34,197,94,0.7); }
+.acc-back   { transform: rotateY(180deg) translateZ(13px); border-color:#ec4899; background:rgba(236,72,153,0.09); box-shadow:0 0 8px rgba(236,72,153,0.6); }
+.acc-left   { transform: rotateY(-90deg) translateZ(13px);  border-color:#06b6d4; background:rgba(6,182,212,0.09);  box-shadow:0 0 8px rgba(6,182,212,0.6); }
+.acc-right  { transform: rotateY(90deg) translateZ(13px);   border-color:#a855f7; background:rgba(168,85,247,0.09); box-shadow:0 0 8px rgba(168,85,247,0.6); }
+.acc-top    { transform: rotateX(90deg) translateZ(13px);   border-color:#f59e0b; background:rgba(245,158,11,0.09); box-shadow:0 0 8px rgba(245,158,11,0.6); }
+.acc-bottom { transform: rotateX(-90deg) translateZ(13px);  border-color:#ef4444; background:rgba(239,68,68,0.09);  box-shadow:0 0 8px rgba(239,68,68,0.6); }
 .vip-badge-pill {
   position: absolute; bottom: -3px; right: -4px;
   padding: 1.5px 5px;
@@ -433,25 +580,51 @@ const comingSoon = () => alert('Coming Soon')
   letter-spacing: 0.01em;
 }
 
-/* ── VIP card ── */
+/* ── VIP card (teal, bigger, Screenshot 2 style) ── */
 .vip-card {
   position: relative; overflow: hidden;
-  border-radius: 14px; padding: 12px;
-  background: linear-gradient(135deg,#b8860b 0%,#f5d060 35%,#d4950a 65%,#b07d10 100%);
+  border-radius: 16px; padding: 14px 14px 16px;
+  background: linear-gradient(135deg, #0d9488 0%, #14b8a6 45%, #0f766e 100%);
 }
 .vip-shimmer {
   position: absolute; inset: 0; pointer-events: none;
-  background: linear-gradient(105deg,transparent 30%,rgba(255,255,255,0.18) 50%,transparent 70%);
+  background: linear-gradient(110deg,transparent 30%,rgba(255,255,255,0.14) 50%,transparent 70%);
 }
-.vip-inner { position: relative; z-index: 1; display: flex; align-items: center; gap: 10px; }
+/* Top row */
+.vip-top-row { position: relative; z-index: 1; display: flex; align-items: flex-start; gap: 0; }
 .vip-lvl-badge {
-  width: 38px; height: 38px; border-radius: 9px;
-  background: rgba(0,0,0,0.25);
-  display: flex; align-items: center; justify-content: center; flex-shrink: 0;
+  flex-shrink: 0;
+  background: rgba(255,255,255,0.18);
+  border-radius: 8px;
+  padding: 4px 8px;
+  display: flex; align-items: center; justify-content: center;
 }
-.vip-bar-track { height: 6px; border-radius: 999px; background: rgba(0,0,0,0.2); overflow: hidden; }
-.vip-bar-fill { height: 100%; border-radius: 999px; background: rgba(255,255,255,0.8); transition: width 0.4s ease; }
-.vip-meta { font-size: 9.5px; color: rgba(92,55,0,0.82); }
+.vip-badge-txt { font-size: 12px; font-weight: 900; color: #fff; }
+.vip-top-label { font-size: 11.5px; color: rgba(255,255,255,0.88); }
+.vip-top-accent { font-size: 12px; font-weight: 900; color: #fef9c3; font-style: italic; }
+.vip-top-bold { font-size: 13px; font-weight: 900; color: #fff; }
+/* Divider */
+.vip-divider {
+  position: relative; z-index: 1;
+  margin: 10px 0;
+  height: 1px;
+  background: rgba(255,255,255,0.2);
+}
+/* Progress section */
+.vip-prog-wrap { position: relative; z-index: 1; }
+.vip-prog-row { display: flex; align-items: flex-start; gap: 8px; }
+.vip-coin-badge {
+  width: 28px; height: 28px; border-radius: 50%;
+  background: radial-gradient(circle, #fde68a 30%, #f59e0b 100%);
+  border: 2px solid rgba(255,255,255,0.35);
+  display: flex; align-items: center; justify-content: center;
+  flex-shrink: 0;
+}
+.vip-prog-lbl { font-size: 10.5px; color: rgba(255,255,255,0.85); }
+.vip-prog-val { font-size: 10.5px; font-weight: 700; color: #fff; white-space: nowrap; }
+.vip-bar-track { height: 7px; border-radius: 999px; background: rgba(0,0,0,0.18); overflow: hidden; }
+.vip-bar-fill { height: 100%; border-radius: 999px; background: rgba(255,255,255,0.85); transition: width 0.5s ease; }
+.vip-bar-fill2 { height: 100%; border-radius: 999px; background: rgba(254,243,199,0.75); transition: width 0.5s ease; }
 
 /* ── Menu blocks ── */
 .menu-block {
