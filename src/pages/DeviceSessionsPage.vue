@@ -146,81 +146,99 @@ function formatTime(ts) {
   return `UTC+06:30 ${local.getUTCFullYear()}-${pad(local.getUTCMonth()+1)}-${pad(local.getUTCDate())} ${pad(local.getUTCHours())}:${pad(local.getUTCMinutes())}:${pad(local.getUTCSeconds())}`
 }
 
-function loadHistory(uid) {
-  try {
-    const raw = localStorage.getItem(`ns_sessions_${uid}`)
-    return raw ? JSON.parse(raw) : []
-  } catch { return [] }
-}
-
-function saveSession(uid, entry) {
-  try {
-    const list = loadHistory(uid)
-    list.unshift(entry)
-    localStorage.setItem(`ns_sessions_${uid}`, JSON.stringify(list.slice(0, 20)))
-  } catch {}
-}
-
 onMounted(async () => {
   try {
     const { data: { session: authSession } } = await supabase.auth.getSession()
     if (!authSession) { loading.value = false; return }
 
     const user = authSession.user
-    username.value = user.user_metadata?.username ||
+    const uname = user.user_metadata?.username ||
       user.email?.replace('@novabett.internal', '') || '—'
+    username.value = uname
     shortId.value = user.id?.slice(0, 8).toUpperCase() || '—'
 
     const device = detectDevice()
     const loginTime = formatTime()
 
-    const currentEntry = {
-      ...device,
-      ip: '—',
-      ipFull: '',
-      loginTime,
-    }
-
-    info.value = { ...currentEntry }
+    info.value = { ...device, ip: '—', ipFull: '', loginTime }
     loading.value = false
 
-    // Load history
-    const hist = loadHistory(user.id)
-    history.value = [currentEntry, ...hist]
+    // ── Fetch history from Supabase ───────────────────────────────
+    const { data: rows } = await supabase
+      .from('login_sessions')
+      .select('*')
+      .eq('user_id', user.id)
+      .order('login_at', { ascending: false })
+      .limit(10)
 
-    // Save this session
-    saveSession(user.id, currentEntry)
+    history.value = (rows || []).map(r => ({
+      device_type: r.device_type || 'H5',
+      version:     r.app_version || '—',
+      browser:     r.browser     || '—',
+      os:          r.os          || '—',
+      ip:          r.ip_address  || '—',
+      ipFull:      r.ip_info     || r.ip_address || '—',
+      loginTime:   r.login_at ? formatTime(r.login_at) : '—',
+    }))
 
-    // Fetch IP info async
+    // ── Insert this session (without IP first) ────────────────────
+    const { data: inserted } = await supabase
+      .from('login_sessions')
+      .insert({
+        user_id:      user.id,
+        username:     uname,
+        device_type:  device.device_type,
+        app_version:  device.version,
+        browser:      device.browser,
+        os:           device.os,
+        ip_address:   '—',
+        ip_info:      '',
+      })
+      .select('id')
+      .single()
+
+    // Prepend current session to history list
+    const currentEntry = { ...device, ip: '—', ipFull: '', loginTime }
+    history.value = [currentEntry, ...history.value]
+
+    // ── Fetch IP async, then update row ───────────────────────────
     ipLoading.value = true
     try {
       const r = await fetch('https://ipapi.co/json/')
       if (r.ok) {
         const d = await r.json()
-        const ip = d.ip || '—'
-        const org = d.org || ''
-        const region = d.region || ''
-        const country = d.country_name || ''
+        const ip     = d.ip           || '—'
+        const org    = d.org          || ''
+        const region = d.region       || ''
+        const country= d.country_name || ''
         const ipFull = `${ip} ${country}/${region} ${org}`.trim()
 
-        info.value.ip = ip
+        info.value.ip     = ip
         info.value.ipFull = ipFull
-        history.value[0].ip = ip
-        history.value[0].ipFull = ipFull
+        if (history.value[0]) {
+          history.value[0].ip     = ip
+          history.value[0].ipFull = ipFull
+        }
 
-        // Update saved session with IP
-        const list = loadHistory(user.id)
-        if (list[0]) { list[0].ip = ip; list[0].ipFull = ipFull }
-        localStorage.setItem(`ns_sessions_${user.id}`, JSON.stringify(list))
+        // Update the inserted row with real IP
+        if (inserted?.id) {
+          await supabase.from('login_sessions')
+            .update({ ip_address: ip, ip_info: ipFull })
+            .eq('id', inserted.id)
+        }
       }
     } catch (_) {
-      // Try fallback IP API
       try {
         const r2 = await fetch('https://api64.ipify.org?format=json')
         if (r2.ok) {
           const d2 = await r2.json()
-          info.value.ip = d2.ip || '—'
+          info.value.ip     = d2.ip || '—'
           info.value.ipFull = d2.ip || '—'
+          if (inserted?.id) {
+            await supabase.from('login_sessions')
+              .update({ ip_address: d2.ip || '—', ip_info: d2.ip || '—' })
+              .eq('id', inserted.id)
+          }
         }
       } catch (_) {}
     } finally {
