@@ -1,5 +1,5 @@
 <template>
-  <div class="agent-page min-h-screen overflow-x-hidden" style="background: linear-gradient(160deg,#0d0824 0%,#09061c 40%,#060418 75%,#040310 100%); color: rgba(255,255,255,0.9);">
+  <div class="agent-page min-h-screen overflow-x-hidden" style="color: rgba(255,255,255,0.9);">
 
     <!-- ── HEADER ── -->
     <header class="sticky top-0 z-40 px-4 py-3 flex items-center justify-between"
