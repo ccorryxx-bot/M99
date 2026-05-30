@@ -21,30 +21,30 @@ body {
   background: linear-gradient(160deg, #06091a 0%, #060e1c 50%, #050c14 100%);
 }
 
+/* ── Mobile: plain block — no flex, no interference with inner scroll/sticky ── */
 .nova-root {
   min-height: 100vh;
-  display: flex;
   position: relative;
 }
 
 .nova-content-wrap {
-  flex: 1;
   min-height: 100vh;
-  display: flex;
-  flex-direction: column;
   position: relative;
 }
 
 .nova-page-frame {
-  flex: 1;
+  /* no flex on mobile — pages manage their own height */
 }
 
+/* ── Desktop 768px+: introduce sidebar flex layout ── */
 @media (min-width: 768px) {
   .nova-root {
+    display: flex;
     margin-left: 230px;
   }
 
   .nova-content-wrap {
+    flex: 1;
     display: flex;
     justify-content: center;
     background: transparent;
