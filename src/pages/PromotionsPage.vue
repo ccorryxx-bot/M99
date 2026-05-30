@@ -74,7 +74,7 @@
             <h3 class="font-bold text-white text-sm">Referral Code</h3>
             <p class="text-xs text-gray-500 mt-1">Your Code - <span class="text-cyan-300 font-semibold">{{ referralCode }}</span></p>
           </div>
-          <button @click="copyReferral" class="bg-cyan-500/10 text-cyan-300 px-3 py-1.5 rounded-lg text-xs">{{ copied ? 'Copied!' : 'Copy' }}</button>
+          <button @click="copyReferral" class="nova-glass-btn text-cyan-300 px-3 py-1.5 rounded-lg text-xs">{{ copied ? 'Copied!' : 'Copy' }}</button>
         </div>
         <div class="mt-3 bg-black/20 p-3 rounded-xl space-y-1.5">
           <p class="text-cyan-400 text-xs font-semibold mb-1">Steps to Get Bonus</p>
