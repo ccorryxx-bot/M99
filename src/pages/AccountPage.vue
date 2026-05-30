@@ -25,35 +25,40 @@
 
     <div class="nova-acc-body">
 
-      <!-- ══ PROFILE ROW ══ -->
-      <div class="profile-row">
-        <div class="avatar-wrap">
-          <!-- NFT Avatar (same as HomePage) -->
-          <NftAvatar :username="username" :size="54" />
-          <div class="vip-badge-pill" :style="vipBadgeBg">V{{ vipLevel }}</div>
-        </div>
-        <div class="profile-info">
-          <div class="flex items-center gap-2">
-            <span class="profile-username">{{ username }}</span>
-            <button @click="copyText(username)" class="copy-btn">
-              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"/>
-              </svg>
-            </button>
+      <!-- ══ PROFILE SECTION ══ -->
+      <div class="profile-section">
+        <!-- Green frame: Avatar + Username/ID only -->
+        <div class="profile-row">
+          <div class="avatar-wrap">
+            <NftAvatar :username="username" :size="54" />
+            <div class="vip-badge-pill" :style="vipBadgeBg">V{{ vipLevel }}</div>
           </div>
-          <div class="flex items-center gap-2 mt-1">
-            <span class="profile-id">ID: {{ gameId }}</span>
-            <button @click="copyText(gameId)" class="copy-btn copy-btn--id">
-              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"/>
-              </svg>
-            </button>
+          <div class="profile-info">
+            <div class="flex items-center gap-2">
+              <span class="profile-username">{{ username }}</span>
+              <button @click="copyText(username)" class="copy-btn">
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"/>
+                </svg>
+              </button>
+            </div>
+            <div class="flex items-center gap-2 mt-1">
+              <span class="profile-id">ID: {{ gameId }}</span>
+              <button @click="copyText(gameId)" class="copy-btn copy-btn--id">
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"/>
+                </svg>
+              </button>
+            </div>
           </div>
         </div>
+        <!-- Balance + Refresh — outside the green frame, right side -->
         <div class="balance-area">
-          <div class="flex items-center gap-1.5">
-            <span class="balance-flag">🇲🇲</span>
-            <span class="balance-amount">{{ formatBalance(mainBalance) }}</span>
+          <div class="flex flex-col items-center gap-2">
+            <div class="flex items-center gap-1">
+              <span class="balance-flag">🇲🇲</span>
+              <span class="balance-amount">{{ formatBalance(mainBalance) }}</span>
+            </div>
             <button @click="fetchWallet" class="refresh-btn" :class="{ 'refreshing': refreshing }">
               <svg width="15" height="15" viewBox="0 0 24 24" fill="none" class="refresh-svg">
                 <circle cx="12" cy="12" r="9" stroke="currentColor" stroke-width="1.5" stroke-dasharray="4 2" opacity="0.35"/>
@@ -469,6 +474,9 @@ const comingSoon = () => alert('Coming Soon')
   align-items: center;
   gap: 10px;
   padding: 10px 12px;
+  flex: 1;
+  min-width: 0;
+  overflow: visible;
   border: 1px solid rgba(34,197,94,0.35);
   border-radius: 14px;
   background: rgba(34,197,94,0.03);
@@ -479,15 +487,22 @@ const comingSoon = () => alert('Coming Soon')
   0%, 100% { border-color: rgba(34,197,94,0.35); box-shadow: 0 0 10px rgba(34,197,94,0.08); }
   50%       { border-color: rgba(74,222,128,0.55); box-shadow: 0 0 16px rgba(74,222,128,0.18); }
 }
-.avatar-wrap { position: relative; flex-shrink: 0; }
+.profile-section {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.avatar-wrap { position: relative; flex-shrink: 0; overflow: visible; }
 
 /* NFT Avatar handled by NftAvatar component */
 .vip-badge-pill {
-  position: absolute; bottom: -3px; right: -4px;
-  padding: 2px 6px;
+  position: absolute; bottom: -4px; right: -6px;
+  padding: 2px 5px;
   border-radius: 5px;
   font-size: 9px; font-weight: 900; color: #fff;
   line-height: 1.4;
+  z-index: 2;
+  white-space: nowrap;
 }
 .profile-info { flex: 1; min-width: 0; }
 .profile-username { font-size: 15px; font-weight: 800; color: #ffffff; letter-spacing: 0.02em; }
