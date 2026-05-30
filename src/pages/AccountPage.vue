@@ -439,18 +439,24 @@ const comingSoon = () => alert('Coming Soon')
   align-items: center;
   justify-content: space-between;
   padding: 10px 14px;
-  background: rgba(8,16,42,0.9);
-  backdrop-filter: blur(20px);
+  background: transparent;
 }
 .nova-icon-btn {
-  width: 32px; height: 32px;
+  width: 36px; height: 36px;
   display: flex; align-items: center; justify-content: center;
-  border-radius: 50%;
-  background: rgba(255,255,255,0.07);
+  border-radius: 12px;
+  background: rgba(255,255,255,0.08);
+  border: 1px solid rgba(255,255,255,0.13);
+  box-shadow: 0 2px 10px rgba(0,0,0,0.35), inset 0 1px 0 rgba(255,255,255,0.1);
+  backdrop-filter: blur(12px);
   cursor: pointer;
-  transition: transform 0.1s;
+  transition: transform 0.12s, box-shadow 0.12s, background 0.12s;
 }
-.nova-icon-btn:active { transform: scale(0.9); }
+.nova-icon-btn:active {
+  transform: scale(0.88);
+  background: rgba(255,255,255,0.14);
+  box-shadow: 0 1px 6px rgba(0,0,0,0.45);
+}
 .notif-dot {
   position: absolute; top: -3px; right: -3px;
   width: 15px; height: 15px;
