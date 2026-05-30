@@ -7,8 +7,8 @@
       <h1 class="text-lg font-bold text-center text-cyan-300">Admin Dashboard</h1>
       <div class="flex gap-1 mt-2 overflow-x-auto no-scrollbar">
         <button v-for="(tab, i) in tabs" :key="i" @click="activeTab = i"
-          class="px-4 py-2 rounded-full text-xs font-semibold whitespace-nowrap transition-all border"
-          :class="activeTab === i ? 'bg-cyan-500/20 text-cyan-300 border-cyan-500/50' : 'bg-cyan-500/5 border-gray-700 text-gray-400 hover:bg-cyan-500/10'">
+          class="nova-glass-tab px-4 py-2 rounded-full text-xs font-semibold whitespace-nowrap"
+          :class="activeTab === i ? 'active' : ''">
           {{ tab }}
         </button>
       </div>
@@ -19,7 +19,7 @@
       <div v-if="!loggedIn" class="bg-[#111d26] border border-cyan-500/10 rounded-2xl p-5 text-center">
         <p class="text-gray-400 mb-4">Enter admin password</p>
         <input v-model="adminKey" type="password" placeholder="Admin Secret" class="w-full max-w-xs p-3 rounded-xl bg-[#0b141a] border border-cyan-500/20 text-white text-sm focus:outline-none focus:border-cyan-500/50 mb-4" @keyup.enter="login" />
-        <button @click="login" :disabled="loginLoading" class="bg-gradient-to-r from-cyan-500 to-teal-600 text-white font-bold py-3 px-8 rounded-full shadow-lg shadow-cyan-500/20 hover:shadow-cyan-500/40 active:scale-95 transition-all disabled:opacity-50">
+        <button @click="login" :disabled="loginLoading" class="nova-glass-cta-cyan text-white font-bold py-3 px-8 rounded-full">
           {{ loginLoading ? 'Verifying...' : 'Login' }}
         </button>
         <p v-if="loginError" class="text-red-400 text-sm mt-3">{{ loginError }}</p>
@@ -50,7 +50,7 @@
                 </select>
               </div>
             </div>
-            <button @click="fetchTransactions" class="mt-3 bg-cyan-500/10 hover:bg-cyan-500/20 text-cyan-300 text-xs font-bold px-6 py-2 rounded-full transition-all w-full">Search</button>
+            <button @click="fetchTransactions" class="nova-glass-btn mt-3 text-cyan-300 text-xs font-bold px-6 py-2 rounded-full w-full">Search</button>
           </div>
 
           <!-- Transaction List -->
@@ -74,8 +74,8 @@
                   </button>
                 </div>
                 <div v-if="tx.status === 'pending'" class="flex gap-2 mt-3">
-                  <button @click="approveReject(tx.id, 'approve')" class="bg-emerald-500/20 hover:bg-emerald-500/30 text-emerald-400 text-xs px-4 py-1.5 rounded-full transition-all">Approve</button>
-                  <button @click="approveReject(tx.id, 'reject')" class="bg-red-500/20 hover:bg-red-500/30 text-red-400 text-xs px-4 py-1.5 rounded-full transition-all">Reject</button>
+                  <button @click="approveReject(tx.id, 'approve')" class="nova-glass-approve text-xs px-4 py-1.5 rounded-full">Approve</button>
+                  <button @click="approveReject(tx.id, 'reject')" class="nova-glass-reject text-xs px-4 py-1.5 rounded-full">Reject</button>
                 </div>
               </div>
               <div v-if="transactions.length === 0" class="text-center py-6 text-gray-500">No transactions found</div>
@@ -110,7 +110,7 @@
               <label class="text-xs text-gray-400">Wagering Multiplier</label>
               <input v-model="settings.wagering_multiplier" type="number" step="1" class="w-full p-2.5 rounded-lg bg-[#0b141a] border border-cyan-500/20 text-white text-sm focus:outline-none focus:border-cyan-500/50" />
             </div>
-            <button @click="saveSettings" :disabled="savingSettings" class="w-full bg-gradient-to-r from-cyan-500 to-teal-600 text-white font-bold py-3 rounded-full shadow-lg shadow-cyan-500/20 hover:shadow-cyan-500/40 active:scale-95 transition-all">
+            <button @click="saveSettings" :disabled="savingSettings" class="nova-glass-cta-cyan w-full text-white font-bold py-3 rounded-full">
               {{ savingSettings ? 'Saving...' : 'Save Settings' }}
             </button>
             <p v-if="settingsMsg" :class="settingsOk ? 'text-emerald-400' : 'text-red-400'" class="text-xs text-center">{{ settingsMsg }}</p>
