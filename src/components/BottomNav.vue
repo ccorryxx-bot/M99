@@ -26,41 +26,32 @@
                 <feGaussianBlur stdDeviation="6"/>
               </filter>
             </defs>
-            <!-- ambient warm glow -->
             <ellipse cx="30" cy="40" rx="20" ry="15" fill="rgba(245,158,11,0.25)" filter="url(#gnav-amb)"/>
-            <!-- BRAIN left hemisphere -->
             <path d="M30 20 C25 20 18 22 15 27 C12 32 11 35 11 38 C11 43 13 47 17 50 C19 52 22 54 26 54 L30 54 L30 20Z"
                   stroke="#f59e0b" stroke-width="2.7" fill="rgba(245,158,11,0.16)" filter="url(#gnav-wg)"/>
-            <!-- BRAIN right hemisphere -->
             <path d="M30 20 C35 20 42 22 45 27 C48 32 49 35 49 38 C49 43 47 47 43 50 C41 52 38 54 34 54 L30 54 L30 20Z"
                   stroke="#f59e0b" stroke-width="2.7" fill="rgba(245,158,11,0.16)" filter="url(#gnav-wg)"/>
-            <!-- center divider -->
             <line x1="30" y1="20" x2="30" y2="54" stroke="#f59e0b" stroke-width="1" opacity="0.5"/>
-            <!-- LEFT gyri folds — cream for max contrast -->
             <path d="M16 28 C19 25 23 25 27 28" stroke="#fef3c7" stroke-width="2"   stroke-linecap="round" fill="none" opacity="0.9"/>
             <path d="M12 34 C15 31 20 30 24 32" stroke="#fef3c7" stroke-width="2"   stroke-linecap="round" fill="none" opacity="0.87"/>
             <path d="M12 40 C15 37 19 36 22 38" stroke="#fef3c7" stroke-width="2"   stroke-linecap="round" fill="none" opacity="0.87"/>
             <path d="M14 45 C17 42 20 41 23 43" stroke="#fef3c7" stroke-width="1.7" stroke-linecap="round" fill="none" opacity="0.78"/>
             <path d="M19 51 C22 49 25 49 27 50" stroke="#fef3c7" stroke-width="1.5" stroke-linecap="round" fill="none" opacity="0.65"/>
-            <!-- RIGHT gyri folds -->
             <path d="M44 28 C41 25 37 25 33 28" stroke="#fef3c7" stroke-width="2"   stroke-linecap="round" fill="none" opacity="0.9"/>
             <path d="M48 34 C45 31 40 30 36 32" stroke="#fef3c7" stroke-width="2"   stroke-linecap="round" fill="none" opacity="0.87"/>
             <path d="M48 40 C45 37 41 36 38 38" stroke="#fef3c7" stroke-width="2"   stroke-linecap="round" fill="none" opacity="0.87"/>
             <path d="M46 45 C43 42 40 41 37 43" stroke="#fef3c7" stroke-width="1.7" stroke-linecap="round" fill="none" opacity="0.78"/>
             <path d="M41 51 C38 49 35 49 33 50" stroke="#fef3c7" stroke-width="1.5" stroke-linecap="round" fill="none" opacity="0.65"/>
-            <!-- neural tendrils -->
             <path d="M17 23 C13 16 9 11 5 6"   stroke="#06b6d4" stroke-width="1.1" stroke-linecap="round" fill="none" class="nb-tdl" stroke-dasharray="12 4"/>
             <path d="M23 19 C21 13 19 7 18 2"   stroke="#22c55e" stroke-width="1.1" stroke-linecap="round" fill="none" class="nb-tdl" stroke-dasharray="12 4"/>
             <path d="M30 17 C30 11 30 5 30 1"   stroke="#a855f7" stroke-width="1.2" stroke-linecap="round" fill="none" class="nb-tdl" stroke-dasharray="12 4"/>
             <path d="M37 19 C39 13 41 7 42 2"   stroke="#f59e0b" stroke-width="1.1" stroke-linecap="round" fill="none" class="nb-tdl" stroke-dasharray="12 4"/>
             <path d="M43 23 C47 16 51 11 55 6"  stroke="#ec4899" stroke-width="1.1" stroke-linecap="round" fill="none" class="nb-tdl" stroke-dasharray="12 4"/>
-            <!-- ENERGY NODES -->
             <circle cx="17" cy="23" r="5.2" fill="#06b6d4" filter="url(#gnav-ng)" class="nb-node-1"/>
             <circle cx="23" cy="19" r="5.2" fill="#22c55e" filter="url(#gnav-ng)" class="nb-node-2"/>
             <circle cx="30" cy="17" r="6"   fill="#a855f7" filter="url(#gnav-ng)" class="nb-node-3"/>
             <circle cx="37" cy="19" r="5.2" fill="#f59e0b" filter="url(#gnav-ng)" class="nb-node-4"/>
             <circle cx="43" cy="23" r="5.2" fill="#ec4899" filter="url(#gnav-ng)" class="nb-node-5"/>
-            <!-- node shine highlights -->
             <circle cx="15.5" cy="21.5" r="1.8" fill="rgba(255,255,255,0.72)"/>
             <circle cx="21.5" cy="17.5" r="1.8" fill="rgba(255,255,255,0.72)"/>
             <circle cx="28.5" cy="15.5" r="2"   fill="rgba(255,255,255,0.72)"/>
@@ -155,5 +146,10 @@ const route = useRoute()
 @keyframes nb-node {
   0%,100% { opacity: 0.55; transform: scale(0.78); }
   50%      { opacity: 1;    transform: scale(1.32); }
+}
+
+/* ── HIDE on desktop (sidebar takes over) ── */
+@media (min-width: 768px) {
+  .gnav { display: none; }
 }
 </style>
