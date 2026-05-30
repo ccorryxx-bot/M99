@@ -349,14 +349,12 @@ const comingSoon = () => alert('Coming Soon')
   padding: 10px 14px;
   background: rgba(8,16,42,0.9);
   backdrop-filter: blur(20px);
-  border-bottom: 1px solid rgba(255,255,255,0.06);
 }
 .nova-icon-btn {
   width: 32px; height: 32px;
   display: flex; align-items: center; justify-content: center;
   border-radius: 50%;
   background: rgba(255,255,255,0.07);
-  border: 1px solid rgba(255,255,255,0.10);
   cursor: pointer;
   transition: transform 0.1s;
 }
@@ -385,7 +383,6 @@ const comingSoon = () => alert('Coming Soon')
   gap: 10px;
   padding: 11px 12px;
   background: rgba(255,255,255,0.05);
-  border: 1px solid rgba(255,255,255,0.08);
   border-radius: 14px;
   backdrop-filter: blur(12px);
 }
@@ -419,7 +416,6 @@ const comingSoon = () => alert('Coming Soon')
 .refresh-btn {
   width: 20px; height: 20px;
   background: rgba(34,197,94,0.1);
-  border: 1px solid rgba(34,197,94,0.22);
   border-radius: 50%;
   display: inline-flex; align-items: center; justify-content: center;
   cursor: pointer; color: #4ade80;
@@ -434,14 +430,13 @@ const comingSoon = () => alert('Coming Soon')
   padding: 9px 12px;
   border-radius: 12px;
   background: rgba(255,255,255,0.05);
-  border: 1px solid rgba(255,255,255,0.09);
   cursor: pointer;
   transition: transform 0.12s;
 }
 .action-btn:active { transform: scale(0.97); }
 .action-icon {
   width: 34px; height: 34px;
-  border-radius: 9px; border: 1.5px solid;
+  border-radius: 9px;
   display: flex; align-items: center; justify-content: center;
   flex-shrink: 0;
 }
@@ -460,7 +455,7 @@ const comingSoon = () => alert('Coming Soon')
 .vip-inner { position: relative; z-index: 1; display: flex; align-items: center; gap: 10px; }
 .vip-lvl-badge {
   width: 38px; height: 38px; border-radius: 9px;
-  background: rgba(0,0,0,0.25); border: 1.5px solid rgba(255,255,255,0.3);
+  background: rgba(0,0,0,0.25);
   display: flex; align-items: center; justify-content: center; flex-shrink: 0;
 }
 .vip-bar-track { height: 6px; border-radius: 999px; background: rgba(0,0,0,0.2); overflow: hidden; }
@@ -471,7 +466,6 @@ const comingSoon = () => alert('Coming Soon')
 .menu-block {
   border-radius: 14px; overflow: hidden;
   background: rgba(255,255,255,0.04);
-  border: 1px solid rgba(255,255,255,0.07);
 }
 .menu-row {
   display: flex; align-items: center; gap: 10px;
@@ -482,7 +476,7 @@ const comingSoon = () => alert('Coming Soon')
 .menu-row:active { background: rgba(255,255,255,0.04); }
 .m-icon {
   width: 30px; height: 30px;
-  border-radius: 8px; border: 1px solid;
+  border-radius: 8px;
   display: flex; align-items: center; justify-content: center; flex-shrink: 0;
 }
 .m-title { font-size: 13px; font-weight: 600; color: #fff; }
