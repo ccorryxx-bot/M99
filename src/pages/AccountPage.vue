@@ -67,16 +67,16 @@
       <!-- ══ ACTION BUTTONS ══ -->
       <div class="action-row">
         <button @click="$router.push('/home')" class="action-flat-btn">
-          <div class="action-flat-icon" style="background:rgba(245,158,11,0.15);">
-            <svg width="22" height="22" fill="none" stroke="#f59e0b" stroke-width="1.8" viewBox="0 0 24 24">
+          <div class="action-flat-icon">
+            <svg width="22" height="22" fill="none" stroke="#4ade80" stroke-width="1.8" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" d="M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z"/>
             </svg>
           </div>
           <span class="action-flat-lbl">ငွေထုတ်ရန်</span>
         </button>
         <button @click="$router.push('/home')" class="action-flat-btn">
-          <div class="action-flat-icon" style="background:rgba(14,165,233,0.15);">
-            <svg width="22" height="22" fill="none" stroke="#38bdf8" stroke-width="1.8" viewBox="0 0 24 24">
+          <div class="action-flat-icon">
+            <svg width="22" height="22" fill="none" stroke="#4ade80" stroke-width="1.8" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" d="M3 10h10a8 8 0 018 8v2M3 10l6 6m-6-6l6-6"/>
             </svg>
           </div>
@@ -425,6 +425,7 @@ const comingSoon = () => alert('Coming Soon')
 .action-flat-icon {
   width: 48px; height: 48px;
   border-radius: 14px;
+  background: rgba(74,222,128,0.12);
   display: flex; align-items: center; justify-content: center;
 }
 .action-flat-lbl {
