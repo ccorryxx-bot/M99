@@ -17,36 +17,216 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 
+/* ══ GLASSMORPHISM DESIGN SYSTEM ═════════════════════════════════
+   3 core rules:
+   1. Background ≠ Card — card slightly darker → depth illusion
+   2. Paper-thin borders → rgba(255,255,255,0.06) → edge definition
+   3. Glass button — transparent surface + dual shadow + press feel
+═══════════════════════════════════════════════════════════════ */
+
+/* ── 1. Card Glass Layer ──────────────────────────────────────── */
+.nova-card {
+  background: rgba(10, 16, 32, 0.70);
+  backdrop-filter: blur(16px) saturate(140%);
+  -webkit-backdrop-filter: blur(16px) saturate(140%);
+  border: 1px solid rgba(255,255,255,0.06);
+  box-shadow: 0 4px 24px rgba(0,0,0,0.35), inset 0 1px 0 rgba(255,255,255,0.04);
+}
+
+/* ── 2. Glass Button — Secondary / Tab ───────────────────────── */
+.nova-glass-btn {
+  background: rgba(255,255,255,0.08);
+  border: 1px solid rgba(255,255,255,0.12);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  box-shadow: 0 4px 16px rgba(0,0,0,0.30), inset 0 1px 0 rgba(255,255,255,0.10);
+  transition: transform 0.12s ease, box-shadow 0.15s ease, background 0.15s ease;
+  -webkit-tap-highlight-color: transparent;
+  user-select: none;
+  cursor: pointer;
+}
+.nova-glass-btn:hover {
+  background: rgba(255,255,255,0.11);
+}
+.nova-glass-btn:active {
+  transform: scale(0.97);
+  box-shadow: 0 1px 4px rgba(0,0,0,0.30), inset 0 2px 6px rgba(0,0,0,0.25);
+}
+
+/* ── 3. Primary CTA — Green gradient glass ───────────────────── */
+.nova-glass-cta {
+  background: linear-gradient(135deg, #1ebe6e 0%, #14a85a 55%, #0e8f46 100%);
+  border: none;
+  box-shadow: 0 6px 22px rgba(30,190,110,0.38), inset 0 1px 0 rgba(255,255,255,0.22), inset 0 -1px 0 rgba(0,0,0,0.18);
+  transition: transform 0.12s ease, box-shadow 0.20s ease;
+  -webkit-tap-highlight-color: transparent;
+  cursor: pointer;
+}
+.nova-glass-cta:active {
+  transform: scale(0.97);
+  box-shadow: 0 3px 12px rgba(30,190,110,0.28), inset 0 2px 6px rgba(0,0,0,0.22);
+}
+.nova-glass-cta:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+  transform: none;
+}
+
+/* ── 4. Cyan CTA — Admin / login ─────────────────────────────── */
+.nova-glass-cta-cyan {
+  background: linear-gradient(135deg, #0ea5c9 0%, #0884a5 55%, #06728e 100%);
+  border: none;
+  box-shadow: 0 6px 22px rgba(14,165,201,0.35), inset 0 1px 0 rgba(255,255,255,0.20);
+  transition: transform 0.12s ease, box-shadow 0.20s ease;
+  -webkit-tap-highlight-color: transparent;
+  cursor: pointer;
+}
+.nova-glass-cta-cyan:active {
+  transform: scale(0.97);
+  box-shadow: 0 3px 12px rgba(14,165,201,0.25), inset 0 2px 6px rgba(0,0,0,0.20);
+}
+
+/* ── 5. Danger CTA — Rose / Withdraw ─────────────────────────── */
+.nova-glass-cta-danger {
+  background: linear-gradient(135deg, #f43f5e 0%, #e11d48 55%, #be123c 100%);
+  border: none;
+  box-shadow: 0 6px 22px rgba(244,63,94,0.38), inset 0 1px 0 rgba(255,255,255,0.20), inset 0 -1px 0 rgba(0,0,0,0.15);
+  transition: transform 0.12s ease, box-shadow 0.20s ease;
+  -webkit-tap-highlight-color: transparent;
+  cursor: pointer;
+}
+.nova-glass-cta-danger:active {
+  transform: scale(0.97);
+  box-shadow: 0 3px 12px rgba(244,63,94,0.25), inset 0 2px 6px rgba(0,0,0,0.22);
+}
+.nova-glass-cta-danger:disabled {
+  opacity: 0.40;
+  cursor: not-allowed;
+  transform: none;
+}
+
+/* ── 6. Tab buttons ───────────────────────────────────────────── */
+.nova-glass-tab {
+  background: rgba(255,255,255,0.04);
+  border: 1px solid rgba(255,255,255,0.07);
+  color: rgba(255,255,255,0.40);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+  transition: background 0.18s, border-color 0.18s, color 0.18s;
+  -webkit-tap-highlight-color: transparent;
+  cursor: pointer;
+}
+.nova-glass-tab:hover {
+  background: rgba(255,255,255,0.07);
+  color: rgba(255,255,255,0.65);
+}
+.nova-glass-tab.active,
+.nova-glass-tab[data-active="true"] {
+  background: rgba(6,182,212,0.14);
+  border-color: rgba(6,182,212,0.32);
+  color: #22d3ee;
+  box-shadow: 0 0 14px rgba(6,182,212,0.14), inset 0 1px 0 rgba(255,255,255,0.08);
+}
+
+/* ── 7. Approve / Reject mini buttons ────────────────────────── */
+.nova-glass-approve {
+  background: rgba(16,185,129,0.10);
+  border: 1px solid rgba(16,185,129,0.28);
+  color: #34d399;
+  backdrop-filter: blur(6px);
+  box-shadow: 0 2px 10px rgba(16,185,129,0.18), inset 0 1px 0 rgba(255,255,255,0.06);
+  transition: transform 0.12s ease, box-shadow 0.15s ease;
+  -webkit-tap-highlight-color: transparent;
+  cursor: pointer;
+}
+.nova-glass-approve:active {
+  transform: scale(0.96);
+  box-shadow: 0 1px 4px rgba(0,0,0,0.28), inset 0 2px 5px rgba(0,0,0,0.20);
+}
+
+.nova-glass-reject {
+  background: rgba(239,68,68,0.10);
+  border: 1px solid rgba(239,68,68,0.28);
+  color: #f87171;
+  backdrop-filter: blur(6px);
+  box-shadow: 0 2px 10px rgba(239,68,68,0.18), inset 0 1px 0 rgba(255,255,255,0.06);
+  transition: transform 0.12s ease, box-shadow 0.15s ease;
+  -webkit-tap-highlight-color: transparent;
+  cursor: pointer;
+}
+.nova-glass-reject:active {
+  transform: scale(0.96);
+  box-shadow: 0 1px 4px rgba(0,0,0,0.28), inset 0 2px 5px rgba(0,0,0,0.20);
+}
+
+/* ── 8. Service menu item (full-width glass card button) ─────── */
+.nova-glass-menu-item {
+  background: rgba(255,255,255,0.05);
+  border: 1px solid rgba(255,255,255,0.08);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  box-shadow: 0 2px 16px rgba(0,0,0,0.28), inset 0 1px 0 rgba(255,255,255,0.07);
+  transition: transform 0.12s ease, box-shadow 0.15s ease, background 0.15s ease;
+  -webkit-tap-highlight-color: transparent;
+  cursor: pointer;
+}
+.nova-glass-menu-item:hover {
+  background: rgba(255,255,255,0.08);
+}
+.nova-glass-menu-item:active {
+  transform: scale(0.98);
+  box-shadow: 0 1px 6px rgba(0,0,0,0.30), inset 0 2px 8px rgba(0,0,0,0.22);
+}
+
+/* ── 9. Payment method selector ──────────────────────────────── */
+.nova-glass-method {
+  background: rgba(255,255,255,0.05);
+  border: 1px solid rgba(255,255,255,0.10);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  box-shadow: 0 2px 12px rgba(0,0,0,0.25), inset 0 1px 0 rgba(255,255,255,0.08);
+  transition: transform 0.12s ease, box-shadow 0.15s ease, border-color 0.15s ease, background 0.15s ease;
+  -webkit-tap-highlight-color: transparent;
+  cursor: pointer;
+}
+.nova-glass-method:active {
+  transform: scale(0.97);
+  box-shadow: 0 1px 4px rgba(0,0,0,0.30), inset 0 2px 6px rgba(0,0,0,0.22);
+}
+.nova-glass-method.selected-wave {
+  background: rgba(16,185,129,0.12);
+  border-color: rgba(16,185,129,0.40);
+  color: #34d399;
+  box-shadow: 0 4px 16px rgba(16,185,129,0.20), inset 0 1px 0 rgba(255,255,255,0.10);
+}
+.nova-glass-method.selected-kpay {
+  background: rgba(59,130,246,0.12);
+  border-color: rgba(59,130,246,0.40);
+  color: #60a5fa;
+  box-shadow: 0 4px 16px rgba(59,130,246,0.20), inset 0 1px 0 rgba(255,255,255,0.10);
+}
+
 /* ══ DESKTOP RESPONSIVE ══════════════════════════════════════════
    On desktop (≥768px) the bottom nav is hidden and replaced by the
    left sidebar. Remove the pb-20 bottom padding that was reserved
    for the bottom nav so pages don't have wasted space.
 ═══════════════════════════════════════════════════════════════ */
 @media (min-width: 768px) {
-  /* Pages using Tailwind pb-20 for bottom nav clearance */
   .nova-page-bg.pb-20,
   .nova-page-bg[class*="pb-20"] {
     padding-bottom: 1.5rem !important;
   }
-
-  /* HomePage uses .nova-app (its own scoped class) */
   .nova-app {
     padding-bottom: 1rem !important;
   }
-
-  /* Subtle frame borders on desktop */
   .nova-page-frame {
     border-left: 1px solid rgba(255,255,255,0.03);
     border-right: 1px solid rgba(255,255,255,0.03);
   }
-
-  /* Ensure Vant overlays / modals cover full viewport incl. sidebar */
   .van-overlay {
     left: 0 !important;
     right: 0 !important;
   }
-
-  /* Position fixed elements inside pages (orbs, modals) use full viewport — OK */
 }
 
 /* ── Custom scrollbar on desktop ─────────────────────────────── */
