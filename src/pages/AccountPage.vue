@@ -28,8 +28,8 @@
       <!-- ══ PROFILE ROW ══ -->
       <div class="profile-row">
         <div class="avatar-wrap">
-          <!-- NFT Avatar (from HomePage) -->
-          <NftAvatar :seed="username" :size="54" />
+          <!-- NFT Avatar (same as HomePage) -->
+          <NftAvatar :username="username" :size="54" />
           <div class="vip-badge-pill" :style="vipBadgeBg">V{{ vipLevel }}</div>
         </div>
         <div class="profile-info">
@@ -52,7 +52,7 @@
         </div>
         <div class="balance-area">
           <div class="flex items-center gap-1">
-            <NftAvatar :seed="username" :size="22" />
+            <span style="font-size:13px;">🇲🇲</span>
             <span class="balance-amount">{{ formatCurrency(mainBalance) }}</span>
             <button @click="fetchWallet" class="refresh-btn">
               <svg class="w-3.5 h-3.5" :class="{ 'spin-icon': refreshing }" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -411,9 +411,7 @@ const comingSoon = () => alert('Coming Soon')
 
 /* ── Header ── */
 .nova-acc-header {
-  position: sticky;
-  top: 0;
-  z-index: 30;
+  position: relative;
   display: flex;
   align-items: center;
   justify-content: space-between;
