@@ -28,64 +28,23 @@
       <!-- ══ PROFILE ROW ══ -->
       <div class="profile-row">
         <div class="avatar-wrap">
-          <!-- NFT Spinning Cube Logo (same as HomePage) -->
-          <div class="acc-cube-wrap">
-            <div class="acc-cube-scene">
-              <div class="acc-cube">
-                <div class="acc-face acc-front">
-                  <svg viewBox="0 0 26 26" fill="none" width="26" height="26">
-                    <line x1="1" y1="1" x2="25" y2="25" stroke="#22c55e" stroke-width="0.45" opacity="0.28"/><line x1="25" y1="1" x2="1" y2="25" stroke="#22c55e" stroke-width="0.45" opacity="0.28"/><line x1="13" y1="1" x2="13" y2="25" stroke="#22c55e" stroke-width="0.4" opacity="0.22"/><line x1="1" y1="13" x2="25" y2="13" stroke="#22c55e" stroke-width="0.4" opacity="0.22"/>
-                    <line x1="1" y1="1" x2="13" y2="6" stroke="#22c55e" stroke-width="0.65" opacity="0.7"/><line x1="25" y1="1" x2="13" y2="6" stroke="#22c55e" stroke-width="0.65" opacity="0.7"/><line x1="25" y1="1" x2="20" y2="13" stroke="#22c55e" stroke-width="0.65" opacity="0.7"/><line x1="25" y1="25" x2="20" y2="13" stroke="#22c55e" stroke-width="0.65" opacity="0.7"/><line x1="25" y1="25" x2="13" y2="20" stroke="#22c55e" stroke-width="0.65" opacity="0.7"/><line x1="1" y1="25" x2="13" y2="20" stroke="#22c55e" stroke-width="0.65" opacity="0.7"/><line x1="1" y1="25" x2="6" y2="13" stroke="#22c55e" stroke-width="0.65" opacity="0.7"/><line x1="1" y1="1" x2="6" y2="13" stroke="#22c55e" stroke-width="0.65" opacity="0.7"/>
-                    <polygon points="13,6 20,13 13,20 6,13" stroke="#22c55e" stroke-width="0.75" fill="none" opacity="0.8"/><circle cx="13" cy="13" r="0.9" fill="#22c55e" opacity="0.8"/>
-                  </svg>
-                </div>
-                <div class="acc-face acc-back">
-                  <svg viewBox="0 0 26 26" fill="none" width="26" height="26">
-                    <line x1="1" y1="1" x2="25" y2="25" stroke="#ec4899" stroke-width="0.45" opacity="0.28"/><line x1="25" y1="1" x2="1" y2="25" stroke="#ec4899" stroke-width="0.45" opacity="0.28"/>
-                    <line x1="1" y1="1" x2="13" y2="6" stroke="#ec4899" stroke-width="0.65" opacity="0.7"/><line x1="25" y1="1" x2="13" y2="6" stroke="#ec4899" stroke-width="0.65" opacity="0.7"/><line x1="25" y1="25" x2="13" y2="20" stroke="#ec4899" stroke-width="0.65" opacity="0.7"/><line x1="1" y1="25" x2="13" y2="20" stroke="#ec4899" stroke-width="0.65" opacity="0.7"/>
-                    <polygon points="13,6 20,13 13,20 6,13" stroke="#ec4899" stroke-width="0.75" fill="none" opacity="0.8"/><circle cx="13" cy="13" r="0.9" fill="#ec4899" opacity="0.8"/>
-                  </svg>
-                </div>
-                <div class="acc-face acc-left">
-                  <svg viewBox="0 0 26 26" fill="none" width="26" height="26">
-                    <line x1="1" y1="1" x2="25" y2="25" stroke="#06b6d4" stroke-width="0.45" opacity="0.28"/><line x1="25" y1="1" x2="1" y2="25" stroke="#06b6d4" stroke-width="0.45" opacity="0.28"/>
-                    <line x1="25" y1="1" x2="20" y2="13" stroke="#06b6d4" stroke-width="0.65" opacity="0.7"/><line x1="25" y1="25" x2="20" y2="13" stroke="#06b6d4" stroke-width="0.65" opacity="0.7"/><line x1="1" y1="25" x2="6" y2="13" stroke="#06b6d4" stroke-width="0.65" opacity="0.7"/><line x1="1" y1="1" x2="6" y2="13" stroke="#06b6d4" stroke-width="0.65" opacity="0.7"/>
-                    <polygon points="13,6 20,13 13,20 6,13" stroke="#06b6d4" stroke-width="0.75" fill="none" opacity="0.8"/><circle cx="13" cy="13" r="0.9" fill="#06b6d4" opacity="0.8"/>
-                  </svg>
-                </div>
-                <div class="acc-face acc-right">
-                  <svg viewBox="0 0 26 26" fill="none" width="26" height="26">
-                    <polygon points="13,6 20,13 13,20 6,13" stroke="#a855f7" stroke-width="0.75" fill="none" opacity="0.8"/><circle cx="13" cy="13" r="0.9" fill="#a855f7" opacity="0.8"/>
-                  </svg>
-                </div>
-                <div class="acc-face acc-top">
-                  <svg viewBox="0 0 26 26" fill="none" width="26" height="26">
-                    <polygon points="13,6 20,13 13,20 6,13" stroke="#f59e0b" stroke-width="0.75" fill="none" opacity="0.8"/><circle cx="13" cy="13" r="0.9" fill="#f59e0b" opacity="0.8"/>
-                  </svg>
-                </div>
-                <div class="acc-face acc-bottom">
-                  <svg viewBox="0 0 26 26" fill="none" width="26" height="26">
-                    <polygon points="13,6 20,13 13,20 6,13" stroke="#ef4444" stroke-width="0.75" fill="none" opacity="0.8"/><circle cx="13" cy="13" r="0.9" fill="#ef4444" opacity="0.8"/>
-                  </svg>
-                </div>
-              </div>
-            </div>
-          </div>
+          <!-- NFT Avatar (from HomePage) -->
+          <NftAvatar :seed="username" :size="54" />
           <div class="vip-badge-pill" :style="vipBadgeBg">V{{ vipLevel }}</div>
         </div>
         <div class="profile-info">
-          <div class="flex items-center gap-1.5">
+          <div class="flex items-center gap-2">
             <span class="profile-username">{{ username }}</span>
             <button @click="copyText(username)" class="copy-btn">
-              <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"/>
               </svg>
             </button>
           </div>
-          <div class="flex items-center gap-1 mt-0.5">
+          <div class="flex items-center gap-2 mt-1">
             <span class="profile-id">ID: {{ gameId }}</span>
-            <button @click="copyText(gameId)" class="copy-btn">
-              <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <button @click="copyText(gameId)" class="copy-btn copy-btn--id">
+              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"/>
               </svg>
             </button>
@@ -93,7 +52,7 @@
         </div>
         <div class="balance-area">
           <div class="flex items-center gap-1">
-            <span style="font-size:13px;">🇲🇲</span>
+            <NftAvatar :seed="username" :size="22" />
             <span class="balance-amount">{{ formatCurrency(mainBalance) }}</span>
             <button @click="fetchWallet" class="refresh-btn">
               <svg class="w-3.5 h-3.5" :class="{ 'spin-icon': refreshing }" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -301,6 +260,7 @@
 <script setup>
 import { ref, computed, onMounted } from 'vue'
 import { supabase } from '@/lib/supabase'
+import NftAvatar from '@/components/NftAvatar.vue'
 
 const username = ref(localStorage.getItem('sb_username') || 'PLAYER')
 const gameId = ref('')
@@ -496,40 +456,7 @@ const comingSoon = () => alert('Coming Soon')
 }
 .avatar-wrap { position: relative; flex-shrink: 0; }
 
-/* NFT cube avatar */
-.acc-cube-wrap {
-  width: 46px; height: 46px;
-  display: flex; align-items: center; justify-content: center;
-  border-radius: 50%;
-  background: rgba(34,197,94,0.08);
-  border: 1.5px solid rgba(34,197,94,0.3);
-  box-shadow: 0 0 14px rgba(34,197,94,0.25);
-}
-.acc-cube-scene {
-  width: 26px; height: 26px;
-  perspective: 110px;
-}
-.acc-cube {
-  width: 26px; height: 26px;
-  position: relative;
-  transform-style: preserve-3d;
-  animation: acc-cube-spin 6s linear infinite;
-}
-@keyframes acc-cube-spin {
-  0%   { transform: rotate3d(1,1,1,0deg); }
-  60%  { transform: rotate3d(1,1,1,3600deg); }
-  100% { transform: rotate3d(1,1,1,3780deg); }
-}
-.acc-face {
-  position: absolute; width: 26px; height: 26px;
-  border: 1.5px solid;
-}
-.acc-front  { transform: translateZ(13px);           border-color:#22c55e; background:rgba(34,197,94,0.09);  box-shadow:0 0 8px rgba(34,197,94,0.7); }
-.acc-back   { transform: rotateY(180deg) translateZ(13px); border-color:#ec4899; background:rgba(236,72,153,0.09); box-shadow:0 0 8px rgba(236,72,153,0.6); }
-.acc-left   { transform: rotateY(-90deg) translateZ(13px);  border-color:#06b6d4; background:rgba(6,182,212,0.09);  box-shadow:0 0 8px rgba(6,182,212,0.6); }
-.acc-right  { transform: rotateY(90deg) translateZ(13px);   border-color:#a855f7; background:rgba(168,85,247,0.09); box-shadow:0 0 8px rgba(168,85,247,0.6); }
-.acc-top    { transform: rotateX(90deg) translateZ(13px);   border-color:#f59e0b; background:rgba(245,158,11,0.09); box-shadow:0 0 8px rgba(245,158,11,0.6); }
-.acc-bottom { transform: rotateX(-90deg) translateZ(13px);  border-color:#ef4444; background:rgba(239,68,68,0.09);  box-shadow:0 0 8px rgba(239,68,68,0.6); }
+/* NFT Avatar handled by NftAvatar component */
 .vip-badge-pill {
   position: absolute; bottom: -3px; right: -4px;
   padding: 1.5px 5px;
@@ -538,15 +465,20 @@ const comingSoon = () => alert('Coming Soon')
   line-height: 1.4;
 }
 .profile-info { flex: 1; min-width: 0; }
-.profile-username { font-size: 13px; font-weight: 700; color: #fff; }
-.profile-id { font-size: 10px; color: #9ca3af; font-family: monospace; }
+.profile-username { font-size: 15px; font-weight: 800; color: #ffffff; letter-spacing: 0.02em; }
+.profile-id { font-size: 13px; color: #e2e8f0; font-family: monospace; font-weight: 600; letter-spacing: 0.03em; }
 .copy-btn {
-  color: #6b7280; cursor: pointer;
-  background: none; border: none; padding: 0;
+  color: #94a3b8; cursor: pointer;
+  background: rgba(255,255,255,0.08);
+  border: 1px solid rgba(255,255,255,0.12);
+  border-radius: 6px;
+  padding: 4px 6px;
   display: inline-flex; align-items: center;
-  transition: transform 0.1s;
+  transition: transform 0.1s, background 0.15s;
+  min-width: 30px; min-height: 28px; justify-content: center;
 }
-.copy-btn:active { transform: scale(0.72); }
+.copy-btn:active { transform: scale(0.82); background: rgba(255,255,255,0.16); }
+.copy-btn--id { color: #7dd3fc; border-color: rgba(125,211,252,0.25); background: rgba(125,211,252,0.08); }
 .balance-area { flex-shrink: 0; }
 .balance-amount { font-size: 14px; font-weight: 900; color: #67e8f9; }
 .refresh-btn {
