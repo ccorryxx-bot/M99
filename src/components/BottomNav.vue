@@ -3,14 +3,7 @@
     <div class="gnav-inner">
       <router-link to="/home" class="gnav-item" :class="{active: route.path==='/home'}">
         <svg xmlns="http://www.w3.org/2000/svg" width="38" height="41" viewBox="0 0 38 41">
-          <defs><filter id="gnav-hf"><feGaussianBlur stdDeviation="0.8" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter></defs>
-          <polyline points="2,17 19,3 36,17" fill="none" stroke="#e2e8f0" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" filter="url(#gnav-hf)"/>
-          <path d="M 7 15 L 7 39 L 31 39 L 31 15" fill="none" stroke="#e2e8f0" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-          <rect x="13" y="28" width="12" height="11" rx="2" fill="none" stroke="#818cf8" stroke-width="1.8"/>
-          <circle cx="23" cy="34" r="1.2" fill="#818cf8"/>
-          <rect x="8" y="19" width="8" height="7" rx="1.5" fill="none" stroke="#94a3b8" stroke-width="1.5"/>
-          <line x1="12" y1="19" x2="12" y2="26" stroke="#94a3b8" stroke-width="1"/>
-          <line x1="8" y1="22.5" x2="16" y2="22.5" stroke="#94a3b8" stroke-width="1"/>
+          <path d="M 4 20 L 19 4 L 34 20 L 34 38 Q 34 40 32 40 L 25 40 L 25 30 Q 25 26 19 26 Q 13 26 13 30 L 13 40 L 6 40 Q 4 40 4 38 Z" fill="none" stroke="#6ee7b7" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
         </svg>
         <span>အိမ်</span>
       </router-link>
@@ -47,7 +40,7 @@
             <animate attributeName="opacity" values="1;0" dur="1.8s" repeatCount="indefinite"/>
           </circle>
         </svg>
-        <span>ပရိုမို</span>
+        <span>အေးဂျင့်ကွန်ရက်</span>
       </router-link>
       <!-- ══ AGENT — elevated AI brain ══ -->
       <router-link to="/agent" class="gnav-agent" :class="{active: route.path==='/agent'}">
@@ -102,20 +95,20 @@
         <span class="agent-lbl">အေးဂျင့်</span>
       </router-link>
       <router-link to="/service" class="gnav-item" :class="{active: route.path==='/service'}">
-        <svg width="24" height="24" fill="currentColor" viewBox="0 0 24 24"><path d="M20 2H4c-1.1 0-2 .9-2 2v18l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2z"/></svg>
-        <span>ဆက်သွယ်</span>
+        <svg xmlns="http://www.w3.org/2000/svg" width="38" height="41" viewBox="0 0 38 41">
+          <rect x="5" y="18" width="28" height="21" rx="2" fill="none" stroke="#6ee7b7" stroke-width="2.5" stroke-linecap="round"/>
+          <rect x="4" y="13" width="30" height="7" rx="2" fill="none" stroke="#6ee7b7" stroke-width="2.5" stroke-linecap="round"/>
+          <line x1="19" y1="13" x2="19" y2="39" stroke="#6ee7b7" stroke-width="2.2" stroke-linecap="round"/>
+          <path d="M 19 13 Q 14 10 15 7 Q 16 4 19 7" fill="none" stroke="#6ee7b7" stroke-width="2.2" stroke-linecap="round"/>
+          <path d="M 19 13 Q 24 10 23 7 Q 22 4 19 7" fill="none" stroke="#6ee7b7" stroke-width="2.2" stroke-linecap="round"/>
+        </svg>
+        <span>ပရိုမိုးရှင်း</span>
       </router-link>
       <router-link to="/account" class="gnav-item" :class="{active: route.path==='/account'}">
         <svg xmlns="http://www.w3.org/2000/svg" width="38" height="41" viewBox="0 0 38 41">
-          <defs><filter id="gnav-af"><feGaussianBlur stdDeviation="0.8" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter></defs>
-          <polygon points="19,2 30,8 30,20 19,26 8,20 8,8" fill="none" stroke="#374151" stroke-width="0.8" stroke-dasharray="2,2" opacity="0.7"/>
-          <circle cx="19" cy="13" r="7" fill="none" stroke="#e2e8f0" stroke-width="2" filter="url(#gnav-af)"/>
-          <line x1="19" y1="20" x2="19" y2="24" stroke="#64748b" stroke-width="1.2" stroke-linecap="round"/>
-          <path d="M 3 41 C 4 30 11 25 19 24 C 27 25 34 30 35 41" fill="none" stroke="#e2e8f0" stroke-width="2" stroke-linecap="round" filter="url(#gnav-af)"/>
-          <circle cx="28" cy="10" r="2.5" fill="none" stroke="#4ade80" stroke-width="1.4"/>
-          <circle cx="28" cy="10" r="1" fill="#4ade80"/>
-          <path d="M 19 26 L 24 29 L 24 35 Q 24 39 19 41 Q 14 39 14 35 L 14 29 Z" fill="none" stroke="#4ade80" stroke-width="1.5" stroke-linejoin="round" filter="url(#gnav-af)"/>
-          <polyline points="16.5,33.5 18.5,36 22,31.5" fill="none" stroke="#4ade80" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+          <circle cx="19" cy="12" r="7" fill="none" stroke="#6ee7b7" stroke-width="2.5" stroke-linecap="round"/>
+          <path d="M 5 41 Q 5 27 19 27 Q 33 27 33 41" fill="none" stroke="#6ee7b7" stroke-width="2.5" stroke-linecap="round"/>
+          <line x1="19" y1="27" x2="19" y2="36" stroke="#6ee7b7" stroke-width="2.2" stroke-linecap="round"/>
         </svg>
         <span>ပရိုဖိုင်</span>
       </router-link>
