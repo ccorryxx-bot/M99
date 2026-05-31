@@ -128,7 +128,7 @@ const route = useRoute()
 <style scoped>
 .gnav {
   position: fixed; bottom: 0; left: 0; right: 0; z-index: 200;
-  background: #0d1b2e;
+  background: #717a71;
   border-top: 1px solid rgba(59,130,246,0.15);
   padding-bottom: env(safe-area-inset-bottom, 0);
   box-shadow: 0 -2px 16px rgba(0,0,0,0.4);
