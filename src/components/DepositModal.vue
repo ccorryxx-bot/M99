@@ -381,28 +381,26 @@ const submitDeposit = () => {
   position:fixed;inset:0;z-index:50;
   display:flex;align-items:flex-end;justify-content:center;
   background:rgba(0,0,0,0.84);
-  padding-bottom:64px;
+  padding-bottom:80px;
 }
 
 /* ── Sheet ── */
 .nova-sheet {
   position:relative;
   width:100%;max-width:480px;
-  height:auto;
-  max-height:calc(100svh - 80px);
+  height:calc(100lvh - 80px);
   border-radius:20px 20px 0 0;
   overflow:hidden;
   display:flex;flex-direction:column;
   background:linear-gradient(160deg,#08102a 0%,#0d1a36 25%,#0c1828 50%,#091420 75%,#07101a 100%);
 }
-/* Step 2 keeps full height */
-.nova-sheet--white { background:#f5f6fa;height:calc(100svh - 80px); }
+.nova-sheet--white { background:#f5f6fa; }
 
 /* ── BG ── */
 /* bg handled by .nova-sheet */
 
 /* ── Step 1 Content ── */
-.nova-content { position:relative;z-index:1;display:flex;flex-direction:column; }
+.nova-content { position:relative;z-index:1;display:flex;flex-direction:column;height:100%; }
 .nova-header-wrap { flex-shrink:0;padding:10px 16px 0; }
 .nova-header-row  { display:flex;align-items:center;justify-content:space-between;margin-bottom:8px; }
 .nova-title       { font-size:13px;font-weight:700;color:rgba(226,232,240,0.95);letter-spacing:0.04em; }
@@ -410,7 +408,7 @@ const submitDeposit = () => {
 .nova-balance-label { font-size:10px;color:rgba(148,163,184,0.7); }
 .nova-balance-num   { font-size:12px;font-weight:700;color:rgba(253,224,71,0.9); }
 .nova-divider       { height:1px;background:rgba(255,255,255,0.07);margin-bottom:8px; }
-.nova-body { flex:0 1 auto;max-height:54svh;overflow-y:auto;padding:0 16px;overscroll-behavior:contain;-webkit-overflow-scrolling:touch; }
+.nova-body { flex:1;overflow-y:auto;padding:0 16px;overscroll-behavior:contain;-webkit-overflow-scrolling:touch; }
 .nova-body::-webkit-scrollbar { width:2px; }
 .nova-body::-webkit-scrollbar-thumb { background:rgba(100,116,139,0.22);border-radius:10px; }
 .nova-cta-wrap { flex-shrink:0;padding:6px 16px 10px; }
