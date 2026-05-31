@@ -581,22 +581,21 @@ const comingSoon = () => alert('Coming Soon')
 .vip-bar-fill { height: 100%; border-radius: 999px; background: rgba(255,255,255,0.85); transition: width 0.5s ease; }
 .vip-bar-fill2 { height: 100%; border-radius: 999px; background: rgba(254,243,199,0.75); transition: width 0.5s ease; }
 
-/* ── Menu block ── */
+/* ── Menu block — no card, floats on background ── */
 .menu-block {
-  border-radius: 14px; overflow: hidden;
-  background: #b0baaf;
-  border: 1px solid rgba(0,0,0,0.1);
-  box-shadow: 0 2px 8px rgba(0,0,0,0.13), inset 0 1px 0 rgba(255,255,255,0.22);
+  background: transparent;
+  border: none;
+  box-shadow: none;
 }
-.menu-divider { height: 1px; background: rgba(0,0,0,0.07); margin: 0 12px; }
+.menu-divider { height: 1px; background: rgba(0,0,0,0.1); margin: 0 4px; }
 .menu-row {
   display: flex; align-items: center; gap: 10px;
-  padding: 9px 12px; width: 100%; cursor: pointer;
+  padding: 9px 4px; width: 100%; cursor: pointer;
   background: none; border: none;
-  transition: background 0.15s;
+  transition: opacity 0.15s;
   -webkit-tap-highlight-color: transparent;
 }
-.menu-row:active { background: rgba(0,0,0,0.04); }
+.menu-row:active { opacity: 0.6; }
 .m-icon {
   width: 30px; height: 30px; border-radius: 8px;
   display: flex; align-items: center; justify-content: center; flex-shrink: 0;
