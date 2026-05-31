@@ -67,7 +67,7 @@
 
                 <div class="nova-input-wrap">
                   <span class="nova-k-prefix">K</span>
-                  <input :value="displayAmount" @input="onAmountInput" @focus="onAmountFocus" @blur="onAmountBlur"
+                  <input ref="amtInput" @input="onAmountInput" @focus="onAmountFocus" @blur="onAmountBlur"
                     type="text" inputmode="numeric"
                     placeholder="အနည်းဆုံး: 3,000 ~ အများဆုံး: 1,000,000"
                     class="nova-input"/>
@@ -240,7 +240,7 @@
 </template>
 
 <script setup>
-import { ref, watch, computed, onMounted, onUnmounted } from 'vue'
+import { ref, watch, computed, onMounted, onUnmounted, nextTick } from 'vue'
 import { supabase } from '@/lib/supabase'
 
 const props = defineProps({ modelValue: Boolean })
@@ -255,6 +255,7 @@ const bonusOption   = ref('none')
 const walletBalance = ref(0)
 const refreshing    = ref(false)
 const focusMode     = ref(false)
+const amtInput      = ref(null)  // uncontrolled input ref
 
 function lockScroll()   { document.body.style.overflow = 'hidden' }
 function unlockScroll() { document.body.style.overflow = '' }
@@ -342,6 +343,7 @@ watch(() => props.modelValue, (val) => {
   if (val) {
     step.value=1; amount.value=5000; bonusOption.value='none'; focusMode.value=false
     fetchPaymentSettings(); fetchBalance(); lockScroll()
+    nextTick(() => { if (amtInput.value) amtInput.value.value = (5000).toLocaleString() })
   } else {
     stopStep2Timer(); unlockScroll()
   }
@@ -352,14 +354,14 @@ const displayAmount = computed(() => {
   if (!amount.value) return ''
   return focusMode.value ? String(amount.value) : amount.value.toLocaleString()
 })
-function selectAmount(n)  { amount.value = n; focusMode.value = false }
+function selectAmount(n)  { amount.value = n; focusMode.value = false; nextTick(() => { if (amtInput.value) amtInput.value.value = n.toLocaleString() }) }
 function onAmountInput(e) { const raw = e.target.value.replace(/,/g,'').replace(/[^0-9]/g,''); amount.value = raw ? parseInt(raw,10) : 0 }
 function onAmountFocus(e)  {
   focusMode.value = true
-  // After keyboard animates in, scroll input into view within modal — prevents layout jump
+  if (amtInput.value) amtInput.value.value = amount.value ? String(amount.value) : ''
   setTimeout(() => { e.target.scrollIntoView({ behavior: 'smooth', block: 'nearest' }) }, 320)
 }
-function onAmountBlur()   { focusMode.value = false }
+function onAmountBlur()   { focusMode.value = false; if (amtInput.value) amtInput.value.value = amount.value ? amount.value.toLocaleString() : '' }
 function formatAmt(n)     { return n.toLocaleString() }
 
 // ── Actions ───────────────────────────────────────────────────────
