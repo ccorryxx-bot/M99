@@ -3,9 +3,9 @@
 
     <!-- ── HEADER ── -->
     <header class="sticky top-0 z-40 px-4 py-3 flex items-center justify-between"
-      style="background: rgba(10,7,26,0.88); backdrop-filter: blur(32px) saturate(160%); -webkit-backdrop-filter: blur(32px) saturate(160%); border-bottom: 1px solid rgba(160,120,255,0.12); box-shadow: 0 1px 0 rgba(255,255,255,0.04), 0 4px 20px rgba(0,0,0,0.4);">
+      style="background: #b0baaf; border-bottom: 1px solid rgba(0,0,0,0.09);">
       <button @click="$router.push('/home')" class="flex items-center gap-1.5 active:opacity-50 transition-opacity"
-        style="color: rgba(255,255,255,0.4);">
+        style="color: rgba(255,255,255,0.85);">
         <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/></svg>
         <span class="text-xs font-medium tracking-wider">NovaBETT</span>
       </button>
@@ -43,13 +43,13 @@
 
     <!-- ── SCROLLABLE TAB BAR ── -->
     <div class="sticky z-30 no-scrollbar overflow-x-auto"
-      style="top: 49px; background: rgba(9,6,22,0.86); backdrop-filter: blur(28px) saturate(150%); -webkit-backdrop-filter: blur(28px) saturate(150%); border-bottom: 1px solid rgba(140,100,255,0.10); box-shadow: 0 2px 16px rgba(0,0,0,0.35);">
+      style="top: 49px; background: #b0baaf; border-bottom: 1px solid rgba(0,0,0,0.09);">
       <div class="flex items-center gap-1.5 px-3 py-2.5 w-max">
         <button v-for="(tab, i) in tabs" :key="i" @click="activeTab = i"
-          class="flex-shrink-0 px-3.5 py-1.5 rounded-full text-[11px] font-semibold tracking-wide transition-all duration-200 active:scale-95 whitespace-nowrap"
+          class="flex-shrink-0 px-3.5 py-1.5 text-[11px] font-semibold tracking-wide transition-all duration-200 whitespace-nowrap"
           :style="activeTab === i
-            ? 'background: rgba(255,193,7,0.18); border: 1px solid rgba(255,193,7,0.35); color: rgba(255,193,7,0.95);'
-            : 'background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.06); color: rgba(255,255,255,0.38);'">
+            ? 'color: rgba(255,255,255,0.95); border-bottom: 2px solid #717a71; padding-bottom: 4px;'
+            : 'color: rgba(255,255,255,0.65);'">
           {{ tab.label }}
         </button>
       </div>
@@ -82,7 +82,7 @@
 
         <!-- Agent Identity Card -->
         <div class="fp-card rounded-2xl p-4 relative overflow-hidden"
-          style="background: rgba(20,14,48,0.72); border: 1px solid rgba(180,140,255,0.14); backdrop-filter: blur(28px) saturate(160%); -webkit-backdrop-filter: blur(28px) saturate(160%); box-shadow: 0 8px 32px rgba(0,0,0,0.45), inset 0 1px 0 rgba(255,255,255,0.09);">
+          style="background: transparent; border: none; box-shadow: none;">
           <div class="absolute -top-8 left-1/2 -translate-x-1/2 w-40 h-16 pointer-events-none"
             style="background: radial-gradient(ellipse, rgba(255,193,7,0.06) 0%, transparent 70%); filter: blur(10px);"></div>
 
@@ -426,7 +426,7 @@
 
         <!-- Referral Panel (ပင်မ tab) — Floating Control Center -->
         <div class="nova-ref-card rounded-2xl p-4 relative overflow-hidden"
-          style="background: linear-gradient(140deg, rgba(6,16,44,0.95) 0%, rgba(8,22,58,0.92) 55%, rgba(5,14,38,0.97) 100%); border: 1px solid rgba(50,130,255,0.25); box-shadow: 0 8px 32px rgba(0,8,40,0.65), 0 0 0 1px rgba(50,130,255,0.07), inset 0 1px 0 rgba(90,170,255,0.14);">
+          style="background: transparent; border: none; box-shadow: none;">
 
           <!-- Ambient blue top glow -->
           <div class="absolute -top-8 left-1/2 -translate-x-1/2 w-52 h-16 pointer-events-none"
@@ -551,7 +551,7 @@
         <div class="grid grid-cols-2 gap-2.5">
           <button @click="activeTab = 6"
             class="fp-card rounded-2xl p-3.5 flex items-center gap-2.5 active:scale-[0.97] transition-all text-left"
-            style="background: rgba(255,193,7,0.07); border: 1px solid rgba(255,193,7,0.15);">
+            style="background: transparent; border: none;">
             <div class="w-9 h-9 rounded-xl flex items-center justify-center flex-shrink-0" style="background: rgba(255,193,7,0.12);">
               <svg class="w-5 h-5" style="color: rgba(255,193,7,0.85);" fill="currentColor" viewBox="0 0 24 24"><path d="M16 11c1.66 0 2.99-1.34 2.99-3S17.66 5 16 5c-1.66 0-3 1.34-3 3s1.34 3 3 3zm-8 0c1.66 0 2.99-1.34 2.99-3S9.66 5 8 5C6.34 5 5 6.34 5 8s1.34 3 3 3zm0 2c-2.33 0-7 1.17-7 3.5V19h14v-2.5c0-2.33-4.67-3.5-7-3.5zm8 0c-.29 0-.62.02-.97.05 1.16.84 1.97 1.97 1.97 3.45V19h6v-2.5c0-2.33-4.67-3.5-7-3.5z"/></svg>
             </div>
@@ -564,7 +564,7 @@
 
           <button @click="activeTab = 5"
             class="fp-card rounded-2xl p-3.5 flex items-center gap-2.5 active:scale-[0.97] transition-all text-left"
-            style="background: rgba(100,200,120,0.07); border: 1px solid rgba(100,200,120,0.15);">
+            style="background: transparent; border: none;">
             <div class="w-9 h-9 rounded-xl flex items-center justify-center flex-shrink-0" style="background: rgba(100,200,120,0.12);">
               <svg class="w-5 h-5" style="color: rgba(100,220,120,0.85);" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
             </div>
@@ -3137,11 +3137,11 @@ onUnmounted(() => {
 
 /* ── Glass Vibe: fp-card base ── */
 .fp-card {
-  background: rgba(16,10,40,0.68);
-  backdrop-filter: blur(10px) saturate(130%);
-  -webkit-backdrop-filter: blur(10px) saturate(130%);
-  border: 1px solid rgba(150,110,255,0.10);
-  box-shadow: 0 4px 24px rgba(0,0,0,0.38), inset 0 1px 0 rgba(255,255,255,0.07);
+  background: transparent;
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
+  border: none;
+  box-shadow: none;
 }
 
 /* ── Referral Tab — Invisible Interface ── */
@@ -3151,27 +3151,20 @@ onUnmounted(() => {
 }
 
 .referral-hero-card {
-  background: rgba(14,9,36,0.74);
-  backdrop-filter: blur(12px) saturate(130%);
-  -webkit-backdrop-filter: blur(12px) saturate(130%);
-  border: 1px solid rgba(170,130,255,0.12);
-  box-shadow:
-    0 1px 0 0 rgba(255,255,255,0.09) inset,
-    0 24px 48px rgba(0,0,0,0.38),
-    0 0 0 1px rgba(150,100,255,0.06);
-  transition: box-shadow 0.3s ease;
+  background: transparent;
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
+  border: none;
+  box-shadow: none;
 }
 
 /* Floating Node Card */
 .floating-node-card {
-  background: rgba(12,8,32,0.72);
-  backdrop-filter: blur(10px) saturate(130%);
-  -webkit-backdrop-filter: blur(10px) saturate(130%);
-  border: 1px solid rgba(140,100,255,0.11);
-  box-shadow:
-    0 1px 0 0 rgba(140,100,255,0.10) inset,
-    0 20px 50px rgba(0,0,0,0.38),
-    0 0 0 1px rgba(120,100,255,0.07);
+  background: transparent;
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
+  border: none;
+  box-shadow: none;
 }
 
 /* Ambient particle dots */
