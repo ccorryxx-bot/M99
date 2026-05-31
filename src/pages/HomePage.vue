@@ -592,7 +592,7 @@
   function openAuth(tab) { authTab.value = tab; showAuthModal.value = true }
 
   // Banner
-  const bannerImages = ref(['/images/banners/banner1.jpg','/images/banners/banner2.jpg','/images/banners/banner3.jpg','/images/banners/banner4.jpg','/images/banners/banner5.jpg'])
+  const bannerImages = ref(['https://ik.imagekit.io/tdpebgueq/NOVABETT,%20BANNER%20/1780215182926.png?updatedAt=1780215265078','https://ik.imagekit.io/tdpebgueq/NOVABETT,%20BANNER%20/f9b69370-5cc9-11f1-b238-fb0c6456ca35%20(5).png','https://ik.imagekit.io/tdpebgueq/NOVABETT,%20BANNER%20/1780214089706.png?updatedAt=1780215286920'])
   const bannerIdx = ref(0); let bannerTimer = null; let touchStartX = 0
   function startBannerTimer() { clearInterval(bannerTimer); bannerTimer = setInterval(() => { bannerIdx.value = (bannerIdx.value+1)%bannerImages.value.length }, 4000) }
   function onBannerTouchStart(e) { touchStartX = e.touches[0].clientX; clearInterval(bannerTimer) }
