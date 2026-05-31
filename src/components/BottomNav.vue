@@ -2,76 +2,52 @@
   <nav class="gnav">
     <div class="gnav-inner">
       <router-link to="/home" class="gnav-item" :class="{active: route.path==='/home'}">
-        <svg width="24" height="24" fill="currentColor" viewBox="0 0 24 24"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/></svg>
-        <span>ပင်မ</span>
+        <svg xmlns="http://www.w3.org/2000/svg" width="38" height="41" viewBox="0 0 38 41">
+          <defs><filter id="gnav-hf"><feGaussianBlur stdDeviation="0.8" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter></defs>
+          <polyline points="2,17 19,3 36,17" fill="none" stroke="#e2e8f0" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" filter="url(#gnav-hf)"/>
+          <path d="M 7 15 L 7 39 L 31 39 L 31 15" fill="none" stroke="#e2e8f0" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+          <rect x="13" y="28" width="12" height="11" rx="2" fill="none" stroke="#818cf8" stroke-width="1.8"/>
+          <circle cx="23" cy="34" r="1.2" fill="#818cf8"/>
+          <rect x="8" y="19" width="8" height="7" rx="1.5" fill="none" stroke="#94a3b8" stroke-width="1.5"/>
+          <line x1="12" y1="19" x2="12" y2="26" stroke="#94a3b8" stroke-width="1"/>
+          <line x1="8" y1="22.5" x2="16" y2="22.5" stroke="#94a3b8" stroke-width="1"/>
+        </svg>
+        <span>အိမ်</span>
       </router-link>
-      <router-link to="/promotions" class="gnav-item gnav-promo" :class="{active: route.path==='/promotions'}">
-        <svg xmlns="http://www.w3.org/2000/svg" width="38" height="41" viewBox="0 0 120 130">
-          <defs>
-            <filter id="gnav-pg2">
-              <feGaussianBlur stdDeviation="2" result="b"/>
-              <feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
-            </filter>
-            <radialGradient id="gnav-pulse" cx="50%" cy="50%" r="50%">
-              <stop offset="0%" style="stop-color:#6366f1;stop-opacity:0.3"/>
-              <stop offset="100%" style="stop-color:#6366f1;stop-opacity:0"/>
-            </radialGradient>
-          </defs>
-          <!-- Connection lines -->
-          <line x1="60" y1="58" x2="25" y2="28" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" opacity="0.4"/>
-          <line x1="60" y1="58" x2="95" y2="28" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" opacity="0.4"/>
-          <line x1="60" y1="58" x2="22" y2="88" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" opacity="0.4"/>
-          <line x1="60" y1="58" x2="98" y2="88" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" opacity="0.4"/>
-          <line x1="60" y1="58" x2="60" y2="95" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" opacity="0.4"/>
-          <line x1="25" y1="28" x2="95" y2="28" stroke="currentColor" stroke-width="1" stroke-linecap="round" stroke-dasharray="3,3" opacity="0.3"/>
-          <line x1="22" y1="88" x2="98" y2="88" stroke="currentColor" stroke-width="1" stroke-linecap="round" stroke-dasharray="3,3" opacity="0.3"/>
-          <!-- Pulse ring -->
-          <circle cx="60" cy="58" r="18" fill="url(#gnav-pulse)">
-            <animate attributeName="r" values="14;22;14" dur="2.5s" repeatCount="indefinite"/>
-            <animate attributeName="opacity" values="0.6;0;0.6" dur="2.5s" repeatCount="indefinite"/>
+      <router-link to="/promotions" class="gnav-item" :class="{active: route.path==='/promotions'}">
+        <svg xmlns="http://www.w3.org/2000/svg" width="38" height="41" viewBox="0 0 38 41">
+          <defs><filter id="gnav-pf"><feGaussianBlur stdDeviation="0.8" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter></defs>
+          <line x1="19" y1="20" x2="7" y2="10" stroke="#4b5563" stroke-width="1.2"/>
+          <line x1="19" y1="20" x2="31" y2="10" stroke="#4b5563" stroke-width="1.2"/>
+          <line x1="19" y1="20" x2="6" y2="32" stroke="#4b5563" stroke-width="1.2"/>
+          <line x1="19" y1="20" x2="32" y2="32" stroke="#4b5563" stroke-width="1.2"/>
+          <line x1="7" y1="10" x2="31" y2="10" stroke="#374151" stroke-width="0.8" stroke-dasharray="2,2" opacity="0.6"/>
+          <line x1="6" y1="32" x2="32" y2="32" stroke="#374151" stroke-width="0.8" stroke-dasharray="2,2" opacity="0.6"/>
+          <circle cx="19" cy="20" r="8" fill="none" stroke="#818cf8" stroke-width="0.8" opacity="0">
+            <animate attributeName="r" values="5;11;5" dur="2.5s" repeatCount="indefinite"/>
+            <animate attributeName="opacity" values="0.7;0;0.7" dur="2.5s" repeatCount="indefinite"/>
           </circle>
-          <!-- CENTER node -->
-          <circle cx="60" cy="58" r="13" fill="#0f172a" stroke="#6366f1" stroke-width="2" filter="url(#gnav-pg2)"/>
-          <circle cx="60" cy="55" r="4.5" fill="none" stroke="#6366f1" stroke-width="1.5"/>
-          <path d="M 50 66 Q 52 60 60 59 Q 68 60 70 66" fill="none" stroke="#6366f1" stroke-width="1.5" stroke-linecap="round"/>
-          <!-- TOP-LEFT node -->
-          <circle cx="25" cy="28" r="9" fill="#0f172a" stroke="#94a3b8" stroke-width="1.8"/>
-          <circle cx="25" cy="26" r="3" fill="none" stroke="#94a3b8" stroke-width="1.3"/>
-          <path d="M 19 34 Q 20 30 25 29 Q 30 30 31 34" fill="none" stroke="#94a3b8" stroke-width="1.3" stroke-linecap="round"/>
-          <!-- TOP-RIGHT node -->
-          <circle cx="95" cy="28" r="9" fill="#0f172a" stroke="#94a3b8" stroke-width="1.8"/>
-          <circle cx="95" cy="26" r="3" fill="none" stroke="#94a3b8" stroke-width="1.3"/>
-          <path d="M 89 34 Q 90 30 95 29 Q 100 30 101 34" fill="none" stroke="#94a3b8" stroke-width="1.3" stroke-linecap="round"/>
-          <!-- BOTTOM-LEFT node -->
-          <circle cx="22" cy="88" r="9" fill="#0f172a" stroke="#94a3b8" stroke-width="1.8"/>
-          <circle cx="22" cy="86" r="3" fill="none" stroke="#94a3b8" stroke-width="1.3"/>
-          <path d="M 16 94 Q 17 90 22 89 Q 27 90 28 94" fill="none" stroke="#94a3b8" stroke-width="1.3" stroke-linecap="round"/>
-          <!-- BOTTOM-RIGHT node -->
-          <circle cx="98" cy="88" r="9" fill="#0f172a" stroke="#94a3b8" stroke-width="1.8"/>
-          <circle cx="98" cy="86" r="3" fill="none" stroke="#94a3b8" stroke-width="1.3"/>
-          <path d="M 92 94 Q 93 90 98 89 Q 103 90 104 94" fill="none" stroke="#94a3b8" stroke-width="1.3" stroke-linecap="round"/>
-          <!-- BOTTOM-CENTER node -->
-          <circle cx="60" cy="100" r="7" fill="#0f172a" stroke="#475569" stroke-width="1.5"/>
-          <line x1="56" y1="98" x2="64" y2="98" stroke="#475569" stroke-width="1.2" stroke-linecap="round"/>
-          <line x1="56" y1="101" x2="64" y2="101" stroke="#475569" stroke-width="1.2" stroke-linecap="round"/>
-          <line x1="56" y1="104" x2="64" y2="104" stroke="#475569" stroke-width="1.2" stroke-linecap="round"/>
-          <!-- Flow dots -->
-          <circle cx="0" cy="0" r="2" fill="#6366f1" opacity="0.9" filter="url(#gnav-pg2)">
-            <animateMotion path="M 25,28 L 60,58" dur="1.8s" repeatCount="indefinite"/>
+          <circle cx="19" cy="20" r="5" fill="#0f172a" stroke="#818cf8" stroke-width="1.8" filter="url(#gnav-pf)"/>
+          <circle cx="19" cy="18.5" r="1.6" fill="none" stroke="#818cf8" stroke-width="1.2"/>
+          <path d="M 15.5 22.5 Q 16 20.5 19 20 Q 22 20.5 22.5 22.5" fill="none" stroke="#818cf8" stroke-width="1.2" stroke-linecap="round"/>
+          <circle cx="7" cy="10" r="3.5" fill="#0f172a" stroke="#94a3b8" stroke-width="1.5"/>
+          <circle cx="7" cy="9" r="1.2" fill="none" stroke="#94a3b8" stroke-width="1"/>
+          <path d="M 4.5 12 Q 5 10.5 7 10 Q 9 10.5 9.5 12" fill="none" stroke="#94a3b8" stroke-width="1" stroke-linecap="round"/>
+          <circle cx="31" cy="10" r="3.5" fill="#0f172a" stroke="#94a3b8" stroke-width="1.5"/>
+          <circle cx="31" cy="9" r="1.2" fill="none" stroke="#94a3b8" stroke-width="1"/>
+          <path d="M 28.5 12 Q 29 10.5 31 10 Q 33 10.5 33.5 12" fill="none" stroke="#94a3b8" stroke-width="1" stroke-linecap="round"/>
+          <circle cx="6" cy="32" r="3.5" fill="#0f172a" stroke="#94a3b8" stroke-width="1.5"/>
+          <circle cx="6" cy="31" r="1.2" fill="none" stroke="#94a3b8" stroke-width="1"/>
+          <path d="M 3.5 34 Q 4 32.5 6 32 Q 8 32.5 8.5 34" fill="none" stroke="#94a3b8" stroke-width="1" stroke-linecap="round"/>
+          <circle cx="32" cy="32" r="3.5" fill="#0f172a" stroke="#94a3b8" stroke-width="1.5"/>
+          <circle cx="32" cy="31" r="1.2" fill="none" stroke="#94a3b8" stroke-width="1"/>
+          <path d="M 29.5 34 Q 30 32.5 32 32 Q 34 32.5 34.5 34" fill="none" stroke="#94a3b8" stroke-width="1" stroke-linecap="round"/>
+          <circle r="1.5" fill="#818cf8" opacity="0.9" filter="url(#gnav-pf)">
+            <animateMotion path="M 19,20 L 7,10" dur="1.8s" repeatCount="indefinite"/>
             <animate attributeName="opacity" values="1;0" dur="1.8s" repeatCount="indefinite"/>
           </circle>
-          <circle cx="0" cy="0" r="2" fill="#6366f1" opacity="0.9" filter="url(#gnav-pg2)">
-            <animateMotion path="M 60,58 L 98,88" dur="2.2s" repeatCount="indefinite" begin="0.8s"/>
-            <animate attributeName="opacity" values="1;0" dur="2.2s" repeatCount="indefinite" begin="0.8s"/>
-          </circle>
-          <!-- Label — font-size 28 so it renders ~9px at 41px height -->
-          <text x="60" y="122"
-            text-anchor="middle"
-            font-family="'Pyidaungsu','Myanmar Text',serif"
-            font-size="28"
-            fill="currentColor"
-            letter-spacing="2">ပရိုမို</text>
         </svg>
+        <span>ပရိုမို</span>
       </router-link>
       <!-- ══ AGENT — elevated AI brain ══ -->
       <router-link to="/agent" class="gnav-agent" :class="{active: route.path==='/agent'}">
@@ -129,41 +105,19 @@
         <svg width="24" height="24" fill="currentColor" viewBox="0 0 24 24"><path d="M20 2H4c-1.1 0-2 .9-2 2v18l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2z"/></svg>
         <span>ဆက်သွယ်</span>
       </router-link>
-      <router-link to="/account" class="gnav-item gnav-profile" :class="{active: route.path==='/account'}">
-        <svg xmlns="http://www.w3.org/2000/svg" width="32" height="42" viewBox="0 0 80 105">
-          <defs>
-            <filter id="gnav-pg">
-              <feGaussianBlur stdDeviation="1.8" result="b"/>
-              <feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
-            </filter>
-          </defs>
-          <polygon points="40,4 58,14 58,34 40,44 22,34 22,14"
-            fill="none" stroke="currentColor" stroke-width="1"
-            stroke-dasharray="3,3" opacity="0.6"/>
-          <circle cx="40" cy="24" r="13"
-            fill="none" stroke="currentColor" stroke-width="2.2" filter="url(#gnav-pg)"/>
-          <line x1="40" y1="37" x2="40" y2="44"
-            stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
-          <path d="M 10 76 C 12 54 28 46 40 45 C 52 46 68 54 70 76"
-            fill="none" stroke="currentColor" stroke-width="2.2"
-            stroke-linecap="round" filter="url(#gnav-pg)"/>
-          <circle cx="54" cy="20" r="3.5" fill="none" stroke="#22c55e" stroke-width="1.8"/>
-          <circle cx="54" cy="20" r="1.5" fill="#22c55e"/>
-          <path d="M 40 50 L 50 55 L 50 66 Q 50 73 40 77 Q 30 73 30 66 L 30 55 Z"
-            fill="none" stroke="#22c55e" stroke-width="1.8"
-            stroke-linejoin="round" filter="url(#gnav-pg)"/>
-          <polyline points="35,63 38,67 45,59"
-            fill="none" stroke="#22c55e" stroke-width="1.8"
-            stroke-linecap="round" stroke-linejoin="round"/>
-          <line x1="28" y1="88" x2="52" y2="88"
-            stroke="currentColor" stroke-width="1" stroke-linecap="round" opacity="0.5"/>
-          <text x="40" y="102"
-            text-anchor="middle"
-            font-family="'Pyidaungsu','Myanmar Text',serif"
-            font-size="13"
-            fill="currentColor"
-            letter-spacing="1">ပရိုဖိုင်</text>
+      <router-link to="/account" class="gnav-item" :class="{active: route.path==='/account'}">
+        <svg xmlns="http://www.w3.org/2000/svg" width="38" height="41" viewBox="0 0 38 41">
+          <defs><filter id="gnav-af"><feGaussianBlur stdDeviation="0.8" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter></defs>
+          <polygon points="19,2 30,8 30,20 19,26 8,20 8,8" fill="none" stroke="#374151" stroke-width="0.8" stroke-dasharray="2,2" opacity="0.7"/>
+          <circle cx="19" cy="13" r="7" fill="none" stroke="#e2e8f0" stroke-width="2" filter="url(#gnav-af)"/>
+          <line x1="19" y1="20" x2="19" y2="24" stroke="#64748b" stroke-width="1.2" stroke-linecap="round"/>
+          <path d="M 3 41 C 4 30 11 25 19 24 C 27 25 34 30 35 41" fill="none" stroke="#e2e8f0" stroke-width="2" stroke-linecap="round" filter="url(#gnav-af)"/>
+          <circle cx="28" cy="10" r="2.5" fill="none" stroke="#4ade80" stroke-width="1.4"/>
+          <circle cx="28" cy="10" r="1" fill="#4ade80"/>
+          <path d="M 19 26 L 24 29 L 24 35 Q 24 39 19 41 Q 14 39 14 35 L 14 29 Z" fill="none" stroke="#4ade80" stroke-width="1.5" stroke-linejoin="round" filter="url(#gnav-af)"/>
+          <polyline points="16.5,33.5 18.5,36 22,31.5" fill="none" stroke="#4ade80" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
         </svg>
+        <span>ပရိုဖိုင်</span>
       </router-link>
     </div>
   </nav>
