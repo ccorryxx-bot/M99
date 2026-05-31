@@ -1,42 +1,17 @@
 <template>
-  <div class="agent-page min-h-screen overflow-x-hidden" style="color: rgba(255,255,255,0.9);">
+  <div class="agent-page min-h-screen overflow-x-hidden" style="color: #1a1a1a;">
 
     <!-- ── HEADER ── -->
     <header class="sticky top-0 z-40 px-4 py-3 flex items-center justify-between"
       style="background: #b0baaf; border-bottom: 1px solid rgba(0,0,0,0.09);">
       <button @click="$router.push('/home')" class="flex items-center gap-1.5 active:opacity-50 transition-opacity"
-        style="color: rgba(255,255,255,0.85);">
+        style="color: #1a1a1a;">
         <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/></svg>
         <span class="text-xs font-medium tracking-wider">NovaBETT</span>
       </button>
-      <div class="relative flex flex-col items-center select-none">
-        <!-- scan line sweep -->
-        <div class="absolute inset-0 overflow-hidden rounded pointer-events-none">
-          <div class="nova-hud-scan-x absolute top-0 left-0 w-full h-px"
-            style="background:linear-gradient(90deg,transparent,rgba(80,200,255,0.55),transparent);"></div>
-        </div>
-        <!-- main label -->
-        <div class="flex items-center gap-1.5 px-3 py-1 rounded-md"
-          style="background:rgba(30,60,120,0.18);border:1px solid rgba(60,150,255,0.18);backdrop-filter:blur(8px);">
-          <!-- blink indicator dot -->
-          <div class="nova-hud-dot w-1.5 h-1.5 rounded-full flex-shrink-0"
-            style="background:rgba(0,210,255,0.9);box-shadow:0 0 6px rgba(0,210,255,0.8);"></div>
-          <span class="text-[11px] font-mono font-bold tracking-[0.22em] uppercase"
-            style="color:rgba(200,230,255,0.85);letter-spacing:0.2em;">Agent</span>
-          <div class="w-px h-3 mx-0.5" style="background:rgba(60,150,255,0.3);"></div>
-          <span class="text-[11px] font-mono font-bold tracking-[0.18em] uppercase"
-            style="color:rgba(0,200,255,0.75);letter-spacing:0.16em;">Dashboard</span>
-        </div>
-        <!-- tiny data row below -->
-        <div class="flex items-center gap-2 mt-0.5">
-          <span class="text-[7px] font-mono tracking-[0.2em]" style="color:rgba(60,150,255,0.38);">SYS</span>
-          <div class="w-3 h-px" style="background:rgba(60,150,255,0.25);"></div>
-          <span class="text-[7px] font-mono tracking-[0.2em]" style="color:rgba(0,200,255,0.3);">ONLINE</span>
-          <div class="nova-mini-blink w-1 h-1 rounded-full" style="background:rgba(80,220,180,0.75);"></div>
-        </div>
-      </div>
+      <span class="text-sm font-bold tracking-wide" style="color:#1a1a1a;">Agent Dashboard</span>
       <button @click="loadAll" :class="['w-8 h-8 flex items-center justify-center rounded-full transition-all active:scale-90', loading ? 'animate-spin' : '']"
-        style="background: rgba(60,180,100,0.12); border: 1px solid rgba(60,210,110,0.28); color: rgba(80,220,130,0.9);">
+        style="background: transparent; border: none; color: #1a1a1a;">
         <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"/></svg>
       </button>
     </header>
@@ -44,12 +19,12 @@
     <!-- ── SCROLLABLE TAB BAR ── -->
     <div class="sticky z-30 no-scrollbar overflow-x-auto"
       style="top: 49px; background: #b0baaf; border-bottom: 1px solid rgba(0,0,0,0.09);">
-      <div class="flex items-center gap-1.5 px-3 py-2.5 w-max">
+      <div class="flex items-center gap-0.5 px-3 py-2 w-max">
         <button v-for="(tab, i) in tabs" :key="i" @click="activeTab = i"
           class="flex-shrink-0 px-3.5 py-1.5 text-[11px] font-semibold tracking-wide transition-all duration-200 whitespace-nowrap"
           :style="activeTab === i
-            ? 'color: rgba(255,255,255,0.95); border-bottom: 2px solid #717a71; padding-bottom: 4px;'
-            : 'color: rgba(255,255,255,0.65);'">
+            ? 'color: #1a1a1a; font-weight:700; border-bottom: 2px solid #717a71; padding-bottom: 4px;'
+            : 'color: rgba(0,0,0,0.45);'">
           {{ tab.label }}
         </button>
       </div>
@@ -76,7 +51,7 @@
           </div>
           <!-- Bottom label -->
           <div class="absolute bottom-3 left-4">
-            <p class="text-[9px] font-black tracking-[0.25em] uppercase" style="color: rgba(255,255,255,0.5);">NOVABETT AGENT PROGRAM</p>
+            <p class="text-[9px] font-black tracking-[0.25em] uppercase" style="color: rgba(0,0,0,0.45);">NOVABETT AGENT PROGRAM</p>
           </div>
         </div>
 
@@ -377,16 +352,16 @@
           <!-- Sub stats row -->
           <div class="flex justify-between mt-3">
             <div>
-              <p class="text-[11px] font-medium" style="color: rgba(255,255,255,0.5);">ကော်မရှင်ရက်</p>
-              <p class="text-xs font-semibold mt-0.5" style="color: rgba(255,255,255,0.6);">{{ todayDate }}</p>
+              <p class="text-[11px] font-medium" style="color: rgba(0,0,0,0.45);">ကော်မရှင်ရက်</p>
+              <p class="text-xs font-semibold mt-0.5" style="color: rgba(0,0,0,0.55);">{{ todayDate }}</p>
             </div>
             <div class="text-center">
-              <p class="text-[11px] font-medium" style="color: rgba(255,255,255,0.5);">မျှဝေနှုန်း</p>
+              <p class="text-[11px] font-medium" style="color: rgba(0,0,0,0.45);">မျှဝေနှုန်း</p>
               <p class="text-xs font-bold mt-0.5" style="color: rgba(255,193,7,0.8);">1.00</p>
             </div>
             <div class="text-right">
-              <p class="text-[11px] font-medium" style="color: rgba(255,255,255,0.5);">Total Deposit</p>
-              <p class="text-xs font-semibold mt-0.5" style="color: rgba(255,255,255,0.6);">{{ formatN(userTotalDeposit) }} Ks</p>
+              <p class="text-[11px] font-medium" style="color: rgba(0,0,0,0.45);">Total Deposit</p>
+              <p class="text-xs font-semibold mt-0.5" style="color: rgba(0,0,0,0.55);">{{ formatN(userTotalDeposit) }} Ks</p>
             </div>
           </div>
         </div>
@@ -401,7 +376,7 @@
               <span v-for="(item, i) in tickerItems" :key="i" class="flex items-center gap-2 text-[11px] font-semibold flex-shrink-0">
                 <span>🔥</span>
                 <span style="color: rgba(255,193,7,0.9);">ID: {{ item.id }}</span>
-                <span style="color: rgba(255,255,255,0.4);">ကော်မရှင်:</span>
+                <span style="color: rgba(0,0,0,0.4);">ကော်မရှင်:</span>
                 <span style="color: rgba(255,193,7,1); font-weight: 800;">{{ item.amount }} Ks</span>
                 <span style="color: rgba(255,193,7,0.25);">◆</span>
               </span>
@@ -522,7 +497,7 @@
             </div>
 
             <!-- ဖိတ်ကုဒ် caption -->
-            <p class="text-[11px] text-center font-mono" style="color: rgba(255,255,255,0.3);">
+            <p class="text-[11px] text-center font-mono" style="color: rgba(0,0,0,0.38);">
               ဖိတ်ကုဒ်: <span style="color:rgba(100,220,180,0.85); font-weight:700;">{{ inviteCode }}</span>
             </p>
           </div>
@@ -541,7 +516,7 @@
                   :style="`background: ${s.bg}; border: 1px solid ${s.border}; box-shadow: 0 2px 12px rgba(0,0,0,0.32);`">
                   <span v-html="s.icon" class="w-5 h-5 flex items-center justify-center"></span>
                 </div>
-                <span class="text-[9px]" style="color: rgba(255,255,255,0.32);">{{ s.label }}</span>
+                <span class="text-[9px]" style="color: rgba(0,0,0,0.38);">{{ s.label }}</span>
               </button>
             </div>
           </div>
@@ -557,7 +532,7 @@
             </div>
             <div class="min-w-0">
               <p class="text-xs font-bold" style="color: rgba(255,193,7,0.85);">အောက်လက်ငယ်သား</p>
-              <p class="text-[11px]" style="color: rgba(255,255,255,0.45);">Downline List</p>
+              <p class="text-[11px]" style="color: rgba(0,0,0,0.45);">Downline List</p>
             </div>
             <svg class="w-4 h-4 ml-auto flex-shrink-0" style="color: rgba(255,193,7,0.35);" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
           </button>
@@ -570,7 +545,7 @@
             </div>
             <div class="min-w-0">
               <p class="text-xs font-bold" style="color: rgba(100,220,120,0.85);">ကော်မရှင်</p>
-              <p class="text-[11px]" style="color: rgba(255,255,255,0.45);">History</p>
+              <p class="text-[11px]" style="color: rgba(0,0,0,0.45);">History</p>
             </div>
             <svg class="w-4 h-4 ml-auto flex-shrink-0" style="color: rgba(100,220,120,0.35);" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
           </button>
@@ -603,7 +578,7 @@
             <!-- Invite label + token row -->
             <div class="flex items-center justify-between mb-4">
               <p class="text-[10px] font-semibold tracking-[0.18em] uppercase"
-                style="color: rgba(255,255,255,0.35);">သူငယ်ချင်းများကို ဖိတ်ကြားသည်</p>
+                style="color: rgba(0,0,0,0.4);">သူငယ်ချင်းများကို ဖိတ်ကြားသည်</p>
               <div class="flex items-center gap-2 rounded-xl px-3 py-1.5"
                 style="background: rgba(255,193,7,0.08); border: 1px solid rgba(255,193,7,0.18);">
                 <p class="text-[11px] font-black tracking-widest font-mono" style="color: rgba(255,193,7,0.9);">ဖိတ်ကုဒ်: {{ inviteCode }}</p>
@@ -633,7 +608,7 @@
                   </button>
                 </div>
                 <!-- Caption -->
-                <p class="text-[11px] pl-1 font-mono" style="color: rgba(255,255,255,0.35);">ဖိတ်ကုဒ်: <span style="color:rgba(255,193,7,0.8);font-weight:700;">{{ inviteCode }}</span></p>
+                <p class="text-[11px] pl-1 font-mono" style="color: rgba(0,0,0,0.4);">ဖိတ်ကုဒ်: <span style="color:rgba(255,193,7,0.8);font-weight:700;">{{ inviteCode }}</span></p>
               </div>
             </div>
 
@@ -1257,7 +1232,7 @@
       <div v-else-if="activeTab === 2" class="pb-8">
 
         <!-- ── Period Sub-tabs (sticky) ── -->
-        <div class="sticky top-0 z-20 px-3 pt-3 pb-2.5" style="background:rgba(8,5,22,0.95);backdrop-filter:blur(16px);border-bottom:1px solid rgba(255,255,255,0.04);">
+        <div class="sticky top-0 z-20 px-3 pt-3 pb-2.5" style="background:#b0baaf;border-bottom:1px solid rgba(0,0,0,0.08);">
           <div class="flex gap-1.5 overflow-x-auto no-scrollbar">
             <button v-for="p in myDataPeriods" :key="p.key" @click="switchMyDataPeriod(p.key)"
               class="flex-shrink-0 px-3.5 py-1.5 rounded-full text-[10px] font-bold tracking-wide transition-all active:scale-90"
