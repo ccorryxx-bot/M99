@@ -257,8 +257,21 @@ const refreshing    = ref(false)
 const focusMode     = ref(false)
 const amtInput      = ref(null)  // uncontrolled input ref
 
-function lockScroll()   { document.body.style.overflow = 'hidden' }
-function unlockScroll() { document.body.style.overflow = '' }
+let _savedScrollY = 0
+function lockScroll() {
+  _savedScrollY = window.scrollY
+  document.body.style.overflow  = 'hidden'
+  document.body.style.position  = 'fixed'
+  document.body.style.top       = `-${_savedScrollY}px`
+  document.body.style.width     = '100%'
+}
+function unlockScroll() {
+  document.body.style.overflow  = ''
+  document.body.style.position  = ''
+  document.body.style.top       = ''
+  document.body.style.width     = ''
+  window.scrollTo(0, _savedScrollY)
+}
 
 // ── Bonus countdown (step 1) ───────────────────────────────────────
 const countdown = ref('00:00:00')
