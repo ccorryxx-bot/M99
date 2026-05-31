@@ -4,18 +4,18 @@
     <!-- ══ HEADER ══ -->
     <header class="nova-acc-header">
       <button @click="$router.back()" class="nova-icon-btn">
-        <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <svg class="w-5 h-5" fill="none" stroke="#222" viewBox="0 0 24 24">
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/>
         </svg>
       </button>
       <div class="flex items-center gap-2">
         <button class="nova-icon-btn">
-          <svg class="w-4 h-4 text-gray-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <svg class="w-4 h-4" fill="none" stroke="#444" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"/>
           </svg>
         </button>
         <button class="nova-icon-btn relative">
-          <svg class="w-4 h-4 text-gray-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <svg class="w-4 h-4" fill="none" stroke="#444" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 10h.01M12 10h.01M16 10h.01M9 16H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-5l-5 5v-5z"/>
           </svg>
           <span class="notif-dot">3</span>
@@ -27,7 +27,6 @@
 
       <!-- ══ PROFILE SECTION ══ -->
       <div class="profile-section">
-        <!-- Green frame: Avatar + Username/ID only -->
         <div class="profile-row">
           <div class="avatar-wrap">
             <NftAvatar :username="username" :size="54" />
@@ -52,15 +51,14 @@
             </div>
           </div>
         </div>
-        <!-- Balance + Refresh — outside the green frame, right side -->
         <div class="balance-area">
-          <div class="flex flex-col items-center gap-2">
+          <div class="flex flex-col items-center gap-1">
             <div class="flex items-center gap-1">
               <span class="balance-flag">🇲🇲</span>
               <span class="balance-amount">{{ formatBalance(mainBalance) }}</span>
             </div>
             <button @click="fetchWallet" class="refresh-btn" :class="{ 'refreshing': refreshing }">
-              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" class="refresh-svg">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" class="refresh-svg">
                 <circle cx="12" cy="12" r="9" stroke="currentColor" stroke-width="1.5" stroke-dasharray="4 2" opacity="0.35"/>
                 <path d="M12 5C8.13 5 5 8.13 5 12s3.13 7 7 7c2.76 0 5.16-1.59 6.34-3.93" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
                 <path d="M17 7.5l1.5 3.5-3.5 0.5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
@@ -75,7 +73,7 @@
       <div class="action-row">
         <button @click="$router.push('/home')" class="action-flat-btn">
           <div class="action-flat-icon">
-            <svg width="22" height="22" fill="none" stroke="#4ade80" stroke-width="1.8" viewBox="0 0 24 24">
+            <svg width="20" height="20" fill="none" stroke="#4ade80" stroke-width="1.8" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" d="M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z"/>
             </svg>
           </div>
@@ -83,7 +81,7 @@
         </button>
         <button @click="$router.push('/home')" class="action-flat-btn">
           <div class="action-flat-icon">
-            <svg width="22" height="22" fill="none" stroke="#4ade80" stroke-width="1.8" viewBox="0 0 24 24">
+            <svg width="20" height="20" fill="none" stroke="#4ade80" stroke-width="1.8" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" d="M3 10h10a8 8 0 018 8v2M3 10l6 6m-6-6l6-6"/>
             </svg>
           </div>
@@ -94,33 +92,26 @@
       <!-- ══ VIP CARD ══ -->
       <div class="vip-card">
         <div class="vip-shimmer"></div>
-        <!-- Top row -->
         <div class="vip-top-row">
           <div class="vip-lvl-badge">
             <span class="vip-badge-txt">VIP{{ vipLevel }}</span>
           </div>
-          <div class="flex-1 min-w-0 pl-3">
+          <div class="flex-1 min-w-0 pl-2">
             <div class="flex flex-wrap items-baseline gap-x-1">
               <span class="vip-top-label">လက်ကျန် </span>
               <span class="vip-top-accent">VIP{{ nextLevel }}</span>
               <span class="vip-top-label"> အားပြန်သင့်ရန် </span>
               <span class="vip-top-bold">{{ formatCurrency(nextLevelTarget) }}</span>
-              <span class="vip-top-label"> လောင်းကြေး အတွက်</span>
-            </div>
-            <div class="flex items-baseline gap-1 mt-0.5">
-              <span class="vip-top-label">အတွက် </span>
+              <span class="vip-top-label"> လောင်းကြေးအတွက် </span>
               <span class="vip-top-bold">{{ formatCurrency(nextLevelMaxDeposit) }}</span>
             </div>
           </div>
-          <svg width="14" height="14" fill="none" stroke="rgba(255,255,255,0.55)" stroke-width="2" viewBox="0 0 24 24" class="flex-shrink-0">
+          <svg width="13" height="13" fill="none" stroke="rgba(255,255,255,0.7)" stroke-width="2" viewBox="0 0 24 24" class="flex-shrink-0">
             <path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7"/>
           </svg>
         </div>
-        <!-- Divider -->
         <div class="vip-divider"></div>
-        <!-- Progress rows -->
         <div class="vip-prog-wrap">
-          <!-- Row 1: deposit toward next level -->
           <div class="vip-prog-row">
             <div class="vip-coin-badge">
               <span style="font-size:11px;font-weight:900;color:#fbbf24;">{{ vipLevel }}</span>
@@ -135,9 +126,8 @@
               </div>
             </div>
           </div>
-          <!-- Row 2: bonus % info -->
-          <div class="vip-prog-row" style="margin-top:10px;">
-            <div style="width:28px;"></div>
+          <div class="vip-prog-row" style="margin-top:6px;">
+            <div style="width:26px;"></div>
             <div class="flex-1 min-w-0">
               <div class="flex justify-between items-center mb-1">
                 <span class="vip-prog-lbl">ပရိမိုးရှင်းအတွက် လောင်းကြေး</span>
@@ -151,11 +141,12 @@
         </div>
       </div>
 
-      <!-- ══ MENU BLOCK 1 ══ -->
+      <!-- ══ MENU — single unified compact block ══ -->
       <div class="menu-block">
+
         <button @click="comingSoon" class="menu-row">
-          <div class="m-icon" style="background:rgba(251,146,60,0.14);">
-            <svg class="w-[15px] h-[15px] text-orange-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <div class="m-icon" style="background:rgba(251,146,60,0.18);">
+            <svg class="w-[15px] h-[15px] text-orange-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"/>
             </svg>
           </div>
@@ -165,100 +156,108 @@
           </div>
           <svg class="m-arr" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
         </button>
+        <div class="menu-divider"></div>
+
         <button @click="comingSoon" class="menu-row">
-          <div class="m-icon" style="background:rgba(239,68,68,0.12);">
-            <svg class="w-[15px] h-[15px] text-red-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <div class="m-icon" style="background:rgba(239,68,68,0.14);">
+            <svg class="w-[15px] h-[15px] text-red-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z"/>
             </svg>
           </div>
           <p class="flex-1 text-left m-title">ငွေထုတ်စီမံခန့်ခွဲမှု</p>
           <svg class="m-arr" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
         </button>
-      </div>
+        <div class="menu-divider"></div>
 
-      <!-- ══ MENU BLOCK 2 ══ -->
-      <div class="menu-block">
         <button @click="$router.push('/agent')" class="menu-row">
-          <div class="m-icon" style="background:rgba(245,158,11,0.14);">
-            <svg class="w-[15px] h-[15px] text-amber-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <div class="m-icon" style="background:rgba(245,158,11,0.16);">
+            <svg class="w-[15px] h-[15px] text-amber-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0z"/>
             </svg>
           </div>
           <p class="flex-1 text-left m-title">အေးဂျင့်</p>
-          <span class="text-[11px] font-bold mr-1" style="color:#f59e0b;">တစ်လဝင်ငွေ တစ်သန်း</span>
-          <svg class="w-[15px] h-[15px] flex-shrink-0" style="color:#f59e0b;" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
+          <span class="text-[11px] font-bold mr-1" style="color:#d97706;">တစ်လဝင်ငွေ တစ်သန်း</span>
+          <svg class="w-[14px] h-[14px] flex-shrink-0" style="color:#d97706;" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
         </button>
+        <div class="menu-divider"></div>
 
         <button @click="comingSoon" class="menu-row">
-          <div class="m-icon" style="background:rgba(99,102,241,0.13);">
-            <svg class="w-[15px] h-[15px] text-indigo-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <div class="m-icon" style="background:rgba(99,102,241,0.14);">
+            <svg class="w-[15px] h-[15px] text-indigo-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/>
             </svg>
           </div>
           <p class="flex-1 text-left m-title">ကိုယ်ရေးအချက်အလက်များ</p>
           <svg class="m-arr" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
         </button>
+        <div class="menu-divider"></div>
 
         <button @click="comingSoon" class="menu-row">
-          <div class="m-icon" style="background:rgba(34,197,94,0.12);">
-            <svg class="w-[15px] h-[15px] text-green-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <div class="m-icon" style="background:rgba(34,197,94,0.14);">
+            <svg class="w-[15px] h-[15px] text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/>
             </svg>
           </div>
           <p class="flex-1 text-left m-title">လုံခြုံရေးစင်တာ</p>
           <svg class="m-arr" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
         </button>
+        <div class="menu-divider"></div>
 
         <button @click="comingSoon" class="menu-row">
-          <div class="m-icon" style="background:rgba(14,165,233,0.13);">
-            <svg class="w-[15px] h-[15px] text-sky-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <div class="m-icon" style="background:rgba(14,165,233,0.14);">
+            <svg class="w-[15px] h-[15px] text-sky-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 12a9 9 0 01-9 9m9-9a9 9 0 00-9-9m9 9H3m9 9a9 9 0 01-9-9m9 9c1.657 0 3-4.03 3-9s-1.343-9-3-9m0 18c-1.657 0-3-4.03-3-9s1.343-9 3-9m-9 9a9 9 0 019-9"/>
             </svg>
           </div>
           <p class="flex-1 text-left m-title">ဘာသာစကား</p>
-          <span class="text-[11px] text-gray-400 mr-1">မြန်မာဘာသာ</span>
+          <span class="text-[11px] mr-1" style="color:#666;">မြန်မာဘာသာ</span>
           <svg class="m-arr" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
         </button>
+        <div class="menu-divider"></div>
 
         <button @click="comingSoon" class="menu-row">
-          <div class="m-icon" style="background:rgba(168,85,247,0.13);">
-            <svg class="w-[15px] h-[15px] text-purple-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <div class="m-icon" style="background:rgba(168,85,247,0.14);">
+            <svg class="w-[15px] h-[15px] text-purple-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8.228 9c.549-1.165 2.03-2 3.772-2 2.21 0 4 1.343 4 3 0 1.4-1.278 2.575-3.006 2.907-.542.104-.994.54-.994 1.093m0 3h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
             </svg>
           </div>
           <p class="flex-1 text-left m-title">တောက်သည်ဝန်ဆောင်မှု</p>
           <svg class="m-arr" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
         </button>
+        <div class="menu-divider"></div>
 
         <button @click="comingSoon" class="menu-row">
-          <div class="m-icon" style="background:rgba(20,184,166,0.13);">
-            <svg class="w-[15px] h-[15px] text-teal-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <div class="m-icon" style="background:rgba(20,184,166,0.14);">
+            <svg class="w-[15px] h-[15px] text-teal-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"/>
             </svg>
           </div>
           <p class="flex-1 text-left m-title">အကြံပေးချုပ်</p>
           <svg class="m-arr" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
         </button>
+        <div class="menu-divider"></div>
 
         <button @click="$router.push('/device-sessions')" class="menu-row">
-          <div class="m-icon" style="background:rgba(100,116,139,0.14);">
-            <svg class="w-[15px] h-[15px] text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <div class="m-icon" style="background:rgba(100,116,139,0.15);">
+            <svg class="w-[15px] h-[15px] text-slate-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17H3a2 2 0 01-2-2V5a2 2 0 012-2h14a2 2 0 012 2v10a2 2 0 01-2 2h-2"/>
             </svg>
           </div>
           <p class="flex-1 text-left m-title">စက်ပစ္စည်းသို့ ဝင်ရောက်ပါ</p>
           <svg class="m-arr" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
         </button>
+        <div class="menu-divider"></div>
 
         <button @click="logout" class="menu-row">
-          <div class="m-icon" style="background:rgba(239,68,68,0.12);">
-            <svg class="w-[15px] h-[15px] text-red-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <div class="m-icon" style="background:rgba(239,68,68,0.13);">
+            <svg class="w-[15px] h-[15px] text-red-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"/>
             </svg>
           </div>
-          <p class="flex-1 text-left m-title" style="color:#f87171;">အကောင့်ထွက်ရန်</p>
-          <svg class="m-arr" style="color:#f87171;" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
+          <p class="flex-1 text-left m-title" style="color:#dc2626;">အကောင့်ထွက်ရန်</p>
+          <svg class="m-arr" style="color:#dc2626;" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
         </button>
+
       </div>
 
     </div>
@@ -312,13 +311,11 @@ onMounted(() => {
   fetchWallet()
   loadVipLevels()
   setInterval(fetchWallet, 5000)
-  // Real-time VIP updates
   supabase.channel('vip-levels-watch')
     .on('postgres_changes', { event: '*', schema: 'public', table: 'vip_levels' }, () => loadVipLevels())
     .subscribe()
 })
 
-// ── VIP levels from Supabase ───────────────────────────────────
 const vipLevelsData = ref([])
 
 async function loadVipLevels() {
@@ -328,7 +325,6 @@ async function loadVipLevels() {
 
 const vipLevel = computed(() => {
   if (!vipLevelsData.value.length) {
-    // fallback until loaded
     const thresholds = [0,10000,40000,60000,80000,100000,150000,200000,300000,500000]
     let lvl = 1
     thresholds.forEach((t,i) => { if (deposited.value >= t) lvl = i + 1 })
@@ -427,7 +423,7 @@ const comingSoon = () => alert('Coming Soon')
   min-height: 100dvh;
   width: 100%;
   background: #b0baaf;
-  color: #fff;
+  color: #111;
   overscroll-behavior: contain;
   -webkit-tap-highlight-color: transparent;
 }
@@ -438,24 +434,22 @@ const comingSoon = () => alert('Coming Soon')
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 10px 14px;
+  padding: 8px 14px;
   background: transparent;
 }
 .nova-icon-btn {
-  width: 36px; height: 36px;
+  width: 34px; height: 34px;
   display: flex; align-items: center; justify-content: center;
-  border-radius: 12px;
-  background: rgba(255,255,255,0.08);
-  border: 1px solid rgba(255,255,255,0.13);
-  box-shadow: 0 2px 10px rgba(0,0,0,0.35), inset 0 1px 0 rgba(255,255,255,0.1);
-  backdrop-filter: blur(12px);
+  border-radius: 10px;
+  background: rgba(255,255,255,0.5);
+  border: 1px solid rgba(0,0,0,0.08);
+  box-shadow: 0 1px 5px rgba(0,0,0,0.1);
   cursor: pointer;
-  transition: transform 0.12s, box-shadow 0.12s, background 0.12s;
+  transition: transform 0.12s, background 0.12s;
 }
 .nova-icon-btn:active {
   transform: scale(0.88);
-  background: rgba(255,255,255,0.14);
-  box-shadow: 0 1px 6px rgba(0,0,0,0.45);
+  background: rgba(255,255,255,0.7);
 }
 .notif-dot {
   position: absolute; top: -3px; right: -3px;
@@ -468,13 +462,18 @@ const comingSoon = () => alert('Coming Soon')
 /* ── Body ── */
 .nova-acc-body {
   flex: 1;
-  padding: 10px 12px 96px;
+  padding: 6px 12px 96px;
   display: flex;
   flex-direction: column;
-  gap: 8px;
+  gap: 7px;
 }
 
-/* ── Profile row ── */
+/* ── Profile section ── */
+.profile-section {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
 .profile-row {
   display: flex;
   align-items: center;
@@ -482,156 +481,128 @@ const comingSoon = () => alert('Coming Soon')
   padding: 10px 12px;
   flex: 1;
   min-width: 0;
-  overflow: visible;
-  border: 1px solid rgba(34,197,94,0.35);
+  border: 1px solid rgba(34,197,94,0.4);
   border-radius: 14px;
-  background: rgba(34,197,94,0.03);
-  box-shadow: 0 0 10px rgba(34,197,94,0.08), inset 0 0 8px rgba(34,197,94,0.03);
+  background: rgba(255,255,255,0.6);
+  box-shadow: 0 1px 8px rgba(0,0,0,0.07);
   animation: green-pulse 3s ease-in-out infinite;
 }
 @keyframes green-pulse {
-  0%, 100% { border-color: rgba(34,197,94,0.35); box-shadow: 0 0 10px rgba(34,197,94,0.08); }
-  50%       { border-color: rgba(74,222,128,0.55); box-shadow: 0 0 16px rgba(74,222,128,0.18); }
-}
-.profile-section {
-  display: flex;
-  align-items: center;
-  gap: 10px;
+  0%, 100% { border-color: rgba(34,197,94,0.4); }
+  50%       { border-color: rgba(74,222,128,0.65); }
 }
 .avatar-wrap { position: relative; flex-shrink: 0; overflow: visible; }
-
-/* NFT Avatar handled by NftAvatar component */
 .vip-badge-pill {
   position: absolute; bottom: -4px; right: -6px;
-  padding: 2px 5px;
-  border-radius: 5px;
-  font-size: 9px; font-weight: 900; color: #fff;
-  line-height: 1.4;
-  z-index: 2;
-  white-space: nowrap;
+  padding: 2px 5px; border-radius: 5px;
+  font-size: 9px; font-weight: 900; color: #fff; line-height: 1.4; z-index: 2;
 }
 .profile-info { flex: 1; min-width: 0; }
-.profile-username { font-size: 15px; font-weight: 800; color: #ffffff; letter-spacing: 0.02em; }
-.profile-id { font-size: 13px; color: #e2e8f0; font-family: monospace; font-weight: 600; letter-spacing: 0.03em; }
+.profile-username { font-size: 15px; font-weight: 800; color: #111; letter-spacing: 0.02em; }
+.profile-id { font-size: 12px; color: #444; font-family: monospace; font-weight: 600; }
 .copy-btn {
-  color: #94a3b8; cursor: pointer;
-  background: rgba(255,255,255,0.08);
-  border: 1px solid rgba(255,255,255,0.12);
-  border-radius: 6px;
-  padding: 4px 6px;
+  color: #555; cursor: pointer;
+  background: rgba(0,0,0,0.07);
+  border: 1px solid rgba(0,0,0,0.1);
+  border-radius: 6px; padding: 3px 5px;
   display: inline-flex; align-items: center;
-  transition: transform 0.1s, background 0.15s;
-  min-width: 30px; min-height: 28px; justify-content: center;
+  transition: transform 0.1s;
+  min-width: 28px; min-height: 26px; justify-content: center;
 }
-.copy-btn:active { transform: scale(0.82); background: rgba(255,255,255,0.16); }
-.copy-btn--id { color: #7dd3fc; border-color: rgba(125,211,252,0.25); background: rgba(125,211,252,0.08); }
+.copy-btn:active { transform: scale(0.82); }
+.copy-btn--id { color: #0369a1; border-color: rgba(3,105,161,0.2); background: rgba(3,105,161,0.07); }
 .balance-area { flex-shrink: 0; }
 .balance-flag { font-size: 15px; line-height: 1; }
-.balance-amount { font-size: 18px; font-weight: 900; color: #67e8f9; letter-spacing: -0.01em; text-shadow: 0 0 10px rgba(103,232,249,0.5); }
+.balance-amount { font-size: 18px; font-weight: 900; color: #0d9488; }
 .refresh-btn {
-  width: 26px; height: 26px;
-  background: radial-gradient(circle, rgba(74,222,128,0.18) 0%, rgba(34,197,94,0.06) 100%);
-  border: 1px solid rgba(74,222,128,0.4);
+  width: 24px; height: 24px;
+  background: rgba(34,197,94,0.12);
+  border: 1px solid rgba(34,197,94,0.35);
   border-radius: 50%;
   display: inline-flex; align-items: center; justify-content: center;
-  cursor: pointer; color: #4ade80;
-  transition: transform 0.15s, box-shadow 0.15s;
-  box-shadow: 0 0 8px rgba(74,222,128,0.2);
+  cursor: pointer; color: #16a34a;
+  transition: transform 0.15s;
 }
-.refresh-btn:active { transform: scale(0.82); box-shadow: 0 0 14px rgba(74,222,128,0.45); }
+.refresh-btn:active { transform: scale(0.82); }
 .refresh-btn.refreshing .refresh-svg { animation: nova-spin 0.7s linear infinite; }
-.refresh-svg { transition: filter 0.15s; }
-.refresh-btn:hover .refresh-svg { filter: drop-shadow(0 0 3px rgba(74,222,128,0.8)); }
 
-/* ── Action buttons (flat style) ── */
-.action-row { display: grid; grid-template-columns: 1fr 1fr; gap: 4px; }
+/* ── Action buttons ── */
+.action-row { display: grid; grid-template-columns: 1fr 1fr; gap: 6px; }
 .action-flat-btn {
-  display: flex; flex-direction: column; align-items: center; gap: 7px;
-  padding: 10px 8px 8px;
-  background: none; border: none; cursor: pointer;
+  display: flex; flex-direction: column; align-items: center; gap: 5px;
+  padding: 8px 8px 7px;
+  background: rgba(255,255,255,0.6);
+  border: 1px solid rgba(0,0,0,0.06);
+  border-radius: 12px; cursor: pointer;
   transition: opacity 0.12s;
   -webkit-tap-highlight-color: transparent;
 }
 .action-flat-btn:active { opacity: 0.65; }
 .action-flat-icon {
-  width: 48px; height: 48px;
-  border-radius: 14px;
-  background: rgba(74,222,128,0.12);
+  width: 42px; height: 42px; border-radius: 12px;
+  background: rgba(74,222,128,0.14);
+  border: 1px solid rgba(74,222,128,0.22);
   display: flex; align-items: center; justify-content: center;
 }
-.action-flat-lbl {
-  font-size: 12px; font-weight: 700; color: #e2e8f0;
-  letter-spacing: 0.01em;
-}
+.action-flat-lbl { font-size: 12px; font-weight: 700; color: #111; }
 
-/* ── VIP card (teal, bigger, Screenshot 2 style) ── */
+/* ── VIP card ── */
 .vip-card {
   position: relative; overflow: hidden;
-  border-radius: 16px; padding: 14px 14px 16px;
+  border-radius: 14px; padding: 11px 13px 12px;
   background: linear-gradient(135deg, #0d9488 0%, #14b8a6 45%, #0f766e 100%);
 }
 .vip-shimmer {
   position: absolute; inset: 0; pointer-events: none;
   background: linear-gradient(110deg,transparent 30%,rgba(255,255,255,0.14) 50%,transparent 70%);
 }
-/* Top row */
 .vip-top-row { position: relative; z-index: 1; display: flex; align-items: flex-start; gap: 0; }
 .vip-lvl-badge {
-  flex-shrink: 0;
-  background: rgba(255,255,255,0.18);
-  border-radius: 8px;
-  padding: 4px 8px;
+  flex-shrink: 0; background: rgba(255,255,255,0.2); border-radius: 7px; padding: 3px 8px;
   display: flex; align-items: center; justify-content: center;
 }
 .vip-badge-txt { font-size: 12px; font-weight: 900; color: #fff; }
-.vip-top-label { font-size: 11.5px; color: rgba(255,255,255,0.88); }
-.vip-top-accent { font-size: 12px; font-weight: 900; color: #fef9c3; font-style: italic; }
-.vip-top-bold { font-size: 13px; font-weight: 900; color: #fff; }
-/* Divider */
-.vip-divider {
-  position: relative; z-index: 1;
-  margin: 10px 0;
-  height: 1px;
-  background: rgba(255,255,255,0.2);
-}
-/* Progress section */
+.vip-top-label { font-size: 11px; color: rgba(255,255,255,0.9); }
+.vip-top-accent { font-size: 11.5px; font-weight: 900; color: #fef9c3; font-style: italic; }
+.vip-top-bold { font-size: 12px; font-weight: 900; color: #fff; }
+.vip-divider { position: relative; z-index: 1; margin: 7px 0; height: 1px; background: rgba(255,255,255,0.2); }
 .vip-prog-wrap { position: relative; z-index: 1; }
 .vip-prog-row { display: flex; align-items: flex-start; gap: 8px; }
 .vip-coin-badge {
-  width: 28px; height: 28px; border-radius: 50%;
+  width: 26px; height: 26px; border-radius: 50%;
   background: radial-gradient(circle, #fde68a 30%, #f59e0b 100%);
   border: 2px solid rgba(255,255,255,0.35);
-  display: flex; align-items: center; justify-content: center;
-  flex-shrink: 0;
+  display: flex; align-items: center; justify-content: center; flex-shrink: 0;
 }
-.vip-prog-lbl { font-size: 10.5px; color: rgba(255,255,255,0.85); }
-.vip-prog-val { font-size: 10.5px; font-weight: 700; color: #fff; white-space: nowrap; }
-.vip-bar-track { height: 7px; border-radius: 999px; background: rgba(0,0,0,0.18); overflow: hidden; }
+.vip-prog-lbl { font-size: 10px; color: rgba(255,255,255,0.88); }
+.vip-prog-val { font-size: 10px; font-weight: 700; color: #fff; white-space: nowrap; }
+.vip-bar-track { height: 6px; border-radius: 999px; background: rgba(0,0,0,0.18); overflow: hidden; }
 .vip-bar-fill { height: 100%; border-radius: 999px; background: rgba(255,255,255,0.85); transition: width 0.5s ease; }
 .vip-bar-fill2 { height: 100%; border-radius: 999px; background: rgba(254,243,199,0.75); transition: width 0.5s ease; }
 
-/* ── Menu blocks ── */
+/* ── Menu block ── */
 .menu-block {
   border-radius: 14px; overflow: hidden;
-  background: rgba(255,255,255,0.04);
+  background: rgba(255,255,255,0.65);
+  box-shadow: 0 1px 8px rgba(0,0,0,0.07);
 }
+.menu-divider { height: 1px; background: rgba(0,0,0,0.07); margin: 0 12px; }
 .menu-row {
   display: flex; align-items: center; gap: 10px;
-  padding: 11px 12px; width: 100%; cursor: pointer;
+  padding: 9px 12px; width: 100%; cursor: pointer;
+  background: none; border: none;
   transition: background 0.15s;
   -webkit-tap-highlight-color: transparent;
 }
-.menu-row:active { background: rgba(255,255,255,0.04); }
+.menu-row:active { background: rgba(0,0,0,0.04); }
 .m-icon {
-  width: 30px; height: 30px;
-  border-radius: 8px;
+  width: 30px; height: 30px; border-radius: 8px;
   display: flex; align-items: center; justify-content: center; flex-shrink: 0;
 }
-.m-title { font-size: 13px; font-weight: 600; color: #fff; }
-.m-sub { font-size: 9.5px; color: #6b7280; margin-top: 1px; }
-.m-arr { width: 14px; height: 14px; color: #6b7280; flex-shrink: 0; }
+.m-title { font-size: 13px; font-weight: 600; color: #111; }
+.m-sub { font-size: 9.5px; color: #666; margin-top: 1px; }
+.m-arr { width: 14px; height: 14px; color: #bbb; flex-shrink: 0; }
 
 /* Spin */
 @keyframes nova-spin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
-.spin-icon { animation: nova-spin 0.7s linear infinite; }
 </style>
