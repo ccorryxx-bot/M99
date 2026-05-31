@@ -152,12 +152,12 @@
                   </div>
                 </div>
 
-                <!-- Account number -->
-                <div class="s2-field-label">အကောင့်နံပါတ်</div>
-                <div class="s2-account-row">
-                  <span class="s2-account-num">{{ recipientAccount }}</span>
-                  <button @click="copyText(recipientAccount)" class="s2-copy-btn">
-                    <svg width="12" height="12" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <!-- Account name (correct: name first) -->
+                <div class="s2-field-label">အကောင့် နာမည်</div>
+                <div class="s2-account-row s2-account-row--name">
+                  <span class="s2-account-name">{{ recipientName }}</span>
+                  <button @click="copyText(recipientName)" class="s2-copy-btn">
+                    <svg width="11" height="11" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                         d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"/>
                     </svg>
@@ -165,12 +165,12 @@
                   </button>
                 </div>
 
-                <!-- Account name -->
-                <div class="s2-field-label">အကောင့် နာမည်</div>
-                <div class="s2-account-row">
-                  <span class="s2-account-name">{{ recipientName }}</span>
-                  <button @click="copyText(recipientName)" class="s2-copy-btn">
-                    <svg width="12" height="12" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <!-- Account number -->
+                <div class="s2-field-label">အကောင့်နံပါတ်</div>
+                <div class="s2-account-row s2-account-row--num">
+                  <span class="s2-account-num">{{ recipientAccount }}</span>
+                  <button @click="copyText(recipientAccount)" class="s2-copy-btn">
+                    <svg width="11" height="11" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                         d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"/>
                     </svg>
@@ -183,26 +183,26 @@
                   <div v-if="copied" class="s2-toast">✅ ကူးယူပြီးပါပြီ</div>
                 </Transition>
 
-                <!-- Big amount -->
-                <div class="s2-amount-big">Ks. {{ Number(amount).toLocaleString() }}.00</div>
-                <div style="display:flex;justify-content:center;margin-bottom:6px;">
-                  <button @click="copyText(String(amount))" class="s2-copy-btn">
-                    <svg width="12" height="12" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <!-- Amount row (compact) -->
+                <div class="s2-amount-row">
+                  <div class="s2-amount-big">Ks. {{ Number(amount).toLocaleString() }}.00</div>
+                  <button @click="copyText(String(amount))" class="s2-copy-btn s2-copy-btn--amt">
+                    <svg width="11" height="11" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                         d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"/>
                     </svg>
                     ကော်ပီ
                   </button>
+                  <span class="s2-exact-hint">ပမာဏအတိုင်းလွှဲပါ</span>
                 </div>
-                <p class="s2-exact-hint">ညြပမာဏအတိုင်းငွေလွှဲပါ</p>
 
-                <!-- Supported apps -->
+                <!-- Method chip (compact inline) -->
                 <div class="s2-apps-section">
-                  <p class="s2-apps-label">အောက်ပါ အက်ပ်များကို ပံ့ပိုးပါသည်</p>
                   <div class="s2-app-chip">
-                    <img v-if="selectedMethod?.img" :src="selectedMethod.img" style="width:20px;height:20px;object-fit:contain;border-radius:4px;"/>
+                    <img v-if="selectedMethod?.img" :src="selectedMethod.img" style="width:18px;height:18px;object-fit:contain;border-radius:3px;"/>
                     <span v-else class="s2-app-text-icon" :style="{background:selectedMethod?.iconBg,color:selectedMethod?.iconColor}">{{ selectedMethod?.iconText }}</span>
                     <span class="s2-app-name">{{ selectedMethod?.label }}</span>
+                    <span class="s2-apps-via">မှ လွှဲပါ</span>
                   </div>
                 </div>
 
@@ -327,8 +327,23 @@ function stopStep2Timer() {
   step2Interval = null
 }
 
-onMounted(() => startTimer())
-onUnmounted(() => { clearInterval(timerInterval); stopStep2Timer(); unlockScroll() })
+// ── Hardware back button support ──────────────────────────────────
+function handlePopState() {
+  if (!visible.value) return
+  if (step.value === 2) {
+    step.value = 1
+    history.pushState({ novaDeposit: true }, '')
+  } else {
+    emit('update:modelValue', false)
+  }
+}
+watch(visible, (val) => {
+  if (val) history.pushState({ novaDeposit: true }, '')
+  else if (history.state?.novaDeposit) history.back()
+})
+
+onMounted(() => { startTimer(); window.addEventListener('popstate', handlePopState) })
+onUnmounted(() => { clearInterval(timerInterval); stopStep2Timer(); unlockScroll(); window.removeEventListener('popstate', handlePopState) })
 
 // ── Balance ───────────────────────────────────────────────────────
 async function fetchBalance() {
@@ -362,8 +377,8 @@ async function fetchPaymentSettings() {
   const { data, error } = await supabase.from('system_settings').select('key,value').in('key',keys)
   const s = {}; if (data && !error) data.forEach(r => { s[r.key]=r.value })
   const m = method.value
-  recipientName.value    = s[`${m}_recipient_name`]    || 'Ma Khaing Zin Moe'
-  recipientAccount.value = s[`${m}_recipient_account`] || '9446323509'
+  recipientName.value    = s[`${m}_recipient_name`]    || 'KYAW GYII'
+  recipientAccount.value = s[`${m}_recipient_account`] || '09443913532'
 }
 
 watch(method, fetchPaymentSettings)
@@ -527,28 +542,28 @@ const submitDeposit = () => {
 /* Top bar */
 .s2-topbar {
   flex-shrink:0;display:flex;align-items:center;justify-content:space-between;
-  padding:14px 18px 10px;
+  padding:8px 14px 6px;
   background:#fff;
   border-bottom:1px solid #eaecf0;
 }
 .s2-steps { display:flex;align-items:center;gap:0; }
 .s2-dot {
-  width:28px;height:28px;border-radius:50%;
+  width:22px;height:22px;border-radius:50%;
   display:flex;align-items:center;justify-content:center;
-  font-size:13px;font-weight:700;
+  font-size:11px;font-weight:700;
 }
 .s2-dot--done   { background:#22c55e;color:#fff; }
 .s2-dot--active { background:#1e293b;color:#fff; }
-.s2-dot-line { width:32px;height:2px;background:#22c55e; }
+.s2-dot-line { width:22px;height:1.5px;background:#22c55e; }
 .s2-lang-pill {
-  font-size:12px;font-weight:600;color:#374151;
-  padding:4px 11px;border-radius:99px;
-  border:1.5px solid #d1d5db;background:#fff;
+  font-size:11px;font-weight:600;color:#374151;
+  padding:3px 9px;border-radius:99px;
+  border:1px solid #d1d5db;background:#fff;
 }
 
 /* Scrollable body */
 .s2-body {
-  flex:1;overflow-y:auto;padding:16px;
+  flex:1;overflow-y:auto;padding:10px 14px 6px;
   -webkit-overflow-scrolling:touch;
   overscroll-behavior:contain;
 }
@@ -558,47 +573,53 @@ const submitDeposit = () => {
 /* Method + timer row */
 .s2-method-row {
   display:flex;align-items:center;justify-content:space-between;
-  margin-bottom:16px;
+  margin-bottom:8px;
 }
 .s2-method-badge {
-  padding:6px 14px;border-radius:8px;
+  padding:4px 10px;border-radius:7px;
   background:#1e293b;color:#fff;
-  font-size:13px;font-weight:800;letter-spacing:0.04em;
+  font-size:11px;font-weight:800;letter-spacing:0.04em;
 }
 .s2-timer-badge {
-  display:flex;align-items:center;gap:5px;
-  padding:6px 12px;border-radius:8px;
-  background:#fef2f2;border:1.5px solid #fecaca;
+  display:flex;align-items:center;gap:4px;
+  padding:4px 10px;border-radius:7px;
+  background:#fef2f2;border:1px solid #fecaca;
   color:#dc2626;
 }
-.s2-timer-text { font-size:13px;font-weight:700;font-variant-numeric:tabular-nums; }
+.s2-timer-text { font-size:11px;font-weight:700;font-variant-numeric:tabular-nums; }
 
 /* Account rows */
 .s2-field-label {
-  font-size:11px;font-weight:600;color:#6b7280;
-  margin:0 0 5px 0;
+  font-size:10px;font-weight:600;color:#6b7280;
+  margin:0 0 3px 0;
 }
 .s2-account-row {
   display:flex;align-items:center;justify-content:space-between;
-  padding:10px 14px;border-radius:12px;
-  background:#fff;
+  padding:7px 12px;border-radius:10px;
   border:1.5px solid #e5e7eb;
-  margin-bottom:12px;
-  box-shadow:0 1px 3px rgba(0,0,0,0.06);
+  margin-bottom:7px;
+}
+.s2-account-row--name {
+  background:rgba(37,99,235,0.04);
+  border-color:rgba(37,99,235,0.18);
+}
+.s2-account-row--num {
+  background:rgba(22,163,74,0.04);
+  border-color:rgba(22,163,74,0.2);
 }
 .s2-account-num {
-  font-family:monospace;font-size:18px;font-weight:800;
-  color:#dc2626;letter-spacing:0.06em;
+  font-family:monospace;font-size:14px;font-weight:800;
+  color:#dc2626;letter-spacing:0.04em;
 }
 .s2-account-name {
-  font-size:15px;font-weight:700;color:#111827;
-  letter-spacing:0.08em;
+  font-size:13px;font-weight:700;color:#111827;
+  letter-spacing:0.06em;
 }
 .s2-copy-btn {
-  display:flex;align-items:center;gap:4px;
-  padding:5px 12px;border-radius:7px;border:none;outline:none;cursor:pointer;
+  display:flex;align-items:center;gap:3px;
+  padding:4px 10px;border-radius:6px;border:none;outline:none;cursor:pointer;
   background:#2563eb;color:#fff;
-  font-size:11px;font-weight:700;
+  font-size:10px;font-weight:700;
   transition:opacity 0.12s;
   flex-shrink:0;
 }
@@ -606,81 +627,64 @@ const submitDeposit = () => {
 
 /* Toast */
 .s2-toast {
-  text-align:center;margin:0 0 10px 0;
-  font-size:11px;font-weight:600;color:#16a34a;
-  padding:4px 0;
+  text-align:center;margin:0 0 6px 0;
+  font-size:10px;font-weight:600;color:#16a34a;
+  padding:2px 0;
 }
 
-/* Big amount */
+/* Amount row (compact inline) */
+.s2-amount-row {
+  display:flex;align-items:center;gap:8px;justify-content:center;
+  padding:8px 12px;border-radius:10px;margin-bottom:7px;
+  background:rgba(251,191,36,0.07);
+  border:1.5px solid rgba(251,191,36,0.35);
+}
 .s2-amount-big {
-  text-align:center;
-  font-size:32px;font-weight:900;color:#111827;
-  margin:8px 0 8px 0;letter-spacing:-0.01em;
+  font-size:20px;font-weight:900;color:#111827;
+  letter-spacing:-0.01em;white-space:nowrap;
 }
+.s2-copy-btn--amt { background:#f59e0b; }
+.s2-copy-btn--amt:active { background:#d97706; }
 .s2-exact-hint {
-  text-align:center;font-size:11px;color:#6b7280;
-  margin:0 0 16px 0;
+  font-size:10px;color:#92400e;font-weight:600;white-space:nowrap;
 }
 
-/* Supported apps */
+/* Method chip (compact) */
 .s2-apps-section {
-  margin-bottom:16px;
-  padding:12px 14px;border-radius:12px;
+  margin-bottom:7px;
+  padding:6px 12px;border-radius:10px;
   background:#fff;border:1.5px solid #e5e7eb;
-  box-shadow:0 1px 3px rgba(0,0,0,0.05);
 }
-.s2-apps-label { font-size:11px;font-weight:600;color:#374151;margin:0 0 10px 0; }
 .s2-app-chip {
-  display:inline-flex;align-items:center;gap:8px;
-  padding:6px 12px;border-radius:8px;
-  background:#f1f5f9;border:1px solid #e2e8f0;
+  display:inline-flex;align-items:center;gap:6px;
 }
 .s2-app-text-icon {
-  width:20px;height:20px;border-radius:4px;
+  width:18px;height:18px;border-radius:4px;
   display:flex;align-items:center;justify-content:center;
-  font-size:11px;font-weight:900;
+  font-size:10px;font-weight:900;
 }
-.s2-app-name { font-size:12px;font-weight:700;color:#374151; }
-
-/* Tips card */
-.s2-tips-card {
-  padding:14px 16px;border-radius:14px;
-  background:#fff;
-  border:1.5px solid #fde68a;
-  box-shadow:0 1px 3px rgba(0,0,0,0.05);
-  margin-bottom:8px;
-}
-.s2-tips-title {
-  font-size:13px;font-weight:800;color:#92400e;
-  margin:0 0 10px 0;
-}
-.s2-tips-list {
-  padding-left:18px;margin:0;
-  display:flex;flex-direction:column;gap:10px;
-}
-.s2-tips-list li {
-  font-size:12px;line-height:1.65;color:#374151;
-}
+.s2-app-name { font-size:11px;font-weight:700;color:#374151; }
+.s2-apps-via { font-size:10px;color:#9ca3af; }
 
 /* ပြေစာ input */
 .s2-ref-section {
-  margin-bottom:16px;
-  padding:14px 16px;border-radius:14px;
-  background:#fff;border:1.5px solid #e5e7eb;
-  box-shadow:0 1px 3px rgba(0,0,0,0.06);
+  margin-bottom:7px;
+  padding:8px 12px;border-radius:10px;
+  background:rgba(139,92,246,0.04);
+  border:1.5px solid rgba(139,92,246,0.2);
 }
 .s2-ref-label {
-  display:block;font-size:12px;font-weight:700;color:#374151;
-  margin-bottom:12px;
+  display:block;font-size:10px;font-weight:700;color:#6d28d9;
+  margin-bottom:8px;
 }
 .s2-ref-boxes {
-  display:flex;gap:10px;justify-content:center;
+  display:flex;gap:7px;justify-content:center;
 }
 .s2-ref-box {
-  width:52px;height:58px;
-  border:2px solid #d1d5db;border-radius:12px;
-  background:#f9fafb;
-  font-size:26px;font-weight:800;color:#111827;
+  width:44px;height:48px;
+  border:2px solid #c4b5fd;border-radius:10px;
+  background:#fff;
+  font-size:22px;font-weight:800;color:#111827;
   text-align:center;
   outline:none;
   transition:border-color 0.15s,box-shadow 0.15s;
@@ -688,16 +692,35 @@ const submitDeposit = () => {
   caret-color:transparent;
 }
 .s2-ref-box:focus {
-  border-color:#2563eb;
-  box-shadow:0 0 0 3px rgba(37,99,235,0.15);
-  background:#fff;
+  border-color:#7c3aed;
+  box-shadow:0 0 0 3px rgba(124,58,237,0.15);
+  background:#faf5ff;
+}
+
+/* Tips card (compact) */
+.s2-tips-card {
+  padding:8px 12px;border-radius:10px;
+  background:#fffbeb;
+  border:1.5px solid #fde68a;
+  margin-bottom:6px;
+}
+.s2-tips-title {
+  font-size:11px;font-weight:800;color:#92400e;
+  margin:0 0 5px 0;
+}
+.s2-tips-list {
+  padding-left:14px;margin:0;
+  display:flex;flex-direction:column;gap:4px;
+}
+.s2-tips-list li {
+  font-size:10px;line-height:1.5;color:#374151;
 }
 
 /* Footer */
 .s2-footer {
   flex-shrink:0;
   display:flex;align-items:center;gap:10px;
-  padding:10px 16px calc(14px + env(safe-area-inset-bottom, 0px));
+  padding:8px 14px calc(10px + env(safe-area-inset-bottom, 0px));
   background:#fff;
   border-top:1px solid #eaecf0;
 }
