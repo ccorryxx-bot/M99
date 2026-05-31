@@ -347,7 +347,7 @@
             </div>
           </div>
 
-          <div class="mt-3 h-px" style="background: rgba(255,255,255,0.05);"></div>
+          <div class="mt-3 h-px" style="background: rgba(26,43,26,0.10);"></div>
 
           <!-- Sub stats row -->
           <div class="flex justify-between mt-3">
@@ -367,7 +367,7 @@
         </div>
 
         <!-- Scrolling Ticker -->
-        <div class="fp-card relative rounded-xl overflow-hidden" style="height: 42px; border-bottom: 1.5px solid rgba(45,74,45,0.3);">
+        <div class="fp-card relative rounded-xl overflow-hidden" style="height: 42px; border: 1px solid rgba(26,43,26,0.18); border-radius: 10px;">
           <div class="absolute inset-0" style="background: linear-gradient(90deg, rgba(255,152,0,0.1), rgba(255,193,7,0.06), rgba(255,152,0,0.1));"></div>
           <div class="absolute inset-y-0 left-0 w-8 z-10 pointer-events-none" style="background: linear-gradient(to right, #040608, transparent);"></div>
           <div class="absolute inset-y-0 right-0 w-8 z-10 pointer-events-none" style="background: linear-gradient(to left, #040608, transparent);"></div>
@@ -384,47 +384,32 @@
           </div>
         </div>
 
-        <!-- Stats Grid 2×2 -->
-        <div class="grid grid-cols-2 gap-2.5">
-          <div v-for="s in statsGrid" :key="s.key" class="fp-card rounded-2xl p-3.5 relative overflow-hidden"
-            style="background: rgba(18,12,42,0.70); border: 1px solid rgba(160,120,255,0.12); backdrop-filter: blur(24px); -webkit-backdrop-filter: blur(24px); box-shadow: 0 4px 20px rgba(0,0,0,0.4), inset 0 1px 0 rgba(255,255,255,0.07);">
-            <div class="absolute top-0 right-0 w-12 h-12 pointer-events-none"
-              :style="`background: radial-gradient(circle, ${s.glow} 0%, transparent 70%); filter: blur(8px);`"></div>
-            <p class="text-[11px] font-semibold tracking-[0.04em] mb-1.5" style="color: #3a5040;">{{ s.label }}</p>
-            <p class="text-lg font-black" :style="`color: ${s.color};`">
-              <span v-if="loadingData" class="text-sm animate-pulse" style="color:rgba(255,255,255,0.15);">...</span>
-              <span v-else>{{ formatN(s.value) }}</span>
-            </p>
-            <p class="text-[10px] font-medium mt-0.5" style="color: rgba(0,0,0,0.35);">Ks</p>
-          </div>
-        </div>
-
         <!-- Referral Panel (ပင်မ tab) — Floating Control Center -->
         <div class="nova-ref-card rounded-2xl p-4 relative overflow-hidden" style="background: rgba(255,255,255,0.38); border: 1px solid rgba(26,43,26,0.12); box-shadow: 0 4px 20px rgba(0,0,0,0.09), inset 0 1px 0 rgba(255,255,255,0.55); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);">
 
           <!-- Ambient blue top glow -->
           <div class="absolute -top-8 left-1/2 -translate-x-1/2 w-52 h-16 pointer-events-none"
-            style="background: radial-gradient(ellipse, rgba(40,110,255,0.18) 0%, transparent 70%); filter: blur(14px);"></div>
+            style="background: radial-gradient(ellipse, rgba(45,74,45,0.08) 0%, transparent 70%); filter: blur(14px);"></div>
           <!-- Side ambient glow -->
           <div class="absolute top-4 right-0 w-24 h-24 pointer-events-none"
-            style="background: radial-gradient(ellipse, rgba(60,160,255,0.08) 0%, transparent 70%); filter: blur(16px);"></div>
+            style="background: transparent;"></div>
 
           <!-- Top shimmer line -->
           <div class="absolute top-0 left-0 right-0 h-px"
-            style="background: linear-gradient(90deg, transparent 5%, rgba(70,150,255,0.45) 40%, rgba(140,200,255,0.28) 60%, transparent 95%);"></div>
+            style="background: linear-gradient(90deg, transparent 5%, rgba(45,74,45,0.3) 40%, rgba(26,43,26,0.15) 60%, transparent 95%);"></div>
 
           <!-- Header badge -->
           <div class="flex items-center gap-2 mb-4">
             <div class="nova-live-dot w-1.5 h-1.5 rounded-full"
-              style="background: rgba(70,160,255,0.95); box-shadow: 0 0 8px rgba(70,160,255,0.9);"></div>
+              style="background: #2d4a2d; box-shadow: 0 0 5px rgba(45,74,45,0.6);"></div>
             <p class="text-[9px] tracking-[0.22em] font-bold uppercase"
-              style="color: rgba(90,170,255,0.65);">IDENTITY BEACON</p>
-            <div class="flex-1 h-px" style="background: rgba(60,130,255,0.12);"></div>
+              style="color: #3a5040;">ဖိတ်ကြားရေး</p>
+            <div class="flex-1 h-px" style="background: rgba(26,43,26,0.12);"></div>
             <div class="flex items-center gap-1 px-2 py-0.5 rounded-full"
-              style="background: rgba(40,100,255,0.1); border: 1px solid rgba(60,140,255,0.2);">
+              style="background: rgba(45,74,45,0.15); border: 1px solid rgba(26,43,26,0.2);">
               <div class="nova-pulse-dot w-1 h-1 rounded-full"
-                style="background: rgba(80,220,180,0.9);"></div>
-              <span class="text-[8px] font-bold" style="color: rgba(80,220,180,0.7);">LIVE</span>
+                style="background: #2d4a2d;"></div>
+              <span class="text-[8px] font-bold" style="color: #2d4a2d;">LIVE</span>
             </div>
           </div>
 
@@ -436,37 +421,37 @@
               <div class="relative" style="width: 108px; height: 108px;">
                 <!-- Outer ambient ring 3 -->
                 <div class="nova-qr-ring-3 absolute -inset-4 rounded-3xl pointer-events-none"
-                  style="border: 1px solid rgba(50,130,255,0.1);"></div>
+                  style="border: 1px solid rgba(26,43,26,0.08);"></div>
                 <!-- Mid pulse ring 2 -->
                 <div class="nova-qr-ring-2 absolute -inset-2 rounded-2xl pointer-events-none"
-                  style="border: 1px solid rgba(60,140,255,0.2);"></div>
+                  style="border: 1px solid rgba(26,43,26,0.14);"></div>
                 <!-- Inner glow ring 1 -->
                 <div class="nova-qr-ring-1 absolute inset-0 rounded-2xl pointer-events-none"
-                  style="border: 1px solid rgba(80,160,255,0.4);"></div>
+                  style="border: 1px solid rgba(26,43,26,0.22);"></div>
                 <!-- QR floating card -->
                 <div class="nova-qr-float absolute inset-0 rounded-2xl overflow-hidden"
                   style="background: rgba(255,255,255,0.97); padding: 6px; box-shadow: 0 0 28px rgba(50,130,255,0.45), 0 4px 18px rgba(0,0,0,0.45), inset 0 1px 0 rgba(255,255,255,1);">
                   <img :src="qrUrl" class="w-full h-full object-contain" alt="QR" loading="lazy" />
                   <div class="nova-qr-scan absolute left-0 right-0 h-0.5 pointer-events-none"
-                    style="background: linear-gradient(90deg, transparent, rgba(50,130,255,0.55), transparent);"></div>
+                    style="background: linear-gradient(90deg, transparent, rgba(45,74,45,0.4), transparent);"></div>
                 </div>
                 <!-- Corner accent dot -->
                 <div class="nova-corner-dot absolute -top-0.5 -right-0.5 w-2 h-2 rounded-full"
-                  style="background: rgba(80,180,255,0.9); box-shadow: 0 0 8px rgba(80,180,255,1);"></div>
+                  style="background: #2d4a2d; box-shadow: 0 0 6px rgba(45,74,45,0.6);"></div>
               </div>
             </div>
 
             <!-- ── NODE TYPE BADGE ── -->
             <div class="flex items-center justify-center gap-1.5">
               <div class="flex items-center gap-1 px-2 py-0.5 rounded-full"
-                style="background: rgba(30,80,200,0.18); border: 1px solid rgba(60,140,255,0.3);">
-                <svg class="w-2.5 h-2.5" style="color:rgba(90,170,255,0.85)" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                style="background: rgba(45,74,45,0.12); border: 1px solid rgba(26,43,26,0.2);">
+                <svg class="w-2.5 h-2.5" style="color:#2d4a2d" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
                   <circle cx="12" cy="12" r="3"/><path d="M12 2v3M12 19v3M4.22 4.22l2.12 2.12M17.66 17.66l2.12 2.12M2 12h3M19 12h3M4.22 19.78l2.12-2.12M17.66 6.34l2.12-2.12"/>
                 </svg>
-                <span class="text-[8px] font-black tracking-[0.15em]" style="color:rgba(90,170,255,0.9)">NODE</span>
+                <span class="text-[8px] font-black tracking-[0.15em]" style="color:#1a2b1a">QR</span>
               </div>
-              <span class="text-[8px]" style="color:rgba(60,130,255,0.45)">·</span>
-              <span class="text-[8px] font-mono" style="color:rgba(90,160,255,0.5)">AGENT LINK</span>
+              <span class="text-[8px]" style="color:rgba(26,43,26,0.35)">·</span>
+              <span class="text-[8px] font-mono" style="color:rgba(26,43,26,0.5)">AGENT LINK</span>
             </div>
 
             <!-- ── FULL URL — below QR, full width, soft color ── -->
@@ -497,16 +482,16 @@
 
             <!-- ဖိတ်ကုဒ် caption -->
             <p class="text-[11px] text-center font-mono" style="color: rgba(0,0,0,0.38);">
-              ဖိတ်ကုဒ်: <span style="color:rgba(100,220,180,0.85); font-weight:700;">{{ inviteCode }}</span>
+              ဖိတ်ကုဒ်: <span style="color:#1a2b1a; font-weight:800;">{{ inviteCode }}</span>
             </p>
           </div>
 
           <!-- Social Share Buttons -->
           <div class="mt-4">
             <div class="flex items-center gap-2 mb-2.5">
-              <div class="flex-1 h-px" style="background: linear-gradient(to right, transparent, rgba(50,120,255,0.18));"></div>
-              <p class="text-[8px] tracking-[0.2em] font-bold" style="color: rgba(70,140,255,0.4);">SHARE VIA</p>
-              <div class="flex-1 h-px" style="background: linear-gradient(to left, transparent, rgba(50,120,255,0.18));"></div>
+              <div class="flex-1 h-px" style="background: linear-gradient(to right, transparent, rgba(26,43,26,0.15));"></div>
+              <p class="text-[8px] tracking-[0.2em] font-bold" style="color: rgba(26,43,26,0.4);">SHARE VIA</p>
+              <div class="flex-1 h-px" style="background: linear-gradient(to left, transparent, rgba(26,43,26,0.15));"></div>
             </div>
             <div class="grid grid-cols-5 gap-2">
               <button v-for="s in socialButtons" :key="s.id" @click="shareVia(s.id)"
@@ -518,6 +503,21 @@
                 <span class="text-[9px]" style="color: rgba(0,0,0,0.38);">{{ s.label }}</span>
               </button>
             </div>
+          </div>
+        </div>
+
+        <!-- Stats Grid 2×2 -->
+        <div class="grid grid-cols-2 gap-2.5">
+          <div v-for="s in statsGrid" :key="s.key" class="fp-card rounded-2xl p-3.5 relative overflow-hidden"
+            style="background: rgba(255,255,255,0.38); border: 1px solid rgba(26,43,26,0.12); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); box-shadow: 0 4px 16px rgba(0,0,0,0.08), inset 0 1px 0 rgba(255,255,255,0.55);">
+            <div class="absolute top-0 right-0 w-12 h-12 pointer-events-none"
+              :style="`background: radial-gradient(circle, ${s.glow} 0%, transparent 70%); filter: blur(8px);`"></div>
+            <p class="text-[11px] font-semibold tracking-[0.04em] mb-1.5" style="color: #3a5040;">{{ s.label }}</p>
+            <p class="text-lg font-black" :style="`color: ${s.color};`">
+              <span v-if="loadingData" class="text-sm animate-pulse" style="color:rgba(26,43,26,0.3);">...</span>
+              <span v-else>{{ formatN(s.value) }}</span>
+            </p>
+            <p class="text-[10px] font-medium mt-0.5" style="color: rgba(0,0,0,0.35);">Ks</p>
           </div>
         </div>
 
@@ -572,15 +572,15 @@
 
             <!-- top shimmer line -->
             <div class="absolute top-0 left-0 right-0 h-px"
-              style="background: linear-gradient(90deg, transparent 5%, rgba(255,193,7,0.25) 40%, rgba(255,255,255,0.15) 60%, transparent 95%);"></div>
+              style="background: linear-gradient(90deg, transparent 5%, rgba(26,43,26,0.18) 40%, rgba(26,43,26,0.08) 60%, transparent 95%);"></div>
 
             <!-- Invite label + token row -->
             <div class="flex items-center justify-between mb-4">
               <p class="text-[10px] font-semibold tracking-[0.18em] uppercase"
                 style="color: rgba(0,0,0,0.4);">သူငယ်ချင်းများကို ဖိတ်ကြားသည်</p>
               <div class="flex items-center gap-2 rounded-xl px-3 py-1.5"
-                style="background: rgba(255,193,7,0.08); border: 1px solid rgba(255,193,7,0.18);">
-                <p class="text-[11px] font-black tracking-widest font-mono" style="color: rgba(255,193,7,0.9);">ဖိတ်ကုဒ်: {{ inviteCode }}</p>
+                style="background: rgba(255,255,255,0.4); border: 1px solid rgba(26,43,26,0.18);">
+                <p class="text-[11px] font-black tracking-widest font-mono" style="color: #1a2b1a;">ဖိတ်ကုဒ်: {{ inviteCode }}</p>
                 <button @click="copyText(inviteCode)" class="active:scale-75 transition-transform">
                   <svg v-if="!copiedCode" class="w-3.5 h-3.5" style="color:rgba(255,193,7,0.6)" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"/></svg>
                   <svg v-else class="w-3.5 h-3.5" style="color:rgba(100,220,120,0.9)" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg>
@@ -607,7 +607,7 @@
                   </button>
                 </div>
                 <!-- Caption -->
-                <p class="text-[11px] pl-1 font-mono" style="color: rgba(0,0,0,0.4);">ဖိတ်ကုဒ်: <span style="color:rgba(255,193,7,0.8);font-weight:700;">{{ inviteCode }}</span></p>
+                <p class="text-[11px] pl-1 font-mono" style="color: rgba(0,0,0,0.45);">ဖိတ်ကုဒ်: <span style="color:#1a2b1a;font-weight:800;">{{ inviteCode }}</span></p>
               </div>
             </div>
 
@@ -632,7 +632,7 @@
             <div class="px-5 pt-4 pb-3 flex items-center justify-between" style="border-bottom: 1px solid rgba(120,100,255,0.1);">
               <div class="flex items-center gap-2">
                 <div class="w-1.5 h-1.5 rounded-full animate-pulse" style="background:rgba(140,120,255,0.9);box-shadow:0 0 6px rgba(140,120,255,0.8)"></div>
-                <p class="text-[10px] font-bold tracking-[0.18em] uppercase" style="color: rgba(180,160,255,0.7);">Neural Commission Network</p>
+                <p class="text-[10px] font-bold tracking-[0.18em] uppercase" style="color: #3a5040;">Commission Network</p>
               </div>
               <span class="text-[8px] px-2 py-0.5 rounded-full" style="background:rgba(120,100,255,0.12);border:1px solid rgba(120,100,255,0.25);color:rgba(160,140,255,0.7)">ဥပမာ ရှင်းပြချက်</span>
             </div>
