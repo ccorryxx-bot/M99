@@ -139,6 +139,7 @@
 
               <!-- Scrollable body -->
               <div class="s2-body">
+                <div class="s2-body-inner">
 
                 <!-- Method badge + countdown -->
                 <div class="s2-method-row">
@@ -226,6 +227,9 @@
                   </div>
                 </div>
 
+                <!-- Spacer — pushes tips to bottom when content is short -->
+                <div class="s2-spacer"></div>
+
                 <!-- Tips -->
                 <div class="s2-tips-card">
                   <p class="s2-tips-title">အကြံပြုချက်များ</p>
@@ -236,6 +240,7 @@
                   </ol>
                 </div>
 
+                </div><!-- /s2-body-inner -->
               </div><!-- /s2-body -->
 
               <!-- Back + Confirm -->
@@ -461,6 +466,7 @@ const submitDeposit = () => {
 .nova-overlay--full {
   padding-bottom:0;
   align-items:stretch;
+  z-index:9999;
 }
 
 /* ── Sheet ── */
@@ -542,7 +548,7 @@ const submitDeposit = () => {
 /* Top bar */
 .s2-topbar {
   flex-shrink:0;display:flex;align-items:center;justify-content:space-between;
-  padding:8px 14px 6px;
+  padding:12px 14px 10px;
   background:#fff;
   border-bottom:1px solid #eaecf0;
 }
@@ -563,17 +569,23 @@ const submitDeposit = () => {
 
 /* Scrollable body */
 .s2-body {
-  flex:1;overflow-y:auto;padding:10px 14px 6px;
+  flex:1;overflow-y:auto;padding:12px 14px 0;
   -webkit-overflow-scrolling:touch;
   overscroll-behavior:contain;
 }
 .s2-body::-webkit-scrollbar { width:2px; }
 .s2-body::-webkit-scrollbar-thumb { background:#d1d5db;border-radius:10px; }
 
+/* Inner flex wrapper — tips pushed to bottom */
+.s2-body-inner {
+  display:flex;flex-direction:column;min-height:100%;padding-bottom:10px;
+}
+.s2-spacer { flex:1;min-height:10px; }
+
 /* Method + timer row */
 .s2-method-row {
   display:flex;align-items:center;justify-content:space-between;
-  margin-bottom:8px;
+  margin-bottom:10px;
 }
 .s2-method-badge {
   padding:4px 10px;border-radius:7px;
@@ -595,9 +607,9 @@ const submitDeposit = () => {
 }
 .s2-account-row {
   display:flex;align-items:center;justify-content:space-between;
-  padding:7px 12px;border-radius:10px;
+  padding:9px 12px;border-radius:10px;
   border:1.5px solid #e5e7eb;
-  margin-bottom:7px;
+  margin-bottom:9px;
 }
 .s2-account-row--name {
   background:rgba(37,99,235,0.04);
