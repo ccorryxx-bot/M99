@@ -4,13 +4,7 @@
       <div v-if="visible" class="nova-overlay" @click.self="close">
         <div class="nova-sheet" :class="step===2&&'nova-sheet--white'">
 
-          <!-- ░░ BACKGROUND (step 1 only) ░░ -->
-          <div v-if="step===1" aria-hidden="true" class="nova-bg">
-            <div class="nova-bg-base"></div>
-            <div class="nova-orb nova-orb--1"></div>
-            <div class="nova-orb nova-orb--2"></div>
-            <div class="nova-orb nova-orb--3"></div>
-          </div>
+
 
           <!-- ══ STEP 1 LAYOUT ══ -->
           <template v-if="step===1">
@@ -264,8 +258,8 @@ const walletBalance = ref(0)
 const refreshing    = ref(false)
 const focusMode     = ref(false)
 
-function lockScroll()   { document.body.style.overflow = 'hidden'; document.body.style.touchAction = 'none' }
-function unlockScroll() { document.body.style.overflow = ''; document.body.style.touchAction = '' }
+function lockScroll()   { document.body.style.overflow = 'hidden' }
+function unlockScroll() { document.body.style.overflow = '' }
 
 // ── Bonus countdown (step 1) ───────────────────────────────────────
 const countdown = ref('00:00:00')
@@ -384,9 +378,7 @@ const submitDeposit = () => {
 .nova-overlay {
   position:fixed;inset:0;z-index:50;
   display:flex;align-items:flex-end;justify-content:center;
-  background:rgba(0,0,0,0.75);
-  backdrop-filter:blur(8px);
-  -webkit-backdrop-filter:blur(8px);
+  background:rgba(0,0,0,0.84);
   padding-bottom:64px;
 }
 
@@ -398,19 +390,12 @@ const submitDeposit = () => {
   border-radius:20px 20px 0 0;
   overflow:hidden;
   display:flex;flex-direction:column;
+  background:linear-gradient(160deg,#08102a 0%,#0d1a36 25%,#0c1828 50%,#091420 75%,#07101a 100%);
 }
 .nova-sheet--white { background:#f5f6fa; }
 
 /* ── BG ── */
-.nova-bg { position:absolute;inset:0;overflow:hidden;pointer-events:none;z-index:0;border-radius:20px 20px 0 0; }
-.nova-bg-base { position:absolute;inset:0;background:linear-gradient(160deg,#08102a 0%,#0d1a36 25%,#0c1828 50%,#091420 75%,#07101a 100%); }
-.nova-orb { position:absolute;border-radius:50%;pointer-events:none; }
-.nova-orb--1 { top:-60px;left:-60px;width:280px;height:280px;background:radial-gradient(circle,rgba(34,197,94,0.22) 0%,rgba(34,197,94,0.07) 50%,transparent 70%);animation:orbA 12s ease-in-out infinite; }
-.nova-orb--2 { top:15%;right:-70px;width:300px;height:300px;background:radial-gradient(circle,rgba(99,102,241,0.22) 0%,rgba(56,189,248,0.1) 45%,transparent 70%);animation:orbB 16s ease-in-out infinite; }
-.nova-orb--3 { bottom:40px;left:-20px;width:220px;height:220px;background:radial-gradient(circle,rgba(168,85,247,0.18) 0%,rgba(236,72,153,0.08) 50%,transparent 70%);animation:orbC 14s ease-in-out infinite; }
-@keyframes orbA { 0%{transform:translate(0,0);}50%{transform:translate(12px,-18px);}100%{transform:translate(0,0);} }
-@keyframes orbB { 0%{transform:translate(0,0);}50%{transform:translate(-15px,14px);}100%{transform:translate(0,0);} }
-@keyframes orbC { 0%{transform:translate(0,0);}50%{transform:translate(10px,-12px);}100%{transform:translate(0,0);} }
+/* bg handled by .nova-sheet */
 
 /* ── Step 1 Content ── */
 .nova-content { position:relative;z-index:1;display:flex;flex-direction:column;height:100%; }
@@ -427,18 +412,19 @@ const submitDeposit = () => {
 .nova-cta-wrap { flex-shrink:0;padding:8px 16px 12px; }
 .nova-label { font-size:11px;color:rgba(156,163,175,0.75);margin:0 0 7px 0; }
 .nova-pm-grid { display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:12px; }
-.nova-pm-btn { position:relative;display:flex;align-items:center;gap:9px;padding:9px 11px;border-radius:12px;cursor:pointer;border:none;outline:none;transition:all 0.18s ease;text-align:left;user-select:none; }
-.nova-pm-idle   { background:rgba(255,255,255,0.05);box-shadow:inset 0 1px 0 rgba(255,255,255,0.09),0 1px 4px rgba(0,0,0,0.3); }
-.nova-pm-active { background:rgba(255,255,255,0.09);box-shadow:inset 0 1px 0 rgba(255,255,255,0.15),inset 0 0 0 1px rgba(34,197,94,0.4),0 0 12px rgba(34,197,94,0.15); }
-.nova-pm-btn:active { transform:scale(0.97); }
+.nova-pm-btn { position:relative;display:flex;align-items:center;gap:9px;padding:9px 11px;border-radius:12px;cursor:pointer;border:1px solid rgba(255,255,255,0.08);outline:none;transition:border-color 0.15s,background 0.15s;text-align:left;user-select:none;-webkit-tap-highlight-color:transparent; }
+.nova-pm-idle   { background:rgba(255,255,255,0.04); }
+.nova-pm-active { background:rgba(34,197,94,0.06);border-color:rgba(34,197,94,0.32); }
+.nova-pm-btn:active { opacity:0.72; }
 .nova-pm-icon  { width:28px;height:28px;border-radius:8px;flex-shrink:0;display:flex;align-items:center;justify-content:center;overflow:hidden; }
-.nova-pm-label { font-size:12px;font-weight:600; }
+.nova-pm-label { font-size:12px;font-weight:600;padding-left:8px;border-left:1.5px solid rgba(255,255,255,0.18);line-height:1; }
+.nova-pm-active .nova-pm-label { border-left-color:rgba(34,197,94,0.55); }
 .nova-popular-badge { position:absolute;top:-7px;left:50%;transform:translateX(-50%);font-size:8px;font-weight:900;padding:2px 8px;border-radius:99px;background:linear-gradient(90deg,#f97316,#ef4444);color:#fff;white-space:nowrap;box-shadow:0 1px 6px rgba(249,115,22,0.5); }
 .nova-amt-grid { display:grid;grid-template-columns:repeat(4,1fr);gap:6px;margin-bottom:8px; }
-.nova-amt-btn { padding:8px 2px;border-radius:10px;border:none;outline:none;font-size:11px;font-weight:700;cursor:pointer;transition:all 0.15s ease;text-align:center;user-select:none; }
-.nova-amt-idle  { background:rgba(255,255,255,0.05);color:rgba(203,213,225,0.85);border:1px solid rgba(234,179,8,0.25); }
-.nova-amt-active { background:rgba(6,182,212,0.82);color:#fff;border:1px solid rgba(6,182,212,0.6);box-shadow:inset 0 1px 0 rgba(255,255,255,0.2),0 2px 10px rgba(6,182,212,0.4); }
-.nova-amt-btn:active { transform:scale(0.95); }
+.nova-amt-btn { padding:8px 2px;border-radius:10px;border:1px solid rgba(234,179,8,0.2);outline:none;font-size:11px;font-weight:700;cursor:pointer;transition:background 0.12s,border-color 0.12s,color 0.12s;text-align:center;user-select:none;-webkit-tap-highlight-color:transparent; }
+.nova-amt-idle  { background:rgba(255,255,255,0.04);color:rgba(203,213,225,0.85); }
+.nova-amt-active { background:rgba(6,182,212,0.12);color:rgba(6,182,212,1);border-color:rgba(6,182,212,0.45); }
+.nova-amt-btn:active { opacity:0.68; }
 .nova-input-wrap { position:relative;margin-bottom:12px; }
 .nova-k-prefix { position:absolute;left:12px;top:50%;transform:translateY(-50%);font-size:11px;font-weight:700;color:rgba(156,163,175,0.6);z-index:1; }
 .nova-input { width:100%;padding:10px 12px 10px 26px;border-radius:11px;border:1px solid rgba(234,179,8,0.3);outline:none;font-size:12px;font-weight:600;box-sizing:border-box;background:rgba(255,255,255,0.06);box-shadow:inset 0 1px 0 rgba(255,255,255,0.07);color:rgba(226,232,240,0.9);caret-color:#22c55e;transition:border-color 0.15s; }
@@ -455,12 +441,12 @@ const submitDeposit = () => {
 .nova-radio-title { font-size:11px;font-weight:600;color:rgba(203,213,225,0.9);margin:0 0 1px 0; }
 .nova-radio-sub   { font-size:9px;color:rgba(107,114,128,0.75);margin:0; }
 .nova-row-divider { height:1px;background:rgba(255,255,255,0.04);margin:0 12px; }
-.nova-radio { width:16px;height:16px;border-radius:50%;flex-shrink:0;border:1.5px solid rgba(100,116,139,0.5);background:transparent;transition:all 0.18s; }
+.nova-radio { width:16px;height:16px;border-radius:50%;flex-shrink:0;border:1.5px solid rgba(100,116,139,0.5);background:transparent;transition:border-color 0.15s,background 0.15s; }
 .nova-radio-on { border-color:#22c55e;background:radial-gradient(circle,#22c55e 0%,#22c55e 40%,transparent 60%);box-shadow:0 0 6px rgba(34,197,94,0.5); }
-.nova-cta { width:100%;padding:11px;border-radius:99px;border:none;outline:none;font-size:13px;font-weight:700;letter-spacing:0.04em;cursor:pointer;background:rgba(30,41,59,0.95);box-shadow:inset 0 1px 0 rgba(255,255,255,0.12),0 3px 10px rgba(0,0,0,0.4);color:rgba(226,232,240,0.9);transition:all 0.2s; }
+.nova-cta { width:100%;padding:11px;border-radius:99px;border:1px solid rgba(34,197,94,0.35);outline:none;font-size:13px;font-weight:700;letter-spacing:0.04em;cursor:pointer;background:rgba(34,197,94,0.1);color:rgba(226,232,240,0.92);transition:opacity 0.15s;-webkit-tap-highlight-color:transparent; }
 .nova-cta:disabled { opacity:0.3;cursor:not-allowed; }
 .nova-icon-btn { width:26px;height:26px;border-radius:8px;border:none;outline:none;cursor:pointer;background:rgba(255,255,255,0.07);box-shadow:inset 0 1px 0 rgba(255,255,255,0.1);color:rgba(156,163,175,0.8);display:flex;align-items:center;justify-content:center;transition:background 0.15s; }
-.nova-refresh-btn { width:22px;height:22px;border-radius:6px;border:none;outline:none;cursor:pointer;background:rgba(255,255,255,0.07);display:flex;align-items:center;justify-content:center;color:rgba(156,163,175,0.8);transition:all 0.15s; }
+.nova-refresh-btn { width:22px;height:22px;border-radius:6px;border:none;outline:none;cursor:pointer;background:rgba(255,255,255,0.07);display:flex;align-items:center;justify-content:center;color:rgba(156,163,175,0.8);transition:opacity 0.15s; }
 .nova-spin svg { animation:spin 0.6s linear infinite; }
 @keyframes spin { to { transform:rotate(360deg); } }
 
@@ -545,7 +531,7 @@ const submitDeposit = () => {
   padding:5px 12px;border-radius:7px;border:none;outline:none;cursor:pointer;
   background:#2563eb;color:#fff;
   font-size:11px;font-weight:700;
-  transition:all 0.15s;
+  transition:opacity 0.12s;
   flex-shrink:0;
 }
 .s2-copy-btn:active { transform:scale(0.95);background:#1d4ed8; }
@@ -621,18 +607,17 @@ const submitDeposit = () => {
   border:1.5px solid #d1d5db;background:#f9fafb;
   display:flex;align-items:center;justify-content:center;
   color:#374151;cursor:pointer;flex-shrink:0;
-  transition:all 0.15s;
+  transition:opacity 0.12s;
 }
-.s2-back-btn:active { background:#e5e7eb;transform:scale(0.96); }
+.s2-back-btn:active { opacity:0.7; }
 .s2-confirm-btn {
   flex:1;padding:13px;border-radius:12px;
   border:none;outline:none;cursor:pointer;
   background:linear-gradient(135deg,#16a34a,#15803d);
   color:#fff;font-size:14px;font-weight:700;
-  box-shadow:0 4px 14px rgba(22,163,74,0.35);
-  transition:all 0.2s;
+  transition:opacity 0.15s;
 }
-.s2-confirm-btn:active { transform:scale(0.98); }
+.s2-confirm-btn:active { opacity:0.8; }
 
 /* ── Transitions ── */
 .nova-modal-enter-active { animation:sheetUp 0.28s cubic-bezier(0.22,1,0.36,1); }
