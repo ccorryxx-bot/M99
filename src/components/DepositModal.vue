@@ -93,23 +93,21 @@
                   </label>
                   <div class="nova-row-divider"></div>
                   <label class="nova-radio-row" @click="bonusOption='1pct'">
-                    <div style="display:flex;align-items:center;gap:8px;flex:1;min-width:0;">
-                      <span style="font-size:13px;flex-shrink:0;">🎁</span>
-                      <div>
-                        <p class="nova-radio-title">ဘောနပ် 1%</p>
-                        <p class="nova-radio-sub">တစ်ကြိမ်ပြန်လည်သွင်း ≥ 3,000</p>
-                      </div>
+                    <div style="display:flex;align-items:center;gap:6px;flex:1;min-width:0;overflow:hidden;">
+                      <span style="font-size:12px;flex-shrink:0;">🎁</span>
+                      <span class="nova-radio-title">ဘောနပ် 1%</span>
+                      <span class="nova-radio-divline">—</span>
+                      <span class="nova-radio-sub">တစ်ကြိမ်ပြန်လည်သွင်း ≥ 3,000</span>
                     </div>
                     <div class="nova-radio" :class="bonusOption==='1pct'&&'nova-radio-on'"></div>
                   </label>
                   <div class="nova-row-divider"></div>
                   <label class="nova-radio-row" @click="bonusOption='20pct'">
-                    <div style="display:flex;align-items:center;gap:8px;flex:1;min-width:0;">
-                      <span style="font-size:13px;flex-shrink:0;">🎁</span>
-                      <div>
-                        <p class="nova-radio-title">ဘောနပ် 20%</p>
-                        <p class="nova-radio-sub">ပထမဆုံးငွေသွင်း ≥ 3,000</p>
-                      </div>
+                    <div style="display:flex;align-items:center;gap:6px;flex:1;min-width:0;overflow:hidden;">
+                      <span style="font-size:12px;flex-shrink:0;">🎁</span>
+                      <span class="nova-radio-title">ဘောနပ် 20%</span>
+                      <span class="nova-radio-divline">—</span>
+                      <span class="nova-radio-sub">ပထမဆုံးငွေသွင်း ≥ 3,000</span>
                     </div>
                     <div class="nova-radio" :class="bonusOption==='20pct'&&'nova-radio-on'"></div>
                   </label>
@@ -399,20 +397,20 @@ const submitDeposit = () => {
 
 /* ── Step 1 Content ── */
 .nova-content { position:relative;z-index:1;display:flex;flex-direction:column;height:100%; }
-.nova-header-wrap { flex-shrink:0;padding:12px 16px 0; }
+.nova-header-wrap { flex-shrink:0;padding:10px 16px 0; }
 .nova-header-row  { display:flex;align-items:center;justify-content:space-between;margin-bottom:8px; }
 .nova-title       { font-size:13px;font-weight:700;color:rgba(226,232,240,0.95);letter-spacing:0.04em; }
-.nova-balance-bar { display:flex;align-items:center;justify-content:space-between;margin-bottom:8px;padding:5px 10px;border-radius:9px;background:rgba(255,255,255,0.04);box-shadow:inset 0 1px 0 rgba(255,255,255,0.07); }
+.nova-balance-bar { display:flex;align-items:center;justify-content:space-between;margin-bottom:6px;padding:4px 10px;border-radius:9px;background:rgba(255,255,255,0.04);box-shadow:inset 0 1px 0 rgba(255,255,255,0.07); }
 .nova-balance-label { font-size:10px;color:rgba(148,163,184,0.7); }
 .nova-balance-num   { font-size:12px;font-weight:700;color:rgba(253,224,71,0.9); }
-.nova-divider       { height:1px;background:rgba(255,255,255,0.07);margin-bottom:10px; }
+.nova-divider       { height:1px;background:rgba(255,255,255,0.07);margin-bottom:8px; }
 .nova-body { flex:1;overflow-y:auto;padding:0 16px;overscroll-behavior:contain;-webkit-overflow-scrolling:touch; }
 .nova-body::-webkit-scrollbar { width:2px; }
 .nova-body::-webkit-scrollbar-thumb { background:rgba(100,116,139,0.22);border-radius:10px; }
-.nova-cta-wrap { flex-shrink:0;padding:8px 16px 12px; }
-.nova-label { font-size:11px;color:rgba(156,163,175,0.75);margin:0 0 7px 0; }
-.nova-pm-grid { display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:12px; }
-.nova-pm-btn { position:relative;display:flex;align-items:center;gap:9px;padding:9px 11px;border-radius:12px;cursor:pointer;border:1px solid rgba(255,255,255,0.08);outline:none;transition:border-color 0.15s,background 0.15s;text-align:left;user-select:none;-webkit-tap-highlight-color:transparent; }
+.nova-cta-wrap { flex-shrink:0;padding:6px 16px 10px; }
+.nova-label { font-size:11px;color:rgba(156,163,175,0.75);margin:0 0 5px 0; }
+.nova-pm-grid { display:grid;grid-template-columns:1fr 1fr;gap:7px;margin-bottom:8px; }
+.nova-pm-btn { position:relative;display:flex;align-items:center;gap:8px;padding:8px 10px;border-radius:12px;cursor:pointer;border:1px solid rgba(255,255,255,0.08);outline:none;transition:border-color 0.15s,background 0.15s;text-align:left;user-select:none;-webkit-tap-highlight-color:transparent; }
 .nova-pm-idle   { background:rgba(255,255,255,0.04); }
 .nova-pm-active { background:rgba(34,197,94,0.06);border-color:rgba(34,197,94,0.32); }
 .nova-pm-btn:active { opacity:0.72; }
@@ -420,26 +418,27 @@ const submitDeposit = () => {
 .nova-pm-label { font-size:12px;font-weight:600;padding-left:8px;border-left:1.5px solid rgba(255,255,255,0.18);line-height:1; }
 .nova-pm-active .nova-pm-label { border-left-color:rgba(34,197,94,0.55); }
 .nova-popular-badge { position:absolute;top:-7px;left:50%;transform:translateX(-50%);font-size:8px;font-weight:900;padding:2px 8px;border-radius:99px;background:linear-gradient(90deg,#f97316,#ef4444);color:#fff;white-space:nowrap;box-shadow:0 1px 6px rgba(249,115,22,0.5); }
-.nova-amt-grid { display:grid;grid-template-columns:repeat(4,1fr);gap:6px;margin-bottom:8px; }
-.nova-amt-btn { padding:8px 2px;border-radius:10px;border:1px solid rgba(234,179,8,0.2);outline:none;font-size:11px;font-weight:700;cursor:pointer;transition:background 0.12s,border-color 0.12s,color 0.12s;text-align:center;user-select:none;-webkit-tap-highlight-color:transparent; }
+.nova-amt-grid { display:grid;grid-template-columns:repeat(4,1fr);gap:5px;margin-bottom:6px; }
+.nova-amt-btn { padding:7px 2px;border-radius:10px;border:1px solid rgba(234,179,8,0.2);outline:none;font-size:11px;font-weight:700;cursor:pointer;transition:background 0.12s,border-color 0.12s,color 0.12s;text-align:center;user-select:none;-webkit-tap-highlight-color:transparent; }
 .nova-amt-idle  { background:rgba(255,255,255,0.04);color:rgba(203,213,225,0.85); }
 .nova-amt-active { background:rgba(6,182,212,0.12);color:rgba(6,182,212,1);border-color:rgba(6,182,212,0.45); }
 .nova-amt-btn:active { opacity:0.68; }
-.nova-input-wrap { position:relative;margin-bottom:12px; }
+.nova-input-wrap { position:relative;margin-bottom:8px; }
 .nova-k-prefix { position:absolute;left:12px;top:50%;transform:translateY(-50%);font-size:11px;font-weight:700;color:rgba(156,163,175,0.6);z-index:1; }
 .nova-input { width:100%;padding:10px 12px 10px 26px;border-radius:11px;border:1px solid rgba(234,179,8,0.3);outline:none;font-size:12px;font-weight:600;box-sizing:border-box;background:rgba(255,255,255,0.06);box-shadow:inset 0 1px 0 rgba(255,255,255,0.07);color:rgba(226,232,240,0.9);caret-color:#22c55e;transition:border-color 0.15s; }
 .nova-input:focus { border-color:rgba(234,179,8,0.6);box-shadow:inset 0 1px 0 rgba(255,255,255,0.09),0 0 0 1.5px rgba(234,179,8,0.15); }
 .nova-input::placeholder { color:rgba(107,114,128,0.45); }
-.nova-bonus-card { border-radius:13px;overflow:hidden;margin-bottom:8px;background:rgba(255,255,255,0.04);box-shadow:inset 0 1px 0 rgba(255,255,255,0.07),0 2px 8px rgba(0,0,0,0.3); }
+.nova-bonus-card { border-radius:13px;overflow:hidden;margin-bottom:4px;background:rgba(255,255,255,0.04);box-shadow:inset 0 1px 0 rgba(255,255,255,0.07); }
 .nova-bonus-header { display:flex;align-items:center;justify-content:space-between;padding:8px 12px;border-bottom:1px solid rgba(255,255,255,0.05); }
 .nova-bonus-title    { font-size:11px;font-weight:700;color:rgba(253,224,71,0.85); }
 .nova-countdown-badge { display:flex;align-items:center;gap:3px;padding:2px 7px;border-radius:99px;background:rgba(239,68,68,0.18); }
 .nova-countdown      { font-size:9px;font-weight:700;color:#fca5a5;font-variant-numeric:tabular-nums; }
-.nova-radio-row  { display:flex;align-items:center;justify-content:space-between;padding:9px 12px;cursor:pointer;user-select:none;transition:background 0.15s; }
+.nova-radio-row  { display:flex;align-items:center;justify-content:space-between;padding:6px 12px;cursor:pointer;user-select:none;transition:background 0.15s; }
 .nova-radio-row:hover { background:rgba(255,255,255,0.03); }
 .nova-radio-text  { font-size:11px;font-weight:500;color:rgba(148,163,184,0.85);white-space:nowrap;overflow:hidden;text-overflow:ellipsis; }
-.nova-radio-title { font-size:11px;font-weight:600;color:rgba(203,213,225,0.9);margin:0 0 1px 0; }
-.nova-radio-sub   { font-size:9px;color:rgba(107,114,128,0.75);margin:0; }
+.nova-radio-title { font-size:11px;font-weight:700;color:rgba(203,213,225,0.9);white-space:nowrap;flex-shrink:0; }
+.nova-radio-sub   { font-size:10px;color:rgba(107,114,128,0.85);white-space:nowrap;overflow:hidden;text-overflow:ellipsis; }
+.nova-radio-divline { font-size:10px;color:rgba(100,116,139,0.45);flex-shrink:0; }
 .nova-row-divider { height:1px;background:rgba(255,255,255,0.04);margin:0 12px; }
 .nova-radio { width:16px;height:16px;border-radius:50%;flex-shrink:0;border:1.5px solid rgba(100,116,139,0.5);background:transparent;transition:border-color 0.15s,background 0.15s; }
 .nova-radio-on { border-color:#22c55e;background:radial-gradient(circle,#22c55e 0%,#22c55e 40%,transparent 60%);box-shadow:0 0 6px rgba(34,197,94,0.5); }
