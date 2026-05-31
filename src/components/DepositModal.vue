@@ -1,8 +1,8 @@
 <template>
   <Teleport to="body">
     <Transition name="nova-modal">
-      <div v-if="visible" class="nova-overlay" @click.self="close">
-        <div class="nova-sheet" :class="step===2&&'nova-sheet--white'">
+      <div v-if="visible" class="nova-overlay" :class="step===2&&'nova-overlay--full'" @click.self="close">
+        <div class="nova-sheet" :class="[step===2&&'nova-sheet--white', step===2&&'nova-sheet--full']">
 
 
 
@@ -206,6 +206,26 @@
                   </div>
                 </div>
 
+                <!-- ပြေစာ နံပါတ် input -->
+                <div class="s2-ref-section">
+                  <label class="s2-ref-label">ပြေစာ နံပါတ် (နောက်ဆုံး ၅ လုံး)</label>
+                  <div class="s2-ref-boxes">
+                    <input
+                      v-for="(_, i) in 5"
+                      :key="i"
+                      :ref="el => refInputs[i] = el"
+                      class="s2-ref-box"
+                      type="text"
+                      inputmode="numeric"
+                      maxlength="1"
+                      :value="refDigits[i]"
+                      @input="onRefInput(i, $event)"
+                      @keydown="onRefKeydown(i, $event)"
+                      @paste="onRefPaste($event)"
+                    />
+                  </div>
+                </div>
+
                 <!-- Tips -->
                 <div class="s2-tips-card">
                   <p class="s2-tips-title">အကြံပြုချက်များ</p>
@@ -377,6 +397,31 @@ function onAmountFocus(e)  {
 function onAmountBlur()   { focusMode.value = false; if (amtInput.value) amtInput.value.value = amount.value ? amount.value.toLocaleString() : '' }
 function formatAmt(n)     { return n.toLocaleString() }
 
+// ── ပြေစာ (5-digit ref) ───────────────────────────────────────────
+const refDigits  = ref(['','','','',''])
+const refInputs  = ref([])
+function onRefInput(i, e) {
+  const v = e.target.value.replace(/\D/g,'').slice(-1)
+  refDigits.value[i] = v
+  e.target.value = v
+  if (v && i < 4) nextTick(() => refInputs.value[i+1]?.focus())
+}
+function onRefKeydown(i, e) {
+  if (e.key === 'Backspace' && !refDigits.value[i] && i > 0) {
+    nextTick(() => { refInputs.value[i-1]?.focus() })
+  }
+}
+function onRefPaste(e) {
+  e.preventDefault()
+  const digits = (e.clipboardData.getData('text') || '').replace(/\D/g,'').slice(0,5)
+  digits.split('').forEach((d, i) => { refDigits.value[i] = d })
+  nextTick(() => {
+    const last = Math.min(digits.length, 4)
+    refInputs.value[last]?.focus()
+  })
+}
+const transactionRef = computed(() => refDigits.value.join(''))
+
 // ── Actions ───────────────────────────────────────────────────────
 const close    = () => emit('update:modelValue', false)
 const nextStep = () => { if (!method.value || amount.value < 3000) return; step.value = 2 }
@@ -385,7 +430,7 @@ const copyText = async (text) => {
   catch { prompt('Copy manually:', text) }
 }
 const submitDeposit = () => {
-  emit('submit', { method:method.value, amount:amount.value, bonus:bonusOption.value })
+  emit('submit', { method:method.value, amount:amount.value, bonus:bonusOption.value, ref:transactionRef.value })
   close()
 }
 </script>
@@ -397,6 +442,10 @@ const submitDeposit = () => {
   display:flex;align-items:flex-end;justify-content:center;
   background:rgba(0,0,0,0.84);
   padding-bottom:80px;
+}
+.nova-overlay--full {
+  padding-bottom:0;
+  align-items:stretch;
 }
 
 /* ── Sheet ── */
@@ -410,6 +459,7 @@ const submitDeposit = () => {
   background:linear-gradient(160deg,#08102a 0%,#0d1a36 25%,#0c1828 50%,#091420 75%,#07101a 100%);
 }
 .nova-sheet--white { background:#f5f6fa; }
+.nova-sheet--full  { height:100dvh;border-radius:0;max-width:100%; }
 
 /* ── BG ── */
 /* bg handled by .nova-sheet */
@@ -612,11 +662,42 @@ const submitDeposit = () => {
   font-size:12px;line-height:1.65;color:#374151;
 }
 
+/* ပြေစာ input */
+.s2-ref-section {
+  margin-bottom:16px;
+  padding:14px 16px;border-radius:14px;
+  background:#fff;border:1.5px solid #e5e7eb;
+  box-shadow:0 1px 3px rgba(0,0,0,0.06);
+}
+.s2-ref-label {
+  display:block;font-size:12px;font-weight:700;color:#374151;
+  margin-bottom:12px;
+}
+.s2-ref-boxes {
+  display:flex;gap:10px;justify-content:center;
+}
+.s2-ref-box {
+  width:52px;height:58px;
+  border:2px solid #d1d5db;border-radius:12px;
+  background:#f9fafb;
+  font-size:26px;font-weight:800;color:#111827;
+  text-align:center;
+  outline:none;
+  transition:border-color 0.15s,box-shadow 0.15s;
+  -webkit-appearance:none;
+  caret-color:transparent;
+}
+.s2-ref-box:focus {
+  border-color:#2563eb;
+  box-shadow:0 0 0 3px rgba(37,99,235,0.15);
+  background:#fff;
+}
+
 /* Footer */
 .s2-footer {
   flex-shrink:0;
   display:flex;align-items:center;gap:10px;
-  padding:10px 16px 14px;
+  padding:10px 16px calc(14px + env(safe-area-inset-bottom, 0px));
   background:#fff;
   border-top:1px solid #eaecf0;
 }
