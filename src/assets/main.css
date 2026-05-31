@@ -22,7 +22,7 @@ body {
    agent-page all share the same gradient so they never look different.
 ═══════════════════════════════════════════════════════════════ */
 :root {
-  --nova-bg: linear-gradient(160deg, #08102a 0%, #0d1a36 20%, #0c1828 40%, #091420 60%, #07101a 80%, #050c14 100%);
+  --nova-bg: #b0baaf;
 }
 
 .nova-page-bg,
