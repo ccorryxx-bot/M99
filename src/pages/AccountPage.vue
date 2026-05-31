@@ -69,24 +69,37 @@
         </div>
       </div>
 
-      <!-- ══ ACTION BUTTONS ══ -->
-      <div class="action-row">
-        <button @click="$router.push('/home')" class="action-flat-btn">
-          <div class="action-flat-icon">
-            <svg width="20" height="20" fill="none" stroke="#4ade80" stroke-width="1.8" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" d="M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z"/>
+      <!-- ══ ACTION BUTTONS — menu-row style ══ -->
+      <div class="action-menu-block">
+
+        <button @click="$router.push('/home')" class="action-menu-row">
+          <div class="action-menu-icon">
+            <!-- Withdraw: cool cash-out arrow -->
+            <svg width="19" height="19" fill="none" stroke="#000" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24">
+              <rect x="2" y="14" width="20" height="7" rx="2"/>
+              <path d="M12 2v10m0 0l-3.5-3.5M12 12l3.5-3.5"/>
+              <path d="M6 14v-2a1 1 0 011-1h10a1 1 0 011 1v2" opacity="0.35"/>
             </svg>
           </div>
-          <span class="action-flat-lbl">ငွေထုတ်ရန်</span>
+          <span class="action-menu-lbl">ငွေထုတ်ရန်</span>
+          <svg class="m-arr" fill="none" stroke="#888" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
         </button>
-        <button @click="$router.push('/home')" class="action-flat-btn">
-          <div class="action-flat-icon">
-            <svg width="20" height="20" fill="none" stroke="#4ade80" stroke-width="1.8" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" d="M3 10h10a8 8 0 018 8v2M3 10l6 6m-6-6l6-6"/>
+
+        <div class="menu-divider"></div>
+
+        <button @click="$router.push('/home')" class="action-menu-row">
+          <div class="action-menu-icon">
+            <!-- Deposit: cool cash-in arrow -->
+            <svg width="19" height="19" fill="none" stroke="#000" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24">
+              <rect x="2" y="14" width="20" height="7" rx="2"/>
+              <path d="M12 12V2m0 0L8.5 5.5M12 2l3.5 3.5"/>
+              <path d="M6 14v-2a1 1 0 011-1h10a1 1 0 011 1v2" opacity="0.35"/>
             </svg>
           </div>
-          <span class="action-flat-lbl">ငွေသွင်းရန်</span>
+          <span class="action-menu-lbl">ငွေသွင်းရန်</span>
+          <svg class="m-arr" fill="none" stroke="#888" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
         </button>
+
       </div>
 
       <!-- ══ VIP CARD ══ -->
@@ -526,26 +539,27 @@ const comingSoon = () => alert('Coming Soon')
 .refresh-btn:active { transform: scale(0.82); }
 .refresh-btn.refreshing .refresh-svg { animation: nova-spin 0.7s linear infinite; }
 
-/* ── Action buttons ── */
-.action-row { display: grid; grid-template-columns: 1fr 1fr; gap: 6px; }
-.action-flat-btn {
-  display: flex; flex-direction: column; align-items: center; gap: 5px;
-  padding: 8px 8px 7px;
-  background: #b0baaf;
-  border: 1px solid rgba(0,0,0,0.1);
-  border-radius: 12px; cursor: pointer;
-  box-shadow: 0 2px 6px rgba(0,0,0,0.12), inset 0 1px 0 rgba(255,255,255,0.22);
-  transition: opacity 0.12s;
+/* ── Action buttons — menu-row style ── */
+.action-menu-block {
+  background: transparent;
+  border: none;
+  box-shadow: none;
+}
+.action-menu-row {
+  display: flex; align-items: center; gap: 10px;
+  padding: 9px 4px; width: 100%; cursor: pointer;
+  background: none; border: none;
+  transition: opacity 0.15s;
   -webkit-tap-highlight-color: transparent;
 }
-.action-flat-btn:active { opacity: 0.65; }
-.action-flat-icon {
-  width: 42px; height: 42px; border-radius: 12px;
-  background: rgba(74,222,128,0.14);
-  border: 1px solid rgba(74,222,128,0.22);
-  display: flex; align-items: center; justify-content: center;
+.action-menu-row:active { opacity: 0.6; }
+.action-menu-icon {
+  width: 30px; height: 30px; border-radius: 8px;
+  background: transparent;
+  border: 1.5px solid rgba(0,0,0,0.18);
+  display: flex; align-items: center; justify-content: center; flex-shrink: 0;
 }
-.action-flat-lbl { font-size: 12px; font-weight: 700; color: #111; }
+.action-menu-lbl { flex: 1; font-size: 13px; font-weight: 600; color: #111; text-align: left; }
 
 /* ── VIP card ── */
 .vip-card {
