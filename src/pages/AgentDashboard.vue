@@ -1,17 +1,17 @@
 <template>
-  <div class="agent-page min-h-screen overflow-x-hidden" style="color: #1a1a1a;">
+  <div class="agent-page min-h-screen overflow-x-hidden" style="color: #1a2b1a;">
 
     <!-- ── HEADER ── -->
     <header class="sticky top-0 z-40 px-4 py-3 flex items-center justify-between"
       style="background: #b0baaf; border-bottom: 1px solid rgba(0,0,0,0.09);">
       <button @click="$router.push('/home')" class="flex items-center gap-1.5 active:opacity-50 transition-opacity"
-        style="color: #1a1a1a;">
+        style="color: #1a2b1a;">
         <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/></svg>
         <span class="text-xs font-medium tracking-wider">NovaBETT</span>
       </button>
-      <span class="text-sm font-bold tracking-wide" style="color:#1a1a1a;">Agent Dashboard</span>
+      <span class="text-sm font-bold tracking-wide" style="color:#1a2b1a;">Agent Dashboard</span>
       <button @click="loadAll" :class="['w-8 h-8 flex items-center justify-center rounded-full transition-all active:scale-90', loading ? 'animate-spin' : '']"
-        style="background: transparent; border: none; color: #1a1a1a;">
+        style="background: transparent; border: none; color: #1a2b1a;">
         <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"/></svg>
       </button>
     </header>
@@ -23,7 +23,7 @@
         <button v-for="(tab, i) in tabs" :key="i" @click="activeTab = i"
           class="flex-shrink-0 px-3.5 py-1.5 text-[11px] font-semibold tracking-wide transition-all duration-200 whitespace-nowrap"
           :style="activeTab === i
-            ? 'color: #1a1a1a; font-weight:700; border-bottom: 2px solid #717a71; padding-bottom: 4px;'
+            ? 'color: #1a2b1a; font-weight:700; border-bottom: 2px solid #717a71; padding-bottom: 4px;'
             : 'color: rgba(0,0,0,0.45);'">
           {{ tab.label }}
         </button>
@@ -326,21 +326,21 @@
 
             <div class="flex-1 min-w-0">
               <div class="flex items-center gap-2 mb-0.5">
-                <p class="text-base font-bold truncate" style="color: rgba(255,255,255,0.88);">
+                <p class="text-base font-bold truncate" style="color: #1a2b1a;">
                   <span v-if="loadingData" class="animate-pulse">Loading...</span>
                   <span v-else>{{ username }}</span>
                 </p>
                 <span class="px-1.5 py-0.5 rounded text-[9px] font-bold"
                   style="background: rgba(255,193,7,0.12); color: rgba(255,193,7,0.8); border: 1px solid rgba(255,193,7,0.2);">AGENT</span>
               </div>
-              <p class="text-[11px] font-mono" style="color: rgba(255,255,255,0.48);">VIP {{ userVipLevel }}</p>
-              <p class="text-[11px] mt-0.5" style="color: rgba(255,255,255,0.42);">ဆက်ဆံရေး: {{ memberSince }}</p>
+              <p class="text-[11px] font-mono" style="color: rgba(0,0,0,0.4);">VIP {{ userVipLevel }}</p>
+              <p class="text-[11px] mt-0.5" style="color: rgba(0,0,0,0.4);">ဆက်ဆံရေး: {{ memberSince }}</p>
             </div>
 
             <div class="text-right flex-shrink-0">
-              <p class="text-[11px] font-semibold tracking-wider" style="color: rgba(255,255,255,0.52);">DOWNLINE</p>
-              <p class="text-xl font-black mt-0.5" style="color: rgba(255,255,255,0.88);">
-                <span v-if="loadingData" class="animate-pulse text-sm" style="color: rgba(255,255,255,0.2);">...</span>
+              <p class="text-[11px] font-semibold tracking-wider" style="color: #3a5040;">DOWNLINE</p>
+              <p class="text-xl font-black mt-0.5" style="color: #1a2b1a;">
+                <span v-if="loadingData" class="animate-pulse text-sm" style="color: rgba(0,0,0,0.28);">...</span>
                 <span v-else>{{ totalDownline }}</span>
               </p>
               <p class="text-[10px] font-medium" style="color: rgba(100,220,120,0.8);">{{ activeDownline }} active</p>
@@ -367,7 +367,7 @@
         </div>
 
         <!-- Scrolling Ticker -->
-        <div class="fp-card relative rounded-xl overflow-hidden" style="height: 42px; border: 1px solid rgba(255,193,7,0.2);">
+        <div class="fp-card relative rounded-xl overflow-hidden" style="height: 42px; border-bottom: 1.5px solid rgba(45,74,45,0.3);">
           <div class="absolute inset-0" style="background: linear-gradient(90deg, rgba(255,152,0,0.1), rgba(255,193,7,0.06), rgba(255,152,0,0.1));"></div>
           <div class="absolute inset-y-0 left-0 w-8 z-10 pointer-events-none" style="background: linear-gradient(to right, #040608, transparent);"></div>
           <div class="absolute inset-y-0 right-0 w-8 z-10 pointer-events-none" style="background: linear-gradient(to left, #040608, transparent);"></div>
@@ -390,18 +390,17 @@
             style="background: rgba(18,12,42,0.70); border: 1px solid rgba(160,120,255,0.12); backdrop-filter: blur(24px); -webkit-backdrop-filter: blur(24px); box-shadow: 0 4px 20px rgba(0,0,0,0.4), inset 0 1px 0 rgba(255,255,255,0.07);">
             <div class="absolute top-0 right-0 w-12 h-12 pointer-events-none"
               :style="`background: radial-gradient(circle, ${s.glow} 0%, transparent 70%); filter: blur(8px);`"></div>
-            <p class="text-[11px] font-semibold tracking-[0.04em] mb-1.5" style="color: rgba(255,255,255,0.58);">{{ s.label }}</p>
+            <p class="text-[11px] font-semibold tracking-[0.04em] mb-1.5" style="color: #3a5040;">{{ s.label }}</p>
             <p class="text-lg font-black" :style="`color: ${s.color};`">
               <span v-if="loadingData" class="text-sm animate-pulse" style="color:rgba(255,255,255,0.15);">...</span>
               <span v-else>{{ formatN(s.value) }}</span>
             </p>
-            <p class="text-[10px] font-medium mt-0.5" style="color: rgba(255,255,255,0.38);">Ks</p>
+            <p class="text-[10px] font-medium mt-0.5" style="color: rgba(0,0,0,0.35);">Ks</p>
           </div>
         </div>
 
         <!-- Referral Panel (ပင်မ tab) — Floating Control Center -->
-        <div class="nova-ref-card rounded-2xl p-4 relative overflow-hidden"
-          style="background: transparent; border: none; box-shadow: none;">
+        <div class="nova-ref-card rounded-2xl p-4 relative overflow-hidden" style="background: transparent; border: none; box-shadow: none;">
 
           <!-- Ambient blue top glow -->
           <div class="absolute -top-8 left-1/2 -translate-x-1/2 w-52 h-16 pointer-events-none"
@@ -526,28 +525,28 @@
         <div class="grid grid-cols-2 gap-2.5">
           <button @click="activeTab = 6"
             class="fp-card rounded-2xl p-3.5 flex items-center gap-2.5 active:scale-[0.97] transition-all text-left"
-            style="background: transparent; border: none;">
+            style="background: #2d4a2d; border: none; box-shadow: 0 2px 12px rgba(30,60,30,0.2);">
             <div class="w-9 h-9 rounded-xl flex items-center justify-center flex-shrink-0" style="background: rgba(255,193,7,0.12);">
               <svg class="w-5 h-5" style="color: rgba(255,193,7,0.85);" fill="currentColor" viewBox="0 0 24 24"><path d="M16 11c1.66 0 2.99-1.34 2.99-3S17.66 5 16 5c-1.66 0-3 1.34-3 3s1.34 3 3 3zm-8 0c1.66 0 2.99-1.34 2.99-3S9.66 5 8 5C6.34 5 5 6.34 5 8s1.34 3 3 3zm0 2c-2.33 0-7 1.17-7 3.5V19h14v-2.5c0-2.33-4.67-3.5-7-3.5zm8 0c-.29 0-.62.02-.97.05 1.16.84 1.97 1.97 1.97 3.45V19h6v-2.5c0-2.33-4.67-3.5-7-3.5z"/></svg>
             </div>
             <div class="min-w-0">
-              <p class="text-xs font-bold" style="color: rgba(255,193,7,0.85);">အောက်လက်ငယ်သား</p>
-              <p class="text-[11px]" style="color: rgba(0,0,0,0.45);">Downline List</p>
+              <p class="text-xs font-bold" style="color: #f5f0e8;">အောက်လက်ငယ်သား</p>
+              <p class="text-[11px]" style="color: rgba(255,255,255,0.6);">Downline List</p>
             </div>
-            <svg class="w-4 h-4 ml-auto flex-shrink-0" style="color: rgba(255,193,7,0.35);" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
+            <svg class="w-4 h-4 ml-auto flex-shrink-0" style="color: rgba(255,255,255,0.5);" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
           </button>
 
           <button @click="activeTab = 5"
             class="fp-card rounded-2xl p-3.5 flex items-center gap-2.5 active:scale-[0.97] transition-all text-left"
-            style="background: transparent; border: none;">
+            style="background: #2d4a2d; border: none; box-shadow: 0 2px 12px rgba(30,60,30,0.2);">
             <div class="w-9 h-9 rounded-xl flex items-center justify-center flex-shrink-0" style="background: rgba(100,200,120,0.12);">
               <svg class="w-5 h-5" style="color: rgba(100,220,120,0.85);" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
             </div>
             <div class="min-w-0">
-              <p class="text-xs font-bold" style="color: rgba(100,220,120,0.85);">ကော်မရှင်</p>
-              <p class="text-[11px]" style="color: rgba(0,0,0,0.45);">History</p>
+              <p class="text-xs font-bold" style="color: #f5f0e8;">ကော်မရှင်</p>
+              <p class="text-[11px]" style="color: rgba(255,255,255,0.6);">History</p>
             </div>
-            <svg class="w-4 h-4 ml-auto flex-shrink-0" style="color: rgba(100,220,120,0.35);" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
+            <svg class="w-4 h-4 ml-auto flex-shrink-0" style="color: rgba(255,255,255,0.5);" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
           </button>
         </div>
 
@@ -627,7 +626,7 @@
                FLOATING NODE SYSTEM — Neural Network Org Graph
                ════════════════════════════════════════════════════ -->
           <div class="floating-node-card relative overflow-hidden rounded-3xl"
-            style="background: rgba(5,8,20,0.85); border: 1px solid rgba(120,100,255,0.15); backdrop-filter: blur(24px);">
+            style="background: transparent;">
 
             <!-- Section header -->
             <div class="px-5 pt-4 pb-3 flex items-center justify-between" style="border-bottom: 1px solid rgba(120,100,255,0.1);">
@@ -669,7 +668,7 @@
                 <div class="flex-shrink-0 w-14 h-14 rounded-xl flex items-center justify-center relative"
                   style="background:linear-gradient(135deg,rgba(140,100,255,0.35),rgba(100,60,200,0.2));border:1.5px solid rgba(140,100,255,0.6);box-shadow:0 0 20px rgba(140,100,255,0.3)">
                   <svg class="w-8 h-8" style="color:rgba(200,180,255,0.95)" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 3c1.66 0 3 1.34 3 3s-1.34 3-3 3-3-1.34-3-3 1.34-3 3-3zm0 14.2c-2.5 0-4.71-1.28-6-3.22.03-1.99 4-3.08 6-3.08 1.99 0 5.97 1.09 6 3.08-1.29 1.94-3.5 3.22-6 3.22z"/></svg>
-                  <div class="absolute -bottom-1.5 -right-1.5 w-5 h-5 rounded-full flex items-center justify-center text-[9px] font-black" style="background:linear-gradient(135deg,#8060ff,#6040dd);color:#fff;box-shadow:0 0 8px rgba(140,100,255,0.5)">A</div>
+                  <div class="absolute -bottom-1.5 -right-1.5 w-5 h-5 rounded-full flex items-center justify-center text-[9px] font-black" style="background:linear-gradient(135deg,#8060ff,#6040dd);color:#1a2b1a;box-shadow:0 0 8px rgba(140,100,255,0.5)">A</div>
                 </div>
                 <div class="flex-1 text-[11px] leading-relaxed space-y-0.5">
                   <p style="color:rgba(255,255,255,0.55)">တိုက်ရိုက်စုပေါင်း = 500+3000 = <span style="color:rgba(255,255,255,0.85);font-weight:700">3500</span></p>
@@ -795,7 +794,7 @@
                         ? 'background:linear-gradient(135deg,rgba(150,110,255,0.55),rgba(90,55,200,0.4));border:2px solid rgba(170,140,255,0.85);box-shadow:0 0 32px rgba(140,100,255,0.55),0 0 70px rgba(100,70,220,0.25)'
                         : 'background:linear-gradient(135deg,rgba(140,100,255,0.28),rgba(80,50,180,0.18));border:1.5px solid rgba(140,100,255,0.5);box-shadow:0 0 20px rgba(140,100,255,0.3)'">
                       <svg class="w-7 h-7" style="color:rgba(230,220,255,0.95)" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 3c1.66 0 3 1.34 3 3s-1.34 3-3 3-3-1.34-3-3 1.34-3 3-3zm0 14.2c-2.5 0-4.71-1.28-6-3.22.03-1.99 4-3.08 6-3.08 1.99 0 5.97 1.09 6 3.08-1.29 1.94-3.5 3.22-6 3.22z"/></svg>
-                      <div class="absolute -bottom-2 -right-2 w-5 h-5 rounded-full flex items-center justify-center text-[8px] font-black" style="background:linear-gradient(135deg,#9070ff,#6040cc);color:#fff;border:1.5px solid rgba(0,0,0,0.25);box-shadow:0 0 10px rgba(140,100,255,0.7)">A</div>
+                      <div class="absolute -bottom-2 -right-2 w-5 h-5 rounded-full flex items-center justify-center text-[8px] font-black" style="background:linear-gradient(135deg,#9070ff,#6040cc);color:#1a2b1a;border:1.5px solid rgba(0,0,0,0.25);box-shadow:0 0 10px rgba(140,100,255,0.7)">A</div>
                     </div>
                   </div>
                   <p class="text-[9px] font-bold" style="color:rgba(210,190,255,0.85);text-shadow:0 0 12px rgba(140,100,255,0.5)">You (Agent A)</p>
@@ -998,8 +997,8 @@
                     <!-- Level badge -->
                     <div class="absolute -bottom-1 -right-1 w-3.5 h-3.5 rounded-full flex items-center justify-center text-[7px] font-black"
                       :style="user.level===1
-                        ? 'background:linear-gradient(135deg,#8050ff,#5030cc);color:#fff;box-shadow:0 0 5px rgba(120,80,255,0.5)'
-                        : 'background:linear-gradient(135deg,#0090cc,#006699);color:#fff;box-shadow:0 0 5px rgba(0,160,220,0.4)'">
+                        ? 'background:linear-gradient(135deg,#8050ff,#5030cc);color:#1a2b1a;box-shadow:0 0 5px rgba(120,80,255,0.5)'
+                        : 'background:linear-gradient(135deg,#0090cc,#006699);color:#1a2b1a;box-shadow:0 0 5px rgba(0,160,220,0.4)'">
                       {{ user.level }}
                     </div>
                   </div>
