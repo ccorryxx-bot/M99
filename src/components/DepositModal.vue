@@ -477,7 +477,7 @@ const submitDeposit = () => {
   border-radius:20px 20px 0 0;
   overflow:hidden;
   display:flex;flex-direction:column;
-  background:#50d4d1;
+  background:#b0baaf;
 }
 .nova-sheet--white { background:#f5f6fa; }
 .nova-sheet--full  { height:100dvh;border-radius:0;max-width:100%; }
