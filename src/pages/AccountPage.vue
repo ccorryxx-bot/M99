@@ -426,7 +426,7 @@ const comingSoon = () => alert('Coming Soon')
   flex-direction: column;
   min-height: 100dvh;
   width: 100%;
-  background: linear-gradient(160deg, #08102a 0%, #0d1a36 20%, #0c1828 40%, #091420 60%, #07101a 80%, #050c14 100%);
+  background: #b0baaf;
   color: #fff;
   overscroll-behavior: contain;
   -webkit-tap-highlight-color: transparent;
