@@ -9,6 +9,8 @@
           <!-- ══ STEP 1 LAYOUT ══ -->
           <template v-if="step===1">
             <div class="nova-content">
+              <!-- Top spacer: pushes content down, empty space appears at top -->
+              <div class="nova-top-spacer"></div>
               <!-- Header -->
               <div class="nova-header-wrap">
                 <div class="nova-header-row">
@@ -423,10 +425,11 @@ const submitDeposit = () => {
 .nova-balance-label { font-size:10px;color:rgba(148,163,184,0.7); }
 .nova-balance-num   { font-size:12px;font-weight:700;color:rgba(253,224,71,0.9); }
 .nova-divider       { height:1px;background:rgba(255,255,255,0.07);margin-bottom:8px; }
-.nova-body { flex:1;overflow-y:auto;padding:0 16px;overscroll-behavior:contain;-webkit-overflow-scrolling:touch; }
+.nova-top-spacer { flex:1; }
+.nova-body { overflow-y:auto;padding:0 16px;overscroll-behavior:contain;-webkit-overflow-scrolling:touch; }
 .nova-body::-webkit-scrollbar { width:2px; }
 .nova-body::-webkit-scrollbar-thumb { background:rgba(100,116,139,0.22);border-radius:10px; }
-.nova-cta-wrap { flex-shrink:0;padding:6px 16px 10px; }
+.nova-cta-wrap { flex-shrink:0;padding:2px 16px 12px; }
 .nova-label { font-size:11px;color:rgba(156,163,175,0.75);margin:0 0 5px 0; }
 .nova-pm-grid { display:grid;grid-template-columns:1fr 1fr;gap:7px;margin-bottom:8px; }
 .nova-pm-btn { position:relative;display:flex;align-items:center;gap:8px;padding:8px 10px;border-radius:12px;cursor:pointer;border:1px solid rgba(255,255,255,0.08);outline:none;transition:border-color 0.15s,background 0.15s;text-align:left;user-select:none;-webkit-tap-highlight-color:transparent; }
