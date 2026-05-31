@@ -65,9 +65,41 @@
         <svg width="24" height="24" fill="currentColor" viewBox="0 0 24 24"><path d="M20 2H4c-1.1 0-2 .9-2 2v18l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2z"/></svg>
         <span>ဆက်သွယ်</span>
       </router-link>
-      <router-link to="/account" class="gnav-item" :class="{active: route.path==='/account'}">
-        <svg width="24" height="24" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 3c1.66 0 3 1.34 3 3s-1.34 3-3 3-3-1.34-3-3 1.34-3 3-3zm0 14.2c-2.5 0-4.71-1.28-6-3.22.03-1.99 4-3.08 6-3.08 1.99 0 5.97 1.09 6 3.08-1.29 1.94-3.5 3.22-6 3.22z"/></svg>
-        <span>အကောင့်</span>
+      <router-link to="/account" class="gnav-item gnav-profile" :class="{active: route.path==='/account'}">
+        <svg xmlns="http://www.w3.org/2000/svg" width="32" height="42" viewBox="0 0 80 105">
+          <defs>
+            <filter id="gnav-pg">
+              <feGaussianBlur stdDeviation="1.8" result="b"/>
+              <feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
+            </filter>
+          </defs>
+          <polygon points="40,4 58,14 58,34 40,44 22,34 22,14"
+            fill="none" stroke="currentColor" stroke-width="1"
+            stroke-dasharray="3,3" opacity="0.6"/>
+          <circle cx="40" cy="24" r="13"
+            fill="none" stroke="currentColor" stroke-width="2.2" filter="url(#gnav-pg)"/>
+          <line x1="40" y1="37" x2="40" y2="44"
+            stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+          <path d="M 10 76 C 12 54 28 46 40 45 C 52 46 68 54 70 76"
+            fill="none" stroke="currentColor" stroke-width="2.2"
+            stroke-linecap="round" filter="url(#gnav-pg)"/>
+          <circle cx="54" cy="20" r="3.5" fill="none" stroke="#22c55e" stroke-width="1.8"/>
+          <circle cx="54" cy="20" r="1.5" fill="#22c55e"/>
+          <path d="M 40 50 L 50 55 L 50 66 Q 50 73 40 77 Q 30 73 30 66 L 30 55 Z"
+            fill="none" stroke="#22c55e" stroke-width="1.8"
+            stroke-linejoin="round" filter="url(#gnav-pg)"/>
+          <polyline points="35,63 38,67 45,59"
+            fill="none" stroke="#22c55e" stroke-width="1.8"
+            stroke-linecap="round" stroke-linejoin="round"/>
+          <line x1="28" y1="88" x2="52" y2="88"
+            stroke="currentColor" stroke-width="1" stroke-linecap="round" opacity="0.5"/>
+          <text x="40" y="102"
+            text-anchor="middle"
+            font-family="'Pyidaungsu','Myanmar Text',serif"
+            font-size="13"
+            fill="currentColor"
+            letter-spacing="1">ပရိုဖိုင်</text>
+        </svg>
       </router-link>
     </div>
   </nav>
@@ -127,6 +159,8 @@ const route = useRoute()
   50%      { box-shadow: 0 0 0 2px #b0baaf, 0 0 22px rgba(245,158,11,0.7),  0 0 42px rgba(245,158,11,0.28); }
 }
 .agent-lbl { font-size: 9px; font-weight: 700; letter-spacing: 0.04em; line-height: 1; }
+.gnav-profile { gap: 0; padding: 2px 4px; }
+.gnav-profile svg { display: block; }
 .nb-tdl { animation: tdl-flow 1.8s linear infinite; }
 @keyframes tdl-flow {
   0%   { stroke-dashoffset: 16; opacity: 0.55; }
