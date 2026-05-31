@@ -354,7 +354,11 @@ const displayAmount = computed(() => {
 })
 function selectAmount(n)  { amount.value = n; focusMode.value = false }
 function onAmountInput(e) { const raw = e.target.value.replace(/,/g,'').replace(/[^0-9]/g,''); amount.value = raw ? parseInt(raw,10) : 0 }
-function onAmountFocus()  { focusMode.value = true }
+function onAmountFocus(e)  {
+  focusMode.value = true
+  // After keyboard animates in, scroll input into view within modal — prevents layout jump
+  setTimeout(() => { e.target.scrollIntoView({ behavior: 'smooth', block: 'nearest' }) }, 320)
+}
 function onAmountBlur()   { focusMode.value = false }
 function formatAmt(n)     { return n.toLocaleString() }
 
@@ -384,19 +388,21 @@ const submitDeposit = () => {
 .nova-sheet {
   position:relative;
   width:100%;max-width:480px;
-  height:calc(100dvh - 80px);
+  height:auto;
+  max-height:calc(100svh - 80px);
   border-radius:20px 20px 0 0;
   overflow:hidden;
   display:flex;flex-direction:column;
   background:linear-gradient(160deg,#08102a 0%,#0d1a36 25%,#0c1828 50%,#091420 75%,#07101a 100%);
 }
-.nova-sheet--white { background:#f5f6fa; }
+/* Step 2 keeps full height */
+.nova-sheet--white { background:#f5f6fa;height:calc(100svh - 80px); }
 
 /* ── BG ── */
 /* bg handled by .nova-sheet */
 
 /* ── Step 1 Content ── */
-.nova-content { position:relative;z-index:1;display:flex;flex-direction:column;height:100%; }
+.nova-content { position:relative;z-index:1;display:flex;flex-direction:column; }
 .nova-header-wrap { flex-shrink:0;padding:10px 16px 0; }
 .nova-header-row  { display:flex;align-items:center;justify-content:space-between;margin-bottom:8px; }
 .nova-title       { font-size:13px;font-weight:700;color:rgba(226,232,240,0.95);letter-spacing:0.04em; }
@@ -404,7 +410,7 @@ const submitDeposit = () => {
 .nova-balance-label { font-size:10px;color:rgba(148,163,184,0.7); }
 .nova-balance-num   { font-size:12px;font-weight:700;color:rgba(253,224,71,0.9); }
 .nova-divider       { height:1px;background:rgba(255,255,255,0.07);margin-bottom:8px; }
-.nova-body { flex:1;overflow-y:auto;padding:0 16px;overscroll-behavior:contain;-webkit-overflow-scrolling:touch; }
+.nova-body { flex:0 1 auto;max-height:54svh;overflow-y:auto;padding:0 16px;overscroll-behavior:contain;-webkit-overflow-scrolling:touch; }
 .nova-body::-webkit-scrollbar { width:2px; }
 .nova-body::-webkit-scrollbar-thumb { background:rgba(100,116,139,0.22);border-radius:10px; }
 .nova-cta-wrap { flex-shrink:0;padding:6px 16px 10px; }
@@ -425,7 +431,7 @@ const submitDeposit = () => {
 .nova-amt-btn:active { opacity:0.68; }
 .nova-input-wrap { position:relative;margin-bottom:8px; }
 .nova-k-prefix { position:absolute;left:12px;top:50%;transform:translateY(-50%);font-size:11px;font-weight:700;color:rgba(156,163,175,0.6);z-index:1; }
-.nova-input { width:100%;padding:10px 12px 10px 26px;border-radius:11px;border:1px solid rgba(234,179,8,0.3);outline:none;font-size:12px;font-weight:600;box-sizing:border-box;background:rgba(255,255,255,0.06);box-shadow:inset 0 1px 0 rgba(255,255,255,0.07);color:rgba(226,232,240,0.9);caret-color:#22c55e;transition:border-color 0.15s; }
+.nova-input { width:100%;padding:10px 12px 10px 26px;border-radius:11px;border:1px solid rgba(234,179,8,0.3);outline:none;font-size:12px;font-weight:600;box-sizing:border-box;background:rgba(255,255,255,0.06);box-shadow:inset 0 1px 0 rgba(255,255,255,0.07);color:rgba(226,232,240,0.9);caret-color:#ffffff;transition:border-color 0.15s; }
 .nova-input:focus { border-color:rgba(234,179,8,0.6);box-shadow:inset 0 1px 0 rgba(255,255,255,0.09),0 0 0 1.5px rgba(234,179,8,0.15); }
 .nova-input::placeholder { color:rgba(107,114,128,0.45); }
 .nova-bonus-card { border-radius:13px;overflow:hidden;margin-bottom:4px;background:rgba(255,255,255,0.04);box-shadow:inset 0 1px 0 rgba(255,255,255,0.07); }
