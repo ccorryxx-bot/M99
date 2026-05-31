@@ -57,7 +57,7 @@
 
         <!-- Agent Identity Card -->
         <div class="fp-card rounded-2xl p-4 relative overflow-hidden"
-          style="background: transparent; border: none; box-shadow: none;">
+          style="background: rgba(255,255,255,0.38); border: 1px solid rgba(26,43,26,0.12); box-shadow: 0 4px 20px rgba(0,0,0,0.09), inset 0 1px 0 rgba(255,255,255,0.55); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);">
           <div class="absolute -top-8 left-1/2 -translate-x-1/2 w-40 h-16 pointer-events-none"
             style="background: radial-gradient(ellipse, rgba(255,193,7,0.06) 0%, transparent 70%); filter: blur(10px);"></div>
 
@@ -400,7 +400,7 @@
         </div>
 
         <!-- Referral Panel (ပင်မ tab) — Floating Control Center -->
-        <div class="nova-ref-card rounded-2xl p-4 relative overflow-hidden" style="background: transparent; border: none; box-shadow: none;">
+        <div class="nova-ref-card rounded-2xl p-4 relative overflow-hidden" style="background: rgba(255,255,255,0.38); border: 1px solid rgba(26,43,26,0.12); box-shadow: 0 4px 20px rgba(0,0,0,0.09), inset 0 1px 0 rgba(255,255,255,0.55); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);">
 
           <!-- Ambient blue top glow -->
           <div class="absolute -top-8 left-1/2 -translate-x-1/2 w-52 h-16 pointer-events-none"
@@ -471,20 +471,20 @@
 
             <!-- ── FULL URL — below QR, full width, soft color ── -->
             <div class="nova-link-node relative rounded-xl overflow-hidden"
-              style="background: rgba(10,18,38,0.75); border: 1px solid rgba(255,255,255,0.1); box-shadow: inset 0 1px 0 rgba(255,255,255,0.06);">
+              style="background: rgba(26,43,26,0.12); border: 1px solid rgba(26,43,26,0.18); box-shadow: inset 0 1px 0 rgba(255,255,255,0.2);">
               <!-- Sweep shimmer -->
               <div class="nova-link-sweep absolute inset-0 pointer-events-none"
                 style="background: linear-gradient(90deg, transparent 0%, rgba(255,255,255,0.03) 50%, transparent 100%); width: 60%;"></div>
               <div class="flex items-start gap-2.5 px-3 py-3 relative z-10">
-                <svg class="w-3.5 h-3.5 flex-shrink-0 mt-0.5" style="color:rgba(255,255,255,0.3)" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                <svg class="w-3.5 h-3.5 flex-shrink-0 mt-0.5" style="color:rgba(26,43,26,0.5)" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
                   <path stroke-linecap="round" stroke-linejoin="round" d="M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.102-1.101m-.758-4.899a4 4 0 005.656 0l4-4a4 4 0 00-5.656-5.656l-1.1 1.1"/>
                 </svg>
                 <p class="text-[11px] font-mono flex-1 break-all leading-relaxed"
-                  style="color: rgba(80,220,140,0.88); user-select: text; -webkit-user-select: text; cursor: text; letter-spacing: 0.01em;">{{ referralLink }}</p>
+                  style="color: #1a2b1a; user-select: text; -webkit-user-select: text; cursor: text; letter-spacing: 0.01em;">{{ referralLink }}</p>
                 <button @click="copyText(referralLink)" class="flex-shrink-0 active:scale-75 transition-all mt-0.5">
                   <div class="px-2 py-1.5 rounded-lg transition-all"
-                    :style="copiedLink ? 'background:rgba(80,220,120,0.15);border:1px solid rgba(80,220,120,0.35)' : 'background:rgba(255,255,255,0.07);border:1px solid rgba(255,255,255,0.12)'">
-                    <svg v-if="!copiedLink" class="w-3.5 h-3.5" style="color:rgba(255,255,255,0.5)" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                    :style="copiedLink ? 'background:rgba(45,74,45,0.2);border:1px solid rgba(45,74,45,0.35)' : 'background:rgba(255,255,255,0.3);border:1px solid rgba(26,43,26,0.15)'">
+                    <svg v-if="!copiedLink" class="w-3.5 h-3.5" style="color:rgba(26,43,26,0.6)" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
                       <path stroke-linecap="round" stroke-linejoin="round" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"/>
                     </svg>
                     <svg v-else class="w-3.5 h-3.5" style="color:rgba(80,220,120,0.95)" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
@@ -599,8 +599,8 @@
               <!-- Link + expand/copy -->
               <div class="flex-1 min-w-0 space-y-2">
                 <div class="flex items-center gap-2 rounded-xl px-3 py-2.5"
-                  style="background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.08);">
-                  <p class="text-[10px] font-mono flex-1 overflow-x-auto whitespace-nowrap no-scrollbar" style="color: rgba(80,225,140,0.92); user-select: text; -webkit-user-select: text; cursor: text; font-weight:600;">{{ referralLink }}</p>
+                  style="background: rgba(26,43,26,0.10); border: 1px solid rgba(26,43,26,0.15);">
+                  <p class="text-[10px] font-mono flex-1 overflow-x-auto whitespace-nowrap no-scrollbar" style="color: #1a2b1a; user-select: text; -webkit-user-select: text; cursor: text; font-weight:600;">{{ referralLink }}</p>
                   <button @click="copyText(referralLink)" class="flex-shrink-0 active:scale-75 transition-transform">
                     <svg v-if="!copiedLink" class="w-4 h-4" style="color:rgba(255,255,255,0.3)" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"/></svg>
                     <svg v-else class="w-4 h-4" style="color:rgba(100,220,120,0.9)" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg>
@@ -3125,11 +3125,11 @@ onUnmounted(() => {
 }
 
 .referral-hero-card {
-  background: transparent;
-  backdrop-filter: none;
-  -webkit-backdrop-filter: none;
-  border: none;
-  box-shadow: none;
+  background: rgba(255,255,255,0.38);
+  border: 1px solid rgba(26,43,26,0.12);
+  box-shadow: 0 4px 20px rgba(0,0,0,0.09), inset 0 1px 0 rgba(255,255,255,0.55);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
 }
 
 /* Floating Node Card */
