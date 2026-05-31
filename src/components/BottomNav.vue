@@ -5,9 +5,73 @@
         <svg width="24" height="24" fill="currentColor" viewBox="0 0 24 24"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/></svg>
         <span>ပင်မ</span>
       </router-link>
-      <router-link to="/promotions" class="gnav-item" :class="{active: route.path==='/promotions'}">
-        <svg width="24" height="24" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 14.5v-9l6 4.5-6 4.5z"/></svg>
-        <span>ပရိုမို</span>
+      <router-link to="/promotions" class="gnav-item gnav-promo" :class="{active: route.path==='/promotions'}">
+        <svg xmlns="http://www.w3.org/2000/svg" width="38" height="41" viewBox="0 0 120 130">
+          <defs>
+            <filter id="gnav-pg2">
+              <feGaussianBlur stdDeviation="2" result="b"/>
+              <feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
+            </filter>
+            <radialGradient id="gnav-pulse" cx="50%" cy="50%" r="50%">
+              <stop offset="0%" style="stop-color:#6366f1;stop-opacity:0.3"/>
+              <stop offset="100%" style="stop-color:#6366f1;stop-opacity:0"/>
+            </radialGradient>
+          </defs>
+          <!-- Connection lines -->
+          <line x1="60" y1="58" x2="25" y2="28" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" opacity="0.4"/>
+          <line x1="60" y1="58" x2="95" y2="28" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" opacity="0.4"/>
+          <line x1="60" y1="58" x2="22" y2="88" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" opacity="0.4"/>
+          <line x1="60" y1="58" x2="98" y2="88" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" opacity="0.4"/>
+          <line x1="60" y1="58" x2="60" y2="95" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" opacity="0.4"/>
+          <line x1="25" y1="28" x2="95" y2="28" stroke="currentColor" stroke-width="1" stroke-linecap="round" stroke-dasharray="3,3" opacity="0.3"/>
+          <line x1="22" y1="88" x2="98" y2="88" stroke="currentColor" stroke-width="1" stroke-linecap="round" stroke-dasharray="3,3" opacity="0.3"/>
+          <!-- Pulse ring -->
+          <circle cx="60" cy="58" r="18" fill="url(#gnav-pulse)">
+            <animate attributeName="r" values="14;22;14" dur="2.5s" repeatCount="indefinite"/>
+            <animate attributeName="opacity" values="0.6;0;0.6" dur="2.5s" repeatCount="indefinite"/>
+          </circle>
+          <!-- CENTER node -->
+          <circle cx="60" cy="58" r="13" fill="#0f172a" stroke="#6366f1" stroke-width="2" filter="url(#gnav-pg2)"/>
+          <circle cx="60" cy="55" r="4.5" fill="none" stroke="#6366f1" stroke-width="1.5"/>
+          <path d="M 50 66 Q 52 60 60 59 Q 68 60 70 66" fill="none" stroke="#6366f1" stroke-width="1.5" stroke-linecap="round"/>
+          <!-- TOP-LEFT node -->
+          <circle cx="25" cy="28" r="9" fill="#0f172a" stroke="#94a3b8" stroke-width="1.8"/>
+          <circle cx="25" cy="26" r="3" fill="none" stroke="#94a3b8" stroke-width="1.3"/>
+          <path d="M 19 34 Q 20 30 25 29 Q 30 30 31 34" fill="none" stroke="#94a3b8" stroke-width="1.3" stroke-linecap="round"/>
+          <!-- TOP-RIGHT node -->
+          <circle cx="95" cy="28" r="9" fill="#0f172a" stroke="#94a3b8" stroke-width="1.8"/>
+          <circle cx="95" cy="26" r="3" fill="none" stroke="#94a3b8" stroke-width="1.3"/>
+          <path d="M 89 34 Q 90 30 95 29 Q 100 30 101 34" fill="none" stroke="#94a3b8" stroke-width="1.3" stroke-linecap="round"/>
+          <!-- BOTTOM-LEFT node -->
+          <circle cx="22" cy="88" r="9" fill="#0f172a" stroke="#94a3b8" stroke-width="1.8"/>
+          <circle cx="22" cy="86" r="3" fill="none" stroke="#94a3b8" stroke-width="1.3"/>
+          <path d="M 16 94 Q 17 90 22 89 Q 27 90 28 94" fill="none" stroke="#94a3b8" stroke-width="1.3" stroke-linecap="round"/>
+          <!-- BOTTOM-RIGHT node -->
+          <circle cx="98" cy="88" r="9" fill="#0f172a" stroke="#94a3b8" stroke-width="1.8"/>
+          <circle cx="98" cy="86" r="3" fill="none" stroke="#94a3b8" stroke-width="1.3"/>
+          <path d="M 92 94 Q 93 90 98 89 Q 103 90 104 94" fill="none" stroke="#94a3b8" stroke-width="1.3" stroke-linecap="round"/>
+          <!-- BOTTOM-CENTER node -->
+          <circle cx="60" cy="100" r="7" fill="#0f172a" stroke="#475569" stroke-width="1.5"/>
+          <line x1="56" y1="98" x2="64" y2="98" stroke="#475569" stroke-width="1.2" stroke-linecap="round"/>
+          <line x1="56" y1="101" x2="64" y2="101" stroke="#475569" stroke-width="1.2" stroke-linecap="round"/>
+          <line x1="56" y1="104" x2="64" y2="104" stroke="#475569" stroke-width="1.2" stroke-linecap="round"/>
+          <!-- Flow dots -->
+          <circle cx="0" cy="0" r="2" fill="#6366f1" opacity="0.9" filter="url(#gnav-pg2)">
+            <animateMotion path="M 25,28 L 60,58" dur="1.8s" repeatCount="indefinite"/>
+            <animate attributeName="opacity" values="1;0" dur="1.8s" repeatCount="indefinite"/>
+          </circle>
+          <circle cx="0" cy="0" r="2" fill="#6366f1" opacity="0.9" filter="url(#gnav-pg2)">
+            <animateMotion path="M 60,58 L 98,88" dur="2.2s" repeatCount="indefinite" begin="0.8s"/>
+            <animate attributeName="opacity" values="1;0" dur="2.2s" repeatCount="indefinite" begin="0.8s"/>
+          </circle>
+          <!-- Label — font-size 28 so it renders ~9px at 41px height -->
+          <text x="60" y="122"
+            text-anchor="middle"
+            font-family="'Pyidaungsu','Myanmar Text',serif"
+            font-size="28"
+            fill="currentColor"
+            letter-spacing="2">ပရိုမို</text>
+        </svg>
       </router-link>
       <!-- ══ AGENT — elevated AI brain ══ -->
       <router-link to="/agent" class="gnav-agent" :class="{active: route.path==='/agent'}">
@@ -161,6 +225,8 @@ const route = useRoute()
 .agent-lbl { font-size: 9px; font-weight: 700; letter-spacing: 0.04em; line-height: 1; }
 .gnav-profile { gap: 0; padding: 2px 4px; }
 .gnav-profile svg { display: block; }
+.gnav-promo { gap: 0; padding: 2px 4px; }
+.gnav-promo svg { display: block; overflow: visible; }
 .nb-tdl { animation: tdl-flow 1.8s linear infinite; }
 @keyframes tdl-flow {
   0%   { stroke-dashoffset: 16; opacity: 0.55; }
