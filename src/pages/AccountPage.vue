@@ -441,15 +441,15 @@ const comingSoon = () => alert('Coming Soon')
   width: 34px; height: 34px;
   display: flex; align-items: center; justify-content: center;
   border-radius: 10px;
-  background: rgba(255,255,255,0.5);
-  border: 1px solid rgba(0,0,0,0.08);
-  box-shadow: 0 1px 5px rgba(0,0,0,0.1);
+  background: #b0baaf;
+  border: 1px solid rgba(0,0,0,0.12);
+  box-shadow: 0 2px 6px rgba(0,0,0,0.15), inset 0 1px 0 rgba(255,255,255,0.25);
   cursor: pointer;
   transition: transform 0.12s, background 0.12s;
 }
 .nova-icon-btn:active {
   transform: scale(0.88);
-  background: rgba(255,255,255,0.7);
+  background: #a5afa4;
 }
 .notif-dot {
   position: absolute; top: -3px; right: -3px;
@@ -483,8 +483,8 @@ const comingSoon = () => alert('Coming Soon')
   min-width: 0;
   border: 1px solid rgba(34,197,94,0.4);
   border-radius: 14px;
-  background: rgba(255,255,255,0.6);
-  box-shadow: 0 1px 8px rgba(0,0,0,0.07);
+  background: #b0baaf;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.13), inset 0 1px 0 rgba(255,255,255,0.22);
   animation: green-pulse 3s ease-in-out infinite;
 }
 @keyframes green-pulse {
@@ -531,9 +531,10 @@ const comingSoon = () => alert('Coming Soon')
 .action-flat-btn {
   display: flex; flex-direction: column; align-items: center; gap: 5px;
   padding: 8px 8px 7px;
-  background: rgba(255,255,255,0.6);
-  border: 1px solid rgba(0,0,0,0.06);
+  background: #b0baaf;
+  border: 1px solid rgba(0,0,0,0.1);
   border-radius: 12px; cursor: pointer;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.12), inset 0 1px 0 rgba(255,255,255,0.22);
   transition: opacity 0.12s;
   -webkit-tap-highlight-color: transparent;
 }
@@ -583,8 +584,9 @@ const comingSoon = () => alert('Coming Soon')
 /* ── Menu block ── */
 .menu-block {
   border-radius: 14px; overflow: hidden;
-  background: rgba(255,255,255,0.65);
-  box-shadow: 0 1px 8px rgba(0,0,0,0.07);
+  background: #b0baaf;
+  border: 1px solid rgba(0,0,0,0.1);
+  box-shadow: 0 2px 8px rgba(0,0,0,0.13), inset 0 1px 0 rgba(255,255,255,0.22);
 }
 .menu-divider { height: 1px; background: rgba(0,0,0,0.07); margin: 0 12px; }
 .menu-row {
