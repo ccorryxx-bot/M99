@@ -2,7 +2,7 @@
   <div class="agent-page min-h-screen overflow-x-hidden" style="color: #1a2b1a;">
 
     <!-- ── HEADER ── -->
-    <header class="sticky top-0 z-40 px-4 py-3 flex items-center justify-between"
+    <header class="sticky top-0 z-40 px-4 py-2 flex items-center justify-between"
       style="background: #b0baaf; border-bottom: 1px solid rgba(0,0,0,0.09);">
       <button @click="$router.push('/home')" class="flex items-center gap-1.5 active:opacity-50 transition-opacity"
         style="color: #1a2b1a;">
@@ -19,9 +19,9 @@
     <!-- ── SCROLLABLE TAB BAR ── -->
     <div class="sticky z-30 no-scrollbar overflow-x-auto"
       style="top: 49px; background: #b0baaf; border-bottom: 1px solid rgba(0,0,0,0.09);">
-      <div class="flex items-center gap-0.5 px-3 py-2 w-max">
+      <div class="flex items-center gap-0.5 px-3 py-1.5 w-max">
         <button v-for="(tab, i) in tabs" :key="i" @click="activeTab = i"
-          class="flex-shrink-0 px-3.5 py-1.5 text-[11px] font-semibold tracking-wide transition-all duration-200 whitespace-nowrap"
+          class="flex-shrink-0 px-3 py-1 text-[11px] font-semibold tracking-wide transition-all duration-200 whitespace-nowrap"
           :style="activeTab === i
             ? 'color: #1a2b1a; font-weight:700; border-bottom: 2px solid #717a71; padding-bottom: 4px;'
             : 'color: rgba(0,0,0,0.45);'">
@@ -36,10 +36,10 @@
       <!-- ═══════════════════════════════════════════
            TAB 0: ပင်မ (Overview)
            ═══════════════════════════════════════════ -->
-      <div v-if="activeTab === 0" class="space-y-3 px-4 pt-4">
+      <div v-if="activeTab === 0" class="space-y-2 px-3 pt-2">
 
         <!-- Banner — Dynamic image (from settings / upload) -->
-        <div class="fp-card rounded-2xl overflow-hidden relative" style="height: 148px;">
+        <div class="fp-card rounded-2xl overflow-hidden relative" style="height: 112px;">
           <img :src="agentBannerUrl" class="w-full h-full object-cover" alt="Agent Banner"
             @error="agentBannerUrl = '/images/banners/banner1.jpg'" />
           <div class="absolute inset-0 pointer-events-none"
@@ -56,12 +56,12 @@
         </div>
 
         <!-- Agent Identity Card -->
-        <div class="fp-card rounded-2xl p-4 relative overflow-hidden"
+        <div class="fp-card rounded-2xl p-3 relative overflow-hidden"
           style="background: rgba(255,255,255,0.38); border: 1px solid rgba(26,43,26,0.12); box-shadow: 0 4px 20px rgba(0,0,0,0.09), inset 0 1px 0 rgba(255,255,255,0.55); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);">
           <div class="absolute -top-8 left-1/2 -translate-x-1/2 w-40 h-16 pointer-events-none"
             style="background: radial-gradient(ellipse, rgba(255,193,7,0.06) 0%, transparent 70%); filter: blur(10px);"></div>
 
-          <div class="flex items-center gap-3">
+          <div class="flex items-center gap-2.5">
             <!-- ══════════════════════════════════════════════
                  EVOLUTION AGENT BADGE — silhouette changes per tier
                  Bronze→simple shield · Silver→spikes · Gold→crown
@@ -69,7 +69,7 @@
                  Ruby→battle wings · Diamond→grand pendant
                  Legend→flame wings · Mythic→cosmic legendary
                  ══════════════════════════════════════════════ -->
-            <div style="position:relative;width:90px;height:90px;flex-shrink:0;overflow:visible;z-index:2;">
+            <div style="position:relative;width:72px;height:72px;flex-shrink:0;overflow:visible;z-index:2;">
               <button @click="showLevelModal = true"
                 class="active:scale-90 transition-transform duration-200"
                 style="position:absolute;inset:0;cursor:pointer;background:none;border:none;padding:0;display:flex;align-items:center;justify-content:center;">
@@ -467,10 +467,10 @@
             </div>
           </div>
 
-          <div class="mt-3 h-px" style="background: rgba(26,43,26,0.10);"></div>
+          <div class="mt-2 h-px" style="background: rgba(26,43,26,0.10);"></div>
 
           <!-- Sub stats row -->
-          <div class="flex justify-between mt-3">
+          <div class="flex justify-between mt-2">
             <div>
               <p class="text-[11px] font-medium" style="color: rgba(0,0,0,0.45);">ကော်မရှင်ရက်</p>
               <p class="text-xs font-semibold mt-0.5" style="color: rgba(0,0,0,0.55);">{{ todayDate }}</p>
@@ -487,7 +487,7 @@
         </div>
 
         <!-- Referral Panel (ပင်မ tab) — Floating Control Center -->
-        <div class="nova-ref-card rounded-2xl p-4 relative overflow-hidden" style="background: rgba(255,255,255,0.38); border: 1px solid rgba(26,43,26,0.12); box-shadow: 0 4px 20px rgba(0,0,0,0.09), inset 0 1px 0 rgba(255,255,255,0.55); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);">
+        <div class="nova-ref-card rounded-2xl p-3 relative overflow-hidden" style="background: rgba(255,255,255,0.38); border: 1px solid rgba(26,43,26,0.12); box-shadow: 0 4px 20px rgba(0,0,0,0.09), inset 0 1px 0 rgba(255,255,255,0.55); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);">
 
           <!-- Ambient blue top glow -->
           <div class="absolute -top-8 left-1/2 -translate-x-1/2 w-52 h-16 pointer-events-none"
@@ -501,7 +501,7 @@
             style="background: linear-gradient(90deg, transparent 5%, rgba(45,74,45,0.3) 40%, rgba(26,43,26,0.15) 60%, transparent 95%);"></div>
 
           <!-- Header badge -->
-          <div class="flex items-center gap-2 mb-4">
+          <div class="flex items-center gap-2 mb-2">
             <div class="nova-live-dot w-1.5 h-1.5 rounded-full"
               style="background: #2d4a2d; box-shadow: 0 0 5px rgba(45,74,45,0.6);"></div>
             <p class="text-[9px] tracking-[0.22em] font-bold uppercase"
@@ -516,13 +516,13 @@
           </div>
 
           <!-- QR + URL stacked layout -->
-          <div class="space-y-3">
+          <div class="space-y-2">
 
             <!-- ── FLOATING QR OBJECT — centered ── -->
             <div class="flex justify-center">
-              <div class="relative" style="width: 108px; height: 108px;">
+              <div class="relative" style="width: 86px; height: 86px;">
                 <!-- Outer ambient ring 3 -->
-                <div class="nova-qr-ring-3 absolute -inset-4 rounded-3xl pointer-events-none"
+                <div class="nova-qr-ring-3 absolute -inset-3 rounded-3xl pointer-events-none"
                   style="border: 1px solid rgba(26,43,26,0.08);"></div>
                 <!-- Mid pulse ring 2 -->
                 <div class="nova-qr-ring-2 absolute -inset-2 rounded-2xl pointer-events-none"
@@ -562,7 +562,7 @@
               <!-- Sweep shimmer -->
               <div class="nova-link-sweep absolute inset-0 pointer-events-none"
                 style="background: linear-gradient(90deg, transparent 0%, rgba(255,255,255,0.03) 50%, transparent 100%); width: 60%;"></div>
-              <div class="flex items-start gap-2.5 px-3 py-3 relative z-10">
+              <div class="flex items-start gap-2 px-2.5 py-2 relative z-10">
                 <svg class="w-3.5 h-3.5 flex-shrink-0 mt-0.5" style="color:rgba(26,43,26,0.5)" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
                   <path stroke-linecap="round" stroke-linejoin="round" d="M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.102-1.101m-.758-4.899a4 4 0 005.656 0l4-4a4 4 0 00-5.656-5.656l-1.1 1.1"/>
                 </svg>
@@ -583,22 +583,22 @@
             </div>
 
             <!-- ဖိတ်ကုဒ် caption -->
-            <p class="text-[11px] text-center font-mono" style="color: rgba(0,0,0,0.38);">
+            <p class="text-[10px] text-center font-mono" style="color: rgba(0,0,0,0.38);">
               ဖိတ်ကုဒ်: <span style="color:#1a2b1a; font-weight:800;">{{ inviteCode }}</span>
             </p>
           </div>
 
           <!-- Social Share Buttons -->
-          <div class="mt-4">
-            <div class="flex items-center gap-2 mb-2.5">
+          <div class="mt-2.5">
+            <div class="flex items-center gap-2 mb-1.5">
               <div class="flex-1 h-px" style="background: linear-gradient(to right, transparent, rgba(26,43,26,0.15));"></div>
               <p class="text-[8px] tracking-[0.2em] font-bold" style="color: rgba(26,43,26,0.4);">SHARE VIA</p>
               <div class="flex-1 h-px" style="background: linear-gradient(to left, transparent, rgba(26,43,26,0.15));"></div>
             </div>
-            <div class="grid grid-cols-5 gap-2">
+            <div class="grid grid-cols-5 gap-1.5">
               <button v-for="s in socialButtons" :key="s.id" @click="shareVia(s.id)"
                 class="nova-social-btn flex flex-col items-center gap-1.5 active:scale-90 transition-all duration-200">
-                <div class="w-10 h-10 rounded-2xl flex items-center justify-center"
+                <div class="w-9 h-9 rounded-xl flex items-center justify-center"
                   :style="`background: ${s.bg}; border: 1px solid ${s.border}; box-shadow: 0 2px 12px rgba(0,0,0,0.32);`">
                   <span v-html="s.icon" class="w-5 h-5 flex items-center justify-center"></span>
                 </div>
@@ -609,7 +609,7 @@
         </div>
 
         <!-- Scrolling Ticker -->
-        <div class="fp-card relative rounded-xl overflow-hidden" style="height: 42px; border: 1px solid rgba(26,43,26,0.18); border-radius: 10px;">
+        <div class="fp-card relative rounded-xl overflow-hidden" style="height: 34px; border: 1px solid rgba(26,43,26,0.18); border-radius: 8px;">
           <div class="absolute inset-0" style="background: linear-gradient(90deg, rgba(255,152,0,0.1), rgba(255,193,7,0.06), rgba(255,152,0,0.1));"></div>
           <div class="absolute inset-y-0 left-0 w-8 z-10 pointer-events-none" style="background: linear-gradient(to right, #040608, transparent);"></div>
           <div class="absolute inset-y-0 right-0 w-8 z-10 pointer-events-none" style="background: linear-gradient(to left, #040608, transparent);"></div>
@@ -627,13 +627,13 @@
         </div>
 
         <!-- Stats Grid 2×2 -->
-        <div class="grid grid-cols-2 gap-2.5">
-          <div v-for="s in statsGrid" :key="s.key" class="fp-card rounded-2xl p-3.5 relative overflow-hidden"
+        <div class="grid grid-cols-2 gap-2">
+          <div v-for="s in statsGrid" :key="s.key" class="fp-card rounded-2xl p-2.5 relative overflow-hidden"
             style="background: rgba(255,255,255,0.38); border: 1px solid rgba(26,43,26,0.12); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); box-shadow: 0 4px 16px rgba(0,0,0,0.08), inset 0 1px 0 rgba(255,255,255,0.55);">
             <div class="absolute top-0 right-0 w-12 h-12 pointer-events-none"
               :style="`background: radial-gradient(circle, ${s.glow} 0%, transparent 70%); filter: blur(8px);`"></div>
-            <p class="text-[11px] font-semibold tracking-[0.04em] mb-1.5" style="color: #3a5040;">{{ s.label }}</p>
-            <p class="text-lg font-black" :style="`color: ${s.color};`">
+            <p class="text-[10px] font-semibold tracking-[0.04em] mb-1" style="color: #3a5040;">{{ s.label }}</p>
+            <p class="text-base font-black" :style="`color: ${s.color};`">
               <span v-if="loadingData" class="text-sm animate-pulse" style="color:rgba(26,43,26,0.3);">...</span>
               <span v-else>{{ formatN(s.value) }}</span>
             </p>
@@ -642,11 +642,11 @@
         </div>
 
         <!-- Quick Actions -->
-        <div class="grid grid-cols-2 gap-2.5">
+        <div class="grid grid-cols-2 gap-2">
           <button @click="activeTab = 6"
-            class="fp-card rounded-2xl p-3.5 flex items-center gap-2.5 active:scale-[0.97] transition-all text-left"
+            class="fp-card rounded-2xl p-2.5 flex items-center gap-2 active:scale-[0.97] transition-all text-left"
             style="background: #2d4a2d; border: none; box-shadow: 0 2px 12px rgba(30,60,30,0.2);">
-            <div class="w-9 h-9 rounded-xl flex items-center justify-center flex-shrink-0" style="background: rgba(255,193,7,0.12);">
+            <div class="w-8 h-8 rounded-lg flex items-center justify-center flex-shrink-0" style="background: rgba(255,193,7,0.12);">
               <svg class="w-5 h-5" style="color: rgba(255,193,7,0.85);" fill="currentColor" viewBox="0 0 24 24"><path d="M16 11c1.66 0 2.99-1.34 2.99-3S17.66 5 16 5c-1.66 0-3 1.34-3 3s1.34 3 3 3zm-8 0c1.66 0 2.99-1.34 2.99-3S9.66 5 8 5C6.34 5 5 6.34 5 8s1.34 3 3 3zm0 2c-2.33 0-7 1.17-7 3.5V19h14v-2.5c0-2.33-4.67-3.5-7-3.5zm8 0c-.29 0-.62.02-.97.05 1.16.84 1.97 1.97 1.97 3.45V19h6v-2.5c0-2.33-4.67-3.5-7-3.5z"/></svg>
             </div>
             <div class="min-w-0">
@@ -657,9 +657,9 @@
           </button>
 
           <button @click="activeTab = 5"
-            class="fp-card rounded-2xl p-3.5 flex items-center gap-2.5 active:scale-[0.97] transition-all text-left"
+            class="fp-card rounded-2xl p-2.5 flex items-center gap-2 active:scale-[0.97] transition-all text-left"
             style="background: #2d4a2d; border: none; box-shadow: 0 2px 12px rgba(30,60,30,0.2);">
-            <div class="w-9 h-9 rounded-xl flex items-center justify-center flex-shrink-0" style="background: rgba(100,200,120,0.12);">
+            <div class="w-8 h-8 rounded-lg flex items-center justify-center flex-shrink-0" style="background: rgba(100,200,120,0.12);">
               <svg class="w-5 h-5" style="color: rgba(100,220,120,0.85);" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
             </div>
             <div class="min-w-0">
