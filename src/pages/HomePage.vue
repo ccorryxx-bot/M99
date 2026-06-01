@@ -551,7 +551,7 @@
   import { ref, computed, onMounted, onUnmounted, nextTick, watch } from 'vue'
   import { useRoute } from 'vue-router'
   import { showToast } from 'vant'
-  import { supabase } from '@/lib/supabase'
+  import { supabase } from '@/supabase'
   import DepositModal from '@/components/DepositModal.vue'
   import WithdrawModal from '@/components/WithdrawModal.vue'
   import NftAvatar from '@/components/NftAvatar.vue'

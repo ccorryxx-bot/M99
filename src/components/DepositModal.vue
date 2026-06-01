@@ -266,7 +266,7 @@
 
 <script setup>
 import { ref, watch, computed, onMounted, onUnmounted, nextTick } from 'vue'
-import { supabase } from '@/lib/supabase'
+import { supabase } from '@/supabase'
 
 const props = defineProps({ modelValue: Boolean })
 const emit  = defineEmits(['update:modelValue', 'submit'])

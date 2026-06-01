@@ -1957,7 +1957,7 @@
 <script setup>
 import { ref, computed, onMounted, onUnmounted, nextTick, watch } from 'vue'
 import { gsap } from 'gsap'
-import { supabase } from '@/lib/supabase'
+import { supabase } from '@/supabase'
 
 // ── State ──────────────────────────────────────────────────
 const activeTab    = ref(0)

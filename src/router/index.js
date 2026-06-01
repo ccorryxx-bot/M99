@@ -6,7 +6,7 @@ import ServicePage from '@/pages/ServicePage.vue'
 import AccountPage from '@/pages/AccountPage.vue'
 import AdminDashboard from '@/pages/AdminDashboard.vue'
 import DeviceSessionsPage from '@/pages/DeviceSessionsPage.vue'
-import { supabase } from '@/lib/supabase'
+import { supabase } from '@/supabase'
 
 const routes = [
   { path: '/', redirect: '/home' },

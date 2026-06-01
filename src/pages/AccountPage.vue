@@ -279,7 +279,7 @@
 
 <script setup>
 import { ref, computed, onMounted } from 'vue'
-import { supabase } from '@/lib/supabase'
+import { supabase } from '@/supabase'
 import NftAvatar from '@/components/NftAvatar.vue'
 
 const username = ref(localStorage.getItem('sb_username') || 'PLAYER')

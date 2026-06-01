@@ -94,7 +94,7 @@
 
 <script setup>
 import { ref, onMounted } from 'vue'
-import { supabase } from '@/lib/supabase'
+import { supabase } from '@/supabase'
 
 const loading = ref(true)
 const ipLoading = ref(true)
