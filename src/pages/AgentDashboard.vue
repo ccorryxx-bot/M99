@@ -74,239 +74,374 @@
                 class="active:scale-90 transition-transform duration-200"
                 style="position:absolute;inset:0;cursor:pointer;background:none;border:none;padding:0;display:flex;align-items:center;justify-content:center;">
                 <!-- LV1 — Bronze -->
-                <svg v-if="agentLevel===1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 80 90" width="80" height="80">
-                  <defs><linearGradient id="bg1" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#cd7f32"/><stop offset="100%" stop-color="#8b4513"/></linearGradient></defs>
-                  <path d="M40 6 L70 18 L70 50 Q70 75 40 86 Q10 75 10 50 L10 18 Z" fill="url(#bg1)" stroke="#a0522d" stroke-width="2"/>
-                  <path d="M40 12 L64 22 L64 50 Q64 70 40 80 Q16 70 16 50 L16 22 Z" fill="none" stroke="#e8a060" stroke-width="1" opacity="0.5"/>
-                  <text x="40" y="52" text-anchor="middle" fill="#fff" font-size="13" font-weight="bold" font-family="monospace">LV1</text>
-                </svg>
-                <!-- LV2 — Bronze II -->
-                <svg v-else-if="agentLevel===2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 80 90" width="80" height="80">
-                  <defs><linearGradient id="bg2" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#d4903a"/><stop offset="100%" stop-color="#7a3c10"/></linearGradient></defs>
-                  <path d="M40 6 L70 18 L70 50 Q70 75 40 86 Q10 75 10 50 L10 18 Z" fill="url(#bg2)" stroke="#c47830" stroke-width="2"/>
-                  <path d="M40 12 L64 22 L64 50 Q64 70 40 80 Q16 70 16 50 L16 22 Z" fill="none" stroke="#f0b870" stroke-width="1" opacity="0.6"/>
-                  <circle cx="12" cy="44" r="2.5" fill="#f0b870" opacity="0.7"/><circle cx="28" cy="16" r="2.5" fill="#f0b870" opacity="0.7"/><circle cx="52" cy="16" r="2.5" fill="#f0b870" opacity="0.7"/>
-                  <circle cx="68" cy="44" r="2.5" fill="#f0b870" opacity="0.7"/><circle cx="56" cy="70" r="2.5" fill="#f0b870" opacity="0.7"/><circle cx="24" cy="70" r="2.5" fill="#f0b870" opacity="0.7"/>
-                  <text x="40" y="52" text-anchor="middle" fill="#fff" font-size="13" font-weight="bold" font-family="monospace">LV2</text>
-                </svg>
-                <!-- LV3 — Bronze III -->
-                <svg v-else-if="agentLevel===3" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 80 90" width="80" height="80">
-                  <defs>
-                    <linearGradient id="bg3" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#e09040"/><stop offset="100%" stop-color="#6b3010"/></linearGradient>
-                    <style>.bp3{animation:bp3 2s ease-in-out infinite}@keyframes bp3{0%,100%{opacity:0.3}50%{opacity:0.9}}</style>
-                  </defs>
-                  <path d="M40 4 L72 17 L72 50 Q72 77 40 88 Q8 77 8 50 L8 17 Z" fill="url(#bg3)" stroke="#c47830" stroke-width="2.5"/>
-                  <path class="bp3" d="M40 4 L72 17 L72 50 Q72 77 40 88 Q8 77 8 50 L8 17 Z" fill="none" stroke="#ffcc80" stroke-width="1.5" opacity="0.4"/>
-                  <path d="M40 14 L62 24 L62 50 Q62 68 40 78 Q18 68 18 50 L18 24 Z" fill="none" stroke="#f0a050" stroke-width="1" opacity="0.5"/>
-                  <line x1="40" y1="18" x2="40" y2="78" stroke="#f0b060" stroke-width="0.8" opacity="0.3"/>
-                  <line x1="18" y1="44" x2="62" y2="44" stroke="#f0b060" stroke-width="0.8" opacity="0.3"/>
-                  <text x="40" y="52" text-anchor="middle" fill="#fff" font-size="13" font-weight="bold" font-family="monospace">LV3</text>
-                </svg>
-                <!-- LV4 — Silver -->
-                <svg v-else-if="agentLevel===4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 80 90" width="80" height="80">
-                  <defs>
-                    <linearGradient id="bg4" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#c0cdd8"/><stop offset="100%" stop-color="#607080"/></linearGradient>
-                    <style>.bp4{animation:bp4 2.5s ease-in-out infinite}@keyframes bp4{0%,100%{opacity:0.2}50%{opacity:0.7}}</style>
-                  </defs>
-                  <path d="M40 4 L72 17 L72 50 Q72 77 40 88 Q8 77 8 50 L8 17 Z" fill="url(#bg4)" stroke="#90a8b8" stroke-width="2.5"/>
-                  <path class="bp4" d="M40 4 L72 17 L72 50 Q72 77 40 88 Q8 77 8 50 L8 17 Z" fill="none" stroke="#e0eaf0" stroke-width="1.5" opacity="0.5"/>
-                  <path d="M40 14 L62 24 L62 50 Q62 68 40 78 Q18 68 18 50 L18 24 Z" fill="none" stroke="#b0c8d8" stroke-width="1.2"/>
-                  <line x1="28" y1="30" x2="52" y2="30" stroke="#d0e0ea" stroke-width="1.5" stroke-linecap="round"/>
-                  <line x1="28" y1="60" x2="52" y2="60" stroke="#d0e0ea" stroke-width="1.5" stroke-linecap="round"/>
-                  <text x="40" y="52" text-anchor="middle" fill="#fff" font-size="13" font-weight="bold" font-family="monospace">LV4</text>
-                </svg>
-                <!-- LV5 — Silver II -->
-                <svg v-else-if="agentLevel===5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 80 90" width="80" height="80">
-                  <defs>
-                    <linearGradient id="bg5" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#d0dde8"/><stop offset="100%" stop-color="#506070"/></linearGradient>
-                    <style>.sp5{animation:sp5 12s linear infinite;transform-origin:40px 44px}@keyframes sp5{from{transform:rotate(0deg)}to{transform:rotate(360deg)}}</style>
-                  </defs>
-                  <path d="M40 4 L72 17 L72 50 Q72 77 40 88 Q8 77 8 50 L8 17 Z" fill="url(#bg5)" stroke="#90a8c0" stroke-width="2.5"/>
-                  <circle class="sp5" cx="40" cy="44" r="22" fill="none" stroke="#b0c8d8" stroke-width="0.8" stroke-dasharray="4,3"/>
-                  <path d="M40 14 L62 24 L62 50 Q62 68 40 78 Q18 68 18 50 L18 24 Z" fill="none" stroke="#c0d8e8" stroke-width="1"/>
-                  <rect x="24" y="18" width="8" height="8" rx="2" fill="none" stroke="#d0e8f0" stroke-width="1.5" transform="rotate(45,28,22)"/>
-                  <rect x="48" y="18" width="8" height="8" rx="2" fill="none" stroke="#d0e8f0" stroke-width="1.5" transform="rotate(45,52,22)"/>
-                  <rect x="24" y="62" width="8" height="8" rx="2" fill="none" stroke="#d0e8f0" stroke-width="1.5" transform="rotate(45,28,66)"/>
-                  <rect x="48" y="62" width="8" height="8" rx="2" fill="none" stroke="#d0e8f0" stroke-width="1.5" transform="rotate(45,52,66)"/>
-                  <text x="40" y="52" text-anchor="middle" fill="#fff" font-size="13" font-weight="bold" font-family="monospace">LV5</text>
-                </svg>
-                <!-- LV6 — Silver III -->
-                <svg v-else-if="agentLevel===6" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 80 90" width="80" height="80">
-                  <defs>
-                    <linearGradient id="bg6" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#c8d8b0"/><stop offset="100%" stop-color="#486050"/></linearGradient>
-                    <style>.sg6{animation:sg6 8s linear infinite;transform-origin:40px 44px}@keyframes sg6{from{transform:rotate(0deg)}to{transform:rotate(360deg)}}</style>
-                  </defs>
-                  <path d="M40 4 L72 17 L72 50 Q72 77 40 88 Q8 77 8 50 L8 17 Z" fill="url(#bg6)" stroke="#80a890" stroke-width="2.5"/>
-                  <path d="M40 14 L62 24 L62 50 Q62 68 40 78 Q18 68 18 50 L18 24 Z" fill="none" stroke="#a0c8b0" stroke-width="1.2"/>
-                  <g class="sg6">
-                    <line x1="40" y1="44" x2="60" y2="44" stroke="#b0e0c0" stroke-width="0.8" opacity="0.5"/>
-                    <line x1="40" y1="44" x2="50" y2="61" stroke="#b0e0c0" stroke-width="0.8" opacity="0.5"/>
-                    <line x1="40" y1="44" x2="30" y2="61" stroke="#b0e0c0" stroke-width="0.8" opacity="0.5"/>
-                    <line x1="40" y1="44" x2="20" y2="44" stroke="#b0e0c0" stroke-width="0.8" opacity="0.5"/>
-                    <line x1="40" y1="44" x2="30" y2="27" stroke="#b0e0c0" stroke-width="0.8" opacity="0.5"/>
-                    <line x1="40" y1="44" x2="50" y2="27" stroke="#b0e0c0" stroke-width="0.8" opacity="0.5"/>
-                  </g>
-                  <polygon points="40,28 43,38 53,38 45,44 48,54 40,48 32,54 35,44 27,38 37,38" fill="#c0e8c8" stroke="#80c090" stroke-width="1"/>
-                  <text x="40" y="68" text-anchor="middle" fill="#fff" font-size="11" font-weight="bold" font-family="monospace">LV6</text>
-                </svg>
-                <!-- LV7 — Gold -->
-                <svg v-else-if="agentLevel===7" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 80 96" width="80" height="80">
-                  <defs>
-                    <linearGradient id="bg7" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#ffd700"/><stop offset="100%" stop-color="#b8860b"/></linearGradient>
-                    <style>.gp7{animation:gp7 2s ease-in-out infinite}@keyframes gp7{0%,100%{opacity:0.3}50%{opacity:1}}</style>
-                  </defs>
-                  <path d="M24 18 L28 8 L40 16 L52 8 L56 18 Z" fill="#ffd700" stroke="#daa520" stroke-width="1.5"/>
-                  <circle cx="28" cy="8" r="3" fill="#ffd700"/><circle cx="40" cy="5" r="3.5" fill="#ffe44d"/><circle cx="52" cy="8" r="3" fill="#ffd700"/>
-                  <path d="M40 18 L72 28 L72 58 Q72 82 40 93 Q8 82 8 58 L8 28 Z" fill="url(#bg7)" stroke="#daa520" stroke-width="2.5"/>
-                  <path class="gp7" d="M40 18 L72 28 L72 58 Q72 82 40 93 Q8 82 8 58 L8 28 Z" fill="none" stroke="#ffe88a" stroke-width="2"/>
-                  <path d="M40 26 L64 34 L64 58 Q64 76 40 86 Q16 76 16 58 L16 34 Z" fill="none" stroke="#ffd700" stroke-width="1"/>
-                  <text x="40" y="62" text-anchor="middle" fill="#fff" font-size="13" font-weight="bold" font-family="monospace">LV7</text>
-                </svg>
-                <!-- LV8 — Gold II -->
-                <svg v-else-if="agentLevel===8" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 96 96" width="80" height="80">
-                  <defs>
-                    <linearGradient id="bg8" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#ffe44d"/><stop offset="100%" stop-color="#a07010"/></linearGradient>
-                    <style>.fl8{animation:fl8 2s ease-in-out infinite}.fl8l{transform-origin:8px 50px}.fl8r{transform-origin:88px 50px}@keyframes fl8{0%,100%{transform:scaleX(1)}50%{transform:scaleX(1.1)}}</style>
-                  </defs>
-                  <g class="fl8 fl8l"><path d="M16 40 Q4 44 2 55 Q8 50 14 52 Q6 58 8 65 Q14 58 18 56 Z" fill="#ffd700" opacity="0.7"/></g>
-                  <g class="fl8 fl8r"><path d="M80 40 Q92 44 94 55 Q88 50 82 52 Q90 58 88 65 Q82 58 78 56 Z" fill="#ffd700" opacity="0.7"/></g>
-                  <path d="M48 10 L76 22 L76 54 Q76 78 48 88 Q20 78 20 54 L20 22 Z" fill="url(#bg8)" stroke="#daa520" stroke-width="2.5"/>
-                  <path d="M48 18 L68 28 L68 54 Q68 72 48 82 Q28 72 28 54 L28 28 Z" fill="none" stroke="#ffe88a" stroke-width="1.2"/>
-                  <line x1="35" y1="30" x2="61" y2="30" stroke="#ffd700" stroke-width="1.5" stroke-dasharray="3,3"/>
-                  <text x="48" y="59" text-anchor="middle" fill="#fff" font-size="13" font-weight="bold" font-family="monospace">LV8</text>
-                </svg>
-                <!-- LV9 — Gold III -->
-                <svg v-else-if="agentLevel===9" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 96 100" width="80" height="80">
-                  <defs>
-                    <linearGradient id="bg9" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#fff176"/><stop offset="100%" stop-color="#e65100"/></linearGradient>
-                    <style>.sr9{animation:sr9 6s linear infinite;transform-origin:48px 52px}.pu9{animation:pu9 2s ease-in-out infinite}@keyframes sr9{from{transform:rotate(0deg)}to{transform:rotate(360deg)}}@keyframes pu9{0%,100%{opacity:0.5}50%{opacity:1}}</style>
-                  </defs>
-                  <g class="sr9">
-                    <circle cx="48" cy="52" r="42" fill="none" stroke="#ffd700" stroke-width="1" stroke-dasharray="6,4" opacity="0.6"/>
-                    <circle cx="90" cy="52" r="2.5" fill="#ffe44d"/><circle cx="6" cy="52" r="2.5" fill="#ffe44d"/>
-                    <circle cx="48" cy="10" r="2.5" fill="#ffe44d"/><circle cx="48" cy="94" r="2.5" fill="#ffe44d"/>
-                  </g>
-                  <path class="pu9" d="M48 8 L80 22 L80 55 Q80 82 48 94 Q16 82 16 55 L16 22 Z" fill="url(#bg9)" stroke="#daa520" stroke-width="2.5"/>
-                  <path d="M48 16 L72 28 L72 55 Q72 76 48 86 Q24 76 24 55 L24 28 Z" fill="none" stroke="#fff176" stroke-width="1"/>
-                  <circle cx="48" cy="12" r="4" fill="#fff176"/>
-                  <text x="48" y="60" text-anchor="middle" fill="#fff" font-size="13" font-weight="bold" font-family="monospace">LV9</text>
-                </svg>
-                <!-- LV10 — Platinum -->
-                <svg v-else-if="agentLevel===10" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 96 100" width="80" height="80">
-                  <defs>
-                    <linearGradient id="bg10" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#c080f0"/><stop offset="100%" stop-color="#4b0082"/></linearGradient>
-                    <style>.s10f{animation:s10f 8s linear infinite;transform-origin:48px 52px}.s10b{animation:s10b 12s linear infinite;transform-origin:48px 52px}@keyframes s10f{from{transform:rotate(0deg)}to{transform:rotate(360deg)}}@keyframes s10b{from{transform:rotate(0deg)}to{transform:rotate(-360deg)}}</style>
-                  </defs>
-                  <g class="s10f"><circle cx="48" cy="52" r="42" fill="none" stroke="#9040c0" stroke-width="0.8" stroke-dasharray="2,4"/></g>
-                  <g class="s10b"><circle cx="48" cy="52" r="36" fill="none" stroke="#a050d0" stroke-width="0.8" stroke-dasharray="4,2" opacity="0.5"/></g>
-                  <path d="M48 8 L82 23 L82 56 Q82 84 48 96 Q14 84 14 56 L14 23 Z" fill="url(#bg10)" stroke="#9040c0" stroke-width="2.5"/>
-                  <path d="M48 16 L74 29 L74 56 Q74 78 48 88 Q22 78 22 56 L22 29 Z" fill="none" stroke="#d090ff" stroke-width="1.2"/>
-                  <polygon points="48,32 60,44 48,56 36,44" fill="#e0b0ff" stroke="#c070f0" stroke-width="1.5"/>
-                  <circle cx="48" cy="44" r="4" fill="#fff" opacity="0.7"/>
-                  <text x="48" y="72" text-anchor="middle" fill="#fff" font-size="12" font-weight="bold" font-family="monospace">LV10</text>
-                </svg>
-                <!-- LV11 — Platinum II -->
-                <svg v-else-if="agentLevel===11" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 104" width="80" height="80">
-                  <defs>
-                    <linearGradient id="bg11" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#d090ff"/><stop offset="100%" stop-color="#3b0070"/></linearGradient>
-                    <style>.sp11{animation:sp11 5s linear infinite;transform-origin:50px 54px}.fl11{animation:fl11 3s ease-in-out infinite}@keyframes sp11{from{transform:rotate(0deg)}to{transform:rotate(-360deg)}}@keyframes fl11{0%,90%,100%{opacity:0}45%,55%{opacity:1}}</style>
-                  </defs>
-                  <g class="sp11">
-                    <line x1="50" y1="54" x2="96" y2="54" stroke="#9040c0" stroke-width="0.5" opacity="0.4"/>
-                    <line x1="50" y1="54" x2="73" y2="14" stroke="#9040c0" stroke-width="0.5" opacity="0.4"/>
-                    <line x1="50" y1="54" x2="4" y2="54" stroke="#9040c0" stroke-width="0.5" opacity="0.4"/>
-                  </g>
-                  <path d="M50 8 L84 24 L84 58 Q84 86 50 98 Q16 86 16 58 L16 24 Z" fill="url(#bg11)" stroke="#a050d0" stroke-width="2.5"/>
-                  <path d="M50 16 L76 30 L76 58 Q76 80 50 90 Q24 80 24 58 L24 30 Z" fill="none" stroke="#e0a0ff" stroke-width="1"/>
-                  <path class="fl11" d="M38 28 L32 46 L40 46 L34 66" fill="none" stroke="#e0c0ff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                  <path class="fl11" d="M62 28 L68 46 L60 46 L66 66" fill="none" stroke="#e0c0ff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="animation-delay:1.5s"/>
-                  <text x="50" y="79" text-anchor="middle" fill="#fff" font-size="12" font-weight="bold" font-family="monospace">LV11</text>
-                </svg>
-                <!-- LV12 — Platinum III -->
-                <svg v-else-if="agentLevel===12" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 104 108" width="80" height="80">
-                  <defs>
-                    <linearGradient id="bg12" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#e0a0ff"/><stop offset="100%" stop-color="#2d0060"/></linearGradient>
-                    <style>.s12a{animation:s12a 4s linear infinite;transform-origin:52px 56px}.s12b{animation:s12b 7s linear infinite;transform-origin:52px 56px}@keyframes s12a{from{transform:rotate(0deg)}to{transform:rotate(360deg)}}@keyframes s12b{from{transform:rotate(0deg)}to{transform:rotate(-360deg)}}</style>
-                  </defs>
-                  <g class="s12a"><circle cx="52" cy="56" r="47" fill="none" stroke="#8030b0" stroke-width="1" stroke-dasharray="3,5"/></g>
-                  <g class="s12b">
-                    <circle cx="52" cy="56" r="40" fill="none" stroke="#a040d0" stroke-width="0.8" stroke-dasharray="6,3"/>
-                    <polygon points="92,56 88,61 88,51" fill="#c060e0"/><polygon points="12,56 16,61 16,51" fill="#c060e0"/>
-                    <polygon points="52,16 57,20 47,20" fill="#c060e0"/><polygon points="52,96 57,92 47,92" fill="#c060e0"/>
-                  </g>
-                  <path d="M52 8 L88 26 L88 60 Q88 90 52 102 Q16 90 16 60 L16 26 Z" fill="url(#bg12)" stroke="#a040d0" stroke-width="2.5"/>
-                  <path d="M52 16 L80 32 L80 60 Q80 84 52 94 Q24 84 24 60 L24 32 Z" fill="none" stroke="#e0b0ff" stroke-width="1.2"/>
-                  <polygon points="52,28 68,48 52,68 36,48" fill="#d080ff" stroke="#e0b0ff" stroke-width="1.5" opacity="0.9"/>
-                  <circle cx="52" cy="48" r="6" fill="#fff" opacity="0.8"/>
-                  <text x="52" y="83" text-anchor="middle" fill="#fff" font-size="12" font-weight="bold" font-family="monospace">LV12</text>
-                </svg>
-                <!-- LV13 — Diamond -->
-                <svg v-else-if="agentLevel===13" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 110 112" width="80" height="80">
-                  <defs>
-                    <linearGradient id="bg13" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#ff6080"/><stop offset="100%" stop-color="#800020"/></linearGradient>
-                    <style>.s13{animation:s13 3s linear infinite;transform-origin:55px 58px}.em13{animation:em13 1.5s ease-in-out infinite}@keyframes s13{from{transform:rotate(0deg)}to{transform:rotate(360deg)}}@keyframes em13{0%,100%{opacity:0;transform:translateY(0)}50%{opacity:1;transform:translateY(-6px)}}</style>
-                  </defs>
-                  <path d="M20 52 Q2 30 6 18 Q12 28 18 34 Q10 22 16 14 Q22 26 24 38 Q18 24 26 20 Q28 36 26 46 Z" fill="#cc2040" opacity="0.8"/>
-                  <path d="M90 52 Q108 30 104 18 Q98 28 92 34 Q100 22 94 14 Q88 26 86 38 Q92 24 84 20 Q82 36 84 46 Z" fill="#cc2040" opacity="0.8"/>
-                  <g class="s13">
-                    <line x1="55" y1="58" x2="103" y2="58" stroke="#ff3050" stroke-width="0.6" opacity="0.35"/>
-                    <line x1="55" y1="58" x2="79" y2="17" stroke="#ff3050" stroke-width="0.6" opacity="0.35"/>
-                    <line x1="55" y1="58" x2="7" y2="58" stroke="#ff3050" stroke-width="0.6" opacity="0.35"/>
-                  </g>
-                  <path d="M55 8 L90 26 L90 60 Q90 90 55 104 Q20 90 20 60 L20 26 Z" fill="url(#bg13)" stroke="#cc2040" stroke-width="3"/>
-                  <path d="M55 16 L82 32 L82 60 Q82 84 55 96 Q28 84 28 60 L28 32 Z" fill="none" stroke="#ff8090" stroke-width="1.5"/>
-                  <circle cx="38" cy="50" r="2.5" fill="#ff6040" class="em13"/>
-                  <circle cx="55" cy="50" r="2.5" fill="#ff6040" class="em13" style="animation-delay:0.5s"/>
-                  <circle cx="72" cy="50" r="2.5" fill="#ff6040" class="em13" style="animation-delay:1s"/>
-                  <polygon points="55,26 63,40 78,40 66,50 70,64 55,55 40,64 44,50 32,40 47,40" fill="#ff4060" stroke="#ff8090" stroke-width="1.5"/>
-                  <text x="55" y="84" text-anchor="middle" fill="#fff" font-size="12" font-weight="bold" font-family="monospace">LV13</text>
-                </svg>
-                <!-- LV14 — Diamond II -->
-                <svg v-else-if="agentLevel===14" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 114 116" width="80" height="80">
-                  <defs>
-                    <linearGradient id="bg14a" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#00e5ff"/><stop offset="50%" stop-color="#7c4dff"/><stop offset="100%" stop-color="#ff1744"/></linearGradient>
-                    <linearGradient id="bg14b" x1="100%" y1="0%" x2="0%" y2="100%"><stop offset="0%" stop-color="#ff6d00"/><stop offset="100%" stop-color="#00bfa5"/></linearGradient>
-                    <style>.sA14{animation:sA14 3s linear infinite;transform-origin:57px 60px}.sB14{animation:sB14 5s linear infinite;transform-origin:57px 60px}.cm14{animation:cm14 3s linear infinite}@keyframes sA14{from{transform:rotate(0deg)}to{transform:rotate(360deg)}}@keyframes sB14{from{transform:rotate(0deg)}to{transform:rotate(-360deg)}}@keyframes cm14{0%{stroke:#00e5ff}33%{stroke:#7c4dff}66%{stroke:#ff1744}100%{stroke:#00e5ff}}</style>
-                  </defs>
-                  <g class="sA14"><circle cx="57" cy="60" r="52" fill="none" stroke="#00e5ff" stroke-width="1" stroke-dasharray="4,4" opacity="0.5"/></g>
-                  <g class="sB14">
-                    <circle cx="57" cy="60" r="44" fill="none" stroke="#7c4dff" stroke-width="1" stroke-dasharray="6,3" opacity="0.5"/>
-                    <polygon points="101,60 97,65 97,55" fill="#7c4dff"/><polygon points="13,60 17,65 17,55" fill="#7c4dff"/>
-                    <polygon points="57,16 62,20 52,20" fill="#7c4dff"/><polygon points="57,104 62,100 52,100" fill="#7c4dff"/>
-                  </g>
-                  <path d="M22 56 Q4 34 8 18 Q14 30 20 38 Q12 24 18 14 Q24 28 26 44 Z" fill="url(#bg14b)" opacity="0.7"/>
-                  <path d="M92 56 Q110 34 102 18 Q96 30 90 38 Q98 24 92 14 Q86 28 84 44 Z" fill="url(#bg14a)" opacity="0.7"/>
-                  <path class="cm14" d="M57 8 L93 28 L93 62 Q93 92 57 106 Q21 92 21 62 L21 28 Z" fill="url(#bg14a)" stroke-width="2.5"/>
-                  <polygon points="57,28 66,44 82,44 70,54 74,70 57,60 40,70 44,54 32,44 48,44" fill="url(#bg14b)" stroke="#fff" stroke-width="1"/>
-                  <text x="57" y="88" text-anchor="middle" fill="#fff" font-size="12" font-weight="bold" font-family="monospace">LV14</text>
-                </svg>
-                <!-- LV15 — LEGEND -->
-                <svg v-else xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 120" width="80" height="80">
-                  <defs>
-                    <linearGradient id="bg15a" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#fff176"/><stop offset="30%" stop-color="#ff6d00"/><stop offset="60%" stop-color="#d500f9"/><stop offset="100%" stop-color="#00e5ff"/></linearGradient>
-                    <style>.sf15{animation:sf15 2s linear infinite;transform-origin:60px 62px}.sr15{animation:sr15 3s linear infinite;transform-origin:60px 62px}.rw15{animation:rw15 2s linear infinite}.up15{animation:up15 1.5s ease-in-out infinite}@keyframes sf15{from{transform:rotate(0deg)}to{transform:rotate(360deg)}}@keyframes sr15{from{transform:rotate(0deg)}to{transform:rotate(-360deg)}}@keyframes rw15{0%{stroke:#fff176}20%{stroke:#ff6d00}40%{stroke:#ff1744}60%{stroke:#d500f9}80%{stroke:#00e5ff}100%{stroke:#fff176}}@keyframes up15{0%,100%{opacity:0.7}50%{opacity:1}}</style>
-                  </defs>
-                  <g class="sf15">
-                    <circle cx="60" cy="62" r="56" fill="none" stroke="#fff176" stroke-width="1.2" stroke-dasharray="3,3"/>
-                    <circle cx="116" cy="62" r="2" fill="#fff176"/><circle cx="4" cy="62" r="2" fill="#fff176"/>
-                    <circle cx="60" cy="6" r="2" fill="#fff176"/><circle cx="60" cy="118" r="2" fill="#fff176"/>
-                  </g>
-                  <g class="sr15">
-                    <circle cx="60" cy="62" r="48" fill="none" stroke="#ff6d00" stroke-width="1" stroke-dasharray="6,3"/>
-                    <polygon points="108,62 104,67 104,57" fill="#ff6d00"/><polygon points="12,62 16,67 16,57" fill="#ff6d00"/>
-                    <polygon points="60,14 65,18 55,18" fill="#ff6d00"/><polygon points="60,110 65,106 55,106" fill="#ff6d00"/>
-                  </g>
-                  <path d="M24 60 Q4 36 8 18 Q16 32 22 42 Q12 26 20 14 Q26 30 28 48 Z" fill="#ff6d00" opacity="0.9"/>
-                  <path d="M96 60 Q116 36 112 18 Q104 32 98 42 Q108 26 100 14 Q94 30 92 48 Z" fill="#d500f9" opacity="0.9"/>
-                  <path class="rw15 up15" d="M60 6 L98 26 L98 62 Q98 94 60 108 Q22 94 22 62 L22 26 Z" fill="url(#bg15a)" stroke-width="3"/>
-                  <path d="M60 14 L90 32 L90 62 Q90 88 60 100 Q30 88 30 62 L30 32 Z" fill="none" stroke="#ffffff" stroke-width="1.5" opacity="0.5"/>
-                  <path d="M44 26 L48 14 L60 22 L72 14 L76 26 Z" fill="#fff176" stroke="#ff6d00" stroke-width="1.5"/>
-                  <circle cx="48" cy="14" r="3.5" fill="#fff176"/><circle cx="60" cy="10" r="4.5" fill="#fff"/><circle cx="72" cy="14" r="3.5" fill="#fff176"/>
-                  <polygon points="60,34 65,48 80,48 68,57 73,71 60,62 47,71 52,57 40,48 55,48" fill="#fff176" stroke="#ff6d00" stroke-width="1.5"/>
-                  <circle cx="60" cy="52" r="6" fill="#fff" opacity="0.9"/>
-                  <text x="60" y="88" text-anchor="middle" fill="#fff" font-size="12" font-weight="bold" font-family="monospace">LV15</text>
-                </svg>
-              </button>
+                  <svg v-if="agentLevel===1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 80 90" width="80" height="90">
+                    <defs>
+                      <linearGradient id="g1" x1="0%" y1="0%" x2="100%" y2="100%">
+                        <stop offset="0%" stop-color="#cd7f32"/>
+                        <stop offset="100%" stop-color="#8b4513"/>
+                      </linearGradient>
+                    </defs>
+                    <path d="M40 6 L70 18 L70 50 Q70 75 40 86 Q10 75 10 50 L10 18 Z" fill="url(#g1)" stroke="#a0522d" stroke-width="2"/>
+                    <path d="M40 12 L64 22 L64 50 Q64 70 40 80 Q16 70 16 50 L16 22 Z" fill="none" stroke="#e8a060" stroke-width="1" opacity="0.5"/>
+                    <text x="40" y="52" text-anchor="middle" fill="#fff" font-size="13" font-weight="bold" font-family="monospace">LV1</text>
+                  </svg>
+                  <!-- LV2 — Bronze II -->
+                  <svg v-else-if="agentLevel===2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 80 90" width="80" height="90">
+                    <defs>
+                      <linearGradient id="g2" x1="0%" y1="0%" x2="100%" y2="100%">
+                        <stop offset="0%" stop-color="#d4903a"/>
+                        <stop offset="100%" stop-color="#7a3c10"/>
+                      </linearGradient>
+                    </defs>
+                    <path d="M40 6 L70 18 L70 50 Q70 75 40 86 Q10 75 10 50 L10 18 Z" fill="url(#g2)" stroke="#c47830" stroke-width="2"/>
+                    <path d="M40 12 L64 22 L64 50 Q64 70 40 80 Q16 70 16 50 L16 22 Z" fill="none" stroke="#f0b870" stroke-width="1" opacity="0.6"/>
+                    <circle cx="12" cy="44" r="2.5" fill="#f0b870" opacity="0.7"/>
+                    <circle cx="28" cy="16" r="2.5" fill="#f0b870" opacity="0.7"/>
+                    <circle cx="52" cy="16" r="2.5" fill="#f0b870" opacity="0.7"/>
+                    <circle cx="68" cy="44" r="2.5" fill="#f0b870" opacity="0.7"/>
+                    <circle cx="56" cy="70" r="2.5" fill="#f0b870" opacity="0.7"/>
+                    <circle cx="24" cy="70" r="2.5" fill="#f0b870" opacity="0.7"/>
+                    <text x="40" y="52" text-anchor="middle" fill="#fff" font-size="13" font-weight="bold" font-family="monospace">LV2</text>
+                  </svg>
+                  <!-- LV3 — Bronze III -->
+                  <svg v-else-if="agentLevel===3" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 80 90" width="80" height="90">
+                    <defs>
+                      <linearGradient id="g3" x1="0%" y1="0%" x2="100%" y2="100%">
+                        <stop offset="0%" stop-color="#e09040"/>
+                        <stop offset="100%" stop-color="#6b3010"/>
+                      </linearGradient>
+                      <style>@keyframes p3{0%,100%{opacity:0.3}50%{opacity:0.9}}</style>
+                    </defs>
+                    <path d="M40 4 L72 17 L72 50 Q72 77 40 88 Q8 77 8 50 L8 17 Z" fill="url(#g3)" stroke="#c47830" stroke-width="2.5"/>
+                    <path d="M40 4 L72 17 L72 50 Q72 77 40 88 Q8 77 8 50 L8 17 Z" fill="none" stroke="#ffcc80" stroke-width="1.5" opacity="0.4" style="animation:p3 2s ease-in-out infinite"/>
+                    <path d="M40 14 L62 24 L62 50 Q62 68 40 78 Q18 68 18 50 L18 24 Z" fill="none" stroke="#f0a050" stroke-width="1" opacity="0.5"/>
+                    <line x1="40" y1="18" x2="40" y2="78" stroke="#f0b060" stroke-width="0.8" opacity="0.3"/>
+                    <line x1="18" y1="44" x2="62" y2="44" stroke="#f0b060" stroke-width="0.8" opacity="0.3"/>
+                    <text x="40" y="52" text-anchor="middle" fill="#fff" font-size="13" font-weight="bold" font-family="monospace">LV3</text>
+                  </svg>
+                  <!-- LV4 — Silver -->
+                  <svg v-else-if="agentLevel===4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 80 90" width="80" height="90">
+                    <defs>
+                      <linearGradient id="g4" x1="0%" y1="0%" x2="100%" y2="100%">
+                        <stop offset="0%" stop-color="#c0cdd8"/>
+                        <stop offset="100%" stop-color="#607080"/>
+                      </linearGradient>
+                      <style>@keyframes p4{0%,100%{opacity:0.2}50%{opacity:0.7}}</style>
+                    </defs>
+                    <path d="M40 4 L72 17 L72 50 Q72 77 40 88 Q8 77 8 50 L8 17 Z" fill="url(#g4)" stroke="#90a8b8" stroke-width="2.5"/>
+                    <path d="M40 4 L72 17 L72 50 Q72 77 40 88 Q8 77 8 50 L8 17 Z" fill="none" stroke="#e0eaf0" stroke-width="1.5" opacity="0.5" style="animation:p4 2.5s ease-in-out infinite"/>
+                    <path d="M40 14 L62 24 L62 50 Q62 68 40 78 Q18 68 18 50 L18 24 Z" fill="none" stroke="#b0c8d8" stroke-width="1.2"/>
+                    <line x1="28" y1="30" x2="52" y2="30" stroke="#d0e0ea" stroke-width="1.5" stroke-linecap="round"/>
+                    <line x1="28" y1="60" x2="52" y2="60" stroke="#d0e0ea" stroke-width="1.5" stroke-linecap="round"/>
+                    <text x="40" y="52" text-anchor="middle" fill="#fff" font-size="13" font-weight="bold" font-family="monospace">LV4</text>
+                  </svg>
+                  <!-- LV5 — Silver II -->
+                  <svg v-else-if="agentLevel===5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 80 90" width="80" height="90">
+                    <defs>
+                      <linearGradient id="g5" x1="0%" y1="0%" x2="100%" y2="100%">
+                        <stop offset="0%" stop-color="#d0dde8"/>
+                        <stop offset="100%" stop-color="#506070"/>
+                      </linearGradient>
+                      <style>@keyframes spin5{from{transform-origin:40px 44px;transform:rotate(0deg)}to{transform-origin:40px 44px;transform:rotate(360deg)}}</style>
+                    </defs>
+                    <path d="M40 4 L72 17 L72 50 Q72 77 40 88 Q8 77 8 50 L8 17 Z" fill="url(#g5)" stroke="#90a8c0" stroke-width="2.5"/>
+                    <circle cx="40" cy="44" r="22" fill="none" stroke="#b0c8d8" stroke-width="0.8" stroke-dasharray="4,3" style="animation:spin5 12s linear infinite"/>
+                    <path d="M40 14 L62 24 L62 50 Q62 68 40 78 Q18 68 18 50 L18 24 Z" fill="none" stroke="#c0d8e8" stroke-width="1"/>
+                    <rect x="24" y="18" width="8" height="8" rx="2" fill="none" stroke="#d0e8f0" stroke-width="1.5" transform="rotate(45,28,22)"/>
+                    <rect x="48" y="18" width="8" height="8" rx="2" fill="none" stroke="#d0e8f0" stroke-width="1.5" transform="rotate(45,52,22)"/>
+                    <rect x="24" y="62" width="8" height="8" rx="2" fill="none" stroke="#d0e8f0" stroke-width="1.5" transform="rotate(45,28,66)"/>
+                    <rect x="48" y="62" width="8" height="8" rx="2" fill="none" stroke="#d0e8f0" stroke-width="1.5" transform="rotate(45,52,66)"/>
+                    <text x="40" y="52" text-anchor="middle" fill="#fff" font-size="13" font-weight="bold" font-family="monospace">LV5</text>
+                  </svg>
+                  <!-- LV6 — Silver III -->
+                  <svg v-else-if="agentLevel===6" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 80 90" width="80" height="90">
+                    <defs>
+                      <linearGradient id="g6" x1="0%" y1="0%" x2="100%" y2="100%">
+                        <stop offset="0%" stop-color="#c8d8b0"/>
+                        <stop offset="100%" stop-color="#486050"/>
+                      </linearGradient>
+                      <style>@keyframes spinS6{from{transform:rotate(0deg)}to{transform:rotate(360deg)}}</style>
+                    </defs>
+                    <path d="M40 4 L72 17 L72 50 Q72 77 40 88 Q8 77 8 50 L8 17 Z" fill="url(#g6)" stroke="#80a890" stroke-width="2.5"/>
+                    <path d="M40 14 L62 24 L62 50 Q62 68 40 78 Q18 68 18 50 L18 24 Z" fill="none" stroke="#a0c8b0" stroke-width="1.2"/>
+                    <g style="transform-origin:40px 44px;animation:spinS6 8s linear infinite">
+                      <line x1="40" y1="44" x2="60" y2="44" stroke="#b0e0c0" stroke-width="0.8" opacity="0.5"/>
+                      <line x1="40" y1="44" x2="50" y2="61" stroke="#b0e0c0" stroke-width="0.8" opacity="0.5"/>
+                      <line x1="40" y1="44" x2="30" y2="61" stroke="#b0e0c0" stroke-width="0.8" opacity="0.5"/>
+                      <line x1="40" y1="44" x2="20" y2="44" stroke="#b0e0c0" stroke-width="0.8" opacity="0.5"/>
+                      <line x1="40" y1="44" x2="30" y2="27" stroke="#b0e0c0" stroke-width="0.8" opacity="0.5"/>
+                      <line x1="40" y1="44" x2="50" y2="27" stroke="#b0e0c0" stroke-width="0.8" opacity="0.5"/>
+                    </g>
+                    <polygon points="40,28 43,38 53,38 45,44 48,54 40,48 32,54 35,44 27,38 37,38" fill="#c0e8c8" stroke="#80c090" stroke-width="1"/>
+                    <text x="40" y="68" text-anchor="middle" fill="#fff" font-size="11" font-weight="bold" font-family="monospace">LV6</text>
+                  </svg>
+                  <!-- LV7 — Gold -->
+                  <svg v-else-if="agentLevel===7" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 80 96" width="80" height="96">
+                    <defs>
+                      <linearGradient id="g7" x1="0%" y1="0%" x2="100%" y2="100%">
+                        <stop offset="0%" stop-color="#ffd700"/>
+                        <stop offset="100%" stop-color="#b8860b"/>
+                      </linearGradient>
+                      <style>@keyframes glow7{0%,100%{opacity:0.3}50%{opacity:1}}</style>
+                    </defs>
+                    <path d="M24 18 L28 8 L40 16 L52 8 L56 18 Z" fill="#ffd700" stroke="#daa520" stroke-width="1.5"/>
+                    <circle cx="28" cy="8" r="3" fill="#ffd700"/>
+                    <circle cx="40" cy="5" r="3.5" fill="#ffe44d"/>
+                    <circle cx="52" cy="8" r="3" fill="#ffd700"/>
+                    <path d="M40 18 L72 28 L72 58 Q72 82 40 93 Q8 82 8 58 L8 28 Z" fill="url(#g7)" stroke="#daa520" stroke-width="2.5"/>
+                    <path d="M40 18 L72 28 L72 58 Q72 82 40 93 Q8 82 8 58 L8 28 Z" fill="none" stroke="#ffe88a" stroke-width="2" style="animation:glow7 2s ease-in-out infinite"/>
+                    <path d="M40 26 L64 34 L64 58 Q64 76 40 86 Q16 76 16 58 L16 34 Z" fill="none" stroke="#ffd700" stroke-width="1"/>
+                    <text x="40" y="62" text-anchor="middle" fill="#fff" font-size="13" font-weight="bold" font-family="monospace">LV7</text>
+                  </svg>
+                  <!-- LV8 — Gold II -->
+                  <svg v-else-if="agentLevel===8" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 96 96" width="96" height="96">
+                    <defs>
+                      <linearGradient id="g8" x1="0%" y1="0%" x2="100%" y2="100%">
+                        <stop offset="0%" stop-color="#ffe44d"/>
+                        <stop offset="100%" stop-color="#a07010"/>
+                      </linearGradient>
+                      <style>@keyframes flap8{0%,100%{transform:scaleX(1)}50%{transform:scaleX(1.1)}}</style>
+                    </defs>
+                    <g style="transform-origin:8px 50px;animation:flap8 2s ease-in-out infinite">
+                      <path d="M16 40 Q4 44 2 55 Q8 50 14 52 Q6 58 8 65 Q14 58 18 56 Z" fill="#ffd700" opacity="0.7"/>
+                    </g>
+                    <g style="transform-origin:88px 50px;animation:flap8 2s ease-in-out infinite">
+                      <path d="M80 40 Q92 44 94 55 Q88 50 82 52 Q90 58 88 65 Q82 58 78 56 Z" fill="#ffd700" opacity="0.7"/>
+                    </g>
+                    <path d="M48 10 L76 22 L76 54 Q76 78 48 88 Q20 78 20 54 L20 22 Z" fill="url(#g8)" stroke="#daa520" stroke-width="2.5"/>
+                    <path d="M48 18 L68 28 L68 54 Q68 72 48 82 Q28 72 28 54 L28 28 Z" fill="none" stroke="#ffe88a" stroke-width="1.2"/>
+                    <line x1="35" y1="30" x2="61" y2="30" stroke="#ffd700" stroke-width="1.5" stroke-dasharray="3,3"/>
+                    <text x="48" y="59" text-anchor="middle" fill="#fff" font-size="13" font-weight="bold" font-family="monospace">LV8</text>
+                  </svg>
+                  <!-- LV9 — Gold III -->
+                  <svg v-else-if="agentLevel===9" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 96 100" width="96" height="100">
+                    <defs>
+                      <linearGradient id="g9" x1="0%" y1="0%" x2="100%" y2="100%">
+                        <stop offset="0%" stop-color="#fff176"/>
+                        <stop offset="100%" stop-color="#e65100"/>
+                      </linearGradient>
+                      <style>
+                        @keyframes spinR9{from{transform:rotate(0deg)}to{transform:rotate(360deg)}}
+                        @keyframes pulse9{0%,100%{opacity:0.5}50%{opacity:1}}
+                      </style>
+                    </defs>
+                    <g style="transform-origin:48px 52px;animation:spinR9 6s linear infinite">
+                      <circle cx="48" cy="52" r="42" fill="none" stroke="#ffd700" stroke-width="1" stroke-dasharray="6,4" opacity="0.6"/>
+                      <circle cx="90" cy="52" r="2.5" fill="#ffe44d"/>
+                      <circle cx="6"  cy="52" r="2.5" fill="#ffe44d"/>
+                      <circle cx="48" cy="10" r="2.5" fill="#ffe44d"/>
+                      <circle cx="48" cy="94" r="2.5" fill="#ffe44d"/>
+                      <circle cx="78" cy="18" r="2.5" fill="#ffe44d"/>
+                      <circle cx="18" cy="18" r="2.5" fill="#ffe44d"/>
+                      <circle cx="78" cy="86" r="2.5" fill="#ffe44d"/>
+                      <circle cx="18" cy="86" r="2.5" fill="#ffe44d"/>
+                    </g>
+                    <path d="M48 8 L80 22 L80 55 Q80 82 48 94 Q16 82 16 55 L16 22 Z" fill="url(#g9)" stroke="#daa520" stroke-width="2.5" style="animation:pulse9 2s ease-in-out infinite"/>
+                    <path d="M48 16 L72 28 L72 55 Q72 76 48 86 Q24 76 24 55 L24 28 Z" fill="none" stroke="#fff176" stroke-width="1"/>
+                    <path d="M33 22 L48 12 L63 22" fill="none" stroke="#ffe44d" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    <circle cx="48" cy="12" r="4" fill="#fff176"/>
+                    <text x="48" y="60" text-anchor="middle" fill="#fff" font-size="13" font-weight="bold" font-family="monospace">LV9</text>
+                  </svg>
+                  <!-- LV10 — Platinum -->
+                  <svg v-else-if="agentLevel===10" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 96 100" width="96" height="100">
+                    <defs>
+                      <linearGradient id="g10" x1="0%" y1="0%" x2="100%" y2="100%">
+                        <stop offset="0%" stop-color="#c080f0"/>
+                        <stop offset="100%" stop-color="#4b0082"/>
+                      </linearGradient>
+                      <style>
+                        @keyframes spin10{from{transform:rotate(0deg)}to{transform:rotate(360deg)}}
+                        @keyframes spinB10{from{transform:rotate(0deg)}to{transform:rotate(-360deg)}}
+                      </style>
+                    </defs>
+                    <g style="transform-origin:48px 52px;animation:spin10 8s linear infinite">
+                      <circle cx="48" cy="52" r="42" fill="none" stroke="#9040c0" stroke-width="0.8" stroke-dasharray="2,4"/>
+                    </g>
+                    <g style="transform-origin:48px 52px;animation:spinB10 12s linear infinite">
+                      <circle cx="48" cy="52" r="36" fill="none" stroke="#a050d0" stroke-width="0.8" stroke-dasharray="4,2" opacity="0.5"/>
+                    </g>
+                    <path d="M48 8 L82 23 L82 56 Q82 84 48 96 Q14 84 14 56 L14 23 Z" fill="url(#g10)" stroke="#9040c0" stroke-width="2.5"/>
+                    <path d="M48 16 L74 29 L74 56 Q74 78 48 88 Q22 78 22 56 L22 29 Z" fill="none" stroke="#d090ff" stroke-width="1.2"/>
+                    <polygon points="48,32 60,44 48,56 36,44" fill="#e0b0ff" stroke="#c070f0" stroke-width="1.5"/>
+                    <polygon points="48,36 56,44 48,52 40,44" fill="#c070f0" opacity="0.6"/>
+                    <circle cx="48" cy="44" r="4" fill="#fff" opacity="0.7"/>
+                    <text x="48" y="72" text-anchor="middle" fill="#fff" font-size="12" font-weight="bold" font-family="monospace">LV10</text>
+                  </svg>
+                  <!-- LV11 — Platinum II -->
+                  <svg v-else-if="agentLevel===11" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 104" width="100" height="104">
+                    <defs>
+                      <linearGradient id="g11" x1="0%" y1="0%" x2="100%" y2="100%">
+                        <stop offset="0%" stop-color="#d090ff"/>
+                        <stop offset="100%" stop-color="#3b0070"/>
+                      </linearGradient>
+                      <style>
+                        @keyframes flash11{0%,90%,100%{opacity:0}45%,55%{opacity:1}}
+                        @keyframes spin11{from{transform:rotate(0deg)}to{transform:rotate(-360deg)}}
+                      </style>
+                    </defs>
+                    <g style="transform-origin:50px 54px;animation:spin11 5s linear infinite">
+                      <line x1="50" y1="54" x2="96" y2="54" stroke="#9040c0" stroke-width="0.5" opacity="0.4"/>
+                      <line x1="50" y1="54" x2="73" y2="14" stroke="#9040c0" stroke-width="0.5" opacity="0.4"/>
+                      <line x1="50" y1="54" x2="27" y2="14" stroke="#9040c0" stroke-width="0.5" opacity="0.4"/>
+                      <line x1="50" y1="54" x2="4"  y2="54" stroke="#9040c0" stroke-width="0.5" opacity="0.4"/>
+                      <line x1="50" y1="54" x2="27" y2="94" stroke="#9040c0" stroke-width="0.5" opacity="0.4"/>
+                      <line x1="50" y1="54" x2="73" y2="94" stroke="#9040c0" stroke-width="0.5" opacity="0.4"/>
+                    </g>
+                    <path d="M50 8 L84 24 L84 58 Q84 86 50 98 Q16 86 16 58 L16 24 Z" fill="url(#g11)" stroke="#a050d0" stroke-width="2.5"/>
+                    <path d="M50 16 L76 30 L76 58 Q76 80 50 90 Q24 80 24 58 L24 30 Z" fill="none" stroke="#e0a0ff" stroke-width="1"/>
+                    <path d="M38 28 L32 46 L40 46 L34 66" fill="none" stroke="#e0c0ff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="animation:flash11 3s ease-in-out infinite"/>
+                    <path d="M62 28 L68 46 L60 46 L66 66" fill="none" stroke="#e0c0ff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="animation:flash11 3s ease-in-out infinite 1.5s"/>
+                    <text x="50" y="79" text-anchor="middle" fill="#fff" font-size="12" font-weight="bold" font-family="monospace">LV11</text>
+                  </svg>
+                  <!-- LV12 — Platinum III -->
+                  <svg v-else-if="agentLevel===12" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 104 108" width="104" height="108">
+                    <defs>
+                      <linearGradient id="g12" x1="0%" y1="0%" x2="100%" y2="100%">
+                        <stop offset="0%" stop-color="#e0a0ff"/>
+                        <stop offset="100%" stop-color="#2d0060"/>
+                      </linearGradient>
+                      <style>
+                        @keyframes spin12a{from{transform:rotate(0deg)}to{transform:rotate(360deg)}}
+                        @keyframes spin12b{from{transform:rotate(0deg)}to{transform:rotate(-360deg)}}
+                      </style>
+                    </defs>
+                    <g style="transform-origin:52px 56px;animation:spin12a 4s linear infinite">
+                      <circle cx="52" cy="56" r="47" fill="none" stroke="#8030b0" stroke-width="1" stroke-dasharray="3,5"/>
+                    </g>
+                    <g style="transform-origin:52px 56px;animation:spin12b 7s linear infinite">
+                      <circle cx="52" cy="56" r="40" fill="none" stroke="#a040d0" stroke-width="0.8" stroke-dasharray="6,3"/>
+                      <polygon points="92,56 88,61 88,51" fill="#c060e0"/>
+                      <polygon points="12,56 16,61 16,51" fill="#c060e0"/>
+                      <polygon points="52,16 57,20 47,20" fill="#c060e0"/>
+                      <polygon points="52,96 57,92 47,92" fill="#c060e0"/>
+                      <polygon points="80,28 82,34 76,32" fill="#c060e0"/>
+                    </g>
+                    <path d="M52 8 L88 26 L88 60 Q88 90 52 102 Q16 90 16 60 L16 26 Z" fill="url(#g12)" stroke="#a040d0" stroke-width="2.5"/>
+                    <path d="M52 16 L80 32 L80 60 Q80 84 52 94 Q24 84 24 60 L24 32 Z" fill="none" stroke="#e0b0ff" stroke-width="1.2"/>
+                    <polygon points="52,28 68,48 52,68 36,48" fill="#d080ff" stroke="#e0b0ff" stroke-width="1.5" opacity="0.9"/>
+                    <polygon points="52,34 62,48 52,62 42,48" fill="#8030b0"/>
+                    <circle cx="52" cy="48" r="6" fill="#fff" opacity="0.8"/>
+                    <text x="52" y="83" text-anchor="middle" fill="#fff" font-size="12" font-weight="bold" font-family="monospace">LV12</text>
+                  </svg>
+                  <!-- LV13 — Diamond -->
+                  <svg v-else-if="agentLevel===13" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 110 112" width="110" height="112">
+                    <defs>
+                      <linearGradient id="g13" x1="0%" y1="0%" x2="100%" y2="100%">
+                        <stop offset="0%" stop-color="#ff6080"/>
+                        <stop offset="100%" stop-color="#800020"/>
+                      </linearGradient>
+                      <style>
+                        @keyframes spin13{from{transform:rotate(0deg)}to{transform:rotate(360deg)}}
+                        @keyframes ember{0%,100%{opacity:0;transform:translateY(0)}50%{opacity:1;transform:translateY(-6px)}}
+                      </style>
+                    </defs>
+                    <path d="M20 52 Q2 30 6 18 Q12 28 18 34 Q10 22 16 14 Q22 26 24 38 Q18 24 26 20 Q28 36 26 46 Z" fill="#cc2040" opacity="0.8"/>
+                    <path d="M90 52 Q108 30 104 18 Q98 28 92 34 Q100 22 94 14 Q88 26 86 38 Q92 24 84 20 Q82 36 84 46 Z" fill="#cc2040" opacity="0.8"/>
+                    <g style="transform-origin:55px 58px;animation:spin13 3s linear infinite">
+                      <line x1="55" y1="58" x2="103" y2="58" stroke="#ff3050" stroke-width="0.6" opacity="0.35"/>
+                      <line x1="55" y1="58" x2="79"  y2="17" stroke="#ff3050" stroke-width="0.6" opacity="0.35"/>
+                      <line x1="55" y1="58" x2="31"  y2="17" stroke="#ff3050" stroke-width="0.6" opacity="0.35"/>
+                      <line x1="55" y1="58" x2="7"   y2="58" stroke="#ff3050" stroke-width="0.6" opacity="0.35"/>
+                      <line x1="55" y1="58" x2="31"  y2="99" stroke="#ff3050" stroke-width="0.6" opacity="0.35"/>
+                      <line x1="55" y1="58" x2="79"  y2="99" stroke="#ff3050" stroke-width="0.6" opacity="0.35"/>
+                    </g>
+                    <path d="M55 8 L90 26 L90 60 Q90 90 55 104 Q20 90 20 60 L20 26 Z" fill="url(#g13)" stroke="#cc2040" stroke-width="3"/>
+                    <path d="M55 16 L82 32 L82 60 Q82 84 55 96 Q28 84 28 60 L28 32 Z" fill="none" stroke="#ff8090" stroke-width="1.5"/>
+                    <circle cx="38" cy="50" r="2.5" fill="#ff6040" style="animation:ember 1.5s ease-in-out infinite 0s"/>
+                    <circle cx="48" cy="50" r="2.5" fill="#ff6040" style="animation:ember 1.5s ease-in-out infinite 0.3s"/>
+                    <circle cx="58" cy="50" r="2.5" fill="#ff6040" style="animation:ember 1.5s ease-in-out infinite 0.6s"/>
+                    <circle cx="68" cy="50" r="2.5" fill="#ff6040" style="animation:ember 1.5s ease-in-out infinite 0.9s"/>
+                    <polygon points="55,26 63,40 78,40 66,50 70,64 55,55 40,64 44,50 32,40 47,40" fill="#ff4060" stroke="#ff8090" stroke-width="1.5"/>
+                    <text x="55" y="84" text-anchor="middle" fill="#fff" font-size="12" font-weight="bold" font-family="monospace">LV13</text>
+                  </svg>
+                  <!-- LV14 — Diamond II -->
+                  <svg v-else-if="agentLevel===14" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 114 116" width="114" height="116">
+                    <defs>
+                      <linearGradient id="g14a" x1="0%" y1="0%" x2="100%" y2="100%">
+                        <stop offset="0%" stop-color="#00e5ff"/>
+                        <stop offset="50%" stop-color="#7c4dff"/>
+                        <stop offset="100%" stop-color="#ff1744"/>
+                      </linearGradient>
+                      <linearGradient id="g14b" x1="100%" y1="0%" x2="0%" y2="100%">
+                        <stop offset="0%" stop-color="#ff6d00"/>
+                        <stop offset="100%" stop-color="#00bfa5"/>
+                      </linearGradient>
+                      <style>
+                        @keyframes cosmo14{0%{stroke:#00e5ff}33%{stroke:#7c4dff}66%{stroke:#ff1744}100%{stroke:#00e5ff}}
+                        @keyframes spinA14{from{transform:rotate(0deg)}to{transform:rotate(360deg)}}
+                        @keyframes spinB14{from{transform:rotate(0deg)}to{transform:rotate(-360deg)}}
+                      </style>
+                    </defs>
+                    <g style="transform-origin:57px 60px;animation:spinA14 3s linear infinite">
+                      <circle cx="57" cy="60" r="52" fill="none" stroke="#00e5ff" stroke-width="1" stroke-dasharray="4,4" opacity="0.5"/>
+                    </g>
+                    <g style="transform-origin:57px 60px;animation:spinB14 5s linear infinite">
+                      <circle cx="57" cy="60" r="44" fill="none" stroke="#7c4dff" stroke-width="1" stroke-dasharray="6,3" opacity="0.5"/>
+                      <polygon points="101,60 97,65 97,55" fill="#7c4dff"/>
+                      <polygon points="13,60 17,65 17,55"  fill="#7c4dff"/>
+                      <polygon points="57,16 62,20 52,20"  fill="#7c4dff"/>
+                      <polygon points="57,104 62,100 52,100" fill="#7c4dff"/>
+                      <polygon points="88,31 91,37 85,35" fill="#7c4dff"/>
+                      <polygon points="26,31 29,37 23,35" fill="#7c4dff"/>
+                    </g>
+                    <path d="M22 56 Q4 34 8 18 Q14 30 20 38 Q12 24 18 14 Q24 28 26 44 Z" fill="url(#g14b)" opacity="0.7"/>
+                    <path d="M92 56 Q110 34 102 18 Q96 30 90 38 Q98 24 92 14 Q86 28 84 44 Z" fill="url(#g14a)" opacity="0.7"/>
+                    <path d="M57 8 L93 28 L93 62 Q93 92 57 106 Q21 92 21 62 L21 28 Z" fill="url(#g14a)" stroke-width="2.5" style="animation:cosmo14 3s linear infinite"/>
+                    <path d="M57 16 L85 34 L85 62 Q85 86 57 98 Q29 86 29 62 L29 34 Z" fill="none" stroke="#ffffff" stroke-width="1" opacity="0.4"/>
+                    <polygon points="57,28 66,44 82,44 70,54 74,70 57,60 40,70 44,54 32,44 48,44" fill="url(#g14b)" stroke="#fff" stroke-width="1"/>
+                    <text x="57" y="88" text-anchor="middle" fill="#fff" font-size="12" font-weight="bold" font-family="monospace">LV14</text>
+                  </svg>
+                  <!-- LV15 — Legend -->
+                  <svg v-else xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 120" width="120" height="120">
+                    <defs>
+                      <linearGradient id="g15a" x1="0%" y1="0%" x2="100%" y2="100%">
+                        <stop offset="0%" stop-color="#fff176"/>
+                        <stop offset="30%" stop-color="#ff6d00"/>
+                        <stop offset="60%" stop-color="#d500f9"/>
+                        <stop offset="100%" stop-color="#00e5ff"/>
+                      </linearGradient>
+                      <style>
+                        @keyframes rainbow15{0%{stroke:#fff176}20%{stroke:#ff6d00}40%{stroke:#ff1744}60%{stroke:#d500f9}80%{stroke:#00e5ff}100%{stroke:#fff176}}
+                        @keyframes spinFwd15{from{transform:rotate(0deg)}to{transform:rotate(360deg)}}
+                        @keyframes spinRev15{from{transform:rotate(0deg)}to{transform:rotate(-360deg)}}
+                        @keyframes ultPulse15{0%,100%{opacity:0.7}50%{opacity:1}}
+                      </style>
+                    </defs>
+                    <g style="transform-origin:60px 62px;animation:spinFwd15 2s linear infinite">
+                      <circle cx="60" cy="62" r="56" fill="none" stroke="#fff176" stroke-width="1.2" stroke-dasharray="3,3"/>
+                      <circle cx="116" cy="62" r="2" fill="#fff176"/>
+                      <circle cx="4"   cy="62" r="2" fill="#fff176"/>
+                      <circle cx="60"  cy="6"  r="2" fill="#fff176"/>
+                      <circle cx="60"  cy="118" r="2" fill="#fff176"/>
+                      <circle cx="104" cy="18" r="2" fill="#fff176"/>
+                      <circle cx="16"  cy="18" r="2" fill="#fff176"/>
+                      <circle cx="104" cy="106" r="2" fill="#fff176"/>
+                      <circle cx="16"  cy="106" r="2" fill="#fff176"/>
+                    </g>
+                    <g style="transform-origin:60px 62px;animation:spinRev15 3s linear infinite">
+                      <circle cx="60" cy="62" r="48" fill="none" stroke="#ff6d00" stroke-width="1" stroke-dasharray="6,3"/>
+                      <polygon points="108,62 104,67 104,57" fill="#ff6d00"/>
+                      <polygon points="12,62  16,67  16,57"  fill="#ff6d00"/>
+                      <polygon points="60,14  65,18  55,18"  fill="#ff6d00"/>
+                      <polygon points="60,110 65,106 55,106" fill="#ff6d00"/>
+                      <polygon points="94,28 97,34 91,32"   fill="#ff6d00"/>
+                      <polygon points="26,28 29,34 23,32"   fill="#ff6d00"/>
+                      <polygon points="94,96 97,90 91,92"   fill="#ff6d00"/>
+                      <polygon points="26,96 29,90 23,92"   fill="#ff6d00"/>
+                    </g>
+                    <path d="M24 60 Q4 36 8 18 Q16 32 22 42 Q12 26 20 14 Q26 30 28 48 Q20 30 30 22 Q32 42 30 56 Z" fill="#ff6d00" opacity="0.9"/>
+                    <path d="M96 60 Q116 36 112 18 Q104 32 98 42 Q108 26 100 14 Q94 30 92 48 Q100 30 90 22 Q88 42 90 56 Z" fill="#d500f9" opacity="0.9"/>
+                    <path d="M60 6 L98 26 L98 62 Q98 94 60 108 Q22 94 22 62 L22 26 Z" fill="url(#g15a)" stroke-width="3" style="animation:rainbow15 2s linear infinite,ultPulse15 1.5s ease-in-out infinite"/>
+                    <path d="M60 14 L90 32 L90 62 Q90 88 60 100 Q30 88 30 62 L30 32 Z" fill="none" stroke="#ffffff" stroke-width="1.5" opacity="0.5"/>
+                    <path d="M44 26 L48 14 L60 22 L72 14 L76 26 Z" fill="#fff176" stroke="#ff6d00" stroke-width="1.5"/>
+                    <circle cx="48" cy="14" r="3.5" fill="#fff176"/>
+                    <circle cx="60" cy="10" r="4.5" fill="#fff"/>
+                    <circle cx="72" cy="14" r="3.5" fill="#fff176"/>
+                    <polygon points="60,34 65,48 80,48 68,57 73,71 60,62 47,71 52,57 40,48 55,48" fill="#fff176" stroke="#ff6d00" stroke-width="1.5"/>
+                    <circle cx="60" cy="52" r="6" fill="#fff" opacity="0.9"/>
+                    <text x="60" y="88" text-anchor="middle" fill="#fff" font-size="12" font-weight="bold" font-family="monospace">LV15</text>
+                  </svg>
+                </button>
             </div>
 
             <div class="flex-1 min-w-0">
