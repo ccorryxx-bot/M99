@@ -20,8 +20,8 @@
     <div class="sticky z-30"
       style="top: 49px; background: #b0baaf; border-bottom: 1px solid rgba(0,0,0,0.09);">
       <div class="flex items-center w-full py-1">
-        <button v-for="(tab, i) in tabs.slice(0,5)" :key="i" @click="activeTab = i"
-          class="flex-1 py-1 text-[8px] font-semibold tracking-wide transition-all duration-150 text-center whitespace-nowrap"
+        <button v-for="(tab, i) in tabs" :key="i" @click="activeTab = i"
+          class="flex-1 py-1 text-[7px] font-semibold transition-all duration-150 text-center whitespace-nowrap"
           :style="activeTab === i
             ? 'color: #1a2b1a; font-weight:800; border-bottom: 2px solid #717a71; padding-bottom: 3px;'
             : 'color: rgba(0,0,0,0.42);'">
