@@ -2583,24 +2583,243 @@ const evoParticleCount = computed(() => {
 function miniShieldHtml(lv) {
     const n = lv.level
     const gid = `ms${n}`
-    const svg = (vb, body) =>
-      `<svg xmlns="http://www.w3.org/2000/svg" viewBox="${vb}" style="overflow:visible;width:100%;height:100%;">${body}</svg>`
+    const wrap = (body) =>
+      `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 70 70" style="overflow:visible;width:100%;height:100%;"><defs><linearGradient id="${gid}" x1="5%" y1="5%" x2="95%" y2="95%"><stop stop-color="${lv.gradStart}" offset="0%"/><stop stop-color="${lv.gradEnd}" offset="100%"/></linearGradient></defs>${body}</svg>`
 
-    if (n === 1) return svg('0 0 80 90', `<defs><linearGradient id="${gid}" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#cd7f32"/><stop offset="100%" stop-color="#8b4513"/></linearGradient></defs><path d="M40 6 L70 18 L70 50 Q70 75 40 86 Q10 75 10 50 L10 18 Z" fill="url(#${gid})" stroke="#a0522d" stroke-width="2"/><path d="M40 12 L64 22 L64 50 Q64 70 40 80 Q16 70 16 50 L16 22 Z" fill="none" stroke="#e8a060" stroke-width="1" opacity="0.5"/><text x="40" y="52" text-anchor="middle" fill="#fff" font-size="13" font-weight="bold" font-family="monospace">LV1</text>`)
-    if (n === 2) return svg('0 0 80 90', `<defs><linearGradient id="${gid}" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#d4903a"/><stop offset="100%" stop-color="#7a3c10"/></linearGradient></defs><path d="M40 6 L70 18 L70 50 Q70 75 40 86 Q10 75 10 50 L10 18 Z" fill="url(#${gid})" stroke="#c47830" stroke-width="2"/><path d="M40 12 L64 22 L64 50 Q64 70 40 80 Q16 70 16 50 L16 22 Z" fill="none" stroke="#f0b870" stroke-width="1" opacity="0.6"/><circle cx="12" cy="44" r="2.5" fill="#f0b870" opacity="0.7"/><circle cx="28" cy="16" r="2.5" fill="#f0b870" opacity="0.7"/><circle cx="52" cy="16" r="2.5" fill="#f0b870" opacity="0.7"/><circle cx="68" cy="44" r="2.5" fill="#f0b870" opacity="0.7"/><circle cx="56" cy="70" r="2.5" fill="#f0b870" opacity="0.7"/><circle cx="24" cy="70" r="2.5" fill="#f0b870" opacity="0.7"/><text x="40" y="52" text-anchor="middle" fill="#fff" font-size="13" font-weight="bold" font-family="monospace">LV2</text>`)
-    if (n === 3) return svg('0 0 80 90', `<defs><linearGradient id="${gid}" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#e09040"/><stop offset="100%" stop-color="#6b3010"/></linearGradient><style>@keyframes p3x${n}{0%,100%{opacity:0.3}50%{opacity:0.9}}</style></defs><path d="M40 4 L72 17 L72 50 Q72 77 40 88 Q8 77 8 50 L8 17 Z" fill="url(#${gid})" stroke="#c47830" stroke-width="2.5"/><path d="M40 4 L72 17 L72 50 Q72 77 40 88 Q8 77 8 50 L8 17 Z" fill="none" stroke="#ffcc80" stroke-width="1.5" opacity="0.4" style="animation:p3x${n} 2s ease-in-out infinite"/><line x1="40" y1="18" x2="40" y2="78" stroke="#f0b060" stroke-width="0.8" opacity="0.3"/><line x1="18" y1="44" x2="62" y2="44" stroke="#f0b060" stroke-width="0.8" opacity="0.3"/><text x="40" y="52" text-anchor="middle" fill="#fff" font-size="13" font-weight="bold" font-family="monospace">LV3</text>`)
-    if (n === 4) return svg('0 0 80 90', `<defs><linearGradient id="${gid}" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#c0cdd8"/><stop offset="100%" stop-color="#607080"/></linearGradient><style>@keyframes p4x${n}{0%,100%{opacity:0.2}50%{opacity:0.7}}</style></defs><path d="M40 4 L72 17 L72 50 Q72 77 40 88 Q8 77 8 50 L8 17 Z" fill="url(#${gid})" stroke="#90a8b8" stroke-width="2.5"/><path d="M40 4 L72 17 L72 50 Q72 77 40 88 Q8 77 8 50 L8 17 Z" fill="none" stroke="#e0eaf0" stroke-width="1.5" opacity="0.5" style="animation:p4x${n} 2.5s ease-in-out infinite"/><path d="M40 14 L62 24 L62 50 Q62 68 40 78 Q18 68 18 50 L18 24 Z" fill="none" stroke="#b0c8d8" stroke-width="1.2"/><line x1="28" y1="30" x2="52" y2="30" stroke="#d0e0ea" stroke-width="1.5" stroke-linecap="round"/><line x1="28" y1="60" x2="52" y2="60" stroke="#d0e0ea" stroke-width="1.5" stroke-linecap="round"/><text x="40" y="52" text-anchor="middle" fill="#fff" font-size="13" font-weight="bold" font-family="monospace">LV4</text>`)
-    if (n === 5) return svg('0 0 80 90', `<defs><linearGradient id="${gid}" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#d0dde8"/><stop offset="100%" stop-color="#506070"/></linearGradient><style>@keyframes sp5x${n}{from{transform-origin:40px 44px;transform:rotate(0deg)}to{transform-origin:40px 44px;transform:rotate(360deg)}}</style></defs><path d="M40 4 L72 17 L72 50 Q72 77 40 88 Q8 77 8 50 L8 17 Z" fill="url(#${gid})" stroke="#90a8c0" stroke-width="2.5"/><circle cx="40" cy="44" r="22" fill="none" stroke="#b0c8d8" stroke-width="0.8" stroke-dasharray="4,3" style="animation:sp5x${n} 12s linear infinite"/><path d="M40 14 L62 24 L62 50 Q62 68 40 78 Q18 68 18 50 L18 24 Z" fill="none" stroke="#c0d8e8" stroke-width="1"/><rect x="24" y="18" width="8" height="8" rx="2" fill="none" stroke="#d0e8f0" stroke-width="1.5" transform="rotate(45,28,22)"/><rect x="48" y="18" width="8" height="8" rx="2" fill="none" stroke="#d0e8f0" stroke-width="1.5" transform="rotate(45,52,22)"/><rect x="24" y="62" width="8" height="8" rx="2" fill="none" stroke="#d0e8f0" stroke-width="1.5" transform="rotate(45,28,66)"/><rect x="48" y="62" width="8" height="8" rx="2" fill="none" stroke="#d0e8f0" stroke-width="1.5" transform="rotate(45,52,66)"/><text x="40" y="52" text-anchor="middle" fill="#fff" font-size="13" font-weight="bold" font-family="monospace">LV5</text>`)
-    if (n === 6) return svg('0 0 80 90', `<defs><linearGradient id="${gid}" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#c8d8b0"/><stop offset="100%" stop-color="#486050"/></linearGradient><style>@keyframes sg6x${n}{from{transform:rotate(0deg)}to{transform:rotate(360deg)}}</style></defs><path d="M40 4 L72 17 L72 50 Q72 77 40 88 Q8 77 8 50 L8 17 Z" fill="url(#${gid})" stroke="#80a890" stroke-width="2.5"/><path d="M40 14 L62 24 L62 50 Q62 68 40 78 Q18 68 18 50 L18 24 Z" fill="none" stroke="#a0c8b0" stroke-width="1.2"/><g style="transform-origin:40px 44px;animation:sg6x${n} 8s linear infinite"><line x1="40" y1="44" x2="60" y2="44" stroke="#b0e0c0" stroke-width="0.8" opacity="0.5"/><line x1="40" y1="44" x2="50" y2="61" stroke="#b0e0c0" stroke-width="0.8" opacity="0.5"/><line x1="40" y1="44" x2="30" y2="61" stroke="#b0e0c0" stroke-width="0.8" opacity="0.5"/><line x1="40" y1="44" x2="20" y2="44" stroke="#b0e0c0" stroke-width="0.8" opacity="0.5"/><line x1="40" y1="44" x2="30" y2="27" stroke="#b0e0c0" stroke-width="0.8" opacity="0.5"/><line x1="40" y1="44" x2="50" y2="27" stroke="#b0e0c0" stroke-width="0.8" opacity="0.5"/></g><polygon points="40,28 43,38 53,38 45,44 48,54 40,48 32,54 35,44 27,38 37,38" fill="#c0e8c8" stroke="#80c090" stroke-width="1"/><text x="40" y="68" text-anchor="middle" fill="#fff" font-size="11" font-weight="bold" font-family="monospace">LV6</text>`)
-    if (n === 7) return svg('0 0 80 96', `<defs><linearGradient id="${gid}" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#ffd700"/><stop offset="100%" stop-color="#b8860b"/></linearGradient><style>@keyframes gw7x${n}{0%,100%{opacity:0.3}50%{opacity:1}}</style></defs><path d="M24 18 L28 8 L40 16 L52 8 L56 18 Z" fill="#ffd700" stroke="#daa520" stroke-width="1.5"/><circle cx="28" cy="8" r="3" fill="#ffd700"/><circle cx="40" cy="5" r="3.5" fill="#ffe44d"/><circle cx="52" cy="8" r="3" fill="#ffd700"/><path d="M40 18 L72 28 L72 58 Q72 82 40 93 Q8 82 8 58 L8 28 Z" fill="url(#${gid})" stroke="#daa520" stroke-width="2.5"/><path d="M40 18 L72 28 L72 58 Q72 82 40 93 Q8 82 8 58 L8 28 Z" fill="none" stroke="#ffe88a" stroke-width="2" style="animation:gw7x${n} 2s ease-in-out infinite"/><path d="M40 26 L64 34 L64 58 Q64 76 40 86 Q16 76 16 58 L16 34 Z" fill="none" stroke="#ffd700" stroke-width="1"/><text x="40" y="62" text-anchor="middle" fill="#fff" font-size="13" font-weight="bold" font-family="monospace">LV7</text>`)
-    if (n === 8) return svg('0 0 96 96', `<defs><linearGradient id="${gid}" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#ffe44d"/><stop offset="100%" stop-color="#a07010"/></linearGradient><style>@keyframes fl8x${n}{0%,100%{transform:scaleX(1)}50%{transform:scaleX(1.1)}}</style></defs><g style="transform-origin:8px 50px;animation:fl8x${n} 2s ease-in-out infinite"><path d="M16 40 Q4 44 2 55 Q8 50 14 52 Q6 58 8 65 Q14 58 18 56 Z" fill="#ffd700" opacity="0.7"/></g><g style="transform-origin:88px 50px;animation:fl8x${n} 2s ease-in-out infinite"><path d="M80 40 Q92 44 94 55 Q88 50 82 52 Q90 58 88 65 Q82 58 78 56 Z" fill="#ffd700" opacity="0.7"/></g><path d="M48 10 L76 22 L76 54 Q76 78 48 88 Q20 78 20 54 L20 22 Z" fill="url(#${gid})" stroke="#daa520" stroke-width="2.5"/><path d="M48 18 L68 28 L68 54 Q68 72 48 82 Q28 72 28 54 L28 28 Z" fill="none" stroke="#ffe88a" stroke-width="1.2"/><line x1="35" y1="30" x2="61" y2="30" stroke="#ffd700" stroke-width="1.5" stroke-dasharray="3,3"/><text x="48" y="59" text-anchor="middle" fill="#fff" font-size="13" font-weight="bold" font-family="monospace">LV8</text>`)
-    if (n === 9) return svg('0 0 96 100', `<defs><linearGradient id="${gid}" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#fff176"/><stop offset="100%" stop-color="#e65100"/></linearGradient><style>@keyframes sr9x${n}{from{transform:rotate(0deg)}to{transform:rotate(360deg)}}@keyframes pl9x${n}{0%,100%{opacity:0.5}50%{opacity:1}}</style></defs><g style="transform-origin:48px 52px;animation:sr9x${n} 6s linear infinite"><circle cx="48" cy="52" r="42" fill="none" stroke="#ffd700" stroke-width="1" stroke-dasharray="6,4" opacity="0.6"/><circle cx="90" cy="52" r="2.5" fill="#ffe44d"/><circle cx="6" cy="52" r="2.5" fill="#ffe44d"/><circle cx="48" cy="10" r="2.5" fill="#ffe44d"/><circle cx="48" cy="94" r="2.5" fill="#ffe44d"/><circle cx="78" cy="18" r="2.5" fill="#ffe44d"/><circle cx="18" cy="18" r="2.5" fill="#ffe44d"/></g><path d="M48 8 L80 22 L80 55 Q80 82 48 94 Q16 82 16 55 L16 22 Z" fill="url(#${gid})" stroke="#daa520" stroke-width="2.5" style="animation:pl9x${n} 2s ease-in-out infinite"/><path d="M33 22 L48 12 L63 22" fill="none" stroke="#ffe44d" stroke-width="2" stroke-linecap="round"/><circle cx="48" cy="12" r="4" fill="#fff176"/><text x="48" y="60" text-anchor="middle" fill="#fff" font-size="13" font-weight="bold" font-family="monospace">LV9</text>`)
-    if (n === 10) return svg('0 0 96 100', `<defs><linearGradient id="${gid}" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#c080f0"/><stop offset="100%" stop-color="#4b0082"/></linearGradient><style>@keyframes s10ax${n}{from{transform:rotate(0deg)}to{transform:rotate(360deg)}}@keyframes s10bx${n}{from{transform:rotate(0deg)}to{transform:rotate(-360deg)}}</style></defs><g style="transform-origin:48px 52px;animation:s10ax${n} 8s linear infinite"><circle cx="48" cy="52" r="42" fill="none" stroke="#9040c0" stroke-width="0.8" stroke-dasharray="2,4"/></g><g style="transform-origin:48px 52px;animation:s10bx${n} 12s linear infinite"><circle cx="48" cy="52" r="36" fill="none" stroke="#a050d0" stroke-width="0.8" stroke-dasharray="4,2" opacity="0.5"/></g><path d="M48 8 L82 23 L82 56 Q82 84 48 96 Q14 84 14 56 L14 23 Z" fill="url(#${gid})" stroke="#9040c0" stroke-width="2.5"/><path d="M48 16 L74 29 L74 56 Q74 78 48 88 Q22 78 22 56 L22 29 Z" fill="none" stroke="#d090ff" stroke-width="1.2"/><polygon points="48,32 60,44 48,56 36,44" fill="#e0b0ff" stroke="#c070f0" stroke-width="1.5"/><polygon points="48,36 56,44 48,52 40,44" fill="#c070f0" opacity="0.6"/><circle cx="48" cy="44" r="4" fill="#fff" opacity="0.7"/><text x="48" y="72" text-anchor="middle" fill="#fff" font-size="12" font-weight="bold" font-family="monospace">LV10</text>`)
-    if (n === 11) return svg('0 0 100 104', `<defs><linearGradient id="${gid}" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#d090ff"/><stop offset="100%" stop-color="#3b0070"/></linearGradient><style>@keyframes fl11x${n}{0%,90%,100%{opacity:0}45%,55%{opacity:1}}@keyframes s11x${n}{from{transform:rotate(0deg)}to{transform:rotate(-360deg)}}</style></defs><g style="transform-origin:50px 54px;animation:s11x${n} 5s linear infinite"><line x1="50" y1="54" x2="96" y2="54" stroke="#9040c0" stroke-width="0.5" opacity="0.4"/><line x1="50" y1="54" x2="73" y2="14" stroke="#9040c0" stroke-width="0.5" opacity="0.4"/><line x1="50" y1="54" x2="27" y2="14" stroke="#9040c0" stroke-width="0.5" opacity="0.4"/><line x1="50" y1="54" x2="4" y2="54" stroke="#9040c0" stroke-width="0.5" opacity="0.4"/><line x1="50" y1="54" x2="27" y2="94" stroke="#9040c0" stroke-width="0.5" opacity="0.4"/><line x1="50" y1="54" x2="73" y2="94" stroke="#9040c0" stroke-width="0.5" opacity="0.4"/></g><path d="M50 8 L84 24 L84 58 Q84 86 50 98 Q16 86 16 58 L16 24 Z" fill="url(#${gid})" stroke="#a050d0" stroke-width="2.5"/><path d="M38 28 L32 46 L40 46 L34 66" fill="none" stroke="#e0c0ff" stroke-width="2" stroke-linecap="round" style="animation:fl11x${n} 3s ease-in-out infinite"/><path d="M62 28 L68 46 L60 46 L66 66" fill="none" stroke="#e0c0ff" stroke-width="2" stroke-linecap="round" style="animation:fl11x${n} 3s ease-in-out infinite 1.5s"/><text x="50" y="79" text-anchor="middle" fill="#fff" font-size="12" font-weight="bold" font-family="monospace">LV11</text>`)
-    if (n === 12) return svg('0 0 104 108', `<defs><linearGradient id="${gid}" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#e0a0ff"/><stop offset="100%" stop-color="#2d0060"/></linearGradient><style>@keyframes s12ax${n}{from{transform:rotate(0deg)}to{transform:rotate(360deg)}}@keyframes s12bx${n}{from{transform:rotate(0deg)}to{transform:rotate(-360deg)}}</style></defs><g style="transform-origin:52px 56px;animation:s12ax${n} 4s linear infinite"><circle cx="52" cy="56" r="47" fill="none" stroke="#8030b0" stroke-width="1" stroke-dasharray="3,5"/></g><g style="transform-origin:52px 56px;animation:s12bx${n} 7s linear infinite"><circle cx="52" cy="56" r="40" fill="none" stroke="#a040d0" stroke-width="0.8" stroke-dasharray="6,3"/><polygon points="92,56 88,61 88,51" fill="#c060e0"/><polygon points="12,56 16,61 16,51" fill="#c060e0"/><polygon points="52,16 57,20 47,20" fill="#c060e0"/><polygon points="52,96 57,92 47,92" fill="#c060e0"/><polygon points="80,28 82,34 76,32" fill="#c060e0"/></g><path d="M52 8 L88 26 L88 60 Q88 90 52 102 Q16 90 16 60 L16 26 Z" fill="url(#${gid})" stroke="#a040d0" stroke-width="2.5"/><polygon points="52,28 68,48 52,68 36,48" fill="#d080ff" stroke="#e0b0ff" stroke-width="1.5" opacity="0.9"/><polygon points="52,34 62,48 52,62 42,48" fill="#8030b0"/><circle cx="52" cy="48" r="6" fill="#fff" opacity="0.8"/><text x="52" y="83" text-anchor="middle" fill="#fff" font-size="12" font-weight="bold" font-family="monospace">LV12</text>`)
-    if (n === 13) return svg('0 0 110 112', `<defs><linearGradient id="${gid}" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#ff6080"/><stop offset="100%" stop-color="#800020"/></linearGradient><style>@keyframes s13x${n}{from{transform:rotate(0deg)}to{transform:rotate(360deg)}}@keyframes emx${n}{0%,100%{opacity:0;transform:translateY(0)}50%{opacity:1;transform:translateY(-6px)}}</style></defs><path d="M20 52 Q2 30 6 18 Q12 28 18 34 Q10 22 16 14 Q22 26 24 38 Q18 24 26 20 Q28 36 26 46 Z" fill="#cc2040" opacity="0.8"/><path d="M90 52 Q108 30 104 18 Q98 28 92 34 Q100 22 94 14 Q88 26 86 38 Q92 24 84 20 Q82 36 84 46 Z" fill="#cc2040" opacity="0.8"/><g style="transform-origin:55px 58px;animation:s13x${n} 3s linear infinite"><line x1="55" y1="58" x2="103" y2="58" stroke="#ff3050" stroke-width="0.6" opacity="0.35"/><line x1="55" y1="58" x2="79" y2="17" stroke="#ff3050" stroke-width="0.6" opacity="0.35"/><line x1="55" y1="58" x2="31" y2="17" stroke="#ff3050" stroke-width="0.6" opacity="0.35"/><line x1="55" y1="58" x2="7" y2="58" stroke="#ff3050" stroke-width="0.6" opacity="0.35"/><line x1="55" y1="58" x2="31" y2="99" stroke="#ff3050" stroke-width="0.6" opacity="0.35"/><line x1="55" y1="58" x2="79" y2="99" stroke="#ff3050" stroke-width="0.6" opacity="0.35"/></g><path d="M55 8 L90 26 L90 60 Q90 90 55 104 Q20 90 20 60 L20 26 Z" fill="url(#${gid})" stroke="#cc2040" stroke-width="3"/><circle cx="38" cy="50" r="2.5" fill="#ff6040" style="animation:emx${n} 1.5s ease-in-out infinite 0s"/><circle cx="48" cy="50" r="2.5" fill="#ff6040" style="animation:emx${n} 1.5s ease-in-out infinite 0.3s"/><circle cx="58" cy="50" r="2.5" fill="#ff6040" style="animation:emx${n} 1.5s ease-in-out infinite 0.6s"/><circle cx="68" cy="50" r="2.5" fill="#ff6040" style="animation:emx${n} 1.5s ease-in-out infinite 0.9s"/><polygon points="55,26 63,40 78,40 66,50 70,64 55,55 40,64 44,50 32,40 47,40" fill="#ff4060" stroke="#ff8090" stroke-width="1.5"/><text x="55" y="84" text-anchor="middle" fill="#fff" font-size="12" font-weight="bold" font-family="monospace">LV13</text>`)
-    if (n === 14) return svg('0 0 114 116', `<defs><linearGradient id="${gid}a" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#00e5ff"/><stop offset="50%" stop-color="#7c4dff"/><stop offset="100%" stop-color="#ff1744"/></linearGradient><linearGradient id="${gid}b" x1="100%" y1="0%" x2="0%" y2="100%"><stop offset="0%" stop-color="#ff6d00"/><stop offset="100%" stop-color="#00bfa5"/></linearGradient><style>@keyframes cs14x${n}{0%{stroke:#00e5ff}33%{stroke:#7c4dff}66%{stroke:#ff1744}100%{stroke:#00e5ff}}@keyframes sa14x${n}{from{transform:rotate(0deg)}to{transform:rotate(360deg)}}@keyframes sb14x${n}{from{transform:rotate(0deg)}to{transform:rotate(-360deg)}}</style></defs><g style="transform-origin:57px 60px;animation:sa14x${n} 3s linear infinite"><circle cx="57" cy="60" r="52" fill="none" stroke="#00e5ff" stroke-width="1" stroke-dasharray="4,4" opacity="0.5"/></g><g style="transform-origin:57px 60px;animation:sb14x${n} 5s linear infinite"><circle cx="57" cy="60" r="44" fill="none" stroke="#7c4dff" stroke-width="1" stroke-dasharray="6,3" opacity="0.5"/><polygon points="101,60 97,65 97,55" fill="#7c4dff"/><polygon points="13,60 17,65 17,55" fill="#7c4dff"/><polygon points="57,16 62,20 52,20" fill="#7c4dff"/><polygon points="57,104 62,100 52,100" fill="#7c4dff"/></g><path d="M22 56 Q4 34 8 18 Q14 30 20 38 Q12 24 18 14 Q24 28 26 44 Z" fill="url(#${gid}b)" opacity="0.7"/><path d="M92 56 Q110 34 102 18 Q96 30 90 38 Q98 24 92 14 Q86 28 84 44 Z" fill="url(#${gid}a)" opacity="0.7"/><path d="M57 8 L93 28 L93 62 Q93 92 57 106 Q21 92 21 62 L21 28 Z" fill="url(#${gid}a)" stroke-width="2.5" style="animation:cs14x${n} 3s linear infinite"/><path d="M57 16 L85 34 L85 62 Q85 86 57 98 Q29 86 29 62 L29 34 Z" fill="none" stroke="#fff" stroke-width="1" opacity="0.4"/><polygon points="57,28 66,44 82,44 70,54 74,70 57,60 40,70 44,54 32,44 48,44" fill="url(#${gid}b)" stroke="#fff" stroke-width="1"/><text x="57" y="88" text-anchor="middle" fill="#fff" font-size="12" font-weight="bold" font-family="monospace">LV14</text>`)
-    return svg('0 0 120 120', `<defs><linearGradient id="${gid}" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#fff176"/><stop offset="30%" stop-color="#ff6d00"/><stop offset="60%" stop-color="#d500f9"/><stop offset="100%" stop-color="#00e5ff"/></linearGradient><style>@keyframes rb15x${n}{0%{stroke:#fff176}20%{stroke:#ff6d00}40%{stroke:#ff1744}60%{stroke:#d500f9}80%{stroke:#00e5ff}100%{stroke:#fff176}}@keyframes sf15x${n}{from{transform:rotate(0deg)}to{transform:rotate(360deg)}}@keyframes sr15x${n}{from{transform:rotate(0deg)}to{transform:rotate(-360deg)}}@keyframes up15x${n}{0%,100%{opacity:0.7}50%{opacity:1}}</style></defs><g style="transform-origin:60px 62px;animation:sf15x${n} 2s linear infinite"><circle cx="60" cy="62" r="56" fill="none" stroke="#fff176" stroke-width="1.2" stroke-dasharray="3,3"/><circle cx="116" cy="62" r="2" fill="#fff176"/><circle cx="4" cy="62" r="2" fill="#fff176"/><circle cx="60" cy="6" r="2" fill="#fff176"/><circle cx="60" cy="118" r="2" fill="#fff176"/><circle cx="104" cy="18" r="2" fill="#fff176"/><circle cx="16" cy="18" r="2" fill="#fff176"/><circle cx="104" cy="106" r="2" fill="#fff176"/><circle cx="16" cy="106" r="2" fill="#fff176"/></g><g style="transform-origin:60px 62px;animation:sr15x${n} 3s linear infinite"><circle cx="60" cy="62" r="48" fill="none" stroke="#ff6d00" stroke-width="1" stroke-dasharray="6,3"/><polygon points="108,62 104,67 104,57" fill="#ff6d00"/><polygon points="12,62 16,67 16,57" fill="#ff6d00"/><polygon points="60,14 65,18 55,18" fill="#ff6d00"/><polygon points="60,110 65,106 55,106" fill="#ff6d00"/><polygon points="94,28 97,34 91,32" fill="#ff6d00"/><polygon points="26,28 29,34 23,32" fill="#ff6d00"/><polygon points="94,96 97,90 91,92" fill="#ff6d00"/><polygon points="26,96 29,90 23,92" fill="#ff6d00"/></g><path d="M24 60 Q4 36 8 18 Q16 32 22 42 Q12 26 20 14 Q26 30 28 48 Q20 30 30 22 Q32 42 30 56 Z" fill="#ff6d00" opacity="0.9"/><path d="M96 60 Q116 36 112 18 Q104 32 98 42 Q108 26 100 14 Q94 30 92 48 Q100 30 90 22 Q88 42 90 56 Z" fill="#d500f9" opacity="0.9"/><path d="M60 6 L98 26 L98 62 Q98 94 60 108 Q22 94 22 62 L22 26 Z" fill="url(#${gid})" stroke-width="3" style="animation:rb15x${n} 2s linear infinite,up15x${n} 1.5s ease-in-out infinite"/><path d="M60 14 L90 32 L90 62 Q90 88 60 100 Q30 88 30 62 L30 32 Z" fill="none" stroke="#fff" stroke-width="1.5" opacity="0.5"/><path d="M44 26 L48 14 L60 22 L72 14 L76 26 Z" fill="#fff176" stroke="#ff6d00" stroke-width="1.5"/><circle cx="48" cy="14" r="3.5" fill="#fff176"/><circle cx="60" cy="10" r="4.5" fill="#fff"/><circle cx="72" cy="14" r="3.5" fill="#fff176"/><polygon points="60,34 65,48 80,48 68,57 73,71 60,62 47,71 52,57 40,48 55,48" fill="#fff176" stroke="#ff6d00" stroke-width="1.5"/><circle cx="60" cy="52" r="6" fill="#fff" opacity="0.9"/><text x="60" y="88" text-anchor="middle" fill="#fff" font-size="12" font-weight="bold" font-family="monospace">LV15</text>`)
+    const shield = (sw) =>
+      `<path d="M35,6 L59,15 V39 C59,53 35,63 35,63 C35,63 11,53 11,39 V15 Z" fill="url(#${gid})" stroke="${lv.rimColor}" stroke-width="${sw}"/>
+       <path d="M35,9 L56,17 V38 C56,50 35,61 35,61 C35,61 14,50 14,38 V17 Z" fill="rgba(255,255,255,0.12)" stroke="rgba(255,255,255,0.08)" stroke-width="0.5"/>
+       <path d="M35,9 L56,17 V26 C49,24 41,22 35,22 C29,22 21,24 14,26 V17 Z" fill="rgba(255,255,255,0.14)" stroke="none"/>`
+
+    // LV1 — Bronze I: plain shield + subtle inner outline
+    if (n === 1) return wrap(
+      shield('1.6') +
+      `<path d="M35,13 L53,20 V38 C53,49 35,58 35,58 C35,58 17,49 17,38 V20 Z" fill="none" stroke="${lv.rimColor}" stroke-width="0.6" opacity="0.35"/>`
+    )
+
+    // LV2 — Bronze II: + 6 corner dots
+    if (n === 2) return wrap(
+      shield('1.7') +
+      `<circle cx="11" cy="15" r="2" fill="${lv.rimColor}" opacity="0.7"/>
+       <circle cx="59" cy="15" r="2" fill="${lv.rimColor}" opacity="0.7"/>
+       <circle cx="35" cy="5"  r="2" fill="${lv.rimColor}" opacity="0.8"/>
+       <circle cx="35" cy="63" r="2" fill="${lv.rimColor}" opacity="0.6"/>
+       <circle cx="14" cy="51" r="1.6" fill="${lv.rimColor}" opacity="0.55"/>
+       <circle cx="56" cy="51" r="1.6" fill="${lv.rimColor}" opacity="0.55"/>`
+    )
+
+    // LV3 — Bronze III: pulsing outline (uses lv-bronze-pulse)
+    if (n === 3) return wrap(
+      `<path d="M35,4 L61,14 V39 C61,54 35,65 35,65 C35,65 9,54 9,39 V14 Z" fill="${lv.gradStart}" stroke="${lv.rimColor}" stroke-width="1" opacity="0.25" style="animation:lv-bronze-pulse 2s ease-in-out infinite"/>` +
+      shield('1.8') +
+      `<line x1="35" y1="13" x2="35" y2="61" stroke="${lv.rimColor}" stroke-width="0.7" opacity="0.22"/>
+       <line x1="17" y1="37" x2="53" y2="37" stroke="${lv.rimColor}" stroke-width="0.7" opacity="0.22"/>`
+    )
+
+    // LV4 — Silver I: side nubs + mini triple-top spikes
+    if (n === 4) return wrap(
+      `<path d="M11,30 L5,35 L11,40 Z" fill="url(#${gid})" stroke="${lv.rimColor}" stroke-width="0.8"/>
+       <path d="M59,30 L65,35 L59,40 Z" fill="url(#${gid})" stroke="${lv.rimColor}" stroke-width="0.8"/>` +
+      shield('1.9') +
+      `<path d="M28,6 L31,0 L34,6 Z" fill="${lv.rimColor}"/>
+       <path d="M33,4 L35,-1 L37,4 Z" fill="${lv.rimColor}"/>
+       <path d="M36,6 L39,0 L42,6 Z" fill="${lv.rimColor}"/>
+       <circle cx="11" cy="15" r="1.6" fill="${lv.rimColor}" opacity="0.8"/>
+       <circle cx="59" cy="15" r="1.6" fill="${lv.rimColor}" opacity="0.8"/>`
+    )
+
+    // LV5 — Silver II: spinning dashed ring (crown-cw) + nubs
+    if (n === 5) return wrap(
+      `<path d="M11,30 L5,35 L11,40 Z" fill="url(#${gid})" stroke="${lv.rimColor}" stroke-width="0.8"/>
+       <path d="M59,30 L65,35 L59,40 Z" fill="url(#${gid})" stroke="${lv.rimColor}" stroke-width="0.8"/>` +
+      shield('2.0') +
+      `<circle cx="35" cy="36" r="17" fill="none" stroke="${lv.rimColor}" stroke-width="0.8" stroke-dasharray="4,3" opacity="0.5" style="animation:crown-cw 10s linear infinite"/>
+       <path d="M28,6 L31,0 L34,6 Z" fill="${lv.rimColor}"/>
+       <path d="M33,4 L35,-1 L37,4 Z" fill="${lv.rimColor}"/>
+       <path d="M36,6 L39,0 L42,6 Z" fill="${lv.rimColor}"/>`
+    )
+
+    // LV6 — Silver III: spinning ring (cw+ccw) + nubs + 5-point star
+    if (n === 6) return wrap(
+      `<path d="M11,30 L5,35 L11,40 Z" fill="url(#${gid})" stroke="${lv.rimColor}" stroke-width="0.8"/>
+       <path d="M59,30 L65,35 L59,40 Z" fill="url(#${gid})" stroke="${lv.rimColor}" stroke-width="0.8"/>` +
+      shield('2.0') +
+      `<circle cx="35" cy="36" r="17" fill="none" stroke="${lv.rimColor}" stroke-width="0.7" stroke-dasharray="4,3" opacity="0.45" style="animation:crown-cw 9s linear infinite"/>
+       <circle cx="35" cy="36" r="12" fill="none" stroke="${lv.rimColor}" stroke-width="0.6" stroke-dasharray="3,2" opacity="0.38" style="animation:crown-ccw 7s linear infinite"/>
+       <polygon points="35,27 36.5,32 41.5,32 37.5,35 39,40 35,37 31,40 32.5,35 28.5,32 33.5,32" fill="${lv.rimColor}" opacity="0.85"/>
+       <path d="M28,6 L31,0 L34,6 Z" fill="${lv.rimColor}"/>
+       <path d="M33,4 L35,-1 L37,4 Z" fill="${lv.rimColor}"/>
+       <path d="M36,6 L39,0 L42,6 Z" fill="${lv.rimColor}"/>`
+    )
+
+    // LV7 — Gold I: crown + glowing outline pulse (lv-gold-glow)
+    if (n === 7) return wrap(
+      `<path d="M35,4 L61,14 V39 C61,54 35,65 35,65 C35,65 9,54 9,39 V14 Z" fill="${lv.gradStart}" stroke="${lv.rimColor}" stroke-width="1" opacity="0.2" style="animation:lv-gold-glow 2s ease-in-out infinite"/>` +
+      shield('2.1') +
+      `<path d="M18,7 L22,1 L27,6 L35,-1 L43,6 L48,1 L52,7" stroke="${lv.rimColor}" stroke-width="1.8" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+       <circle cx="35" cy="-1" r="2.8" fill="${lv.rimColor}"/>
+       <circle cx="35" cy="36" r="16" fill="none" stroke="${lv.rimColor}" stroke-width="0.7" opacity="0.4" stroke-dasharray="3,2"/>`
+    )
+
+    // LV8 — Gold II: wing buds + crown (lv-gold-glow)
+    if (n === 8) return wrap(
+      `<path d="M35,4 L61,14 V39 C61,54 35,65 35,65 C35,65 9,54 9,39 V14 Z" fill="${lv.gradStart}" stroke="${lv.rimColor}" stroke-width="1" opacity="0.2" style="animation:lv-gold-glow 2.2s ease-in-out infinite"/>` +
+      `<path d="M11,23 C4,21 0,27 2,35 C4,43 11,45 11,45 Z" fill="url(#${gid})" stroke="${lv.rimColor}" stroke-width="1"/>
+       <path d="M59,23 C66,21 70,27 68,35 C66,43 59,45 59,45 Z" fill="url(#${gid})" stroke="${lv.rimColor}" stroke-width="1"/>` +
+      shield('2.2') +
+      `<path d="M18,7 L22,1 L27,6 L35,-1 L43,6 L48,1 L52,7" stroke="${lv.rimColor}" stroke-width="1.8" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+       <circle cx="35" cy="-1" r="2.8" fill="${lv.rimColor}"/>
+       <circle cx="35" cy="36" r="16" fill="none" stroke="${lv.rimColor}" stroke-width="0.7" opacity="0.4" stroke-dasharray="3,2"/>
+       <circle cx="35" cy="36" r="22" fill="none" stroke="${lv.rimColor}" stroke-width="0.6" opacity="0.3" stroke-dasharray="4,2"/>`
+    )
+
+    // LV9 — Gold III: small wings + spinning ring + crown
+    if (n === 9) return wrap(
+      `<path d="M11,20 C3,15 -4,22 -2,33 C0,43 8,48 11,48 L11,23 Z" fill="url(#${gid})" stroke="${lv.rimColor}" stroke-width="1.2"/>
+       <path d="M59,20 C67,15 74,22 72,33 C70,43 62,48 59,48 L59,23 Z" fill="url(#${gid})" stroke="${lv.rimColor}" stroke-width="1.2"/>
+       <path d="M-2,33 L-8,26 L-4,20 Z" fill="url(#${gid})" stroke="${lv.rimColor}" stroke-width="0.6"/>
+       <path d="M72,33 L78,26 L74,20 Z" fill="url(#${gid})" stroke="${lv.rimColor}" stroke-width="0.6"/>` +
+      shield('2.2') +
+      `<circle cx="35" cy="36" r="16" fill="none" stroke="${lv.rimColor}" stroke-width="0.7" opacity="0.4" stroke-dasharray="3,2" style="animation:crown-cw 8s linear infinite"/>
+       <circle cx="35" cy="36" r="22" fill="none" stroke="${lv.rimColor}" stroke-width="0.6" opacity="0.28" stroke-dasharray="4,2" style="animation:crown-ccw 12s linear infinite"/>
+       <path d="M17,7 L21,1 L26,6 L35,-2 L44,6 L49,1 L53,7" stroke="${lv.rimColor}" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+       <circle cx="35" cy="-2" r="3.2" fill="${lv.rimColor}"/>
+       <circle cx="21" cy="1" r="1.2" fill="${lv.rimColor}" opacity="0.8"/>
+       <circle cx="49" cy="1" r="1.2" fill="${lv.rimColor}" opacity="0.8"/>`
+    )
+
+    // LV10 — Platinum I: med wings + dual spin + diamond center
+    if (n === 10) return wrap(
+      `<path d="M11,17 C1,9 -7,17 -5,32 C-3,44 6,51 11,51 L11,21 Z" fill="url(#${gid})" stroke="${lv.rimColor}" stroke-width="1.3"/>
+       <path d="M59,17 C69,9 77,17 75,32 C73,44 64,51 59,51 L59,21 Z" fill="url(#${gid})" stroke="${lv.rimColor}" stroke-width="1.3"/>
+       <path d="M-5,32 L-12,23 L-6,15 Z" fill="url(#${gid})" stroke="${lv.rimColor}" stroke-width="0.7"/>
+       <path d="M75,32 L82,23 L76,15 Z" fill="url(#${gid})" stroke="${lv.rimColor}" stroke-width="0.7"/>
+       <polygon points="4,31 7,35 4,39 1,35" fill="${lv.rimColor}" opacity="0.8"/>
+       <polygon points="66,31 69,35 66,39 63,35" fill="${lv.rimColor}" opacity="0.8"/>` +
+      shield('2.3') +
+      `<circle cx="35" cy="36" r="14" fill="none" stroke="${lv.rimColor}" stroke-width="0.7" opacity="0.5" style="animation:crown-cw 6s linear infinite"/>
+       <circle cx="35" cy="36" r="20" fill="none" stroke="${lv.rimColor}" stroke-width="0.6" opacity="0.35" stroke-dasharray="5,2" style="animation:crown-ccw 9s linear infinite"/>
+       <polygon points="35,27 42,36 35,45 28,36" fill="${lv.rimColor}" opacity="0.9"/>
+       <polygon points="35,31 39,36 35,41 31,36" fill="${lv.gradEnd}"/>
+       <path d="M15,7 L19,1 L25,6 L31,-3 L35,2 L39,-3 L45,6 L51,1 L55,7" stroke="${lv.rimColor}" stroke-width="2.2" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+       <circle cx="35" cy="2" r="3.5" fill="${lv.rimColor}"/>
+       <circle cx="31" cy="-3" r="1.8" fill="${lv.rimColor}" opacity="0.8"/>
+       <circle cx="39" cy="-3" r="1.8" fill="${lv.rimColor}" opacity="0.8"/>`
+    )
+
+    // LV11 — Platinum II: large wings + dual spin + 3-ring
+    if (n === 11) return wrap(
+      `<path d="M11,15 C0,6 -10,15 -8,31 C-6,44 3,52 11,53 L11,19 Z" fill="url(#${gid})" stroke="${lv.rimColor}" stroke-width="1.3"/>
+       <path d="M59,15 C70,6 80,15 78,31 C76,44 67,52 59,53 L59,19 Z" fill="url(#${gid})" stroke="${lv.rimColor}" stroke-width="1.3"/>
+       <path d="M-8,31 L-16,20 L-10,12 Z" fill="url(#${gid})" stroke="${lv.rimColor}" stroke-width="0.7"/>
+       <path d="M78,31 L86,20 L80,12 Z" fill="url(#${gid})" stroke="${lv.rimColor}" stroke-width="0.7"/>
+       <path d="M-8,31 L-12,43 L-4,41 Z" fill="url(#${gid})" stroke="${lv.rimColor}" stroke-width="0.7"/>
+       <path d="M78,31 L82,43 L74,41 Z" fill="url(#${gid})" stroke="${lv.rimColor}" stroke-width="0.7"/>
+       <polygon points="1,25 4,29 1,33 -2,29" fill="${lv.rimColor}" opacity="0.9"/>
+       <polygon points="69,25 72,29 69,33 66,29" fill="${lv.rimColor}" opacity="0.9"/>` +
+      shield('2.4') +
+      `<circle cx="35" cy="36" r="13" fill="none" stroke="${lv.rimColor}" stroke-width="0.55" opacity="0.42"/>
+       <circle cx="35" cy="36" r="16" fill="none" stroke="${lv.rimColor}" stroke-width="0.7" opacity="0.35" stroke-dasharray="3,2" style="animation:crown-cw 5s linear infinite"/>
+       <circle cx="35" cy="36" r="22" fill="none" stroke="${lv.rimColor}" stroke-width="0.6" opacity="0.28" stroke-dasharray="4,2" style="animation:crown-ccw 8s linear infinite"/>
+       <path d="M15,7 L19,1 L25,6 L31,-3 L35,2 L39,-3 L45,6 L51,1 L55,7" stroke="${lv.rimColor}" stroke-width="2.2" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+       <circle cx="35" cy="2" r="3.5" fill="${lv.rimColor}"/>
+       <circle cx="31" cy="-3" r="1.8" fill="${lv.rimColor}" opacity="0.8"/>
+       <circle cx="39" cy="-3" r="1.8" fill="${lv.rimColor}" opacity="0.8"/>`
+    )
+
+    // LV12 — Platinum III: flame wings + pendant + 3-ring
+    if (n === 12) return wrap(
+      `<path d="M11,13 C-2,3 -13,13 -11,30 C-9,45 0,54 11,55 C7,46 5,36 7,27 C9,19 13,15 11,13 Z" fill="url(#${gid})" stroke="${lv.rimColor}" stroke-width="1.4"/>
+       <path d="M59,13 C72,3 83,13 81,30 C79,45 70,54 59,55 C63,46 65,36 63,27 C61,19 57,15 59,13 Z" fill="url(#${gid})" stroke="${lv.rimColor}" stroke-width="1.4"/>
+       <path d="M-11,30 L-19,18 L-13,10 Z" fill="url(#${gid})" stroke="${lv.rimColor}" stroke-width="0.7"/>
+       <path d="M81,30 L89,18 L83,10 Z" fill="url(#${gid})" stroke="${lv.rimColor}" stroke-width="0.7"/>
+       <path d="M-11,30 L-15,44 L-5,42 Z" fill="url(#${gid})" stroke="${lv.rimColor}" stroke-width="0.7"/>
+       <path d="M81,30 L85,44 L75,42 Z" fill="url(#${gid})" stroke="${lv.rimColor}" stroke-width="0.7"/>
+       <polygon points="1,25 4,29 1,33 -2,29" fill="${lv.rimColor}" opacity="0.9"/>
+       <polygon points="69,25 72,29 69,33 66,29" fill="${lv.rimColor}" opacity="0.9"/>` +
+      shield('2.5') +
+      `<path d="M30,63 L35,73 L40,63 L37,77 L35,81 L33,77 Z" fill="url(#${gid})" stroke="${lv.rimColor}" stroke-width="1.1"/>
+       <circle cx="35" cy="78" r="2.5" fill="${lv.rimColor}"/>
+       <circle cx="35" cy="36" r="13" fill="none" stroke="${lv.rimColor}" stroke-width="0.55" opacity="0.42"/>
+       <circle cx="35" cy="36" r="16" fill="none" stroke="${lv.rimColor}" stroke-width="0.7" opacity="0.35" stroke-dasharray="3,2" style="animation:crown-cw 4.5s linear infinite"/>
+       <circle cx="35" cy="36" r="22" fill="none" stroke="${lv.rimColor}" stroke-width="0.6" opacity="0.28" stroke-dasharray="4,2" style="animation:crown-ccw 7s linear infinite"/>
+       <path d="M26,7 L29,1 L32,7 Z" fill="${lv.rimColor}"/>
+       <path d="M32,5 L35,-2 L38,5 Z" fill="${lv.rimColor}"/>
+       <path d="M38,7 L41,1 L44,7 Z" fill="${lv.rimColor}"/>
+       <circle cx="35" cy="-2" r="2.2" fill="${lv.rimColor}"/>`
+    )
+
+    // LV13 — Diamond I: cosmic wings + pendant + crownFire + 3-ring
+    if (n === 13) return wrap(
+      `<path d="M11,11 C-5,0 -17,11 -15,30 C-13,47 -1,57 11,58 C5,47 3,36 5,26 C7,17 13,13 11,11 Z" fill="url(#${gid})" stroke="${lv.rimColor}" stroke-width="1.5"/>
+       <path d="M59,11 C75,0 87,11 85,30 C83,47 71,57 59,58 C65,47 67,36 65,26 C63,17 57,13 59,11 Z" fill="url(#${gid})" stroke="${lv.rimColor}" stroke-width="1.5"/>
+       <path d="M-15,30 L-24,17 L-17,8 Z" fill="url(#${gid})" stroke="${lv.rimColor}" stroke-width="0.7"/>
+       <path d="M85,30 L94,17 L87,8 Z" fill="url(#${gid})" stroke="${lv.rimColor}" stroke-width="0.7"/>
+       <path d="M-15,30 L-20,45 L-9,43 Z" fill="url(#${gid})" stroke="${lv.rimColor}" stroke-width="0.7"/>
+       <path d="M85,30 L90,45 L79,43 Z" fill="url(#${gid})" stroke="${lv.rimColor}" stroke-width="0.7"/>
+       <polygon points="-7,18 -4,22 -7,26 -10,22" fill="${lv.rimColor}"/>
+       <polygon points="77,18 80,22 77,26 74,22" fill="${lv.rimColor}"/>` +
+      shield('2.6') +
+      `<path d="M28,63 L35,76 L42,63 L39,82 L35,87 L31,82 Z" fill="url(#${gid})" stroke="${lv.rimColor}" stroke-width="1.3"/>
+       <circle cx="35" cy="83" r="3.2" fill="${lv.rimColor}"/>
+       <circle cx="35" cy="36" r="13" fill="none" stroke="${lv.rimColor}" stroke-width="0.55" opacity="0.42"/>
+       <circle cx="35" cy="36" r="16" fill="none" stroke="${lv.rimColor}" stroke-width="0.7" opacity="0.35" stroke-dasharray="3,2" style="animation:crown-cw 4s linear infinite"/>
+       <circle cx="35" cy="36" r="22" fill="none" stroke="${lv.rimColor}" stroke-width="0.6" opacity="0.28" stroke-dasharray="4,2" style="animation:crown-ccw 6.5s linear infinite"/>
+       <path d="M20,7 L24,1 L30,6 L35,-5 L40,6 L46,1 L50,7" stroke="${lv.rimColor}" stroke-width="2.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+       <path d="M32,-5 C31,-9 33,-13 35,-11 C37,-13 39,-9 38,-5" stroke="${lv.rimColor}" stroke-width="1.8" fill="none" stroke-linecap="round"/>
+       <circle cx="35" cy="-5" r="4" fill="${lv.rimColor}"/>
+       <circle cx="24" cy="1" r="1.8" fill="${lv.rimColor}" opacity="0.9"/>
+       <circle cx="46" cy="1" r="1.8" fill="${lv.rimColor}" opacity="0.9"/>`
+    )
+
+    // LV14 — Diamond II: same as 13 + reactor rings
+    if (n === 14) return wrap(
+      `<path d="M11,11 C-5,0 -17,11 -15,30 C-13,47 -1,57 11,58 C5,47 3,36 5,26 C7,17 13,13 11,11 Z" fill="url(#${gid})" stroke="${lv.rimColor}" stroke-width="1.5"/>
+       <path d="M59,11 C75,0 87,11 85,30 C83,47 71,57 59,58 C65,47 67,36 65,26 C63,17 57,13 59,11 Z" fill="url(#${gid})" stroke="${lv.rimColor}" stroke-width="1.5"/>
+       <path d="M-15,30 L-24,17 L-17,8 Z" fill="url(#${gid})" stroke="${lv.rimColor}" stroke-width="0.7"/>
+       <path d="M85,30 L94,17 L87,8 Z" fill="url(#${gid})" stroke="${lv.rimColor}" stroke-width="0.7"/>
+       <path d="M-15,30 L-20,45 L-9,43 Z" fill="url(#${gid})" stroke="${lv.rimColor}" stroke-width="0.7"/>
+       <path d="M85,30 L90,45 L79,43 Z" fill="url(#${gid})" stroke="${lv.rimColor}" stroke-width="0.7"/>
+       <polygon points="-7,18 -4,22 -7,26 -10,22" fill="${lv.rimColor}"/>
+       <polygon points="77,18 80,22 77,26 74,22" fill="${lv.rimColor}"/>` +
+      shield('2.7') +
+      `<path d="M28,63 L35,76 L42,63 L39,82 L35,87 L31,82 Z" fill="url(#${gid})" stroke="${lv.rimColor}" stroke-width="1.3"/>
+       <circle cx="35" cy="83" r="3.2" fill="${lv.rimColor}"/>
+       <circle cx="35" cy="36" r="22" fill="none" stroke="${lv.rimColor}" stroke-width="0.7" opacity="0.22" stroke-dasharray="5,2" style="animation:crown-ccw 5s linear infinite"/>
+       <circle cx="35" cy="36" r="17" fill="none" stroke="${lv.rimColor}" stroke-width="0.6" opacity="0.3" style="animation:crown-cw 3.5s linear infinite"/>
+       <circle cx="35" cy="36" r="12" fill="none" stroke="${lv.rimColor}" stroke-width="0.7" opacity="0.44"/>
+       <circle cx="35" cy="36" r="6"  fill="none" stroke="${lv.rimColor}" stroke-width="1"   opacity="0.65"/>
+       <path d="M18,7 L22,1 L28,6 L35,-6 L42,6 L48,1 L52,7" stroke="${lv.rimColor}" stroke-width="2.8" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+       <path d="M31,-6 C30,-11 33,-15 35,-13 C37,-15 40,-11 39,-6" stroke="${lv.rimColor}" stroke-width="2.2" fill="none" stroke-linecap="round"/>
+       <circle cx="35" cy="-6" r="4.5" fill="${lv.rimColor}"/>
+       <circle cx="22" cy="1" r="2.2" fill="${lv.rimColor}" opacity="0.95"/>
+       <circle cx="48" cy="1" r="2.2" fill="${lv.rimColor}" opacity="0.95"/>`
+    )
+
+    // LV15 — Legend: cosmic wings + both pendants + reactor rings + cosmic crown + lv-legend-aura
+    return wrap(
+      `<path d="M35,2 L63,13 V39 C63,55 35,67 35,67 C35,67 7,55 7,39 V13 Z" fill="${lv.gradStart}" stroke="${lv.rimColor}" stroke-width="0.8" opacity="0.18" style="animation:lv-legend-aura 1.5s ease-in-out infinite"/>` +
+      `<path d="M11,11 C-5,0 -17,11 -15,30 C-13,47 -1,57 11,58 C5,47 3,36 5,26 C7,17 13,13 11,11 Z" fill="url(#${gid})" stroke="${lv.rimColor}" stroke-width="1.5"/>
+       <path d="M59,11 C75,0 87,11 85,30 C83,47 71,57 59,58 C65,47 67,36 65,26 C63,17 57,13 59,11 Z" fill="url(#${gid})" stroke="${lv.rimColor}" stroke-width="1.5"/>
+       <path d="M-15,30 L-24,17 L-17,8 Z" fill="url(#${gid})" stroke="${lv.rimColor}" stroke-width="0.7"/>
+       <path d="M85,30 L94,17 L87,8 Z" fill="url(#${gid})" stroke="${lv.rimColor}" stroke-width="0.7"/>
+       <path d="M-15,30 L-20,45 L-9,43 Z" fill="url(#${gid})" stroke="${lv.rimColor}" stroke-width="0.7"/>
+       <path d="M85,30 L90,45 L79,43 Z" fill="url(#${gid})" stroke="${lv.rimColor}" stroke-width="0.7"/>
+       <polygon points="-7,18 -4,22 -7,26 -10,22" fill="${lv.rimColor}"/>
+       <polygon points="77,18 80,22 77,26 74,22" fill="${lv.rimColor}"/>` +
+      shield('2.8') +
+      `<path d="M28,63 L35,76 L42,63 L39,82 L35,87 L31,82 Z" fill="url(#${gid})" stroke="${lv.rimColor}" stroke-width="1.3"/>
+       <circle cx="35" cy="83" r="3.2" fill="${lv.rimColor}"/>
+       <circle cx="35" cy="36" r="22" fill="none" stroke="${lv.rimColor}" stroke-width="0.7" opacity="0.22" stroke-dasharray="5,2" style="animation:crown-ccw 4s linear infinite"/>
+       <circle cx="35" cy="36" r="17" fill="none" stroke="${lv.rimColor}" stroke-width="0.6" opacity="0.30" style="animation:crown-cw 2.8s linear infinite"/>
+       <circle cx="35" cy="36" r="12" fill="none" stroke="${lv.rimColor}" stroke-width="0.7" opacity="0.44"/>
+       <circle cx="35" cy="36" r="6"  fill="none" stroke="${lv.rimColor}" stroke-width="1"   opacity="0.65"/>
+       <path d="M18,7 L22,1 L28,6 L35,-6 L42,6 L48,1 L52,7" stroke="${lv.rimColor}" stroke-width="2.8" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+       <path d="M31,-6 C30,-11 33,-15 35,-13 C37,-15 40,-11 39,-6" stroke="${lv.rimColor}" stroke-width="2.2" fill="none" stroke-linecap="round"/>
+       <circle cx="35" cy="-6" r="4.5" fill="${lv.rimColor}"/>
+       <circle cx="22" cy="1" r="2.2" fill="${lv.rimColor}" opacity="0.95"/>
+       <circle cx="48" cy="1" r="2.2" fill="${lv.rimColor}" opacity="0.95"/>`
+    )
   }
   
 
