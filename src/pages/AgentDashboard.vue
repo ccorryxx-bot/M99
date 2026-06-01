@@ -17,14 +17,14 @@
     </header>
 
     <!-- ── SCROLLABLE TAB BAR ── -->
-    <div class="sticky z-30 no-scrollbar overflow-x-auto"
+    <div class="sticky z-30"
       style="top: 49px; background: #b0baaf; border-bottom: 1px solid rgba(0,0,0,0.09);">
-      <div class="flex items-center gap-0.5 px-3 py-1.5 w-max">
-        <button v-for="(tab, i) in tabs" :key="i" @click="activeTab = i"
-          class="flex-shrink-0 px-3 py-1 text-[11px] font-semibold tracking-wide transition-all duration-200 whitespace-nowrap"
+      <div class="flex items-center w-full py-1">
+        <button v-for="(tab, i) in tabs.slice(0,5)" :key="i" @click="activeTab = i"
+          class="flex-1 py-1 text-[8px] font-semibold tracking-wide transition-all duration-150 text-center whitespace-nowrap"
           :style="activeTab === i
-            ? 'color: #1a2b1a; font-weight:700; border-bottom: 2px solid #717a71; padding-bottom: 4px;'
-            : 'color: rgba(0,0,0,0.45);'">
+            ? 'color: #1a2b1a; font-weight:800; border-bottom: 2px solid #717a71; padding-bottom: 3px;'
+            : 'color: rgba(0,0,0,0.42);'">
           {{ tab.label }}
         </button>
       </div>
@@ -446,7 +446,7 @@
 
             <div class="flex-1 min-w-0">
               <div class="flex items-center gap-2 mb-0.5">
-                <p class="text-sm font-bold truncate" style="color: #1a2b1a;">
+                <p class="text-[11px] font-bold truncate" style="color: #1a2b1a;">
                   <span v-if="loadingData" class="animate-pulse">Loading...</span>
                   <span v-else>{{ username }}</span>
                 </p>
@@ -459,7 +459,7 @@
 
             <div class="text-right flex-shrink-0">
               <p class="text-[9px] font-semibold tracking-wider" style="color: #3a5040;">DOWNLINE</p>
-              <p class="text-lg font-black mt-0" style="color: #1a2b1a;">
+              <p class="text-[15px] font-black mt-0" style="color: #1a2b1a;">
                 <span v-if="loadingData" class="animate-pulse text-sm" style="color: rgba(0,0,0,0.28);">...</span>
                 <span v-else>{{ totalDownline }}</span>
               </p>
@@ -566,7 +566,7 @@
                 <svg class="w-3.5 h-3.5 flex-shrink-0 mt-0.5" style="color:rgba(26,43,26,0.5)" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
                   <path stroke-linecap="round" stroke-linejoin="round" d="M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.102-1.101m-.758-4.899a4 4 0 005.656 0l4-4a4 4 0 00-5.656-5.656l-1.1 1.1"/>
                 </svg>
-                <p class="text-[11px] font-mono flex-1 break-all leading-relaxed"
+                <p class="text-[10px] font-mono flex-1 break-all leading-relaxed"
                   style="color: #1a2b1a; user-select: text; -webkit-user-select: text; cursor: text; letter-spacing: 0.01em;">{{ referralLink }}</p>
                 <button @click="copyText(referralLink)" class="flex-shrink-0 active:scale-75 transition-all mt-0.5">
                   <div class="px-2 py-1.5 rounded-lg transition-all"
@@ -583,7 +583,7 @@
             </div>
 
             <!-- ဖိတ်ကုဒ် caption -->
-            <p class="text-[10px] text-center font-mono" style="color: rgba(0,0,0,0.38);">
+            <p class="text-[9px] text-center font-mono" style="color: rgba(0,0,0,0.38);">
               ဖိတ်ကုဒ်: <span style="color:#1a2b1a; font-weight:800;">{{ inviteCode }}</span>
             </p>
           </div>
@@ -1929,7 +1929,7 @@
                 <div class="absolute w-full text-center" style="bottom:-10px;">
                   <span class="font-black tracking-wider" style="font-size:5px;letter-spacing:0.1em;"
                     :style="`color:${currentLevelData.rimColor};text-shadow:0 0 6px ${currentLevelData.glowColor};`">
-                    {{ currentLevelData.tierName }}
+                    {{ currentLevelData.rankName }}
                   </span>
                 </div>
               </div>
@@ -1956,7 +1956,7 @@
               <div class="flex items-center justify-between mb-2 relative z-10">
                 <div>
                   <p class="text-[9px] tracking-[0.1em] uppercase" style="color:rgba(255,255,255,0.32)">Next Rank</p>
-                  <p class="text-[13px] font-black mt-0.5" :style="nextLevelData.numberStyle">{{ nextLevelData.tierName }} LV{{ nextLevelData.level }}</p>
+                  <p class="text-[13px] font-black mt-0.5" :style="nextLevelData.numberStyle">{{ nextLevelData.rankName }} LV{{ nextLevelData.level }}</p>
                 </div>
                 <div class="text-right">
                   <p class="text-[9px]" style="color:rgba(255,255,255,0.32)">Progress</p>
@@ -2220,21 +2220,21 @@ const myDataPeriods = [
 // ── Agent Level System Data (Luxury VIP Casino Edition) ─────────────────────
 const AGENT_LEVELS = [
   // BRONZE (LV 1-3) — warm copper-bronze metallic
-  { level:1,  required:0,       rate:10.0, tierName:'BRONZE',
+  { level:1,  required:0,       rate:10.0, tierName:'BRONZE', rankName:'NOVA I',
     gradStart:'#6B3A1F', gradEnd:'#3D1F0A', rimColor:'#CD7F32', glowColor:'rgba(205,127,50,0.6)', crownColor:'#CD7F32',
     badgeBg:'background:linear-gradient(145deg,#6B3A1F 0%,#8B4513 35%,#5C2E0A 65%,#3D1F0A 100%)',
     badgeBorder:'border:1.5px solid rgba(205,127,50,0.6)',  glow:'rgba(205,127,50,0.5)',
     numberStyle:'color:#F4A460;text-shadow:0 2px 0 rgba(0,0,0,0.5),0 0 20px rgba(205,127,50,0.9),0 0 40px rgba(205,127,50,0.4)',
     tierStyle:'color:rgba(244,164,96,0.85)',
     cornerStyle:'background:linear-gradient(135deg,rgba(205,127,50,0.4),rgba(139,69,19,0.3));border:1px solid rgba(205,127,50,0.6);color:#F4A460' },
-  { level:2,  required:100,     rate:10.5, tierName:'BRONZE',
+  { level:2,  required:100,     rate:10.5, tierName:'BRONZE', rankName:'NOVA II',
     gradStart:'#7A4020', gradEnd:'#441F0B', rimColor:'#D2822A', glowColor:'rgba(210,130,42,0.6)', crownColor:'#D2822A',
     badgeBg:'background:linear-gradient(145deg,#7A4020 0%,#9B4E18 35%,#63320C 65%,#441F0B 100%)',
     badgeBorder:'border:1.5px solid rgba(210,130,42,0.62)',  glow:'rgba(210,135,55,0.5)',
     numberStyle:'color:#F4A460;text-shadow:0 2px 0 rgba(0,0,0,0.5),0 0 20px rgba(210,130,42,0.9),0 0 40px rgba(210,130,42,0.4)',
     tierStyle:'color:rgba(244,164,96,0.85)',
     cornerStyle:'background:linear-gradient(135deg,rgba(210,130,42,0.4),rgba(145,75,20,0.3));border:1px solid rgba(210,130,42,0.6);color:#F4A460' },
-  { level:3,  required:300,     rate:11.0, tierName:'BRONZE',
+  { level:3,  required:300,     rate:11.0, tierName:'BRONZE', rankName:'NOVA III',
     gradStart:'#8B4A22', gradEnd:'#4E2510', rimColor:'#E8922E', glowColor:'rgba(232,146,46,0.65)', crownColor:'#E8922E',
     badgeBg:'background:linear-gradient(145deg,#8B4A22 0%,#B05A1A 35%,#6E350E 65%,#4E2510 100%)',
     badgeBorder:'border:1.5px solid rgba(232,146,46,0.65)',  glow:'rgba(215,140,60,0.5)',
@@ -2243,14 +2243,14 @@ const AGENT_LEVELS = [
     cornerStyle:'background:linear-gradient(135deg,rgba(232,146,46,0.4),rgba(160,80,20,0.3));border:1px solid rgba(232,146,46,0.65);color:#FFB347' },
 
   // SILVER (LV 4-5) — cool chrome silver
-  { level:4,  required:500,     rate:11.5, tierName:'SILVER',
+  { level:4,  required:500,     rate:11.5, tierName:'SILVER', rankName:'STAR I',
     gradStart:'#5A5A70', gradEnd:'#2A2A3A', rimColor:'#C0C0D8', glowColor:'rgba(192,192,216,0.55)', crownColor:'#D8D8EE',
     badgeBg:'background:linear-gradient(145deg,#6A6A80 0%,#8A8AA0 35%,#4A4A60 65%,#2A2A3A 100%)',
     badgeBorder:'border:1.5px solid rgba(192,192,216,0.6)',  glow:'rgba(192,192,210,0.45)',
     numberStyle:'color:#E8E8FF;text-shadow:0 2px 0 rgba(0,0,0,0.6),0 0 20px rgba(200,200,230,0.8),0 0 40px rgba(192,192,216,0.4)',
     tierStyle:'color:rgba(220,220,245,0.85)',
     cornerStyle:'background:linear-gradient(135deg,rgba(192,192,216,0.35),rgba(130,130,160,0.25));border:1px solid rgba(192,192,216,0.55);color:#E8E8FF' },
-  { level:5,  required:800,     rate:12.0, tierName:'SILVER',
+  { level:5,  required:800,     rate:12.0, tierName:'SILVER', rankName:'STAR II',
     gradStart:'#686880', gradEnd:'#323248', rimColor:'#D0D0E8', glowColor:'rgba(208,208,232,0.6)', crownColor:'#E0E0F8',
     badgeBg:'background:linear-gradient(145deg,#767690 0%,#9898B0 35%,#565670 65%,#323248 100%)',
     badgeBorder:'border:1.5px solid rgba(208,208,232,0.65)',  glow:'rgba(205,205,222,0.45)',
@@ -2259,14 +2259,14 @@ const AGENT_LEVELS = [
     cornerStyle:'background:linear-gradient(135deg,rgba(208,208,232,0.38),rgba(150,150,180,0.28));border:1px solid rgba(208,208,232,0.62);color:#F0F0FF' },
 
   // GOLD (LV 6-7) — deep rich gold with warm luminosity
-  { level:6,  required:1000,    rate:12.5, tierName:'GOLD',
+  { level:6,  required:1000,    rate:12.5, tierName:'GOLD', rankName:'ELITE I',
     gradStart:'#7A5C00', gradEnd:'#3D2E00', rimColor:'#FFD700', glowColor:'rgba(255,215,0,0.65)', crownColor:'#FFD700',
     badgeBg:'background:linear-gradient(145deg,#8A6800 0%,#B08800 35%,#6A5000 65%,#3D2E00 100%)',
     badgeBorder:'border:2px solid rgba(255,210,0,0.75)',  glow:'rgba(255,210,0,0.55)',
     numberStyle:'color:#FFE500;text-shadow:0 2px 0 rgba(0,0,0,0.5),0 0 26px rgba(255,215,0,1),0 0 50px rgba(255,193,7,0.5)',
     tierStyle:'color:rgba(255,232,0,0.95)',
     cornerStyle:'background:linear-gradient(135deg,rgba(255,210,0,0.35),rgba(180,140,0,0.25));border:1px solid rgba(255,210,0,0.7);color:#FFE500' },
-  { level:7,  required:10000,   rate:13.0, tierName:'GOLD',
+  { level:7,  required:10000,   rate:13.0, tierName:'GOLD', rankName:'ELITE II',
     gradStart:'#8A6800', gradEnd:'#4A3600', rimColor:'#FFD700', glowColor:'rgba(255,215,0,0.72)', crownColor:'#FFD700',
     badgeBg:'background:linear-gradient(145deg,#9A7800 0%,#C09800 35%,#7A6000 65%,#4A3600 100%)',
     badgeBorder:'border:2px solid rgba(255,215,0,0.82)',  glow:'rgba(255,215,0,0.6)',
@@ -2275,14 +2275,14 @@ const AGENT_LEVELS = [
     cornerStyle:'background:linear-gradient(135deg,rgba(255,215,0,0.38),rgba(190,150,0,0.28));border:1px solid rgba(255,215,0,0.75);color:#FFEC00' },
 
   // EMERALD (LV 8-9) — vivid emerald green
-  { level:8,  required:30000,   rate:13.5, tierName:'EMERALD',
+  { level:8,  required:30000,   rate:13.5, tierName:'EMERALD', rankName:'MASTER I',
     gradStart:'#004A2A', gradEnd:'#002015', rimColor:'#00C878', glowColor:'rgba(0,200,120,0.65)', crownColor:'#00E090',
     badgeBg:'background:linear-gradient(145deg,#005C32 0%,#007A45 35%,#003A20 65%,#002015 100%)',
     badgeBorder:'border:2px solid rgba(0,200,120,0.7)',  glow:'rgba(0,200,120,0.55)',
     numberStyle:'color:#00F090;text-shadow:0 2px 0 rgba(0,0,0,0.5),0 0 26px rgba(0,200,120,1),0 0 52px rgba(0,200,120,0.5)',
     tierStyle:'color:rgba(0,230,140,0.95)',
     cornerStyle:'background:linear-gradient(135deg,rgba(0,200,120,0.3),rgba(0,140,80,0.22));border:1px solid rgba(0,200,120,0.6);color:#00F090' },
-  { level:9,  required:50000,   rate:14.0, tierName:'EMERALD',
+  { level:9,  required:50000,   rate:14.0, tierName:'EMERALD', rankName:'MASTER II',
     gradStart:'#005535', gradEnd:'#002A1A', rimColor:'#00DC90', glowColor:'rgba(0,220,144,0.7)', crownColor:'#00F0A0',
     badgeBg:'background:linear-gradient(145deg,#006840 0%,#009055 35%,#004530 65%,#002A1A 100%)',
     badgeBorder:'border:2px solid rgba(0,220,144,0.75)',  glow:'rgba(0,210,130,0.6)',
@@ -2291,14 +2291,14 @@ const AGENT_LEVELS = [
     cornerStyle:'background:linear-gradient(135deg,rgba(0,220,144,0.33),rgba(0,160,96,0.25));border:1px solid rgba(0,220,144,0.65);color:#00FFA0' },
 
   // SAPPHIRE (LV 10-11) — electric blue
-  { level:10, required:80000,   rate:14.5, tierName:'SAPPHIRE',
+  { level:10, required:80000,   rate:14.5, tierName:'SAPPHIRE', rankName:'CROWN I',
     gradStart:'#003080', gradEnd:'#001540', rimColor:'#0090FF', glowColor:'rgba(0,144,255,0.65)', crownColor:'#40B8FF',
     badgeBg:'background:linear-gradient(145deg,#003C98 0%,#0050C8 35%,#002870 65%,#001540 100%)',
     badgeBorder:'border:2px solid rgba(0,160,255,0.75)',  glow:'rgba(0,160,255,0.6)',
     numberStyle:'color:#40C8FF;text-shadow:0 2px 0 rgba(0,0,0,0.5),0 0 28px rgba(0,180,255,1),0 0 56px rgba(0,144,255,0.5)',
     tierStyle:'color:rgba(40,208,255,0.95)',
     cornerStyle:'background:linear-gradient(135deg,rgba(0,160,255,0.32),rgba(0,100,200,0.24));border:1px solid rgba(0,160,255,0.65);color:#40C8FF' },
-  { level:11, required:100000,  rate:15.0, tierName:'SAPPHIRE',
+  { level:11, required:100000,  rate:15.0, tierName:'SAPPHIRE', rankName:'CROWN II',
     gradStart:'#003890', gradEnd:'#001C50', rimColor:'#00AAFF', glowColor:'rgba(0,170,255,0.7)', crownColor:'#60C8FF',
     badgeBg:'background:linear-gradient(145deg,#0048B0 0%,#0064D8 35%,#003088 65%,#001C50 100%)',
     badgeBorder:'border:2px solid rgba(0,180,255,0.8)',  glow:'rgba(0,180,255,0.65)',
@@ -2307,7 +2307,7 @@ const AGENT_LEVELS = [
     cornerStyle:'background:linear-gradient(135deg,rgba(0,180,255,0.35),rgba(0,120,210,0.26));border:1px solid rgba(0,180,255,0.7);color:#60D8FF' },
 
   // RUBY (LV 12) — deep crimson
-  { level:12, required:1000000, rate:15.5, tierName:'RUBY',
+  { level:12, required:1000000, rate:15.5, tierName:'RUBY', rankName:'TITAN',
     gradStart:'#6A0028', gradEnd:'#380012', rimColor:'#FF2060', glowColor:'rgba(255,32,96,0.7)', crownColor:'#FF5080',
     badgeBg:'background:linear-gradient(145deg,#820032 0%,#A80040 35%,#5C001A 65%,#380012 100%)',
     badgeBorder:'border:2px solid rgba(255,50,100,0.8)',  glow:'rgba(255,50,100,0.6)',
@@ -2316,7 +2316,7 @@ const AGENT_LEVELS = [
     cornerStyle:'background:linear-gradient(135deg,rgba(255,50,100,0.33),rgba(180,0,60,0.25));border:1px solid rgba(255,50,100,0.7);color:#FF6080' },
 
   // DIAMOND (LV 13) — prismatic purple
-  { level:13, required:3000000, rate:16.0, tierName:'DIAMOND',
+  { level:13, required:3000000, rate:16.0, tierName:'DIAMOND', rankName:'DIAMOND',
     gradStart:'#420090', gradEnd:'#200050', rimColor:'#B060FF', glowColor:'rgba(176,96,255,0.72)', crownColor:'#C890FF',
     badgeBg:'background:linear-gradient(145deg,#5000B0 0%,#6800D8 35%,#380088 65%,#200050 100%)',
     badgeBorder:'border:2px solid rgba(180,120,255,0.82)',  glow:'rgba(180,120,255,0.65)',
@@ -2325,7 +2325,7 @@ const AGENT_LEVELS = [
     cornerStyle:'background:linear-gradient(135deg,rgba(180,120,255,0.35),rgba(120,40,200,0.26));border:1px solid rgba(180,120,255,0.72);color:#C090FF' },
 
   // LEGEND (LV 14) — blazing orange fire
-  { level:14, required:5000000, rate:16.5, tierName:'LEGEND',
+  { level:14, required:5000000, rate:16.5, tierName:'LEGEND', rankName:'LEGEND',
     gradStart:'#803000', gradEnd:'#401800', rimColor:'#FF8C00', glowColor:'rgba(255,140,0,0.75)', crownColor:'#FFA020',
     badgeBg:'background:linear-gradient(145deg,#983800 0%,#C84800 35%,#702800 65%,#401800 100%)',
     badgeBorder:'border:2px solid rgba(255,140,0,0.85)',  glow:'rgba(255,140,0,0.7)',
@@ -2334,7 +2334,7 @@ const AGENT_LEVELS = [
     cornerStyle:'background:linear-gradient(135deg,rgba(255,140,0,0.38),rgba(200,80,0,0.28));border:1px solid rgba(255,140,0,0.78);color:#FFB030' },
 
   // MYTHIC (LV 15) — cosmic purple void
-  { level:15, required:8000000, rate:17.0, tierName:'MYTHIC',
+  { level:15, required:8000000, rate:17.0, tierName:'MYTHIC', rankName:'APEX',
     gradStart:'#580080', gradEnd:'#280040', rimColor:'#DC50FF', glowColor:'rgba(220,80,255,0.8)', crownColor:'#E870FF',
     badgeBg:'background:linear-gradient(145deg,#6800A0 0%,#9000C0 35%,#480078 65%,#280040 100%)',
     badgeBorder:'border:2px solid rgba(220,80,255,0.9)',  glow:'rgba(220,80,255,0.75)',
@@ -2653,12 +2653,12 @@ const downlineStats = computed(() => [
 // ── Config / Static Data ───────────────────────────────────
 const tabs = [
   { label: 'ပင်မ' },
-  { label: 'ဖိတ်ခေါ်လင့်' },
-  { label: 'ငါ့ ဒေတာ' },
-  { label: 'စွမ်းဆောင်ရည်' },
-  { label: 'ကော်မရှင်' },
-  { label: 'အောက်လက်ငယ်သား' },
-  { label: 'ကော်မရှင် အမျိုး' },
+  { label: 'ဖိတ်ခေါ်' },
+  { label: 'ဒေတာ' },
+  { label: 'စွမ်းဆောင်' },
+  { label: 'ကော်မ' },
+  { label: 'အောက်လက်' },
+  { label: 'ကော်မ·မျိုး' },
 ]
 
 const periods = [
