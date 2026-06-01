@@ -19,12 +19,13 @@
     <!-- ── SCROLLABLE TAB BAR ── -->
     <div class="sticky z-30"
       style="top: 49px; background: #b0baaf; border-bottom: 1px solid rgba(0,0,0,0.09);">
-      <div class="flex items-center w-full py-1">
+      <div class="flex items-center overflow-x-auto py-1 px-1"
+        style="scrollbar-width:none;-ms-overflow-style:none;">
         <button v-for="(tab, i) in tabs" :key="i" @click="activeTab = i"
-          class="flex-1 py-1 text-[7px] font-semibold transition-all duration-150 text-center whitespace-nowrap"
+          class="flex-shrink-0 py-1.5 px-3.5 text-[11px] font-semibold transition-all duration-150 whitespace-nowrap rounded-full mx-0.5"
           :style="activeTab === i
-            ? 'color: #1a2b1a; font-weight:800; border-bottom: 2px solid #717a71; padding-bottom: 3px;'
-            : 'color: rgba(0,0,0,0.42);'">
+            ? 'color:#1a2b1a;font-weight:800;background:rgba(0,0,0,0.13);border-bottom:2.5px solid #555f55;'
+            : 'color:rgba(0,0,0,0.45);'">
           {{ tab.label }}
         </button>
       </div>
@@ -1881,270 +1882,72 @@
 
     </div><!-- /main content -->
 
-    <!-- ══════════════════════════════════════════════════════════════
-         ✦ ULTRA LUXURY VIP CASINO LEVEL SYSTEM MODAL ✦
-         ══════════════════════════════════════════════════════════════ -->
+    <!-- ── COMPACT AGENT LEVEL POPUP ── -->
     <Transition name="level-modal">
       <div v-if="showLevelModal"
-        class="fixed inset-0 z-50 flex flex-col justify-end"
-        style="background:rgba(0,0,0,0.88)">
+        class="fixed inset-0 z-50 flex items-center justify-center px-5"
+        style="background:rgba(0,0,0,0.78)"
+        @click.self="showLevelModal = false">
 
-        <!-- Tap-outside to close -->
-        <div class="absolute inset-0" @click="showLevelModal = false"></div>
+        <div class="relative rounded-2xl w-full overflow-hidden"
+          style="max-width:360px;max-height:78vh;background:#111120;border:1px solid rgba(255,255,255,0.1);box-shadow:0 24px 60px rgba(0,0,0,0.7);display:flex;flex-direction:column;">
 
-        <!-- Sheet -->
-        <div class="relative rounded-t-[32px] overflow-hidden lux-modal-sheet"
-          style="max-height:91vh;background:linear-gradient(180deg,#161228 0%,#0d0920 50%,#090616 100%);border-top:1.5px solid rgba(255,200,80,0.30);">
-
-          <!-- Top ambient radial glow — brighter -->
-          <div class="absolute top-0 left-0 right-0 h-56 pointer-events-none"
-            style="background:radial-gradient(ellipse at 50% -5%,rgba(255,190,0,0.28) 0%,rgba(140,60,220,0.10) 55%,transparent 82%)"></div>
-
-          <!-- Drag handle -->
-          <div class="flex justify-center pt-3 pb-0 relative z-10">
-            <div class="w-10 h-1 rounded-full" style="background:rgba(255,255,255,0.15)"></div>
+          <!-- Title bar -->
+          <div class="px-4 pt-4 pb-3 text-center flex-shrink-0"
+            style="border-bottom:1px solid rgba(255,255,255,0.07);">
+            <p class="text-[14px] font-bold text-white tracking-wide">အေးဂျင်စီးအဆင်</p>
           </div>
 
-          <!-- ── HEADER ── -->
-          <div class="sticky top-0 z-20 px-5 pt-4 pb-3 flex items-center justify-between"
-            style="background:rgba(8,6,18,0.95);border-bottom:1px solid rgba(255,180,0,0.09);backdrop-filter:blur(20px);">
-
-            <!-- Left: current badge mini + title -->
-            <div class="flex items-center gap-3">
-              <!-- Mini current badge — Shield shape -->
-              <div class="flex-shrink-0 relative" style="width:48px;height:52px;">
-                <!-- Shield SVG -->
-                <div v-html="miniShieldHtml(currentLevelData)"
-                  class="absolute inset-0"
-                  :style="`overflow:visible;filter:drop-shadow(0 0 10px ${currentLevelData.glowColor}) drop-shadow(0 2px 4px rgba(0,0,0,0.9));`">
-                </div>
-                <!-- AG level text overlay on shield -->
-                <div class="absolute inset-0 flex items-center justify-center" style="padding-top:6px;">
-                  <div class="ag-on-shield"
-                    :style="`background:linear-gradient(135deg,${currentLevelData.rimColor}55,${currentLevelData.rimColor}22);border:1px solid ${currentLevelData.rimColor}95;color:${currentLevelData.rimColor};text-shadow:0 0 12px ${currentLevelData.glowColor},0 1px 0 rgba(0,0,0,0.9);box-shadow:0 0 14px ${currentLevelData.glowColor}60;`">
-                    <span class="relative z-10 font-black tracking-wide" style="font-size:9px;line-height:1;">AG{{ agentLevel }}</span>
-                  </div>
-                </div>
-                <!-- Tier label below shield -->
-                <div class="absolute w-full text-center" style="bottom:-10px;">
-                  <span class="font-black tracking-wider" style="font-size:5px;letter-spacing:0.1em;"
-                    :style="`color:${currentLevelData.rimColor};text-shadow:0 0 6px ${currentLevelData.glowColor};`">
-                    {{ currentLevelData.rankName }}
-                  </span>
-                </div>
-              </div>
-              <div>
-                <p class="text-[9px] font-bold tracking-[0.28em] uppercase" style="color:rgba(255,193,7,0.5)">NOVABETT AGENT</p>
-                <h2 class="text-lg font-black tracking-wide" style="color:rgba(255,224,100,0.97);text-shadow:0 0 24px rgba(255,193,7,0.55),0 2px 4px rgba(0,0,0,0.8)">Level System</h2>
-              </div>
+          <!-- Column headers -->
+          <div class="flex items-start px-3 py-2 flex-shrink-0"
+            style="border-bottom:1px solid rgba(255,255,255,0.07);background:rgba(255,255,255,0.03);">
+            <div class="flex-shrink-0" style="width:90px;">
+              <span class="text-[9px] font-bold text-gray-400 tracking-wide">အေးဂျင်စီးအဆင်</span>
             </div>
-
-            <!-- Close button -->
-            <button @click="showLevelModal = false"
-              class="w-9 h-9 rounded-full flex items-center justify-center active:scale-90 transition-all"
-              style="background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.1);color:rgba(255,255,255,0.45)">
-              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
-            </button>
-          </div>
-
-          <!-- ── PROGRESS CARD ── -->
-          <div class="mx-4 mt-3 mb-2">
-            <div v-if="nextLevelData" class="rounded-2xl p-4 relative overflow-hidden"
-              style="background:linear-gradient(135deg,rgba(255,180,0,0.07) 0%,rgba(255,120,0,0.04) 100%);border:1px solid rgba(255,180,0,0.14)">
-              <div class="absolute inset-0 pointer-events-none"
-                style="background:radial-gradient(ellipse at 0% 50%,rgba(255,193,7,0.07) 0%,transparent 60%)"></div>
-              <div class="flex items-center justify-between mb-2 relative z-10">
-                <div>
-                  <p class="text-[9px] tracking-[0.1em] uppercase" style="color:rgba(255,255,255,0.32)">Next Rank</p>
-                  <p class="text-[13px] font-black mt-0.5" :style="nextLevelData.numberStyle">{{ nextLevelData.rankName }} LV{{ nextLevelData.level }}</p>
-                </div>
-                <div class="text-right">
-                  <p class="text-[9px]" style="color:rgba(255,255,255,0.32)">Progress</p>
-                  <p class="text-lg font-black" style="color:rgba(255,193,7,0.95);text-shadow:0 0 12px rgba(255,193,7,0.5)">{{ levelProgress }}<span class="text-xs">%</span></p>
-                </div>
-              </div>
-              <!-- Progress bar -->
-              <div class="h-2 rounded-full overflow-hidden relative z-10" style="background:rgba(255,255,255,0.07)">
-                <div class="h-full rounded-full lux-progress-fill transition-all duration-1000 relative overflow-hidden"
-                  :style="'width:' + levelProgress + '%;' + currentLevelData.badgeBg">
-                  <div class="absolute inset-0 lux-progress-shimmer"></div>
-                </div>
-              </div>
-              <p class="text-[9px] mt-1.5 relative z-10" style="color:rgba(255,255,255,0.25)">
-                {{ formatN(Math.max(0, nextLevelData.required - totalCommission)) }} Ks more needed
-              </p>
-            </div>
-            <div v-else class="rounded-2xl p-3 text-center"
-              style="background:linear-gradient(135deg,rgba(220,80,255,0.1),rgba(120,0,255,0.08));border:1px solid rgba(220,80,255,0.3)">
-              <p class="text-[12px] font-black tracking-wider" style="color:rgba(220,120,255,0.95);text-shadow:0 0 16px rgba(220,80,255,0.6)">✦ MAX LEVEL REACHED ✦</p>
+            <div class="flex-1 text-right">
+              <span class="text-[9px] font-bold text-gray-400 leading-tight">ပရိုမိုးရှင်းအခြေအနေများ (တစ်ပိုင်)<br/>ကော်မရှင်များရရန်မြင်တင်ရမည်<br/>(မြင်တင်ရမည်)</span>
             </div>
           </div>
 
-          <!-- ── COLUMN HEADERS ── -->
-          <div class="px-5 py-2 flex items-center gap-3" style="border-bottom:1px solid rgba(255,255,255,0.08)">
-            <div class="w-[58px] flex-shrink-0 text-[8px] font-bold tracking-widest uppercase" style="color:rgba(255,255,255,0.45)">Badge</div>
-            <div class="flex-1 text-[8px] font-bold tracking-widest uppercase" style="color:rgba(255,255,255,0.45)">Min Commission</div>
-            <div class="w-10 text-right text-[8px] font-bold tracking-widest uppercase" style="color:rgba(255,255,255,0.45)">Rate</div>
-          </div>
-
-          <!-- ── SCROLLABLE LEVEL ROWS ── -->
-          <div ref="levelScrollRef" class="overflow-y-auto px-3 pt-2 pb-12 relative" style="max-height:54vh;-webkit-overflow-scrolling:touch;overscroll-behavior:contain;will-change:scroll-position;">
+          <!-- Level rows — scrollable -->
+          <div class="overflow-y-auto flex-1" style="-webkit-overflow-scrolling:touch;">
             <div v-for="lv in AGENT_LEVELS" :key="lv.level"
-              class="lv-row flex items-center gap-3 px-3 py-3 rounded-2xl mb-2 overflow-hidden relative z-[2]"
-              :class="lv.level === agentLevel ? 'lv-current' : lv.level < agentLevel ? 'lv-past' : 'lv-future'">
+              class="flex items-center px-3 py-2"
+              :style="lv.level === agentLevel
+                ? 'background:rgba(255,255,255,0.06);border-bottom:1px solid rgba(255,255,255,0.06);'
+                : 'border-bottom:1px solid rgba(255,255,255,0.04);'">
 
-              <!-- Lightweight left accent bar -->
-              <div class="absolute left-0 top-2 bottom-2 w-[3px] rounded-full pointer-events-none"
-                :style="lv.level <= agentLevel
-                  ? `background:linear-gradient(180deg,${lv.rimColor},${lv.glowColor});box-shadow:0 0 10px 2px ${lv.glowColor};`
-                  : 'background:rgba(255,255,255,0.07)'">
-              </div>
-
-              <!-- ═══════════════════════════════════════════════
-                   ✦ LEGENDARY CROWN SHIELD — all FX on badge ✦
-                   ═══════════════════════════════════════════════ -->
-              <div class="flex-shrink-0 relative z-10" style="width:64px;overflow:visible;">
-
-                <!-- Crown Shield container (all FX inside here) -->
-                <div class="relative mx-auto" style="width:56px;height:56px;isolation:isolate;">
-
-                  <!-- ① Crown Aura — radial glow bloom behind shield -->
-                  <div class="absolute pointer-events-none crown-aura"
-                    :class="`crown-aura-${lv.tierName.toLowerCase()}`"
-                    :style="`inset:-10px;border-radius:50%;background:radial-gradient(circle,${lv.glowColor}60 0%,${lv.glowColor}25 38%,transparent 68%);`">
-                  </div>
-
-                  <!-- ② Outer rotating ring — Silver+ -->
-                  <div v-if="lv.level >= 4"
-                    class="absolute pointer-events-none crown-ring-outer"
-                    :class="`crown-ring-${lv.tierName.toLowerCase()}`"
-                    :style="`inset:-6px;border-radius:50%;border:1px solid ${lv.rimColor}60;`">
-                  </div>
-
-                  <!-- ③ Inner dashed ring — Gold+ -->
-                  <div v-if="lv.level >= 7"
-                    class="absolute pointer-events-none crown-ring-inner"
-                    :style="`inset:-2px;border-radius:50%;border:1px dashed ${lv.rimColor}80;animation:crown-cw ${lv.level >= 13 ? '2.2' : lv.level >= 10 ? '2.8' : '3.5'}s linear infinite;`">
-                  </div>
-
-                  <!-- ④ Shield SVG (badge itself, larger now) -->
-                  <div v-html="miniShieldHtml(lv)"
-                    class="absolute"
-                    :style="`width:52px;height:52px;left:2px;top:2px;overflow:visible;`
-                      + (lv.level <= agentLevel
-                        ? `filter:drop-shadow(0 0 12px ${lv.glowColor}) drop-shadow(0 3px 6px rgba(0,0,0,0.9));`
-                        : `filter:drop-shadow(0 0 10px ${lv.glowColor}80) drop-shadow(0 3px 6px rgba(0,0,0,0.8)) brightness(1.05) saturate(1.25);`)">
-                  </div>
-
-                  <!-- ⑤ Royal sweep shimmer across shield face — Bronze+ always -->
-                  <div class="absolute pointer-events-none overflow-hidden" style="inset:4px;border-radius:8px;">
-                    <div class="absolute inset-0 crown-royal-sweep"
-                      :style="`background:linear-gradient(110deg,transparent 20%,${lv.rimColor}${lv.level <= agentLevel ? '35' : '12'} 50%,transparent 80%);`">
-                    </div>
-                  </div>
-
-                  <!-- ⑥ Floating gem particles — close orbit around shield (Gold+) -->
-                  <template v-if="lv.level >= 7">
-                    <!-- Gem A — clockwise primary orbit -->
-                    <div class="absolute pointer-events-none crown-gem"
-                      style="left:50%;top:50%;width:4px;height:4px;margin-left:-2px;margin-top:-2px;border-radius:50%;"
-                      :style="`background:${lv.rimColor};box-shadow:0 0 7px 2px ${lv.glowColor};`
-                        + `animation:crown-gem-a ${lv.level >= 22 ? '1.4' : lv.level >= 19 ? '1.7' : lv.level >= 16 ? '2.0' : lv.level >= 13 ? '2.4' : lv.level >= 10 ? '2.9' : '3.6'}s linear infinite;`">
-                    </div>
-                    <!-- Gem B — counter-clockwise offset -->
-                    <div class="absolute pointer-events-none crown-gem"
-                      style="left:50%;top:50%;width:3px;height:3px;margin-left:-1.5px;margin-top:-1.5px;border-radius:50%;"
-                      :style="`background:rgba(255,255,255,0.95);box-shadow:0 0 6px 2px ${lv.glowColor};`
-                        + `animation:crown-gem-b ${lv.level >= 22 ? '1.6' : lv.level >= 19 ? '2.0' : lv.level >= 16 ? '2.4' : lv.level >= 13 ? '2.8' : lv.level >= 10 ? '3.3' : '4.2'}s linear infinite;`">
-                    </div>
-                    <!-- Gem C — Emerald+ third gem -->
-                    <div v-if="lv.level >= 10"
-                      class="absolute pointer-events-none crown-gem"
-                      style="left:50%;top:50%;width:3px;height:3px;margin-left:-1.5px;margin-top:-1.5px;border-radius:50%;"
-                      :style="`background:${lv.rimColor};box-shadow:0 0 5px 2px ${lv.glowColor};`
-                        + `animation:crown-gem-c ${lv.level >= 22 ? '1.8' : lv.level >= 19 ? '2.2' : lv.level >= 16 ? '2.7' : lv.level >= 13 ? '3.1' : '3.8'}s linear infinite;`">
-                    </div>
-                    <!-- Gem D — Ruby+ fourth prestige gem -->
-                    <div v-if="lv.level >= 16"
-                      class="absolute pointer-events-none crown-gem"
-                      style="left:50%;top:50%;width:4px;height:4px;margin-left:-2px;margin-top:-2px;border-radius:1px;"
-                      :style="`background:${lv.rimColor};box-shadow:0 0 8px 3px ${lv.glowColor};`
-                        + `animation:crown-gem-d ${lv.level >= 22 ? '2.0' : lv.level >= 19 ? '2.5' : '3.0'}s linear infinite;`">
-                    </div>
-                  </template>
-
-                  <!-- ⑦ Prestige particle sparks — Diamond+ -->
-                  <template v-if="lv.level >= 19 && lv.level <= agentLevel">
-                    <div class="absolute pointer-events-none"
-                      style="left:50%;top:50%;width:2px;height:2px;margin-left:-1px;margin-top:-1px;border-radius:50%;"
-                      :style="`background:rgba(255,255,255,0.9);box-shadow:0 0 5px rgba(255,255,255,0.8);animation:crown-prestige-a 1.2s ease-in-out infinite;`">
-                    </div>
-                    <div class="absolute pointer-events-none"
-                      style="left:50%;top:50%;width:2px;height:2px;margin-left:-1px;margin-top:-1px;border-radius:50%;"
-                      :style="`background:${lv.rimColor};box-shadow:0 0 5px ${lv.glowColor};animation:crown-prestige-b 1.5s ease-in-out infinite 0.6s;`">
-                    </div>
-                  </template>
-
-                  <!-- ⑧ YOU level — extra strong crown halo -->
-                  <div v-if="lv.level === agentLevel"
-                    class="absolute pointer-events-none"
-                    style="inset:-12px;border-radius:50%;animation:crown-you-halo 1.5s ease-in-out infinite;"
-                    :style="`background:radial-gradient(circle,${lv.glowColor}45 0%,transparent 65%);`">
-                  </div>
-
-                  <!-- ⑨ AG label centered on shield -->
-                  <div class="absolute inset-0 flex items-center justify-center" style="padding-top:4px;">
-                    <div class="ag-on-shield relative overflow-hidden"
-                      :class="lv.level <= agentLevel ? `ag-btn-tier-${lv.tierName.toLowerCase()}` : ''"
-                      :style="lv.level <= agentLevel
-                        ? `background:linear-gradient(135deg,${lv.rimColor}55,${lv.rimColor}22);border:1px solid ${lv.rimColor}95;color:${lv.rimColor};text-shadow:0 0 14px ${lv.glowColor},0 1px 0 rgba(0,0,0,0.95);box-shadow:0 0 20px ${lv.glowColor}80,inset 0 1px 0 rgba(255,255,255,0.3);`
-                        : 'background:rgba(30,15,55,0.92);border:1px solid rgba(255,255,255,0.35);color:rgba(255,255,255,0.92);font-weight:900;'">
-                      <span class="relative z-10 font-black tracking-wide" style="font-size:9px;line-height:1;">AG{{ lv.level }}</span>
-                      <div v-if="lv.level <= agentLevel" class="ag-btn-sweep absolute inset-0 pointer-events-none"
-                        :style="`background:linear-gradient(105deg,transparent 25%,${lv.rimColor}35 50%,transparent 75%);`"></div>
-                    </div>
-                  </div>
+              <!-- Medal badge -->
+              <div class="flex items-center gap-2 flex-shrink-0" style="width:90px;">
+                <div class="flex-shrink-0 w-7 h-7 rounded-full flex items-center justify-center font-black text-[11px]"
+                  :style="`background:linear-gradient(135deg,${lv.gradStart},${lv.gradEnd});border:1.5px solid ${lv.rimColor};color:${lv.rimColor};box-shadow:0 0 6px ${lv.glowColor};`">
+                  {{ lv.level }}
                 </div>
-
-                <!-- YOU / LOCKED under badge -->
-                <div class="flex justify-center mt-0.5">
-                  <span v-if="lv.level === agentLevel"
-                    class="text-[6px] px-1.5 py-0.5 rounded-full font-black lux-you-badge"
-                    style="background:linear-gradient(90deg,rgba(255,215,0,0.35),rgba(255,140,0,0.28));border:1px solid rgba(255,215,0,0.55);color:#FFD700;">
-                    ▶ YOU
-                  </span>
-                  <span v-else-if="lv.level > agentLevel"
-                    class="text-[6px] font-bold tracking-wider"
-                    :style="`color:${lv.rimColor};text-shadow:0 0 8px ${lv.glowColor};`">
-                    LOCKED
-                  </span>
-                  <span v-else class="text-[6px] font-bold" style="color:rgba(80,240,120,0.95);text-shadow:0 0 8px rgba(80,240,120,0.6);">✓</span>
-                </div>
+                <span class="text-[12px] font-bold" :style="`color:${lv.rimColor};`">LV{{ lv.level }}</span>
+                <span v-if="lv.level === agentLevel"
+                  class="text-[7px] font-black px-1 rounded"
+                  style="background:rgba(255,215,0,0.2);color:#FFD700;border:1px solid rgba(255,215,0,0.4);">YOU</span>
               </div>
 
-              <!-- Commission (flex-1 — takes remaining space) -->
-              <div class="flex-1 relative z-10">
-                <p class="font-bold"
-                  :style="`font-size:12px;` + (lv.level <= agentLevel
-                    ? lv.numberStyle + ';text-shadow:0 0 12px currentColor;'
-                    : 'color:rgba(255,255,255,0.82);font-weight:600')">
-                  {{ lv.required === 0 ? '—' : formatN(lv.required) + ' Ks' }}
-                </p>
-              </div>
-
-              <!-- Rate -->
-              <div class="w-12 text-right relative z-10">
-                <span
-                  :class="lv.level === agentLevel ? 'lv-rate-current' : ''"
-                  :style="`font-size:13px;font-weight:900;` + (lv.level === agentLevel
-                    ? lv.numberStyle + ';text-shadow:0 0 16px currentColor;'
-                    : lv.level < agentLevel
-                      ? 'color:rgba(255,255,255,0.80)'
-                      : 'color:rgba(255,255,255,0.75);font-weight:700')">
-                  {{ lv.rate }}%
+              <!-- Commission amount -->
+              <div class="flex-1 text-right">
+                <span class="text-[13px] font-semibold text-white tabular-nums">
+                  {{ lv.required === 0 ? '0.00' : Number(lv.required).toLocaleString('en-US', {minimumFractionDigits:2}) }}
                 </span>
               </div>
             </div>
+          </div>
+
+          <!-- Close button -->
+          <div class="flex justify-center py-3 flex-shrink-0"
+            style="border-top:1px solid rgba(255,255,255,0.06);">
+            <button @click="showLevelModal = false"
+              class="w-9 h-9 rounded-full flex items-center justify-center transition-all active:scale-90"
+              style="border:1.5px solid rgba(255,255,255,0.25);background:rgba(255,255,255,0.05);color:rgba(255,255,255,0.55);">
+              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+              </svg>
+            </button>
           </div>
         </div>
       </div>
