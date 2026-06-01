@@ -84,70 +84,17 @@
 </template>
 
 <script setup>
-import { ref, computed } from 'vue'
+  import { ref, computed } from 'vue'
 
-const storedUsername = localStorage.getItem('sb_username') || 'YOURNAME'
-const referralCode = computed(() => storedUsername.toUpperCase())
-const copied = ref(false)
-const copyReferral = () => {
-  const link = `https://novabett.vercel.app/?ref=${referralCode.value}`
-  navigator.clipboard?.writeText(link).then(() => {
-    copied.value = true
-    setTimeout(() => copied.value = false, 2000)
-  })
-}
-
-const tabs = [
-  { key: 'all',     label: 'ဖြစ်ရပ်များ' },
-  { key: 'mission', label: 'တာဝန်' },
-  { key: 'vip',     label: 'VIP' },
-  { key: 'reward',  label: 'ဆုလာဘ်' },
-  { key: 'history', label: 'သမိုင်း' },
-]
-const activeTab = ref('all')
-
-const tabLabel = (key) => tabs.find(t => t.key === key)?.label || ''
-
-// promo cards — user will supply img urls later
-const promoCards = ref([
-  {
-    id: 1, tab: 'all',
-    title: 'ဝင်ငွေ ကူးပြောင်း Code',
-    subtitle: 'ထည့်ပြီးအပိုဆုကြေးရယူလိုက်ပါ',
-    amount: '', img: '',
-  },
-  {
-    id: 2, tab: 'all',
-    title: 'နေ့စဉ် ဘောနပ်',
-    subtitle: 'နှစ်ကြိမ် တိုင်း ရပါတယ်',
-    amount: '', img: '',
-  },
-  {
-    id: 3, tab: 'mission',
-    title: 'ဆုကြေး ငွေကို (၂၀၀၀) ချဲ့',
-    subtitle: 'လဆဉ် 6, 16, 26 ရက်',
-    amount: '', img: '',
-  },
-  {
-    id: 4, tab: 'reward',
-    title: 'လျှော်မှတ် ဘောနပ် မိမိ',
-    subtitle: '',
-    amount: '6,666,666', img: '',
-  },
-  {
-    id: 5, tab: 'vip',
-    title: 'VIP တိုးတက်မှု ဆုလာဘ်',
-    subtitle: 'VIP Level ပိုမြင့်လေ ဆုပိုကြီးလေ',
-    amount: '', img: '',
-  },
-])
-
-const filteredCards = computed(() =>
-  activeTab.value === 'all'
-    ? promoCards.value
-    : promoCards.value.filter(c => c.tab === activeTab.value)
-)
-</script>
+  const tabs = [
+    { key: 'all',     label: 'ဖြစ်ရပ်များ' },
+    { key: 'mission', label: 'တာဝန်' },
+    { key: 'vip',     label: 'VIP' },
+    { key: 'reward',  label: 'ဆုလာဘ်' },
+    { key: 'history', label: 'သမိုင်း' },
+  ]
+  const activeTab = ref('all')
+  </script>
 
 <style scoped>
 /* ── Root ── */

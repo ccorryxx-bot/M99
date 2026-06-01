@@ -83,17 +83,6 @@
           </div>
         </div>
 
-        <!-- Tab 1: Settings -->
-        <div v-if="activeTab === 1">
-          <div class="bg-[#111d26] border border-cyan-500/10 rounded-2xl p-5 space-y-4">
-            <h3 class="font-bold text-white">System Settings</h3>
-            <div>
-              <h4 class="text-sm text-cyan-300 mb-2">WavePay</h4>
-              <label class="text-xs text-gray-400">Recipient Name</label>
-              <input v-model="settings.wave_recipient_name" class="w-full p-2.5 rounded-lg bg-[#0b141a] border border-cyan-500/20 text-white text-sm focus:outline-none focus:border-cyan-500/50 mb-2" />
-              <label class="text-xs text-gray-400">Account Number</label>
-              <input v-model="settings.wave_recipient_account" class="w-full p-2.5 rounded-lg bg-[#0b141a] border border-cyan-500/20 text-white text-sm focus:outline-none focus:border-cyan-500/50" />
-            </div>
             <div>
               <h4 class="text-sm text-cyan-300 mb-2">KBZ Pay</h4>
               <label class="text-xs text-gray-400">Recipient Name</label>
@@ -146,25 +135,13 @@ const loginLoading = ref(false)
 const loginError = ref('')
 
 const activeTab = ref(0)
-const tabs = ['Transactions', 'Settings', 'Users', 'Games']
+const tabs = ['Transactions', 'Users', 'Games']
 
 const filter = reactive({ status: '', type: '' })
 const transactions = ref([])
 const loadingTx = ref(false)
 const txError = ref('')
 
-const settings = reactive({
-  wave_recipient_name: '',
-  wave_recipient_account: '',
-  kpay_recipient_name: '',
-  kpay_recipient_account: '',
-  commission_direct_rate: '10',
-  commission_override_rate: '3',
-  wagering_multiplier: '10'
-})
-const savingSettings = ref(false)
-const settingsMsg = ref('')
-const settingsOk = ref(false)
 
 // Login with verification
 const login = async () => {
@@ -185,7 +162,6 @@ const login = async () => {
     localStorage.setItem('admin_key', adminKey.value)
     loggedIn.value = true
     fetchTransactions()
-    loadSettings()
   } catch (e) {
     loginError.value = 'Network error: ' + e.message
   } finally {
@@ -243,8 +219,6 @@ const approveReject = async (id, action) => {
   } catch (e) { alert('Network error: ' + e.message) }
 }
 
-const loadSettings = async () => { /* ... keep existing logic ... */ }
-const saveSettings = async () => { /* ... keep existing logic ... */ }
 
 // Copy utility
 const copyToClipboard = (text) => {
