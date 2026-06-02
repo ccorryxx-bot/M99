@@ -2,7 +2,7 @@ import { createI18n } from 'vue-i18n'
 
 const messages = {
   en: {
-    brand: 'NovaBETT',
+    brand: 'iW99',
     home: 'Home',
     promotions: 'Promo',
     agent: 'Agent',
@@ -24,7 +24,7 @@ const messages = {
     copied: 'Copied!',
     steps: 'Steps to Get Bonus',
     step1: 'Invite friends.',
-    step2: 'They register & play on NovaBETT.',
+    step2: 'They register & play on iW99.',
     step3: 'Earn commission based on their turnover.',
     myBonuses: 'My Bonuses',
     noActiveBonuses: 'No active bonuses yet.',
@@ -83,7 +83,7 @@ const messages = {
     langToggle: 'EN/MM'
   },
   mm: {
-    brand: 'NovaBETT',
+    brand: 'iW99',
     home: 'ပင်မ',
     promotions: 'ပရိုမိုး',
     agent: 'အေးဂျင့်',
@@ -105,7 +105,7 @@ const messages = {
     copied: 'ကူးပြီးပါပြီ',
     steps: 'ဘောနပ်ရရှိရန် အဆင့်များ',
     step1: 'သူငယ်ချင်းများကို ဖိတ်ခေါ်ပါ။',
-    step2: 'NovaBETT တွင် အကောင့်ဖွင့်ကစားပါ။',
+    step2: 'iW99 တွင် အကောင့်ဖွင့်ကစားပါ။',
     step3: 'လောင်းကြေးပေါ်မူတည်၍ ကော်မရှင်ရမည်။',
     myBonuses: 'ကျွန်ုပ်၏ ဘောနပ်များ',
     noActiveBonuses: 'ဘောနပ်မရှိသေးပါ။',

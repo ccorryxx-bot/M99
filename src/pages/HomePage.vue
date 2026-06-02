@@ -9,7 +9,7 @@
             <span class="nova-ndot nova-ndot--2"></span>
             <span class="nova-ndot nova-ndot--3"></span>
           </div>
-          <div class="nova-brand"><span class="nbr-thin">NOVA</span><span class="nbr-bold">BETT</span></div>
+          <div class="nova-brand"><span class="nbr-thin">iW</span><span class="nbr-bold">99</span></div>
         </div>
         <div style="display:flex;align-items:center;gap:8px;">
           <button @click="toggleLanguage" class="glass-btn-sm" style="color:rgba(34,197,94,0.9);font-size:11px;font-weight:700;padding:5px 10px;">{{ currentLang === 'en' ? '🇲🇲 မြန်မာ' : '🇬🇧 EN' }}</button>
@@ -52,7 +52,7 @@
             <circle cx="18" cy="6" r="3" fill="#ef4444" stroke="#0d1222" stroke-width="1.5"/>
           </svg>
         </div>
-        <div style="flex:1;overflow:hidden;"><span class="nova-marquee">NovaBETT မှ ကြိုဆိုပါသည်&nbsp;&nbsp;&nbsp;ငွေသွင်းငွေထုတ် 24/7&nbsp;&nbsp;&nbsp;JILI, PP, PG ဂိမ်းများ&nbsp;&nbsp;&nbsp;VIP အဖွဲ့ဝင်များ အထူးဆုများ&nbsp;&nbsp;&nbsp;Customer Support 24/7&nbsp;&nbsp;&nbsp;</span></div>
+        <div style="flex:1;overflow:hidden;"><span class="nova-marquee">iW99 မှ ကြိုဆိုပါသည်&nbsp;&nbsp;&nbsp;ငွေသွင်းငွေထုတ် 24/7&nbsp;&nbsp;&nbsp;JILI, PP, PG ဂိမ်းများ&nbsp;&nbsp;&nbsp;VIP အဖွဲ့ဝင်များ အထူးဆုများ&nbsp;&nbsp;&nbsp;Customer Support 24/7&nbsp;&nbsp;&nbsp;</span></div>
         <!-- Clickable inbox envelope -->
         <button @click="showInbox=true" class="nova-inbox-btn" style="position:relative;flex-shrink:0;background:none;border:none;cursor:pointer;padding:2px;-webkit-tap-highlight-color:transparent;">
           <svg class="nova-inbox-svg" width="20" height="20" viewBox="0 0 24 24" fill="none">
@@ -353,7 +353,7 @@
         </div>
         <div style="height:1px;background:rgba(255,255,255,0.06);margin:0 -16px;"></div>
         <div style="padding:18px 0 140px;">
-          <p style="font-size:11px;line-height:1.85;color:rgba(255,255,255,0.5);margin-bottom:10px;"><span style="color:#4ade80;font-weight:700;">NovaBETT</span> သည် ကာစိန်ဂိမ်းများ၊ ပိုကာဂိမ်းများ၊ စလော့ဂိမ်းများ မြင်းပြိုင်မြောက်မြားစွာ ဆော့ကစားနိုင်သောနေရာတစ်ခု ဖြစ်သည်။ ငွေသွင်းငွေထုတ် 24/7 ရနိုင်ပြီး Customer Support ကို အမြဲတမ်း ဆက်သွယ်နိုင်သည်။</p>
+          <p style="font-size:11px;line-height:1.85;color:rgba(255,255,255,0.5);margin-bottom:10px;"><span style="color:#4ade80;font-weight:700;">iW99</span> သည် ကာစိန်ဂိမ်းများ၊ ပိုကာဂိမ်းများ၊ စလော့ဂိမ်းများ မြင်းပြိုင်မြောက်မြားစွာ ဆော့ကစားနိုင်သောနေရာတစ်ခု ဖြစ်သည်။ ငွေသွင်းငွေထုတ် 24/7 ရနိုင်ပြီး Customer Support ကို အမြဲတမ်း ဆက်သွယ်နိုင်သည်။</p>
           <p style="font-size:10px;color:rgba(255,255,255,0.35);text-align:center;">© လုပ်ပိုင်ခွင့်များ ၂၀၀၀ - ၂၀၃၀</p>
         </div>
       </div>

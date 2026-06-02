@@ -105,7 +105,7 @@
 
     <!-- Bottom brand area -->
     <div class="ds-footer">
-      <p class="ds-footer-text">NovaBett © 2025</p>
+      <p class="ds-footer-text">iW99 © 2025</p>
       <p class="ds-footer-sub">Powered by 🔒 Secure</p>
     </div>
 

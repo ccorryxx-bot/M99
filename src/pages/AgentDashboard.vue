@@ -7,7 +7,7 @@
       <button @click="$router.push('/home')" class="flex items-center gap-1.5 active:opacity-50 transition-opacity"
         style="color: #1a2b1a;">
         <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/></svg>
-        <span class="text-xs font-medium tracking-wider">NovaBETT</span>
+        <span class="text-xs font-medium tracking-wider">iW99</span>
       </button>
       <span class="text-sm font-bold tracking-wide" style="color:#1a2b1a;">Agent Dashboard</span>
       <button @click="loadAll" :class="['w-8 h-8 flex items-center justify-center rounded-full transition-all active:scale-90', loading ? 'animate-spin' : '']"
@@ -52,7 +52,7 @@
           </div>
           <!-- Bottom label -->
           <div class="absolute bottom-3 left-4">
-            <p class="text-[9px] font-black tracking-[0.25em] uppercase" style="color: rgba(0,0,0,0.45);">NOVABETT AGENT PROGRAM</p>
+            <p class="text-[9px] font-black tracking-[0.25em] uppercase" style="color: rgba(0,0,0,0.45);">iW99 AGENT PROGRAM</p>
           </div>
         </div>
 
@@ -1453,7 +1453,7 @@ const socialButtons = [
 
 const inviteSteps = [
   { text: 'Referral link ကို copy ကူးပြီး မိတ်ဆွေများကို မျှဝေပါ', style:'background:rgba(255,193,7,0.15);color:rgba(255,193,7,0.85);border:1px solid rgba(255,193,7,0.25)' },
-  { text: 'သူတို့ link ဖြင့် NovaBETT တွင် အကောင့်ဖွင့်ပါ', style:'background:rgba(100,220,120,0.1);color:rgba(100,220,120,0.8);border:1px solid rgba(100,220,120,0.2)' },
+  { text: 'သူတို့ link ဖြင့် iW99 တွင် အကောင့်ဖွင့်ပါ', style:'background:rgba(100,220,120,0.1);color:rgba(100,220,120,0.8);border:1px solid rgba(100,220,120,0.2)' },
   { text: 'သူတို့ Deposit ထည့်ပြီး ကစားသောအခါ သင် Turnover × 10% ရမည်', style:'background:rgba(140,180,255,0.1);color:rgba(140,180,255,0.8);border:1px solid rgba(140,180,255,0.2)' },
 ]
 
@@ -1750,7 +1750,7 @@ async function copyText(text) {
 
 function shareVia(platform) {
   const url  = encodeURIComponent(referralLink.value)
-  const text = encodeURIComponent(`NovaBETT မှာ ကစားပါ! Referral: ${referralLink.value}`)
+  const text = encodeURIComponent(`iW99 မှာ ကစားပါ! Referral: ${referralLink.value}`)
   const map = {
     native:   null,
     telegram: `https://t.me/share/url?url=${url}&text=${text}`,
@@ -1760,7 +1760,7 @@ function shareVia(platform) {
   }
   if (platform === 'native') {
     if (navigator.share) {
-      navigator.share({ title:'NovaBETT Agent Referral', text:'NovaBETT မှာ ကစားပါ!', url: referralLink.value }).catch(()=>{})
+      navigator.share({ title:'iW99 Agent Referral', text:'iW99 မှာ ကစားပါ!', url: referralLink.value }).catch(()=>{})
     } else {
       copyText(referralLink.value)
     }
