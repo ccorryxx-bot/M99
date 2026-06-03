@@ -83,6 +83,9 @@
           </div>
         </div>
 
+        <!-- Tab 1: Settings -->
+        <div v-if="activeTab === 1">
+          <div class="bg-[#111d26] border border-cyan-500/10 rounded-2xl p-5 space-y-4">
             <div>
               <h4 class="text-sm text-cyan-300 mb-2">KBZ Pay</h4>
               <label class="text-xs text-gray-400">Recipient Name</label>

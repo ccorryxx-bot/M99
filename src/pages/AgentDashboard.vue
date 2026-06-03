@@ -111,7 +111,7 @@
                         <stop offset="0%" stop-color="#e09040"/>
                         <stop offset="100%" stop-color="#6b3010"/>
                       </linearGradient>
-                      <style>@keyframes p3{0%,100%{opacity:0.3}50%{opacity:0.9}}</style>
+                      
                     </defs>
                     <path d="M40 4 L72 17 L72 50 Q72 77 40 88 Q8 77 8 50 L8 17 Z" fill="url(#g3)" stroke="#c47830" stroke-width="2.5"/>
                     <path d="M40 4 L72 17 L72 50 Q72 77 40 88 Q8 77 8 50 L8 17 Z" fill="none" stroke="#ffcc80" stroke-width="1.5" opacity="0.4" style="animation:p3 2s ease-in-out infinite"/>
@@ -127,7 +127,7 @@
                         <stop offset="0%" stop-color="#c0cdd8"/>
                         <stop offset="100%" stop-color="#607080"/>
                       </linearGradient>
-                      <style>@keyframes p4{0%,100%{opacity:0.2}50%{opacity:0.7}}</style>
+                      
                     </defs>
                     <path d="M40 4 L72 17 L72 50 Q72 77 40 88 Q8 77 8 50 L8 17 Z" fill="url(#g4)" stroke="#90a8b8" stroke-width="2.5"/>
                     <path d="M40 4 L72 17 L72 50 Q72 77 40 88 Q8 77 8 50 L8 17 Z" fill="none" stroke="#e0eaf0" stroke-width="1.5" opacity="0.5" style="animation:p4 2.5s ease-in-out infinite"/>
@@ -143,7 +143,7 @@
                         <stop offset="0%" stop-color="#d0dde8"/>
                         <stop offset="100%" stop-color="#506070"/>
                       </linearGradient>
-                      <style>@keyframes spin5{from{transform-origin:40px 44px;transform:rotate(0deg)}to{transform-origin:40px 44px;transform:rotate(360deg)}}</style>
+                      
                     </defs>
                     <path d="M40 4 L72 17 L72 50 Q72 77 40 88 Q8 77 8 50 L8 17 Z" fill="url(#g5)" stroke="#90a8c0" stroke-width="2.5"/>
                     <circle cx="40" cy="44" r="22" fill="none" stroke="#b0c8d8" stroke-width="0.8" stroke-dasharray="4,3" style="animation:spin5 12s linear infinite"/>
@@ -161,7 +161,7 @@
                         <stop offset="0%" stop-color="#c8d8b0"/>
                         <stop offset="100%" stop-color="#486050"/>
                       </linearGradient>
-                      <style>@keyframes spinS6{from{transform:rotate(0deg)}to{transform:rotate(360deg)}}</style>
+                      
                     </defs>
                     <path d="M40 4 L72 17 L72 50 Q72 77 40 88 Q8 77 8 50 L8 17 Z" fill="url(#g6)" stroke="#80a890" stroke-width="2.5"/>
                     <path d="M40 14 L62 24 L62 50 Q62 68 40 78 Q18 68 18 50 L18 24 Z" fill="none" stroke="#a0c8b0" stroke-width="1.2"/>
@@ -183,7 +183,7 @@
                         <stop offset="0%" stop-color="#ffd700"/>
                         <stop offset="100%" stop-color="#b8860b"/>
                       </linearGradient>
-                      <style>@keyframes glow7{0%,100%{opacity:0.3}50%{opacity:1}}</style>
+                      
                     </defs>
                     <path d="M24 18 L28 8 L40 16 L52 8 L56 18 Z" fill="#ffd700" stroke="#daa520" stroke-width="1.5"/>
                     <circle cx="28" cy="8" r="3" fill="#ffd700"/>
@@ -201,7 +201,7 @@
                         <stop offset="0%" stop-color="#ffe44d"/>
                         <stop offset="100%" stop-color="#a07010"/>
                       </linearGradient>
-                      <style>@keyframes flap8{0%,100%{transform:scaleX(1)}50%{transform:scaleX(1.1)}}</style>
+                      
                     </defs>
                     <g style="transform-origin:8px 50px;animation:flap8 2s ease-in-out infinite">
                       <path d="M16 40 Q4 44 2 55 Q8 50 14 52 Q6 58 8 65 Q14 58 18 56 Z" fill="#ffd700" opacity="0.7"/>
@@ -221,10 +221,7 @@
                         <stop offset="0%" stop-color="#fff176"/>
                         <stop offset="100%" stop-color="#e65100"/>
                       </linearGradient>
-                      <style>
-                        @keyframes spinR9{from{transform:rotate(0deg)}to{transform:rotate(360deg)}}
-                        @keyframes pulse9{0%,100%{opacity:0.5}50%{opacity:1}}
-                      </style>
+                      
                     </defs>
                     <g style="transform-origin:48px 52px;animation:spinR9 6s linear infinite">
                       <circle cx="48" cy="52" r="42" fill="none" stroke="#ffd700" stroke-width="1" stroke-dasharray="6,4" opacity="0.6"/>
@@ -250,10 +247,7 @@
                         <stop offset="0%" stop-color="#c080f0"/>
                         <stop offset="100%" stop-color="#4b0082"/>
                       </linearGradient>
-                      <style>
-                        @keyframes spin10{from{transform:rotate(0deg)}to{transform:rotate(360deg)}}
-                        @keyframes spinB10{from{transform:rotate(0deg)}to{transform:rotate(-360deg)}}
-                      </style>
+                      
                     </defs>
                     <g style="transform-origin:48px 52px;animation:spin10 8s linear infinite">
                       <circle cx="48" cy="52" r="42" fill="none" stroke="#9040c0" stroke-width="0.8" stroke-dasharray="2,4"/>
@@ -275,10 +269,7 @@
                         <stop offset="0%" stop-color="#d090ff"/>
                         <stop offset="100%" stop-color="#3b0070"/>
                       </linearGradient>
-                      <style>
-                        @keyframes flash11{0%,90%,100%{opacity:0}45%,55%{opacity:1}}
-                        @keyframes spin11{from{transform:rotate(0deg)}to{transform:rotate(-360deg)}}
-                      </style>
+                      
                     </defs>
                     <g style="transform-origin:50px 54px;animation:spin11 5s linear infinite">
                       <line x1="50" y1="54" x2="96" y2="54" stroke="#9040c0" stroke-width="0.5" opacity="0.4"/>
@@ -301,10 +292,7 @@
                         <stop offset="0%" stop-color="#e0a0ff"/>
                         <stop offset="100%" stop-color="#2d0060"/>
                       </linearGradient>
-                      <style>
-                        @keyframes spin12a{from{transform:rotate(0deg)}to{transform:rotate(360deg)}}
-                        @keyframes spin12b{from{transform:rotate(0deg)}to{transform:rotate(-360deg)}}
-                      </style>
+                      
                     </defs>
                     <g style="transform-origin:52px 56px;animation:spin12a 4s linear infinite">
                       <circle cx="52" cy="56" r="47" fill="none" stroke="#8030b0" stroke-width="1" stroke-dasharray="3,5"/>
@@ -331,10 +319,7 @@
                         <stop offset="0%" stop-color="#ff6080"/>
                         <stop offset="100%" stop-color="#800020"/>
                       </linearGradient>
-                      <style>
-                        @keyframes spin13{from{transform:rotate(0deg)}to{transform:rotate(360deg)}}
-                        @keyframes ember{0%,100%{opacity:0;transform:translateY(0)}50%{opacity:1;transform:translateY(-6px)}}
-                      </style>
+                      
                     </defs>
                     <path d="M20 52 Q2 30 6 18 Q12 28 18 34 Q10 22 16 14 Q22 26 24 38 Q18 24 26 20 Q28 36 26 46 Z" fill="#cc2040" opacity="0.8"/>
                     <path d="M90 52 Q108 30 104 18 Q98 28 92 34 Q100 22 94 14 Q88 26 86 38 Q92 24 84 20 Q82 36 84 46 Z" fill="#cc2040" opacity="0.8"/>
@@ -367,11 +352,7 @@
                         <stop offset="0%" stop-color="#ff6d00"/>
                         <stop offset="100%" stop-color="#00bfa5"/>
                       </linearGradient>
-                      <style>
-                        @keyframes cosmo14{0%{stroke:#00e5ff}33%{stroke:#7c4dff}66%{stroke:#ff1744}100%{stroke:#00e5ff}}
-                        @keyframes spinA14{from{transform:rotate(0deg)}to{transform:rotate(360deg)}}
-                        @keyframes spinB14{from{transform:rotate(0deg)}to{transform:rotate(-360deg)}}
-                      </style>
+                      
                     </defs>
                     <g style="transform-origin:57px 60px;animation:spinA14 3s linear infinite">
                       <circle cx="57" cy="60" r="52" fill="none" stroke="#00e5ff" stroke-width="1" stroke-dasharray="4,4" opacity="0.5"/>
@@ -401,12 +382,7 @@
                         <stop offset="60%" stop-color="#d500f9"/>
                         <stop offset="100%" stop-color="#00e5ff"/>
                       </linearGradient>
-                      <style>
-                        @keyframes rainbow15{0%{stroke:#fff176}20%{stroke:#ff6d00}40%{stroke:#ff1744}60%{stroke:#d500f9}80%{stroke:#00e5ff}100%{stroke:#fff176}}
-                        @keyframes spinFwd15{from{transform:rotate(0deg)}to{transform:rotate(360deg)}}
-                        @keyframes spinRev15{from{transform:rotate(0deg)}to{transform:rotate(-360deg)}}
-                        @keyframes ultPulse15{0%,100%{opacity:0.7}50%{opacity:1}}
-                      </style>
+                      
                     </defs>
                     <g style="transform-origin:60px 62px;animation:spinFwd15 2s linear infinite">
                       <circle cx="60" cy="62" r="56" fill="none" stroke="#fff176" stroke-width="1.2" stroke-dasharray="3,3"/>
@@ -797,7 +773,7 @@
            TAB 7 (idx 6): ပြန်ပေး ကော်မရှင် အမျိုး
            ═══════════════════════════════════════════ -->
       <!-- Note: tabs array has 7 items (index 0–6), this is index 6 visually but we map it to our tabs array -->
-      <div v-else-if="activeTab === 7" class="space-y-3 px-4 pt-4">
+      <div v-if="activeTab === 7" class="space-y-3 px-4 pt-4">
 
         <div class="fp-card rounded-2xl p-4">
           <p class="text-xs font-bold tracking-widest mb-4" style="color:rgba(255,255,255,0.5)">COMMISSION TYPES</p>
@@ -906,7 +882,6 @@
         </div>
       </div>
     </Transition>
-  </div>
 </template>
 <script setup>
 import { ref, computed, onMounted, onUnmounted, nextTick, watch } from 'vue'
@@ -2751,4 +2726,29 @@ onUnmounted(() => {
 /* Social button hover lift */
 .nova-social-btn:active { transform: scale(0.9); }
 
+
+/* ── Moved from inline SVG defs ── */
+@keyframes p3{0%,100%{opacity:0.3}50%{opacity:0.9}}
+@keyframes p4{0%,100%{opacity:0.2}50%{opacity:0.7}}
+@keyframes spin5{from{transform-origin:40px 44px;transform:rotate(0deg)}to{transform-origin:40px 44px;transform:rotate(360deg)}}
+@keyframes spinS6{from{transform:rotate(0deg)}to{transform:rotate(360deg)}}
+@keyframes glow7{0%,100%{opacity:0.3}50%{opacity:1}}
+@keyframes flap8{0%,100%{transform:scaleX(1)}50%{transform:scaleX(1.1)}}
+@keyframes spinR9{from{transform:rotate(0deg)}to{transform:rotate(360deg)}}
+                        @keyframes pulse9{0%,100%{opacity:0.5}50%{opacity:1}}
+@keyframes spin10{from{transform:rotate(0deg)}to{transform:rotate(360deg)}}
+                        @keyframes spinB10{from{transform:rotate(0deg)}to{transform:rotate(-360deg)}}
+@keyframes flash11{0%,90%,100%{opacity:0}45%,55%{opacity:1}}
+                        @keyframes spin11{from{transform:rotate(0deg)}to{transform:rotate(-360deg)}}
+@keyframes spin12a{from{transform:rotate(0deg)}to{transform:rotate(360deg)}}
+                        @keyframes spin12b{from{transform:rotate(0deg)}to{transform:rotate(-360deg)}}
+@keyframes spin13{from{transform:rotate(0deg)}to{transform:rotate(360deg)}}
+                        @keyframes ember{0%,100%{opacity:0;transform:translateY(0)}50%{opacity:1;transform:translateY(-6px)}}
+@keyframes cosmo14{0%{stroke:#00e5ff}33%{stroke:#7c4dff}66%{stroke:#ff1744}100%{stroke:#00e5ff}}
+                        @keyframes spinA14{from{transform:rotate(0deg)}to{transform:rotate(360deg)}}
+                        @keyframes spinB14{from{transform:rotate(0deg)}to{transform:rotate(-360deg)}}
+@keyframes rainbow15{0%{stroke:#fff176}20%{stroke:#ff6d00}40%{stroke:#ff1744}60%{stroke:#d500f9}80%{stroke:#00e5ff}100%{stroke:#fff176}}
+                        @keyframes spinFwd15{from{transform:rotate(0deg)}to{transform:rotate(360deg)}}
+                        @keyframes spinRev15{from{transform:rotate(0deg)}to{transform:rotate(-360deg)}}
+                        @keyframes ultPulse15{0%,100%{opacity:0.7}50%{opacity:1}}
 </style>
