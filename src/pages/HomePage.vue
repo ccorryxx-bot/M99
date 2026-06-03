@@ -238,15 +238,18 @@
       <!-- ══ CATEGORY BAR + GAME GRID ══ -->
       <div style="display:flex;flex-direction:column;" class="nova-game-area">
 
-        <!-- HORIZONTAL GLASSMORPHISM CATEGORY BAR -->
+        <!-- HORIZONTAL CATEGORY BAR — minimal glass, sticky first tab -->
         <div class="nova-hcat-scroll">
           <div class="nova-hcat-bar">
-            <button v-for="cat in categories" :key="cat.id" @click="activeCategory=cat.id"
-              :class="['nova-hcat-btn', activeCategory===cat.id ? 'nova-hcat-btn--active' : '']">
-              <div class="nova-hcat-icon-wrap">
-                <img v-if="cat.imageUrl" :src="cat.imageUrl" class="nova-hcat-img" @error="e=>e.target.style.display='none'"/>
-                <svg v-else-if="cat.arcadeSvg" viewBox="0 0 28 28" xmlns="http://www.w3.org/2000/svg" class="nova-hcat-svg" v-html="cat.arcadeSvg"></svg>
-              </div>
+            <button v-for="(cat, idx) in categories" :key="cat.id" @click="activeCategory=cat.id"
+              :class="['nova-hcat-btn', activeCategory===cat.id?'nova-hcat-btn--active':'', idx===0?'nova-hcat-btn--sticky':'']">
+              <!-- Icon: img primary → emoji fallback → arcade SVG -->
+              <span class="nova-hcat-icon">
+                <img v-if="cat.imageUrl" :src="cat.imageUrl" class="nova-hcat-img"
+                  @error="e=>{e.target.style.display='none';const fb=e.target.nextElementSibling;if(fb)fb.style.display='inline-flex';}"/>
+                <span class="nova-hcat-emoji" :style="cat.imageUrl?'display:none':'display:inline-flex'">{{ cat.emoji }}</span>
+                <svg v-if="cat.arcadeSvg" viewBox="0 0 28 28" xmlns="http://www.w3.org/2000/svg" class="nova-hcat-svg" v-html="cat.arcadeSvg"></svg>
+              </span>
               <span class="nova-hcat-label">{{ cat.name }}</span>
             </button>
           </div>
@@ -587,103 +590,14 @@
 
   // Categories
   const categories = ref([
-    { id:'popular', name:'နာမည်ကြီး',  svgPath:'M12 2C9 7 4 8 4 13a8 8 0 0016 0c0-5-5-6-8-11zm0 14a3 3 0 01-3-3c0-2 2-3 3-5 1 2 3 3 3 5a3 3 0 01-3 3z' },
-    { id:'slot',    name:'777 စလော့', svgPath:'M5 3h14a2 2 0 012 2v14a2 2 0 01-2 2H5a2 2 0 01-2-2V5a2 2 0 012-2zm3 5v8h2V8H8zm4 0v8h2V8h-2zm4 0v8h2V8h-2z' },
-    {
-      id:'pp', name:'Pragmatic',
-      brandSvg: `
-        <defs>
-          <linearGradient id="pp-g" x1="0%" y1="0%" x2="100%" y2="100%">
-            <stop offset="0%" stop-color="#e8420a"/>
-            <stop offset="100%" stop-color="#b02d06"/>
-          </linearGradient>
-        </defs>
-        <rect x="1" y="1" width="26" height="26" rx="6" fill="url(#pp-g)"/>
-        <!-- Lion head silhouette — Pragmatic Play style -->
-        <path d="M14 5.5c-1 0-1.8.4-2.3 1-.3.3-.5.7-.6 1.1-.6.1-1.1.4-1.5.8-.5.6-.6 1.4-.4 2.1-.8.4-1.4 1.2-1.4 2.2 0 .9.5 1.7 1.2 2.1-.1.3-.1.6-.1.9 0 2.2 2 3.8 4.6 3.8s4.6-1.7 4.6-3.8c0-.3 0-.6-.1-.9.7-.4 1.2-1.2 1.2-2.1 0-1-.6-1.8-1.4-2.2.2-.7.1-1.5-.4-2.1-.4-.4-.9-.7-1.5-.8-.1-.4-.3-.8-.6-1.1C15.8 5.9 15 5.5 14 5.5z" fill="rgba(255,255,255,0.95)"/>
-        <circle cx="11.5" cy="11" r="0.9" fill="#e8420a"/>
-        <circle cx="16.5" cy="11" r="0.9" fill="#e8420a"/>
-        <path d="M12 14c.5.6 1 .9 2 .9s1.5-.3 2-.9" fill="none" stroke="#e8420a" stroke-width="0.8" stroke-linecap="round"/>
-        <!-- PP letters -->
-        <text x="14" y="24" text-anchor="middle" font-size="5" font-weight="900" fill="rgba(255,255,255,0.9)" font-family="Arial,sans-serif">PP</text>
-      `
-    },
-    {
-      id:'jili', name:'JILI Slot',
-      brandSvg: `
-        <defs>
-          <linearGradient id="jili-g" x1="0%" y1="0%" x2="100%" y2="100%">
-            <stop offset="0%" stop-color="#ff4500"/>
-            <stop offset="100%" stop-color="#cc2200"/>
-          </linearGradient>
-          <linearGradient id="jili-flame" x1="0%" y1="100%" x2="0%" y2="0%">
-            <stop offset="0%" stop-color="#ff8c00"/>
-            <stop offset="100%" stop-color="#ffdd00"/>
-          </linearGradient>
-        </defs>
-        <rect x="1" y="1" width="26" height="26" rx="6" fill="url(#jili-g)"/>
-        <!-- Flame shape -->
-        <path d="M14 3.5c0 0-4.5 4.5-3 8.5-1.5-1-2-3.5-2-3.5s-2.5 4 0 7.5c1 1.5 2.5 2.5 5 2.5s4-1 5-2.5c2.5-3.5 0-7.5 0-7.5s-.5 2.5-2 3.5c1.5-4-3-8.5-3-8.5z" fill="url(#jili-flame)"/>
-        <path d="M14 10c0 0-2 2.5-1 4.5.5-1 1.5-1.5 1-3 .5 1.5 1.5 2 1 3 1-2-1-4.5-1-4.5z" fill="rgba(255,255,255,0.7)"/>
-        <!-- JILI text -->
-        <text x="14" y="25.5" text-anchor="middle" font-size="5.5" font-weight="900" fill="rgba(255,255,255,0.95)" font-family="Arial,sans-serif" letter-spacing="0.5">JILI</text>
-      `
-    },
-    {
-      id:'pg', name:'PG Soft',
-      brandSvg: `
-        <defs>
-          <linearGradient id="pg-g" x1="0%" y1="0%" x2="100%" y2="100%">
-            <stop offset="0%" stop-color="#1a6bcc"/>
-            <stop offset="100%" stop-color="#0d4a8f"/>
-          </linearGradient>
-        </defs>
-        <rect x="1" y="1" width="26" height="26" rx="6" fill="url(#pg-g)"/>
-        <!-- PG hexagon geometry -->
-        <polygon points="14,4 20,7.5 20,14.5 14,18 8,14.5 8,7.5" fill="none" stroke="rgba(255,255,255,0.35)" stroke-width="1"/>
-        <polygon points="14,6.5 18,9 18,14 14,16.5 10,14 10,9" fill="rgba(255,255,255,0.12)"/>
-        <!-- P shape -->
-        <text x="10.5" y="15.5" font-size="9" font-weight="900" fill="rgba(255,255,255,0.95)" font-family="Arial,sans-serif">P</text>
-        <!-- G shape -->
-        <text x="15.5" y="15.5" font-size="9" font-weight="900" fill="rgba(100,200,255,0.9)" font-family="Arial,sans-serif">G</text>
-        <!-- SOFT text -->
-        <text x="14" y="24" text-anchor="middle" font-size="4" font-weight="700" fill="rgba(255,255,255,0.5)" font-family="Arial,sans-serif" letter-spacing="0.5">SOFT</text>
-      `
-    },
-    {
-      id:'jdb', name:'JDB Slot',
-      brandSvg: `
-        <defs>
-          <linearGradient id="jdb-g" x1="0%" y1="0%" x2="100%" y2="100%">
-            <stop offset="0%" stop-color="#8b2fc9"/>
-            <stop offset="100%" stop-color="#5b0f99"/>
-          </linearGradient>
-          <linearGradient id="gem-g" x1="0%" y1="0%" x2="100%" y2="100%">
-            <stop offset="0%" stop-color="#e879f9"/>
-            <stop offset="50%" stop-color="#a855f7"/>
-            <stop offset="100%" stop-color="#7c3aed"/>
-          </linearGradient>
-        </defs>
-        <rect x="1" y="1" width="26" height="26" rx="6" fill="url(#jdb-g)"/>
-        <!-- Gem/Diamond shape — JDB identity -->
-        <polygon points="14,4 20,9.5 17.5,18 10.5,18 8,9.5" fill="url(#gem-g)"/>
-        <polygon points="14,4 20,9.5 14,8" fill="rgba(255,255,255,0.4)"/>
-        <polygon points="14,8 20,9.5 17.5,18" fill="rgba(255,255,255,0.08)"/>
-        <polygon points="14,8 10.5,18 8,9.5" fill="rgba(255,255,255,0.15)"/>
-        <polygon points="14,8 17.5,18 10.5,18" fill="rgba(255,255,255,0.06)"/>
-        <!-- shine -->
-        <circle cx="12" cy="7.5" r="1" fill="rgba(255,255,255,0.6)"/>
-        <!-- JDB text -->
-        <text x="14" y="25" text-anchor="middle" font-size="5.5" font-weight="900" fill="rgba(255,255,255,0.9)" font-family="Arial,sans-serif" letter-spacing="0.3">JDB</text>
-      `
-    },
-    { id:'live',    name:'Live Casino', svgPath:'M17 10.5V7a1 1 0 00-1-1H4a1 1 0 00-1 1v10a1 1 0 001 1h12a1 1 0 001-1v-3.5l4 4v-11l-4 4z' },
-    { id:'fish',    name:'ငါးမျှားရ', svgPath:'M12 2a10 10 0 100 20A10 10 0 0012 2zm-1 14H9V8h2v8zm4 0h-2V8h2v8z' },
-    { id:'fav',     name:'အကြိုက်ဆုံး',svgPath:'M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z' },
-    { id:'recent',  name:'မကြာသေးမီက',svgPath:'M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm.5 5v5.25l4.5 2.67-.75 1.23L11 13V7h1.5z' },
-    { id:'fishing', name:'ငါးဖမ်း',   svgPath:'M6 3v7a6 6 0 006 6 6 6 0 006-6V3h-2v7a4 4 0 01-4 4 4 4 0 01-4-4V3H6zm-1 9a7 7 0 007 7 7 7 0 007-7h-2a5 5 0 01-5 5 5 5 0 01-5-5H5z' },
+    { id:'popular', name:'နာမည်ကြီး', emoji:'🔥', imageUrl:'https://ik.imagekit.io/tdpebgueq/Provider%20label%20icons%20/Screenshot_2026-06-04-01-02-41-326_mark.via.gp_1780511927362edit.jpg' },
+    { id:'slot',    name:'စလော့',     emoji:'🎰', imageUrl:'https://ik.imagekit.io/tdpebgueq/Provider%20label%20icons%20/Screenshot_2026-06-04-01-02-48-594_mark.via.gp_1780511877479edit.jpg' },
+    { id:'fish',    name:'ငါးဖမ်း',   emoji:'🐬', imageUrl:'https://ik.imagekit.io/tdpebgueq/Provider%20label%20icons%20/Screenshot_2026-06-04-01-02-57-533_mark.via.gp_1780511863896edit.jpg' },
+    { id:'live',    name:'တိုက်ရိုက် ကာစီနို', emoji:'🃏', imageUrl:'https://ik.imagekit.io/tdpebgueq/Provider%20label%20icons%20/Screenshot_2026-06-04-01-03-25-338_mark.via.gp_1780511848574edit.jpg' },
+    { id:'arcade',  name:'Arcade',    emoji:'🕹️', arcadeSvg:`<defs><linearGradient id="arc-b" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#7c3aed"/><stop offset="100%" stop-color="#4f46e5"/></linearGradient><radialGradient id="arc-s" cx="50%" cy="30%" r="60%"><stop offset="0%" stop-color="#e879f9"/><stop offset="100%" stop-color="#a855f7"/></radialGradient></defs><rect x="5" y="17" width="18" height="9" rx="3" fill="url(#arc-b)"/><rect x="7" y="8" width="14" height="9" rx="2" fill="rgba(0,0,0,0.65)" stroke="rgba(168,85,247,0.7)" stroke-width="0.8"/><rect x="9" y="10" width="10" height="5" rx="1" fill="rgba(168,85,247,0.18)"/><text x="14" y="13.8" text-anchor="middle" font-size="3.6" font-weight="900" fill="#e879f9" font-family="Arial">ARCADE</text><line x1="8" y1="9.5" x2="20" y2="9.5" stroke="rgba(255,255,255,0.18)" stroke-width="0.6"/><circle cx="10" cy="21" r="3" fill="rgba(255,255,255,0.07)" stroke="rgba(255,255,255,0.25)" stroke-width="0.7"/><circle cx="10" cy="21" r="1.6" fill="url(#arc-s)"/><circle cx="10" cy="21" r="0.7" fill="rgba(255,255,255,0.6)"/><circle cx="17" cy="20" r="1.6" fill="#f43f5e" opacity="0.95"/><circle cx="20.2" cy="20" r="1.6" fill="#22d3ee" opacity="0.95"/><circle cx="17" cy="23.2" r="1.6" fill="#4ade80" opacity="0.95"/><circle cx="20.2" cy="23.2" r="1.6" fill="#fbbf24" opacity="0.95"/><rect x="13" y="20.8" width="2.5" height="1.2" rx="0.5" fill="rgba(255,255,255,0.4)"/>`},
+    { id:'fav',     name:'အကြိုက်ဆုံး', emoji:'⭐', imageUrl:'https://ik.imagekit.io/tdpebgueq/Provider%20label%20icons%20/Screenshot_2026-06-04-01-04-03-664_mark.via.gp_1780511936602edit.jpg' },
   ])
-  const activeCategory = ref('popular')
+    const activeCategory = ref('popular')
   const glowCanvases = {}
   function registerGlowCanvas(el,catId) { if(!el)return; glowCanvases[catId]=el; nextTick(()=>drawGlow(el)) }
   function drawGlow(canvas) { if(!canvas)return; const ctx=canvas.getContext('2d'),w=canvas.width,h=canvas.height; ctx.clearRect(0,0,w,h); const g=ctx.createRadialGradient(w/2,h/2,2,w/2,h/2,w*.65); g.addColorStop(0,'rgba(34,197,94,0.28)'); g.addColorStop(.5,'rgba(34,197,94,0.10)'); g.addColorStop(1,'rgba(34,197,94,0)'); ctx.fillStyle=g; ctx.fillRect(0,0,w,h) }
@@ -876,19 +790,49 @@
   @keyframes nova-marquee { from{transform:translateX(100vw);}to{transform:translateX(-100%);} }
   .nova-marquee { display:inline-block; animation:nova-marquee 30s linear infinite; will-change:transform; white-space:nowrap; font-size:12px; color:rgba(255,255,255,0.58); }
 
-  /* ── HORIZONTAL CATEGORY BAR (glassmorphism) ── */
-  .nova-hcat-scroll { width:100%; overflow-x:auto; overflow-y:hidden; -webkit-overflow-scrolling:touch; scrollbar-width:none; padding:10px 12px 6px; box-sizing:border-box; background:rgba(255,255,255,0.04); border-bottom:1px solid rgba(255,255,255,0.08); backdrop-filter:blur(20px); -webkit-backdrop-filter:blur(20px); }
+  /* ── HORIZONTAL CATEGORY BAR — clean glass, no card frames ── */
+  .nova-hcat-scroll {
+    width:100%; overflow-x:auto; overflow-y:hidden;
+    -webkit-overflow-scrolling:touch; scrollbar-width:none;
+    background:rgba(255,255,255,0.04);
+    backdrop-filter:blur(24px); -webkit-backdrop-filter:blur(24px);
+    border-bottom:1.5px solid rgba(255,255,255,0.09);
+  }
   .nova-hcat-scroll::-webkit-scrollbar { display:none; }
-  .nova-hcat-bar { display:flex; gap:8px; width:max-content; }
-  .nova-hcat-btn { display:inline-flex; align-items:center; gap:8px; padding:7px 13px 7px 9px; border:none; border-radius:50px; background:rgba(255,255,255,0.07); backdrop-filter:blur(16px); -webkit-backdrop-filter:blur(16px); border:1px solid rgba(255,255,255,0.12); cursor:pointer; -webkit-tap-highlight-color:transparent; transition:all 0.22s ease; white-space:nowrap; box-shadow:0 2px 12px rgba(0,0,0,0.25), inset 0 1px 0 rgba(255,255,255,0.1); }
-  .nova-hcat-btn--active { background:rgba(99,102,241,0.25); border-color:rgba(129,140,248,0.55); box-shadow:0 0 18px rgba(99,102,241,0.4), 0 2px 12px rgba(0,0,0,0.3), inset 0 1px 0 rgba(255,255,255,0.18); }
-  .nova-hcat-btn:active { transform:scale(0.95); opacity:0.85; }
-  .nova-hcat-icon-wrap { width:32px; height:32px; border-radius:10px; overflow:hidden; display:flex; align-items:center; justify-content:center; background:rgba(255,255,255,0.08); border:1px solid rgba(255,255,255,0.12); flex-shrink:0; }
-  .nova-hcat-btn--active .nova-hcat-icon-wrap { border-color:rgba(129,140,248,0.5); background:rgba(99,102,241,0.18); }
-  .nova-hcat-img { width:100%; height:100%; object-fit:cover; display:block; }
+  .nova-hcat-bar { display:flex; align-items:stretch; width:max-content; }
+  /* Sticky first tab — pinned left, others slide under it */
+  .nova-hcat-btn--sticky {
+    position:sticky; left:0; z-index:10;
+    background:#3d4187;
+    border-right:1px solid rgba(255,255,255,0.1);
+    padding-right:16px;
+  }
+  .nova-hcat-btn {
+    display:inline-flex; align-items:center; gap:8px;
+    padding:11px 18px;
+    border:none; border-radius:0; background:transparent;
+    cursor:pointer; -webkit-tap-highlight-color:transparent;
+    transition:all 0.2s; white-space:nowrap;
+    position:relative; flex-shrink:0;
+  }
+  /* Bottom indicator line — active state */
+  .nova-hcat-btn::after {
+    content:''; position:absolute; bottom:0; left:50%;
+    transform:translateX(-50%) scaleX(0); width:65%; height:2.5px;
+    background:linear-gradient(90deg,#818cf8,#c7d2fe);
+    border-radius:2px 2px 0 0;
+    transition:transform 0.25s cubic-bezier(0.34,1.56,0.64,1);
+  }
+  .nova-hcat-btn--active::after { transform:translateX(-50%) scaleX(1); }
+  .nova-hcat-btn:active { opacity:0.7; }
+  /* Icon — direct, no box, no frame */
+  .nova-hcat-icon { display:inline-flex; align-items:center; flex-shrink:0; }
+  .nova-hcat-img { width:30px; height:30px; object-fit:contain; border-radius:6px; display:block; }
+  .nova-hcat-emoji { font-size:26px; line-height:1; display:inline-flex; align-items:center; }
   .nova-hcat-svg { width:28px; height:28px; }
-  .nova-hcat-label { font-size:12px; font-weight:700; color:rgba(255,255,255,0.6); letter-spacing:0.01em; transition:color 0.2s; }
-  .nova-hcat-btn--active .nova-hcat-label { color:#c7d2fe; text-shadow:0 0 10px rgba(129,140,248,0.6); }
+  /* Label */
+  .nova-hcat-label { font-size:13px; font-weight:700; color:rgba(255,255,255,0.45); letter-spacing:0.01em; transition:color 0.2s; }
+  .nova-hcat-btn--active .nova-hcat-label { color:rgba(255,255,255,0.95); text-shadow:0 0 14px rgba(200,210,255,0.55); }
 
   /* ── GAME CARDS ── */
   .nova-game-card { border-radius:14px; overflow:hidden; cursor:pointer; background:rgba(255,255,255,0.058); border:1px solid rgba(255,255,255,0.14); box-shadow:0 4px 22px rgba(0,0,0,0.55), 0 1px 0 rgba(255,255,255,0.08) inset, 0 0 0 0.5px rgba(34,197,94,0.08); will-change:transform; transform:translateZ(0); transition:transform 0.15s ease, box-shadow 0.15s ease; -webkit-tap-highlight-color:transparent; contain:layout style; }
