@@ -135,7 +135,7 @@ const route = useRoute()
     bottom: 0;
     width: 230px;
     z-index: 300;
-    background: linear-gradient(180deg, #07111e 0%, #060d18 50%, #050b14 100%);
+    background: #1e2220;
     border-right: 1px solid rgba(34,197,94,0.1);
     box-shadow: 4px 0 32px rgba(0,0,0,0.6), 1px 0 0 rgba(255,255,255,0.03);
     overflow: hidden;

@@ -62,7 +62,7 @@ const comingSoon = () => alert('Coming Soon')
 </script>
 
 <style scoped>
-.nova-page-bg { background: linear-gradient(160deg,#08102a 0%,#0d1a36 20%,#0c1828 40%,#091420 60%,#07101a 80%,#050c14 100%); min-height:100vh; color:#fff; overscroll-behavior:contain; -webkit-tap-highlight-color:rgba(0,0,0,0); }
+.nova-page-bg { background: #262b27; min-height:100vh; color:#fff; overscroll-behavior:contain; -webkit-tap-highlight-color:rgba(0,0,0,0); }
 .nova-bg-orb { position:fixed; border-radius:50%; pointer-events:none; z-index:0; }
 .nova-bg-orb--1 { width:300px; height:300px; top:-80px; left:-80px; background:radial-gradient(circle,rgba(34,197,94,0.13) 0%,rgba(34,197,94,0.04) 50%,transparent 70%); animation:orb-drift1 12s ease-in-out infinite; }
 .nova-bg-orb--2 { width:340px; height:340px; top:38%; right:-110px; background:radial-gradient(circle,rgba(99,102,241,0.12) 0%,rgba(56,189,248,0.06) 45%,transparent 70%); animation:orb-drift2 16s ease-in-out infinite; }

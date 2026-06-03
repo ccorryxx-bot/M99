@@ -3,7 +3,7 @@
 
     <!-- ── HEADER ── -->
     <header class="sticky top-0 z-40 px-4 py-2 flex items-center justify-between"
-      style="background: #b0baaf; border-bottom: 1px solid rgba(0,0,0,0.09);">
+      style="background: #262b27; border-bottom: 1px solid rgba(255,255,255,0.08);">
       <button @click="$router.push('/home')" class="flex items-center gap-1.5 active:opacity-50 transition-opacity"
         style="color: #1a2b1a;">
         <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/></svg>
@@ -18,7 +18,7 @@
 
     <!-- ── SCROLLABLE TAB BAR ── -->
     <div class="sticky z-30"
-      style="top: 49px; background: #b0baaf; border-bottom: 1px solid rgba(0,0,0,0.09);">
+      style="top: 49px; background: #262b27; border-bottom: 1px solid rgba(255,255,255,0.08);">
       <div class="flex items-center overflow-x-auto py-1 px-1"
         style="scrollbar-width:none;-ms-overflow-style:none;">
         <button v-for="(tab, i) in tabs" :key="i" @click="activeTab = i"

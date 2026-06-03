@@ -18,7 +18,7 @@ import DesktopSidebar from '@/components/DesktopSidebar.vue'
 <style>
 html, body { margin: 0; padding: 0; min-height: 100vh; }
 body {
-  background: linear-gradient(160deg, #08102a 0%, #0d1a36 20%, #0c1828 40%, #091420 60%, #07101a 80%, #050c14 100%);
+  background: #262b27;
 }
 
 /* ── Mobile: plain block — no flex, no interference with inner scroll/sticky ── */
@@ -56,7 +56,7 @@ body {
     min-height: 100vh;
     position: relative;
     box-shadow: 0 0 60px rgba(0,0,0,0.8), 0 0 0 1px rgba(255,255,255,0.04);
-    background: linear-gradient(160deg, #08102a 0%, #0d1a36 20%, #0c1828 40%, #091420 60%, #07101a 80%, #050c14 100%);
+    background: #262b27;
   }
 }
 

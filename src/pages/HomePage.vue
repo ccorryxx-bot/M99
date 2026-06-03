@@ -785,7 +785,7 @@
   <style scoped>
   @import url('https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@300;600&display=swap');
   /* ── BASE ── */
-  .nova-app { background: linear-gradient(160deg,#08102a 0%,#0d1a36 20%,#0c1828 40%,#091420 60%,#07101a 80%,#050c14 100%); min-height:100vh; color:#fff; -webkit-tap-highlight-color:rgba(0,0,0,0); overscroll-behavior:contain; -webkit-overflow-scrolling:touch; scroll-behavior:smooth; }
+  .nova-app { background: #262b27; min-height:100vh; color:#fff; -webkit-tap-highlight-color:rgba(0,0,0,0); overscroll-behavior:contain; -webkit-overflow-scrolling:touch; scroll-behavior:smooth; }
 .nova-bg-orb { position:fixed; border-radius:50%; pointer-events:none; z-index:0; }
 .nova-bg-orb--1 { width:300px; height:300px; top:-80px; left:-80px; background:radial-gradient(circle,rgba(34,197,94,0.13) 0%,rgba(34,197,94,0.04) 50%,transparent 70%); animation:orb-drift1 12s ease-in-out infinite; }
 .nova-bg-orb--2 { width:340px; height:340px; top:38%; right:-110px; background:radial-gradient(circle,rgba(99,102,241,0.12) 0%,rgba(56,189,248,0.06) 45%,transparent 70%); animation:orb-drift2 16s ease-in-out infinite; }
@@ -884,7 +884,7 @@
 
   /* ── INBOX MODAL ── */
   .nova-inbox-overlay { position:fixed; inset:0; z-index:500; background:rgba(0,0,0,0.72); display:flex; flex-direction:column; justify-content:flex-end; }
-  .nova-inbox-sheet { background:linear-gradient(180deg,#0f1e2e 0%,#091420 100%); border-radius:20px 20px 0 0; border-top:1px solid rgba(34,197,94,0.2); max-height:70vh; overflow-y:auto; padding:0 0 80px; }
+  .nova-inbox-sheet { background:#1c201d; border-radius:20px 20px 0 0; border-top:1px solid rgba(34,197,94,0.2); max-height:70vh; overflow-y:auto; padding:0 0 80px; }
   .nova-inbox-handle { width:36px; height:4px; background:rgba(255,255,255,0.15); border-radius:2px; margin:12px auto 0; }
   .nova-inbox-header { display:flex; justify-content:space-between; align-items:center; padding:14px 18px 12px; border-bottom:1px solid rgba(255,255,255,0.06); }
   .nova-inbox-empty { display:flex; flex-direction:column; align-items:center; justify-content:center; padding:48px 20px; }

@@ -435,8 +435,8 @@ const comingSoon = () => alert('Coming Soon')
   flex-direction: column;
   min-height: 100dvh;
   width: 100%;
-  background: #b0baaf;
-  color: #111;
+  background: #262b27;
+  color: #fff;
   overscroll-behavior: contain;
   -webkit-tap-highlight-color: transparent;
 }
@@ -462,7 +462,7 @@ const comingSoon = () => alert('Coming Soon')
 }
 .nova-icon-btn:active {
   transform: scale(0.88);
-  background: #a5afa4;
+  background: #2e3530;
 }
 .notif-dot {
   position: absolute; top: -3px; right: -3px;
@@ -511,8 +511,8 @@ const comingSoon = () => alert('Coming Soon')
   font-size: 9px; font-weight: 900; color: #fff; line-height: 1.4; z-index: 2;
 }
 .profile-info { flex: 1; min-width: 0; }
-.profile-username { font-size: 15px; font-weight: 800; color: #111; letter-spacing: 0.02em; }
-.profile-id { font-size: 12px; color: #444; font-family: monospace; font-weight: 600; }
+.profile-username { font-size: 15px; font-weight: 800; color: #fff; letter-spacing: 0.02em; }
+.profile-id { font-size: 12px; color: rgba(255,255,255,0.55); font-family: monospace; font-weight: 600; }
 .copy-btn {
   color: #555; cursor: pointer;
   background: rgba(0,0,0,0.07);
@@ -523,10 +523,10 @@ const comingSoon = () => alert('Coming Soon')
   min-width: 28px; min-height: 26px; justify-content: center;
 }
 .copy-btn:active { transform: scale(0.82); }
-.copy-btn--id { color: #0369a1; border-color: rgba(3,105,161,0.2); background: rgba(3,105,161,0.07); }
+.copy-btn--id { color: #60a5fa; border-color: rgba(96,165,250,0.25); background: rgba(96,165,250,0.08); }
 .balance-area { flex-shrink: 0; }
 .balance-flag { font-size: 15px; line-height: 1; }
-.balance-amount { font-size: 18px; font-weight: 900; color: #0d9488; }
+.balance-amount { font-size: 18px; font-weight: 900; color: #34d399; }
 .refresh-btn {
   width: 24px; height: 24px;
   background: rgba(34,197,94,0.12);
@@ -559,7 +559,7 @@ const comingSoon = () => alert('Coming Soon')
   border: 1.5px solid rgba(0,0,0,0.18);
   display: flex; align-items: center; justify-content: center; flex-shrink: 0;
 }
-.action-menu-lbl { flex: 1; font-size: 13px; font-weight: 600; color: #111; text-align: left; }
+.action-menu-lbl { flex: 1; font-size: 13px; font-weight: 600; color: #fff; text-align: left; }
 
 /* ── VIP card ── */
 .vip-card {
@@ -614,7 +614,7 @@ const comingSoon = () => alert('Coming Soon')
   width: 30px; height: 30px; border-radius: 8px;
   display: flex; align-items: center; justify-content: center; flex-shrink: 0;
 }
-.m-title { font-size: 13px; font-weight: 600; color: #111; }
+.m-title { font-size: 13px; font-weight: 600; color: #fff; }
 .m-sub { font-size: 9.5px; color: #666; margin-top: 1px; }
 .m-arr { width: 14px; height: 14px; color: #bbb; flex-shrink: 0; }
 

@@ -100,7 +100,7 @@
 /* ── Root ── */
 .promo-root {
   min-height: 100dvh;
-  background: linear-gradient(160deg, #08102a 0%, #0d1a36 20%, #0c1828 40%, #091420 60%, #07101a 80%, #050c14 100%);
+  background: #262b27;
   color: #fff;
   overscroll-behavior: contain;
   -webkit-tap-highlight-color: transparent;
