@@ -238,20 +238,34 @@
       <!-- ══ CATEGORY BAR + GAME GRID ══ -->
       <div style="display:flex;flex-direction:column;" class="nova-game-area">
 
-        <!-- HORIZONTAL CATEGORY BAR — minimal glass, sticky first tab -->
-        <div class="nova-hcat-scroll">
-          <div class="nova-hcat-bar">
-            <button v-for="(cat, idx) in categories" :key="cat.id" @click="activeCategory=cat.id"
-              :class="['nova-hcat-btn', activeCategory===cat.id?'nova-hcat-btn--active':'', idx===0?'nova-hcat-btn--sticky':'']">
-              <!-- Icon: img primary → emoji fallback → arcade SVG -->
-              <span class="nova-hcat-icon">
-                <img v-if="cat.imageUrl" :src="cat.imageUrl" class="nova-hcat-img"
-                  @error="e=>{e.target.style.display='none';const fb=e.target.nextElementSibling;if(fb)fb.style.display='inline-flex';}"/>
-                <span class="nova-hcat-emoji" :style="cat.imageUrl?'display:none':'display:inline-flex'">{{ cat.emoji }}</span>
-                <svg v-if="cat.arcadeSvg" viewBox="0 0 28 28" xmlns="http://www.w3.org/2000/svg" class="nova-hcat-svg" v-html="cat.arcadeSvg"></svg>
-              </span>
-              <span class="nova-hcat-label">{{ cat.name }}</span>
-            </button>
+        <!-- HORIZONTAL CATEGORY BAR: first tab pinned, rest scrollable -->
+        <div class="nova-hcat-wrapper">
+          <!-- ① Pinned first tab — sits outside the scroll container entirely -->
+          <button class="nova-hcat-btn nova-hcat-pin"
+            :class="activeCategory===categories[0].id?'nova-hcat-btn--active':''"
+            @click="activeCategory=categories[0].id">
+            <span class="nova-hcat-icon">
+              <img :src="categories[0].imageUrl" class="nova-hcat-img"
+                @error="e=>{e.target.style.display='none';const fb=e.target.nextElementSibling;if(fb)fb.style.display='inline-flex';}" />
+              <span class="nova-hcat-emoji" :style="categories[0].imageUrl?'display:none':'display:inline-flex'">{{ categories[0].emoji }}</span>
+            </span>
+            <span class="nova-hcat-label">{{ categories[0].name }}</span>
+          </button>
+          <!-- ② Scrollable remaining tabs — slide under pinned first tab -->
+          <div class="nova-hcat-scroll">
+            <div class="nova-hcat-bar">
+              <button v-for="cat in categories.slice(1)" :key="cat.id"
+                @click="activeCategory=cat.id"
+                :class="['nova-hcat-btn', activeCategory===cat.id?'nova-hcat-btn--active':'']">
+                <span class="nova-hcat-icon">
+                  <img v-if="cat.imageUrl" :src="cat.imageUrl" class="nova-hcat-img"
+                    @error="e=>{e.target.style.display='none';const fb=e.target.nextElementSibling;if(fb)fb.style.display='inline-flex';}" />
+                  <span class="nova-hcat-emoji" :style="cat.imageUrl?'display:none':'display:inline-flex'">{{ cat.emoji }}</span>
+                  <svg v-if="cat.arcadeSvg" viewBox="0 0 28 28" xmlns="http://www.w3.org/2000/svg" class="nova-hcat-svg" v-html="cat.arcadeSvg"></svg>
+                </span>
+                <span class="nova-hcat-label">{{ cat.name }}</span>
+              </button>
+            </div>
           </div>
         </div>
 
@@ -590,12 +604,12 @@
 
   // Categories
   const categories = ref([
-    { id:'popular', name:'နာမည်ကြီး', emoji:'🔥', imageUrl:'https://ik.imagekit.io/tdpebgueq/Provider%20label%20icons%20/Screenshot_2026-06-04-01-02-41-326_mark.via.gp_1780511927362edit.jpg' },
+    { id:'popular', name:'နာမည်ကြီး', emoji:'🔥', imageUrl:'https://ik.imagekit.io/tdpebgueq/Provider%20label%20icons%20/Screenshot_2026-06-04-01-02-41-326_mark.via.gp_1780514832069edit.jpg' },
     { id:'slot',    name:'စလော့',     emoji:'🎰', imageUrl:'https://ik.imagekit.io/tdpebgueq/Provider%20label%20icons%20/Screenshot_2026-06-04-01-02-48-594_mark.via.gp_1780511877479edit.jpg' },
     { id:'fish',    name:'ငါးဖမ်း',   emoji:'🐬', imageUrl:'https://ik.imagekit.io/tdpebgueq/Provider%20label%20icons%20/Screenshot_2026-06-04-01-02-57-533_mark.via.gp_1780511863896edit.jpg' },
     { id:'live',    name:'တိုက်ရိုက် ကာစီနို', emoji:'🃏', imageUrl:'https://ik.imagekit.io/tdpebgueq/Provider%20label%20icons%20/Screenshot_2026-06-04-01-03-25-338_mark.via.gp_1780511848574edit.jpg' },
     { id:'arcade',  name:'Arcade',    emoji:'🕹️', arcadeSvg:`<defs><linearGradient id="arc-b" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#7c3aed"/><stop offset="100%" stop-color="#4f46e5"/></linearGradient><radialGradient id="arc-s" cx="50%" cy="30%" r="60%"><stop offset="0%" stop-color="#e879f9"/><stop offset="100%" stop-color="#a855f7"/></radialGradient></defs><rect x="5" y="17" width="18" height="9" rx="3" fill="url(#arc-b)"/><rect x="7" y="8" width="14" height="9" rx="2" fill="rgba(0,0,0,0.65)" stroke="rgba(168,85,247,0.7)" stroke-width="0.8"/><rect x="9" y="10" width="10" height="5" rx="1" fill="rgba(168,85,247,0.18)"/><text x="14" y="13.8" text-anchor="middle" font-size="3.6" font-weight="900" fill="#e879f9" font-family="Arial">ARCADE</text><line x1="8" y1="9.5" x2="20" y2="9.5" stroke="rgba(255,255,255,0.18)" stroke-width="0.6"/><circle cx="10" cy="21" r="3" fill="rgba(255,255,255,0.07)" stroke="rgba(255,255,255,0.25)" stroke-width="0.7"/><circle cx="10" cy="21" r="1.6" fill="url(#arc-s)"/><circle cx="10" cy="21" r="0.7" fill="rgba(255,255,255,0.6)"/><circle cx="17" cy="20" r="1.6" fill="#f43f5e" opacity="0.95"/><circle cx="20.2" cy="20" r="1.6" fill="#22d3ee" opacity="0.95"/><circle cx="17" cy="23.2" r="1.6" fill="#4ade80" opacity="0.95"/><circle cx="20.2" cy="23.2" r="1.6" fill="#fbbf24" opacity="0.95"/><rect x="13" y="20.8" width="2.5" height="1.2" rx="0.5" fill="rgba(255,255,255,0.4)"/>`},
-    { id:'fav',     name:'အကြိုက်ဆုံး', emoji:'⭐', imageUrl:'https://ik.imagekit.io/tdpebgueq/Provider%20label%20icons%20/Screenshot_2026-06-04-01-04-03-664_mark.via.gp_1780511936602edit.jpg' },
+    { id:'fav',     name:'အကြိုက်ဆုံး', emoji:'⭐', imageUrl:'https://ik.imagekit.io/tdpebgueq/Provider%20label%20icons%20/Screenshot_2026-06-04-01-04-03-664_mark.via.gp_1780514801506edit.jpg' },
   ])
     const activeCategory = ref('popular')
   const glowCanvases = {}
@@ -790,49 +804,57 @@
   @keyframes nova-marquee { from{transform:translateX(100vw);}to{transform:translateX(-100%);} }
   .nova-marquee { display:inline-block; animation:nova-marquee 30s linear infinite; will-change:transform; white-space:nowrap; font-size:12px; color:rgba(255,255,255,0.58); }
 
-  /* ── HORIZONTAL CATEGORY BAR — clean glass, no card frames ── */
-  .nova-hcat-scroll {
-    width:100%; overflow-x:auto; overflow-y:hidden;
-    -webkit-overflow-scrolling:touch; scrollbar-width:none;
+  /* ── HORIZONTAL CATEGORY BAR — pinned first + scrollable rest ── */
+  /* Outer wrapper: flex row, glass bg + bottom border on the WHOLE bar */
+  .nova-hcat-wrapper {
+    display:flex; align-items:stretch;
     background:rgba(255,255,255,0.04);
     backdrop-filter:blur(24px); -webkit-backdrop-filter:blur(24px);
     border-bottom:1.5px solid rgba(255,255,255,0.09);
   }
-  .nova-hcat-scroll::-webkit-scrollbar { display:none; }
-  .nova-hcat-bar { display:flex; align-items:stretch; width:max-content; }
-  /* Sticky first tab — pinned left, others slide under it */
-  .nova-hcat-btn--sticky {
-    position:sticky; left:0; z-index:10;
+  /* Pinned first tab — outside scroll, opaque bg so scroll content hides behind */
+  .nova-hcat-pin {
+    flex-shrink:0;
     background:#3d4187;
-    border-right:1px solid rgba(255,255,255,0.1);
-    padding-right:16px;
+    border-right:1.5px solid rgba(255,255,255,0.12);
+    z-index:2;
   }
+  /* Scroll container: only remaining tabs */
+  .nova-hcat-scroll {
+    flex:1; min-width:0;
+    overflow-x:auto; overflow-y:hidden;
+    -webkit-overflow-scrolling:touch; scrollbar-width:none;
+    background:transparent;
+  }
+  .nova-hcat-scroll::-webkit-scrollbar { display:none; }
+  .nova-hcat-bar { display:flex; align-items:stretch; width:max-content; height:100%; }
+  /* Every tab button */
   .nova-hcat-btn {
     display:inline-flex; align-items:center; gap:8px;
     padding:11px 18px;
     border:none; border-radius:0; background:transparent;
     cursor:pointer; -webkit-tap-highlight-color:transparent;
-    transition:all 0.2s; white-space:nowrap;
+    transition:opacity 0.15s, color 0.2s; white-space:nowrap;
     position:relative; flex-shrink:0;
   }
-  /* Bottom indicator line — active state */
+  /* Bottom indicator line — slides in when active */
   .nova-hcat-btn::after {
     content:''; position:absolute; bottom:0; left:50%;
-    transform:translateX(-50%) scaleX(0); width:65%; height:2.5px;
+    transform:translateX(-50%) scaleX(0); width:70%; height:2.5px;
     background:linear-gradient(90deg,#818cf8,#c7d2fe);
     border-radius:2px 2px 0 0;
-    transition:transform 0.25s cubic-bezier(0.34,1.56,0.64,1);
+    transition:transform 0.28s cubic-bezier(0.34,1.56,0.64,1);
   }
   .nova-hcat-btn--active::after { transform:translateX(-50%) scaleX(1); }
-  .nova-hcat-btn:active { opacity:0.7; }
-  /* Icon — direct, no box, no frame */
+  .nova-hcat-btn:active { opacity:0.65; }
+  /* Icon */
   .nova-hcat-icon { display:inline-flex; align-items:center; flex-shrink:0; }
   .nova-hcat-img { width:30px; height:30px; object-fit:contain; border-radius:6px; display:block; }
   .nova-hcat-emoji { font-size:26px; line-height:1; display:inline-flex; align-items:center; }
   .nova-hcat-svg { width:28px; height:28px; }
   /* Label */
   .nova-hcat-label { font-size:13px; font-weight:700; color:rgba(255,255,255,0.45); letter-spacing:0.01em; transition:color 0.2s; }
-  .nova-hcat-btn--active .nova-hcat-label { color:rgba(255,255,255,0.95); text-shadow:0 0 14px rgba(200,210,255,0.55); }
+  .nova-hcat-btn--active .nova-hcat-label { color:rgba(255,255,255,0.96); text-shadow:0 0 14px rgba(200,210,255,0.6); }
 
   /* ── GAME CARDS ── */
   .nova-game-card { border-radius:14px; overflow:hidden; cursor:pointer; background:rgba(255,255,255,0.058); border:1px solid rgba(255,255,255,0.14); box-shadow:0 4px 22px rgba(0,0,0,0.55), 0 1px 0 rgba(255,255,255,0.08) inset, 0 0 0 0.5px rgba(34,197,94,0.08); will-change:transform; transform:translateZ(0); transition:transform 0.15s ease, box-shadow 0.15s ease; -webkit-tap-highlight-color:transparent; contain:layout style; }
