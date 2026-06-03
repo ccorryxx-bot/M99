@@ -182,12 +182,12 @@
           <div style="display:flex;gap:3px;">
             <!-- KPay -->
             <div style="display:flex;flex-direction:column;align-items:center;gap:1px;cursor:pointer;" @click="showDepositModal=true">
-              <div class="qsc-icon" style="width:30px;height:30px;border-radius:7px;border:1.5px solid rgba(74,222,128,0.55);background:rgba(74,222,128,0.06);box-shadow:0 0 6px rgba(74,222,128,0.15);animation-delay:0s;"></div>
+              <div class="qsc-icon" style="width:30px;height:30px;border-radius:7px;border:1.5px solid rgba(74,222,128,0.55);background:rgba(74,222,128,0.06);box-shadow:0 0 6px rgba(74,222,128,0.15);animation-delay:0s;overflow:hidden;display:flex;align-items:center;justify-content:center;"><img src="https://ik.imagekit.io/tdpebgueq/Payment%20Method%20/Screenshot_2026-06-04-00-35-27-327_mark.via.gp_1780510112167edit.jpg" style="width:100%;height:100%;object-fit:cover;" @error="e=>e.target.style.display='none'"/></div>
               <span style="font-size:8px;color:rgba(255,255,255,0.6);font-weight:600;">KPay</span>
             </div>
             <!-- Wave -->
             <div style="display:flex;flex-direction:column;align-items:center;gap:1px;cursor:pointer;" @click="showDepositModal=true">
-              <div class="qsc-icon" style="width:30px;height:30px;border-radius:7px;border:1.5px solid rgba(74,222,128,0.55);background:rgba(74,222,128,0.06);box-shadow:0 0 6px rgba(74,222,128,0.15);animation-delay:0.3s;"></div>
+              <div class="qsc-icon" style="width:30px;height:30px;border-radius:7px;border:1.5px solid rgba(74,222,128,0.55);background:rgba(74,222,128,0.06);box-shadow:0 0 6px rgba(74,222,128,0.15);animation-delay:0.3s;overflow:hidden;display:flex;align-items:center;justify-content:center;"><img src="https://ik.imagekit.io/tdpebgueq/Payment%20Method%20/Screenshot_2026-06-04-00-35-34-166_mark.via.gp_1780510124725edit.jpg" style="width:100%;height:100%;object-fit:cover;" @error="e=>e.target.style.display='none'"/></div>
               <span style="font-size:8px;color:rgba(255,255,255,0.6);font-weight:600;">Wave</span>
             </div>
             <!-- UAB -->
@@ -235,39 +235,25 @@
           </div>
         </div>
       </div>
-      <!-- ══ SIDEBAR + GAME GRID ══ -->
-      <div style="display:flex;position:relative;" class="nova-game-area">
+      <!-- ══ CATEGORY BAR + GAME GRID ══ -->
+      <div style="display:flex;flex-direction:column;" class="nova-game-area">
 
-        <!-- LEFT SIDEBAR -->
-        <div class="nova-sidebar">
-          <button v-for="cat in categories" :key="cat.id" @click="activeCategory=cat.id"
-            :class="['nova-cat-btn', activeCategory===cat.id ? 'nova-cat-btn--active' : '']">
-            <canvas v-if="activeCategory===cat.id" class="nova-cat-glow" :ref="el=>registerGlowCanvas(el,cat.id)" width="72" height="74"></canvas>
-            <div class="nova-cat-icon-wrap" :class="cat.brandBg ? 'nova-cat-icon-wrap--brand' : ''">
-              <!-- Brand provider logo (JILI, PP, PG, JDB) -->
-              <svg v-if="cat.brandSvg" class="nova-cat-svg nova-cat-svg--brand" viewBox="0 0 28 28" xmlns="http://www.w3.org/2000/svg" v-html="cat.brandSvg"></svg>
-              <!-- Generic icon -->
-              <svg v-else class="nova-cat-svg" viewBox="0 0 28 28" xmlns="http://www.w3.org/2000/svg">
-                <defs>
-                  <radialGradient :id="'rg-'+cat.id" cx="35%" cy="30%" r="70%">
-                    <stop offset="0%" :stop-color="activeCategory===cat.id?'rgba(120,255,160,0.9)':'rgba(200,210,220,0.5)'"/>
-                    <stop offset="100%" :stop-color="activeCategory===cat.id?'rgba(34,197,94,0.3)':'rgba(80,100,120,0.15)'"/>
-                  </radialGradient>
-                  <filter :id="'gf-'+cat.id"><feGaussianBlur stdDeviation="1.2" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
-                </defs>
-                <circle cx="14" cy="14" r="13" :fill="'url(#rg-'+cat.id+')'"/>
-                <g :filter="'url(#gf-'+cat.id+')'">
-                  <path :d="cat.svgPath" :fill="activeCategory===cat.id?'#4ade80':'rgba(180,195,210,0.75)'"/>
-                </g>
-              </svg>
-            </div>
-            <span class="nova-cat-label">{{ cat.name }}</span>
-            <div v-if="activeCategory===cat.id" class="nova-cat-active-bar"></div>
-          </button>
+        <!-- HORIZONTAL GLASSMORPHISM CATEGORY BAR -->
+        <div class="nova-hcat-scroll">
+          <div class="nova-hcat-bar">
+            <button v-for="cat in categories" :key="cat.id" @click="activeCategory=cat.id"
+              :class="['nova-hcat-btn', activeCategory===cat.id ? 'nova-hcat-btn--active' : '']">
+              <div class="nova-hcat-icon-wrap">
+                <img v-if="cat.imageUrl" :src="cat.imageUrl" class="nova-hcat-img" @error="e=>e.target.style.display='none'"/>
+                <svg v-else-if="cat.arcadeSvg" viewBox="0 0 28 28" xmlns="http://www.w3.org/2000/svg" class="nova-hcat-svg" v-html="cat.arcadeSvg"></svg>
+              </div>
+              <span class="nova-hcat-label">{{ cat.name }}</span>
+            </button>
+          </div>
         </div>
 
-        <!-- RIGHT GAME GRID -->
-        <div style="flex:1;min-width:0;padding:8px 8px 8px 4px;">
+        <!-- GAME GRID (full width) -->
+        <div style="flex:1;min-width:0;padding:8px;">
           <div v-if="loadingGames" style="display:grid;grid-template-columns:repeat(3,1fr);gap:6px;">
             <div v-for="n in 9" :key="n" style="border-radius:12px;aspect-ratio:3/4;background:rgba(255,255,255,0.04);animation:nova-pulse 1.5s ease-in-out infinite;"></div>
           </div>
@@ -890,17 +876,19 @@
   @keyframes nova-marquee { from{transform:translateX(100vw);}to{transform:translateX(-100%);} }
   .nova-marquee { display:inline-block; animation:nova-marquee 30s linear infinite; will-change:transform; white-space:nowrap; font-size:12px; color:rgba(255,255,255,0.58); }
 
-  /* ── SIDEBAR — scrolls together with game grid ── */
-  .nova-sidebar { width:72px; flex-shrink:0; align-self:flex-start; background:rgba(7,12,26,0.96); border-right:1px solid rgba(34,197,94,0.12); padding:6px 0; box-shadow:4px 0 16px rgba(0,0,0,0.35); transform:translateZ(0); }
-  .nova-cat-btn { position:relative; width:100%; display:flex; flex-direction:column; align-items:center; gap:5px; padding:10px 4px; background:transparent; border:none; cursor:pointer; -webkit-tap-highlight-color:transparent; overflow:hidden; transition:background 0.2s; }
-  .nova-cat-btn--active { background:rgba(34,197,94,0.06); }
-  .nova-cat-glow { position:absolute; inset:0; width:100%; height:100%; pointer-events:none; z-index:0; }
-  .nova-cat-icon-wrap { position:relative; z-index:1; width:40px; height:40px; border-radius:12px; display:flex; align-items:center; justify-content:center; background:rgba(255,255,255,0.06); border:1px solid rgba(255,255,255,0.1); transition:background 0.2s, border-color 0.2s; overflow:hidden; }
-  .nova-cat-btn--active .nova-cat-icon-wrap { background:rgba(34,197,94,0.12); border-color:rgba(34,197,94,0.4); }
-  .nova-cat-svg { width:18px; height:18px; }
-  .nova-cat-label { position:relative; z-index:1; font-size:9px; font-weight:700; color:rgba(255,255,255,0.38); text-align:center; line-height:1.2; letter-spacing:0.01em; word-break:break-all; transition:color 0.2s; }
-  .nova-cat-btn--active .nova-cat-label { color:rgba(74,222,128,0.9); }
-  .nova-cat-active-bar { position:absolute; left:0; top:20%; bottom:20%; width:3px; border-radius:0 2px 2px 0; background:linear-gradient(to bottom,#4ade80,#22c55e); box-shadow:0 0 8px rgba(34,197,94,0.6); }
+  /* ── HORIZONTAL CATEGORY BAR (glassmorphism) ── */
+  .nova-hcat-scroll { width:100%; overflow-x:auto; overflow-y:hidden; -webkit-overflow-scrolling:touch; scrollbar-width:none; padding:10px 12px 6px; box-sizing:border-box; background:rgba(255,255,255,0.04); border-bottom:1px solid rgba(255,255,255,0.08); backdrop-filter:blur(20px); -webkit-backdrop-filter:blur(20px); }
+  .nova-hcat-scroll::-webkit-scrollbar { display:none; }
+  .nova-hcat-bar { display:flex; gap:8px; width:max-content; }
+  .nova-hcat-btn { display:inline-flex; align-items:center; gap:8px; padding:7px 13px 7px 9px; border:none; border-radius:50px; background:rgba(255,255,255,0.07); backdrop-filter:blur(16px); -webkit-backdrop-filter:blur(16px); border:1px solid rgba(255,255,255,0.12); cursor:pointer; -webkit-tap-highlight-color:transparent; transition:all 0.22s ease; white-space:nowrap; box-shadow:0 2px 12px rgba(0,0,0,0.25), inset 0 1px 0 rgba(255,255,255,0.1); }
+  .nova-hcat-btn--active { background:rgba(99,102,241,0.25); border-color:rgba(129,140,248,0.55); box-shadow:0 0 18px rgba(99,102,241,0.4), 0 2px 12px rgba(0,0,0,0.3), inset 0 1px 0 rgba(255,255,255,0.18); }
+  .nova-hcat-btn:active { transform:scale(0.95); opacity:0.85; }
+  .nova-hcat-icon-wrap { width:32px; height:32px; border-radius:10px; overflow:hidden; display:flex; align-items:center; justify-content:center; background:rgba(255,255,255,0.08); border:1px solid rgba(255,255,255,0.12); flex-shrink:0; }
+  .nova-hcat-btn--active .nova-hcat-icon-wrap { border-color:rgba(129,140,248,0.5); background:rgba(99,102,241,0.18); }
+  .nova-hcat-img { width:100%; height:100%; object-fit:cover; display:block; }
+  .nova-hcat-svg { width:28px; height:28px; }
+  .nova-hcat-label { font-size:12px; font-weight:700; color:rgba(255,255,255,0.6); letter-spacing:0.01em; transition:color 0.2s; }
+  .nova-hcat-btn--active .nova-hcat-label { color:#c7d2fe; text-shadow:0 0 10px rgba(129,140,248,0.6); }
 
   /* ── GAME CARDS ── */
   .nova-game-card { border-radius:14px; overflow:hidden; cursor:pointer; background:rgba(255,255,255,0.058); border:1px solid rgba(255,255,255,0.14); box-shadow:0 4px 22px rgba(0,0,0,0.55), 0 1px 0 rgba(255,255,255,0.08) inset, 0 0 0 0.5px rgba(34,197,94,0.08); will-change:transform; transform:translateZ(0); transition:transform 0.15s ease, box-shadow 0.15s ease; -webkit-tap-highlight-color:transparent; contain:layout style; }
@@ -1105,7 +1093,7 @@
   }
 
   /* ── BRAND LOGOS in sidebar ── */
-  .nova-cat-icon-wrap--brand {
+  /* .nova-cat-icon-wrap--brand legacy — removed */.nova-cat-icon-wrap--brand-legacy {
     background:transparent !important;
     border-color:transparent !important;
     box-shadow:none !important;
@@ -1165,7 +1153,7 @@
 
   /* ══ HIGH FPS GPU ACCELERATION ══ */
   /* Promote scroll container to own GPU layer */
-  .nova-game-scroll, .nova-sidebar { will-change:transform; transform:translateZ(0); }
+  .nova-game-scroll { will-change:transform; transform:translateZ(0); }
   /* Prevent layout thrash on animated elements */
   .nova-game-card, .qsc-icon, .nova-cat-icon-wrap, .nova-cash-btn, .nova-coin,
   .nova-bottom-nav, .nova-header, .holo-scan, .portrait-svg {
@@ -1173,11 +1161,11 @@
   }
   /* Touch action: let browser know we only scroll vertically */
   .nova-app { touch-action:pan-y; }
-  .nova-sidebar { touch-action:pan-y; }
+  .nova-hcat-scroll { touch-action:pan-x; }
   /* Contain paint for isolated sections */
   .nova-game-card, .nova-cat-icon-wrap { contain:layout style paint; }
   /* Smooth momentum for game grid container */
-  .nova-game-area { -webkit-overflow-scrolling:touch; overscroll-behavior-y:contain; scroll-behavior:smooth; }
+  .nova-game-area { overscroll-behavior-y:contain; }
   /* Reduce layout shift during scroll */
   .nova-cat-btn { contain:layout style; }
   /* Orb drift animations (smooth, low CPU) */
@@ -1189,7 +1177,7 @@
   /* Active nav item glow */
   .nova-nav-active svg { filter:drop-shadow(0 0 5px rgba(34,197,94,0.7)); }
   /* Color boost — green glow on active cat bar */
-  .nova-cat-active-bar { box-shadow:0 0 12px rgba(34,197,94,0.8), 0 0 24px rgba(34,197,94,0.4); }
+
   /* Bottom nav item press — opacity only, no layout shift */
   /* Colorful header logo pulse */
   .nova-logo { animation:logo-pulse 4s ease-in-out infinite; }
