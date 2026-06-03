@@ -16,9 +16,9 @@
 
     <div class="px-4 pt-6 space-y-6 relative z-10">
       <!-- Login -->
-      <div v-if="!loggedIn" class="bg-[#111d26] border border-cyan-500/10 rounded-2xl p-5 text-center">
+      <div v-if="!loggedIn" class="bg-[#2e3375] border border-cyan-500/10 rounded-2xl p-5 text-center">
         <p class="text-gray-400 mb-4">Enter admin password</p>
-        <input v-model="adminKey" type="password" placeholder="Admin Secret" class="w-full max-w-xs p-3 rounded-xl bg-[#0b141a] border border-cyan-500/20 text-white text-sm focus:outline-none focus:border-cyan-500/50 mb-4" @keyup.enter="login" />
+        <input v-model="adminKey" type="password" placeholder="Admin Secret" class="w-full max-w-xs p-3 rounded-xl bg-[#252870] border border-cyan-500/20 text-white text-sm focus:outline-none focus:border-cyan-500/50 mb-4" @keyup.enter="login" />
         <button @click="login" :disabled="loginLoading" class="nova-glass-cta-cyan text-white font-bold py-3 px-8 rounded-full">
           {{ loginLoading ? 'Verifying...' : 'Login' }}
         </button>
@@ -30,11 +30,11 @@
         <!-- Tab 0: Transactions -->
         <div v-if="activeTab === 0">
           <!-- Filter Form -->
-          <div class="bg-[#111d26] border border-cyan-500/10 rounded-2xl p-5 mb-4">
+          <div class="bg-[#2e3375] border border-cyan-500/10 rounded-2xl p-5 mb-4">
             <div class="grid grid-cols-2 gap-3">
               <div>
                 <label class="text-xs text-gray-400 mb-1 block">Status</label>
-                <select v-model="filter.status" class="w-full p-2.5 rounded-lg bg-[#0b141a] border border-cyan-500/20 text-white text-sm focus:outline-none focus:border-cyan-500/50">
+                <select v-model="filter.status" class="w-full p-2.5 rounded-lg bg-[#252870] border border-cyan-500/20 text-white text-sm focus:outline-none focus:border-cyan-500/50">
                   <option value="">All</option>
                   <option value="pending">Pending</option>
                   <option value="confirmed">Confirmed</option>
@@ -43,7 +43,7 @@
               </div>
               <div>
                 <label class="text-xs text-gray-400 mb-1 block">Type</label>
-                <select v-model="filter.type" class="w-full p-2.5 rounded-lg bg-[#0b141a] border border-cyan-500/20 text-white text-sm focus:outline-none focus:border-cyan-500/50">
+                <select v-model="filter.type" class="w-full p-2.5 rounded-lg bg-[#252870] border border-cyan-500/20 text-white text-sm focus:outline-none focus:border-cyan-500/50">
                   <option value="">All</option>
                   <option value="deposit">Deposit</option>
                   <option value="withdraw">Withdraw</option>
@@ -54,7 +54,7 @@
           </div>
 
           <!-- Transaction List -->
-          <div class="bg-[#111d26] border border-cyan-500/10 rounded-2xl p-5">
+          <div class="bg-[#2e3375] border border-cyan-500/10 rounded-2xl p-5">
             <h3 class="font-bold text-white mb-4">Transactions</h3>
             <div v-if="loadingTx" class="text-center py-4 text-gray-500">Loading...</div>
             <div v-else-if="txError" class="text-center py-4 text-red-400">{{ txError }}</div>
@@ -85,22 +85,22 @@
 
         <!-- Tab 1: Settings -->
         <div v-if="activeTab === 1">
-          <div class="bg-[#111d26] border border-cyan-500/10 rounded-2xl p-5 space-y-4">
+          <div class="bg-[#2e3375] border border-cyan-500/10 rounded-2xl p-5 space-y-4">
             <div>
               <h4 class="text-sm text-cyan-300 mb-2">KBZ Pay</h4>
               <label class="text-xs text-gray-400">Recipient Name</label>
-              <input v-model="settings.kpay_recipient_name" class="w-full p-2.5 rounded-lg bg-[#0b141a] border border-cyan-500/20 text-white text-sm focus:outline-none focus:border-cyan-500/50 mb-2" />
+              <input v-model="settings.kpay_recipient_name" class="w-full p-2.5 rounded-lg bg-[#252870] border border-cyan-500/20 text-white text-sm focus:outline-none focus:border-cyan-500/50 mb-2" />
               <label class="text-xs text-gray-400">Account Number</label>
-              <input v-model="settings.kpay_recipient_account" class="w-full p-2.5 rounded-lg bg-[#0b141a] border border-cyan-500/20 text-white text-sm focus:outline-none focus:border-cyan-500/50" />
+              <input v-model="settings.kpay_recipient_account" class="w-full p-2.5 rounded-lg bg-[#252870] border border-cyan-500/20 text-white text-sm focus:outline-none focus:border-cyan-500/50" />
             </div>
             <div>
               <h4 class="text-sm text-cyan-300 mb-2">Commission & Wagering</h4>
               <label class="text-xs text-gray-400">Direct Commission Rate (%)</label>
-              <input v-model="settings.commission_direct_rate" type="number" step="0.1" class="w-full p-2.5 rounded-lg bg-[#0b141a] border border-cyan-500/20 text-white text-sm focus:outline-none focus:border-cyan-500/50 mb-2" />
+              <input v-model="settings.commission_direct_rate" type="number" step="0.1" class="w-full p-2.5 rounded-lg bg-[#252870] border border-cyan-500/20 text-white text-sm focus:outline-none focus:border-cyan-500/50 mb-2" />
               <label class="text-xs text-gray-400">Override Commission Rate (%)</label>
-              <input v-model="settings.commission_override_rate" type="number" step="0.1" class="w-full p-2.5 rounded-lg bg-[#0b141a] border border-cyan-500/20 text-white text-sm focus:outline-none focus:border-cyan-500/50 mb-2" />
+              <input v-model="settings.commission_override_rate" type="number" step="0.1" class="w-full p-2.5 rounded-lg bg-[#252870] border border-cyan-500/20 text-white text-sm focus:outline-none focus:border-cyan-500/50 mb-2" />
               <label class="text-xs text-gray-400">Wagering Multiplier</label>
-              <input v-model="settings.wagering_multiplier" type="number" step="1" class="w-full p-2.5 rounded-lg bg-[#0b141a] border border-cyan-500/20 text-white text-sm focus:outline-none focus:border-cyan-500/50" />
+              <input v-model="settings.wagering_multiplier" type="number" step="1" class="w-full p-2.5 rounded-lg bg-[#252870] border border-cyan-500/20 text-white text-sm focus:outline-none focus:border-cyan-500/50" />
             </div>
             <button @click="saveSettings" :disabled="savingSettings" class="nova-glass-cta-cyan w-full text-white font-bold py-3 rounded-full">
               {{ savingSettings ? 'Saving...' : 'Save Settings' }}
@@ -110,18 +110,18 @@
         </div>
 
         <!-- Tab 2: Users -->
-        <div v-if="activeTab === 2" class="bg-[#111d26] border border-cyan-500/10 rounded-2xl p-5 text-center text-gray-500 py-10">
+        <div v-if="activeTab === 2" class="bg-[#2e3375] border border-cyan-500/10 rounded-2xl p-5 text-center text-gray-500 py-10">
           User management coming soon.
         </div>
 
         <!-- Tab 3: Games -->
-        <div v-if="activeTab === 3" class="bg-[#111d26] border border-cyan-500/10 rounded-2xl p-5 text-center text-gray-500 py-10">
+        <div v-if="activeTab === 3" class="bg-[#2e3375] border border-cyan-500/10 rounded-2xl p-5 text-center text-gray-500 py-10">
           Game management coming soon.
         </div>
       </div>
     </div>
 
-    <nav class="fixed bottom-0 left-0 right-0 bg-[#0b141a]/95 backdrop-blur-xl border-t border-cyan-500/10 z-40 py-2">
+    <nav class="fixed bottom-0 left-0 right-0 bg-[#252870]/95 backdrop-blur-xl border-t border-cyan-500/10 z-40 py-2">
       <div class="flex justify-center">
         <span class="text-xs text-gray-500">Admin Panel v1.0</span>
       </div>
@@ -230,7 +230,7 @@ const copyToClipboard = (text) => {
 </script>
 
 <style scoped>
-.nova-page-bg { background: #262b27; min-height:100vh; color:#fff; overscroll-behavior:contain; -webkit-tap-highlight-color:rgba(0,0,0,0); }
+.nova-page-bg { background: #3d4187; min-height:100vh; color:#fff; overscroll-behavior:contain; -webkit-tap-highlight-color:rgba(0,0,0,0); }
 .nova-bg-orb { position:fixed; border-radius:50%; pointer-events:none; z-index:0; }
 .nova-bg-orb--1 { width:300px; height:300px; top:-80px; left:-80px; background:radial-gradient(circle,rgba(34,197,94,0.13) 0%,rgba(34,197,94,0.04) 50%,transparent 70%); animation:orb-drift1 12s ease-in-out infinite; }
 .nova-bg-orb--2 { width:340px; height:340px; top:38%; right:-110px; background:radial-gradient(circle,rgba(99,102,241,0.12) 0%,rgba(56,189,248,0.06) 45%,transparent 70%); animation:orb-drift2 16s ease-in-out infinite; }

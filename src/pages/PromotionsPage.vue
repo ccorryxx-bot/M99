@@ -100,7 +100,7 @@
 /* ── Root ── */
 .promo-root {
   min-height: 100dvh;
-  background: #262b27;
+  background: #3d4187;
   color: #fff;
   overscroll-behavior: contain;
   -webkit-tap-highlight-color: transparent;

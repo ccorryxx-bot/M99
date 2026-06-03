@@ -9,7 +9,7 @@
             <span class="nova-ndot nova-ndot--2"></span>
             <span class="nova-ndot nova-ndot--3"></span>
           </div>
-          <div class="nova-brand"><span class="nbr-thin">iW</span><span class="nbr-bold">99</span></div>
+          <div class="nova-brand"><img src="https://ik.imagekit.io/tdpebgueq/Brand%20Name%20Logo/IMG_20260602_154542.png?updatedAt=1780391788280" alt="iW99" style="height:34px;width:auto;object-fit:contain;display:block;" /></div>
         </div>
         <div style="display:flex;align-items:center;gap:8px;">
           <button @click="toggleLanguage" class="glass-btn-sm" style="color:rgba(34,197,94,0.9);font-size:11px;font-weight:700;padding:5px 10px;">{{ currentLang === 'en' ? '🇲🇲 မြန်မာ' : '🇬🇧 EN' }}</button>
@@ -26,7 +26,7 @@
       </div>
 
       <!-- ══ BANNER ══ -->
-      <div style="position:relative;overflow:hidden;aspect-ratio:2.2/1;background:#0d0d0d;">
+      <div style="position:relative;overflow:hidden;aspect-ratio:2.2/1;background:#252870;">
         <div style="display:flex;transition:transform 0.42s cubic-bezier(0.25,0.46,0.45,0.94);will-change:transform;"
           :style="{ transform: 'translateX(-' + (bannerIdx*100) + '%)' }"
           @touchstart="onBannerTouchStart" @touchmove.prevent="onBannerTouchMove" @touchend="onBannerTouchEnd">
@@ -43,13 +43,13 @@
       </div>
 
       <!-- ══ MARQUEE ══ -->
-      <div class="nova-marquee-bar" style="display:flex;align-items:center;background:rgba(7,12,26,0.92);border-top:1px solid rgba(34,197,94,0.1);border-bottom:1px solid rgba(34,197,94,0.1);padding:7px 12px;gap:8px;overflow:hidden;">
+      <div class="nova-marquee-bar" style="display:flex;align-items:center;background:rgba(45,51,117,0.92);border-top:1px solid rgba(34,197,94,0.1);border-bottom:1px solid rgba(34,197,94,0.1);padding:7px 12px;gap:8px;overflow:hidden;">
         <!-- Modern animated bell -->
         <div class="nova-bell-wrap" style="flex-shrink:0;">
           <svg class="nova-bell-svg" width="19" height="19" viewBox="0 0 24 24" fill="none">
             <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9" stroke="rgba(34,197,94,0.95)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
             <path d="M13.73 21a2 2 0 0 1-3.46 0" stroke="rgba(34,197,94,0.95)" stroke-width="2" stroke-linecap="round"/>
-            <circle cx="18" cy="6" r="3" fill="#ef4444" stroke="#0d1222" stroke-width="1.5"/>
+            <circle cx="18" cy="6" r="3" fill="#ef4444" stroke="#2e3375" stroke-width="1.5"/>
           </svg>
         </div>
         <div style="flex:1;overflow:hidden;"><span class="nova-marquee">iW99 မှ ကြိုဆိုပါသည်&nbsp;&nbsp;&nbsp;ငွေသွင်းငွေထုတ် 24/7&nbsp;&nbsp;&nbsp;JILI, PP, PG ဂိမ်းများ&nbsp;&nbsp;&nbsp;VIP အဖွဲ့ဝင်များ အထူးဆုများ&nbsp;&nbsp;&nbsp;Customer Support 24/7&nbsp;&nbsp;&nbsp;</span></div>
@@ -283,7 +283,7 @@
               class="nova-game-card" @click="openGame(game)"
               @touchstart="e=>e.currentTarget.style.transform='scale(0.93)'"
               @touchend="e=>e.currentTarget.style.transform='scale(1)'">
-              <div style="position:relative;aspect-ratio:3/4;overflow:hidden;background:#0d1222;">
+              <div style="position:relative;aspect-ratio:3/4;overflow:hidden;background:#2e3375;">
                 <img :src="game.image_url" alt="" @error="e=>e.target.style.display='none'" style="width:100%;height:100%;object-fit:cover;display:block;" loading="lazy"/>
                 <div style="position:absolute;inset:0;background:linear-gradient(to top,rgba(6,8,18,0.95) 0%,rgba(6,8,18,0.3) 40%,transparent 100%);"></div>
                 <div v-if="idx%5<2" class="nova-badge nova-badge--hot">HOT</div>
@@ -785,32 +785,18 @@
   <style scoped>
   @import url('https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@300;600&display=swap');
   /* ── BASE ── */
-  .nova-app { background: #262b27; min-height:100vh; color:#fff; -webkit-tap-highlight-color:rgba(0,0,0,0); overscroll-behavior:contain; -webkit-overflow-scrolling:touch; scroll-behavior:smooth; }
+  .nova-app { background: #3d4187; min-height:100vh; color:#fff; -webkit-tap-highlight-color:rgba(0,0,0,0); overscroll-behavior:contain; -webkit-overflow-scrolling:touch; scroll-behavior:smooth; }
 .nova-bg-orb { position:fixed; border-radius:50%; pointer-events:none; z-index:0; }
 .nova-bg-orb--1 { width:300px; height:300px; top:-80px; left:-80px; background:radial-gradient(circle,rgba(34,197,94,0.13) 0%,rgba(34,197,94,0.04) 50%,transparent 70%); animation:orb-drift1 12s ease-in-out infinite; }
 .nova-bg-orb--2 { width:340px; height:340px; top:38%; right:-110px; background:radial-gradient(circle,rgba(99,102,241,0.12) 0%,rgba(56,189,248,0.06) 45%,transparent 70%); animation:orb-drift2 16s ease-in-out infinite; }
 .nova-bg-orb--3 { width:240px; height:240px; bottom:70px; left:-20px; background:radial-gradient(circle,rgba(168,85,247,0.1) 0%,rgba(236,72,153,0.05) 50%,transparent 70%); animation:orb-drift3 14s ease-in-out infinite; }
 
-  /* ══ BRAND TEXT — Sticker-on-screen style ══ */
-  .nova-brand-wrap { position:relative; z-index:1; display:flex; flex-direction:column; gap:2px; }
+  /* ══ BRAND LOGO ══ */
+  .nova-brand-wrap { position:relative; z-index:1; display:flex; align-items:center; gap:8px; }
   .nova-brand {
-    font-family: 'Chakra Petch', 'Orbitron', system-ui, sans-serif;
-    font-size: 20px;
-    letter-spacing: 0.28em;
-    text-transform: uppercase;
-    line-height: 1;
-    position: relative;
+    display: flex;
+    align-items: center;
     user-select: none;
-  }
-  .nbr-thin {
-    font-weight: 300;
-    color: rgba(255,255,255,0.9);
-    text-shadow: 0 0 10px rgba(6,182,212,0.45), 0 0 28px rgba(6,182,212,0.12);
-  }
-  .nbr-bold {
-    font-weight: 600;
-    color: #fff;
-    text-shadow: 0 0 8px rgba(6,182,212,0.6), 0 0 22px rgba(6,182,212,0.18);
   }
   /* Neural dots */
   .nova-neural-dots { display:flex; gap:4px; align-items:center; padding-left:1px; }
@@ -884,7 +870,7 @@
 
   /* ── INBOX MODAL ── */
   .nova-inbox-overlay { position:fixed; inset:0; z-index:500; background:rgba(0,0,0,0.72); display:flex; flex-direction:column; justify-content:flex-end; }
-  .nova-inbox-sheet { background:#1c201d; border-radius:20px 20px 0 0; border-top:1px solid rgba(34,197,94,0.2); max-height:70vh; overflow-y:auto; padding:0 0 80px; }
+  .nova-inbox-sheet { background:#2e3375; border-radius:20px 20px 0 0; border-top:1px solid rgba(34,197,94,0.2); max-height:70vh; overflow-y:auto; padding:0 0 80px; }
   .nova-inbox-handle { width:36px; height:4px; background:rgba(255,255,255,0.15); border-radius:2px; margin:12px auto 0; }
   .nova-inbox-header { display:flex; justify-content:space-between; align-items:center; padding:14px 18px 12px; border-bottom:1px solid rgba(255,255,255,0.06); }
   .nova-inbox-empty { display:flex; flex-direction:column; align-items:center; justify-content:center; padding:48px 20px; }
@@ -1071,7 +1057,7 @@
   .nova-footer-link { font-size:11px;color:rgba(255,255,255,0.45);cursor:pointer;line-height:1.5; }
 
   /* ── BOTTOM NAV ── */
-  .nova-bottom-nav { position:fixed;bottom:0;left:0;right:0;z-index:200;background:rgba(6,10,22,0.92);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);border-top:1px solid rgba(255,255,255,0.1);padding-bottom:env(safe-area-inset-bottom,0);box-shadow:0 -4px 28px rgba(0,0,0,0.45), 0 -1px 0 rgba(255,255,255,0.05) inset; }
+  .nova-bottom-nav { position:fixed;bottom:0;left:0;right:0;z-index:200;background:rgba(45,51,117,0.92);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);border-top:1px solid rgba(255,255,255,0.1);padding-bottom:env(safe-area-inset-bottom,0);box-shadow:0 -4px 28px rgba(0,0,0,0.45), 0 -1px 0 rgba(255,255,255,0.05) inset; }
   .nova-nav-item { flex:1;min-width:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;color:rgba(255,255,255,0.28);font-size:9px;font-weight:700;padding:6px 4px;border-radius:10px;transition:color 0.2s,opacity 0.15s;-webkit-tap-highlight-color:transparent;user-select:none;letter-spacing:0.03em;contain:layout style; }
   .nova-nav-item svg { flex-shrink:0;width:24px;height:24px;display:block; }
   .nova-nav-item span { display:block;white-space:nowrap;line-height:1; }
@@ -1169,7 +1155,7 @@
   /* ── GLASS SECTIONS ── */
   .glass-section { background:rgba(255,255,255,0.03); border-top:1px solid rgba(255,255,255,0.06); border-bottom:1px solid rgba(255,255,255,0.06); }
   .glass-user-row { background:rgba(255,255,255,0.03); border-bottom:1px solid rgba(255,255,255,0.06); }
-  .glass-marquee { background:rgba(8,14,28,0.92) !important; }
+  .glass-marquee { background:rgba(45,51,117,0.92) !important; }
   /* Smooth mobile scroll on game grid */
   .nova-game-scroll { -webkit-overflow-scrolling:touch; overflow-y:auto; scroll-behavior:smooth; }
   /* Floating card feel on QSC icons */
@@ -1209,7 +1195,7 @@
   .nova-logo { animation:logo-pulse 4s ease-in-out infinite; }
   @keyframes logo-pulse { 0%,100%{box-shadow:0 0 18px rgba(34,197,94,0.45);}50%{box-shadow:0 0 28px rgba(34,197,94,0.7), 0 0 48px rgba(34,197,94,0.2);} }
   /* Marquee bar color accent */
-  .nova-marquee-bar { background:rgba(7,12,26,0.92) !important; border-top:1px solid rgba(34,197,94,0.1) !important; border-bottom:1px solid rgba(34,197,94,0.1) !important; }
+  .nova-marquee-bar { background:rgba(45,51,117,0.92) !important; border-top:1px solid rgba(34,197,94,0.1) !important; border-bottom:1px solid rgba(34,197,94,0.1) !important; }
 
   /* ══ AI BRAIN AGENT BUTTON — elevated floating ══ */
   .nova-agent-inactive { color: rgba(255,255,255,0.45); }
@@ -1220,7 +1206,7 @@
     background: radial-gradient(circle at 42% 38%, rgba(245,158,11,0.14) 0%, rgba(5,8,20,0.98) 65%);
     border: 1.5px solid rgba(245,158,11,0.55);
     box-shadow:
-      0 0 0 3px rgba(6,10,22,0.75),
+      0 0 0 3px rgba(45,51,117,0.75),
       0 0 18px rgba(245,158,11,0.42),
       0 0 38px rgba(245,158,11,0.16),
       0 -8px 22px rgba(0,0,0,0.75);
@@ -1230,8 +1216,8 @@
     animation: bwrap-pulse 3s ease-in-out infinite;
   }
   @keyframes bwrap-pulse {
-    0%,100% { box-shadow: 0 0 0 3px rgba(6,10,22,0.75), 0 0 16px rgba(245,158,11,0.38), 0 0 32px rgba(245,158,11,0.12), 0 -8px 22px rgba(0,0,0,0.75); }
-    50%      { box-shadow: 0 0 0 3px rgba(6,10,22,0.75), 0 0 28px rgba(245,158,11,0.62), 0 0 54px rgba(245,158,11,0.24), 0 -8px 22px rgba(0,0,0,0.75); }
+    0%,100% { box-shadow: 0 0 0 3px rgba(45,51,117,0.75), 0 0 16px rgba(245,158,11,0.38), 0 0 32px rgba(245,158,11,0.12), 0 -8px 22px rgba(0,0,0,0.75); }
+    50%      { box-shadow: 0 0 0 3px rgba(45,51,117,0.75), 0 0 28px rgba(245,158,11,0.62), 0 0 54px rgba(245,158,11,0.24), 0 -8px 22px rgba(0,0,0,0.75); }
   }
   /* Neural tendril flow — signal moving outward */
   .nb-tdl { animation: tdl-flow 1.8s linear infinite; }

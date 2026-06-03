@@ -21,19 +21,19 @@
             <animate attributeName="r" values="5;11;5" dur="2.5s" repeatCount="indefinite"/>
             <animate attributeName="opacity" values="0.7;0;0.7" dur="2.5s" repeatCount="indefinite"/>
           </circle>
-          <circle cx="19" cy="20" r="5" fill="#262b27" stroke="#60a5fa" stroke-width="1.8" filter="url(#gnav-pf)"/>
+          <circle cx="19" cy="20" r="5" fill="#3d4187" stroke="#60a5fa" stroke-width="1.8" filter="url(#gnav-pf)"/>
           <circle cx="19" cy="18.5" r="1.6" fill="none" stroke="#60a5fa" stroke-width="1.2"/>
           <path d="M 15.5 22.5 Q 16 20.5 19 20 Q 22 20.5 22.5 22.5" fill="none" stroke="#60a5fa" stroke-width="1.2" stroke-linecap="round"/>
-          <circle cx="7" cy="10" r="3.5" fill="#262b27" stroke="#93c5fd" stroke-width="1.5"/>
+          <circle cx="7" cy="10" r="3.5" fill="#3d4187" stroke="#93c5fd" stroke-width="1.5"/>
           <circle cx="7" cy="9" r="1.2" fill="none" stroke="#93c5fd" stroke-width="1"/>
           <path d="M 4.5 12 Q 5 10.5 7 10 Q 9 10.5 9.5 12" fill="none" stroke="#93c5fd" stroke-width="1" stroke-linecap="round"/>
-          <circle cx="31" cy="10" r="3.5" fill="#262b27" stroke="#93c5fd" stroke-width="1.5"/>
+          <circle cx="31" cy="10" r="3.5" fill="#3d4187" stroke="#93c5fd" stroke-width="1.5"/>
           <circle cx="31" cy="9" r="1.2" fill="none" stroke="#93c5fd" stroke-width="1"/>
           <path d="M 28.5 12 Q 29 10.5 31 10 Q 33 10.5 33.5 12" fill="none" stroke="#93c5fd" stroke-width="1" stroke-linecap="round"/>
-          <circle cx="6" cy="32" r="3.5" fill="#262b27" stroke="#93c5fd" stroke-width="1.5"/>
+          <circle cx="6" cy="32" r="3.5" fill="#3d4187" stroke="#93c5fd" stroke-width="1.5"/>
           <circle cx="6" cy="31" r="1.2" fill="none" stroke="#93c5fd" stroke-width="1"/>
           <path d="M 3.5 34 Q 4 32.5 6 32 Q 8 32.5 8.5 34" fill="none" stroke="#93c5fd" stroke-width="1" stroke-linecap="round"/>
-          <circle cx="32" cy="32" r="3.5" fill="#262b27" stroke="#93c5fd" stroke-width="1.5"/>
+          <circle cx="32" cy="32" r="3.5" fill="#3d4187" stroke="#93c5fd" stroke-width="1.5"/>
           <circle cx="32" cy="31" r="1.2" fill="none" stroke="#93c5fd" stroke-width="1"/>
           <path d="M 29.5 34 Q 30 32.5 32 32 Q 34 32.5 34.5 34" fill="none" stroke="#93c5fd" stroke-width="1" stroke-linecap="round"/>
           <circle r="1.5" fill="#60a5fa" opacity="0.9" filter="url(#gnav-pf)">
@@ -128,7 +128,7 @@ const route = useRoute()
 <style scoped>
 .gnav {
   position: fixed; bottom: 0; left: 0; right: 0; z-index: 200;
-  background: #1c201d;
+  background: #2e3375;
   border-top: 1px solid rgba(59,130,246,0.15);
   padding-bottom: env(safe-area-inset-bottom, 0);
   box-shadow: 0 -2px 16px rgba(0,0,0,0.4);

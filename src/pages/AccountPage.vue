@@ -4,18 +4,18 @@
     <!-- ══ HEADER ══ -->
     <header class="nova-acc-header">
       <button @click="$router.back()" class="nova-icon-btn">
-        <svg class="w-5 h-5" fill="none" stroke="#222" viewBox="0 0 24 24">
+        <svg class="w-5 h-5" fill="none" stroke="rgba(255,255,255,0.85)" viewBox="0 0 24 24">
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/>
         </svg>
       </button>
       <div class="flex items-center gap-2">
         <button class="nova-icon-btn">
-          <svg class="w-4 h-4" fill="none" stroke="#444" viewBox="0 0 24 24">
+          <svg class="w-4 h-4" fill="none" stroke="rgba(255,255,255,0.7)" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"/>
           </svg>
         </button>
         <button class="nova-icon-btn relative">
-          <svg class="w-4 h-4" fill="none" stroke="#444" viewBox="0 0 24 24">
+          <svg class="w-4 h-4" fill="none" stroke="rgba(255,255,255,0.7)" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 10h.01M12 10h.01M16 10h.01M9 16H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-5l-5 5v-5z"/>
           </svg>
           <span class="notif-dot">3</span>
@@ -82,7 +82,7 @@
             </svg>
           </div>
           <span class="action-menu-lbl">ငွေထုတ်ရန်</span>
-          <svg class="m-arr" fill="none" stroke="#888" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
+          <svg class="m-arr" fill="none" stroke="rgba(255,255,255,0.45)" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
         </button>
 
         <div class="menu-divider"></div>
@@ -97,7 +97,7 @@
             </svg>
           </div>
           <span class="action-menu-lbl">ငွေသွင်းရန်</span>
-          <svg class="m-arr" fill="none" stroke="#888" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
+          <svg class="m-arr" fill="none" stroke="rgba(255,255,255,0.45)" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
         </button>
 
       </div>
@@ -435,7 +435,7 @@ const comingSoon = () => alert('Coming Soon')
   flex-direction: column;
   min-height: 100dvh;
   width: 100%;
-  background: #262b27;
+  background: #3d4187;
   color: #fff;
   overscroll-behavior: contain;
   -webkit-tap-highlight-color: transparent;
@@ -454,15 +454,15 @@ const comingSoon = () => alert('Coming Soon')
   width: 34px; height: 34px;
   display: flex; align-items: center; justify-content: center;
   border-radius: 10px;
-  background: #b0baaf;
-  border: 1px solid rgba(0,0,0,0.12);
-  box-shadow: 0 2px 6px rgba(0,0,0,0.15), inset 0 1px 0 rgba(255,255,255,0.25);
+  background: rgba(255,255,255,0.12);
+  border: 1px solid rgba(255,255,255,0.18);
+  box-shadow: 0 2px 6px rgba(0,0,0,0.25);
   cursor: pointer;
   transition: transform 0.12s, background 0.12s;
 }
 .nova-icon-btn:active {
   transform: scale(0.88);
-  background: #2e3530;
+  background: #4a4e99;
 }
 .notif-dot {
   position: absolute; top: -3px; right: -3px;
@@ -494,10 +494,10 @@ const comingSoon = () => alert('Coming Soon')
   padding: 10px 12px;
   flex: 1;
   min-width: 0;
-  border: 1px solid rgba(34,197,94,0.4);
+  border: 1px solid rgba(99,102,241,0.5);
   border-radius: 14px;
-  background: #b0baaf;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.13), inset 0 1px 0 rgba(255,255,255,0.22);
+  background: rgba(255,255,255,0.08);
+  box-shadow: 0 2px 8px rgba(0,0,0,0.25), inset 0 1px 0 rgba(255,255,255,0.1);
   animation: green-pulse 3s ease-in-out infinite;
 }
 @keyframes green-pulse {
@@ -514,9 +514,9 @@ const comingSoon = () => alert('Coming Soon')
 .profile-username { font-size: 15px; font-weight: 800; color: #fff; letter-spacing: 0.02em; }
 .profile-id { font-size: 12px; color: rgba(255,255,255,0.55); font-family: monospace; font-weight: 600; }
 .copy-btn {
-  color: #555; cursor: pointer;
-  background: rgba(0,0,0,0.07);
-  border: 1px solid rgba(0,0,0,0.1);
+  color: rgba(255,255,255,0.6); cursor: pointer;
+  background: rgba(255,255,255,0.08);
+  border: 1px solid rgba(255,255,255,0.15);
   border-radius: 6px; padding: 3px 5px;
   display: inline-flex; align-items: center;
   transition: transform 0.1s;
@@ -555,8 +555,8 @@ const comingSoon = () => alert('Coming Soon')
 .action-menu-row:active { opacity: 0.6; }
 .action-menu-icon {
   width: 30px; height: 30px; border-radius: 8px;
-  background: transparent;
-  border: 1.5px solid rgba(0,0,0,0.18);
+  background: rgba(255,255,255,0.1);
+  border: 1.5px solid rgba(255,255,255,0.2);
   display: flex; align-items: center; justify-content: center; flex-shrink: 0;
 }
 .action-menu-lbl { flex: 1; font-size: 13px; font-weight: 600; color: #fff; text-align: left; }
@@ -601,7 +601,7 @@ const comingSoon = () => alert('Coming Soon')
   border: none;
   box-shadow: none;
 }
-.menu-divider { height: 1px; background: rgba(0,0,0,0.1); margin: 0 4px; }
+.menu-divider { height: 1px; background: rgba(255,255,255,0.1); margin: 0 4px; }
 .menu-row {
   display: flex; align-items: center; gap: 10px;
   padding: 9px 4px; width: 100%; cursor: pointer;

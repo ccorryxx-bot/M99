@@ -1,31 +1,31 @@
 <template>
-  <div class="agent-page min-h-screen overflow-x-hidden" style="color: #1a2b1a;">
+  <div class="agent-page min-h-screen overflow-x-hidden" style="color: #fff;">
 
     <!-- ── HEADER ── -->
     <header class="sticky top-0 z-40 px-4 py-2 flex items-center justify-between"
-      style="background: #262b27; border-bottom: 1px solid rgba(255,255,255,0.08);">
+      style="background: #3d4187; border-bottom: 1px solid rgba(255,255,255,0.08);">
       <button @click="$router.push('/home')" class="flex items-center gap-1.5 active:opacity-50 transition-opacity"
-        style="color: #1a2b1a;">
+        style="color: rgba(255,255,255,0.85);">
         <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/></svg>
-        <span class="text-xs font-medium tracking-wider">iW99</span>
+        <img src="https://ik.imagekit.io/tdpebgueq/Brand%20Name%20Logo/IMG_20260602_154542.png?updatedAt=1780391788280" alt="iW99" style="height:22px;width:auto;object-fit:contain;" />
       </button>
-      <span class="text-sm font-bold tracking-wide" style="color:#1a2b1a;">Agent Dashboard</span>
+      <span class="text-sm font-bold tracking-wide" style="color:#fff;">Agent Dashboard</span>
       <button @click="loadAll" :class="['w-8 h-8 flex items-center justify-center rounded-full transition-all active:scale-90', loading ? 'animate-spin' : '']"
-        style="background: transparent; border: none; color: #1a2b1a;">
+        style="background: transparent; border: none; color: rgba(255,255,255,0.85);">
         <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"/></svg>
       </button>
     </header>
 
     <!-- ── SCROLLABLE TAB BAR ── -->
     <div class="sticky z-30"
-      style="top: 49px; background: #262b27; border-bottom: 1px solid rgba(255,255,255,0.08);">
+      style="top: 49px; background: #3d4187; border-bottom: 1px solid rgba(255,255,255,0.08);">
       <div class="flex items-center overflow-x-auto py-1 px-1"
         style="scrollbar-width:none;-ms-overflow-style:none;">
         <button v-for="(tab, i) in tabs" :key="i" @click="activeTab = i"
           class="flex-shrink-0 py-1.5 px-3.5 text-[11px] font-semibold transition-all duration-150 whitespace-nowrap rounded-full mx-0.5"
           :style="activeTab === i
-            ? 'color:#1a2b1a;font-weight:800;background:rgba(0,0,0,0.13);border-bottom:2.5px solid #555f55;'
-            : 'color:rgba(0,0,0,0.45);'">
+            ? 'color:#fff;font-weight:800;background:rgba(255,255,255,0.15);border-bottom:2.5px solid rgba(255,255,255,0.6);'
+            : 'color:rgba(255,255,255,0.55);'">
           {{ tab.label }}
         </button>
       </div>
@@ -44,7 +44,7 @@
           <img :src="agentBannerUrl" class="w-full h-full object-cover" alt="Agent Banner"
             @error="agentBannerUrl = '/images/banners/banner1.jpg'" />
           <div class="absolute inset-0 pointer-events-none"
-            style="background: linear-gradient(to right, rgba(4,6,8,0.55) 0%, transparent 55%, rgba(4,6,8,0.2) 100%);"></div>
+            style="background: linear-gradient(to right, rgba(30,35,100,0.55) 0%, transparent 55%, rgba(30,35,100,0.2) 100%);"></div>
           <!-- Commission badge -->
           <div class="absolute top-3 right-3 px-2.5 py-1 rounded-full"
             style="background: rgba(255,193,7,0.15); border: 1px solid rgba(255,193,7,0.3); backdrop-filter: blur(8px);">
@@ -52,7 +52,7 @@
           </div>
           <!-- Bottom label -->
           <div class="absolute bottom-3 left-4">
-            <p class="text-[9px] font-black tracking-[0.25em] uppercase" style="color: rgba(0,0,0,0.45);">iW99 AGENT PROGRAM</p>
+            <p class="text-[9px] font-black tracking-[0.25em] uppercase" style="color: rgba(255,255,255,0.55);">iW99 AGENT PROGRAM</p>
           </div>
         </div>
 
@@ -423,21 +423,21 @@
 
             <div class="flex-1 min-w-0">
               <div class="flex items-center gap-2 mb-0.5">
-                <p class="text-[11px] font-bold truncate" style="color: #1a2b1a;">
+                <p class="text-[11px] font-bold truncate" style="color: #fff;">
                   <span v-if="loadingData" class="animate-pulse">Loading...</span>
                   <span v-else>{{ username }}</span>
                 </p>
                 <span class="px-1.5 py-0.5 rounded text-[9px] font-bold"
                   style="background: rgba(255,193,7,0.12); color: rgba(255,193,7,0.8); border: 1px solid rgba(255,193,7,0.2);">AGENT</span>
               </div>
-              <p class="text-[10px] font-mono" style="color: rgba(0,0,0,0.4);">VIP {{ userVipLevel }}</p>
-              <p class="text-[10px] mt-0" style="color: rgba(0,0,0,0.4);">ဆက်ဆံရေး: {{ memberSince }}</p>
+              <p class="text-[10px] font-mono" style="color: rgba(255,255,255,0.55);">VIP {{ userVipLevel }}</p>
+              <p class="text-[10px] mt-0" style="color: rgba(255,255,255,0.55);">ဆက်ဆံရေး: {{ memberSince }}</p>
             </div>
 
             <div class="text-right flex-shrink-0">
               <p class="text-[9px] font-semibold tracking-wider" style="color: #3a5040;">DOWNLINE</p>
-              <p class="text-[15px] font-black mt-0" style="color: #1a2b1a;">
-                <span v-if="loadingData" class="animate-pulse text-sm" style="color: rgba(0,0,0,0.28);">...</span>
+              <p class="text-[15px] font-black mt-0" style="color: #fff;">
+                <span v-if="loadingData" class="animate-pulse text-sm" style="color: rgba(255,255,255,0.38);">...</span>
                 <span v-else>{{ totalDownline }}</span>
               </p>
               <p class="text-[10px] font-medium" style="color: rgba(100,220,120,0.8);">{{ activeDownline }} active</p>
@@ -449,16 +449,16 @@
           <!-- Sub stats row -->
           <div class="flex justify-between mt-2">
             <div>
-              <p class="text-[9px] font-medium" style="color: rgba(0,0,0,0.45);">ကော်မရှင်ရက်</p>
-              <p class="text-[10px] font-semibold mt-0" style="color: rgba(0,0,0,0.55);">{{ todayDate }}</p>
+              <p class="text-[9px] font-medium" style="color: rgba(255,255,255,0.55);">ကော်မရှင်ရက်</p>
+              <p class="text-[10px] font-semibold mt-0" style="color: rgba(255,255,255,0.65);">{{ todayDate }}</p>
             </div>
             <div class="text-center">
-              <p class="text-[9px] font-medium" style="color: rgba(0,0,0,0.45);">မျှဝေနှုန်း</p>
+              <p class="text-[9px] font-medium" style="color: rgba(255,255,255,0.55);">မျှဝေနှုန်း</p>
               <p class="text-[10px] font-bold mt-0" style="color: rgba(255,193,7,0.8);">1.00</p>
             </div>
             <div class="text-right">
-              <p class="text-[9px] font-medium" style="color: rgba(0,0,0,0.45);">Total Deposit</p>
-              <p class="text-[10px] font-semibold mt-0" style="color: rgba(0,0,0,0.55);">{{ formatN(userTotalDeposit) }} Ks</p>
+              <p class="text-[9px] font-medium" style="color: rgba(255,255,255,0.55);">Total Deposit</p>
+              <p class="text-[10px] font-semibold mt-0" style="color: rgba(255,255,255,0.65);">{{ formatN(userTotalDeposit) }} Ks</p>
             </div>
           </div>
         </div>
@@ -480,15 +480,15 @@
           <!-- Header badge -->
           <div class="flex items-center gap-2 mb-2">
             <div class="nova-live-dot w-1.5 h-1.5 rounded-full"
-              style="background: #2d4a2d; box-shadow: 0 0 5px rgba(45,74,45,0.6);"></div>
+              style="background: #4a4e99; box-shadow: 0 0 5px rgba(99,102,241,0.5);"></div>
             <p class="text-[9px] tracking-[0.22em] font-bold uppercase"
               style="color: #3a5040;">ဖိတ်ကြားရေး</p>
             <div class="flex-1 h-px" style="background: rgba(26,43,26,0.12);"></div>
             <div class="flex items-center gap-1 px-2 py-0.5 rounded-full"
               style="background: rgba(45,74,45,0.15); border: 1px solid rgba(26,43,26,0.2);">
               <div class="nova-pulse-dot w-1 h-1 rounded-full"
-                style="background: #2d4a2d;"></div>
-              <span class="text-[8px] font-bold" style="color: #2d4a2d;">LIVE</span>
+                style="background: #4a4e99;"></div>
+              <span class="text-[8px] font-bold" style="color: #4a4e99;">LIVE</span>
             </div>
           </div>
 
@@ -516,7 +516,7 @@
                 </div>
                 <!-- Corner accent dot -->
                 <div class="nova-corner-dot absolute -top-0.5 -right-0.5 w-2 h-2 rounded-full"
-                  style="background: #2d4a2d; box-shadow: 0 0 6px rgba(45,74,45,0.6);"></div>
+                  style="background: #4a4e99; box-shadow: 0 0 6px rgba(99,102,241,0.5);"></div>
               </div>
             </div>
 
@@ -524,10 +524,10 @@
             <div class="flex items-center justify-center gap-1.5">
               <div class="flex items-center gap-1 px-2 py-0.5 rounded-full"
                 style="background: rgba(45,74,45,0.12); border: 1px solid rgba(26,43,26,0.2);">
-                <svg class="w-2.5 h-2.5" style="color:#2d4a2d" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                <svg class="w-2.5 h-2.5" style="color:#4a4e99" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
                   <circle cx="12" cy="12" r="3"/><path d="M12 2v3M12 19v3M4.22 4.22l2.12 2.12M17.66 17.66l2.12 2.12M2 12h3M19 12h3M4.22 19.78l2.12-2.12M17.66 6.34l2.12-2.12"/>
                 </svg>
-                <span class="text-[8px] font-black tracking-[0.15em]" style="color:#1a2b1a">QR</span>
+                <span class="text-[8px] font-black tracking-[0.15em]" style="color:rgba(255,255,255,0.9)">QR</span>
               </div>
               <span class="text-[8px]" style="color:rgba(26,43,26,0.35)">·</span>
               <span class="text-[8px] font-mono" style="color:rgba(26,43,26,0.5)">AGENT LINK</span>
@@ -544,7 +544,7 @@
                   <path stroke-linecap="round" stroke-linejoin="round" d="M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.102-1.101m-.758-4.899a4 4 0 005.656 0l4-4a4 4 0 00-5.656-5.656l-1.1 1.1"/>
                 </svg>
                 <p class="text-[10px] font-mono flex-1 break-all leading-relaxed"
-                  style="color: #1a2b1a; user-select: text; -webkit-user-select: text; cursor: text; letter-spacing: 0.01em;">{{ referralLink }}</p>
+                  style="color: rgba(255,255,255,0.9); color: rgba(255,255,255,0.9); user-select: text; -webkit-user-select: text; cursor: text; letter-spacing: 0.01em;">{{ referralLink }}</p>
                 <button @click="copyText(referralLink)" class="flex-shrink-0 active:scale-75 transition-all mt-0.5">
                   <div class="px-2 py-1.5 rounded-lg transition-all"
                     :style="copiedLink ? 'background:rgba(45,74,45,0.2);border:1px solid rgba(45,74,45,0.35)' : 'background:rgba(255,255,255,0.3);border:1px solid rgba(26,43,26,0.15)'">
@@ -560,8 +560,8 @@
             </div>
 
             <!-- ဖိတ်ကုဒ် caption -->
-            <p class="text-[9px] text-center font-mono" style="color: rgba(0,0,0,0.38);">
-              ဖိတ်ကုဒ်: <span style="color:#1a2b1a; font-weight:800;">{{ inviteCode }}</span>
+            <p class="text-[9px] text-center font-mono" style="color: rgba(255,255,255,0.48);">
+              ဖိတ်ကုဒ်: <span style="color:rgba(255,255,255,0.9); font-weight:800;">{{ inviteCode }}</span>
             </p>
           </div>
 
@@ -579,7 +579,7 @@
                   :style="`background: ${s.bg}; border: 1px solid ${s.border}; box-shadow: 0 2px 12px rgba(0,0,0,0.32);`">
                   <span v-html="s.icon" class="w-5 h-5 flex items-center justify-center"></span>
                 </div>
-                <span class="text-[9px]" style="color: rgba(0,0,0,0.38);">{{ s.label }}</span>
+                <span class="text-[9px]" style="color: rgba(255,255,255,0.48);">{{ s.label }}</span>
               </button>
             </div>
           </div>
@@ -588,14 +588,14 @@
         <!-- Scrolling Ticker -->
         <div class="fp-card relative rounded-xl overflow-hidden" style="height: 34px; border: 1px solid rgba(26,43,26,0.18); border-radius: 8px;">
           <div class="absolute inset-0" style="background: linear-gradient(90deg, rgba(255,152,0,0.1), rgba(255,193,7,0.06), rgba(255,152,0,0.1));"></div>
-          <div class="absolute inset-y-0 left-0 w-8 z-10 pointer-events-none" style="background: linear-gradient(to right, #040608, transparent);"></div>
-          <div class="absolute inset-y-0 right-0 w-8 z-10 pointer-events-none" style="background: linear-gradient(to left, #040608, transparent);"></div>
+          <div class="absolute inset-y-0 left-0 w-8 z-10 pointer-events-none" style="background: linear-gradient(to right, #3d4187, transparent);"></div>
+          <div class="absolute inset-y-0 right-0 w-8 z-10 pointer-events-none" style="background: linear-gradient(to left, #3d4187, transparent);"></div>
           <div ref="tickerEl" class="flex items-center h-full whitespace-nowrap overflow-hidden">
             <div class="ticker-track flex items-center gap-10 px-6">
               <span v-for="(item, i) in tickerItems" :key="i" class="flex items-center gap-2 text-[11px] font-semibold flex-shrink-0">
                 <span>🔥</span>
                 <span style="color: rgba(255,193,7,0.9);">ID: {{ item.id }}</span>
-                <span style="color: rgba(0,0,0,0.4);">ကော်မရှင်:</span>
+                <span style="color: rgba(255,255,255,0.55);">ကော်မရှင်:</span>
                 <span style="color: rgba(255,193,7,1); font-weight: 800;">{{ item.amount }} Ks</span>
                 <span style="color: rgba(255,193,7,0.25);">◆</span>
               </span>
@@ -622,7 +622,7 @@
         <div class="grid grid-cols-2 gap-2">
           <button @click="activeTab = 6"
             class="fp-card rounded-2xl p-2.5 flex items-center gap-2 active:scale-[0.97] transition-all text-left"
-            style="background: #2d4a2d; border: none; box-shadow: 0 2px 12px rgba(30,60,30,0.2);">
+            style="background: #4a4e99; border: none; box-shadow: 0 2px 12px rgba(30,35,100,0.2);">
             <div class="w-8 h-8 rounded-lg flex items-center justify-center flex-shrink-0" style="background: rgba(255,193,7,0.12);">
               <svg class="w-5 h-5" style="color: rgba(255,193,7,0.85);" fill="currentColor" viewBox="0 0 24 24"><path d="M16 11c1.66 0 2.99-1.34 2.99-3S17.66 5 16 5c-1.66 0-3 1.34-3 3s1.34 3 3 3zm-8 0c1.66 0 2.99-1.34 2.99-3S9.66 5 8 5C6.34 5 5 6.34 5 8s1.34 3 3 3zm0 2c-2.33 0-7 1.17-7 3.5V19h14v-2.5c0-2.33-4.67-3.5-7-3.5zm8 0c-.29 0-.62.02-.97.05 1.16.84 1.97 1.97 1.97 3.45V19h6v-2.5c0-2.33-4.67-3.5-7-3.5z"/></svg>
             </div>
@@ -635,7 +635,7 @@
 
           <button @click="activeTab = 5"
             class="fp-card rounded-2xl p-2.5 flex items-center gap-2 active:scale-[0.97] transition-all text-left"
-            style="background: #2d4a2d; border: none; box-shadow: 0 2px 12px rgba(30,60,30,0.2);">
+            style="background: #4a4e99; border: none; box-shadow: 0 2px 12px rgba(30,35,100,0.2);">
             <div class="w-8 h-8 rounded-lg flex items-center justify-center flex-shrink-0" style="background: rgba(100,200,120,0.12);">
               <svg class="w-5 h-5" style="color: rgba(100,220,120,0.85);" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
             </div>
@@ -674,10 +674,10 @@
             <!-- Invite label + token row -->
             <div class="flex items-center justify-between mb-4">
               <p class="text-[10px] font-semibold tracking-[0.18em] uppercase"
-                style="color: rgba(0,0,0,0.4);">သူငယ်ချင်းများကို ဖိတ်ကြားသည်</p>
+                style="color: rgba(255,255,255,0.55);">သူငယ်ချင်းများကို ဖိတ်ကြားသည်</p>
               <div class="flex items-center gap-2 rounded-xl px-3 py-1.5"
                 style="background: rgba(255,255,255,0.4); border: 1px solid rgba(26,43,26,0.18);">
-                <p class="text-[11px] font-black tracking-widest font-mono" style="color: #1a2b1a;">ဖိတ်ကုဒ်: {{ inviteCode }}</p>
+                <p class="text-[11px] font-black tracking-widest font-mono" style="color: #fff;">ဖိတ်ကုဒ်: {{ inviteCode }}</p>
                 <button @click="copyText(inviteCode)" class="active:scale-75 transition-transform">
                   <svg v-if="!copiedCode" class="w-3.5 h-3.5" style="color:rgba(255,193,7,0.6)" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"/></svg>
                   <svg v-else class="w-3.5 h-3.5" style="color:rgba(100,220,120,0.9)" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg>
@@ -697,14 +697,14 @@
               <div class="flex-1 min-w-0 space-y-2">
                 <div class="flex items-center gap-2 rounded-xl px-3 py-2.5"
                   style="background: rgba(26,43,26,0.10); border: 1px solid rgba(26,43,26,0.15);">
-                  <p class="text-[10px] font-mono flex-1 overflow-x-auto whitespace-nowrap no-scrollbar" style="color: #1a2b1a; user-select: text; -webkit-user-select: text; cursor: text; font-weight:600;">{{ referralLink }}</p>
+                  <p class="text-[10px] font-mono flex-1 overflow-x-auto whitespace-nowrap no-scrollbar" style="color: rgba(255,255,255,0.9); user-select: text; -webkit-user-select: text; cursor: text; font-weight:600;">{{ referralLink }}</p>
                   <button @click="copyText(referralLink)" class="flex-shrink-0 active:scale-75 transition-transform">
                     <svg v-if="!copiedLink" class="w-4 h-4" style="color:rgba(255,255,255,0.3)" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"/></svg>
                     <svg v-else class="w-4 h-4" style="color:rgba(100,220,120,0.9)" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg>
                   </button>
                 </div>
                 <!-- Caption -->
-                <p class="text-[11px] pl-1 font-mono" style="color: rgba(0,0,0,0.45);">ဖိတ်ကုဒ်: <span style="color:#1a2b1a;font-weight:800;">{{ inviteCode }}</span></p>
+                <p class="text-[11px] pl-1 font-mono" style="color: rgba(255,255,255,0.55);">ဖိတ်ကုဒ်: <span style="color:rgba(255,255,255,0.9);font-weight:800;">{{ inviteCode }}</span></p>
               </div>
             </div>
 

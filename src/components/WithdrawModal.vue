@@ -2,7 +2,7 @@
   <Teleport to="body">
     <Transition name="modal">
       <div v-if="visible" class="fixed inset-0 z-50 flex items-end sm:items-center justify-center bg-black/60 backdrop-blur-sm" @click.self="close">
-        <div class="bg-[#141428] border border-cyan-500/20 rounded-t-2xl sm:rounded-2xl w-full sm:max-w-md p-5 shadow-2xl animate-slide-up max-h-[90vh] overflow-y-auto">
+        <div class="bg-[#2e3375] border border-cyan-500/20 rounded-t-2xl sm:rounded-2xl w-full sm:max-w-md p-5 shadow-2xl animate-slide-up max-h-[90vh] overflow-y-auto">
           
           <h2 class="text-lg font-bold text-white mb-4">ငွေထုတ်ရန်</h2>
 
@@ -10,11 +10,11 @@
           <label class="block text-gray-400 text-xs mb-2 ml-1">နည်းလမ်းရွေးပါ</label>
           <div class="flex gap-2 mb-5">
             <button @click="method = 'wave'" class="nova-glass-method flex-1 flex flex-col items-center gap-2 justify-center py-4 rounded-xl font-semibold text-sm" :class="method === 'wave' ? 'selected-wave' : 'text-gray-400'">
-              <img src="/images/payments/wave.png" alt="WavePay" class="w-10 h-10 object-contain" />
+              <img src="https://ik.imagekit.io/tdpebgueq/Payment%20Method%20/Screenshot_2026-06-04-00-35-34-166_mark.via.gp_1780510124725edit.jpg" alt="WavePay" class="w-10 h-10 object-contain rounded-lg" />
               <span class="text-xs">WavePay</span>
             </button>
             <button @click="method = 'kpay'" class="nova-glass-method flex-1 flex flex-col items-center gap-2 justify-center py-4 rounded-xl font-semibold text-sm" :class="method === 'kpay' ? 'selected-kpay' : 'text-gray-400'">
-              <img src="/images/payments/kpay.png" alt="KBZ Pay" class="w-10 h-10 object-contain" />
+              <img src="https://ik.imagekit.io/tdpebgueq/Payment%20Method%20/Screenshot_2026-06-04-00-35-27-327_mark.via.gp_1780510112167edit.jpg" alt="KBZ Pay" class="w-10 h-10 object-contain rounded-lg" />
               <span class="text-xs">KBZ Pay</span>
             </button>
           </div>

@@ -2,28 +2,7 @@
   <aside class="ds-sidebar">
     <!-- Logo -->
     <div class="ds-logo-area">
-      <div class="ds-logo-icon">
-        <svg viewBox="0 0 40 40" fill="none" width="36" height="36">
-          <defs>
-            <filter id="ds-glow" x="-40%" y="-40%" width="180%" height="180%">
-              <feGaussianBlur stdDeviation="2" result="b"/>
-              <feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
-            </filter>
-          </defs>
-          <polygon points="20,4 36,14 36,26 20,36 4,26 4,14" stroke="#22c55e" stroke-width="2" fill="rgba(34,197,94,0.1)" filter="url(#ds-glow)"/>
-          <polygon points="20,10 30,16 30,24 20,30 10,24 10,16" stroke="#22c55e" stroke-width="1.5" fill="rgba(34,197,94,0.06)"/>
-          <circle cx="20" cy="20" r="3" fill="#22c55e" filter="url(#ds-glow)"/>
-          <line x1="20" y1="10" x2="20" y2="14" stroke="#22c55e" stroke-width="1.2" opacity="0.7"/>
-          <line x1="20" y1="26" x2="20" y2="30" stroke="#22c55e" stroke-width="1.2" opacity="0.7"/>
-          <line x1="10" y1="16" x2="14" y2="18" stroke="#22c55e" stroke-width="1.2" opacity="0.7"/>
-          <line x1="30" y1="16" x2="26" y2="18" stroke="#22c55e" stroke-width="1.2" opacity="0.7"/>
-          <line x1="10" y1="24" x2="14" y2="22" stroke="#22c55e" stroke-width="1.2" opacity="0.7"/>
-          <line x1="30" y1="24" x2="26" y2="22" stroke="#22c55e" stroke-width="1.2" opacity="0.7"/>
-        </svg>
-      </div>
-      <div class="ds-logo-text">
-        <span class="ds-brand">NOVA</span><span class="ds-brand-accent">BETT</span>
-      </div>
+      <img src="https://ik.imagekit.io/tdpebgueq/Brand%20Name%20Logo/IMG_20260602_154542.png?updatedAt=1780391788280" alt="iW99" style="height:42px;width:auto;object-fit:contain;display:block;" />
     </div>
 
     <div class="ds-divider"></div>
@@ -135,7 +114,7 @@ const route = useRoute()
     bottom: 0;
     width: 230px;
     z-index: 300;
-    background: #1e2220;
+    background: #2e3375;
     border-right: 1px solid rgba(34,197,94,0.1);
     box-shadow: 4px 0 32px rgba(0,0,0,0.6), 1px 0 0 rgba(255,255,255,0.03);
     overflow: hidden;

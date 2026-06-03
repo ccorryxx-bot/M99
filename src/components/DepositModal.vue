@@ -366,9 +366,9 @@ async function refreshBalance() {
 // ── Payment ───────────────────────────────────────────────────────
 const amountPresets = [3000,5000,10000,30000,50000,100000,500000,1000000]
 const paymentMethods = [
-  { key:'kpay',   label:'KBZ Pay', popular:true,  img:'/images/payments/kpay.png', iconBg:'rgba(37,99,235,0.3)' },
-  { key:'wave',   label:'WavePay', popular:false, img:'/images/payments/wave.png', iconBg:'rgba(5,150,105,0.25)' },
-  { key:'usdt',   label:'USDT',    popular:false, img:null, iconText:'₮', iconBg:'rgba(34,197,94,0.25)', iconColor:'#4ade80' },
+  { key:'kpay',   label:'KBZ Pay', popular:true,  img:'https://ik.imagekit.io/tdpebgueq/Payment%20Method%20/Screenshot_2026-06-04-00-35-27-327_mark.via.gp_1780510112167edit.jpg', iconBg:'rgba(37,99,235,0.3)' },
+  { key:'wave',   label:'WavePay', popular:false, img:'https://ik.imagekit.io/tdpebgueq/Payment%20Method%20/Screenshot_2026-06-04-00-35-34-166_mark.via.gp_1780510124725edit.jpg', iconBg:'rgba(5,150,105,0.25)' },
+  { key:'usdt',   label:'USDT',    popular:false, img:'https://ik.imagekit.io/tdpebgueq/Payment%20Method%20/61e20ad43bafe0ca2b7ada87f1792a4c.jpg', iconText:'₮', iconBg:'rgba(34,197,94,0.25)', iconColor:'#4ade80' },
   { key:'uabpay', label:'UAB Pay', popular:false, img:null, iconText:'U', iconBg:'rgba(139,92,246,0.25)', iconColor:'#c084fc' },
 ]
 
@@ -477,7 +477,7 @@ const submitDeposit = () => {
   border-radius:20px 20px 0 0;
   overflow:hidden;
   display:flex;flex-direction:column;
-  background:#262b27;
+  background:#3d4187;
 }
 .nova-sheet--white { background:#f5f6fa; }
 .nova-sheet--full  { height:100dvh;border-radius:0;max-width:100%; }
@@ -490,7 +490,7 @@ const submitDeposit = () => {
 .nova-header-wrap { flex-shrink:0;padding:18px 16px 0; }
 .nova-header-row  { display:flex;align-items:center;justify-content:space-between;margin-bottom:10px; }
 .nova-title       { font-size:13px;font-weight:700;color:#22c55e;letter-spacing:0.04em; }
-.nova-balance-bar { display:flex;align-items:center;justify-content:space-between;margin-bottom:8px;padding:6px 10px;border-radius:9px;background:#1c201d;box-shadow:none; }
+.nova-balance-bar { display:flex;align-items:center;justify-content:space-between;margin-bottom:8px;padding:6px 10px;border-radius:9px;background:#2e3375;box-shadow:none; }
 .nova-balance-label { font-size:10px;color:rgba(255,255,255,0.8); }
 .nova-balance-num   { font-size:12px;font-weight:700;color:rgba(253,224,71,0.9); }
 .nova-divider       { height:1px;background:rgba(255,255,255,0.07);margin-bottom:8px; }
@@ -501,8 +501,8 @@ const submitDeposit = () => {
 .nova-label { font-size:11px;color:#fff;margin:0 0 5px 0;font-weight:700; }
 .nova-pm-grid { display:grid;grid-template-columns:1fr 1fr;gap:7px;margin-bottom:8px; }
 .nova-pm-btn { position:relative;display:flex;align-items:center;gap:8px;padding:8px 10px;border-radius:12px;cursor:pointer;border:1px solid rgba(255,255,255,0.08);outline:none;transition:border-color 0.15s,background 0.15s;text-align:left;user-select:none;-webkit-tap-highlight-color:transparent; }
-.nova-pm-idle   { background:#1c201d;border-color:rgba(255,255,255,0.15); }
-.nova-pm-active { background:#1c201d;border-color:rgba(255,255,255,0.15); }
+.nova-pm-idle   { background:#2e3375;border-color:rgba(255,255,255,0.15); }
+.nova-pm-active { background:#2e3375;border-color:rgba(255,255,255,0.15); }
 .nova-pm-btn:active { opacity:0.72; }
 .nova-pm-icon  { width:28px;height:28px;border-radius:8px;flex-shrink:0;display:flex;align-items:center;justify-content:center;overflow:hidden; }
 .nova-pm-label { font-size:12px;font-weight:600;padding-left:8px;border-left:1.5px solid rgba(255,255,255,0.18);line-height:1; }
@@ -510,15 +510,15 @@ const submitDeposit = () => {
 .nova-popular-badge { position:absolute;top:-7px;left:50%;transform:translateX(-50%);font-size:8px;font-weight:900;padding:2px 8px;border-radius:99px;background:linear-gradient(90deg,#f97316,#ef4444);color:#fff;white-space:nowrap;box-shadow:0 1px 6px rgba(249,115,22,0.5); }
 .nova-amt-grid { display:grid;grid-template-columns:repeat(4,1fr);gap:5px;margin-bottom:6px; }
 .nova-amt-btn { padding:7px 2px;border-radius:10px;border:1px solid rgba(234,179,8,0.2);outline:none;font-size:11px;font-weight:700;cursor:pointer;transition:background 0.12s,border-color 0.12s,color 0.12s;text-align:center;user-select:none;-webkit-tap-highlight-color:transparent; }
-.nova-amt-idle  { background:#1c201d;color:#fff; }
-.nova-amt-active { background:#1c201d;color:#fff;border-color:rgba(255,255,255,0.15); }
+.nova-amt-idle  { background:#2e3375;color:#fff; }
+.nova-amt-active { background:#2e3375;color:#fff;border-color:rgba(255,255,255,0.15); }
 .nova-amt-btn:active { opacity:0.68; }
 .nova-input-wrap { position:relative;margin-bottom:8px; }
 .nova-k-prefix { position:absolute;left:12px;top:50%;transform:translateY(-50%);font-size:11px;font-weight:700;color:rgba(156,163,175,0.6);z-index:1; }
-.nova-input { width:100%;padding:10px 12px 10px 26px;border-radius:11px;border:1px solid rgba(234,179,8,0.3);outline:none;font-size:12px;font-weight:600;box-sizing:border-box;background:#1c201d;box-shadow:none;color:#fff;caret-color:#ffffff;transition:border-color 0.15s; }
+.nova-input { width:100%;padding:10px 12px 10px 26px;border-radius:11px;border:1px solid rgba(234,179,8,0.3);outline:none;font-size:12px;font-weight:600;box-sizing:border-box;background:#2e3375;box-shadow:none;color:#fff;caret-color:#ffffff;transition:border-color 0.15s; }
 .nova-input:focus { border-color:rgba(234,179,8,0.6);box-shadow:inset 0 1px 0 rgba(255,255,255,0.09),0 0 0 1.5px rgba(234,179,8,0.15); }
 .nova-input::placeholder { color:rgba(107,114,128,0.45); }
-.nova-bonus-card { border-radius:13px;overflow:hidden;margin-bottom:4px;background:#1c201d;box-shadow:none; }
+.nova-bonus-card { border-radius:13px;overflow:hidden;margin-bottom:4px;background:#2e3375;box-shadow:none; }
 .nova-bonus-header { display:flex;align-items:center;justify-content:space-between;padding:8px 12px;border-bottom:1px solid rgba(255,255,255,0.05); }
 .nova-bonus-title    { font-size:11px;font-weight:700;color:rgba(253,224,71,0.85); }
 .nova-countdown-badge { display:flex;align-items:center;gap:3px;padding:2px 7px;border-radius:99px;background:rgba(239,68,68,0.18); }
@@ -532,7 +532,7 @@ const submitDeposit = () => {
 .nova-row-divider { height:1px;background:rgba(255,255,255,0.04);margin:0 12px; }
 .nova-radio { width:16px;height:16px;border-radius:50%;flex-shrink:0;border:1.5px solid rgba(100,116,139,0.5);background:transparent;transition:border-color 0.15s,background 0.15s; }
 .nova-radio-on { border-color:#22c55e;background:radial-gradient(circle,#22c55e 0%,#22c55e 40%,transparent 60%);box-shadow:0 0 6px rgba(34,197,94,0.5); }
-.nova-cta { width:100%;padding:11px;border-radius:99px;border:1px solid rgba(34,197,94,0.35);outline:none;font-size:13px;font-weight:700;letter-spacing:0.04em;cursor:pointer;background:#1c201d;color:#fff;transition:opacity 0.15s;-webkit-tap-highlight-color:transparent; }
+.nova-cta { width:100%;padding:11px;border-radius:99px;border:1px solid rgba(34,197,94,0.35);outline:none;font-size:13px;font-weight:700;letter-spacing:0.04em;cursor:pointer;background:#2e3375;color:#fff;transition:opacity 0.15s;-webkit-tap-highlight-color:transparent; }
 .nova-cta:disabled { opacity:0.3;cursor:not-allowed; }
 .nova-icon-btn { width:26px;height:26px;border-radius:8px;border:none;outline:none;cursor:pointer;background:rgba(255,255,255,0.07);box-shadow:inset 0 1px 0 rgba(255,255,255,0.1);color:rgba(156,163,175,0.8);display:flex;align-items:center;justify-content:center;transition:background 0.15s; }
 .nova-refresh-btn { width:22px;height:22px;border-radius:6px;border:none;outline:none;cursor:pointer;background:rgba(255,255,255,0.07);display:flex;align-items:center;justify-content:center;color:rgba(156,163,175,0.8);transition:opacity 0.15s; }
