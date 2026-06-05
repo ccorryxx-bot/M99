@@ -1,664 +1,640 @@
 <template>
-  <div class="agent-page" style="background:#3d4187;min-height:100dvh;color:#fff;-webkit-tap-highlight-color:transparent;overflow-x:hidden;">
+  <div class="agent-page" style="background:#1a1650;min-height:100dvh;color:#fff;-webkit-tap-highlight-color:transparent;overflow-x:hidden;position:relative;">
 
-    <!-- ══ HEADER ══ -->
-    <header style="position:sticky;top:0;z-index:40;background:#3d4187;border-bottom:1px solid rgba(255,255,255,0.08);padding:10px 14px;display:flex;align-items:center;justify-content:space-between;">
-      <button @click="$router.push('/home')" style="display:flex;align-items:center;gap:6px;background:none;border:none;color:rgba(255,255,255,0.85);cursor:pointer;padding:4px;">
-        <svg width="18" height="18" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M15 19l-7-7 7-7"/></svg>
-      </button>
-      <div style="display:flex;align-items:center;gap:8px;">
-        <span style="width:8px;height:8px;border-radius:50%;background:#f59e0b;box-shadow:0 0 8px #f59e0b;"></span>
-        <span style="font-size:15px;font-weight:800;color:#fff;letter-spacing:0.5px;">Agent Portal</span>
-      </div>
-      <button @click="loadAll()" style="background:none;border:none;cursor:pointer;color:rgba(255,255,255,0.65);padding:4px;" :style="loading ? 'opacity:0.5' : ''">
-        <svg width="18" height="18" fill="none" stroke="currentColor" viewBox="0 0 24 24" :style="loading ? 'animation:spin 1s linear infinite' : ''" ><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"/></svg>
-      </button>
-    </header>
-
-    <!-- ══ TICKER ══ -->
-    <div ref="tickerEl" style="background:rgba(245,158,11,0.12);border-bottom:1px solid rgba(245,158,11,0.15);overflow:hidden;height:28px;display:flex;align-items:center;">
-      <div class="ticker-track" style="display:inline-flex;align-items:center;gap:32px;white-space:nowrap;padding:0 16px;">
-        <span v-for="(item,i) in tickerItems" :key="i" style="display:flex;align-items:center;gap:6px;font-size:10px;flex-shrink:0;">
-          <span style="color:#f59e0b;font-weight:700;">🏆</span>
-          <span style="color:rgba(255,255,255,0.65);">{{ item.id }}</span>
-          <span style="color:#4ade80;font-weight:700;">+{{ item.amount }} Ks</span>
-          <span style="color:rgba(255,255,255,0.2);">|</span>
-        </span>
-      </div>
+    <!-- ══ BACKGROUND BLOBS (glassmorphism blur target) ══ -->
+    <div style="position:fixed;inset:0;pointer-events:none;overflow:hidden;z-index:0;">
+      <div style="position:absolute;top:-15%;left:-15%;width:55%;height:55%;background:radial-gradient(circle,rgba(139,92,246,0.55),transparent 70%);filter:blur(48px);"></div>
+      <div style="position:absolute;top:20%;right:-10%;width:48%;height:48%;background:radial-gradient(circle,rgba(79,67,197,0.5),transparent 70%);filter:blur(52px);"></div>
+      <div style="position:absolute;top:50%;left:5%;width:45%;height:45%;background:radial-gradient(circle,rgba(245,158,11,0.2),transparent 70%);filter:blur(56px);"></div>
+      <div style="position:absolute;bottom:5%;right:5%;width:40%;height:40%;background:radial-gradient(circle,rgba(99,102,241,0.4),transparent 70%);filter:blur(48px);"></div>
+      <div style="position:absolute;top:75%;left:40%;width:35%;height:35%;background:radial-gradient(circle,rgba(167,139,250,0.3),transparent 70%);filter:blur(44px);"></div>
     </div>
 
-    <!-- ══ TAB BAR ══ -->
-    <nav style="position:sticky;top:49px;z-index:30;background:#3d4187;border-bottom:1px solid rgba(255,255,255,0.08);overflow-x:auto;display:flex;scrollbar-width:none;" class="no-scrollbar">
-      <button v-for="(tab,i) in tabs" :key="i"
-        @click="activeTab=i; if(i===1) $nextTick(()=>animateReferralTab())"
-        style="flex-shrink:0;padding:9px 14px;font-size:12px;font-weight:600;white-space:nowrap;background:none;border:none;cursor:pointer;transition:all 0.15s;border-bottom:2.5px solid transparent;"
-        :style="activeTab===i ? 'color:#fbbf24;border-bottom-color:#f59e0b;' : 'color:rgba(255,255,255,0.45);'">
-        {{ tab.label }}
-      </button>
-    </nav>
+    <!-- ══ CONTENT LAYER ══ -->
+    <div style="position:relative;z-index:1;">
 
-    <!-- ══ CONTENT ══ -->
-    <div style="padding-bottom:80px;">
-
-      <!-- ════════════════════════════════
-           TAB 0 : ပင်မ (Overview)
-      ════════════════════════════════ -->
-      <div v-if="activeTab===0">
-
-        <!-- Banner -->
-        <div style="width:100%;background:#252870;overflow:hidden;max-height:140px;">
-          <img :src="agentBannerUrl" style="width:100%;height:140px;object-fit:cover;display:block;" @error="e=>e.target.style.display='none'" />
+      <!-- ══ HEADER ══ -->
+      <header style="position:sticky;top:0;z-index:40;padding:11px 14px;display:flex;align-items:center;justify-content:space-between;backdrop-filter:blur(20px) saturate(180%);-webkit-backdrop-filter:blur(20px) saturate(180%);background:rgba(26,22,80,0.6);border-bottom:1px solid rgba(255,255,255,0.12);">
+        <button @click="$router.push('/home')" style="display:flex;align-items:center;gap:6px;background:rgba(255,255,255,0.08);border:1px solid rgba(255,255,255,0.15);border-radius:10px;color:#fff;cursor:pointer;padding:6px 10px;">
+          <svg width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M15 19l-7-7 7-7"/></svg>
+        </button>
+        <div style="display:flex;align-items:center;gap:8px;">
+          <div style="width:8px;height:8px;border-radius:50%;background:#f59e0b;box-shadow:0 0 10px #f59e0b,0 0 20px rgba(245,158,11,0.5);animation:glowPulse 2s ease-in-out infinite;"></div>
+          <span style="font-size:15px;font-weight:800;color:#fff;letter-spacing:0.5px;">Agent Portal</span>
         </div>
+        <button @click="loadAll()" style="background:rgba(255,255,255,0.08);border:1px solid rgba(255,255,255,0.15);border-radius:10px;cursor:pointer;color:rgba(255,255,255,0.8);padding:6px 10px;" :style="loading ? 'opacity:0.5' : ''">
+          <svg width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24" :style="loading ? 'animation:spin 1s linear infinite' : ''"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"/></svg>
+        </button>
+      </header>
 
-        <!-- Agent Identity Card -->
-        <div style="margin:10px 12px 0;background:rgba(255,255,255,0.07);border:1px solid rgba(255,255,255,0.1);border-radius:14px;overflow:hidden;">
+      <!-- ══ TICKER ══ -->
+      <div ref="tickerEl" style="backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);background:rgba(245,158,11,0.1);border-bottom:1px solid rgba(245,158,11,0.18);overflow:hidden;height:28px;display:flex;align-items:center;">
+        <div class="ticker-track" style="display:inline-flex;align-items:center;gap:32px;white-space:nowrap;padding:0 16px;">
+          <span v-for="(item,i) in tickerItems" :key="i" style="display:flex;align-items:center;gap:6px;font-size:10px;flex-shrink:0;">
+            <span style="color:#f59e0b;font-weight:700;">🏆</span>
+            <span style="color:rgba(255,255,255,0.6);">{{ item.id }}</span>
+            <span style="color:#4ade80;font-weight:700;">+{{ item.amount }} Ks</span>
+            <span style="color:rgba(255,255,255,0.15);">|</span>
+          </span>
+        </div>
+      </div>
 
-          <!-- Badge + Info + Date row -->
-          <div style="padding:12px 12px 8px;display:flex;align-items:flex-start;gap:10px;">
+      <!-- ══ TAB BAR ══ -->
+      <nav style="position:sticky;top:49px;z-index:30;overflow-x:auto;display:flex;scrollbar-width:none;backdrop-filter:blur(20px) saturate(180%);-webkit-backdrop-filter:blur(20px) saturate(180%);background:rgba(26,22,80,0.55);border-bottom:1px solid rgba(255,255,255,0.1);" class="no-scrollbar">
+        <button v-for="(tab,i) in tabs" :key="i"
+          @click="activeTab=i; if(i===1) $nextTick(()=>animateReferralTab())"
+          style="flex-shrink:0;padding:10px 16px;font-size:12px;font-weight:600;white-space:nowrap;background:none;border:none;cursor:pointer;transition:all 0.18s;border-bottom:2.5px solid transparent;"
+          :style="activeTab===i ? 'color:#fbbf24;border-bottom-color:#f59e0b;' : 'color:rgba(255,255,255,0.45);'">
+          {{ tab.label }}
+        </button>
+      </nav>
 
-            <!-- Level Badge (clickable) -->
-            <button @click="showLevelModal=true" style="flex-shrink:0;width:60px;height:68px;background:none;border:none;cursor:pointer;padding:0;-webkit-tap-highlight-color:transparent;" v-html="miniShieldHtml(currentLevelData||AGENT_LEVELS[0])"></button>
+      <!-- ══ CONTENT ══ -->
+      <div style="padding-bottom:80px;">
 
-            <!-- Name + Tier + Progress -->
-            <div style="flex:1;min-width:0;">
-              <div style="display:flex;align-items:center;gap:6px;margin-bottom:2px;flex-wrap:wrap;">
-                <span style="font-size:14px;font-weight:900;color:#fbbf24;">{{ username }}</span>
-                <button @click="copyText(inviteCode)" style="background:rgba(251,191,36,0.12);border:1px solid rgba(251,191,36,0.28);border-radius:4px;padding:1px 6px;font-size:9px;font-weight:700;color:#fbbf24;cursor:pointer;letter-spacing:0.5px;">
-                  {{ copiedCode ? '✓ ကူးပြီး' : inviteCode }}
+        <!-- ════ TAB 0 : ပင်မ ════ -->
+        <div v-if="activeTab===0">
+
+          <!-- Banner -->
+          <div style="width:100%;overflow:hidden;max-height:140px;position:relative;">
+            <img :src="agentBannerUrl" style="width:100%;height:140px;object-fit:cover;display:block;" @error="e=>e.target.style.display='none'" />
+            <div style="position:absolute;inset:0;background:linear-gradient(to bottom,transparent 50%,rgba(26,22,80,0.7));"></div>
+          </div>
+
+          <!-- Agent Identity Card (Glass) -->
+          <div style="margin:10px 12px 0;backdrop-filter:blur(20px) saturate(200%);-webkit-backdrop-filter:blur(20px) saturate(200%);background:rgba(255,255,255,0.1);border:1px solid rgba(255,255,255,0.2);border-radius:18px;overflow:hidden;box-shadow:0 8px 32px rgba(0,0,0,0.25),inset 0 1px 0 rgba(255,255,255,0.2);">
+
+            <!-- Badge + Info + Date -->
+            <div style="padding:14px 14px 10px;display:flex;align-items:flex-start;gap:12px;">
+              <button @click="showLevelModal=true" style="flex-shrink:0;width:62px;height:70px;background:none;border:none;cursor:pointer;padding:0;-webkit-tap-highlight-color:transparent;filter:drop-shadow(0 4px 12px rgba(245,158,11,0.4));" v-html="miniShieldHtml(currentLevelData||AGENT_LEVELS[0])"></button>
+              <div style="flex:1;min-width:0;">
+                <div style="display:flex;align-items:center;gap:6px;margin-bottom:3px;flex-wrap:wrap;">
+                  <span style="font-size:15px;font-weight:900;color:#fbbf24;text-shadow:0 2px 8px rgba(245,158,11,0.4);">{{ username }}</span>
+                  <button @click="copyText(inviteCode)" style="background:rgba(251,191,36,0.15);border:1px solid rgba(251,191,36,0.35);border-radius:6px;padding:2px 7px;font-size:9px;font-weight:800;color:#fbbf24;cursor:pointer;letter-spacing:0.5px;backdrop-filter:blur(8px);">
+                    {{ copiedCode ? '✓ ကူးပြီး' : inviteCode }}
+                  </button>
+                </div>
+                <div style="font-size:10px;color:rgba(255,255,255,0.55);margin-bottom:7px;">
+                  {{ currentLevelData?.tierName||'BRONZE' }} · {{ currentLevelData?.rankName||'NOVA I' }} · LV{{ agentLevel }}
+                </div>
+                <div style="height:5px;background:rgba(255,255,255,0.1);border-radius:3px;overflow:hidden;box-shadow:inset 0 1px 2px rgba(0,0,0,0.2);">
+                  <div :style="{width:(levelProgress||0)+'%',background:'linear-gradient(90deg,#f59e0b,#fbbf24,#fff9c4)',height:'100%',borderRadius:'3px',boxShadow:'0 0 8px rgba(245,158,11,0.6)',transition:'width 0.7s ease'}" ></div>
+                </div>
+                <div style="display:flex;justify-content:space-between;margin-top:3px;">
+                  <span style="font-size:9px;color:rgba(255,255,255,0.3);">LV{{ agentLevel }}</span>
+                  <span v-if="nextLevelData" style="font-size:9px;color:rgba(255,255,255,0.3);">→ LV{{ agentLevel+1 }}: {{ formatN(nextLevelData.required) }} Ks</span>
+                  <span v-else style="font-size:9px;color:#f59e0b;font-weight:700;">🏆 MAX</span>
+                </div>
+              </div>
+              <div style="flex-shrink:0;text-align:right;">
+                <div style="font-size:9px;color:rgba(255,255,255,0.4);">တောင်စီးစာ</div>
+                <div style="font-size:18px;font-weight:900;color:#fff;line-height:1.1;text-shadow:0 2px 6px rgba(0,0,0,0.3);">{{ formatN(allDownline.filter(u=>u.level===1).length) }}</div>
+                <div style="font-size:9px;color:rgba(255,255,255,0.4);margin-top:4px;">ရက်စွဲ</div>
+                <div style="font-size:10px;color:rgba(255,255,255,0.6);">{{ todayDate }}</div>
+              </div>
+            </div>
+
+            <!-- Commission bar (glass inner) -->
+            <div style="padding:8px 14px;display:flex;align-items:center;gap:8px;background:rgba(245,158,11,0.1);border-top:1px solid rgba(245,158,11,0.15);border-bottom:1px solid rgba(255,255,255,0.06);">
+              <span style="font-size:9px;font-weight:800;color:#f59e0b;background:rgba(245,158,11,0.2);border:1px solid rgba(245,158,11,0.3);border-radius:5px;padding:2px 6px;flex-shrink:0;">COMM</span>
+              <div style="flex:1;font-size:10px;color:rgba(255,255,255,0.5);">{{ currentLevelData?.rate||10 }}% · Turnover {{ formatN(totalTurnover) }} Ks</div>
+              <span style="font-size:13px;font-weight:900;color:#4ade80;flex-shrink:0;text-shadow:0 0 12px rgba(74,222,128,0.5);">{{ formatN(totalCommission) }} Ks</span>
+            </div>
+
+            <!-- 4-stat grid -->
+            <div style="display:grid;grid-template-columns:1fr 1fr;">
+              <div style="padding:11px 14px;border-right:1px solid rgba(255,255,255,0.08);border-bottom:1px solid rgba(255,255,255,0.08);">
+                <div style="font-size:10px;color:rgba(255,255,255,0.4);margin-bottom:3px;">ရရှိသည်</div>
+                <div style="font-size:17px;font-weight:900;color:#4ade80;text-shadow:0 0 16px rgba(74,222,128,0.4);">{{ formatN(mainBalance) }}<span style="font-size:9px;margin-left:2px;color:rgba(255,255,255,0.3);">Ks</span></div>
+              </div>
+              <div style="padding:11px 14px;border-bottom:1px solid rgba(255,255,255,0.08);">
+                <div style="font-size:10px;color:rgba(255,255,255,0.4);margin-bottom:3px;">ဆုလာဘ်</div>
+                <div style="font-size:17px;font-weight:900;color:#fbbf24;text-shadow:0 0 16px rgba(251,191,36,0.4);">{{ formatN(bonusBalance) }}<span style="font-size:9px;margin-left:2px;color:rgba(255,255,255,0.3);">Ks</span></div>
+              </div>
+              <div style="padding:11px 14px;border-right:1px solid rgba(255,255,255,0.08);">
+                <div style="font-size:10px;color:rgba(255,255,255,0.4);margin-bottom:3px;">မနေ့ တိုက်ရိုက်</div>
+                <div style="font-size:17px;font-weight:900;color:#fff;">{{ formatN(myStats.directComm) }}<span style="font-size:9px;margin-left:2px;color:rgba(255,255,255,0.3);">Ks</span></div>
+              </div>
+              <div style="padding:11px 14px;">
+                <div style="font-size:10px;color:rgba(255,255,255,0.4);margin-bottom:3px;">ဒါလ ကော်မ</div>
+                <div style="font-size:17px;font-weight:900;color:#fff;">{{ formatN(myStats.totalComm) }}<span style="font-size:9px;margin-left:2px;color:rgba(255,255,255,0.3);">Ks</span></div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Invite / QR Card (Glass) -->
+          <div style="margin:10px 12px 0;backdrop-filter:blur(20px) saturate(200%);-webkit-backdrop-filter:blur(20px) saturate(200%);background:rgba(255,255,255,0.1);border:1px solid rgba(255,255,255,0.2);border-radius:18px;padding:14px;box-shadow:0 8px 32px rgba(0,0,0,0.2),inset 0 1px 0 rgba(255,255,255,0.2);">
+
+            <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:12px;">
+              <span style="font-size:12px;font-weight:800;color:rgba(255,255,255,0.9);">သူများကို ဖိတ်ကြားပါ</span>
+              <div style="display:flex;align-items:center;gap:6px;">
+                <span style="font-size:12px;font-weight:900;color:#fbbf24;letter-spacing:1.5px;">{{ inviteCode }}</span>
+                <button @click="copyText(inviteCode)" style="background:rgba(251,191,36,0.15);border:1px solid rgba(251,191,36,0.3);border-radius:8px;padding:4px 10px;font-size:10px;font-weight:700;color:#fbbf24;cursor:pointer;backdrop-filter:blur(8px);">
+                  {{ copiedCode ? '✓' : 'ကူး' }}
                 </button>
               </div>
-              <div style="font-size:10px;color:rgba(255,255,255,0.5);margin-bottom:6px;">
-                {{ currentLevelData?.tierName||'BRONZE' }} · {{ currentLevelData?.rankName||'NOVA I' }} · LV{{ agentLevel }}
+            </div>
+
+            <!-- QR + Link -->
+            <div style="display:flex;align-items:center;gap:12px;margin-bottom:12px;">
+              <div style="flex-shrink:0;width:74px;height:74px;background:rgba(255,255,255,0.95);border-radius:12px;padding:4px;overflow:hidden;box-shadow:0 4px 20px rgba(0,0,0,0.3);">
+                <img :src="qrUrl" style="width:100%;height:100%;object-fit:cover;border-radius:8px;" />
               </div>
-              <!-- Progress Bar -->
-              <div style="height:5px;background:rgba(255,255,255,0.1);border-radius:3px;overflow:hidden;">
-                <div :style="{width:(levelProgress||0)+'%',background:'linear-gradient(90deg,#f59e0b,#fbbf24)',height:'100%',borderRadius:'3px',transition:'width 0.6s ease'}" ></div>
+              <div style="flex:1;min-width:0;">
+                <div style="font-size:9px;color:rgba(255,255,255,0.4);margin-bottom:5px;font-weight:600;">Referral Link</div>
+                <div style="background:rgba(0,0,0,0.2);border:1px solid rgba(255,255,255,0.12);border-radius:10px;padding:8px 10px;display:flex;align-items:center;gap:6px;backdrop-filter:blur(8px);">
+                  <span style="flex:1;font-size:10px;color:rgba(255,255,255,0.5);overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">{{ referralLink }}</span>
+                  <button @click="copyText(referralLink)" style="background:rgba(74,222,128,0.15);border:1px solid rgba(74,222,128,0.3);border-radius:6px;padding:4px 8px;font-size:10px;font-weight:700;color:#4ade80;cursor:pointer;flex-shrink:0;">
+                    {{ copiedLink ? '✓' : '📋' }}
+                  </button>
+                </div>
               </div>
-              <div style="display:flex;justify-content:space-between;margin-top:3px;">
-                <span style="font-size:9px;color:rgba(255,255,255,0.3);">LV{{ agentLevel }} · {{ formatN(totalCommission) }} Ks</span>
-                <span v-if="nextLevelData" style="font-size:9px;color:rgba(255,255,255,0.3);">LV{{ agentLevel+1 }} → {{ formatN(nextLevelData.required) }} Ks</span>
-                <span v-else style="font-size:9px;color:#f59e0b;">🏆 MAX LEVEL</span>
-              </div>
             </div>
 
-            <!-- Right: member stats -->
-            <div style="flex-shrink:0;text-align:right;">
-              <div style="font-size:9px;color:rgba(255,255,255,0.4);">တောင်စီးစာ</div>
-              <div style="font-size:16px;font-weight:900;color:#fff;line-height:1.1;">{{ formatN(allDownline.filter(u=>u.level===1).length) }}</div>
-              <div style="font-size:9px;color:rgba(255,255,255,0.4);margin-top:4px;">ရက်စွဲ</div>
-              <div style="font-size:10px;color:rgba(255,255,255,0.6);">{{ todayDate }}</div>
-            </div>
-          </div>
-
-          <!-- Commission Info bar -->
-          <div style="padding:7px 12px;display:flex;align-items:center;gap:8px;background:rgba(245,158,11,0.08);border-top:1px solid rgba(245,158,11,0.1);border-bottom:1px solid rgba(255,255,255,0.05);">
-            <span style="font-size:9px;font-weight:800;color:#f59e0b;flex-shrink:0;background:rgba(245,158,11,0.15);border:1px solid rgba(245,158,11,0.25);border-radius:4px;padding:1px 5px;">COMM</span>
-            <div style="flex:1;font-size:10px;color:rgba(255,255,255,0.55);">{{ currentLevelData?.rate||10 }}% rate · turnover {{ formatN(totalTurnover) }} Ks</div>
-            <span style="font-size:12px;font-weight:800;color:#4ade80;flex-shrink:0;">{{ formatN(totalCommission) }} Ks</span>
-          </div>
-
-          <!-- 4-stat grid -->
-          <div style="display:grid;grid-template-columns:1fr 1fr;">
-            <div style="padding:10px 14px;border-right:1px solid rgba(255,255,255,0.06);border-bottom:1px solid rgba(255,255,255,0.06);">
-              <div style="font-size:10px;color:rgba(255,255,255,0.42);margin-bottom:2px;">ရရှိသည်</div>
-              <div style="font-size:16px;font-weight:900;color:#4ade80;">{{ formatN(mainBalance) }}<span style="font-size:9px;margin-left:2px;color:rgba(255,255,255,0.3);">Ks</span></div>
-            </div>
-            <div style="padding:10px 14px;border-bottom:1px solid rgba(255,255,255,0.06);">
-              <div style="font-size:10px;color:rgba(255,255,255,0.42);margin-bottom:2px;">ဆုလာဘ်</div>
-              <div style="font-size:16px;font-weight:900;color:#fbbf24;">{{ formatN(bonusBalance) }}<span style="font-size:9px;margin-left:2px;color:rgba(255,255,255,0.3);">Ks</span></div>
-            </div>
-            <div style="padding:10px 14px;border-right:1px solid rgba(255,255,255,0.06);">
-              <div style="font-size:10px;color:rgba(255,255,255,0.42);margin-bottom:2px;">မနေ့ တိုက်ရိုက်</div>
-              <div style="font-size:16px;font-weight:900;color:#fff;">{{ formatN(myStats.directComm) }}<span style="font-size:9px;margin-left:2px;color:rgba(255,255,255,0.3);">Ks</span></div>
-            </div>
-            <div style="padding:10px 14px;">
-              <div style="font-size:10px;color:rgba(255,255,255,0.42);margin-bottom:2px;">ဒါလ ကော်မ</div>
-              <div style="font-size:16px;font-weight:900;color:#fff;">{{ formatN(myStats.totalComm) }}<span style="font-size:9px;margin-left:2px;color:rgba(255,255,255,0.3);">Ks</span></div>
-            </div>
-          </div>
-        </div>
-
-        <!-- Invite / QR Card -->
-        <div style="margin:10px 12px 0;background:rgba(255,255,255,0.07);border:1px solid rgba(255,255,255,0.1);border-radius:14px;padding:12px;">
-
-          <!-- Header row -->
-          <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:10px;">
-            <span style="font-size:12px;font-weight:800;color:rgba(255,255,255,0.9);">သူဆုချောင်ကို ဖိတ်ကြားပါ</span>
-            <div style="display:flex;align-items:center;gap:6px;">
-              <span style="font-size:11px;font-weight:800;color:#fbbf24;letter-spacing:1px;">{{ inviteCode }}</span>
-              <button @click="copyText(inviteCode)" style="background:rgba(251,191,36,0.15);border:1px solid rgba(251,191,36,0.3);border-radius:6px;padding:3px 8px;font-size:10px;font-weight:700;color:#fbbf24;cursor:pointer;">
-                {{ copiedCode ? '✓' : 'ကူး' }}
+            <!-- Social Buttons -->
+            <div style="display:flex;gap:6px;overflow-x:auto;padding-bottom:2px;" class="no-scrollbar">
+              <button v-for="s in socialButtons" :key="s.id" @click="shareVia(s.id)"
+                style="flex-shrink:0;display:flex;flex-direction:column;align-items:center;gap:4px;border-radius:12px;padding:9px 12px;cursor:pointer;min-width:56px;border:1px solid;backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);"
+                :style="{background:s.bg, borderColor:s.border}">
+                <span v-html="s.icon" style="display:flex;align-items:center;justify-content:center;"></span>
+                <span style="font-size:9px;color:rgba(255,255,255,0.6);white-space:nowrap;">{{ s.label }}</span>
               </button>
             </div>
           </div>
 
-          <!-- QR + Link row -->
-          <div style="display:flex;align-items:center;gap:10px;margin-bottom:10px;">
-            <div style="flex-shrink:0;width:72px;height:72px;background:#fff;border-radius:10px;padding:4px;overflow:hidden;">
-              <img :src="qrUrl" style="width:100%;height:100%;object-fit:cover;border-radius:6px;" />
-            </div>
-            <div style="flex:1;min-width:0;">
-              <div style="font-size:9px;color:rgba(255,255,255,0.4);margin-bottom:5px;font-weight:600;">Referral Link</div>
-              <div style="background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.1);border-radius:8px;padding:8px 10px;display:flex;align-items:center;gap:6px;">
-                <span style="flex:1;font-size:10px;color:rgba(255,255,255,0.55);overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">{{ referralLink }}</span>
-                <button @click="copyText(referralLink)" style="background:rgba(74,222,128,0.12);border:1px solid rgba(74,222,128,0.25);border-radius:6px;padding:4px 8px;font-size:10px;font-weight:700;color:#4ade80;cursor:pointer;flex-shrink:0;">
-                  {{ copiedLink ? '✓' : '📋' }}
-                </button>
-              </div>
-            </div>
-          </div>
-
-          <!-- Social Share buttons -->
-          <div style="display:flex;gap:6px;overflow-x:auto;padding-bottom:2px;" class="no-scrollbar">
-            <button v-for="s in socialButtons" :key="s.id" @click="shareVia(s.id)"
-              style="flex-shrink:0;display:flex;flex-direction:column;align-items:center;gap:4px;border-radius:10px;padding:8px 10px;cursor:pointer;min-width:54px;border:1px solid;"
-              :style="{background:s.bg, borderColor:s.border}">
-              <span v-html="s.icon" style="display:flex;align-items:center;justify-content:center;"></span>
-              <span style="font-size:9px;color:rgba(255,255,255,0.6);white-space:nowrap;">{{ s.label }}</span>
+          <!-- Gold CTA Buttons -->
+          <div style="margin:10px 12px 0;display:grid;grid-template-columns:1fr 1fr;gap:8px;">
+            <button @click="activeTab=5" style="background:linear-gradient(135deg,rgba(245,158,11,0.9),rgba(217,119,6,0.9));border:1px solid rgba(245,158,11,0.5);border-radius:14px;padding:14px 10px;display:flex;align-items:center;justify-content:center;gap:6px;cursor:pointer;box-shadow:0 6px 24px rgba(245,158,11,0.4),inset 0 1px 0 rgba(255,255,255,0.25);backdrop-filter:blur(8px);-webkit-tap-highlight-color:transparent;">
+              <svg width="15" height="15" fill="none" stroke="rgba(0,0,0,0.8)" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0"/></svg>
+              <span style="font-size:12px;font-weight:900;color:rgba(0,0,0,0.85);">အောက်လက်များ</span>
+            </button>
+            <button @click="activeTab=4" style="background:linear-gradient(135deg,rgba(245,158,11,0.9),rgba(217,119,6,0.9));border:1px solid rgba(245,158,11,0.5);border-radius:14px;padding:14px 10px;display:flex;align-items:center;justify-content:center;gap:6px;cursor:pointer;box-shadow:0 6px 24px rgba(245,158,11,0.4),inset 0 1px 0 rgba(255,255,255,0.25);backdrop-filter:blur(8px);-webkit-tap-highlight-color:transparent;">
+              <svg width="15" height="15" fill="none" stroke="rgba(0,0,0,0.8)" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+              <span style="font-size:12px;font-weight:900;color:rgba(0,0,0,0.85);">ကော်မရှင်</span>
             </button>
           </div>
-        </div>
 
-        <!-- Gold CTA Buttons -->
-        <div style="margin:10px 12px 0;display:grid;grid-template-columns:1fr 1fr;gap:8px;">
-          <button @click="activeTab=5" style="background:linear-gradient(135deg,#f59e0b,#d97706);border:none;border-radius:12px;padding:14px 10px;display:flex;align-items:center;justify-content:center;gap:6px;cursor:pointer;box-shadow:0 4px 18px rgba(245,158,11,0.4);-webkit-tap-highlight-color:transparent;">
-            <svg width="15" height="15" fill="none" stroke="#000" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0"/></svg>
-            <span style="font-size:12px;font-weight:900;color:#000;">အောက်လက်များ</span>
-          </button>
-          <button @click="activeTab=4" style="background:linear-gradient(135deg,#f59e0b,#d97706);border:none;border-radius:12px;padding:14px 10px;display:flex;align-items:center;justify-content:center;gap:6px;cursor:pointer;box-shadow:0 4px 18px rgba(245,158,11,0.4);-webkit-tap-highlight-color:transparent;">
-            <svg width="15" height="15" fill="none" stroke="#000" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
-            <span style="font-size:12px;font-weight:900;color:#000;">ကော်မရှင်</span>
-          </button>
-        </div>
+          <!-- New Member Flash -->
+          <Transition name="flash-in">
+            <div v-if="newMemberFlash" style="margin:10px 12px 0;backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);background:rgba(74,222,128,0.15);border:1px solid rgba(74,222,128,0.3);border-radius:14px;padding:12px 14px;display:flex;align-items:center;gap:10px;box-shadow:0 4px 20px rgba(74,222,128,0.15);">
+              <span style="font-size:22px;">🎉</span>
+              <div>
+                <div style="font-size:12px;font-weight:800;color:#4ade80;">အောက်လက် အသစ် ဝင်ရောက်လာပြီ!</div>
+                <div style="font-size:10px;color:rgba(255,255,255,0.5);margin-top:1px;">Commission ရရှိပါမည်</div>
+              </div>
+            </div>
+          </Transition>
 
-        <!-- New Member Flash Notification -->
-        <Transition name="flash-in">
-          <div v-if="newMemberFlash" style="margin:10px 12px 0;background:linear-gradient(135deg,rgba(34,197,94,0.18),rgba(16,185,129,0.12));border:1px solid rgba(74,222,128,0.3);border-radius:12px;padding:12px 14px;display:flex;align-items:center;gap:10px;">
-            <span style="font-size:22px;">🎉</span>
+          <!-- Wallet Summary (Glass) -->
+          <div style="margin:10px 12px 0;backdrop-filter:blur(20px) saturate(180%);-webkit-backdrop-filter:blur(20px) saturate(180%);background:rgba(255,255,255,0.09);border:1px solid rgba(255,255,255,0.18);border-radius:16px;padding:14px;display:flex;align-items:center;justify-content:space-between;box-shadow:0 8px 32px rgba(0,0,0,0.2),inset 0 1px 0 rgba(255,255,255,0.15);">
             <div>
-              <div style="font-size:12px;font-weight:800;color:#4ade80;">အောက်လက် အသစ် ဝင်ရောက်လာပြီ!</div>
-              <div style="font-size:10px;color:rgba(255,255,255,0.5);margin-top:1px;">Commission ရရှိပါမည်</div>
+              <div style="font-size:10px;color:rgba(255,255,255,0.45);margin-bottom:3px;">ပင်မ Wallet</div>
+              <div style="font-size:22px;font-weight:900;color:#4ade80;line-height:1;text-shadow:0 0 20px rgba(74,222,128,0.4);">{{ formatN(mainBalance) }}<span style="font-size:11px;color:rgba(255,255,255,0.3);margin-left:3px;">Ks</span></div>
             </div>
-          </div>
-        </Transition>
-
-        <!-- Wallet Summary -->
-        <div style="margin:10px 12px 0;background:rgba(255,255,255,0.07);border:1px solid rgba(255,255,255,0.1);border-radius:12px;padding:14px;display:flex;align-items:center;justify-content:space-between;">
-          <div>
-            <div style="font-size:10px;color:rgba(255,255,255,0.45);margin-bottom:3px;">ပင်မ Wallet</div>
-            <div style="font-size:20px;font-weight:900;color:#4ade80;line-height:1;">{{ formatN(mainBalance) }}<span style="font-size:11px;color:rgba(255,255,255,0.35);margin-left:3px;">Ks</span></div>
-          </div>
-          <div style="width:1px;height:36px;background:rgba(255,255,255,0.08);"></div>
-          <div style="text-align:right;">
-            <div style="font-size:10px;color:rgba(255,255,255,0.45);margin-bottom:3px;">Bonus</div>
-            <div style="font-size:20px;font-weight:900;color:#fbbf24;line-height:1;">{{ formatN(bonusBalance) }}<span style="font-size:11px;color:rgba(255,255,255,0.35);margin-left:3px;">Ks</span></div>
-          </div>
-        </div>
-
-        <!-- Promo Banner Row -->
-        <div style="margin:10px 12px 0;background:linear-gradient(135deg,rgba(139,92,246,0.35),rgba(245,158,11,0.2));border:1px solid rgba(139,92,246,0.25);border-radius:12px;padding:12px 14px;display:flex;align-items:center;gap:10px;">
-          <span style="font-size:24px;flex-shrink:0;">🎁</span>
-          <div style="flex:1;min-width:0;">
-            <div style="font-size:12px;font-weight:800;color:#fbbf24;">ဖိတ်ကြားလေ · ဆုကြေးများများ ရရှိလေ</div>
-            <div style="font-size:10px;color:rgba(255,255,255,0.5);margin-top:2px;">Friend တစ်ယောက်ချင်း Register ဝင်တိုင်း Commission ရ</div>
-          </div>
-          <button @click="activeTab=1" style="flex-shrink:0;background:rgba(251,191,36,0.2);border:1px solid rgba(251,191,36,0.35);border-radius:8px;padding:6px 12px;font-size:11px;font-weight:700;color:#fbbf24;cursor:pointer;">ဖိတ်ကြား</button>
-        </div>
-
-        <!-- Downline Summary Row -->
-        <div style="margin:10px 12px 0;background:rgba(255,255,255,0.07);border:1px solid rgba(255,255,255,0.1);border-radius:12px;padding:12px 14px;">
-          <div style="display:flex;align-items:center;justify-content:space-between;">
-            <div style="text-align:center;flex:1;">
-              <div style="font-size:10px;color:rgba(255,255,255,0.42);margin-bottom:2px;">တောင်စီး</div>
-              <div style="font-size:18px;font-weight:900;color:#fff;">{{ formatN(allDownline.filter(u=>u.level===1).length) }}</div>
-            </div>
-            <div style="width:1px;height:32px;background:rgba(255,255,255,0.08);"></div>
-            <div style="text-align:center;flex:1;">
-              <div style="font-size:10px;color:rgba(255,255,255,0.42);margin-bottom:2px;">စုစုပေါင်း</div>
-              <div style="font-size:18px;font-weight:900;color:#fff;">{{ formatN(allDownline.length) }}</div>
-            </div>
-            <div style="width:1px;height:32px;background:rgba(255,255,255,0.08);"></div>
-            <div style="text-align:center;flex:1;">
-              <div style="font-size:10px;color:rgba(255,255,255,0.42);margin-bottom:2px;">ကော်မ</div>
-              <div style="font-size:18px;font-weight:900;color:#4ade80;">{{ formatN(totalCommission) }}</div>
-            </div>
-            <button @click="activeTab=5" style="flex-shrink:0;margin-left:8px;background:rgba(251,191,36,0.12);border:1px solid rgba(251,191,36,0.25);border-radius:8px;padding:7px 12px;font-size:11px;font-weight:700;color:#fbbf24;cursor:pointer;">ကြည့်</button>
-          </div>
-        </div>
-
-        <!-- Member Since / Info row -->
-        <div style="margin:10px 12px 0;background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.07);border-radius:12px;padding:12px 14px;display:flex;align-items:center;justify-content:space-between;">
-          <div style="display:flex;align-items:center;gap:8px;">
-            <span style="font-size:13px;">👤</span>
-            <div>
-              <div style="font-size:10px;color:rgba(255,255,255,0.4);">Member Since</div>
-              <div style="font-size:12px;font-weight:700;color:rgba(255,255,255,0.75);">{{ memberSince }}</div>
-            </div>
-          </div>
-          <div style="display:flex;align-items:center;gap:8px;">
-            <span style="font-size:13px;">💰</span>
+            <div style="width:1px;height:40px;background:rgba(255,255,255,0.1);"></div>
             <div style="text-align:right;">
-              <div style="font-size:10px;color:rgba(255,255,255,0.4);">Total Deposit</div>
-              <div style="font-size:12px;font-weight:700;color:rgba(255,255,255,0.75);">{{ formatN(userTotalDeposit) }} Ks</div>
+              <div style="font-size:10px;color:rgba(255,255,255,0.45);margin-bottom:3px;">Bonus</div>
+              <div style="font-size:22px;font-weight:900;color:#fbbf24;line-height:1;text-shadow:0 0 20px rgba(251,191,36,0.4);">{{ formatN(bonusBalance) }}<span style="font-size:11px;color:rgba(255,255,255,0.3);margin-left:3px;">Ks</span></div>
             </div>
           </div>
-        </div>
 
-      </div><!-- /TAB 0 -->
-
-
-      <!-- ════════════════════════════════
-           TAB 1 : ဖိတ်ခေါ် (Referral)
-      ════════════════════════════════ -->
-      <div v-if="activeTab===1" class="referral-tab" style="padding:12px;">
-
-        <!-- Hero QR Card -->
-        <div class="referral-hero-card" style="border-radius:16px;padding:20px;text-align:center;margin-bottom:12px;">
-          <div style="font-size:13px;font-weight:800;color:rgba(255,255,255,0.9);margin-bottom:4px;">Invite Code</div>
-          <div style="font-size:28px;font-weight:900;color:#f59e0b;letter-spacing:4px;margin-bottom:16px;">{{ inviteCode }}</div>
-
-          <!-- QR Code -->
-          <div style="width:130px;height:130px;background:#fff;border-radius:14px;padding:6px;margin:0 auto 16px;box-shadow:0 8px 32px rgba(0,0,0,0.3);">
-            <img :src="qrUrl" style="width:100%;height:100%;border-radius:10px;object-fit:cover;" />
+          <!-- Promo Banner (Glass Gradient) -->
+          <div style="margin:10px 12px 0;backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);background:linear-gradient(135deg,rgba(139,92,246,0.25),rgba(245,158,11,0.18));border:1px solid rgba(139,92,246,0.3);border-radius:16px;padding:13px 14px;display:flex;align-items:center;gap:10px;box-shadow:0 6px 24px rgba(139,92,246,0.15),inset 0 1px 0 rgba(255,255,255,0.1);">
+            <span style="font-size:24px;flex-shrink:0;filter:drop-shadow(0 2px 8px rgba(245,158,11,0.5));">🎁</span>
+            <div style="flex:1;min-width:0;">
+              <div style="font-size:12px;font-weight:800;color:#fbbf24;text-shadow:0 1px 4px rgba(0,0,0,0.3);">ဖိတ်ကြားလေ · ဆုကြေးများများ ရရှိလေ</div>
+              <div style="font-size:10px;color:rgba(255,255,255,0.5);margin-top:2px;">Friend တစ်ယောက်ချင်း Register တိုင်း Commission ရ</div>
+            </div>
+            <button @click="activeTab=1" style="flex-shrink:0;backdrop-filter:blur(8px);background:rgba(251,191,36,0.2);border:1px solid rgba(251,191,36,0.4);border-radius:10px;padding:7px 12px;font-size:11px;font-weight:700;color:#fbbf24;cursor:pointer;">ဖိတ်ကြား</button>
           </div>
 
-          <div style="font-size:11px;color:rgba(255,255,255,0.5);word-break:break-all;margin-bottom:14px;">{{ referralLink }}</div>
+          <!-- Downline Summary (Glass) -->
+          <div style="margin:10px 12px 0;backdrop-filter:blur(20px) saturate(180%);-webkit-backdrop-filter:blur(20px) saturate(180%);background:rgba(255,255,255,0.09);border:1px solid rgba(255,255,255,0.18);border-radius:16px;padding:13px 14px;box-shadow:0 8px 32px rgba(0,0,0,0.2),inset 0 1px 0 rgba(255,255,255,0.12);">
+            <div style="display:flex;align-items:center;justify-content:space-between;">
+              <div style="text-align:center;flex:1;">
+                <div style="font-size:10px;color:rgba(255,255,255,0.4);margin-bottom:2px;">တောင်စီး</div>
+                <div style="font-size:20px;font-weight:900;color:#fbbf24;text-shadow:0 0 12px rgba(251,191,36,0.3);">{{ formatN(allDownline.filter(u=>u.level===1).length) }}</div>
+              </div>
+              <div style="width:1px;height:34px;background:rgba(255,255,255,0.1);"></div>
+              <div style="text-align:center;flex:1;">
+                <div style="font-size:10px;color:rgba(255,255,255,0.4);margin-bottom:2px;">စုစုပေါင်း</div>
+                <div style="font-size:20px;font-weight:900;color:#a78bfa;">{{ formatN(allDownline.length) }}</div>
+              </div>
+              <div style="width:1px;height:34px;background:rgba(255,255,255,0.1);"></div>
+              <div style="text-align:center;flex:1;">
+                <div style="font-size:10px;color:rgba(255,255,255,0.4);margin-bottom:2px;">ကော်မ</div>
+                <div style="font-size:20px;font-weight:900;color:#4ade80;text-shadow:0 0 12px rgba(74,222,128,0.3);">{{ formatN(totalCommission) }}</div>
+              </div>
+              <button @click="activeTab=5" style="flex-shrink:0;margin-left:8px;backdrop-filter:blur(8px);background:rgba(251,191,36,0.15);border:1px solid rgba(251,191,36,0.3);border-radius:10px;padding:8px 12px;font-size:11px;font-weight:700;color:#fbbf24;cursor:pointer;">ကြည့်</button>
+            </div>
+          </div>
 
-          <div style="display:flex;gap:8px;justify-content:center;">
-            <button @click="copyText(inviteCode)" style="background:rgba(245,158,11,0.15);border:1px solid rgba(245,158,11,0.3);border-radius:10px;padding:8px 16px;font-size:12px;font-weight:700;color:#fbbf24;cursor:pointer;">
-              {{ copiedCode ? '✓ ကူးပြီး' : '🔢 Code ကူး' }}
+          <!-- Member Info (Glass) -->
+          <div style="margin:10px 12px 0;backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.12);border-radius:14px;padding:12px 14px;display:flex;align-items:center;justify-content:space-between;">
+            <div style="display:flex;align-items:center;gap:8px;">
+              <span style="font-size:13px;">👤</span>
+              <div>
+                <div style="font-size:10px;color:rgba(255,255,255,0.4);">Member Since</div>
+                <div style="font-size:12px;font-weight:700;color:rgba(255,255,255,0.75);">{{ memberSince }}</div>
+              </div>
+            </div>
+            <div style="display:flex;align-items:center;gap:8px;">
+              <span style="font-size:13px;">💰</span>
+              <div style="text-align:right;">
+                <div style="font-size:10px;color:rgba(255,255,255,0.4);">Total Deposit</div>
+                <div style="font-size:12px;font-weight:700;color:rgba(255,255,255,0.75);">{{ formatN(userTotalDeposit) }} Ks</div>
+              </div>
+            </div>
+          </div>
+
+        </div><!-- /TAB 0 -->
+
+
+        <!-- ════ TAB 1 : ဖိတ်ခေါ် ════ -->
+        <div v-if="activeTab===1" class="referral-tab" style="padding:12px;">
+
+          <!-- Hero QR (Glass) -->
+          <div class="referral-hero-card" style="backdrop-filter:blur(24px) saturate(200%);-webkit-backdrop-filter:blur(24px) saturate(200%);background:rgba(255,255,255,0.12);border:1px solid rgba(255,255,255,0.22);border-radius:20px;padding:22px;text-align:center;margin-bottom:12px;box-shadow:0 12px 48px rgba(0,0,0,0.3),inset 0 1px 0 rgba(255,255,255,0.25);">
+            <div style="font-size:13px;font-weight:800;color:rgba(255,255,255,0.8);margin-bottom:4px;">Invite Code</div>
+            <div style="font-size:30px;font-weight:900;color:#f59e0b;letter-spacing:5px;margin-bottom:18px;text-shadow:0 0 20px rgba(245,158,11,0.5);">{{ inviteCode }}</div>
+            <div style="width:134px;height:134px;background:rgba(255,255,255,0.95);border-radius:16px;padding:7px;margin:0 auto 18px;box-shadow:0 8px 32px rgba(0,0,0,0.4),0 0 0 1px rgba(255,255,255,0.3);">
+              <img :src="qrUrl" style="width:100%;height:100%;border-radius:10px;object-fit:cover;" />
+            </div>
+            <div style="font-size:11px;color:rgba(255,255,255,0.4);word-break:break-all;margin-bottom:16px;background:rgba(0,0,0,0.15);padding:8px;border-radius:8px;backdrop-filter:blur(4px);">{{ referralLink }}</div>
+            <div style="display:flex;gap:8px;justify-content:center;">
+              <button @click="copyText(inviteCode)" style="backdrop-filter:blur(8px);background:rgba(245,158,11,0.2);border:1px solid rgba(245,158,11,0.35);border-radius:12px;padding:9px 18px;font-size:12px;font-weight:700;color:#fbbf24;cursor:pointer;">
+                {{ copiedCode ? '✓ ကူးပြီး' : '🔢 Code ကူး' }}
+              </button>
+              <button @click="copyText(referralLink)" style="backdrop-filter:blur(8px);background:rgba(74,222,128,0.15);border:1px solid rgba(74,222,128,0.3);border-radius:12px;padding:9px 18px;font-size:12px;font-weight:700;color:#4ade80;cursor:pointer;">
+                {{ copiedLink ? '✓ ကူးပြီး' : '🔗 Link ကူး' }}
+              </button>
+            </div>
+          </div>
+
+          <!-- Social Share (Glass) -->
+          <div style="backdrop-filter:blur(20px) saturate(200%);-webkit-backdrop-filter:blur(20px) saturate(200%);background:rgba(255,255,255,0.1);border:1px solid rgba(255,255,255,0.18);border-radius:16px;padding:14px;margin-bottom:12px;box-shadow:0 8px 24px rgba(0,0,0,0.2);">
+            <div style="font-size:11px;font-weight:700;color:rgba(255,255,255,0.5);margin-bottom:10px;text-align:center;">Share Via</div>
+            <div style="display:flex;gap:8px;overflow-x:auto;" class="no-scrollbar">
+              <button v-for="s in socialButtons" :key="s.id" @click="shareVia(s.id)"
+                style="flex:1;min-width:52px;display:flex;flex-direction:column;align-items:center;gap:5px;border-radius:12px;padding:10px 6px;cursor:pointer;border:1px solid;backdrop-filter:blur(10px);"
+                :style="{background:s.bg, borderColor:s.border}">
+                <span v-html="s.icon" style="display:flex;align-items:center;justify-content:center;"></span>
+                <span style="font-size:9px;color:rgba(255,255,255,0.65);white-space:nowrap;">{{ s.label }}</span>
+              </button>
+            </div>
+          </div>
+
+          <!-- How it works (Glass) -->
+          <div style="backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);background:rgba(255,255,255,0.08);border:1px solid rgba(255,255,255,0.15);border-radius:16px;padding:14px;margin-bottom:12px;box-shadow:0 8px 24px rgba(0,0,0,0.15);">
+            <div style="font-size:12px;font-weight:800;color:rgba(255,255,255,0.9);margin-bottom:12px;">📋 ဘယ်လိုရမလဲ?</div>
+            <div v-for="(step,i) in inviteSteps" :key="i" style="display:flex;align-items:flex-start;gap:10px;margin-bottom:10px;">
+              <div style="width:24px;height:24px;border-radius:50%;background:rgba(245,158,11,0.2);border:1px solid rgba(245,158,11,0.4);display:flex;align-items:center;justify-content:center;flex-shrink:0;backdrop-filter:blur(8px);box-shadow:0 0 10px rgba(245,158,11,0.2);">
+                <span style="font-size:10px;font-weight:900;color:#f59e0b;">{{ i+1 }}</span>
+              </div>
+              <div style="flex:1;font-size:11px;color:rgba(255,255,255,0.65);line-height:1.6;padding:3px 8px;border-radius:8px;" :style="step.style">{{ step.text }}</div>
+            </div>
+          </div>
+
+          <!-- Plexus Canvas (Glass) -->
+          <div class="floating-node-card" style="backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.12);border-radius:16px;overflow:hidden;aspect-ratio:16/7;position:relative;box-shadow:0 8px 32px rgba(0,0,0,0.2);">
+            <canvas ref="plexusRef" style="width:100%;height:100%;display:block;"></canvas>
+            <div style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;pointer-events:none;">
+              <div style="text-align:center;">
+                <div style="font-size:11px;color:rgba(255,255,255,0.2);">Network Visualization</div>
+                <div style="font-size:24px;font-weight:900;color:rgba(255,255,255,0.1);margin-top:4px;">{{ formatN(allDownline.length) }} Members</div>
+              </div>
+            </div>
+          </div>
+
+        </div><!-- /TAB 1 -->
+
+
+        <!-- ════ TAB 2 : ဒေတာ ════ -->
+        <div v-if="activeTab===2" style="padding:12px;">
+
+          <!-- Period Filter (Glass pills) -->
+          <div style="display:flex;gap:6px;margin-bottom:12px;overflow-x:auto;" class="no-scrollbar">
+            <button v-for="p in myDataPeriods" :key="p.key" @click="switchMyDataPeriod(p.key)"
+              style="flex-shrink:0;padding:7px 14px;border-radius:10px;font-size:11px;font-weight:700;cursor:pointer;transition:all 0.15s;border:1px solid;backdrop-filter:blur(12px);"
+              :style="myDataPeriod===p.key
+                ? 'background:rgba(245,158,11,0.25);border-color:rgba(245,158,11,0.5);color:#fbbf24;box-shadow:0 0 16px rgba(245,158,11,0.2);'
+                : 'background:rgba(255,255,255,0.07);border-color:rgba(255,255,255,0.12);color:rgba(255,255,255,0.5);'">
+              {{ p.label }}
             </button>
-            <button @click="copyText(referralLink)" style="background:rgba(74,222,128,0.12);border:1px solid rgba(74,222,128,0.25);border-radius:10px;padding:8px 16px;font-size:12px;font-weight:700;color:#4ade80;cursor:pointer;">
-              {{ copiedLink ? '✓ ကူးပြီး' : '🔗 Link ကူး' }}
-            </button>
           </div>
-        </div>
 
-        <!-- Social Share -->
-        <div style="background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.1);border-radius:14px;padding:14px;margin-bottom:12px;">
-          <div style="font-size:11px;font-weight:700;color:rgba(255,255,255,0.6);margin-bottom:10px;text-align:center;">Share Via</div>
-          <div style="display:flex;gap:8px;overflow-x:auto;" class="no-scrollbar">
-            <button v-for="s in socialButtons" :key="s.id" @click="shareVia(s.id)"
-              style="flex:1;min-width:52px;display:flex;flex-direction:column;align-items:center;gap:5px;border-radius:12px;padding:10px 6px;cursor:pointer;border:1px solid;"
-              :style="{background:s.bg, borderColor:s.border}">
-              <span v-html="s.icon" style="display:flex;align-items:center;justify-content:center;"></span>
-              <span style="font-size:9px;color:rgba(255,255,255,0.65);white-space:nowrap;">{{ s.label }}</span>
-            </button>
+          <div v-if="myDataLoading" style="text-align:center;padding:40px;color:rgba(255,255,255,0.4);">
+            <div style="font-size:28px;margin-bottom:8px;">⏳</div><div style="font-size:12px;">Loading...</div>
           </div>
-        </div>
-
-        <!-- How it works -->
-        <div style="background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.1);border-radius:14px;padding:14px;margin-bottom:12px;">
-          <div style="font-size:12px;font-weight:800;color:rgba(255,255,255,0.9);margin-bottom:12px;">📋 ဘယ်လိုရမလဲ?</div>
-          <div v-for="(step,i) in inviteSteps" :key="i" style="display:flex;align-items:flex-start;gap:10px;margin-bottom:10px;" :class="i===inviteSteps.length-1 ? '' : ''">
-            <div style="width:22px;height:22px;border-radius:50%;background:rgba(245,158,11,0.2);border:1px solid rgba(245,158,11,0.4);display:flex;align-items:center;justify-content:center;flex-shrink:0;">
-              <span style="font-size:10px;font-weight:900;color:#f59e0b;">{{ i+1 }}</span>
+          <div v-else>
+            <!-- Downline Activity (Glass) -->
+            <div style="backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);background:rgba(255,255,255,0.09);border:1px solid rgba(255,255,255,0.16);border-radius:16px;padding:13px;margin-bottom:10px;box-shadow:0 8px 24px rgba(0,0,0,0.2);">
+              <div style="font-size:11px;font-weight:800;color:rgba(255,255,255,0.7);margin-bottom:10px;display:flex;align-items:center;gap:6px;">
+                <span style="width:3px;height:12px;background:#f59e0b;border-radius:2px;display:inline-block;box-shadow:0 0 8px rgba(245,158,11,0.5);"></span>
+                အောက်လက် Activity
+              </div>
+              <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;">
+                <div v-for="item in [
+                  {label:'အသစ် Member',val:myStats.directNewReg,color:'#4ade80'},
+                  {label:'Deposit ဝင်',val:myStats.depositingCount,color:'#fbbf24'},
+                  {label:'First Deposit',val:myStats.firstDepositCount,color:'#60a5fa'},
+                  {label:'Withdrawal',val:myStats.withdrawalCount,color:'#f87171'},
+                  {label:'Deposit ပမာဏ',val:formatN(myStats.depositAmount)+' Ks',raw:true,color:'#4ade80'},
+                  {label:'Turnover',val:formatN(myStats.totalTurnover)+' Ks',raw:true,color:'#a78bfa'}
+                ]" :key="item.label"
+                  style="background:rgba(0,0,0,0.15);border:1px solid rgba(255,255,255,0.08);border-radius:10px;padding:9px 10px;backdrop-filter:blur(8px);">
+                  <div style="font-size:9px;color:rgba(255,255,255,0.4);margin-bottom:3px;">{{ item.label }}</div>
+                  <div style="font-size:15px;font-weight:900;" :style="{color:item.color,textShadow:`0 0 12px ${item.color}40`}">{{ item.raw ? item.val : formatN(item.val) }}</div>
+                </div>
+              </div>
             </div>
-            <div style="flex:1;font-size:11px;color:rgba(255,255,255,0.65);line-height:1.5;padding:1px 0;" :style="step.style">{{ step.text }}</div>
-          </div>
-        </div>
 
-        <!-- Plexus animation canvas (Node tree visual) -->
-        <div class="floating-node-card" style="border-radius:14px;overflow:hidden;aspect-ratio:16/7;position:relative;background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.07);">
-          <canvas ref="plexusRef" style="width:100%;height:100%;display:block;"></canvas>
-          <div style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;pointer-events:none;">
-            <div style="text-align:center;">
-              <div style="font-size:11px;color:rgba(255,255,255,0.3);">Network Visualization</div>
-              <div style="font-size:22px;font-weight:900;color:rgba(255,255,255,0.15);margin-top:4px;">{{ formatN(allDownline.length) }} Members</div>
+            <!-- Commission (Glass) -->
+            <div style="backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);background:rgba(255,255,255,0.09);border:1px solid rgba(255,255,255,0.16);border-radius:16px;padding:13px;margin-bottom:10px;box-shadow:0 8px 24px rgba(0,0,0,0.2);">
+              <div style="font-size:11px;font-weight:800;color:rgba(255,255,255,0.7);margin-bottom:10px;display:flex;align-items:center;gap:6px;">
+                <span style="width:3px;height:12px;background:#f59e0b;border-radius:2px;display:inline-block;box-shadow:0 0 8px rgba(245,158,11,0.5);"></span>
+                ကော်မရှင်
+              </div>
+              <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;">
+                <div v-for="item in [{label:'တိုက်ရိုက်',val:myStats.directComm,color:'#fbbf24'},{label:'Indirect',val:myStats.indirectComm,color:'#60a5fa'},{label:'စုစုပေါင်း',val:myStats.totalComm,color:'#4ade80'}]" :key="item.label"
+                  style="background:rgba(0,0,0,0.15);border:1px solid rgba(255,255,255,0.08);border-radius:10px;padding:9px 8px;text-align:center;backdrop-filter:blur(8px);">
+                  <div style="font-size:9px;color:rgba(255,255,255,0.4);margin-bottom:3px;">{{ item.label }}</div>
+                  <div style="font-size:14px;font-weight:900;" :style="{color:item.color}">{{ formatN(item.val) }}</div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Member Counts (Glass) -->
+            <div style="backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);background:rgba(255,255,255,0.09);border:1px solid rgba(255,255,255,0.16);border-radius:16px;padding:13px;box-shadow:0 8px 24px rgba(0,0,0,0.2);">
+              <div style="font-size:11px;font-weight:800;color:rgba(255,255,255,0.7);margin-bottom:10px;display:flex;align-items:center;gap:6px;">
+                <span style="width:3px;height:12px;background:#f59e0b;border-radius:2px;display:inline-block;box-shadow:0 0 8px rgba(245,158,11,0.5);"></span>
+                Member Statistics
+              </div>
+              <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;">
+                <div v-for="item in [{label:'တိုက်ရိုက်',val:myStats.directMembers,color:'#fbbf24'},{label:'Indirect',val:myStats.indirectMembers,color:'#a78bfa'},{label:'စုစုပေါင်း',val:myStats.totalMembers,color:'#4ade80'}]" :key="item.label"
+                  style="background:rgba(0,0,0,0.15);border:1px solid rgba(255,255,255,0.08);border-radius:10px;padding:9px 8px;text-align:center;backdrop-filter:blur(8px);">
+                  <div style="font-size:9px;color:rgba(255,255,255,0.4);margin-bottom:3px;">{{ item.label }}</div>
+                  <div style="font-size:18px;font-weight:900;" :style="{color:item.color}">{{ formatN(item.val) }}</div>
+                </div>
+              </div>
             </div>
           </div>
-        </div>
-
-      </div><!-- /TAB 1 -->
+        </div><!-- /TAB 2 -->
 
 
-      <!-- ════════════════════════════════
-           TAB 2 : ဒေတာ (My Data)
-      ════════════════════════════════ -->
-      <div v-if="activeTab===2" style="padding:12px;">
+        <!-- ════ TAB 3 : စွမ်းဆောင် ════ -->
+        <div v-if="activeTab===3" style="padding:12px;">
 
-        <!-- Period Filter -->
-        <div style="display:flex;gap:6px;margin-bottom:12px;overflow-x:auto;" class="no-scrollbar">
-          <button v-for="p in myDataPeriods" :key="p.key" @click="switchMyDataPeriod(p.key)"
-            style="flex-shrink:0;padding:7px 14px;border-radius:8px;font-size:11px;font-weight:700;cursor:pointer;transition:all 0.15s;border:1px solid;"
-            :style="myDataPeriod===p.key
-              ? 'background:rgba(245,158,11,0.25);border-color:rgba(245,158,11,0.5);color:#fbbf24;'
-              : 'background:rgba(255,255,255,0.06);border-color:rgba(255,255,255,0.1);color:rgba(255,255,255,0.5);'">
-            {{ p.label }}
-          </button>
-        </div>
-
-        <div v-if="myDataLoading" style="text-align:center;padding:40px;color:rgba(255,255,255,0.4);">
-          <div style="font-size:24px;margin-bottom:8px;">⏳</div>
-          <div style="font-size:12px;">Loading...</div>
-        </div>
-
-        <div v-else>
-          <!-- Section 1: Downline Activity -->
-          <div style="background:rgba(255,255,255,0.07);border:1px solid rgba(255,255,255,0.1);border-radius:14px;padding:12px;margin-bottom:10px;">
-            <div style="font-size:11px;font-weight:800;color:rgba(255,255,255,0.7);margin-bottom:10px;display:flex;align-items:center;gap:6px;">
-              <span style="width:3px;height:12px;background:#f59e0b;border-radius:2px;display:inline-block;"></span>
-              အောက်လက် Activity
+          <!-- Rank Hero (Glass Gradient) -->
+          <div style="backdrop-filter:blur(24px) saturate(200%);-webkit-backdrop-filter:blur(24px) saturate(200%);background:linear-gradient(135deg,rgba(245,158,11,0.18),rgba(139,92,246,0.18));border:1px solid rgba(245,158,11,0.25);border-radius:20px;padding:20px;text-align:center;margin-bottom:12px;box-shadow:0 12px 48px rgba(0,0,0,0.25),inset 0 1px 0 rgba(255,255,255,0.15);">
+            <div style="font-size:11px;color:rgba(255,255,255,0.5);margin-bottom:6px;">Agent Rank</div>
+            <div style="font-size:52px;font-weight:900;color:#f59e0b;line-height:1;text-shadow:0 0 30px rgba(245,158,11,0.6);">{{ agentRank }}</div>
+            <div style="font-size:12px;color:rgba(255,255,255,0.6);margin-top:5px;">{{ currentLevelData?.tierName||'BRONZE' }} · {{ currentLevelData?.rankName||'NOVA I' }}</div>
+            <div style="display:flex;align-items:center;justify-content:center;gap:8px;margin-top:12px;background:rgba(0,0,0,0.15);border-radius:10px;padding:8px;backdrop-filter:blur(8px);">
+              <div style="font-size:11px;color:rgba(255,255,255,0.5);">Commission Rate:</div>
+              <div style="font-size:18px;font-weight:900;color:#4ade80;text-shadow:0 0 16px rgba(74,222,128,0.4);">{{ currentLevelData?.rate||10 }}%</div>
             </div>
+          </div>
+
+          <!-- Performance Stats (Glass) -->
+          <div style="backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);background:rgba(255,255,255,0.09);border:1px solid rgba(255,255,255,0.16);border-radius:16px;padding:13px;margin-bottom:10px;box-shadow:0 8px 24px rgba(0,0,0,0.2);">
+            <div style="font-size:11px;font-weight:800;color:rgba(255,255,255,0.7);margin-bottom:10px;">📊 Performance Summary</div>
             <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;">
-              <div v-for="item in [{label:' အသစ် Member',val:myStats.directNewReg,color:'#4ade80'},{label:'Deposit ဝင်',val:myStats.depositingCount,color:'#fbbf24'},{label:'First Deposit',val:myStats.firstDepositCount,color:'#60a5fa'},{label:'Withdrawal',val:myStats.withdrawalCount,color:'#f87171'},{label:'Deposit ပမာဏ',val:formatN(myStats.depositAmount)+' Ks',raw:true,color:'#4ade80'},{label:'Turnover',val:formatN(myStats.totalTurnover)+' Ks',raw:true,color:'#a78bfa'}]" :key="item.label"
-                style="background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.07);border-radius:10px;padding:9px 10px;">
-                <div style="font-size:9px;color:rgba(255,255,255,0.4);margin-bottom:3px;">{{ item.label }}</div>
-                <div style="font-size:14px;font-weight:800;" :style="{color:item.color}">{{ item.raw ? item.val : formatN(item.val) }}</div>
+              <div v-for="item in [{label:'Total Commission',val:formatN(totalCommission)+' Ks',color:'#4ade80'},{label:'Total Turnover',val:formatN(totalTurnover)+' Ks',color:'#a78bfa'},{label:'Direct Members',val:formatN(allDownline.filter(u=>u.level===1).length),color:'#fbbf24'},{label:'All Members',val:formatN(allDownline.length),color:'#60a5fa'}]" :key="item.label"
+                style="background:rgba(0,0,0,0.15);border:1px solid rgba(255,255,255,0.08);border-radius:10px;padding:10px;backdrop-filter:blur(8px);">
+                <div style="font-size:9px;color:rgba(255,255,255,0.4);margin-bottom:4px;">{{ item.label }}</div>
+                <div style="font-size:14px;font-weight:800;" :style="{color:item.color}">{{ item.val }}</div>
               </div>
             </div>
           </div>
 
-          <!-- Section 2: Commission -->
-          <div style="background:rgba(255,255,255,0.07);border:1px solid rgba(255,255,255,0.1);border-radius:14px;padding:12px;margin-bottom:10px;">
-            <div style="font-size:11px;font-weight:800;color:rgba(255,255,255,0.7);margin-bottom:10px;display:flex;align-items:center;gap:6px;">
-              <span style="width:3px;height:12px;background:#f59e0b;border-radius:2px;display:inline-block;"></span>
-              ကော်မရှင်
-            </div>
-            <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;">
-              <div v-for="item in [{label:'တိုက်ရိုက်',val:myStats.directComm,color:'#fbbf24'},{label:'Indirect',val:myStats.indirectComm,color:'#60a5fa'},{label:'စုစုပေါင်း',val:myStats.totalComm,color:'#4ade80'}]" :key="item.label"
-                style="background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.07);border-radius:10px;padding:9px 8px;text-align:center;">
-                <div style="font-size:9px;color:rgba(255,255,255,0.4);margin-bottom:3px;">{{ item.label }}</div>
-                <div style="font-size:13px;font-weight:800;" :style="{color:item.color}">{{ formatN(item.val) }}</div>
+          <!-- Level Breakdown (Glass) -->
+          <div v-if="levelBreakdown.length" style="backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);background:rgba(255,255,255,0.09);border:1px solid rgba(255,255,255,0.16);border-radius:16px;padding:13px;box-shadow:0 8px 24px rgba(0,0,0,0.2);">
+            <div style="font-size:11px;font-weight:800;color:rgba(255,255,255,0.7);margin-bottom:10px;">📈 Commission by Level</div>
+            <div v-for="lb in levelBreakdown" :key="lb.level" style="display:flex;align-items:center;gap:10px;padding:9px 0;border-bottom:1px solid rgba(255,255,255,0.05);">
+              <div style="width:30px;height:30px;border-radius:50%;background:rgba(245,158,11,0.15);border:1px solid rgba(245,158,11,0.3);display:flex;align-items:center;justify-content:center;flex-shrink:0;backdrop-filter:blur(8px);">
+                <span style="font-size:10px;font-weight:900;color:#f59e0b;">L{{ lb.level }}</span>
               </div>
+              <div style="flex:1;"><div style="font-size:10px;color:rgba(255,255,255,0.5);">{{ lb.count }} members</div></div>
+              <div style="font-size:12px;font-weight:800;color:#4ade80;text-shadow:0 0 8px rgba(74,222,128,0.3);">{{ formatN(lb.commission) }} Ks</div>
             </div>
           </div>
-
-          <!-- Section 3: Member counts -->
-          <div style="background:rgba(255,255,255,0.07);border:1px solid rgba(255,255,255,0.1);border-radius:14px;padding:12px;">
-            <div style="font-size:11px;font-weight:800;color:rgba(255,255,255,0.7);margin-bottom:10px;display:flex;align-items:center;gap:6px;">
-              <span style="width:3px;height:12px;background:#f59e0b;border-radius:2px;display:inline-block;"></span>
-              Member Statistics
-            </div>
-            <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;">
-              <div v-for="item in [{label:'တိုက်ရိုက်',val:myStats.directMembers,color:'#fbbf24'},{label:'Indirect',val:myStats.indirectMembers,color:'#a78bfa'},{label:'စုစုပေါင်း',val:myStats.totalMembers,color:'#4ade80'}]" :key="item.label"
-                style="background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.07);border-radius:10px;padding:9px 8px;text-align:center;">
-                <div style="font-size:9px;color:rgba(255,255,255,0.4);margin-bottom:3px;">{{ item.label }}</div>
-                <div style="font-size:16px;font-weight:900;" :style="{color:item.color}">{{ formatN(item.val) }}</div>
-              </div>
-            </div>
+          <div v-else style="text-align:center;padding:32px;color:rgba(255,255,255,0.3);">
+            <div style="font-size:36px;margin-bottom:8px;">📊</div>
+            <div style="font-size:12px;">Commission records မရှိသေးပါ</div>
           </div>
-        </div>
-      </div><!-- /TAB 2 -->
+        </div><!-- /TAB 3 -->
 
 
-      <!-- ════════════════════════════════
-           TAB 3 : စွမ်းဆောင် (Performance)
-      ════════════════════════════════ -->
-      <div v-if="activeTab===3" style="padding:12px;">
+        <!-- ════ TAB 4 : ကော်မ ════ -->
+        <div v-if="activeTab===4" style="padding:12px;">
 
-        <!-- Agent Rank Card -->
-        <div style="background:linear-gradient(135deg,rgba(245,158,11,0.15),rgba(139,92,246,0.15));border:1px solid rgba(245,158,11,0.2);border-radius:14px;padding:16px;text-align:center;margin-bottom:12px;">
-          <div style="font-size:11px;color:rgba(255,255,255,0.5);margin-bottom:6px;">Agent Rank</div>
-          <div style="font-size:48px;font-weight:900;color:#f59e0b;line-height:1;">{{ agentRank }}</div>
-          <div style="font-size:11px;color:rgba(255,255,255,0.6);margin-top:4px;">{{ currentLevelData?.tierName||'BRONZE' }} · {{ currentLevelData?.rankName||'NOVA I' }}</div>
-          <div style="display:flex;align-items:center;justify-content:center;gap:6px;margin-top:10px;">
-            <div style="font-size:11px;color:rgba(255,255,255,0.5);">Commission Rate:</div>
-            <div style="font-size:15px;font-weight:900;color:#4ade80;">{{ currentLevelData?.rate||10 }}%</div>
-          </div>
-        </div>
-
-        <!-- Performance Stats -->
-        <div style="background:rgba(255,255,255,0.07);border:1px solid rgba(255,255,255,0.1);border-radius:14px;padding:12px;margin-bottom:10px;">
-          <div style="font-size:11px;font-weight:800;color:rgba(255,255,255,0.7);margin-bottom:10px;">📊 Performance Summary</div>
-          <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;">
-            <div v-for="item in [{label:'Total Commission',val:formatN(totalCommission)+' Ks',color:'#4ade80'},{label:'Total Turnover',val:formatN(totalTurnover)+' Ks',color:'#a78bfa'},{label:'Direct Members',val:formatN(allDownline.filter(u=>u.level===1).length),color:'#fbbf24'},{label:'All Members',val:formatN(allDownline.length),color:'#60a5fa'}]" :key="item.label"
-              style="background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.07);border-radius:10px;padding:10px;">
-              <div style="font-size:9px;color:rgba(255,255,255,0.4);margin-bottom:4px;">{{ item.label }}</div>
-              <div style="font-size:14px;font-weight:800;" :style="{color:item.color}">{{ item.val }}</div>
-            </div>
-          </div>
-        </div>
-
-        <!-- Level Breakdown -->
-        <div v-if="levelBreakdown.length" style="background:rgba(255,255,255,0.07);border:1px solid rgba(255,255,255,0.1);border-radius:14px;padding:12px;">
-          <div style="font-size:11px;font-weight:800;color:rgba(255,255,255,0.7);margin-bottom:10px;">📈 Commission by Level</div>
-          <div v-for="lb in levelBreakdown" :key="lb.level" style="display:flex;align-items:center;gap:10px;padding:8px 0;border-bottom:1px solid rgba(255,255,255,0.05);">
-            <div style="width:28px;height:28px;border-radius:50%;background:rgba(245,158,11,0.15);border:1px solid rgba(245,158,11,0.3);display:flex;align-items:center;justify-content:center;flex-shrink:0;">
-              <span style="font-size:10px;font-weight:900;color:#f59e0b;">L{{ lb.level }}</span>
-            </div>
-            <div style="flex:1;">
-              <div style="font-size:10px;color:rgba(255,255,255,0.5);">{{ lb.count }} members</div>
-            </div>
-            <div style="font-size:12px;font-weight:800;color:#4ade80;">{{ formatN(lb.commission) }} Ks</div>
-          </div>
-        </div>
-        <div v-else style="text-align:center;padding:30px;color:rgba(255,255,255,0.3);">
-          <div style="font-size:32px;margin-bottom:8px;">📊</div>
-          <div style="font-size:12px;">Commission records မရှိသေးပါ</div>
-        </div>
-
-      </div><!-- /TAB 3 -->
-
-
-      <!-- ════════════════════════════════
-           TAB 4 : ကော်မ (Commission Records)
-      ════════════════════════════════ -->
-      <div v-if="activeTab===4" style="padding:12px;">
-
-        <!-- Total summary -->
-        <div style="background:linear-gradient(135deg,rgba(74,222,128,0.12),rgba(245,158,11,0.1));border:1px solid rgba(74,222,128,0.2);border-radius:14px;padding:14px;margin-bottom:12px;display:flex;align-items:center;justify-content:space-between;">
-          <div>
-            <div style="font-size:10px;color:rgba(255,255,255,0.5);margin-bottom:3px;">Total Commission</div>
-            <div style="font-size:22px;font-weight:900;color:#4ade80;">{{ formatN(totalCommission) }} <span style="font-size:12px;color:rgba(255,255,255,0.35);">Ks</span></div>
-          </div>
-          <div style="text-align:right;">
-            <div style="font-size:10px;color:rgba(255,255,255,0.5);margin-bottom:3px;">Records</div>
-            <div style="font-size:22px;font-weight:900;color:#fbbf24;">{{ commissionRecords.length }}</div>
-          </div>
-        </div>
-
-        <!-- Records List -->
-        <div v-if="commissionRecords.length===0" style="text-align:center;padding:40px;color:rgba(255,255,255,0.3);">
-          <div style="font-size:36px;margin-bottom:8px;">💸</div>
-          <div style="font-size:13px;">Commission record မရှိသေးပါ</div>
-          <div style="font-size:11px;margin-top:4px;color:rgba(255,255,255,0.2);">Downline members ကစားသောအခါ ကော်မ ရပါမည်</div>
-        </div>
-
-        <div v-else>
-          <div v-for="r in commissionRecords" :key="r.id"
-            style="background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.08);border-radius:12px;padding:11px 13px;margin-bottom:8px;display:flex;align-items:center;gap:10px;">
-            <div style="width:34px;height:34px;border-radius:50%;background:rgba(245,158,11,0.15);border:1px solid rgba(245,158,11,0.3);display:flex;align-items:center;justify-content:center;flex-shrink:0;">
-              <span style="font-size:11px;font-weight:900;color:#f59e0b;">L{{ r.level }}</span>
-            </div>
-            <div style="flex:1;min-width:0;">
-              <div style="font-size:11px;color:rgba(255,255,255,0.7);font-weight:700;">Turnover: {{ formatN(r.bet_turnover) }} Ks</div>
-              <div style="font-size:10px;color:rgba(255,255,255,0.35);margin-top:1px;">{{ fmtDate(r.created_at) }}</div>
-            </div>
-            <div style="font-size:13px;font-weight:900;color:#4ade80;flex-shrink:0;">+{{ formatN(r.commission_amount) }} Ks</div>
-          </div>
-        </div>
-      </div><!-- /TAB 4 -->
-
-
-      <!-- ════════════════════════════════
-           TAB 5 : အောက်လက် (Downline)
-      ════════════════════════════════ -->
-      <div v-if="activeTab===5" style="padding:12px;">
-
-        <!-- Search + Filter -->
-        <div style="display:flex;gap:8px;margin-bottom:12px;">
-          <input v-model="dlSearch" placeholder="Search member..."
-            style="flex:1;background:rgba(255,255,255,0.08);border:1px solid rgba(255,255,255,0.1);border-radius:10px;padding:9px 12px;font-size:12px;color:#fff;outline:none;"
-            @focus="e=>e.target.style.borderColor='rgba(245,158,11,0.5)'"
-            @blur="e=>e.target.style.borderColor='rgba(255,255,255,0.1)'" />
-          <select v-model="dlLevelFilter"
-            style="background:rgba(255,255,255,0.08);border:1px solid rgba(255,255,255,0.1);border-radius:10px;padding:9px 10px;font-size:12px;color:#fff;outline:none;cursor:pointer;">
-            <option value="0" style="background:#3d4187;">All Levels</option>
-            <option value="1" style="background:#3d4187;">Level 1 (Direct)</option>
-            <option value="2" style="background:#3d4187;">Level 2</option>
-            <option value="3" style="background:#3d4187;">Level 3+</option>
-          </select>
-        </div>
-
-        <!-- Summary bar -->
-        <div style="background:rgba(255,255,255,0.07);border:1px solid rgba(255,255,255,0.1);border-radius:12px;padding:12px 14px;margin-bottom:12px;display:flex;justify-content:space-around;">
-          <div style="text-align:center;">
-            <div style="font-size:9px;color:rgba(255,255,255,0.4);">L1 Direct</div>
-            <div style="font-size:16px;font-weight:900;color:#fbbf24;">{{ formatN(allDownline.filter(u=>u.level===1).length) }}</div>
-          </div>
-          <div style="width:1px;background:rgba(255,255,255,0.07);"></div>
-          <div style="text-align:center;">
-            <div style="font-size:9px;color:rgba(255,255,255,0.4);">Indirect</div>
-            <div style="font-size:16px;font-weight:900;color:#a78bfa;">{{ formatN(allDownline.filter(u=>u.level>1).length) }}</div>
-          </div>
-          <div style="width:1px;background:rgba(255,255,255,0.07);"></div>
-          <div style="text-align:center;">
-            <div style="font-size:9px;color:rgba(255,255,255,0.4);">Total</div>
-            <div style="font-size:16px;font-weight:900;color:#4ade80;">{{ formatN(allDownline.length) }}</div>
-          </div>
-        </div>
-
-        <!-- Members List -->
-        <div v-if="allDownline.length===0" style="text-align:center;padding:40px;color:rgba(255,255,255,0.3);">
-          <div style="font-size:36px;margin-bottom:8px;">👥</div>
-          <div style="font-size:13px;">Downline member မရှိသေးပါ</div>
-          <div style="font-size:11px;margin-top:4px;color:rgba(255,255,255,0.2);">Referral link မျှဝေ၍ members ဖိတ်ကြားပါ</div>
-          <button @click="activeTab=1" style="margin-top:14px;background:rgba(245,158,11,0.2);border:1px solid rgba(245,158,11,0.35);border-radius:10px;padding:8px 20px;font-size:12px;font-weight:700;color:#fbbf24;cursor:pointer;">
-            ဖိတ်ကြားမည်
-          </button>
-        </div>
-
-        <div v-else>
-          <div v-for="member in allDownline.filter(u=>{
-            const matchSearch = !dlSearch || (u.username||u.id||u.descendant_id||'').toString().toLowerCase().includes(dlSearch.toLowerCase())
-            const matchLevel = !dlLevelFilter || dlLevelFilter==0 || (dlLevelFilter==3 ? u.level>=3 : u.level==dlLevelFilter)
-            return matchSearch && matchLevel
-          })" :key="member.descendant_id||member.id"
-            class="downline-node-row"
-            :style="(member.descendant_id||member.id)===latestNewMemberId ? 'border-color:rgba(74,222,128,0.5);background:rgba(74,222,128,0.08);' : ''"
-            style="background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.08);border-radius:12px;padding:11px 13px;margin-bottom:8px;display:flex;align-items:center;gap:10px;">
-
-            <!-- Avatar -->
-            <div style="width:38px;height:38px;border-radius:50%;background:linear-gradient(135deg,rgba(245,158,11,0.3),rgba(139,92,246,0.3));display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:15px;font-weight:900;color:rgba(255,255,255,0.8);">
-              {{ (member.username||'?').charAt(0).toUpperCase() }}
-            </div>
-
-            <!-- Info -->
-            <div style="flex:1;min-width:0;">
-              <div style="font-size:12px;font-weight:700;color:rgba(255,255,255,0.85);">{{ member.username || 'Anonymous' }}</div>
-              <div style="display:flex;align-items:center;gap:6px;margin-top:2px;">
-                <span style="font-size:9px;background:rgba(245,158,11,0.15);border:1px solid rgba(245,158,11,0.25);border-radius:4px;padding:1px 5px;color:#f59e0b;font-weight:700;">L{{ member.level }}</span>
-                <span style="font-size:9px;color:rgba(255,255,255,0.35);">{{ fmtDate(member.created_at) }}</span>
-                <span v-if="(member.descendant_id||member.id)===latestNewMemberId" style="font-size:9px;color:#4ade80;font-weight:700;">🆕 NEW</span>
-              </div>
-            </div>
-
-            <!-- Deposit -->
-            <div style="text-align:right;flex-shrink:0;">
-              <div style="font-size:9px;color:rgba(255,255,255,0.35);margin-bottom:2px;">Deposit</div>
-              <div style="font-size:12px;font-weight:800;color:#fbbf24;">{{ formatN(member.total_deposit||0) }}</div>
-            </div>
-          </div>
-        </div>
-      </div><!-- /TAB 5 -->
-
-
-      <!-- ════════════════════════════════
-           TAB 6 : ကော်မ·မျိုး (Commission Types)
-      ════════════════════════════════ -->
-      <div v-if="activeTab===6" style="padding:12px;">
-        <div style="font-size:13px;font-weight:800;color:rgba(255,255,255,0.8);margin-bottom:12px;">ကော်မရှင် အမျိုးအစားများ</div>
-        <div v-for="(ct, i) in commissionTypes" :key="i" style="margin-bottom:10px;" :style="ct.style">
-          <div style="display:flex;align-items:center;gap:8px;margin-bottom:6px;">
-            <span style="font-size:18px;">{{ ct.icon }}</span>
-            <span style="font-size:12px;font-weight:800;" :style="ct.titleColor">{{ ct.title }}</span>
-          </div>
-          <div style="font-size:13px;font-weight:900;color:#fbbf24;margin-bottom:5px;">{{ ct.rate }}</div>
-          <div style="font-size:11px;color:rgba(255,255,255,0.6);line-height:1.6;">{{ ct.desc }}</div>
-        </div>
-
-        <!-- Current level rate detail -->
-        <div style="background:rgba(245,158,11,0.1);border:1px solid rgba(245,158,11,0.2);border-radius:14px;padding:14px;margin-top:12px;">
-          <div style="font-size:11px;color:rgba(255,255,255,0.6);margin-bottom:8px;">သင့် လက်ရှိ Level Rate</div>
-          <div style="display:flex;align-items:center;justify-content:space-between;">
+          <!-- Total (Glass Gradient) -->
+          <div style="backdrop-filter:blur(20px) saturate(180%);-webkit-backdrop-filter:blur(20px) saturate(180%);background:linear-gradient(135deg,rgba(74,222,128,0.15),rgba(245,158,11,0.12));border:1px solid rgba(74,222,128,0.22);border-radius:16px;padding:16px;margin-bottom:12px;display:flex;align-items:center;justify-content:space-between;box-shadow:0 8px 32px rgba(0,0,0,0.2),inset 0 1px 0 rgba(255,255,255,0.1);">
             <div>
-              <div style="font-size:12px;color:rgba(255,255,255,0.5);">{{ currentLevelData?.tierName||'BRONZE' }} · {{ currentLevelData?.rankName||'NOVA I' }}</div>
-              <div style="font-size:28px;font-weight:900;color:#f59e0b;line-height:1.2;">{{ currentLevelData?.rate||10 }}%</div>
+              <div style="font-size:10px;color:rgba(255,255,255,0.5);margin-bottom:3px;">Total Commission</div>
+              <div style="font-size:24px;font-weight:900;color:#4ade80;text-shadow:0 0 20px rgba(74,222,128,0.4);">{{ formatN(totalCommission) }} <span style="font-size:12px;color:rgba(255,255,255,0.3);">Ks</span></div>
             </div>
-            <div v-html="miniShieldHtml(currentLevelData||AGENT_LEVELS[0])" style="width:60px;height:68px;"></div>
-          </div>
-          <button @click="showLevelModal=true" style="width:100%;margin-top:10px;background:rgba(245,158,11,0.15);border:1px solid rgba(245,158,11,0.3);border-radius:10px;padding:9px;font-size:12px;font-weight:700;color:#fbbf24;cursor:pointer;">
-            Level System ကြည့်မည် →
-          </button>
-        </div>
-      </div><!-- /TAB 6 -->
-
-    </div><!-- /content -->
-
-
-    <!-- ════════════════════════════════════
-         LEVEL MODAL
-    ════════════════════════════════════ -->
-    <Transition name="modal-fade">
-      <div v-if="showLevelModal" style="position:fixed;inset:0;z-index:99;display:flex;flex-direction:column;background:rgba(10,8,30,0.96);backdrop-filter:blur(12px);" @click.self="showLevelModal=false">
-
-        <!-- Modal Header -->
-        <div style="position:relative;padding:16px 16px 12px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid rgba(255,255,255,0.08);flex-shrink:0;">
-          <canvas ref="neuralCanvasRef" style="position:absolute;inset:0;width:100%;height:100%;opacity:0.25;pointer-events:none;"></canvas>
-          <div style="font-size:14px;font-weight:900;color:#fff;position:relative;">🏆 Level System</div>
-          <button @click="showLevelModal=false" style="background:rgba(255,255,255,0.08);border:1px solid rgba(255,255,255,0.12);border-radius:50%;width:32px;height:32px;display:flex;align-items:center;justify-content:center;cursor:pointer;color:#fff;font-size:16px;position:relative;flex-shrink:0;">✕</button>
-        </div>
-
-        <!-- Current Level Hero -->
-        <div style="padding:16px;background:rgba(245,158,11,0.08);border-bottom:1px solid rgba(245,158,11,0.12);flex-shrink:0;">
-          <div style="display:flex;align-items:center;gap:14px;">
-            <div v-html="miniShieldHtml(currentLevelData||AGENT_LEVELS[0])" style="width:64px;height:72px;flex-shrink:0;"></div>
-            <div>
-              <div style="font-size:10px;color:rgba(255,255,255,0.45);margin-bottom:2px;">Current Level</div>
-              <div style="font-size:18px;font-weight:900;color:#fbbf24;">LV{{ agentLevel }} — {{ currentLevelData?.rankName||'NOVA I' }}</div>
-              <div style="font-size:12px;color:rgba(255,255,255,0.55);">{{ currentLevelData?.tierName||'BRONZE' }} Tier · {{ currentLevelData?.rate||10 }}% Rate</div>
-              <div v-if="nextLevelData" style="margin-top:6px;font-size:10px;color:rgba(255,255,255,0.4);">
-                Next: LV{{ agentLevel+1 }} → {{ formatN(nextLevelData.required) }} Ks Commission needed
-              </div>
-              <!-- Progress -->
-              <div style="margin-top:6px;height:4px;background:rgba(255,255,255,0.1);border-radius:2px;overflow:hidden;width:160px;">
-                <div :style="{width:(levelProgress||0)+'%',background:'linear-gradient(90deg,#f59e0b,#fbbf24)',height:'100%'}" ></div>
-              </div>
+            <div style="text-align:right;">
+              <div style="font-size:10px;color:rgba(255,255,255,0.5);margin-bottom:3px;">Records</div>
+              <div style="font-size:24px;font-weight:900;color:#fbbf24;">{{ commissionRecords.length }}</div>
             </div>
           </div>
-        </div>
 
-        <!-- All Levels Scroll -->
-        <div ref="levelScrollRef" style="flex:1;overflow-y:auto;padding:12px;" class="no-scrollbar">
-          <div v-for="lv in AGENT_LEVELS" :key="lv.level"
-            style="display:flex;align-items:center;gap:12px;padding:10px 12px;border-radius:12px;margin-bottom:8px;border:1px solid;transition:all 0.2s;"
-            :style="lv.level===agentLevel
-              ? 'border-color:rgba(245,158,11,0.45);background:rgba(245,158,11,0.1);'
-              : lv.level<agentLevel
-                ? 'border-color:rgba(74,222,128,0.15);background:rgba(74,222,128,0.04);'
-                : 'border-color:rgba(255,255,255,0.07);background:rgba(255,255,255,0.03);'">
-
-            <!-- Badge -->
-            <div v-html="miniShieldHtml(lv)" style="width:44px;height:50px;flex-shrink:0;"></div>
-
-            <!-- Info -->
-            <div style="flex:1;min-width:0;">
-              <div style="display:flex;align-items:center;gap:6px;margin-bottom:2px;">
-                <span style="font-size:12px;font-weight:800;" :style="lv.level===agentLevel ? 'color:#fbbf24' : lv.level<agentLevel ? 'color:#4ade80' : 'color:rgba(255,255,255,0.7)'"  >LV{{ lv.level }} {{ lv.rankName }}</span>
-                <span v-if="lv.level===agentLevel" style="font-size:9px;background:rgba(245,158,11,0.2);border:1px solid rgba(245,158,11,0.4);border-radius:4px;padding:1px 5px;color:#fbbf24;">CURRENT</span>
-                <span v-else-if="lv.level<agentLevel" style="font-size:9px;color:#4ade80;">✓</span>
+          <div v-if="commissionRecords.length===0" style="text-align:center;padding:40px;color:rgba(255,255,255,0.3);">
+            <div style="font-size:36px;margin-bottom:8px;">💸</div>
+            <div style="font-size:13px;">Commission record မရှိသေးပါ</div>
+          </div>
+          <div v-else>
+            <div v-for="r in commissionRecords" :key="r.id"
+              style="backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);background:rgba(255,255,255,0.08);border:1px solid rgba(255,255,255,0.12);border-radius:12px;padding:11px 13px;margin-bottom:8px;display:flex;align-items:center;gap:10px;box-shadow:0 4px 16px rgba(0,0,0,0.15);">
+              <div style="width:36px;height:36px;border-radius:50%;background:rgba(245,158,11,0.15);border:1px solid rgba(245,158,11,0.3);display:flex;align-items:center;justify-content:center;flex-shrink:0;backdrop-filter:blur(8px);">
+                <span style="font-size:11px;font-weight:900;color:#f59e0b;">L{{ r.level }}</span>
               </div>
-              <div style="font-size:10px;color:rgba(255,255,255,0.4);">{{ lv.tierName }} · {{ lv.rate }}% Commission</div>
-            </div>
-
-            <!-- Requirement -->
-            <div style="text-align:right;flex-shrink:0;">
-              <div style="font-size:9px;color:rgba(255,255,255,0.35);">Required</div>
-              <div style="font-size:11px;font-weight:800;" :style="lv.level<=agentLevel ? 'color:#4ade80' : 'color:rgba(255,255,255,0.5)'" >{{ lv.required===0 ? 'Free' : formatN(lv.required)+' Ks' }}</div>
+              <div style="flex:1;min-width:0;">
+                <div style="font-size:11px;color:rgba(255,255,255,0.7);font-weight:700;">Turnover: {{ formatN(r.bet_turnover) }} Ks</div>
+                <div style="font-size:10px;color:rgba(255,255,255,0.35);margin-top:1px;">{{ fmtDate(r.created_at) }}</div>
+              </div>
+              <div style="font-size:13px;font-weight:900;color:#4ade80;flex-shrink:0;text-shadow:0 0 10px rgba(74,222,128,0.3);">+{{ formatN(r.commission_amount) }} Ks</div>
             </div>
           </div>
-        </div>
+        </div><!-- /TAB 4 -->
 
-        <!-- Close Button -->
-        <div style="padding:12px;border-top:1px solid rgba(255,255,255,0.08);flex-shrink:0;">
-          <button @click="showLevelModal=false" style="width:100%;background:rgba(255,255,255,0.08);border:1px solid rgba(255,255,255,0.12);border-radius:12px;padding:12px;font-size:13px;font-weight:700;color:rgba(255,255,255,0.7);cursor:pointer;">
-            ပိတ်မည်
-          </button>
-        </div>
-      </div>
-    </Transition>
 
+        <!-- ════ TAB 5 : အောက်လက် ════ -->
+        <div v-if="activeTab===5" style="padding:12px;">
+
+          <!-- Search + Filter -->
+          <div style="display:flex;gap:8px;margin-bottom:12px;">
+            <input v-model="dlSearch" placeholder="Search member..."
+              style="flex:1;background:rgba(255,255,255,0.08);border:1px solid rgba(255,255,255,0.15);border-radius:12px;padding:10px 14px;font-size:12px;color:#fff;outline:none;backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);"
+              @focus="e=>e.target.style.borderColor='rgba(245,158,11,0.5)'"
+              @blur="e=>e.target.style.borderColor='rgba(255,255,255,0.15)'" />
+            <select v-model="dlLevelFilter"
+              style="background:rgba(255,255,255,0.08);border:1px solid rgba(255,255,255,0.15);border-radius:12px;padding:10px 10px;font-size:12px;color:#fff;outline:none;cursor:pointer;backdrop-filter:blur(12px);">
+              <option value="0" style="background:#1a1650;">All</option>
+              <option value="1" style="background:#1a1650;">L1</option>
+              <option value="2" style="background:#1a1650;">L2</option>
+              <option value="3" style="background:#1a1650;">L3+</option>
+            </select>
+          </div>
+
+          <!-- Summary (Glass) -->
+          <div style="backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);background:rgba(255,255,255,0.09);border:1px solid rgba(255,255,255,0.16);border-radius:14px;padding:12px 14px;margin-bottom:12px;display:flex;justify-content:space-around;box-shadow:0 8px 24px rgba(0,0,0,0.2);">
+            <div style="text-align:center;">
+              <div style="font-size:9px;color:rgba(255,255,255,0.4);">L1 Direct</div>
+              <div style="font-size:18px;font-weight:900;color:#fbbf24;text-shadow:0 0 12px rgba(251,191,36,0.3);">{{ formatN(allDownline.filter(u=>u.level===1).length) }}</div>
+            </div>
+            <div style="width:1px;background:rgba(255,255,255,0.08);"></div>
+            <div style="text-align:center;">
+              <div style="font-size:9px;color:rgba(255,255,255,0.4);">Indirect</div>
+              <div style="font-size:18px;font-weight:900;color:#a78bfa;">{{ formatN(allDownline.filter(u=>u.level>1).length) }}</div>
+            </div>
+            <div style="width:1px;background:rgba(255,255,255,0.08);"></div>
+            <div style="text-align:center;">
+              <div style="font-size:9px;color:rgba(255,255,255,0.4);">Total</div>
+              <div style="font-size:18px;font-weight:900;color:#4ade80;">{{ formatN(allDownline.length) }}</div>
+            </div>
+          </div>
+
+          <!-- Empty state -->
+          <div v-if="allDownline.length===0" style="text-align:center;padding:40px;color:rgba(255,255,255,0.3);">
+            <div style="font-size:36px;margin-bottom:8px;">👥</div>
+            <div style="font-size:13px;">Downline member မရှိသေးပါ</div>
+            <button @click="activeTab=1" style="margin-top:14px;backdrop-filter:blur(8px);background:rgba(245,158,11,0.2);border:1px solid rgba(245,158,11,0.35);border-radius:12px;padding:9px 22px;font-size:12px;font-weight:700;color:#fbbf24;cursor:pointer;">
+              ဖိတ်ကြားမည်
+            </button>
+          </div>
+
+          <!-- Member rows (Glass) -->
+          <div v-else>
+            <div v-for="member in allDownline.filter(u=>{
+              const ms = !dlSearch || (u.username||u.id||u.descendant_id||'').toString().toLowerCase().includes(dlSearch.toLowerCase())
+              const ml = !dlLevelFilter || dlLevelFilter==0 || (dlLevelFilter==3 ? u.level>=3 : u.level==dlLevelFilter)
+              return ms && ml
+            })" :key="member.descendant_id||member.id"
+              class="downline-node-row"
+              style="backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);background:rgba(255,255,255,0.08);border:1px solid rgba(255,255,255,0.12);border-radius:14px;padding:11px 13px;margin-bottom:8px;display:flex;align-items:center;gap:10px;box-shadow:0 4px 16px rgba(0,0,0,0.15);"
+              :style="(member.descendant_id||member.id)===latestNewMemberId ? 'border-color:rgba(74,222,128,0.45);background:rgba(74,222,128,0.1);box-shadow:0 4px 20px rgba(74,222,128,0.15);' : ''">
+
+              <div style="width:40px;height:40px;border-radius:50%;background:linear-gradient(135deg,rgba(245,158,11,0.3),rgba(139,92,246,0.3));border:1px solid rgba(255,255,255,0.15);display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:16px;font-weight:900;color:rgba(255,255,255,0.9);backdrop-filter:blur(8px);">
+                {{ (member.username||'?').charAt(0).toUpperCase() }}
+              </div>
+              <div style="flex:1;min-width:0;">
+                <div style="font-size:12px;font-weight:700;color:rgba(255,255,255,0.9);">{{ member.username || 'Anonymous' }}</div>
+                <div style="display:flex;align-items:center;gap:6px;margin-top:2px;">
+                  <span style="font-size:9px;background:rgba(245,158,11,0.15);border:1px solid rgba(245,158,11,0.25);border-radius:4px;padding:1px 5px;color:#f59e0b;font-weight:700;">L{{ member.level }}</span>
+                  <span style="font-size:9px;color:rgba(255,255,255,0.35);">{{ fmtDate(member.created_at) }}</span>
+                  <span v-if="(member.descendant_id||member.id)===latestNewMemberId" style="font-size:9px;color:#4ade80;font-weight:700;">🆕 NEW</span>
+                </div>
+              </div>
+              <div style="text-align:right;flex-shrink:0;">
+                <div style="font-size:9px;color:rgba(255,255,255,0.35);margin-bottom:2px;">Deposit</div>
+                <div style="font-size:13px;font-weight:800;color:#fbbf24;">{{ formatN(member.total_deposit||0) }}</div>
+              </div>
+            </div>
+          </div>
+        </div><!-- /TAB 5 -->
+
+
+        <!-- ════ TAB 6 : ကော်မ·မျိုး ════ -->
+        <div v-if="activeTab===6" style="padding:12px;">
+          <div style="font-size:13px;font-weight:800;color:rgba(255,255,255,0.8);margin-bottom:12px;">ကော်မရှင် အမျိုးအစားများ</div>
+          <div v-for="(ct, i) in commissionTypes" :key="i" style="margin-bottom:10px;border-radius:14px;overflow:hidden;backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);" :style="ct.style">
+            <div style="display:flex;align-items:center;gap:8px;margin-bottom:6px;">
+              <span style="font-size:18px;">{{ ct.icon }}</span>
+              <span style="font-size:12px;font-weight:800;" :style="ct.titleColor">{{ ct.title }}</span>
+            </div>
+            <div style="font-size:14px;font-weight:900;color:#fbbf24;margin-bottom:5px;text-shadow:0 0 12px rgba(251,191,36,0.3);">{{ ct.rate }}</div>
+            <div style="font-size:11px;color:rgba(255,255,255,0.6);line-height:1.6;">{{ ct.desc }}</div>
+          </div>
+
+          <!-- Current rate (Glass) -->
+          <div style="backdrop-filter:blur(20px) saturate(180%);-webkit-backdrop-filter:blur(20px) saturate(180%);background:rgba(245,158,11,0.12);border:1px solid rgba(245,158,11,0.25);border-radius:16px;padding:16px;margin-top:12px;box-shadow:0 8px 24px rgba(245,158,11,0.1);">
+            <div style="font-size:11px;color:rgba(255,255,255,0.55);margin-bottom:8px;">သင့် လက်ရှိ Level Rate</div>
+            <div style="display:flex;align-items:center;justify-content:space-between;">
+              <div>
+                <div style="font-size:12px;color:rgba(255,255,255,0.5);">{{ currentLevelData?.tierName||'BRONZE' }} · {{ currentLevelData?.rankName||'NOVA I' }}</div>
+                <div style="font-size:32px;font-weight:900;color:#f59e0b;line-height:1.2;text-shadow:0 0 24px rgba(245,158,11,0.5);">{{ currentLevelData?.rate||10 }}%</div>
+              </div>
+              <div v-html="miniShieldHtml(currentLevelData||AGENT_LEVELS[0])" style="width:62px;height:70px;filter:drop-shadow(0 4px 16px rgba(245,158,11,0.4));"></div>
+            </div>
+            <button @click="showLevelModal=true" style="width:100%;margin-top:12px;backdrop-filter:blur(8px);background:rgba(245,158,11,0.15);border:1px solid rgba(245,158,11,0.3);border-radius:12px;padding:10px;font-size:12px;font-weight:700;color:#fbbf24;cursor:pointer;box-shadow:0 4px 16px rgba(245,158,11,0.1);">
+              Level System ကြည့်မည် →
+            </button>
+          </div>
+        </div><!-- /TAB 6 -->
+
+      </div><!-- /content -->
+
+
+      <!-- ══════════════════════════════
+           LEVEL MODAL (Glass)
+      ══════════════════════════════ -->
+      <Transition name="modal-fade">
+        <div v-if="showLevelModal" style="position:fixed;inset:0;z-index:99;display:flex;flex-direction:column;background:rgba(10,8,40,0.85);backdrop-filter:blur(24px) saturate(200%);-webkit-backdrop-filter:blur(24px) saturate(200%);" @click.self="showLevelModal=false">
+
+          <!-- Modal Header (Glass) -->
+          <div style="position:relative;padding:16px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid rgba(255,255,255,0.1);flex-shrink:0;background:rgba(255,255,255,0.08);backdrop-filter:blur(20px);">
+            <canvas ref="neuralCanvasRef" style="position:absolute;inset:0;width:100%;height:100%;opacity:0.2;pointer-events:none;"></canvas>
+            <div style="font-size:14px;font-weight:900;color:#fff;position:relative;z-index:1;">🏆 Level System</div>
+            <button @click="showLevelModal=false" style="background:rgba(255,255,255,0.1);border:1px solid rgba(255,255,255,0.2);border-radius:50%;width:34px;height:34px;display:flex;align-items:center;justify-content:center;cursor:pointer;color:#fff;font-size:16px;position:relative;z-index:1;flex-shrink:0;backdrop-filter:blur(8px);">✕</button>
+          </div>
+
+          <!-- Current Level Hero (Glass) -->
+          <div style="padding:16px;background:rgba(245,158,11,0.1);border-bottom:1px solid rgba(245,158,11,0.15);flex-shrink:0;backdrop-filter:blur(16px);">
+            <div style="display:flex;align-items:center;gap:14px;">
+              <div v-html="miniShieldHtml(currentLevelData||AGENT_LEVELS[0])" style="width:66px;height:74px;flex-shrink:0;filter:drop-shadow(0 4px 16px rgba(245,158,11,0.5));"></div>
+              <div>
+                <div style="font-size:10px;color:rgba(255,255,255,0.45);margin-bottom:2px;">Current Level</div>
+                <div style="font-size:20px;font-weight:900;color:#fbbf24;text-shadow:0 0 16px rgba(251,191,36,0.4);">LV{{ agentLevel }} — {{ currentLevelData?.rankName||'NOVA I' }}</div>
+                <div style="font-size:12px;color:rgba(255,255,255,0.55);">{{ currentLevelData?.tierName||'BRONZE' }} Tier · {{ currentLevelData?.rate||10 }}% Rate</div>
+                <div v-if="nextLevelData" style="margin-top:5px;font-size:10px;color:rgba(255,255,255,0.4);">
+                  Next: LV{{ agentLevel+1 }} → {{ formatN(nextLevelData.required) }} Ks needed
+                </div>
+                <div style="margin-top:6px;height:5px;background:rgba(255,255,255,0.1);border-radius:3px;overflow:hidden;width:180px;box-shadow:inset 0 1px 2px rgba(0,0,0,0.2);">
+                  <div :style="{width:(levelProgress||0)+'%',background:'linear-gradient(90deg,#f59e0b,#fbbf24)',height:'100%',boxShadow:'0 0 8px rgba(245,158,11,0.6)'}" ></div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Levels Scroll (Glass rows) -->
+          <div ref="levelScrollRef" style="flex:1;overflow-y:auto;padding:12px;" class="no-scrollbar">
+            <div v-for="lv in AGENT_LEVELS" :key="lv.level"
+              style="display:flex;align-items:center;gap:12px;padding:11px 13px;border-radius:14px;margin-bottom:8px;border:1px solid;transition:all 0.2s;backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);"
+              :style="lv.level===agentLevel
+                ? 'border-color:rgba(245,158,11,0.45);background:rgba(245,158,11,0.12);box-shadow:0 4px 20px rgba(245,158,11,0.1);'
+                : lv.level<agentLevel
+                  ? 'border-color:rgba(74,222,128,0.15);background:rgba(74,222,128,0.05);'
+                  : 'border-color:rgba(255,255,255,0.08);background:rgba(255,255,255,0.04);'">
+
+              <div v-html="miniShieldHtml(lv)" style="width:46px;height:52px;flex-shrink:0;"></div>
+              <div style="flex:1;min-width:0;">
+                <div style="display:flex;align-items:center;gap:6px;margin-bottom:2px;">
+                  <span style="font-size:12px;font-weight:800;" :style="lv.level===agentLevel ? 'color:#fbbf24' : lv.level<agentLevel ? 'color:#4ade80' : 'color:rgba(255,255,255,0.7)'">LV{{ lv.level }} {{ lv.rankName }}</span>
+                  <span v-if="lv.level===agentLevel" style="font-size:9px;background:rgba(245,158,11,0.2);border:1px solid rgba(245,158,11,0.4);border-radius:4px;padding:1px 5px;color:#fbbf24;">NOW</span>
+                  <span v-else-if="lv.level<agentLevel" style="font-size:10px;color:#4ade80;">✓</span>
+                </div>
+                <div style="font-size:10px;color:rgba(255,255,255,0.4);">{{ lv.tierName }} · {{ lv.rate }}% Commission</div>
+              </div>
+              <div style="text-align:right;flex-shrink:0;">
+                <div style="font-size:9px;color:rgba(255,255,255,0.35);">Required</div>
+                <div style="font-size:11px;font-weight:800;" :style="lv.level<=agentLevel ? 'color:#4ade80' : 'color:rgba(255,255,255,0.5)'">{{ lv.required===0 ? 'Free' : formatN(lv.required)+' Ks' }}</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Close (Glass) -->
+          <div style="padding:12px;border-top:1px solid rgba(255,255,255,0.08);flex-shrink:0;background:rgba(255,255,255,0.04);backdrop-filter:blur(16px);">
+            <button @click="showLevelModal=false" style="width:100%;background:rgba(255,255,255,0.08);border:1px solid rgba(255,255,255,0.15);border-radius:12px;padding:13px;font-size:13px;font-weight:700;color:rgba(255,255,255,0.7);cursor:pointer;backdrop-filter:blur(8px);">
+              ပိတ်မည်
+            </button>
+          </div>
+        </div>
+      </Transition>
+
+    </div><!-- /content layer -->
   </div>
 </template>
 <script setup>
@@ -2529,4 +2505,27 @@ onUnmounted(() => {
                         @keyframes spinFwd15{from{transform:rotate(0deg)}to{transform:rotate(360deg)}}
                         @keyframes spinRev15{from{transform:rotate(0deg)}to{transform:rotate(-360deg)}}
                         @keyframes ultPulse15{0%,100%{opacity:0.7}50%{opacity:1}}
+
+/* ── Glassmorphism Helpers ── */
+@keyframes glowPulse {
+  0%, 100% { box-shadow: 0 0 6px #f59e0b, 0 0 12px rgba(245,158,11,0.4); }
+  50%       { box-shadow: 0 0 12px #f59e0b, 0 0 24px rgba(245,158,11,0.7); }
+}
+@keyframes spin {
+  from { transform: rotate(0deg); }
+  to   { transform: rotate(360deg); }
+}
+.flash-in-enter-active { animation: flashSlideIn 0.4s ease; }
+.flash-in-leave-active { animation: flashSlideIn 0.3s ease reverse; }
+@keyframes flashSlideIn {
+  from { opacity: 0; transform: translateY(-8px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+.modal-fade-enter-active { animation: modalIn 0.25s ease; }
+.modal-fade-leave-active { animation: modalIn 0.2s ease reverse; }
+@keyframes modalIn {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
 </style>
