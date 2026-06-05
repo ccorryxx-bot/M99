@@ -1,887 +1,665 @@
 <template>
-  <div class="agent-page min-h-screen overflow-x-hidden" style="color: #fff;">
+  <div class="agent-page" style="background:#3d4187;min-height:100dvh;color:#fff;-webkit-tap-highlight-color:transparent;overflow-x:hidden;">
 
-    <!-- ── HEADER ── -->
-    <header class="sticky top-0 z-40 px-4 py-2 flex items-center justify-between"
-      style="background: #3d4187; border-bottom: 1px solid rgba(255,255,255,0.08);">
-      <button @click="$router.push('/home')" class="flex items-center gap-1.5 active:opacity-50 transition-opacity"
-        style="color: rgba(255,255,255,0.85);">
-        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/></svg>
-        <img src="https://ik.imagekit.io/tdpebgueq/Brand%20Name%20Logo/IMG_20260602_154542.png?updatedAt=1780391788280" alt="iW99" style="height:22px;width:auto;object-fit:contain;" />
+    <!-- ══ HEADER ══ -->
+    <header style="position:sticky;top:0;z-index:40;background:#3d4187;border-bottom:1px solid rgba(255,255,255,0.08);padding:10px 14px;display:flex;align-items:center;justify-content:space-between;">
+      <button @click="$router.push('/home')" style="display:flex;align-items:center;gap:6px;background:none;border:none;color:rgba(255,255,255,0.85);cursor:pointer;padding:4px;">
+        <svg width="18" height="18" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M15 19l-7-7 7-7"/></svg>
       </button>
-      <span class="text-sm font-bold tracking-wide" style="color:#fff;">Agent Dashboard</span>
-      <button @click="loadAll" :class="['w-8 h-8 flex items-center justify-center rounded-full transition-all active:scale-90', loading ? 'animate-spin' : '']"
-        style="background: transparent; border: none; color: rgba(255,255,255,0.85);">
-        <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"/></svg>
+      <div style="display:flex;align-items:center;gap:8px;">
+        <span style="width:8px;height:8px;border-radius:50%;background:#f59e0b;box-shadow:0 0 8px #f59e0b;"></span>
+        <span style="font-size:15px;font-weight:800;color:#fff;letter-spacing:0.5px;">Agent Portal</span>
+      </div>
+      <button @click="loadAll()" style="background:none;border:none;cursor:pointer;color:rgba(255,255,255,0.65);padding:4px;" :style="loading ? 'opacity:0.5' : ''">
+        <svg width="18" height="18" fill="none" stroke="currentColor" viewBox="0 0 24 24" :style="loading ? 'animation:spin 1s linear infinite' : ''" ><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"/></svg>
       </button>
     </header>
 
-    <!-- ── SCROLLABLE TAB BAR ── -->
-    <div class="sticky z-30"
-      style="top: 49px; background: #3d4187; border-bottom: 1px solid rgba(255,255,255,0.08);">
-      <div class="flex items-center overflow-x-auto py-1 px-1"
-        style="scrollbar-width:none;-ms-overflow-style:none;">
-        <button v-for="(tab, i) in tabs" :key="i" @click="activeTab = i"
-          class="flex-shrink-0 py-1.5 px-3.5 text-[11px] font-semibold transition-all duration-150 whitespace-nowrap rounded-full mx-0.5"
-          :style="activeTab === i
-            ? 'color:#fff;font-weight:800;background:rgba(255,255,255,0.15);border-bottom:2.5px solid rgba(255,255,255,0.6);'
-            : 'color:rgba(255,255,255,0.55);'">
-          {{ tab.label }}
-        </button>
+    <!-- ══ TICKER ══ -->
+    <div ref="tickerEl" style="background:rgba(245,158,11,0.12);border-bottom:1px solid rgba(245,158,11,0.15);overflow:hidden;height:28px;display:flex;align-items:center;">
+      <div class="ticker-track" style="display:inline-flex;align-items:center;gap:32px;white-space:nowrap;padding:0 16px;">
+        <span v-for="(item,i) in tickerItems" :key="i" style="display:flex;align-items:center;gap:6px;font-size:10px;flex-shrink:0;">
+          <span style="color:#f59e0b;font-weight:700;">🏆</span>
+          <span style="color:rgba(255,255,255,0.65);">{{ item.id }}</span>
+          <span style="color:#4ade80;font-weight:700;">+{{ item.amount }} Ks</span>
+          <span style="color:rgba(255,255,255,0.2);">|</span>
+        </span>
       </div>
     </div>
 
-    <!-- ── MAIN CONTENT ── -->
-    <div class="pb-32">
+    <!-- ══ TAB BAR ══ -->
+    <nav style="position:sticky;top:49px;z-index:30;background:#3d4187;border-bottom:1px solid rgba(255,255,255,0.08);overflow-x:auto;display:flex;scrollbar-width:none;" class="no-scrollbar">
+      <button v-for="(tab,i) in tabs" :key="i"
+        @click="activeTab=i; if(i===1) $nextTick(()=>animateReferralTab())"
+        style="flex-shrink:0;padding:9px 14px;font-size:12px;font-weight:600;white-space:nowrap;background:none;border:none;cursor:pointer;transition:all 0.15s;border-bottom:2.5px solid transparent;"
+        :style="activeTab===i ? 'color:#fbbf24;border-bottom-color:#f59e0b;' : 'color:rgba(255,255,255,0.45);'">
+        {{ tab.label }}
+      </button>
+    </nav>
 
-      <!-- ═══════════════════════════════════════════
-           TAB 0: ပင်မ (Overview)
-           ═══════════════════════════════════════════ -->
-      <div v-if="activeTab === 0" class="space-y-2 px-3 pt-2">
+    <!-- ══ CONTENT ══ -->
+    <div style="padding-bottom:80px;">
 
-        <!-- Banner — Dynamic image (from settings / upload) -->
-        <div class="fp-card rounded-2xl overflow-hidden relative" style="height: 112px;">
-          <img :src="agentBannerUrl" class="w-full h-full object-cover" alt="Agent Banner"
-            @error="agentBannerUrl = '/images/banners/banner1.jpg'" />
-          <div class="absolute inset-0 pointer-events-none"
-            style="background: linear-gradient(to right, rgba(30,35,100,0.55) 0%, transparent 55%, rgba(30,35,100,0.2) 100%);"></div>
-          <!-- Commission badge -->
-          <div class="absolute top-3 right-3 px-2.5 py-1 rounded-full"
-            style="background: rgba(255,193,7,0.15); border: 1px solid rgba(255,193,7,0.3); backdrop-filter: blur(8px);">
-            <span class="text-[10px] font-bold tracking-wider" style="color: rgba(255,193,7,0.9);">10% COMMISSION</span>
-          </div>
-          <!-- Bottom label -->
-          <div class="absolute bottom-3 left-4">
-            <p class="text-[9px] font-black tracking-[0.25em] uppercase" style="color: rgba(255,255,255,0.55);">iW99 AGENT PROGRAM</p>
-          </div>
+      <!-- ════════════════════════════════
+           TAB 0 : ပင်မ (Overview)
+      ════════════════════════════════ -->
+      <div v-if="activeTab===0">
+
+        <!-- Banner -->
+        <div style="width:100%;background:#252870;overflow:hidden;max-height:140px;">
+          <img :src="agentBannerUrl" style="width:100%;height:140px;object-fit:cover;display:block;" @error="e=>e.target.style.display='none'" />
         </div>
 
         <!-- Agent Identity Card -->
-        <div class="fp-card rounded-2xl p-3 relative overflow-hidden"
-          style="background: rgba(255,255,255,0.38); border: 1px solid rgba(26,43,26,0.12); box-shadow: 0 4px 20px rgba(0,0,0,0.09), inset 0 1px 0 rgba(255,255,255,0.55); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);">
-          <div class="absolute -top-8 left-1/2 -translate-x-1/2 w-40 h-16 pointer-events-none"
-            style="background: radial-gradient(ellipse, rgba(255,193,7,0.06) 0%, transparent 70%); filter: blur(10px);"></div>
+        <div style="margin:10px 12px 0;background:rgba(255,255,255,0.07);border:1px solid rgba(255,255,255,0.1);border-radius:14px;overflow:hidden;">
 
-          <div class="flex items-center gap-2.5">
-            <!-- ══════════════════════════════════════════════
-                 EVOLUTION AGENT BADGE — silhouette changes per tier
-                 Bronze→simple shield · Silver→spikes · Gold→crown
-                 Emerald→wing-buds · Sapphire→full wings
-                 Ruby→battle wings · Diamond→grand pendant
-                 Legend→flame wings · Mythic→cosmic legendary
-                 ══════════════════════════════════════════════ -->
-            <div style="position:relative;width:52px;height:52px;flex-shrink:0;overflow:visible;z-index:2;">
-              <button @click="showLevelModal = true"
-                class="active:scale-90 transition-transform duration-200"
-                style="position:absolute;inset:0;cursor:pointer;background:none;border:none;padding:0;display:flex;align-items:center;justify-content:center;">
-                <!-- LV1 — Bronze -->
-                  <svg v-if="agentLevel===1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 80 90" width="80" height="90">
-                    <defs>
-                      <linearGradient id="g1" x1="0%" y1="0%" x2="100%" y2="100%">
-                        <stop offset="0%" stop-color="#cd7f32"/>
-                        <stop offset="100%" stop-color="#8b4513"/>
-                      </linearGradient>
-                    </defs>
-                    <path d="M40 6 L70 18 L70 50 Q70 75 40 86 Q10 75 10 50 L10 18 Z" fill="url(#g1)" stroke="#a0522d" stroke-width="2"/>
-                    <path d="M40 12 L64 22 L64 50 Q64 70 40 80 Q16 70 16 50 L16 22 Z" fill="none" stroke="#e8a060" stroke-width="1" opacity="0.5"/>
-                    <text x="40" y="52" text-anchor="middle" fill="#fff" font-size="13" font-weight="bold" font-family="monospace">LV1</text>
-                  </svg>
-                  <!-- LV2 — Bronze II -->
-                  <svg v-else-if="agentLevel===2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 80 90" width="80" height="90">
-                    <defs>
-                      <linearGradient id="g2" x1="0%" y1="0%" x2="100%" y2="100%">
-                        <stop offset="0%" stop-color="#d4903a"/>
-                        <stop offset="100%" stop-color="#7a3c10"/>
-                      </linearGradient>
-                    </defs>
-                    <path d="M40 6 L70 18 L70 50 Q70 75 40 86 Q10 75 10 50 L10 18 Z" fill="url(#g2)" stroke="#c47830" stroke-width="2"/>
-                    <path d="M40 12 L64 22 L64 50 Q64 70 40 80 Q16 70 16 50 L16 22 Z" fill="none" stroke="#f0b870" stroke-width="1" opacity="0.6"/>
-                    <circle cx="12" cy="44" r="2.5" fill="#f0b870" opacity="0.7"/>
-                    <circle cx="28" cy="16" r="2.5" fill="#f0b870" opacity="0.7"/>
-                    <circle cx="52" cy="16" r="2.5" fill="#f0b870" opacity="0.7"/>
-                    <circle cx="68" cy="44" r="2.5" fill="#f0b870" opacity="0.7"/>
-                    <circle cx="56" cy="70" r="2.5" fill="#f0b870" opacity="0.7"/>
-                    <circle cx="24" cy="70" r="2.5" fill="#f0b870" opacity="0.7"/>
-                    <text x="40" y="52" text-anchor="middle" fill="#fff" font-size="13" font-weight="bold" font-family="monospace">LV2</text>
-                  </svg>
-                  <!-- LV3 — Bronze III -->
-                  <svg v-else-if="agentLevel===3" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 80 90" width="80" height="90">
-                    <defs>
-                      <linearGradient id="g3" x1="0%" y1="0%" x2="100%" y2="100%">
-                        <stop offset="0%" stop-color="#e09040"/>
-                        <stop offset="100%" stop-color="#6b3010"/>
-                      </linearGradient>
-                      
-                    </defs>
-                    <path d="M40 4 L72 17 L72 50 Q72 77 40 88 Q8 77 8 50 L8 17 Z" fill="url(#g3)" stroke="#c47830" stroke-width="2.5"/>
-                    <path d="M40 4 L72 17 L72 50 Q72 77 40 88 Q8 77 8 50 L8 17 Z" fill="none" stroke="#ffcc80" stroke-width="1.5" opacity="0.4" style="animation:p3 2s ease-in-out infinite"/>
-                    <path d="M40 14 L62 24 L62 50 Q62 68 40 78 Q18 68 18 50 L18 24 Z" fill="none" stroke="#f0a050" stroke-width="1" opacity="0.5"/>
-                    <line x1="40" y1="18" x2="40" y2="78" stroke="#f0b060" stroke-width="0.8" opacity="0.3"/>
-                    <line x1="18" y1="44" x2="62" y2="44" stroke="#f0b060" stroke-width="0.8" opacity="0.3"/>
-                    <text x="40" y="52" text-anchor="middle" fill="#fff" font-size="13" font-weight="bold" font-family="monospace">LV3</text>
-                  </svg>
-                  <!-- LV4 — Silver -->
-                  <svg v-else-if="agentLevel===4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 80 90" width="80" height="90">
-                    <defs>
-                      <linearGradient id="g4" x1="0%" y1="0%" x2="100%" y2="100%">
-                        <stop offset="0%" stop-color="#c0cdd8"/>
-                        <stop offset="100%" stop-color="#607080"/>
-                      </linearGradient>
-                      
-                    </defs>
-                    <path d="M40 4 L72 17 L72 50 Q72 77 40 88 Q8 77 8 50 L8 17 Z" fill="url(#g4)" stroke="#90a8b8" stroke-width="2.5"/>
-                    <path d="M40 4 L72 17 L72 50 Q72 77 40 88 Q8 77 8 50 L8 17 Z" fill="none" stroke="#e0eaf0" stroke-width="1.5" opacity="0.5" style="animation:p4 2.5s ease-in-out infinite"/>
-                    <path d="M40 14 L62 24 L62 50 Q62 68 40 78 Q18 68 18 50 L18 24 Z" fill="none" stroke="#b0c8d8" stroke-width="1.2"/>
-                    <line x1="28" y1="30" x2="52" y2="30" stroke="#d0e0ea" stroke-width="1.5" stroke-linecap="round"/>
-                    <line x1="28" y1="60" x2="52" y2="60" stroke="#d0e0ea" stroke-width="1.5" stroke-linecap="round"/>
-                    <text x="40" y="52" text-anchor="middle" fill="#fff" font-size="13" font-weight="bold" font-family="monospace">LV4</text>
-                  </svg>
-                  <!-- LV5 — Silver II -->
-                  <svg v-else-if="agentLevel===5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 80 90" width="80" height="90">
-                    <defs>
-                      <linearGradient id="g5" x1="0%" y1="0%" x2="100%" y2="100%">
-                        <stop offset="0%" stop-color="#d0dde8"/>
-                        <stop offset="100%" stop-color="#506070"/>
-                      </linearGradient>
-                      
-                    </defs>
-                    <path d="M40 4 L72 17 L72 50 Q72 77 40 88 Q8 77 8 50 L8 17 Z" fill="url(#g5)" stroke="#90a8c0" stroke-width="2.5"/>
-                    <circle cx="40" cy="44" r="22" fill="none" stroke="#b0c8d8" stroke-width="0.8" stroke-dasharray="4,3" style="animation:spin5 12s linear infinite"/>
-                    <path d="M40 14 L62 24 L62 50 Q62 68 40 78 Q18 68 18 50 L18 24 Z" fill="none" stroke="#c0d8e8" stroke-width="1"/>
-                    <rect x="24" y="18" width="8" height="8" rx="2" fill="none" stroke="#d0e8f0" stroke-width="1.5" transform="rotate(45,28,22)"/>
-                    <rect x="48" y="18" width="8" height="8" rx="2" fill="none" stroke="#d0e8f0" stroke-width="1.5" transform="rotate(45,52,22)"/>
-                    <rect x="24" y="62" width="8" height="8" rx="2" fill="none" stroke="#d0e8f0" stroke-width="1.5" transform="rotate(45,28,66)"/>
-                    <rect x="48" y="62" width="8" height="8" rx="2" fill="none" stroke="#d0e8f0" stroke-width="1.5" transform="rotate(45,52,66)"/>
-                    <text x="40" y="52" text-anchor="middle" fill="#fff" font-size="13" font-weight="bold" font-family="monospace">LV5</text>
-                  </svg>
-                  <!-- LV6 — Silver III -->
-                  <svg v-else-if="agentLevel===6" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 80 90" width="80" height="90">
-                    <defs>
-                      <linearGradient id="g6" x1="0%" y1="0%" x2="100%" y2="100%">
-                        <stop offset="0%" stop-color="#c8d8b0"/>
-                        <stop offset="100%" stop-color="#486050"/>
-                      </linearGradient>
-                      
-                    </defs>
-                    <path d="M40 4 L72 17 L72 50 Q72 77 40 88 Q8 77 8 50 L8 17 Z" fill="url(#g6)" stroke="#80a890" stroke-width="2.5"/>
-                    <path d="M40 14 L62 24 L62 50 Q62 68 40 78 Q18 68 18 50 L18 24 Z" fill="none" stroke="#a0c8b0" stroke-width="1.2"/>
-                    <g style="transform-origin:40px 44px;animation:spinS6 8s linear infinite">
-                      <line x1="40" y1="44" x2="60" y2="44" stroke="#b0e0c0" stroke-width="0.8" opacity="0.5"/>
-                      <line x1="40" y1="44" x2="50" y2="61" stroke="#b0e0c0" stroke-width="0.8" opacity="0.5"/>
-                      <line x1="40" y1="44" x2="30" y2="61" stroke="#b0e0c0" stroke-width="0.8" opacity="0.5"/>
-                      <line x1="40" y1="44" x2="20" y2="44" stroke="#b0e0c0" stroke-width="0.8" opacity="0.5"/>
-                      <line x1="40" y1="44" x2="30" y2="27" stroke="#b0e0c0" stroke-width="0.8" opacity="0.5"/>
-                      <line x1="40" y1="44" x2="50" y2="27" stroke="#b0e0c0" stroke-width="0.8" opacity="0.5"/>
-                    </g>
-                    <polygon points="40,28 43,38 53,38 45,44 48,54 40,48 32,54 35,44 27,38 37,38" fill="#c0e8c8" stroke="#80c090" stroke-width="1"/>
-                    <text x="40" y="68" text-anchor="middle" fill="#fff" font-size="11" font-weight="bold" font-family="monospace">LV6</text>
-                  </svg>
-                  <!-- LV7 — Gold -->
-                  <svg v-else-if="agentLevel===7" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 80 96" width="80" height="96">
-                    <defs>
-                      <linearGradient id="g7" x1="0%" y1="0%" x2="100%" y2="100%">
-                        <stop offset="0%" stop-color="#ffd700"/>
-                        <stop offset="100%" stop-color="#b8860b"/>
-                      </linearGradient>
-                      
-                    </defs>
-                    <path d="M24 18 L28 8 L40 16 L52 8 L56 18 Z" fill="#ffd700" stroke="#daa520" stroke-width="1.5"/>
-                    <circle cx="28" cy="8" r="3" fill="#ffd700"/>
-                    <circle cx="40" cy="5" r="3.5" fill="#ffe44d"/>
-                    <circle cx="52" cy="8" r="3" fill="#ffd700"/>
-                    <path d="M40 18 L72 28 L72 58 Q72 82 40 93 Q8 82 8 58 L8 28 Z" fill="url(#g7)" stroke="#daa520" stroke-width="2.5"/>
-                    <path d="M40 18 L72 28 L72 58 Q72 82 40 93 Q8 82 8 58 L8 28 Z" fill="none" stroke="#ffe88a" stroke-width="2" style="animation:glow7 2s ease-in-out infinite"/>
-                    <path d="M40 26 L64 34 L64 58 Q64 76 40 86 Q16 76 16 58 L16 34 Z" fill="none" stroke="#ffd700" stroke-width="1"/>
-                    <text x="40" y="62" text-anchor="middle" fill="#fff" font-size="13" font-weight="bold" font-family="monospace">LV7</text>
-                  </svg>
-                  <!-- LV8 — Gold II -->
-                  <svg v-else-if="agentLevel===8" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 96 96" width="96" height="96">
-                    <defs>
-                      <linearGradient id="g8" x1="0%" y1="0%" x2="100%" y2="100%">
-                        <stop offset="0%" stop-color="#ffe44d"/>
-                        <stop offset="100%" stop-color="#a07010"/>
-                      </linearGradient>
-                      
-                    </defs>
-                    <g style="transform-origin:8px 50px;animation:flap8 2s ease-in-out infinite">
-                      <path d="M16 40 Q4 44 2 55 Q8 50 14 52 Q6 58 8 65 Q14 58 18 56 Z" fill="#ffd700" opacity="0.7"/>
-                    </g>
-                    <g style="transform-origin:88px 50px;animation:flap8 2s ease-in-out infinite">
-                      <path d="M80 40 Q92 44 94 55 Q88 50 82 52 Q90 58 88 65 Q82 58 78 56 Z" fill="#ffd700" opacity="0.7"/>
-                    </g>
-                    <path d="M48 10 L76 22 L76 54 Q76 78 48 88 Q20 78 20 54 L20 22 Z" fill="url(#g8)" stroke="#daa520" stroke-width="2.5"/>
-                    <path d="M48 18 L68 28 L68 54 Q68 72 48 82 Q28 72 28 54 L28 28 Z" fill="none" stroke="#ffe88a" stroke-width="1.2"/>
-                    <line x1="35" y1="30" x2="61" y2="30" stroke="#ffd700" stroke-width="1.5" stroke-dasharray="3,3"/>
-                    <text x="48" y="59" text-anchor="middle" fill="#fff" font-size="13" font-weight="bold" font-family="monospace">LV8</text>
-                  </svg>
-                  <!-- LV9 — Gold III -->
-                  <svg v-else-if="agentLevel===9" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 96 100" width="96" height="100">
-                    <defs>
-                      <linearGradient id="g9" x1="0%" y1="0%" x2="100%" y2="100%">
-                        <stop offset="0%" stop-color="#fff176"/>
-                        <stop offset="100%" stop-color="#e65100"/>
-                      </linearGradient>
-                      
-                    </defs>
-                    <g style="transform-origin:48px 52px;animation:spinR9 6s linear infinite">
-                      <circle cx="48" cy="52" r="42" fill="none" stroke="#ffd700" stroke-width="1" stroke-dasharray="6,4" opacity="0.6"/>
-                      <circle cx="90" cy="52" r="2.5" fill="#ffe44d"/>
-                      <circle cx="6"  cy="52" r="2.5" fill="#ffe44d"/>
-                      <circle cx="48" cy="10" r="2.5" fill="#ffe44d"/>
-                      <circle cx="48" cy="94" r="2.5" fill="#ffe44d"/>
-                      <circle cx="78" cy="18" r="2.5" fill="#ffe44d"/>
-                      <circle cx="18" cy="18" r="2.5" fill="#ffe44d"/>
-                      <circle cx="78" cy="86" r="2.5" fill="#ffe44d"/>
-                      <circle cx="18" cy="86" r="2.5" fill="#ffe44d"/>
-                    </g>
-                    <path d="M48 8 L80 22 L80 55 Q80 82 48 94 Q16 82 16 55 L16 22 Z" fill="url(#g9)" stroke="#daa520" stroke-width="2.5" style="animation:pulse9 2s ease-in-out infinite"/>
-                    <path d="M48 16 L72 28 L72 55 Q72 76 48 86 Q24 76 24 55 L24 28 Z" fill="none" stroke="#fff176" stroke-width="1"/>
-                    <path d="M33 22 L48 12 L63 22" fill="none" stroke="#ffe44d" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                    <circle cx="48" cy="12" r="4" fill="#fff176"/>
-                    <text x="48" y="60" text-anchor="middle" fill="#fff" font-size="13" font-weight="bold" font-family="monospace">LV9</text>
-                  </svg>
-                  <!-- LV10 — Platinum -->
-                  <svg v-else-if="agentLevel===10" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 96 100" width="96" height="100">
-                    <defs>
-                      <linearGradient id="g10" x1="0%" y1="0%" x2="100%" y2="100%">
-                        <stop offset="0%" stop-color="#c080f0"/>
-                        <stop offset="100%" stop-color="#4b0082"/>
-                      </linearGradient>
-                      
-                    </defs>
-                    <g style="transform-origin:48px 52px;animation:spin10 8s linear infinite">
-                      <circle cx="48" cy="52" r="42" fill="none" stroke="#9040c0" stroke-width="0.8" stroke-dasharray="2,4"/>
-                    </g>
-                    <g style="transform-origin:48px 52px;animation:spinB10 12s linear infinite">
-                      <circle cx="48" cy="52" r="36" fill="none" stroke="#a050d0" stroke-width="0.8" stroke-dasharray="4,2" opacity="0.5"/>
-                    </g>
-                    <path d="M48 8 L82 23 L82 56 Q82 84 48 96 Q14 84 14 56 L14 23 Z" fill="url(#g10)" stroke="#9040c0" stroke-width="2.5"/>
-                    <path d="M48 16 L74 29 L74 56 Q74 78 48 88 Q22 78 22 56 L22 29 Z" fill="none" stroke="#d090ff" stroke-width="1.2"/>
-                    <polygon points="48,32 60,44 48,56 36,44" fill="#e0b0ff" stroke="#c070f0" stroke-width="1.5"/>
-                    <polygon points="48,36 56,44 48,52 40,44" fill="#c070f0" opacity="0.6"/>
-                    <circle cx="48" cy="44" r="4" fill="#fff" opacity="0.7"/>
-                    <text x="48" y="72" text-anchor="middle" fill="#fff" font-size="12" font-weight="bold" font-family="monospace">LV10</text>
-                  </svg>
-                  <!-- LV11 — Platinum II -->
-                  <svg v-else-if="agentLevel===11" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 104" width="100" height="104">
-                    <defs>
-                      <linearGradient id="g11" x1="0%" y1="0%" x2="100%" y2="100%">
-                        <stop offset="0%" stop-color="#d090ff"/>
-                        <stop offset="100%" stop-color="#3b0070"/>
-                      </linearGradient>
-                      
-                    </defs>
-                    <g style="transform-origin:50px 54px;animation:spin11 5s linear infinite">
-                      <line x1="50" y1="54" x2="96" y2="54" stroke="#9040c0" stroke-width="0.5" opacity="0.4"/>
-                      <line x1="50" y1="54" x2="73" y2="14" stroke="#9040c0" stroke-width="0.5" opacity="0.4"/>
-                      <line x1="50" y1="54" x2="27" y2="14" stroke="#9040c0" stroke-width="0.5" opacity="0.4"/>
-                      <line x1="50" y1="54" x2="4"  y2="54" stroke="#9040c0" stroke-width="0.5" opacity="0.4"/>
-                      <line x1="50" y1="54" x2="27" y2="94" stroke="#9040c0" stroke-width="0.5" opacity="0.4"/>
-                      <line x1="50" y1="54" x2="73" y2="94" stroke="#9040c0" stroke-width="0.5" opacity="0.4"/>
-                    </g>
-                    <path d="M50 8 L84 24 L84 58 Q84 86 50 98 Q16 86 16 58 L16 24 Z" fill="url(#g11)" stroke="#a050d0" stroke-width="2.5"/>
-                    <path d="M50 16 L76 30 L76 58 Q76 80 50 90 Q24 80 24 58 L24 30 Z" fill="none" stroke="#e0a0ff" stroke-width="1"/>
-                    <path d="M38 28 L32 46 L40 46 L34 66" fill="none" stroke="#e0c0ff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="animation:flash11 3s ease-in-out infinite"/>
-                    <path d="M62 28 L68 46 L60 46 L66 66" fill="none" stroke="#e0c0ff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="animation:flash11 3s ease-in-out infinite 1.5s"/>
-                    <text x="50" y="79" text-anchor="middle" fill="#fff" font-size="12" font-weight="bold" font-family="monospace">LV11</text>
-                  </svg>
-                  <!-- LV12 — Platinum III -->
-                  <svg v-else-if="agentLevel===12" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 104 108" width="104" height="108">
-                    <defs>
-                      <linearGradient id="g12" x1="0%" y1="0%" x2="100%" y2="100%">
-                        <stop offset="0%" stop-color="#e0a0ff"/>
-                        <stop offset="100%" stop-color="#2d0060"/>
-                      </linearGradient>
-                      
-                    </defs>
-                    <g style="transform-origin:52px 56px;animation:spin12a 4s linear infinite">
-                      <circle cx="52" cy="56" r="47" fill="none" stroke="#8030b0" stroke-width="1" stroke-dasharray="3,5"/>
-                    </g>
-                    <g style="transform-origin:52px 56px;animation:spin12b 7s linear infinite">
-                      <circle cx="52" cy="56" r="40" fill="none" stroke="#a040d0" stroke-width="0.8" stroke-dasharray="6,3"/>
-                      <polygon points="92,56 88,61 88,51" fill="#c060e0"/>
-                      <polygon points="12,56 16,61 16,51" fill="#c060e0"/>
-                      <polygon points="52,16 57,20 47,20" fill="#c060e0"/>
-                      <polygon points="52,96 57,92 47,92" fill="#c060e0"/>
-                      <polygon points="80,28 82,34 76,32" fill="#c060e0"/>
-                    </g>
-                    <path d="M52 8 L88 26 L88 60 Q88 90 52 102 Q16 90 16 60 L16 26 Z" fill="url(#g12)" stroke="#a040d0" stroke-width="2.5"/>
-                    <path d="M52 16 L80 32 L80 60 Q80 84 52 94 Q24 84 24 60 L24 32 Z" fill="none" stroke="#e0b0ff" stroke-width="1.2"/>
-                    <polygon points="52,28 68,48 52,68 36,48" fill="#d080ff" stroke="#e0b0ff" stroke-width="1.5" opacity="0.9"/>
-                    <polygon points="52,34 62,48 52,62 42,48" fill="#8030b0"/>
-                    <circle cx="52" cy="48" r="6" fill="#fff" opacity="0.8"/>
-                    <text x="52" y="83" text-anchor="middle" fill="#fff" font-size="12" font-weight="bold" font-family="monospace">LV12</text>
-                  </svg>
-                  <!-- LV13 — Diamond -->
-                  <svg v-else-if="agentLevel===13" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 110 112" width="110" height="112">
-                    <defs>
-                      <linearGradient id="g13" x1="0%" y1="0%" x2="100%" y2="100%">
-                        <stop offset="0%" stop-color="#ff6080"/>
-                        <stop offset="100%" stop-color="#800020"/>
-                      </linearGradient>
-                      
-                    </defs>
-                    <path d="M20 52 Q2 30 6 18 Q12 28 18 34 Q10 22 16 14 Q22 26 24 38 Q18 24 26 20 Q28 36 26 46 Z" fill="#cc2040" opacity="0.8"/>
-                    <path d="M90 52 Q108 30 104 18 Q98 28 92 34 Q100 22 94 14 Q88 26 86 38 Q92 24 84 20 Q82 36 84 46 Z" fill="#cc2040" opacity="0.8"/>
-                    <g style="transform-origin:55px 58px;animation:spin13 3s linear infinite">
-                      <line x1="55" y1="58" x2="103" y2="58" stroke="#ff3050" stroke-width="0.6" opacity="0.35"/>
-                      <line x1="55" y1="58" x2="79"  y2="17" stroke="#ff3050" stroke-width="0.6" opacity="0.35"/>
-                      <line x1="55" y1="58" x2="31"  y2="17" stroke="#ff3050" stroke-width="0.6" opacity="0.35"/>
-                      <line x1="55" y1="58" x2="7"   y2="58" stroke="#ff3050" stroke-width="0.6" opacity="0.35"/>
-                      <line x1="55" y1="58" x2="31"  y2="99" stroke="#ff3050" stroke-width="0.6" opacity="0.35"/>
-                      <line x1="55" y1="58" x2="79"  y2="99" stroke="#ff3050" stroke-width="0.6" opacity="0.35"/>
-                    </g>
-                    <path d="M55 8 L90 26 L90 60 Q90 90 55 104 Q20 90 20 60 L20 26 Z" fill="url(#g13)" stroke="#cc2040" stroke-width="3"/>
-                    <path d="M55 16 L82 32 L82 60 Q82 84 55 96 Q28 84 28 60 L28 32 Z" fill="none" stroke="#ff8090" stroke-width="1.5"/>
-                    <circle cx="38" cy="50" r="2.5" fill="#ff6040" style="animation:ember 1.5s ease-in-out infinite 0s"/>
-                    <circle cx="48" cy="50" r="2.5" fill="#ff6040" style="animation:ember 1.5s ease-in-out infinite 0.3s"/>
-                    <circle cx="58" cy="50" r="2.5" fill="#ff6040" style="animation:ember 1.5s ease-in-out infinite 0.6s"/>
-                    <circle cx="68" cy="50" r="2.5" fill="#ff6040" style="animation:ember 1.5s ease-in-out infinite 0.9s"/>
-                    <polygon points="55,26 63,40 78,40 66,50 70,64 55,55 40,64 44,50 32,40 47,40" fill="#ff4060" stroke="#ff8090" stroke-width="1.5"/>
-                    <text x="55" y="84" text-anchor="middle" fill="#fff" font-size="12" font-weight="bold" font-family="monospace">LV13</text>
-                  </svg>
-                  <!-- LV14 — Diamond II -->
-                  <svg v-else-if="agentLevel===14" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 114 116" width="114" height="116">
-                    <defs>
-                      <linearGradient id="g14a" x1="0%" y1="0%" x2="100%" y2="100%">
-                        <stop offset="0%" stop-color="#00e5ff"/>
-                        <stop offset="50%" stop-color="#7c4dff"/>
-                        <stop offset="100%" stop-color="#ff1744"/>
-                      </linearGradient>
-                      <linearGradient id="g14b" x1="100%" y1="0%" x2="0%" y2="100%">
-                        <stop offset="0%" stop-color="#ff6d00"/>
-                        <stop offset="100%" stop-color="#00bfa5"/>
-                      </linearGradient>
-                      
-                    </defs>
-                    <g style="transform-origin:57px 60px;animation:spinA14 3s linear infinite">
-                      <circle cx="57" cy="60" r="52" fill="none" stroke="#00e5ff" stroke-width="1" stroke-dasharray="4,4" opacity="0.5"/>
-                    </g>
-                    <g style="transform-origin:57px 60px;animation:spinB14 5s linear infinite">
-                      <circle cx="57" cy="60" r="44" fill="none" stroke="#7c4dff" stroke-width="1" stroke-dasharray="6,3" opacity="0.5"/>
-                      <polygon points="101,60 97,65 97,55" fill="#7c4dff"/>
-                      <polygon points="13,60 17,65 17,55"  fill="#7c4dff"/>
-                      <polygon points="57,16 62,20 52,20"  fill="#7c4dff"/>
-                      <polygon points="57,104 62,100 52,100" fill="#7c4dff"/>
-                      <polygon points="88,31 91,37 85,35" fill="#7c4dff"/>
-                      <polygon points="26,31 29,37 23,35" fill="#7c4dff"/>
-                    </g>
-                    <path d="M22 56 Q4 34 8 18 Q14 30 20 38 Q12 24 18 14 Q24 28 26 44 Z" fill="url(#g14b)" opacity="0.7"/>
-                    <path d="M92 56 Q110 34 102 18 Q96 30 90 38 Q98 24 92 14 Q86 28 84 44 Z" fill="url(#g14a)" opacity="0.7"/>
-                    <path d="M57 8 L93 28 L93 62 Q93 92 57 106 Q21 92 21 62 L21 28 Z" fill="url(#g14a)" stroke-width="2.5" style="animation:cosmo14 3s linear infinite"/>
-                    <path d="M57 16 L85 34 L85 62 Q85 86 57 98 Q29 86 29 62 L29 34 Z" fill="none" stroke="#ffffff" stroke-width="1" opacity="0.4"/>
-                    <polygon points="57,28 66,44 82,44 70,54 74,70 57,60 40,70 44,54 32,44 48,44" fill="url(#g14b)" stroke="#fff" stroke-width="1"/>
-                    <text x="57" y="88" text-anchor="middle" fill="#fff" font-size="12" font-weight="bold" font-family="monospace">LV14</text>
-                  </svg>
-                  <!-- LV15 — Legend -->
-                  <svg v-else xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 120" width="120" height="120">
-                    <defs>
-                      <linearGradient id="g15a" x1="0%" y1="0%" x2="100%" y2="100%">
-                        <stop offset="0%" stop-color="#fff176"/>
-                        <stop offset="30%" stop-color="#ff6d00"/>
-                        <stop offset="60%" stop-color="#d500f9"/>
-                        <stop offset="100%" stop-color="#00e5ff"/>
-                      </linearGradient>
-                      
-                    </defs>
-                    <g style="transform-origin:60px 62px;animation:spinFwd15 2s linear infinite">
-                      <circle cx="60" cy="62" r="56" fill="none" stroke="#fff176" stroke-width="1.2" stroke-dasharray="3,3"/>
-                      <circle cx="116" cy="62" r="2" fill="#fff176"/>
-                      <circle cx="4"   cy="62" r="2" fill="#fff176"/>
-                      <circle cx="60"  cy="6"  r="2" fill="#fff176"/>
-                      <circle cx="60"  cy="118" r="2" fill="#fff176"/>
-                      <circle cx="104" cy="18" r="2" fill="#fff176"/>
-                      <circle cx="16"  cy="18" r="2" fill="#fff176"/>
-                      <circle cx="104" cy="106" r="2" fill="#fff176"/>
-                      <circle cx="16"  cy="106" r="2" fill="#fff176"/>
-                    </g>
-                    <g style="transform-origin:60px 62px;animation:spinRev15 3s linear infinite">
-                      <circle cx="60" cy="62" r="48" fill="none" stroke="#ff6d00" stroke-width="1" stroke-dasharray="6,3"/>
-                      <polygon points="108,62 104,67 104,57" fill="#ff6d00"/>
-                      <polygon points="12,62  16,67  16,57"  fill="#ff6d00"/>
-                      <polygon points="60,14  65,18  55,18"  fill="#ff6d00"/>
-                      <polygon points="60,110 65,106 55,106" fill="#ff6d00"/>
-                      <polygon points="94,28 97,34 91,32"   fill="#ff6d00"/>
-                      <polygon points="26,28 29,34 23,32"   fill="#ff6d00"/>
-                      <polygon points="94,96 97,90 91,92"   fill="#ff6d00"/>
-                      <polygon points="26,96 29,90 23,92"   fill="#ff6d00"/>
-                    </g>
-                    <path d="M24 60 Q4 36 8 18 Q16 32 22 42 Q12 26 20 14 Q26 30 28 48 Q20 30 30 22 Q32 42 30 56 Z" fill="#ff6d00" opacity="0.9"/>
-                    <path d="M96 60 Q116 36 112 18 Q104 32 98 42 Q108 26 100 14 Q94 30 92 48 Q100 30 90 22 Q88 42 90 56 Z" fill="#d500f9" opacity="0.9"/>
-                    <path d="M60 6 L98 26 L98 62 Q98 94 60 108 Q22 94 22 62 L22 26 Z" fill="url(#g15a)" stroke-width="3" style="animation:rainbow15 2s linear infinite,ultPulse15 1.5s ease-in-out infinite"/>
-                    <path d="M60 14 L90 32 L90 62 Q90 88 60 100 Q30 88 30 62 L30 32 Z" fill="none" stroke="#ffffff" stroke-width="1.5" opacity="0.5"/>
-                    <path d="M44 26 L48 14 L60 22 L72 14 L76 26 Z" fill="#fff176" stroke="#ff6d00" stroke-width="1.5"/>
-                    <circle cx="48" cy="14" r="3.5" fill="#fff176"/>
-                    <circle cx="60" cy="10" r="4.5" fill="#fff"/>
-                    <circle cx="72" cy="14" r="3.5" fill="#fff176"/>
-                    <polygon points="60,34 65,48 80,48 68,57 73,71 60,62 47,71 52,57 40,48 55,48" fill="#fff176" stroke="#ff6d00" stroke-width="1.5"/>
-                    <circle cx="60" cy="52" r="6" fill="#fff" opacity="0.9"/>
-                    <text x="60" y="88" text-anchor="middle" fill="#fff" font-size="12" font-weight="bold" font-family="monospace">LV15</text>
-                  </svg>
+          <!-- Badge + Info + Date row -->
+          <div style="padding:12px 12px 8px;display:flex;align-items:flex-start;gap:10px;">
+
+            <!-- Level Badge (clickable) -->
+            <button @click="showLevelModal=true" style="flex-shrink:0;width:60px;height:68px;background:none;border:none;cursor:pointer;padding:0;-webkit-tap-highlight-color:transparent;" v-html="miniShieldHtml(currentLevelData||AGENT_LEVELS[0])"></button>
+
+            <!-- Name + Tier + Progress -->
+            <div style="flex:1;min-width:0;">
+              <div style="display:flex;align-items:center;gap:6px;margin-bottom:2px;flex-wrap:wrap;">
+                <span style="font-size:14px;font-weight:900;color:#fbbf24;">{{ username }}</span>
+                <button @click="copyText(inviteCode)" style="background:rgba(251,191,36,0.12);border:1px solid rgba(251,191,36,0.28);border-radius:4px;padding:1px 6px;font-size:9px;font-weight:700;color:#fbbf24;cursor:pointer;letter-spacing:0.5px;">
+                  {{ copiedCode ? '✓ ကူးပြီး' : inviteCode }}
                 </button>
-            </div>
-
-            <div class="flex-1 min-w-0">
-              <div class="flex items-center gap-2 mb-0.5">
-                <p class="text-[11px] font-bold truncate" style="color: #fff;">
-                  <span v-if="loadingData" class="animate-pulse">Loading...</span>
-                  <span v-else>{{ username }}</span>
-                </p>
-                <span class="px-1.5 py-0.5 rounded text-[9px] font-bold"
-                  style="background: rgba(255,193,7,0.12); color: rgba(255,193,7,0.8); border: 1px solid rgba(255,193,7,0.2);">AGENT</span>
               </div>
-              <p class="text-[10px] font-mono" style="color: rgba(255,255,255,0.55);">VIP {{ userVipLevel }}</p>
-              <p class="text-[10px] mt-0" style="color: rgba(255,255,255,0.55);">ဆက်ဆံရေး: {{ memberSince }}</p>
+              <div style="font-size:10px;color:rgba(255,255,255,0.5);margin-bottom:6px;">
+                {{ currentLevelData?.tierName||'BRONZE' }} · {{ currentLevelData?.rankName||'NOVA I' }} · LV{{ agentLevel }}
+              </div>
+              <!-- Progress Bar -->
+              <div style="height:5px;background:rgba(255,255,255,0.1);border-radius:3px;overflow:hidden;">
+                <div :style="{width:(levelProgress||0)+'%',background:'linear-gradient(90deg,#f59e0b,#fbbf24)',height:'100%',borderRadius:'3px',transition:'width 0.6s ease'}" ></div>
+              </div>
+              <div style="display:flex;justify-content:space-between;margin-top:3px;">
+                <span style="font-size:9px;color:rgba(255,255,255,0.3);">LV{{ agentLevel }} · {{ formatN(totalCommission) }} Ks</span>
+                <span v-if="nextLevelData" style="font-size:9px;color:rgba(255,255,255,0.3);">LV{{ agentLevel+1 }} → {{ formatN(nextLevelData.required) }} Ks</span>
+                <span v-else style="font-size:9px;color:#f59e0b;">🏆 MAX LEVEL</span>
+              </div>
             </div>
 
-            <div class="text-right flex-shrink-0">
-              <p class="text-[9px] font-semibold tracking-wider" style="color: #3a5040;">DOWNLINE</p>
-              <p class="text-[15px] font-black mt-0" style="color: #fff;">
-                <span v-if="loadingData" class="animate-pulse text-sm" style="color: rgba(255,255,255,0.38);">...</span>
-                <span v-else>{{ totalDownline }}</span>
-              </p>
-              <p class="text-[10px] font-medium" style="color: rgba(100,220,120,0.8);">{{ activeDownline }} active</p>
+            <!-- Right: member stats -->
+            <div style="flex-shrink:0;text-align:right;">
+              <div style="font-size:9px;color:rgba(255,255,255,0.4);">တောင်စီးစာ</div>
+              <div style="font-size:16px;font-weight:900;color:#fff;line-height:1.1;">{{ formatN(allDownline.filter(u=>u.level===1).length) }}</div>
+              <div style="font-size:9px;color:rgba(255,255,255,0.4);margin-top:4px;">ရက်စွဲ</div>
+              <div style="font-size:10px;color:rgba(255,255,255,0.6);">{{ todayDate }}</div>
             </div>
           </div>
 
-          <div class="mt-2 h-px" style="background: rgba(26,43,26,0.10);"></div>
+          <!-- Commission Info bar -->
+          <div style="padding:7px 12px;display:flex;align-items:center;gap:8px;background:rgba(245,158,11,0.08);border-top:1px solid rgba(245,158,11,0.1);border-bottom:1px solid rgba(255,255,255,0.05);">
+            <span style="font-size:9px;font-weight:800;color:#f59e0b;flex-shrink:0;background:rgba(245,158,11,0.15);border:1px solid rgba(245,158,11,0.25);border-radius:4px;padding:1px 5px;">COMM</span>
+            <div style="flex:1;font-size:10px;color:rgba(255,255,255,0.55);">{{ currentLevelData?.rate||10 }}% rate · turnover {{ formatN(totalTurnover) }} Ks</div>
+            <span style="font-size:12px;font-weight:800;color:#4ade80;flex-shrink:0;">{{ formatN(totalCommission) }} Ks</span>
+          </div>
 
-          <!-- Sub stats row -->
-          <div class="flex justify-between mt-2">
+          <!-- 4-stat grid -->
+          <div style="display:grid;grid-template-columns:1fr 1fr;">
+            <div style="padding:10px 14px;border-right:1px solid rgba(255,255,255,0.06);border-bottom:1px solid rgba(255,255,255,0.06);">
+              <div style="font-size:10px;color:rgba(255,255,255,0.42);margin-bottom:2px;">ရရှိသည်</div>
+              <div style="font-size:16px;font-weight:900;color:#4ade80;">{{ formatN(mainBalance) }}<span style="font-size:9px;margin-left:2px;color:rgba(255,255,255,0.3);">Ks</span></div>
+            </div>
+            <div style="padding:10px 14px;border-bottom:1px solid rgba(255,255,255,0.06);">
+              <div style="font-size:10px;color:rgba(255,255,255,0.42);margin-bottom:2px;">ဆုလာဘ်</div>
+              <div style="font-size:16px;font-weight:900;color:#fbbf24;">{{ formatN(bonusBalance) }}<span style="font-size:9px;margin-left:2px;color:rgba(255,255,255,0.3);">Ks</span></div>
+            </div>
+            <div style="padding:10px 14px;border-right:1px solid rgba(255,255,255,0.06);">
+              <div style="font-size:10px;color:rgba(255,255,255,0.42);margin-bottom:2px;">မနေ့ တိုက်ရိုက်</div>
+              <div style="font-size:16px;font-weight:900;color:#fff;">{{ formatN(myStats.directComm) }}<span style="font-size:9px;margin-left:2px;color:rgba(255,255,255,0.3);">Ks</span></div>
+            </div>
+            <div style="padding:10px 14px;">
+              <div style="font-size:10px;color:rgba(255,255,255,0.42);margin-bottom:2px;">ဒါလ ကော်မ</div>
+              <div style="font-size:16px;font-weight:900;color:#fff;">{{ formatN(myStats.totalComm) }}<span style="font-size:9px;margin-left:2px;color:rgba(255,255,255,0.3);">Ks</span></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Invite / QR Card -->
+        <div style="margin:10px 12px 0;background:rgba(255,255,255,0.07);border:1px solid rgba(255,255,255,0.1);border-radius:14px;padding:12px;">
+
+          <!-- Header row -->
+          <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:10px;">
+            <span style="font-size:12px;font-weight:800;color:rgba(255,255,255,0.9);">သူဆုချောင်ကို ဖိတ်ကြားပါ</span>
+            <div style="display:flex;align-items:center;gap:6px;">
+              <span style="font-size:11px;font-weight:800;color:#fbbf24;letter-spacing:1px;">{{ inviteCode }}</span>
+              <button @click="copyText(inviteCode)" style="background:rgba(251,191,36,0.15);border:1px solid rgba(251,191,36,0.3);border-radius:6px;padding:3px 8px;font-size:10px;font-weight:700;color:#fbbf24;cursor:pointer;">
+                {{ copiedCode ? '✓' : 'ကူး' }}
+              </button>
+            </div>
+          </div>
+
+          <!-- QR + Link row -->
+          <div style="display:flex;align-items:center;gap:10px;margin-bottom:10px;">
+            <div style="flex-shrink:0;width:72px;height:72px;background:#fff;border-radius:10px;padding:4px;overflow:hidden;">
+              <img :src="qrUrl" style="width:100%;height:100%;object-fit:cover;border-radius:6px;" />
+            </div>
+            <div style="flex:1;min-width:0;">
+              <div style="font-size:9px;color:rgba(255,255,255,0.4);margin-bottom:5px;font-weight:600;">Referral Link</div>
+              <div style="background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.1);border-radius:8px;padding:8px 10px;display:flex;align-items:center;gap:6px;">
+                <span style="flex:1;font-size:10px;color:rgba(255,255,255,0.55);overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">{{ referralLink }}</span>
+                <button @click="copyText(referralLink)" style="background:rgba(74,222,128,0.12);border:1px solid rgba(74,222,128,0.25);border-radius:6px;padding:4px 8px;font-size:10px;font-weight:700;color:#4ade80;cursor:pointer;flex-shrink:0;">
+                  {{ copiedLink ? '✓' : '📋' }}
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <!-- Social Share buttons -->
+          <div style="display:flex;gap:6px;overflow-x:auto;padding-bottom:2px;" class="no-scrollbar">
+            <button v-for="s in socialButtons" :key="s.id" @click="shareVia(s.id)"
+              style="flex-shrink:0;display:flex;flex-direction:column;align-items:center;gap:4px;border-radius:10px;padding:8px 10px;cursor:pointer;min-width:54px;border:1px solid;"
+              :style="{background:s.bg, borderColor:s.border}">
+              <span v-html="s.icon" style="display:flex;align-items:center;justify-content:center;"></span>
+              <span style="font-size:9px;color:rgba(255,255,255,0.6);white-space:nowrap;">{{ s.label }}</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- Gold CTA Buttons -->
+        <div style="margin:10px 12px 0;display:grid;grid-template-columns:1fr 1fr;gap:8px;">
+          <button @click="activeTab=5" style="background:linear-gradient(135deg,#f59e0b,#d97706);border:none;border-radius:12px;padding:14px 10px;display:flex;align-items:center;justify-content:center;gap:6px;cursor:pointer;box-shadow:0 4px 18px rgba(245,158,11,0.4);-webkit-tap-highlight-color:transparent;">
+            <svg width="15" height="15" fill="none" stroke="#000" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0"/></svg>
+            <span style="font-size:12px;font-weight:900;color:#000;">အောက်လက်များ</span>
+          </button>
+          <button @click="activeTab=4" style="background:linear-gradient(135deg,#f59e0b,#d97706);border:none;border-radius:12px;padding:14px 10px;display:flex;align-items:center;justify-content:center;gap:6px;cursor:pointer;box-shadow:0 4px 18px rgba(245,158,11,0.4);-webkit-tap-highlight-color:transparent;">
+            <svg width="15" height="15" fill="none" stroke="#000" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+            <span style="font-size:12px;font-weight:900;color:#000;">ကော်မရှင်</span>
+          </button>
+        </div>
+
+        <!-- New Member Flash Notification -->
+        <Transition name="flash-in">
+          <div v-if="newMemberFlash" style="margin:10px 12px 0;background:linear-gradient(135deg,rgba(34,197,94,0.18),rgba(16,185,129,0.12));border:1px solid rgba(74,222,128,0.3);border-radius:12px;padding:12px 14px;display:flex;align-items:center;gap:10px;">
+            <span style="font-size:22px;">🎉</span>
             <div>
-              <p class="text-[9px] font-medium" style="color: rgba(255,255,255,0.55);">ကော်မရှင်ရက်</p>
-              <p class="text-[10px] font-semibold mt-0" style="color: rgba(255,255,255,0.65);">{{ todayDate }}</p>
+              <div style="font-size:12px;font-weight:800;color:#4ade80;">အောက်လက် အသစ် ဝင်ရောက်လာပြီ!</div>
+              <div style="font-size:10px;color:rgba(255,255,255,0.5);margin-top:1px;">Commission ရရှိပါမည်</div>
             </div>
-            <div class="text-center">
-              <p class="text-[9px] font-medium" style="color: rgba(255,255,255,0.55);">မျှဝေနှုန်း</p>
-              <p class="text-[10px] font-bold mt-0" style="color: rgba(255,193,7,0.8);">1.00</p>
+          </div>
+        </Transition>
+
+        <!-- Wallet Summary -->
+        <div style="margin:10px 12px 0;background:rgba(255,255,255,0.07);border:1px solid rgba(255,255,255,0.1);border-radius:12px;padding:14px;display:flex;align-items:center;justify-content:space-between;">
+          <div>
+            <div style="font-size:10px;color:rgba(255,255,255,0.45);margin-bottom:3px;">ပင်မ Wallet</div>
+            <div style="font-size:20px;font-weight:900;color:#4ade80;line-height:1;">{{ formatN(mainBalance) }}<span style="font-size:11px;color:rgba(255,255,255,0.35);margin-left:3px;">Ks</span></div>
+          </div>
+          <div style="width:1px;height:36px;background:rgba(255,255,255,0.08);"></div>
+          <div style="text-align:right;">
+            <div style="font-size:10px;color:rgba(255,255,255,0.45);margin-bottom:3px;">Bonus</div>
+            <div style="font-size:20px;font-weight:900;color:#fbbf24;line-height:1;">{{ formatN(bonusBalance) }}<span style="font-size:11px;color:rgba(255,255,255,0.35);margin-left:3px;">Ks</span></div>
+          </div>
+        </div>
+
+        <!-- Promo Banner Row -->
+        <div style="margin:10px 12px 0;background:linear-gradient(135deg,rgba(139,92,246,0.35),rgba(245,158,11,0.2));border:1px solid rgba(139,92,246,0.25);border-radius:12px;padding:12px 14px;display:flex;align-items:center;gap:10px;">
+          <span style="font-size:24px;flex-shrink:0;">🎁</span>
+          <div style="flex:1;min-width:0;">
+            <div style="font-size:12px;font-weight:800;color:#fbbf24;">ဖိတ်ကြားလေ · ဆုကြေးများများ ရရှိလေ</div>
+            <div style="font-size:10px;color:rgba(255,255,255,0.5);margin-top:2px;">Friend တစ်ယောက်ချင်း Register ဝင်တိုင်း Commission ရ</div>
+          </div>
+          <button @click="activeTab=1" style="flex-shrink:0;background:rgba(251,191,36,0.2);border:1px solid rgba(251,191,36,0.35);border-radius:8px;padding:6px 12px;font-size:11px;font-weight:700;color:#fbbf24;cursor:pointer;">ဖိတ်ကြား</button>
+        </div>
+
+        <!-- Downline Summary Row -->
+        <div style="margin:10px 12px 0;background:rgba(255,255,255,0.07);border:1px solid rgba(255,255,255,0.1);border-radius:12px;padding:12px 14px;">
+          <div style="display:flex;align-items:center;justify-content:space-between;">
+            <div style="text-align:center;flex:1;">
+              <div style="font-size:10px;color:rgba(255,255,255,0.42);margin-bottom:2px;">တောင်စီး</div>
+              <div style="font-size:18px;font-weight:900;color:#fff;">{{ formatN(allDownline.filter(u=>u.level===1).length) }}</div>
             </div>
-            <div class="text-right">
-              <p class="text-[9px] font-medium" style="color: rgba(255,255,255,0.55);">Total Deposit</p>
-              <p class="text-[10px] font-semibold mt-0" style="color: rgba(255,255,255,0.65);">{{ formatN(userTotalDeposit) }} Ks</p>
+            <div style="width:1px;height:32px;background:rgba(255,255,255,0.08);"></div>
+            <div style="text-align:center;flex:1;">
+              <div style="font-size:10px;color:rgba(255,255,255,0.42);margin-bottom:2px;">စုစုပေါင်း</div>
+              <div style="font-size:18px;font-weight:900;color:#fff;">{{ formatN(allDownline.length) }}</div>
+            </div>
+            <div style="width:1px;height:32px;background:rgba(255,255,255,0.08);"></div>
+            <div style="text-align:center;flex:1;">
+              <div style="font-size:10px;color:rgba(255,255,255,0.42);margin-bottom:2px;">ကော်မ</div>
+              <div style="font-size:18px;font-weight:900;color:#4ade80;">{{ formatN(totalCommission) }}</div>
+            </div>
+            <button @click="activeTab=5" style="flex-shrink:0;margin-left:8px;background:rgba(251,191,36,0.12);border:1px solid rgba(251,191,36,0.25);border-radius:8px;padding:7px 12px;font-size:11px;font-weight:700;color:#fbbf24;cursor:pointer;">ကြည့်</button>
+          </div>
+        </div>
+
+        <!-- Member Since / Info row -->
+        <div style="margin:10px 12px 0;background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.07);border-radius:12px;padding:12px 14px;display:flex;align-items:center;justify-content:space-between;">
+          <div style="display:flex;align-items:center;gap:8px;">
+            <span style="font-size:13px;">👤</span>
+            <div>
+              <div style="font-size:10px;color:rgba(255,255,255,0.4);">Member Since</div>
+              <div style="font-size:12px;font-weight:700;color:rgba(255,255,255,0.75);">{{ memberSince }}</div>
+            </div>
+          </div>
+          <div style="display:flex;align-items:center;gap:8px;">
+            <span style="font-size:13px;">💰</span>
+            <div style="text-align:right;">
+              <div style="font-size:10px;color:rgba(255,255,255,0.4);">Total Deposit</div>
+              <div style="font-size:12px;font-weight:700;color:rgba(255,255,255,0.75);">{{ formatN(userTotalDeposit) }} Ks</div>
             </div>
           </div>
         </div>
 
-        <!-- Referral Panel (ပင်မ tab) — Floating Control Center -->
-        <div class="nova-ref-card rounded-2xl p-3 relative overflow-hidden" style="background: rgba(255,255,255,0.38); border: 1px solid rgba(26,43,26,0.12); box-shadow: 0 4px 20px rgba(0,0,0,0.09), inset 0 1px 0 rgba(255,255,255,0.55); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);">
+      </div><!-- /TAB 0 -->
 
-          <!-- Ambient blue top glow -->
-          <div class="absolute -top-8 left-1/2 -translate-x-1/2 w-52 h-16 pointer-events-none"
-            style="background: radial-gradient(ellipse, rgba(45,74,45,0.08) 0%, transparent 70%); filter: blur(14px);"></div>
-          <!-- Side ambient glow -->
-          <div class="absolute top-4 right-0 w-24 h-24 pointer-events-none"
-            style="background: transparent;"></div>
 
-          <!-- Top shimmer line -->
-          <div class="absolute top-0 left-0 right-0 h-px"
-            style="background: linear-gradient(90deg, transparent 5%, rgba(45,74,45,0.3) 40%, rgba(26,43,26,0.15) 60%, transparent 95%);"></div>
+      <!-- ════════════════════════════════
+           TAB 1 : ဖိတ်ခေါ် (Referral)
+      ════════════════════════════════ -->
+      <div v-if="activeTab===1" class="referral-tab" style="padding:12px;">
 
-          <!-- Header badge -->
-          <div class="flex items-center gap-2 mb-2">
-            <div class="nova-live-dot w-1.5 h-1.5 rounded-full"
-              style="background: #4a4e99; box-shadow: 0 0 5px rgba(99,102,241,0.5);"></div>
-            <p class="text-[9px] tracking-[0.22em] font-bold uppercase"
-              style="color: #3a5040;">ဖိတ်ကြားရေး</p>
-            <div class="flex-1 h-px" style="background: rgba(26,43,26,0.12);"></div>
-            <div class="flex items-center gap-1 px-2 py-0.5 rounded-full"
-              style="background: rgba(45,74,45,0.15); border: 1px solid rgba(26,43,26,0.2);">
-              <div class="nova-pulse-dot w-1 h-1 rounded-full"
-                style="background: #4a4e99;"></div>
-              <span class="text-[8px] font-bold" style="color: #4a4e99;">LIVE</span>
-            </div>
+        <!-- Hero QR Card -->
+        <div class="referral-hero-card" style="border-radius:16px;padding:20px;text-align:center;margin-bottom:12px;">
+          <div style="font-size:13px;font-weight:800;color:rgba(255,255,255,0.9);margin-bottom:4px;">Invite Code</div>
+          <div style="font-size:28px;font-weight:900;color:#f59e0b;letter-spacing:4px;margin-bottom:16px;">{{ inviteCode }}</div>
+
+          <!-- QR Code -->
+          <div style="width:130px;height:130px;background:#fff;border-radius:14px;padding:6px;margin:0 auto 16px;box-shadow:0 8px 32px rgba(0,0,0,0.3);">
+            <img :src="qrUrl" style="width:100%;height:100%;border-radius:10px;object-fit:cover;" />
           </div>
 
-          <!-- QR + URL stacked layout -->
-          <div class="space-y-2">
+          <div style="font-size:11px;color:rgba(255,255,255,0.5);word-break:break-all;margin-bottom:14px;">{{ referralLink }}</div>
 
-            <!-- ── FLOATING QR OBJECT — centered ── -->
-            <div class="flex justify-center">
-              <div class="relative" style="width: 86px; height: 86px;">
-                <!-- Outer ambient ring 3 -->
-                <div class="nova-qr-ring-3 absolute -inset-3 rounded-3xl pointer-events-none"
-                  style="border: 1px solid rgba(26,43,26,0.08);"></div>
-                <!-- Mid pulse ring 2 -->
-                <div class="nova-qr-ring-2 absolute -inset-2 rounded-2xl pointer-events-none"
-                  style="border: 1px solid rgba(26,43,26,0.14);"></div>
-                <!-- Inner glow ring 1 -->
-                <div class="nova-qr-ring-1 absolute inset-0 rounded-2xl pointer-events-none"
-                  style="border: 1px solid rgba(26,43,26,0.22);"></div>
-                <!-- QR floating card -->
-                <div class="nova-qr-float absolute inset-0 rounded-2xl overflow-hidden"
-                  style="background: rgba(255,255,255,0.97); padding: 6px; box-shadow: 0 0 28px rgba(50,130,255,0.45), 0 4px 18px rgba(0,0,0,0.45), inset 0 1px 0 rgba(255,255,255,1);">
-                  <img :src="qrUrl" class="w-full h-full object-contain" alt="QR" loading="lazy" />
-                  <div class="nova-qr-scan absolute left-0 right-0 h-0.5 pointer-events-none"
-                    style="background: linear-gradient(90deg, transparent, rgba(45,74,45,0.4), transparent);"></div>
-                </div>
-                <!-- Corner accent dot -->
-                <div class="nova-corner-dot absolute -top-0.5 -right-0.5 w-2 h-2 rounded-full"
-                  style="background: #4a4e99; box-shadow: 0 0 6px rgba(99,102,241,0.5);"></div>
-              </div>
-            </div>
-
-            <!-- ── NODE TYPE BADGE ── -->
-            <div class="flex items-center justify-center gap-1.5">
-              <div class="flex items-center gap-1 px-2 py-0.5 rounded-full"
-                style="background: rgba(45,74,45,0.12); border: 1px solid rgba(26,43,26,0.2);">
-                <svg class="w-2.5 h-2.5" style="color:#4a4e99" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-                  <circle cx="12" cy="12" r="3"/><path d="M12 2v3M12 19v3M4.22 4.22l2.12 2.12M17.66 17.66l2.12 2.12M2 12h3M19 12h3M4.22 19.78l2.12-2.12M17.66 6.34l2.12-2.12"/>
-                </svg>
-                <span class="text-[8px] font-black tracking-[0.15em]" style="color:rgba(255,255,255,0.9)">QR</span>
-              </div>
-              <span class="text-[8px]" style="color:rgba(26,43,26,0.35)">·</span>
-              <span class="text-[8px] font-mono" style="color:rgba(26,43,26,0.5)">AGENT LINK</span>
-            </div>
-
-            <!-- ── FULL URL — below QR, full width, soft color ── -->
-            <div class="nova-link-node relative rounded-xl overflow-hidden"
-              style="background: rgba(26,43,26,0.12); border: 1px solid rgba(26,43,26,0.18); box-shadow: inset 0 1px 0 rgba(255,255,255,0.2);">
-              <!-- Sweep shimmer -->
-              <div class="nova-link-sweep absolute inset-0 pointer-events-none"
-                style="background: linear-gradient(90deg, transparent 0%, rgba(255,255,255,0.03) 50%, transparent 100%); width: 60%;"></div>
-              <div class="flex items-start gap-2 px-2.5 py-2 relative z-10">
-                <svg class="w-3.5 h-3.5 flex-shrink-0 mt-0.5" style="color:rgba(26,43,26,0.5)" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-                  <path stroke-linecap="round" stroke-linejoin="round" d="M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.102-1.101m-.758-4.899a4 4 0 005.656 0l4-4a4 4 0 00-5.656-5.656l-1.1 1.1"/>
-                </svg>
-                <p class="text-[10px] font-mono flex-1 break-all leading-relaxed"
-                  style="color: rgba(255,255,255,0.9); color: rgba(255,255,255,0.9); user-select: text; -webkit-user-select: text; cursor: text; letter-spacing: 0.01em;">{{ referralLink }}</p>
-                <button @click="copyText(referralLink)" class="flex-shrink-0 active:scale-75 transition-all mt-0.5">
-                  <div class="px-2 py-1.5 rounded-lg transition-all"
-                    :style="copiedLink ? 'background:rgba(45,74,45,0.2);border:1px solid rgba(45,74,45,0.35)' : 'background:rgba(255,255,255,0.3);border:1px solid rgba(26,43,26,0.15)'">
-                    <svg v-if="!copiedLink" class="w-3.5 h-3.5" style="color:rgba(26,43,26,0.6)" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-                      <path stroke-linecap="round" stroke-linejoin="round" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"/>
-                    </svg>
-                    <svg v-else class="w-3.5 h-3.5" style="color:rgba(80,220,120,0.95)" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
-                      <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/>
-                    </svg>
-                  </div>
-                </button>
-              </div>
-            </div>
-
-            <!-- ဖိတ်ကုဒ် caption -->
-            <p class="text-[9px] text-center font-mono" style="color: rgba(255,255,255,0.48);">
-              ဖိတ်ကုဒ်: <span style="color:rgba(255,255,255,0.9); font-weight:800;">{{ inviteCode }}</span>
-            </p>
+          <div style="display:flex;gap:8px;justify-content:center;">
+            <button @click="copyText(inviteCode)" style="background:rgba(245,158,11,0.15);border:1px solid rgba(245,158,11,0.3);border-radius:10px;padding:8px 16px;font-size:12px;font-weight:700;color:#fbbf24;cursor:pointer;">
+              {{ copiedCode ? '✓ ကူးပြီး' : '🔢 Code ကူး' }}
+            </button>
+            <button @click="copyText(referralLink)" style="background:rgba(74,222,128,0.12);border:1px solid rgba(74,222,128,0.25);border-radius:10px;padding:8px 16px;font-size:12px;font-weight:700;color:#4ade80;cursor:pointer;">
+              {{ copiedLink ? '✓ ကူးပြီး' : '🔗 Link ကူး' }}
+            </button>
           </div>
+        </div>
 
-          <!-- Social Share Buttons -->
-          <div class="mt-2.5">
-            <div class="flex items-center gap-2 mb-1.5">
-              <div class="flex-1 h-px" style="background: linear-gradient(to right, transparent, rgba(26,43,26,0.15));"></div>
-              <p class="text-[8px] tracking-[0.2em] font-bold" style="color: rgba(26,43,26,0.4);">SHARE VIA</p>
-              <div class="flex-1 h-px" style="background: linear-gradient(to left, transparent, rgba(26,43,26,0.15));"></div>
+        <!-- Social Share -->
+        <div style="background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.1);border-radius:14px;padding:14px;margin-bottom:12px;">
+          <div style="font-size:11px;font-weight:700;color:rgba(255,255,255,0.6);margin-bottom:10px;text-align:center;">Share Via</div>
+          <div style="display:flex;gap:8px;overflow-x:auto;" class="no-scrollbar">
+            <button v-for="s in socialButtons" :key="s.id" @click="shareVia(s.id)"
+              style="flex:1;min-width:52px;display:flex;flex-direction:column;align-items:center;gap:5px;border-radius:12px;padding:10px 6px;cursor:pointer;border:1px solid;"
+              :style="{background:s.bg, borderColor:s.border}">
+              <span v-html="s.icon" style="display:flex;align-items:center;justify-content:center;"></span>
+              <span style="font-size:9px;color:rgba(255,255,255,0.65);white-space:nowrap;">{{ s.label }}</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- How it works -->
+        <div style="background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.1);border-radius:14px;padding:14px;margin-bottom:12px;">
+          <div style="font-size:12px;font-weight:800;color:rgba(255,255,255,0.9);margin-bottom:12px;">📋 ဘယ်လိုရမလဲ?</div>
+          <div v-for="(step,i) in inviteSteps" :key="i" style="display:flex;align-items:flex-start;gap:10px;margin-bottom:10px;" :class="i===inviteSteps.length-1 ? '' : ''">
+            <div style="width:22px;height:22px;border-radius:50%;background:rgba(245,158,11,0.2);border:1px solid rgba(245,158,11,0.4);display:flex;align-items:center;justify-content:center;flex-shrink:0;">
+              <span style="font-size:10px;font-weight:900;color:#f59e0b;">{{ i+1 }}</span>
             </div>
-            <div class="grid grid-cols-5 gap-1.5">
-              <button v-for="s in socialButtons" :key="s.id" @click="shareVia(s.id)"
-                class="nova-social-btn flex flex-col items-center gap-1.5 active:scale-90 transition-all duration-200">
-                <div class="w-9 h-9 rounded-xl flex items-center justify-center"
-                  :style="`background: ${s.bg}; border: 1px solid ${s.border}; box-shadow: 0 2px 12px rgba(0,0,0,0.32);`">
-                  <span v-html="s.icon" class="w-5 h-5 flex items-center justify-center"></span>
-                </div>
-                <span class="text-[9px]" style="color: rgba(255,255,255,0.48);">{{ s.label }}</span>
-              </button>
+            <div style="flex:1;font-size:11px;color:rgba(255,255,255,0.65);line-height:1.5;padding:1px 0;" :style="step.style">{{ step.text }}</div>
+          </div>
+        </div>
+
+        <!-- Plexus animation canvas (Node tree visual) -->
+        <div class="floating-node-card" style="border-radius:14px;overflow:hidden;aspect-ratio:16/7;position:relative;background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.07);">
+          <canvas ref="plexusRef" style="width:100%;height:100%;display:block;"></canvas>
+          <div style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;pointer-events:none;">
+            <div style="text-align:center;">
+              <div style="font-size:11px;color:rgba(255,255,255,0.3);">Network Visualization</div>
+              <div style="font-size:22px;font-weight:900;color:rgba(255,255,255,0.15);margin-top:4px;">{{ formatN(allDownline.length) }} Members</div>
             </div>
           </div>
         </div>
 
-        <!-- Scrolling Ticker -->
-        <div class="fp-card relative rounded-xl overflow-hidden" style="height: 34px; border: 1px solid rgba(26,43,26,0.18); border-radius: 8px;">
-          <div class="absolute inset-0" style="background: linear-gradient(90deg, rgba(255,152,0,0.1), rgba(255,193,7,0.06), rgba(255,152,0,0.1));"></div>
-          <div class="absolute inset-y-0 left-0 w-8 z-10 pointer-events-none" style="background: linear-gradient(to right, #3d4187, transparent);"></div>
-          <div class="absolute inset-y-0 right-0 w-8 z-10 pointer-events-none" style="background: linear-gradient(to left, #3d4187, transparent);"></div>
-          <div ref="tickerEl" class="flex items-center h-full whitespace-nowrap overflow-hidden">
-            <div class="ticker-track flex items-center gap-10 px-6">
-              <span v-for="(item, i) in tickerItems" :key="i" class="flex items-center gap-2 text-[11px] font-semibold flex-shrink-0">
-                <span>🔥</span>
-                <span style="color: rgba(255,193,7,0.9);">ID: {{ item.id }}</span>
-                <span style="color: rgba(255,255,255,0.55);">ကော်မရှင်:</span>
-                <span style="color: rgba(255,193,7,1); font-weight: 800;">{{ item.amount }} Ks</span>
-                <span style="color: rgba(255,193,7,0.25);">◆</span>
-              </span>
-            </div>
-          </div>
-        </div>
+      </div><!-- /TAB 1 -->
 
-        <!-- Stats Grid 2×2 -->
-        <div class="grid grid-cols-2 gap-2">
-          <div v-for="s in statsGrid" :key="s.key" class="fp-card rounded-2xl p-2.5 relative overflow-hidden"
-            style="background: rgba(255,255,255,0.38); border: 1px solid rgba(26,43,26,0.12); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); box-shadow: 0 4px 16px rgba(0,0,0,0.08), inset 0 1px 0 rgba(255,255,255,0.55);">
-            <div class="absolute top-0 right-0 w-12 h-12 pointer-events-none"
-              :style="`background: radial-gradient(circle, ${s.glow} 0%, transparent 70%); filter: blur(8px);`"></div>
-            <p class="text-[10px] font-semibold tracking-[0.04em] mb-1" style="color: #3a5040;">{{ s.label }}</p>
-            <p class="text-base font-black" :style="`color: ${s.color};`">
-              <span v-if="loadingData" class="text-sm animate-pulse" style="color:rgba(26,43,26,0.3);">...</span>
-              <span v-else>{{ formatN(s.value) }}</span>
-            </p>
-            <p class="text-[10px] font-medium mt-0.5" style="color: rgba(0,0,0,0.35);">Ks</p>
-          </div>
-        </div>
 
-        <!-- Quick Actions -->
-        <div class="grid grid-cols-2 gap-2">
-          <button @click="activeTab = 6"
-            class="fp-card rounded-2xl p-2.5 flex items-center gap-2 active:scale-[0.97] transition-all text-left"
-            style="background: #4a4e99; border: none; box-shadow: 0 2px 12px rgba(30,35,100,0.2);">
-            <div class="w-8 h-8 rounded-lg flex items-center justify-center flex-shrink-0" style="background: rgba(255,193,7,0.12);">
-              <svg class="w-5 h-5" style="color: rgba(255,193,7,0.85);" fill="currentColor" viewBox="0 0 24 24"><path d="M16 11c1.66 0 2.99-1.34 2.99-3S17.66 5 16 5c-1.66 0-3 1.34-3 3s1.34 3 3 3zm-8 0c1.66 0 2.99-1.34 2.99-3S9.66 5 8 5C6.34 5 5 6.34 5 8s1.34 3 3 3zm0 2c-2.33 0-7 1.17-7 3.5V19h14v-2.5c0-2.33-4.67-3.5-7-3.5zm8 0c-.29 0-.62.02-.97.05 1.16.84 1.97 1.97 1.97 3.45V19h6v-2.5c0-2.33-4.67-3.5-7-3.5z"/></svg>
-            </div>
-            <div class="min-w-0">
-              <p class="text-xs font-bold" style="color: #f5f0e8;">အောက်လက်ငယ်သား</p>
-              <p class="text-[11px]" style="color: rgba(255,255,255,0.6);">Downline List</p>
-            </div>
-            <svg class="w-4 h-4 ml-auto flex-shrink-0" style="color: rgba(255,255,255,0.5);" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
-          </button>
+      <!-- ════════════════════════════════
+           TAB 2 : ဒေတာ (My Data)
+      ════════════════════════════════ -->
+      <div v-if="activeTab===2" style="padding:12px;">
 
-          <button @click="activeTab = 5"
-            class="fp-card rounded-2xl p-2.5 flex items-center gap-2 active:scale-[0.97] transition-all text-left"
-            style="background: #4a4e99; border: none; box-shadow: 0 2px 12px rgba(30,35,100,0.2);">
-            <div class="w-8 h-8 rounded-lg flex items-center justify-center flex-shrink-0" style="background: rgba(100,200,120,0.12);">
-              <svg class="w-5 h-5" style="color: rgba(100,220,120,0.85);" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
-            </div>
-            <div class="min-w-0">
-              <p class="text-xs font-bold" style="color: #f5f0e8;">ကော်မရှင်</p>
-              <p class="text-[11px]" style="color: rgba(255,255,255,0.6);">History</p>
-            </div>
-            <svg class="w-4 h-4 ml-auto flex-shrink-0" style="color: rgba(255,255,255,0.5);" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
+        <!-- Period Filter -->
+        <div style="display:flex;gap:6px;margin-bottom:12px;overflow-x:auto;" class="no-scrollbar">
+          <button v-for="p in myDataPeriods" :key="p.key" @click="switchMyDataPeriod(p.key)"
+            style="flex-shrink:0;padding:7px 14px;border-radius:8px;font-size:11px;font-weight:700;cursor:pointer;transition:all 0.15s;border:1px solid;"
+            :style="myDataPeriod===p.key
+              ? 'background:rgba(245,158,11,0.25);border-color:rgba(245,158,11,0.5);color:#fbbf24;'
+              : 'background:rgba(255,255,255,0.06);border-color:rgba(255,255,255,0.1);color:rgba(255,255,255,0.5);'">
+            {{ p.label }}
           </button>
         </div>
 
-      </div>
-
-      <!-- ═══════════════════════════════════════════
-           TAB 1: ဖိတ်ခေါ်လင့် — Invisible Interface Redesign
-           ═══════════════════════════════════════════ -->
-      <div v-else-if="activeTab === 1" class="referral-tab pb-6">
-
-        <!-- ── AMBIENT HERO BG ── -->
-        <div class="absolute inset-0 pointer-events-none overflow-hidden" style="z-index:0;">
-          <div class="absolute top-16 left-1/2 -translate-x-1/2 w-72 h-72 rounded-full"
-            style="background: radial-gradient(circle, rgba(255,193,7,0.06) 0%, transparent 70%); filter: blur(40px);"></div>
-          <div class="absolute top-48 left-8 w-40 h-40 rounded-full"
-            style="background: radial-gradient(circle, rgba(100,180,255,0.05) 0%, transparent 70%); filter: blur(30px);"></div>
+        <div v-if="myDataLoading" style="text-align:center;padding:40px;color:rgba(255,255,255,0.4);">
+          <div style="font-size:24px;margin-bottom:8px;">⏳</div>
+          <div style="font-size:12px;">Loading...</div>
         </div>
 
-        <div class="relative z-10 px-4 pt-4 space-y-4">
-
-          <!-- ── INVITE HEADER ── -->
-          <div class="referral-hero-card relative overflow-hidden rounded-3xl px-5 pt-5 pb-4">
-
-            <!-- top shimmer line -->
-            <div class="absolute top-0 left-0 right-0 h-px"
-              style="background: linear-gradient(90deg, transparent 5%, rgba(26,43,26,0.18) 40%, rgba(26,43,26,0.08) 60%, transparent 95%);"></div>
-
-            <!-- Invite label + token row -->
-            <div class="flex items-center justify-between mb-4">
-              <p class="text-[10px] font-semibold tracking-[0.18em] uppercase"
-                style="color: rgba(255,255,255,0.55);">သူငယ်ချင်းများကို ဖိတ်ကြားသည်</p>
-              <div class="flex items-center gap-2 rounded-xl px-3 py-1.5"
-                style="background: rgba(255,255,255,0.4); border: 1px solid rgba(26,43,26,0.18);">
-                <p class="text-[11px] font-black tracking-widest font-mono" style="color: #fff;">ဖိတ်ကုဒ်: {{ inviteCode }}</p>
-                <button @click="copyText(inviteCode)" class="active:scale-75 transition-transform">
-                  <svg v-if="!copiedCode" class="w-3.5 h-3.5" style="color:rgba(255,193,7,0.6)" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"/></svg>
-                  <svg v-else class="w-3.5 h-3.5" style="color:rgba(100,220,120,0.9)" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg>
-                </button>
-              </div>
+        <div v-else>
+          <!-- Section 1: Downline Activity -->
+          <div style="background:rgba(255,255,255,0.07);border:1px solid rgba(255,255,255,0.1);border-radius:14px;padding:12px;margin-bottom:10px;">
+            <div style="font-size:11px;font-weight:800;color:rgba(255,255,255,0.7);margin-bottom:10px;display:flex;align-items:center;gap:6px;">
+              <span style="width:3px;height:12px;background:#f59e0b;border-radius:2px;display:inline-block;"></span>
+              အောက်လက် Activity
             </div>
-
-            <!-- QR + Link row -->
-            <div class="flex gap-3 items-center">
-              <!-- QR -->
-              <div class="flex-shrink-0 rounded-2xl overflow-hidden p-1.5 shadow-lg"
-                style="background: rgba(255,255,255,0.95); width: 80px; height: 80px;">
-                <img :src="qrUrl" class="w-full h-full object-contain" alt="QR" loading="lazy" />
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;">
+              <div v-for="item in [{label:' အသစ် Member',val:myStats.directNewReg,color:'#4ade80'},{label:'Deposit ဝင်',val:myStats.depositingCount,color:'#fbbf24'},{label:'First Deposit',val:myStats.firstDepositCount,color:'#60a5fa'},{label:'Withdrawal',val:myStats.withdrawalCount,color:'#f87171'},{label:'Deposit ပမာဏ',val:formatN(myStats.depositAmount)+' Ks',raw:true,color:'#4ade80'},{label:'Turnover',val:formatN(myStats.totalTurnover)+' Ks',raw:true,color:'#a78bfa'}]" :key="item.label"
+                style="background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.07);border-radius:10px;padding:9px 10px;">
+                <div style="font-size:9px;color:rgba(255,255,255,0.4);margin-bottom:3px;">{{ item.label }}</div>
+                <div style="font-size:14px;font-weight:800;" :style="{color:item.color}">{{ item.raw ? item.val : formatN(item.val) }}</div>
               </div>
-
-              <!-- Link + expand/copy -->
-              <div class="flex-1 min-w-0 space-y-2">
-                <div class="flex items-center gap-2 rounded-xl px-3 py-2.5"
-                  style="background: rgba(26,43,26,0.10); border: 1px solid rgba(26,43,26,0.15);">
-                  <p class="text-[10px] font-mono flex-1 overflow-x-auto whitespace-nowrap no-scrollbar" style="color: rgba(255,255,255,0.9); user-select: text; -webkit-user-select: text; cursor: text; font-weight:600;">{{ referralLink }}</p>
-                  <button @click="copyText(referralLink)" class="flex-shrink-0 active:scale-75 transition-transform">
-                    <svg v-if="!copiedLink" class="w-4 h-4" style="color:rgba(255,255,255,0.3)" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"/></svg>
-                    <svg v-else class="w-4 h-4" style="color:rgba(100,220,120,0.9)" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg>
-                  </button>
-                </div>
-                <!-- Caption -->
-                <p class="text-[11px] pl-1 font-mono" style="color: rgba(255,255,255,0.55);">ဖိတ်ကုဒ်: <span style="color:rgba(255,255,255,0.9);font-weight:800;">{{ inviteCode }}</span></p>
-              </div>
-            </div>
-
-            <!-- Social share pills -->
-            <div class="mt-4 flex gap-2 overflow-x-auto no-scrollbar pb-0.5">
-              <button v-for="s in socialButtons" :key="s.id" @click="shareVia(s.id)"
-                class="flex items-center gap-2 flex-shrink-0 px-3 py-2 rounded-full active:scale-90 transition-all"
-                :style="`background: ${s.bg}; border: 1px solid ${s.border};`">
-                <span v-html="s.icon" class="w-4 h-4 flex items-center justify-center flex-shrink-0"></span>
-                <span class="text-[10px] font-semibold whitespace-nowrap" style="color:rgba(255,255,255,0.6)">{{ s.label }}</span>
-              </button>
             </div>
           </div>
 
-            <div class="absolute inset-0 pointer-events-none" :style="`background:radial-gradient(circle at 50% 0%, ${ds.glow} 0%, transparent 70%);`"></div>
-            <p class="text-xl font-black relative z-10" :style="`color:${ds.color}`">
-              <span v-if="loadingData" class="text-sm animate-pulse" style="color:rgba(255,255,255,0.15)">-</span>
-              <span v-else>{{ ds.value }}</span>
-            </p>
-            <p class="text-[9px] mt-1 relative z-10" style="color:rgba(255,255,255,0.28)">{{ ds.label }}</p>
-          </div>
-        </div>
-
-        <!-- Same list as Tab 5 with full detail -->
-        <div class="fp-card rounded-2xl overflow-hidden">
-          <div class="px-4 py-3" style="border-bottom:1px solid rgba(255,255,255,0.05);">
-            <p class="text-xs font-bold tracking-widest" style="color:rgba(255,255,255,0.5);">ALL DOWNLINE</p>
-          </div>
-          <div v-if="loadingData" class="p-8 text-center">
-            <div class="w-5 h-5 border-2 rounded-full animate-spin mx-auto" style="border-color:rgba(255,255,255,0.1);border-top-color:rgba(255,255,255,0.5)"></div>
-          </div>
-          <div v-else-if="allDownline.length === 0" class="p-8 text-center">
-            <p class="text-sm mb-2" style="color:rgba(255,255,255,0.3)">Downline မရှိသေးပါ</p>
-            <button @click="activeTab = 1" class="text-xs px-4 py-2 rounded-xl transition-all active:scale-95"
-              style="background:rgba(255,193,7,0.12);border:1px solid rgba(255,193,7,0.25);color:rgba(255,193,7,0.8)">
-              ဖိတ်ခေါ်လင့် သွားမည်
-            </button>
-          </div>
-          <div v-else v-for="user in allDownline" :key="user.descendant_id" class="px-4 py-3.5"
-            style="border-bottom:1px solid rgba(255,255,255,0.04);">
-            <div class="flex items-center justify-between">
-              <div class="flex items-center gap-3">
-                <div class="w-9 h-9 rounded-xl flex items-center justify-center text-sm font-bold flex-shrink-0"
-                  :style="user.level===1?'background:rgba(255,193,7,0.12);color:rgba(255,193,7,0.85)':'background:rgba(100,180,255,0.1);color:rgba(100,180,255,0.8)'">
-                  {{ (user.username||'?').charAt(0).toUpperCase() }}
-                </div>
-                <div>
-                  <p class="text-xs font-semibold" style="color:rgba(255,255,255,0.8)">{{ user.username || '—' }}</p>
-                  <div class="flex items-center gap-2 mt-0.5">
-                    <span class="text-[9px]" :style="user.level===1?'color:rgba(255,193,7,0.65)':'color:rgba(100,180,255,0.65)'">Level {{ user.level }}</span>
-                    <span class="text-[9px]" style="color:rgba(255,255,255,0.2)">{{ fmtDate(user.created_at) }}</span>
-                  </div>
-                </div>
+          <!-- Section 2: Commission -->
+          <div style="background:rgba(255,255,255,0.07);border:1px solid rgba(255,255,255,0.1);border-radius:14px;padding:12px;margin-bottom:10px;">
+            <div style="font-size:11px;font-weight:800;color:rgba(255,255,255,0.7);margin-bottom:10px;display:flex;align-items:center;gap:6px;">
+              <span style="width:3px;height:12px;background:#f59e0b;border-radius:2px;display:inline-block;"></span>
+              ကော်မရှင်
+            </div>
+            <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;">
+              <div v-for="item in [{label:'တိုက်ရိုက်',val:myStats.directComm,color:'#fbbf24'},{label:'Indirect',val:myStats.indirectComm,color:'#60a5fa'},{label:'စုစုပေါင်း',val:myStats.totalComm,color:'#4ade80'}]" :key="item.label"
+                style="background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.07);border-radius:10px;padding:9px 8px;text-align:center;">
+                <div style="font-size:9px;color:rgba(255,255,255,0.4);margin-bottom:3px;">{{ item.label }}</div>
+                <div style="font-size:13px;font-weight:800;" :style="{color:item.color}">{{ formatN(item.val) }}</div>
               </div>
-              <div class="text-right">
-                <p class="text-xs font-bold" style="color:rgba(255,255,255,0.7)">{{ formatN(user.total_deposit||0) }}</p>
-                <p class="text-[9px]" style="color:rgba(255,255,255,0.25)">VIP {{ user.vip_level||1 }}</p>
+            </div>
+          </div>
+
+          <!-- Section 3: Member counts -->
+          <div style="background:rgba(255,255,255,0.07);border:1px solid rgba(255,255,255,0.1);border-radius:14px;padding:12px;">
+            <div style="font-size:11px;font-weight:800;color:rgba(255,255,255,0.7);margin-bottom:10px;display:flex;align-items:center;gap:6px;">
+              <span style="width:3px;height:12px;background:#f59e0b;border-radius:2px;display:inline-block;"></span>
+              Member Statistics
+            </div>
+            <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;">
+              <div v-for="item in [{label:'တိုက်ရိုက်',val:myStats.directMembers,color:'#fbbf24'},{label:'Indirect',val:myStats.indirectMembers,color:'#a78bfa'},{label:'စုစုပေါင်း',val:myStats.totalMembers,color:'#4ade80'}]" :key="item.label"
+                style="background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.07);border-radius:10px;padding:9px 8px;text-align:center;">
+                <div style="font-size:9px;color:rgba(255,255,255,0.4);margin-bottom:3px;">{{ item.label }}</div>
+                <div style="font-size:16px;font-weight:900;" :style="{color:item.color}">{{ formatN(item.val) }}</div>
               </div>
             </div>
           </div>
         </div>
+      </div><!-- /TAB 2 -->
 
-      </div>
 
-      <!-- ═══════════════════════════════════════════
-           TAB 7 (idx 6): ပြန်ပေး ကော်မရှင် အမျိုး
-           ═══════════════════════════════════════════ -->
-      <!-- Note: tabs array has 7 items (index 0–6), this is index 6 visually but we map it to our tabs array -->
-      <div v-if="activeTab === 7" class="space-y-3 px-4 pt-4">
+      <!-- ════════════════════════════════
+           TAB 3 : စွမ်းဆောင် (Performance)
+      ════════════════════════════════ -->
+      <div v-if="activeTab===3" style="padding:12px;">
 
-        <div class="fp-card rounded-2xl p-4">
-          <p class="text-xs font-bold tracking-widest mb-4" style="color:rgba(255,255,255,0.5)">COMMISSION TYPES</p>
-          <div class="space-y-4">
-            <div v-for="ct in commissionTypes" :key="ct.title" class="rounded-xl p-3.5" :style="ct.style">
-              <div class="flex items-center gap-3 mb-2">
-                <span class="text-lg">{{ ct.icon }}</span>
-                <p class="text-xs font-bold" :style="ct.titleColor">{{ ct.title }}</p>
-              </div>
-              <p class="text-xs leading-relaxed" style="color:rgba(255,255,255,0.5)">{{ ct.desc }}</p>
-              <p class="text-sm font-black mt-2" :style="ct.titleColor">{{ ct.rate }}</p>
+        <!-- Agent Rank Card -->
+        <div style="background:linear-gradient(135deg,rgba(245,158,11,0.15),rgba(139,92,246,0.15));border:1px solid rgba(245,158,11,0.2);border-radius:14px;padding:16px;text-align:center;margin-bottom:12px;">
+          <div style="font-size:11px;color:rgba(255,255,255,0.5);margin-bottom:6px;">Agent Rank</div>
+          <div style="font-size:48px;font-weight:900;color:#f59e0b;line-height:1;">{{ agentRank }}</div>
+          <div style="font-size:11px;color:rgba(255,255,255,0.6);margin-top:4px;">{{ currentLevelData?.tierName||'BRONZE' }} · {{ currentLevelData?.rankName||'NOVA I' }}</div>
+          <div style="display:flex;align-items:center;justify-content:center;gap:6px;margin-top:10px;">
+            <div style="font-size:11px;color:rgba(255,255,255,0.5);">Commission Rate:</div>
+            <div style="font-size:15px;font-weight:900;color:#4ade80;">{{ currentLevelData?.rate||10 }}%</div>
+          </div>
+        </div>
+
+        <!-- Performance Stats -->
+        <div style="background:rgba(255,255,255,0.07);border:1px solid rgba(255,255,255,0.1);border-radius:14px;padding:12px;margin-bottom:10px;">
+          <div style="font-size:11px;font-weight:800;color:rgba(255,255,255,0.7);margin-bottom:10px;">📊 Performance Summary</div>
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;">
+            <div v-for="item in [{label:'Total Commission',val:formatN(totalCommission)+' Ks',color:'#4ade80'},{label:'Total Turnover',val:formatN(totalTurnover)+' Ks',color:'#a78bfa'},{label:'Direct Members',val:formatN(allDownline.filter(u=>u.level===1).length),color:'#fbbf24'},{label:'All Members',val:formatN(allDownline.length),color:'#60a5fa'}]" :key="item.label"
+              style="background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.07);border-radius:10px;padding:10px;">
+              <div style="font-size:9px;color:rgba(255,255,255,0.4);margin-bottom:4px;">{{ item.label }}</div>
+              <div style="font-size:14px;font-weight:800;" :style="{color:item.color}">{{ item.val }}</div>
             </div>
           </div>
         </div>
 
-        <!-- Schedule -->
-        <div class="fp-card rounded-2xl p-4">
-          <p class="text-[10px] tracking-widest mb-3" style="color:rgba(255,255,255,0.3)">ကော်မရှင်ထုတ်ချိန်</p>
-          <div class="space-y-2.5">
-            <div class="flex justify-between items-center">
-              <p class="text-xs" style="color:rgba(255,255,255,0.5)">ပေးချေမည့်ရက်</p>
-              <p class="text-xs font-semibold" style="color:rgba(255,255,255,0.75)">ပုံမှန်တိုင်း</p>
+        <!-- Level Breakdown -->
+        <div v-if="levelBreakdown.length" style="background:rgba(255,255,255,0.07);border:1px solid rgba(255,255,255,0.1);border-radius:14px;padding:12px;">
+          <div style="font-size:11px;font-weight:800;color:rgba(255,255,255,0.7);margin-bottom:10px;">📈 Commission by Level</div>
+          <div v-for="lb in levelBreakdown" :key="lb.level" style="display:flex;align-items:center;gap:10px;padding:8px 0;border-bottom:1px solid rgba(255,255,255,0.05);">
+            <div style="width:28px;height:28px;border-radius:50%;background:rgba(245,158,11,0.15);border:1px solid rgba(245,158,11,0.3);display:flex;align-items:center;justify-content:center;flex-shrink:0;">
+              <span style="font-size:10px;font-weight:900;color:#f59e0b;">L{{ lb.level }}</span>
             </div>
-            <div class="flex justify-between items-center">
-              <p class="text-xs" style="color:rgba(255,255,255,0.5)">အနည်းဆုံးပမာဏ</p>
-              <p class="text-xs font-bold" style="color:rgba(255,193,7,0.85)">100 Ks</p>
+            <div style="flex:1;">
+              <div style="font-size:10px;color:rgba(255,255,255,0.5);">{{ lb.count }} members</div>
             </div>
-            <div class="flex justify-between items-center">
-              <p class="text-xs" style="color:rgba(255,255,255,0.5)">ငွေနည်းလမ်း</p>
-              <p class="text-xs font-semibold" style="color:rgba(255,255,255,0.75)">Wallet ထဲ</p>
+            <div style="font-size:12px;font-weight:800;color:#4ade80;">{{ formatN(lb.commission) }} Ks</div>
+          </div>
+        </div>
+        <div v-else style="text-align:center;padding:30px;color:rgba(255,255,255,0.3);">
+          <div style="font-size:32px;margin-bottom:8px;">📊</div>
+          <div style="font-size:12px;">Commission records မရှိသေးပါ</div>
+        </div>
+
+      </div><!-- /TAB 3 -->
+
+
+      <!-- ════════════════════════════════
+           TAB 4 : ကော်မ (Commission Records)
+      ════════════════════════════════ -->
+      <div v-if="activeTab===4" style="padding:12px;">
+
+        <!-- Total summary -->
+        <div style="background:linear-gradient(135deg,rgba(74,222,128,0.12),rgba(245,158,11,0.1));border:1px solid rgba(74,222,128,0.2);border-radius:14px;padding:14px;margin-bottom:12px;display:flex;align-items:center;justify-content:space-between;">
+          <div>
+            <div style="font-size:10px;color:rgba(255,255,255,0.5);margin-bottom:3px;">Total Commission</div>
+            <div style="font-size:22px;font-weight:900;color:#4ade80;">{{ formatN(totalCommission) }} <span style="font-size:12px;color:rgba(255,255,255,0.35);">Ks</span></div>
+          </div>
+          <div style="text-align:right;">
+            <div style="font-size:10px;color:rgba(255,255,255,0.5);margin-bottom:3px;">Records</div>
+            <div style="font-size:22px;font-weight:900;color:#fbbf24;">{{ commissionRecords.length }}</div>
+          </div>
+        </div>
+
+        <!-- Records List -->
+        <div v-if="commissionRecords.length===0" style="text-align:center;padding:40px;color:rgba(255,255,255,0.3);">
+          <div style="font-size:36px;margin-bottom:8px;">💸</div>
+          <div style="font-size:13px;">Commission record မရှိသေးပါ</div>
+          <div style="font-size:11px;margin-top:4px;color:rgba(255,255,255,0.2);">Downline members ကစားသောအခါ ကော်မ ရပါမည်</div>
+        </div>
+
+        <div v-else>
+          <div v-for="r in commissionRecords" :key="r.id"
+            style="background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.08);border-radius:12px;padding:11px 13px;margin-bottom:8px;display:flex;align-items:center;gap:10px;">
+            <div style="width:34px;height:34px;border-radius:50%;background:rgba(245,158,11,0.15);border:1px solid rgba(245,158,11,0.3);display:flex;align-items:center;justify-content:center;flex-shrink:0;">
+              <span style="font-size:11px;font-weight:900;color:#f59e0b;">L{{ r.level }}</span>
+            </div>
+            <div style="flex:1;min-width:0;">
+              <div style="font-size:11px;color:rgba(255,255,255,0.7);font-weight:700;">Turnover: {{ formatN(r.bet_turnover) }} Ks</div>
+              <div style="font-size:10px;color:rgba(255,255,255,0.35);margin-top:1px;">{{ fmtDate(r.created_at) }}</div>
+            </div>
+            <div style="font-size:13px;font-weight:900;color:#4ade80;flex-shrink:0;">+{{ formatN(r.commission_amount) }} Ks</div>
+          </div>
+        </div>
+      </div><!-- /TAB 4 -->
+
+
+      <!-- ════════════════════════════════
+           TAB 5 : အောက်လက် (Downline)
+      ════════════════════════════════ -->
+      <div v-if="activeTab===5" style="padding:12px;">
+
+        <!-- Search + Filter -->
+        <div style="display:flex;gap:8px;margin-bottom:12px;">
+          <input v-model="dlSearch" placeholder="Search member..."
+            style="flex:1;background:rgba(255,255,255,0.08);border:1px solid rgba(255,255,255,0.1);border-radius:10px;padding:9px 12px;font-size:12px;color:#fff;outline:none;"
+            @focus="e=>e.target.style.borderColor='rgba(245,158,11,0.5)'"
+            @blur="e=>e.target.style.borderColor='rgba(255,255,255,0.1)'" />
+          <select v-model="dlLevelFilter"
+            style="background:rgba(255,255,255,0.08);border:1px solid rgba(255,255,255,0.1);border-radius:10px;padding:9px 10px;font-size:12px;color:#fff;outline:none;cursor:pointer;">
+            <option value="0" style="background:#3d4187;">All Levels</option>
+            <option value="1" style="background:#3d4187;">Level 1 (Direct)</option>
+            <option value="2" style="background:#3d4187;">Level 2</option>
+            <option value="3" style="background:#3d4187;">Level 3+</option>
+          </select>
+        </div>
+
+        <!-- Summary bar -->
+        <div style="background:rgba(255,255,255,0.07);border:1px solid rgba(255,255,255,0.1);border-radius:12px;padding:12px 14px;margin-bottom:12px;display:flex;justify-content:space-around;">
+          <div style="text-align:center;">
+            <div style="font-size:9px;color:rgba(255,255,255,0.4);">L1 Direct</div>
+            <div style="font-size:16px;font-weight:900;color:#fbbf24;">{{ formatN(allDownline.filter(u=>u.level===1).length) }}</div>
+          </div>
+          <div style="width:1px;background:rgba(255,255,255,0.07);"></div>
+          <div style="text-align:center;">
+            <div style="font-size:9px;color:rgba(255,255,255,0.4);">Indirect</div>
+            <div style="font-size:16px;font-weight:900;color:#a78bfa;">{{ formatN(allDownline.filter(u=>u.level>1).length) }}</div>
+          </div>
+          <div style="width:1px;background:rgba(255,255,255,0.07);"></div>
+          <div style="text-align:center;">
+            <div style="font-size:9px;color:rgba(255,255,255,0.4);">Total</div>
+            <div style="font-size:16px;font-weight:900;color:#4ade80;">{{ formatN(allDownline.length) }}</div>
+          </div>
+        </div>
+
+        <!-- Members List -->
+        <div v-if="allDownline.length===0" style="text-align:center;padding:40px;color:rgba(255,255,255,0.3);">
+          <div style="font-size:36px;margin-bottom:8px;">👥</div>
+          <div style="font-size:13px;">Downline member မရှိသေးပါ</div>
+          <div style="font-size:11px;margin-top:4px;color:rgba(255,255,255,0.2);">Referral link မျှဝေ၍ members ဖိတ်ကြားပါ</div>
+          <button @click="activeTab=1" style="margin-top:14px;background:rgba(245,158,11,0.2);border:1px solid rgba(245,158,11,0.35);border-radius:10px;padding:8px 20px;font-size:12px;font-weight:700;color:#fbbf24;cursor:pointer;">
+            ဖိတ်ကြားမည်
+          </button>
+        </div>
+
+        <div v-else>
+          <div v-for="member in allDownline.filter(u=>{
+            const matchSearch = !dlSearch || (u.username||u.id||u.descendant_id||'').toString().toLowerCase().includes(dlSearch.toLowerCase())
+            const matchLevel = !dlLevelFilter || dlLevelFilter==0 || (dlLevelFilter==3 ? u.level>=3 : u.level==dlLevelFilter)
+            return matchSearch && matchLevel
+          })" :key="member.descendant_id||member.id"
+            class="downline-node-row"
+            :style="(member.descendant_id||member.id)===latestNewMemberId ? 'border-color:rgba(74,222,128,0.5);background:rgba(74,222,128,0.08);' : ''"
+            style="background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.08);border-radius:12px;padding:11px 13px;margin-bottom:8px;display:flex;align-items:center;gap:10px;">
+
+            <!-- Avatar -->
+            <div style="width:38px;height:38px;border-radius:50%;background:linear-gradient(135deg,rgba(245,158,11,0.3),rgba(139,92,246,0.3));display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:15px;font-weight:900;color:rgba(255,255,255,0.8);">
+              {{ (member.username||'?').charAt(0).toUpperCase() }}
+            </div>
+
+            <!-- Info -->
+            <div style="flex:1;min-width:0;">
+              <div style="font-size:12px;font-weight:700;color:rgba(255,255,255,0.85);">{{ member.username || 'Anonymous' }}</div>
+              <div style="display:flex;align-items:center;gap:6px;margin-top:2px;">
+                <span style="font-size:9px;background:rgba(245,158,11,0.15);border:1px solid rgba(245,158,11,0.25);border-radius:4px;padding:1px 5px;color:#f59e0b;font-weight:700;">L{{ member.level }}</span>
+                <span style="font-size:9px;color:rgba(255,255,255,0.35);">{{ fmtDate(member.created_at) }}</span>
+                <span v-if="(member.descendant_id||member.id)===latestNewMemberId" style="font-size:9px;color:#4ade80;font-weight:700;">🆕 NEW</span>
+              </div>
+            </div>
+
+            <!-- Deposit -->
+            <div style="text-align:right;flex-shrink:0;">
+              <div style="font-size:9px;color:rgba(255,255,255,0.35);margin-bottom:2px;">Deposit</div>
+              <div style="font-size:12px;font-weight:800;color:#fbbf24;">{{ formatN(member.total_deposit||0) }}</div>
+            </div>
+          </div>
+        </div>
+      </div><!-- /TAB 5 -->
+
+
+      <!-- ════════════════════════════════
+           TAB 6 : ကော်မ·မျိုး (Commission Types)
+      ════════════════════════════════ -->
+      <div v-if="activeTab===6" style="padding:12px;">
+        <div style="font-size:13px;font-weight:800;color:rgba(255,255,255,0.8);margin-bottom:12px;">ကော်မရှင် အမျိုးအစားများ</div>
+        <div v-for="(ct, i) in commissionTypes" :key="i" style="margin-bottom:10px;" :style="ct.style">
+          <div style="display:flex;align-items:center;gap:8px;margin-bottom:6px;">
+            <span style="font-size:18px;">{{ ct.icon }}</span>
+            <span style="font-size:12px;font-weight:800;" :style="ct.titleColor">{{ ct.title }}</span>
+          </div>
+          <div style="font-size:13px;font-weight:900;color:#fbbf24;margin-bottom:5px;">{{ ct.rate }}</div>
+          <div style="font-size:11px;color:rgba(255,255,255,0.6);line-height:1.6;">{{ ct.desc }}</div>
+        </div>
+
+        <!-- Current level rate detail -->
+        <div style="background:rgba(245,158,11,0.1);border:1px solid rgba(245,158,11,0.2);border-radius:14px;padding:14px;margin-top:12px;">
+          <div style="font-size:11px;color:rgba(255,255,255,0.6);margin-bottom:8px;">သင့် လက်ရှိ Level Rate</div>
+          <div style="display:flex;align-items:center;justify-content:space-between;">
+            <div>
+              <div style="font-size:12px;color:rgba(255,255,255,0.5);">{{ currentLevelData?.tierName||'BRONZE' }} · {{ currentLevelData?.rankName||'NOVA I' }}</div>
+              <div style="font-size:28px;font-weight:900;color:#f59e0b;line-height:1.2;">{{ currentLevelData?.rate||10 }}%</div>
+            </div>
+            <div v-html="miniShieldHtml(currentLevelData||AGENT_LEVELS[0])" style="width:60px;height:68px;"></div>
+          </div>
+          <button @click="showLevelModal=true" style="width:100%;margin-top:10px;background:rgba(245,158,11,0.15);border:1px solid rgba(245,158,11,0.3);border-radius:10px;padding:9px;font-size:12px;font-weight:700;color:#fbbf24;cursor:pointer;">
+            Level System ကြည့်မည် →
+          </button>
+        </div>
+      </div><!-- /TAB 6 -->
+
+    </div><!-- /content -->
+
+
+    <!-- ════════════════════════════════════
+         LEVEL MODAL
+    ════════════════════════════════════ -->
+    <Transition name="modal-fade">
+      <div v-if="showLevelModal" style="position:fixed;inset:0;z-index:99;display:flex;flex-direction:column;background:rgba(10,8,30,0.96);backdrop-filter:blur(12px);" @click.self="showLevelModal=false">
+
+        <!-- Modal Header -->
+        <div style="position:relative;padding:16px 16px 12px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid rgba(255,255,255,0.08);flex-shrink:0;">
+          <canvas ref="neuralCanvasRef" style="position:absolute;inset:0;width:100%;height:100%;opacity:0.25;pointer-events:none;"></canvas>
+          <div style="font-size:14px;font-weight:900;color:#fff;position:relative;">🏆 Level System</div>
+          <button @click="showLevelModal=false" style="background:rgba(255,255,255,0.08);border:1px solid rgba(255,255,255,0.12);border-radius:50%;width:32px;height:32px;display:flex;align-items:center;justify-content:center;cursor:pointer;color:#fff;font-size:16px;position:relative;flex-shrink:0;">✕</button>
+        </div>
+
+        <!-- Current Level Hero -->
+        <div style="padding:16px;background:rgba(245,158,11,0.08);border-bottom:1px solid rgba(245,158,11,0.12);flex-shrink:0;">
+          <div style="display:flex;align-items:center;gap:14px;">
+            <div v-html="miniShieldHtml(currentLevelData||AGENT_LEVELS[0])" style="width:64px;height:72px;flex-shrink:0;"></div>
+            <div>
+              <div style="font-size:10px;color:rgba(255,255,255,0.45);margin-bottom:2px;">Current Level</div>
+              <div style="font-size:18px;font-weight:900;color:#fbbf24;">LV{{ agentLevel }} — {{ currentLevelData?.rankName||'NOVA I' }}</div>
+              <div style="font-size:12px;color:rgba(255,255,255,0.55);">{{ currentLevelData?.tierName||'BRONZE' }} Tier · {{ currentLevelData?.rate||10 }}% Rate</div>
+              <div v-if="nextLevelData" style="margin-top:6px;font-size:10px;color:rgba(255,255,255,0.4);">
+                Next: LV{{ agentLevel+1 }} → {{ formatN(nextLevelData.required) }} Ks Commission needed
+              </div>
+              <!-- Progress -->
+              <div style="margin-top:6px;height:4px;background:rgba(255,255,255,0.1);border-radius:2px;overflow:hidden;width:160px;">
+                <div :style="{width:(levelProgress||0)+'%',background:'linear-gradient(90deg,#f59e0b,#fbbf24)',height:'100%'}" ></div>
+              </div>
             </div>
           </div>
         </div>
 
-      </div>
+        <!-- All Levels Scroll -->
+        <div ref="levelScrollRef" style="flex:1;overflow-y:auto;padding:12px;" class="no-scrollbar">
+          <div v-for="lv in AGENT_LEVELS" :key="lv.level"
+            style="display:flex;align-items:center;gap:12px;padding:10px 12px;border-radius:12px;margin-bottom:8px;border:1px solid;transition:all 0.2s;"
+            :style="lv.level===agentLevel
+              ? 'border-color:rgba(245,158,11,0.45);background:rgba(245,158,11,0.1);'
+              : lv.level<agentLevel
+                ? 'border-color:rgba(74,222,128,0.15);background:rgba(74,222,128,0.04);'
+                : 'border-color:rgba(255,255,255,0.07);background:rgba(255,255,255,0.03);'">
 
-    </div><!-- /main content -->
+            <!-- Badge -->
+            <div v-html="miniShieldHtml(lv)" style="width:44px;height:50px;flex-shrink:0;"></div>
 
-    <!-- ── COMPACT AGENT LEVEL POPUP ── -->
-    <Transition name="level-modal">
-      <div v-if="showLevelModal"
-        class="fixed inset-0 z-50 flex items-center justify-center px-5"
-        style="background:rgba(0,0,0,0.78)"
-        @click.self="showLevelModal = false">
-
-        <div class="relative rounded-2xl w-full overflow-hidden"
-          style="max-width:360px;max-height:78vh;background:#111120;border:1px solid rgba(255,255,255,0.1);box-shadow:0 24px 60px rgba(0,0,0,0.7);display:flex;flex-direction:column;">
-
-          <!-- Title bar -->
-          <div class="px-4 pt-4 pb-3 text-center flex-shrink-0"
-            style="border-bottom:1px solid rgba(255,255,255,0.07);">
-            <p class="text-[14px] font-bold text-white tracking-wide">အေးဂျင်စီးအဆင်</p>
-          </div>
-
-          <!-- Column headers -->
-          <div class="flex items-start px-3 py-2 flex-shrink-0"
-            style="border-bottom:1px solid rgba(255,255,255,0.07);background:rgba(255,255,255,0.03);">
-            <div class="flex-shrink-0" style="width:90px;">
-              <span class="text-[9px] font-bold text-gray-400 tracking-wide">အေးဂျင်စီးအဆင်</span>
-            </div>
-            <div class="flex-1 text-right">
-              <span class="text-[9px] font-bold text-gray-400 leading-tight">ပရိုမိုးရှင်းအခြေအနေများ (တစ်ပိုင်)<br/>ကော်မရှင်များရရန်မြင်တင်ရမည်<br/>(မြင်တင်ရမည်)</span>
-            </div>
-          </div>
-
-          <!-- Level rows — scrollable -->
-          <div class="overflow-y-auto flex-1" style="-webkit-overflow-scrolling:touch;">
-            <div v-for="lv in AGENT_LEVELS" :key="lv.level"
-              class="flex items-center px-3 py-2"
-              :style="lv.level === agentLevel
-                ? 'background:rgba(255,255,255,0.06);border-bottom:1px solid rgba(255,255,255,0.06);'
-                : 'border-bottom:1px solid rgba(255,255,255,0.04);'">
-
-              <!-- Medal badge -->
-              <div class="flex items-center gap-2 flex-shrink-0" style="width:90px;">
-                <div class="flex-shrink-0 w-7 h-7 rounded-full flex items-center justify-center font-black text-[11px]"
-                  :style="`background:linear-gradient(135deg,${lv.gradStart},${lv.gradEnd});border:1.5px solid ${lv.rimColor};color:${lv.rimColor};box-shadow:0 0 6px ${lv.glowColor};`">
-                  {{ lv.level }}
-                </div>
-                <span class="text-[12px] font-bold" :style="`color:${lv.rimColor};`">LV{{ lv.level }}</span>
-                <span v-if="lv.level === agentLevel"
-                  class="text-[7px] font-black px-1 rounded"
-                  style="background:rgba(255,215,0,0.2);color:#FFD700;border:1px solid rgba(255,215,0,0.4);">YOU</span>
+            <!-- Info -->
+            <div style="flex:1;min-width:0;">
+              <div style="display:flex;align-items:center;gap:6px;margin-bottom:2px;">
+                <span style="font-size:12px;font-weight:800;" :style="lv.level===agentLevel ? 'color:#fbbf24' : lv.level<agentLevel ? 'color:#4ade80' : 'color:rgba(255,255,255,0.7)'"  >LV{{ lv.level }} {{ lv.rankName }}</span>
+                <span v-if="lv.level===agentLevel" style="font-size:9px;background:rgba(245,158,11,0.2);border:1px solid rgba(245,158,11,0.4);border-radius:4px;padding:1px 5px;color:#fbbf24;">CURRENT</span>
+                <span v-else-if="lv.level<agentLevel" style="font-size:9px;color:#4ade80;">✓</span>
               </div>
+              <div style="font-size:10px;color:rgba(255,255,255,0.4);">{{ lv.tierName }} · {{ lv.rate }}% Commission</div>
+            </div>
 
-              <!-- Commission amount -->
-              <div class="flex-1 text-right">
-                <span class="text-[13px] font-semibold text-white tabular-nums">
-                  {{ lv.required === 0 ? '0.00' : Number(lv.required).toLocaleString('en-US', {minimumFractionDigits:2}) }}
-                </span>
-              </div>
+            <!-- Requirement -->
+            <div style="text-align:right;flex-shrink:0;">
+              <div style="font-size:9px;color:rgba(255,255,255,0.35);">Required</div>
+              <div style="font-size:11px;font-weight:800;" :style="lv.level<=agentLevel ? 'color:#4ade80' : 'color:rgba(255,255,255,0.5)'" >{{ lv.required===0 ? 'Free' : formatN(lv.required)+' Ks' }}</div>
             </div>
           </div>
+        </div>
 
-          <!-- Close button -->
-          <div class="flex justify-center py-3 flex-shrink-0"
-            style="border-top:1px solid rgba(255,255,255,0.06);">
-            <button @click="showLevelModal = false"
-              class="w-9 h-9 rounded-full flex items-center justify-center transition-all active:scale-90"
-              style="border:1.5px solid rgba(255,255,255,0.25);background:rgba(255,255,255,0.05);color:rgba(255,255,255,0.55);">
-              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
-              </svg>
-            </button>
-          </div>
+        <!-- Close Button -->
+        <div style="padding:12px;border-top:1px solid rgba(255,255,255,0.08);flex-shrink:0;">
+          <button @click="showLevelModal=false" style="width:100%;background:rgba(255,255,255,0.08);border:1px solid rgba(255,255,255,0.12);border-radius:12px;padding:12px;font-size:13px;font-weight:700;color:rgba(255,255,255,0.7);cursor:pointer;">
+            ပိတ်မည်
+          </button>
         </div>
       </div>
     </Transition>
+
+  </div>
 </template>
 <script setup>
 import { ref, computed, onMounted, onUnmounted, nextTick, watch } from 'vue'
