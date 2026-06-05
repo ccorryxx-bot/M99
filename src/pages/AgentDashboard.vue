@@ -1,248 +1,217 @@
 <template>
-  <div class="agent-page" style="background:#1a1650;min-height:100dvh;color:#fff;-webkit-tap-highlight-color:transparent;overflow-x:hidden;position:relative;">
+  <div style="background:#1a1650;min-height:100dvh;color:#fff;-webkit-tap-highlight-color:transparent;overflow-x:hidden;position:relative;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;">
 
-    <!-- ══ BACKGROUND BLOBS (glassmorphism blur target) ══ -->
+    <!-- BACKGROUND BLOBS -->
     <div style="position:fixed;inset:0;pointer-events:none;overflow:hidden;z-index:0;">
-      <div style="position:absolute;top:-15%;left:-15%;width:55%;height:55%;background:radial-gradient(circle,rgba(139,92,246,0.55),transparent 70%);filter:blur(48px);"></div>
-      <div style="position:absolute;top:20%;right:-10%;width:48%;height:48%;background:radial-gradient(circle,rgba(79,67,197,0.5),transparent 70%);filter:blur(52px);"></div>
-      <div style="position:absolute;top:50%;left:5%;width:45%;height:45%;background:radial-gradient(circle,rgba(245,158,11,0.2),transparent 70%);filter:blur(56px);"></div>
-      <div style="position:absolute;bottom:5%;right:5%;width:40%;height:40%;background:radial-gradient(circle,rgba(99,102,241,0.4),transparent 70%);filter:blur(48px);"></div>
-      <div style="position:absolute;top:75%;left:40%;width:35%;height:35%;background:radial-gradient(circle,rgba(167,139,250,0.3),transparent 70%);filter:blur(44px);"></div>
+      <div style="position:absolute;top:-10%;left:-15%;width:50%;height:50%;background:radial-gradient(circle,rgba(139,92,246,0.5),transparent 70%);filter:blur(50px);"></div>
+      <div style="position:absolute;top:25%;right:-10%;width:42%;height:42%;background:radial-gradient(circle,rgba(79,67,197,0.45),transparent 70%);filter:blur(55px);"></div>
+      <div style="position:absolute;top:55%;left:5%;width:40%;height:40%;background:radial-gradient(circle,rgba(245,158,11,0.18),transparent 70%);filter:blur(55px);"></div>
+      <div style="position:absolute;bottom:5%;right:5%;width:38%;height:38%;background:radial-gradient(circle,rgba(99,102,241,0.38),transparent 70%);filter:blur(50px);"></div>
     </div>
 
-    <!-- ══ CONTENT LAYER ══ -->
+    <!-- CONTENT LAYER -->
     <div style="position:relative;z-index:1;">
 
-      <!-- ══ HEADER ══ -->
-      <header style="position:sticky;top:0;z-index:40;padding:11px 14px;display:flex;align-items:center;justify-content:space-between;backdrop-filter:blur(20px) saturate(180%);-webkit-backdrop-filter:blur(20px) saturate(180%);background:rgba(26,22,80,0.6);border-bottom:1px solid rgba(255,255,255,0.12);">
-        <button @click="$router.push('/home')" style="display:flex;align-items:center;gap:6px;background:rgba(255,255,255,0.08);border:1px solid rgba(255,255,255,0.15);border-radius:10px;color:#fff;cursor:pointer;padding:6px 10px;">
-          <svg width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M15 19l-7-7 7-7"/></svg>
+      <!-- HEADER -->
+      <header style="position:sticky;top:0;z-index:40;padding:8px 12px;display:flex;align-items:center;justify-content:space-between;backdrop-filter:blur(20px) saturate(180%);-webkit-backdrop-filter:blur(20px) saturate(180%);background:rgba(26,22,80,0.65);border-bottom:1px solid rgba(255,255,255,0.1);">
+        <button @click="$router.push('/home')" style="display:flex;align-items:center;background:rgba(255,255,255,0.08);border:1px solid rgba(255,255,255,0.13);border-radius:8px;color:#fff;cursor:pointer;padding:5px 9px;">
+          <svg width="14" height="14" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M15 19l-7-7 7-7"/></svg>
         </button>
-        <div style="display:flex;align-items:center;gap:8px;">
-          <div style="width:8px;height:8px;border-radius:50%;background:#f59e0b;box-shadow:0 0 10px #f59e0b,0 0 20px rgba(245,158,11,0.5);animation:glowPulse 2s ease-in-out infinite;"></div>
-          <span style="font-size:15px;font-weight:800;color:#fff;letter-spacing:0.5px;">Agent Portal</span>
+        <div style="display:flex;align-items:center;gap:6px;">
+          <div style="width:7px;height:7px;border-radius:50%;background:#f59e0b;box-shadow:0 0 8px #f59e0b;animation:glowPulse 2s ease-in-out infinite;"></div>
+          <span style="font-size:13px;font-weight:800;color:#fff;">Agent Portal</span>
         </div>
-        <button @click="loadAll()" style="background:rgba(255,255,255,0.08);border:1px solid rgba(255,255,255,0.15);border-radius:10px;cursor:pointer;color:rgba(255,255,255,0.8);padding:6px 10px;" :style="loading ? 'opacity:0.5' : ''">
-          <svg width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24" :style="loading ? 'animation:spin 1s linear infinite' : ''"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"/></svg>
+        <button @click="loadAll()" style="background:rgba(255,255,255,0.08);border:1px solid rgba(255,255,255,0.13);border-radius:8px;cursor:pointer;color:rgba(255,255,255,0.75);padding:5px 9px;" :style="loading?'opacity:0.5':''">
+          <svg width="14" height="14" fill="none" stroke="currentColor" viewBox="0 0 24 24" :style="loading?'animation:spin 1s linear infinite':''"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"/></svg>
         </button>
       </header>
 
-      <!-- ══ TICKER ══ -->
-      <div ref="tickerEl" style="backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);background:rgba(245,158,11,0.1);border-bottom:1px solid rgba(245,158,11,0.18);overflow:hidden;height:28px;display:flex;align-items:center;">
-        <div class="ticker-track" style="display:inline-flex;align-items:center;gap:32px;white-space:nowrap;padding:0 16px;">
-          <span v-for="(item,i) in tickerItems" :key="i" style="display:flex;align-items:center;gap:6px;font-size:10px;flex-shrink:0;">
+      <!-- TICKER -->
+      <div ref="tickerEl" style="backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);background:rgba(245,158,11,0.08);border-bottom:1px solid rgba(245,158,11,0.15);overflow:hidden;height:24px;display:flex;align-items:center;">
+        <div class="ticker-track" style="display:inline-flex;align-items:center;gap:24px;white-space:nowrap;padding:0 12px;">
+          <span v-for="(item,i) in tickerItems" :key="i" style="display:flex;align-items:center;gap:5px;font-size:9px;flex-shrink:0;">
             <span style="color:#f59e0b;font-weight:700;">🏆</span>
-            <span style="color:rgba(255,255,255,0.6);">{{ item.id }}</span>
+            <span style="color:rgba(255,255,255,0.55);">{{ item.id }}</span>
             <span style="color:#4ade80;font-weight:700;">+{{ item.amount }} Ks</span>
-            <span style="color:rgba(255,255,255,0.15);">|</span>
+            <span style="color:rgba(255,255,255,0.12);">|</span>
           </span>
         </div>
       </div>
 
-      <!-- ══ TAB BAR ══ -->
-      <nav style="position:sticky;top:49px;z-index:30;overflow-x:auto;display:flex;scrollbar-width:none;backdrop-filter:blur(20px) saturate(180%);-webkit-backdrop-filter:blur(20px) saturate(180%);background:rgba(26,22,80,0.55);border-bottom:1px solid rgba(255,255,255,0.1);" class="no-scrollbar">
+      <!-- TABS -->
+      <nav style="position:sticky;top:45px;z-index:30;overflow-x:auto;display:flex;scrollbar-width:none;backdrop-filter:blur(20px) saturate(180%);-webkit-backdrop-filter:blur(20px) saturate(180%);background:rgba(26,22,80,0.6);border-bottom:1px solid rgba(255,255,255,0.08);" class="no-scrollbar">
         <button v-for="(tab,i) in tabs" :key="i"
           @click="activeTab=i; if(i===1) $nextTick(()=>animateReferralTab())"
-          style="flex-shrink:0;padding:10px 16px;font-size:12px;font-weight:600;white-space:nowrap;background:none;border:none;cursor:pointer;transition:all 0.18s;border-bottom:2.5px solid transparent;"
-          :style="activeTab===i ? 'color:#fbbf24;border-bottom-color:#f59e0b;' : 'color:rgba(255,255,255,0.45);'">
+          style="flex-shrink:0;padding:8px 14px;font-size:11px;font-weight:600;white-space:nowrap;background:none;border:none;cursor:pointer;transition:all 0.15s;border-bottom:2px solid transparent;"
+          :style="activeTab===i?'color:#fbbf24;border-bottom-color:#f59e0b;':'color:rgba(255,255,255,0.4);'">
           {{ tab.label }}
         </button>
       </nav>
 
-      <!-- ══ CONTENT ══ -->
+      <!-- CONTENT -->
       <div style="padding-bottom:80px;">
 
-        <!-- ════ TAB 0 : ပင်မ ════ -->
+        <!-- ── TAB 0: ပင်မ ── -->
         <div v-if="activeTab===0">
 
-          <!-- Banner -->
-          <div style="width:100%;overflow:hidden;max-height:140px;position:relative;">
-            <img :src="agentBannerUrl" style="width:100%;height:140px;object-fit:cover;display:block;" @error="e=>e.target.style.display='none'" />
-            <div style="position:absolute;inset:0;background:linear-gradient(to bottom,transparent 50%,rgba(26,22,80,0.7));"></div>
+          <!-- Banner (compact) -->
+          <div style="width:100%;overflow:hidden;max-height:100px;position:relative;">
+            <img :src="agentBannerUrl" style="width:100%;height:100px;object-fit:cover;display:block;" @error="e=>e.target.style.display='none'" />
+            <div style="position:absolute;inset:0;background:linear-gradient(to bottom,transparent 40%,rgba(26,22,80,0.8));"></div>
           </div>
 
-          <!-- Agent Identity Card (Glass) -->
-          <div style="margin:10px 12px 0;backdrop-filter:blur(20px) saturate(200%);-webkit-backdrop-filter:blur(20px) saturate(200%);background:rgba(255,255,255,0.1);border:1px solid rgba(255,255,255,0.2);border-radius:18px;overflow:hidden;box-shadow:0 8px 32px rgba(0,0,0,0.25),inset 0 1px 0 rgba(255,255,255,0.2);">
+          <!-- Agent Card (Glass compact) -->
+          <div style="margin:8px 10px 0;backdrop-filter:blur(20px) saturate(200%);-webkit-backdrop-filter:blur(20px) saturate(200%);background:rgba(255,255,255,0.1);border:1px solid rgba(255,255,255,0.18);border-radius:14px;overflow:hidden;box-shadow:0 6px 24px rgba(0,0,0,0.22),inset 0 1px 0 rgba(255,255,255,0.18);">
 
-            <!-- Badge + Info + Date -->
-            <div style="padding:14px 14px 10px;display:flex;align-items:flex-start;gap:12px;">
-              <button @click="showLevelModal=true" style="flex-shrink:0;width:62px;height:70px;background:none;border:none;cursor:pointer;padding:0;-webkit-tap-highlight-color:transparent;filter:drop-shadow(0 4px 12px rgba(245,158,11,0.4));" v-html="miniShieldHtml(currentLevelData||AGENT_LEVELS[0])"></button>
+            <!-- Badge row -->
+            <div style="padding:10px 12px 8px;display:flex;align-items:flex-start;gap:10px;">
+              <button @click="showLevelModal=true" style="flex-shrink:0;width:52px;height:58px;background:none;border:none;cursor:pointer;padding:0;filter:drop-shadow(0 3px 8px rgba(245,158,11,0.4));" v-html="miniShieldHtml(currentLevelData||AGENT_LEVELS[0])"></button>
               <div style="flex:1;min-width:0;">
-                <div style="display:flex;align-items:center;gap:6px;margin-bottom:3px;flex-wrap:wrap;">
-                  <span style="font-size:15px;font-weight:900;color:#fbbf24;text-shadow:0 2px 8px rgba(245,158,11,0.4);">{{ username }}</span>
-                  <button @click="copyText(inviteCode)" style="background:rgba(251,191,36,0.15);border:1px solid rgba(251,191,36,0.35);border-radius:6px;padding:2px 7px;font-size:9px;font-weight:800;color:#fbbf24;cursor:pointer;letter-spacing:0.5px;backdrop-filter:blur(8px);">
-                    {{ copiedCode ? '✓ ကူးပြီး' : inviteCode }}
-                  </button>
+                <div style="display:flex;align-items:center;gap:5px;margin-bottom:2px;flex-wrap:wrap;">
+                  <span style="font-size:13px;font-weight:900;color:#fbbf24;">{{ username }}</span>
+                  <button @click="copyText(inviteCode)" style="background:rgba(251,191,36,0.12);border:1px solid rgba(251,191,36,0.3);border-radius:5px;padding:1px 6px;font-size:8px;font-weight:800;color:#fbbf24;cursor:pointer;">{{ copiedCode?'✓':inviteCode }}</button>
                 </div>
-                <div style="font-size:10px;color:rgba(255,255,255,0.55);margin-bottom:7px;">
-                  {{ currentLevelData?.tierName||'BRONZE' }} · {{ currentLevelData?.rankName||'NOVA I' }} · LV{{ agentLevel }}
+                <div style="font-size:9px;color:rgba(255,255,255,0.45);margin-bottom:5px;">{{ currentLevelData?.tierName||'BRONZE' }} · {{ currentLevelData?.rankName||'NOVA I' }} · LV{{ agentLevel }}</div>
+                <div style="height:4px;background:rgba(255,255,255,0.08);border-radius:2px;overflow:hidden;">
+                  <div :style="{width:(levelProgress||0)+'%',background:'linear-gradient(90deg,#f59e0b,#fbbf24)',height:'100%',boxShadow:'0 0 6px rgba(245,158,11,0.5)'}" ></div>
                 </div>
-                <div style="height:5px;background:rgba(255,255,255,0.1);border-radius:3px;overflow:hidden;box-shadow:inset 0 1px 2px rgba(0,0,0,0.2);">
-                  <div :style="{width:(levelProgress||0)+'%',background:'linear-gradient(90deg,#f59e0b,#fbbf24,#fff9c4)',height:'100%',borderRadius:'3px',boxShadow:'0 0 8px rgba(245,158,11,0.6)',transition:'width 0.7s ease'}" ></div>
-                </div>
-                <div style="display:flex;justify-content:space-between;margin-top:3px;">
-                  <span style="font-size:9px;color:rgba(255,255,255,0.3);">LV{{ agentLevel }}</span>
-                  <span v-if="nextLevelData" style="font-size:9px;color:rgba(255,255,255,0.3);">→ LV{{ agentLevel+1 }}: {{ formatN(nextLevelData.required) }} Ks</span>
-                  <span v-else style="font-size:9px;color:#f59e0b;font-weight:700;">🏆 MAX</span>
+                <div style="display:flex;justify-content:space-between;margin-top:2px;">
+                  <span style="font-size:8px;color:rgba(255,255,255,0.25);">LV{{ agentLevel }}</span>
+                  <span v-if="nextLevelData" style="font-size:8px;color:rgba(255,255,255,0.25);">LV{{ agentLevel+1 }}: {{ formatN(nextLevelData.required) }} Ks</span>
+                  <span v-else style="font-size:8px;color:#f59e0b;font-weight:700;">🏆 MAX</span>
                 </div>
               </div>
               <div style="flex-shrink:0;text-align:right;">
-                <div style="font-size:9px;color:rgba(255,255,255,0.4);">တောင်စီးစာ</div>
-                <div style="font-size:18px;font-weight:900;color:#fff;line-height:1.1;text-shadow:0 2px 6px rgba(0,0,0,0.3);">{{ formatN(allDownline.filter(u=>u.level===1).length) }}</div>
-                <div style="font-size:9px;color:rgba(255,255,255,0.4);margin-top:4px;">ရက်စွဲ</div>
-                <div style="font-size:10px;color:rgba(255,255,255,0.6);">{{ todayDate }}</div>
+                <div style="font-size:8px;color:rgba(255,255,255,0.35);">တောင်စီး</div>
+                <div style="font-size:16px;font-weight:900;color:#fff;">{{ formatN(allDownline.filter(u=>u.level===1).length) }}</div>
+                <div style="font-size:8px;color:rgba(255,255,255,0.35);margin-top:3px;">{{ todayDate }}</div>
               </div>
             </div>
 
-            <!-- Commission bar (glass inner) -->
-            <div style="padding:8px 14px;display:flex;align-items:center;gap:8px;background:rgba(245,158,11,0.1);border-top:1px solid rgba(245,158,11,0.15);border-bottom:1px solid rgba(255,255,255,0.06);">
-              <span style="font-size:9px;font-weight:800;color:#f59e0b;background:rgba(245,158,11,0.2);border:1px solid rgba(245,158,11,0.3);border-radius:5px;padding:2px 6px;flex-shrink:0;">COMM</span>
-              <div style="flex:1;font-size:10px;color:rgba(255,255,255,0.5);">{{ currentLevelData?.rate||10 }}% · Turnover {{ formatN(totalTurnover) }} Ks</div>
-              <span style="font-size:13px;font-weight:900;color:#4ade80;flex-shrink:0;text-shadow:0 0 12px rgba(74,222,128,0.5);">{{ formatN(totalCommission) }} Ks</span>
+            <!-- Commission row -->
+            <div style="padding:6px 12px;display:flex;align-items:center;gap:6px;background:rgba(245,158,11,0.08);border-top:1px solid rgba(245,158,11,0.12);">
+              <span style="font-size:8px;font-weight:800;color:#f59e0b;background:rgba(245,158,11,0.18);border:1px solid rgba(245,158,11,0.28);border-radius:4px;padding:1px 5px;flex-shrink:0;">COMM</span>
+              <div style="flex:1;font-size:9px;color:rgba(255,255,255,0.45);">{{ currentLevelData?.rate||10 }}% · {{ formatN(totalTurnover) }} Ks</div>
+              <span style="font-size:12px;font-weight:900;color:#4ade80;flex-shrink:0;text-shadow:0 0 10px rgba(74,222,128,0.45);">{{ formatN(totalCommission) }} Ks</span>
             </div>
 
             <!-- 4-stat grid -->
             <div style="display:grid;grid-template-columns:1fr 1fr;">
-              <div style="padding:11px 14px;border-right:1px solid rgba(255,255,255,0.08);border-bottom:1px solid rgba(255,255,255,0.08);">
-                <div style="font-size:10px;color:rgba(255,255,255,0.4);margin-bottom:3px;">ရရှိသည်</div>
-                <div style="font-size:17px;font-weight:900;color:#4ade80;text-shadow:0 0 16px rgba(74,222,128,0.4);">{{ formatN(mainBalance) }}<span style="font-size:9px;margin-left:2px;color:rgba(255,255,255,0.3);">Ks</span></div>
+              <div style="padding:8px 12px;border-right:1px solid rgba(255,255,255,0.07);border-bottom:1px solid rgba(255,255,255,0.07);">
+                <div style="font-size:8px;color:rgba(255,255,255,0.38);margin-bottom:2px;">ရရှိသည်</div>
+                <div style="font-size:15px;font-weight:900;color:#4ade80;text-shadow:0 0 12px rgba(74,222,128,0.35);">{{ formatN(mainBalance) }}<span style="font-size:8px;color:rgba(255,255,255,0.25);margin-left:2px;">Ks</span></div>
               </div>
-              <div style="padding:11px 14px;border-bottom:1px solid rgba(255,255,255,0.08);">
-                <div style="font-size:10px;color:rgba(255,255,255,0.4);margin-bottom:3px;">ဆုလာဘ်</div>
-                <div style="font-size:17px;font-weight:900;color:#fbbf24;text-shadow:0 0 16px rgba(251,191,36,0.4);">{{ formatN(bonusBalance) }}<span style="font-size:9px;margin-left:2px;color:rgba(255,255,255,0.3);">Ks</span></div>
+              <div style="padding:8px 12px;border-bottom:1px solid rgba(255,255,255,0.07);">
+                <div style="font-size:8px;color:rgba(255,255,255,0.38);margin-bottom:2px;">ဆုလာဘ်</div>
+                <div style="font-size:15px;font-weight:900;color:#fbbf24;text-shadow:0 0 12px rgba(251,191,36,0.35);">{{ formatN(bonusBalance) }}<span style="font-size:8px;color:rgba(255,255,255,0.25);margin-left:2px;">Ks</span></div>
               </div>
-              <div style="padding:11px 14px;border-right:1px solid rgba(255,255,255,0.08);">
-                <div style="font-size:10px;color:rgba(255,255,255,0.4);margin-bottom:3px;">မနေ့ တိုက်ရိုက်</div>
-                <div style="font-size:17px;font-weight:900;color:#fff;">{{ formatN(myStats.directComm) }}<span style="font-size:9px;margin-left:2px;color:rgba(255,255,255,0.3);">Ks</span></div>
+              <div style="padding:8px 12px;border-right:1px solid rgba(255,255,255,0.07);">
+                <div style="font-size:8px;color:rgba(255,255,255,0.38);margin-bottom:2px;">မနေ့ တိုက်ရိုက်</div>
+                <div style="font-size:15px;font-weight:900;color:#fff;">{{ formatN(myStats.directComm) }}<span style="font-size:8px;color:rgba(255,255,255,0.25);margin-left:2px;">Ks</span></div>
               </div>
-              <div style="padding:11px 14px;">
-                <div style="font-size:10px;color:rgba(255,255,255,0.4);margin-bottom:3px;">ဒါလ ကော်မ</div>
-                <div style="font-size:17px;font-weight:900;color:#fff;">{{ formatN(myStats.totalComm) }}<span style="font-size:9px;margin-left:2px;color:rgba(255,255,255,0.3);">Ks</span></div>
+              <div style="padding:8px 12px;">
+                <div style="font-size:8px;color:rgba(255,255,255,0.38);margin-bottom:2px;">ဒါလ ကော်မ</div>
+                <div style="font-size:15px;font-weight:900;color:#fff;">{{ formatN(myStats.totalComm) }}<span style="font-size:8px;color:rgba(255,255,255,0.25);margin-left:2px;">Ks</span></div>
               </div>
             </div>
           </div>
 
-          <!-- Invite / QR Card (Glass) -->
-          <div style="margin:10px 12px 0;backdrop-filter:blur(20px) saturate(200%);-webkit-backdrop-filter:blur(20px) saturate(200%);background:rgba(255,255,255,0.1);border:1px solid rgba(255,255,255,0.2);border-radius:18px;padding:14px;box-shadow:0 8px 32px rgba(0,0,0,0.2),inset 0 1px 0 rgba(255,255,255,0.2);">
-
-            <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:12px;">
-              <span style="font-size:12px;font-weight:800;color:rgba(255,255,255,0.9);">သူများကို ဖိတ်ကြားပါ</span>
-              <div style="display:flex;align-items:center;gap:6px;">
-                <span style="font-size:12px;font-weight:900;color:#fbbf24;letter-spacing:1.5px;">{{ inviteCode }}</span>
-                <button @click="copyText(inviteCode)" style="background:rgba(251,191,36,0.15);border:1px solid rgba(251,191,36,0.3);border-radius:8px;padding:4px 10px;font-size:10px;font-weight:700;color:#fbbf24;cursor:pointer;backdrop-filter:blur(8px);">
-                  {{ copiedCode ? '✓' : 'ကူး' }}
-                </button>
+          <!-- Invite Card (Glass compact) -->
+          <div style="margin:6px 10px 0;backdrop-filter:blur(18px) saturate(200%);-webkit-backdrop-filter:blur(18px) saturate(200%);background:rgba(255,255,255,0.09);border:1px solid rgba(255,255,255,0.16);border-radius:14px;padding:10px 12px;box-shadow:0 6px 20px rgba(0,0,0,0.18),inset 0 1px 0 rgba(255,255,255,0.15);">
+            <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:8px;">
+              <span style="font-size:11px;font-weight:800;color:rgba(255,255,255,0.85);">သူများကို ဖိတ်ကြားပါ</span>
+              <div style="display:flex;align-items:center;gap:5px;">
+                <span style="font-size:11px;font-weight:900;color:#fbbf24;letter-spacing:1px;">{{ inviteCode }}</span>
+                <button @click="copyText(inviteCode)" style="background:rgba(251,191,36,0.12);border:1px solid rgba(251,191,36,0.28);border-radius:6px;padding:3px 8px;font-size:9px;font-weight:700;color:#fbbf24;cursor:pointer;">{{ copiedCode?'✓':'ကူး' }}</button>
               </div>
             </div>
-
-            <!-- QR + Link -->
-            <div style="display:flex;align-items:center;gap:12px;margin-bottom:12px;">
-              <div style="flex-shrink:0;width:74px;height:74px;background:rgba(255,255,255,0.95);border-radius:12px;padding:4px;overflow:hidden;box-shadow:0 4px 20px rgba(0,0,0,0.3);">
-                <img :src="qrUrl" style="width:100%;height:100%;object-fit:cover;border-radius:8px;" />
+            <!-- QR + Link row -->
+            <div style="display:flex;align-items:center;gap:10px;margin-bottom:8px;">
+              <div style="flex-shrink:0;width:58px;height:58px;background:rgba(255,255,255,0.95);border-radius:10px;padding:3px;box-shadow:0 3px 14px rgba(0,0,0,0.25);">
+                <img :src="qrUrl" style="width:100%;height:100%;object-fit:cover;border-radius:7px;" />
               </div>
-              <div style="flex:1;min-width:0;">
-                <div style="font-size:9px;color:rgba(255,255,255,0.4);margin-bottom:5px;font-weight:600;">Referral Link</div>
-                <div style="background:rgba(0,0,0,0.2);border:1px solid rgba(255,255,255,0.12);border-radius:10px;padding:8px 10px;display:flex;align-items:center;gap:6px;backdrop-filter:blur(8px);">
-                  <span style="flex:1;font-size:10px;color:rgba(255,255,255,0.5);overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">{{ referralLink }}</span>
-                  <button @click="copyText(referralLink)" style="background:rgba(74,222,128,0.15);border:1px solid rgba(74,222,128,0.3);border-radius:6px;padding:4px 8px;font-size:10px;font-weight:700;color:#4ade80;cursor:pointer;flex-shrink:0;">
-                    {{ copiedLink ? '✓' : '📋' }}
-                  </button>
-                </div>
+              <div style="flex:1;min-width:0;background:rgba(0,0,0,0.18);border:1px solid rgba(255,255,255,0.1);border-radius:8px;padding:6px 8px;display:flex;align-items:center;gap:5px;backdrop-filter:blur(6px);">
+                <span style="flex:1;font-size:9px;color:rgba(255,255,255,0.45);overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">{{ referralLink }}</span>
+                <button @click="copyText(referralLink)" style="background:rgba(74,222,128,0.12);border:1px solid rgba(74,222,128,0.25);border-radius:5px;padding:3px 7px;font-size:9px;font-weight:700;color:#4ade80;cursor:pointer;flex-shrink:0;">{{ copiedLink?'✓':'📋' }}</button>
               </div>
             </div>
-
-            <!-- Social Buttons -->
-            <div style="display:flex;gap:6px;overflow-x:auto;padding-bottom:2px;" class="no-scrollbar">
+            <!-- Social row -->
+            <div style="display:flex;gap:5px;overflow-x:auto;" class="no-scrollbar">
               <button v-for="s in socialButtons" :key="s.id" @click="shareVia(s.id)"
-                style="flex-shrink:0;display:flex;flex-direction:column;align-items:center;gap:4px;border-radius:12px;padding:9px 12px;cursor:pointer;min-width:56px;border:1px solid;backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);"
-                :style="{background:s.bg, borderColor:s.border}">
+                style="flex:1;min-width:48px;display:flex;flex-direction:column;align-items:center;gap:3px;border-radius:9px;padding:7px 4px;cursor:pointer;border:1px solid;backdrop-filter:blur(8px);"
+                :style="{background:s.bg,borderColor:s.border}">
                 <span v-html="s.icon" style="display:flex;align-items:center;justify-content:center;"></span>
-                <span style="font-size:9px;color:rgba(255,255,255,0.6);white-space:nowrap;">{{ s.label }}</span>
+                <span style="font-size:8px;color:rgba(255,255,255,0.6);white-space:nowrap;">{{ s.label }}</span>
               </button>
             </div>
           </div>
 
-          <!-- Gold CTA Buttons -->
-          <div style="margin:10px 12px 0;display:grid;grid-template-columns:1fr 1fr;gap:8px;">
-            <button @click="activeTab=5" style="background:linear-gradient(135deg,rgba(245,158,11,0.9),rgba(217,119,6,0.9));border:1px solid rgba(245,158,11,0.5);border-radius:14px;padding:14px 10px;display:flex;align-items:center;justify-content:center;gap:6px;cursor:pointer;box-shadow:0 6px 24px rgba(245,158,11,0.4),inset 0 1px 0 rgba(255,255,255,0.25);backdrop-filter:blur(8px);-webkit-tap-highlight-color:transparent;">
-              <svg width="15" height="15" fill="none" stroke="rgba(0,0,0,0.8)" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0"/></svg>
-              <span style="font-size:12px;font-weight:900;color:rgba(0,0,0,0.85);">အောက်လက်များ</span>
+          <!-- CTA row (compact) -->
+          <div style="margin:6px 10px 0;display:grid;grid-template-columns:1fr 1fr;gap:6px;">
+            <button @click="activeTab=5" style="background:linear-gradient(135deg,rgba(245,158,11,0.88),rgba(217,119,6,0.88));border:1px solid rgba(245,158,11,0.45);border-radius:11px;padding:11px 8px;display:flex;align-items:center;justify-content:center;gap:5px;cursor:pointer;box-shadow:0 4px 16px rgba(245,158,11,0.35);">
+              <svg width="13" height="13" fill="none" stroke="rgba(0,0,0,0.8)" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0"/></svg>
+              <span style="font-size:11px;font-weight:900;color:rgba(0,0,0,0.85);">အောက်လက်များ</span>
             </button>
-            <button @click="activeTab=4" style="background:linear-gradient(135deg,rgba(245,158,11,0.9),rgba(217,119,6,0.9));border:1px solid rgba(245,158,11,0.5);border-radius:14px;padding:14px 10px;display:flex;align-items:center;justify-content:center;gap:6px;cursor:pointer;box-shadow:0 6px 24px rgba(245,158,11,0.4),inset 0 1px 0 rgba(255,255,255,0.25);backdrop-filter:blur(8px);-webkit-tap-highlight-color:transparent;">
-              <svg width="15" height="15" fill="none" stroke="rgba(0,0,0,0.8)" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
-              <span style="font-size:12px;font-weight:900;color:rgba(0,0,0,0.85);">ကော်မရှင်</span>
+            <button @click="activeTab=4" style="background:linear-gradient(135deg,rgba(245,158,11,0.88),rgba(217,119,6,0.88));border:1px solid rgba(245,158,11,0.45);border-radius:11px;padding:11px 8px;display:flex;align-items:center;justify-content:center;gap:5px;cursor:pointer;box-shadow:0 4px 16px rgba(245,158,11,0.35);">
+              <svg width="13" height="13" fill="none" stroke="rgba(0,0,0,0.8)" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+              <span style="font-size:11px;font-weight:900;color:rgba(0,0,0,0.85);">ကော်မရှင်</span>
             </button>
           </div>
 
-          <!-- New Member Flash -->
+          <!-- Flash notification -->
           <Transition name="flash-in">
-            <div v-if="newMemberFlash" style="margin:10px 12px 0;backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);background:rgba(74,222,128,0.15);border:1px solid rgba(74,222,128,0.3);border-radius:14px;padding:12px 14px;display:flex;align-items:center;gap:10px;box-shadow:0 4px 20px rgba(74,222,128,0.15);">
-              <span style="font-size:22px;">🎉</span>
+            <div v-if="newMemberFlash" style="margin:6px 10px 0;backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);background:rgba(74,222,128,0.12);border:1px solid rgba(74,222,128,0.28);border-radius:11px;padding:9px 12px;display:flex;align-items:center;gap:8px;">
+              <span style="font-size:18px;">🎉</span>
               <div>
-                <div style="font-size:12px;font-weight:800;color:#4ade80;">အောက်လက် အသစ် ဝင်ရောက်လာပြီ!</div>
-                <div style="font-size:10px;color:rgba(255,255,255,0.5);margin-top:1px;">Commission ရရှိပါမည်</div>
+                <div style="font-size:11px;font-weight:800;color:#4ade80;">အောက်လက် အသစ် ဝင်ရောက်လာပြီ!</div>
+                <div style="font-size:9px;color:rgba(255,255,255,0.45);margin-top:1px;">Commission ရရှိပါမည်</div>
               </div>
             </div>
           </Transition>
 
-          <!-- Wallet Summary (Glass) -->
-          <div style="margin:10px 12px 0;backdrop-filter:blur(20px) saturate(180%);-webkit-backdrop-filter:blur(20px) saturate(180%);background:rgba(255,255,255,0.09);border:1px solid rgba(255,255,255,0.18);border-radius:16px;padding:14px;display:flex;align-items:center;justify-content:space-between;box-shadow:0 8px 32px rgba(0,0,0,0.2),inset 0 1px 0 rgba(255,255,255,0.15);">
-            <div>
-              <div style="font-size:10px;color:rgba(255,255,255,0.45);margin-bottom:3px;">ပင်မ Wallet</div>
-              <div style="font-size:22px;font-weight:900;color:#4ade80;line-height:1;text-shadow:0 0 20px rgba(74,222,128,0.4);">{{ formatN(mainBalance) }}<span style="font-size:11px;color:rgba(255,255,255,0.3);margin-left:3px;">Ks</span></div>
-            </div>
-            <div style="width:1px;height:40px;background:rgba(255,255,255,0.1);"></div>
-            <div style="text-align:right;">
-              <div style="font-size:10px;color:rgba(255,255,255,0.45);margin-bottom:3px;">Bonus</div>
-              <div style="font-size:22px;font-weight:900;color:#fbbf24;line-height:1;text-shadow:0 0 20px rgba(251,191,36,0.4);">{{ formatN(bonusBalance) }}<span style="font-size:11px;color:rgba(255,255,255,0.3);margin-left:3px;">Ks</span></div>
-            </div>
-          </div>
-
-          <!-- Promo Banner (Glass Gradient) -->
-          <div style="margin:10px 12px 0;backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);background:linear-gradient(135deg,rgba(139,92,246,0.25),rgba(245,158,11,0.18));border:1px solid rgba(139,92,246,0.3);border-radius:16px;padding:13px 14px;display:flex;align-items:center;gap:10px;box-shadow:0 6px 24px rgba(139,92,246,0.15),inset 0 1px 0 rgba(255,255,255,0.1);">
-            <span style="font-size:24px;flex-shrink:0;filter:drop-shadow(0 2px 8px rgba(245,158,11,0.5));">🎁</span>
+          <!-- Promo strip (Glass compact) -->
+          <div style="margin:6px 10px 0;backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);background:linear-gradient(135deg,rgba(139,92,246,0.2),rgba(245,158,11,0.14));border:1px solid rgba(139,92,246,0.25);border-radius:12px;padding:10px 12px;display:flex;align-items:center;gap:8px;">
+            <span style="font-size:20px;flex-shrink:0;">🎁</span>
             <div style="flex:1;min-width:0;">
-              <div style="font-size:12px;font-weight:800;color:#fbbf24;text-shadow:0 1px 4px rgba(0,0,0,0.3);">ဖိတ်ကြားလေ · ဆုကြေးများများ ရရှိလေ</div>
-              <div style="font-size:10px;color:rgba(255,255,255,0.5);margin-top:2px;">Friend တစ်ယောက်ချင်း Register တိုင်း Commission ရ</div>
+              <div style="font-size:11px;font-weight:800;color:#fbbf24;">ဖိတ်ကြားလေ · ဆုကြေးများများ ရရှိလေ</div>
+              <div style="font-size:9px;color:rgba(255,255,255,0.45);margin-top:1px;">Friend တစ်ယောက်ချင်း Commission ရ</div>
             </div>
-            <button @click="activeTab=1" style="flex-shrink:0;backdrop-filter:blur(8px);background:rgba(251,191,36,0.2);border:1px solid rgba(251,191,36,0.4);border-radius:10px;padding:7px 12px;font-size:11px;font-weight:700;color:#fbbf24;cursor:pointer;">ဖိတ်ကြား</button>
+            <button @click="activeTab=1" style="flex-shrink:0;backdrop-filter:blur(6px);background:rgba(251,191,36,0.18);border:1px solid rgba(251,191,36,0.35);border-radius:8px;padding:5px 10px;font-size:10px;font-weight:700;color:#fbbf24;cursor:pointer;">ဖိတ်</button>
           </div>
 
-          <!-- Downline Summary (Glass) -->
-          <div style="margin:10px 12px 0;backdrop-filter:blur(20px) saturate(180%);-webkit-backdrop-filter:blur(20px) saturate(180%);background:rgba(255,255,255,0.09);border:1px solid rgba(255,255,255,0.18);border-radius:16px;padding:13px 14px;box-shadow:0 8px 32px rgba(0,0,0,0.2),inset 0 1px 0 rgba(255,255,255,0.12);">
-            <div style="display:flex;align-items:center;justify-content:space-between;">
-              <div style="text-align:center;flex:1;">
-                <div style="font-size:10px;color:rgba(255,255,255,0.4);margin-bottom:2px;">တောင်စီး</div>
-                <div style="font-size:20px;font-weight:900;color:#fbbf24;text-shadow:0 0 12px rgba(251,191,36,0.3);">{{ formatN(allDownline.filter(u=>u.level===1).length) }}</div>
-              </div>
-              <div style="width:1px;height:34px;background:rgba(255,255,255,0.1);"></div>
-              <div style="text-align:center;flex:1;">
-                <div style="font-size:10px;color:rgba(255,255,255,0.4);margin-bottom:2px;">စုစုပေါင်း</div>
-                <div style="font-size:20px;font-weight:900;color:#a78bfa;">{{ formatN(allDownline.length) }}</div>
-              </div>
-              <div style="width:1px;height:34px;background:rgba(255,255,255,0.1);"></div>
-              <div style="text-align:center;flex:1;">
-                <div style="font-size:10px;color:rgba(255,255,255,0.4);margin-bottom:2px;">ကော်မ</div>
-                <div style="font-size:20px;font-weight:900;color:#4ade80;text-shadow:0 0 12px rgba(74,222,128,0.3);">{{ formatN(totalCommission) }}</div>
-              </div>
-              <button @click="activeTab=5" style="flex-shrink:0;margin-left:8px;backdrop-filter:blur(8px);background:rgba(251,191,36,0.15);border:1px solid rgba(251,191,36,0.3);border-radius:10px;padding:8px 12px;font-size:11px;font-weight:700;color:#fbbf24;cursor:pointer;">ကြည့်</button>
+          <!-- Downline strip (Glass compact) -->
+          <div style="margin:6px 10px 0;backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px);background:rgba(255,255,255,0.07);border:1px solid rgba(255,255,255,0.13);border-radius:12px;padding:10px 12px;display:flex;align-items:center;justify-content:space-around;">
+            <div style="text-align:center;">
+              <div style="font-size:8px;color:rgba(255,255,255,0.38);">တောင်စီး</div>
+              <div style="font-size:17px;font-weight:900;color:#fbbf24;">{{ formatN(allDownline.filter(u=>u.level===1).length) }}</div>
             </div>
+            <div style="width:1px;height:28px;background:rgba(255,255,255,0.08);"></div>
+            <div style="text-align:center;">
+              <div style="font-size:8px;color:rgba(255,255,255,0.38);">စုစုပေါင်း</div>
+              <div style="font-size:17px;font-weight:900;color:#a78bfa;">{{ formatN(allDownline.length) }}</div>
+            </div>
+            <div style="width:1px;height:28px;background:rgba(255,255,255,0.08);"></div>
+            <div style="text-align:center;">
+              <div style="font-size:8px;color:rgba(255,255,255,0.38);">ကော်မ</div>
+              <div style="font-size:17px;font-weight:900;color:#4ade80;">{{ formatN(totalCommission) }}</div>
+            </div>
+            <button @click="activeTab=5" style="backdrop-filter:blur(6px);background:rgba(251,191,36,0.13);border:1px solid rgba(251,191,36,0.25);border-radius:8px;padding:6px 10px;font-size:10px;font-weight:700;color:#fbbf24;cursor:pointer;">ကြည့်</button>
           </div>
 
-          <!-- Member Info (Glass) -->
-          <div style="margin:10px 12px 0;backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.12);border-radius:14px;padding:12px 14px;display:flex;align-items:center;justify-content:space-between;">
-            <div style="display:flex;align-items:center;gap:8px;">
-              <span style="font-size:13px;">👤</span>
+          <!-- Member info strip -->
+          <div style="margin:6px 10px 0;backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.1);border-radius:11px;padding:9px 12px;display:flex;align-items:center;justify-content:space-between;">
+            <div style="display:flex;align-items:center;gap:6px;">
+              <span style="font-size:12px;">👤</span>
               <div>
-                <div style="font-size:10px;color:rgba(255,255,255,0.4);">Member Since</div>
-                <div style="font-size:12px;font-weight:700;color:rgba(255,255,255,0.75);">{{ memberSince }}</div>
+                <div style="font-size:8px;color:rgba(255,255,255,0.35);">Member Since</div>
+                <div style="font-size:10px;font-weight:700;color:rgba(255,255,255,0.7);">{{ memberSince }}</div>
               </div>
             </div>
-            <div style="display:flex;align-items:center;gap:8px;">
-              <span style="font-size:13px;">💰</span>
+            <div style="display:flex;align-items:center;gap:6px;">
+              <span style="font-size:12px;">💰</span>
               <div style="text-align:right;">
-                <div style="font-size:10px;color:rgba(255,255,255,0.4);">Total Deposit</div>
-                <div style="font-size:12px;font-weight:700;color:rgba(255,255,255,0.75);">{{ formatN(userTotalDeposit) }} Ks</div>
+                <div style="font-size:8px;color:rgba(255,255,255,0.35);">Total Deposit</div>
+                <div style="font-size:10px;font-weight:700;color:rgba(255,255,255,0.7);">{{ formatN(userTotalDeposit) }} Ks</div>
               </div>
             </div>
           </div>
@@ -250,90 +219,74 @@
         </div><!-- /TAB 0 -->
 
 
-        <!-- ════ TAB 1 : ဖိတ်ခေါ် ════ -->
-        <div v-if="activeTab===1" class="referral-tab" style="padding:12px;">
+        <!-- ── TAB 1: ဖိတ်ခေါ် ── -->
+        <div v-if="activeTab===1" class="referral-tab" style="padding:10px;">
 
-          <!-- Hero QR (Glass) -->
-          <div class="referral-hero-card" style="backdrop-filter:blur(24px) saturate(200%);-webkit-backdrop-filter:blur(24px) saturate(200%);background:rgba(255,255,255,0.12);border:1px solid rgba(255,255,255,0.22);border-radius:20px;padding:22px;text-align:center;margin-bottom:12px;box-shadow:0 12px 48px rgba(0,0,0,0.3),inset 0 1px 0 rgba(255,255,255,0.25);">
-            <div style="font-size:13px;font-weight:800;color:rgba(255,255,255,0.8);margin-bottom:4px;">Invite Code</div>
-            <div style="font-size:30px;font-weight:900;color:#f59e0b;letter-spacing:5px;margin-bottom:18px;text-shadow:0 0 20px rgba(245,158,11,0.5);">{{ inviteCode }}</div>
-            <div style="width:134px;height:134px;background:rgba(255,255,255,0.95);border-radius:16px;padding:7px;margin:0 auto 18px;box-shadow:0 8px 32px rgba(0,0,0,0.4),0 0 0 1px rgba(255,255,255,0.3);">
-              <img :src="qrUrl" style="width:100%;height:100%;border-radius:10px;object-fit:cover;" />
+          <div class="referral-hero-card" style="backdrop-filter:blur(22px) saturate(200%);-webkit-backdrop-filter:blur(22px) saturate(200%);background:rgba(255,255,255,0.1);border:1px solid rgba(255,255,255,0.2);border-radius:16px;padding:16px;text-align:center;margin-bottom:8px;box-shadow:0 8px 32px rgba(0,0,0,0.25),inset 0 1px 0 rgba(255,255,255,0.2);">
+            <div style="font-size:11px;font-weight:800;color:rgba(255,255,255,0.7);margin-bottom:3px;">Invite Code</div>
+            <div style="font-size:26px;font-weight:900;color:#f59e0b;letter-spacing:4px;margin-bottom:14px;text-shadow:0 0 16px rgba(245,158,11,0.5);">{{ inviteCode }}</div>
+            <div style="width:110px;height:110px;background:rgba(255,255,255,0.95);border-radius:12px;padding:5px;margin:0 auto 14px;box-shadow:0 6px 24px rgba(0,0,0,0.35);">
+              <img :src="qrUrl" style="width:100%;height:100%;border-radius:8px;object-fit:cover;" />
             </div>
-            <div style="font-size:11px;color:rgba(255,255,255,0.4);word-break:break-all;margin-bottom:16px;background:rgba(0,0,0,0.15);padding:8px;border-radius:8px;backdrop-filter:blur(4px);">{{ referralLink }}</div>
-            <div style="display:flex;gap:8px;justify-content:center;">
-              <button @click="copyText(inviteCode)" style="backdrop-filter:blur(8px);background:rgba(245,158,11,0.2);border:1px solid rgba(245,158,11,0.35);border-radius:12px;padding:9px 18px;font-size:12px;font-weight:700;color:#fbbf24;cursor:pointer;">
-                {{ copiedCode ? '✓ ကူးပြီး' : '🔢 Code ကူး' }}
-              </button>
-              <button @click="copyText(referralLink)" style="backdrop-filter:blur(8px);background:rgba(74,222,128,0.15);border:1px solid rgba(74,222,128,0.3);border-radius:12px;padding:9px 18px;font-size:12px;font-weight:700;color:#4ade80;cursor:pointer;">
-                {{ copiedLink ? '✓ ကူးပြီး' : '🔗 Link ကူး' }}
-              </button>
+            <div style="font-size:9px;color:rgba(255,255,255,0.35);word-break:break-all;margin-bottom:12px;background:rgba(0,0,0,0.12);padding:6px 8px;border-radius:7px;">{{ referralLink }}</div>
+            <div style="display:flex;gap:6px;justify-content:center;">
+              <button @click="copyText(inviteCode)" style="backdrop-filter:blur(6px);background:rgba(245,158,11,0.18);border:1px solid rgba(245,158,11,0.32);border-radius:9px;padding:7px 14px;font-size:11px;font-weight:700;color:#fbbf24;cursor:pointer;">{{ copiedCode?'✓ ကူးပြီး':'🔢 Code ကူး' }}</button>
+              <button @click="copyText(referralLink)" style="backdrop-filter:blur(6px);background:rgba(74,222,128,0.13);border:1px solid rgba(74,222,128,0.28);border-radius:9px;padding:7px 14px;font-size:11px;font-weight:700;color:#4ade80;cursor:pointer;">{{ copiedLink?'✓ ကူးပြီး':'🔗 Link ကူး' }}</button>
             </div>
           </div>
 
-          <!-- Social Share (Glass) -->
-          <div style="backdrop-filter:blur(20px) saturate(200%);-webkit-backdrop-filter:blur(20px) saturate(200%);background:rgba(255,255,255,0.1);border:1px solid rgba(255,255,255,0.18);border-radius:16px;padding:14px;margin-bottom:12px;box-shadow:0 8px 24px rgba(0,0,0,0.2);">
-            <div style="font-size:11px;font-weight:700;color:rgba(255,255,255,0.5);margin-bottom:10px;text-align:center;">Share Via</div>
-            <div style="display:flex;gap:8px;overflow-x:auto;" class="no-scrollbar">
+          <div style="backdrop-filter:blur(18px) saturate(200%);-webkit-backdrop-filter:blur(18px) saturate(200%);background:rgba(255,255,255,0.09);border:1px solid rgba(255,255,255,0.16);border-radius:13px;padding:10px;margin-bottom:8px;">
+            <div style="font-size:10px;font-weight:700;color:rgba(255,255,255,0.45);margin-bottom:8px;text-align:center;">Share Via</div>
+            <div style="display:flex;gap:6px;" class="no-scrollbar">
               <button v-for="s in socialButtons" :key="s.id" @click="shareVia(s.id)"
-                style="flex:1;min-width:52px;display:flex;flex-direction:column;align-items:center;gap:5px;border-radius:12px;padding:10px 6px;cursor:pointer;border:1px solid;backdrop-filter:blur(10px);"
-                :style="{background:s.bg, borderColor:s.border}">
+                style="flex:1;display:flex;flex-direction:column;align-items:center;gap:4px;border-radius:10px;padding:8px 4px;cursor:pointer;border:1px solid;backdrop-filter:blur(8px);"
+                :style="{background:s.bg,borderColor:s.border}">
                 <span v-html="s.icon" style="display:flex;align-items:center;justify-content:center;"></span>
-                <span style="font-size:9px;color:rgba(255,255,255,0.65);white-space:nowrap;">{{ s.label }}</span>
+                <span style="font-size:8px;color:rgba(255,255,255,0.6);white-space:nowrap;">{{ s.label }}</span>
               </button>
             </div>
           </div>
 
-          <!-- How it works (Glass) -->
-          <div style="backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);background:rgba(255,255,255,0.08);border:1px solid rgba(255,255,255,0.15);border-radius:16px;padding:14px;margin-bottom:12px;box-shadow:0 8px 24px rgba(0,0,0,0.15);">
-            <div style="font-size:12px;font-weight:800;color:rgba(255,255,255,0.9);margin-bottom:12px;">📋 ဘယ်လိုရမလဲ?</div>
-            <div v-for="(step,i) in inviteSteps" :key="i" style="display:flex;align-items:flex-start;gap:10px;margin-bottom:10px;">
-              <div style="width:24px;height:24px;border-radius:50%;background:rgba(245,158,11,0.2);border:1px solid rgba(245,158,11,0.4);display:flex;align-items:center;justify-content:center;flex-shrink:0;backdrop-filter:blur(8px);box-shadow:0 0 10px rgba(245,158,11,0.2);">
-                <span style="font-size:10px;font-weight:900;color:#f59e0b;">{{ i+1 }}</span>
+          <div style="backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);background:rgba(255,255,255,0.07);border:1px solid rgba(255,255,255,0.13);border-radius:13px;padding:10px;margin-bottom:8px;">
+            <div style="font-size:11px;font-weight:800;color:rgba(255,255,255,0.85);margin-bottom:8px;">📋 ဘယ်လိုရမလဲ?</div>
+            <div v-for="(step,i) in inviteSteps" :key="i" style="display:flex;align-items:flex-start;gap:8px;margin-bottom:7px;">
+              <div style="width:20px;height:20px;border-radius:50%;background:rgba(245,158,11,0.18);border:1px solid rgba(245,158,11,0.35);display:flex;align-items:center;justify-content:center;flex-shrink:0;backdrop-filter:blur(6px);">
+                <span style="font-size:9px;font-weight:900;color:#f59e0b;">{{ i+1 }}</span>
               </div>
-              <div style="flex:1;font-size:11px;color:rgba(255,255,255,0.65);line-height:1.6;padding:3px 8px;border-radius:8px;" :style="step.style">{{ step.text }}</div>
+              <div style="font-size:10px;color:rgba(255,255,255,0.6);line-height:1.5;" :style="step.style">{{ step.text }}</div>
             </div>
           </div>
 
-          <!-- Plexus Canvas (Glass) -->
-          <div class="floating-node-card" style="backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.12);border-radius:16px;overflow:hidden;aspect-ratio:16/7;position:relative;box-shadow:0 8px 32px rgba(0,0,0,0.2);">
+          <div class="floating-node-card" style="backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.1);border-radius:13px;overflow:hidden;aspect-ratio:16/6;position:relative;">
             <canvas ref="plexusRef" style="width:100%;height:100%;display:block;"></canvas>
             <div style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;pointer-events:none;">
-              <div style="text-align:center;">
-                <div style="font-size:11px;color:rgba(255,255,255,0.2);">Network Visualization</div>
-                <div style="font-size:24px;font-weight:900;color:rgba(255,255,255,0.1);margin-top:4px;">{{ formatN(allDownline.length) }} Members</div>
-              </div>
+              <div style="font-size:10px;color:rgba(255,255,255,0.15);">Network · {{ formatN(allDownline.length) }} Members</div>
             </div>
           </div>
 
         </div><!-- /TAB 1 -->
 
 
-        <!-- ════ TAB 2 : ဒေတာ ════ -->
-        <div v-if="activeTab===2" style="padding:12px;">
-
-          <!-- Period Filter (Glass pills) -->
-          <div style="display:flex;gap:6px;margin-bottom:12px;overflow-x:auto;" class="no-scrollbar">
+        <!-- ── TAB 2: ဒေတာ ── -->
+        <div v-if="activeTab===2" style="padding:10px;">
+          <div style="display:flex;gap:5px;margin-bottom:10px;overflow-x:auto;" class="no-scrollbar">
             <button v-for="p in myDataPeriods" :key="p.key" @click="switchMyDataPeriod(p.key)"
-              style="flex-shrink:0;padding:7px 14px;border-radius:10px;font-size:11px;font-weight:700;cursor:pointer;transition:all 0.15s;border:1px solid;backdrop-filter:blur(12px);"
-              :style="myDataPeriod===p.key
-                ? 'background:rgba(245,158,11,0.25);border-color:rgba(245,158,11,0.5);color:#fbbf24;box-shadow:0 0 16px rgba(245,158,11,0.2);'
-                : 'background:rgba(255,255,255,0.07);border-color:rgba(255,255,255,0.12);color:rgba(255,255,255,0.5);'">
+              style="flex-shrink:0;padding:5px 12px;border-radius:8px;font-size:10px;font-weight:700;cursor:pointer;border:1px solid;backdrop-filter:blur(10px);"
+              :style="myDataPeriod===p.key?'background:rgba(245,158,11,0.2);border-color:rgba(245,158,11,0.45);color:#fbbf24;':'background:rgba(255,255,255,0.06);border-color:rgba(255,255,255,0.1);color:rgba(255,255,255,0.45);'">
               {{ p.label }}
             </button>
           </div>
 
-          <div v-if="myDataLoading" style="text-align:center;padding:40px;color:rgba(255,255,255,0.4);">
-            <div style="font-size:28px;margin-bottom:8px;">⏳</div><div style="font-size:12px;">Loading...</div>
+          <div v-if="myDataLoading" style="text-align:center;padding:36px;color:rgba(255,255,255,0.35);">
+            <div style="font-size:26px;margin-bottom:6px;">⏳</div><div style="font-size:11px;">Loading...</div>
           </div>
           <div v-else>
-            <!-- Downline Activity (Glass) -->
-            <div style="backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);background:rgba(255,255,255,0.09);border:1px solid rgba(255,255,255,0.16);border-radius:16px;padding:13px;margin-bottom:10px;box-shadow:0 8px 24px rgba(0,0,0,0.2);">
-              <div style="font-size:11px;font-weight:800;color:rgba(255,255,255,0.7);margin-bottom:10px;display:flex;align-items:center;gap:6px;">
-                <span style="width:3px;height:12px;background:#f59e0b;border-radius:2px;display:inline-block;box-shadow:0 0 8px rgba(245,158,11,0.5);"></span>
+            <div style="backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px);background:rgba(255,255,255,0.08);border:1px solid rgba(255,255,255,0.14);border-radius:13px;padding:10px;margin-bottom:8px;">
+              <div style="font-size:10px;font-weight:800;color:rgba(255,255,255,0.65);margin-bottom:8px;display:flex;align-items:center;gap:5px;">
+                <span style="width:2px;height:11px;background:#f59e0b;border-radius:2px;display:inline-block;"></span>
                 အောက်လက် Activity
               </div>
-              <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;">
+              <div style="display:grid;grid-template-columns:1fr 1fr;gap:6px;">
                 <div v-for="item in [
                   {label:'အသစ် Member',val:myStats.directNewReg,color:'#4ade80'},
                   {label:'Deposit ဝင်',val:myStats.depositingCount,color:'#fbbf24'},
@@ -342,39 +295,31 @@
                   {label:'Deposit ပမာဏ',val:formatN(myStats.depositAmount)+' Ks',raw:true,color:'#4ade80'},
                   {label:'Turnover',val:formatN(myStats.totalTurnover)+' Ks',raw:true,color:'#a78bfa'}
                 ]" :key="item.label"
-                  style="background:rgba(0,0,0,0.15);border:1px solid rgba(255,255,255,0.08);border-radius:10px;padding:9px 10px;backdrop-filter:blur(8px);">
-                  <div style="font-size:9px;color:rgba(255,255,255,0.4);margin-bottom:3px;">{{ item.label }}</div>
-                  <div style="font-size:15px;font-weight:900;" :style="{color:item.color,textShadow:`0 0 12px ${item.color}40`}">{{ item.raw ? item.val : formatN(item.val) }}</div>
+                  style="background:rgba(0,0,0,0.14);border:1px solid rgba(255,255,255,0.07);border-radius:8px;padding:7px 8px;backdrop-filter:blur(6px);">
+                  <div style="font-size:8px;color:rgba(255,255,255,0.38);margin-bottom:2px;">{{ item.label }}</div>
+                  <div style="font-size:13px;font-weight:900;" :style="{color:item.color}">{{ item.raw?item.val:formatN(item.val) }}</div>
                 </div>
               </div>
             </div>
 
-            <!-- Commission (Glass) -->
-            <div style="backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);background:rgba(255,255,255,0.09);border:1px solid rgba(255,255,255,0.16);border-radius:16px;padding:13px;margin-bottom:10px;box-shadow:0 8px 24px rgba(0,0,0,0.2);">
-              <div style="font-size:11px;font-weight:800;color:rgba(255,255,255,0.7);margin-bottom:10px;display:flex;align-items:center;gap:6px;">
-                <span style="width:3px;height:12px;background:#f59e0b;border-radius:2px;display:inline-block;box-shadow:0 0 8px rgba(245,158,11,0.5);"></span>
-                ကော်မရှင်
-              </div>
-              <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;">
+            <div style="backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px);background:rgba(255,255,255,0.08);border:1px solid rgba(255,255,255,0.14);border-radius:13px;padding:10px;margin-bottom:8px;">
+              <div style="font-size:10px;font-weight:800;color:rgba(255,255,255,0.65);margin-bottom:8px;display:flex;align-items:center;gap:5px;"><span style="width:2px;height:11px;background:#f59e0b;border-radius:2px;display:inline-block;"></span>ကော်မရှင်</div>
+              <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:6px;">
                 <div v-for="item in [{label:'တိုက်ရိုက်',val:myStats.directComm,color:'#fbbf24'},{label:'Indirect',val:myStats.indirectComm,color:'#60a5fa'},{label:'စုစုပေါင်း',val:myStats.totalComm,color:'#4ade80'}]" :key="item.label"
-                  style="background:rgba(0,0,0,0.15);border:1px solid rgba(255,255,255,0.08);border-radius:10px;padding:9px 8px;text-align:center;backdrop-filter:blur(8px);">
-                  <div style="font-size:9px;color:rgba(255,255,255,0.4);margin-bottom:3px;">{{ item.label }}</div>
-                  <div style="font-size:14px;font-weight:900;" :style="{color:item.color}">{{ formatN(item.val) }}</div>
+                  style="background:rgba(0,0,0,0.14);border:1px solid rgba(255,255,255,0.07);border-radius:8px;padding:7px 6px;text-align:center;backdrop-filter:blur(6px);">
+                  <div style="font-size:8px;color:rgba(255,255,255,0.38);margin-bottom:2px;">{{ item.label }}</div>
+                  <div style="font-size:12px;font-weight:900;" :style="{color:item.color}">{{ formatN(item.val) }}</div>
                 </div>
               </div>
             </div>
 
-            <!-- Member Counts (Glass) -->
-            <div style="backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);background:rgba(255,255,255,0.09);border:1px solid rgba(255,255,255,0.16);border-radius:16px;padding:13px;box-shadow:0 8px 24px rgba(0,0,0,0.2);">
-              <div style="font-size:11px;font-weight:800;color:rgba(255,255,255,0.7);margin-bottom:10px;display:flex;align-items:center;gap:6px;">
-                <span style="width:3px;height:12px;background:#f59e0b;border-radius:2px;display:inline-block;box-shadow:0 0 8px rgba(245,158,11,0.5);"></span>
-                Member Statistics
-              </div>
-              <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;">
-                <div v-for="item in [{label:'တိုက်ရိုက်',val:myStats.directMembers,color:'#fbbf24'},{label:'Indirect',val:myStats.indirectMembers,color:'#a78bfa'},{label:'စုစုပေါင်း',val:myStats.totalMembers,color:'#4ade80'}]" :key="item.label"
-                  style="background:rgba(0,0,0,0.15);border:1px solid rgba(255,255,255,0.08);border-radius:10px;padding:9px 8px;text-align:center;backdrop-filter:blur(8px);">
-                  <div style="font-size:9px;color:rgba(255,255,255,0.4);margin-bottom:3px;">{{ item.label }}</div>
-                  <div style="font-size:18px;font-weight:900;" :style="{color:item.color}">{{ formatN(item.val) }}</div>
+            <div style="backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px);background:rgba(255,255,255,0.08);border:1px solid rgba(255,255,255,0.14);border-radius:13px;padding:10px;">
+              <div style="font-size:10px;font-weight:800;color:rgba(255,255,255,0.65);margin-bottom:8px;display:flex;align-items:center;gap:5px;"><span style="width:2px;height:11px;background:#f59e0b;border-radius:2px;display:inline-block;"></span>Member Stats</div>
+              <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:6px;">
+                <div v-for="item in [{label:'Direct',val:myStats.directMembers,color:'#fbbf24'},{label:'Indirect',val:myStats.indirectMembers,color:'#a78bfa'},{label:'Total',val:myStats.totalMembers,color:'#4ade80'}]" :key="item.label"
+                  style="background:rgba(0,0,0,0.14);border:1px solid rgba(255,255,255,0.07);border-radius:8px;padding:7px 6px;text-align:center;backdrop-filter:blur(6px);">
+                  <div style="font-size:8px;color:rgba(255,255,255,0.38);margin-bottom:2px;">{{ item.label }}</div>
+                  <div style="font-size:16px;font-weight:900;" :style="{color:item.color}">{{ formatN(item.val) }}</div>
                 </div>
               </div>
             </div>
@@ -382,96 +327,88 @@
         </div><!-- /TAB 2 -->
 
 
-        <!-- ════ TAB 3 : စွမ်းဆောင် ════ -->
-        <div v-if="activeTab===3" style="padding:12px;">
-
-          <!-- Rank Hero (Glass Gradient) -->
-          <div style="backdrop-filter:blur(24px) saturate(200%);-webkit-backdrop-filter:blur(24px) saturate(200%);background:linear-gradient(135deg,rgba(245,158,11,0.18),rgba(139,92,246,0.18));border:1px solid rgba(245,158,11,0.25);border-radius:20px;padding:20px;text-align:center;margin-bottom:12px;box-shadow:0 12px 48px rgba(0,0,0,0.25),inset 0 1px 0 rgba(255,255,255,0.15);">
-            <div style="font-size:11px;color:rgba(255,255,255,0.5);margin-bottom:6px;">Agent Rank</div>
-            <div style="font-size:52px;font-weight:900;color:#f59e0b;line-height:1;text-shadow:0 0 30px rgba(245,158,11,0.6);">{{ agentRank }}</div>
-            <div style="font-size:12px;color:rgba(255,255,255,0.6);margin-top:5px;">{{ currentLevelData?.tierName||'BRONZE' }} · {{ currentLevelData?.rankName||'NOVA I' }}</div>
-            <div style="display:flex;align-items:center;justify-content:center;gap:8px;margin-top:12px;background:rgba(0,0,0,0.15);border-radius:10px;padding:8px;backdrop-filter:blur(8px);">
-              <div style="font-size:11px;color:rgba(255,255,255,0.5);">Commission Rate:</div>
-              <div style="font-size:18px;font-weight:900;color:#4ade80;text-shadow:0 0 16px rgba(74,222,128,0.4);">{{ currentLevelData?.rate||10 }}%</div>
+        <!-- ── TAB 3: စွမ်းဆောင် ── -->
+        <div v-if="activeTab===3" style="padding:10px;">
+          <div style="backdrop-filter:blur(22px) saturate(200%);-webkit-backdrop-filter:blur(22px) saturate(200%);background:linear-gradient(135deg,rgba(245,158,11,0.15),rgba(139,92,246,0.15));border:1px solid rgba(245,158,11,0.22);border-radius:16px;padding:16px;text-align:center;margin-bottom:8px;box-shadow:0 8px 32px rgba(0,0,0,0.2),inset 0 1px 0 rgba(255,255,255,0.12);">
+            <div style="font-size:10px;color:rgba(255,255,255,0.45);margin-bottom:4px;">Agent Rank</div>
+            <div style="font-size:44px;font-weight:900;color:#f59e0b;line-height:1;text-shadow:0 0 24px rgba(245,158,11,0.55);">{{ agentRank }}</div>
+            <div style="font-size:11px;color:rgba(255,255,255,0.55);margin-top:4px;">{{ currentLevelData?.tierName||'BRONZE' }} · {{ currentLevelData?.rankName||'NOVA I' }}</div>
+            <div style="display:inline-flex;align-items:center;gap:6px;margin-top:10px;background:rgba(0,0,0,0.14);border-radius:8px;padding:6px 14px;backdrop-filter:blur(6px);">
+              <div style="font-size:10px;color:rgba(255,255,255,0.45);">Commission Rate:</div>
+              <div style="font-size:16px;font-weight:900;color:#4ade80;text-shadow:0 0 12px rgba(74,222,128,0.35);">{{ currentLevelData?.rate||10 }}%</div>
             </div>
           </div>
 
-          <!-- Performance Stats (Glass) -->
-          <div style="backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);background:rgba(255,255,255,0.09);border:1px solid rgba(255,255,255,0.16);border-radius:16px;padding:13px;margin-bottom:10px;box-shadow:0 8px 24px rgba(0,0,0,0.2);">
-            <div style="font-size:11px;font-weight:800;color:rgba(255,255,255,0.7);margin-bottom:10px;">📊 Performance Summary</div>
-            <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;">
+          <div style="backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px);background:rgba(255,255,255,0.08);border:1px solid rgba(255,255,255,0.14);border-radius:13px;padding:10px;margin-bottom:8px;">
+            <div style="font-size:10px;font-weight:800;color:rgba(255,255,255,0.65);margin-bottom:8px;">📊 Performance</div>
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:6px;">
               <div v-for="item in [{label:'Total Commission',val:formatN(totalCommission)+' Ks',color:'#4ade80'},{label:'Total Turnover',val:formatN(totalTurnover)+' Ks',color:'#a78bfa'},{label:'Direct Members',val:formatN(allDownline.filter(u=>u.level===1).length),color:'#fbbf24'},{label:'All Members',val:formatN(allDownline.length),color:'#60a5fa'}]" :key="item.label"
-                style="background:rgba(0,0,0,0.15);border:1px solid rgba(255,255,255,0.08);border-radius:10px;padding:10px;backdrop-filter:blur(8px);">
-                <div style="font-size:9px;color:rgba(255,255,255,0.4);margin-bottom:4px;">{{ item.label }}</div>
-                <div style="font-size:14px;font-weight:800;" :style="{color:item.color}">{{ item.val }}</div>
+                style="background:rgba(0,0,0,0.14);border:1px solid rgba(255,255,255,0.07);border-radius:8px;padding:8px;backdrop-filter:blur(6px);">
+                <div style="font-size:8px;color:rgba(255,255,255,0.38);margin-bottom:2px;">{{ item.label }}</div>
+                <div style="font-size:13px;font-weight:800;" :style="{color:item.color}">{{ item.val }}</div>
               </div>
             </div>
           </div>
 
-          <!-- Level Breakdown (Glass) -->
-          <div v-if="levelBreakdown.length" style="backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);background:rgba(255,255,255,0.09);border:1px solid rgba(255,255,255,0.16);border-radius:16px;padding:13px;box-shadow:0 8px 24px rgba(0,0,0,0.2);">
-            <div style="font-size:11px;font-weight:800;color:rgba(255,255,255,0.7);margin-bottom:10px;">📈 Commission by Level</div>
-            <div v-for="lb in levelBreakdown" :key="lb.level" style="display:flex;align-items:center;gap:10px;padding:9px 0;border-bottom:1px solid rgba(255,255,255,0.05);">
-              <div style="width:30px;height:30px;border-radius:50%;background:rgba(245,158,11,0.15);border:1px solid rgba(245,158,11,0.3);display:flex;align-items:center;justify-content:center;flex-shrink:0;backdrop-filter:blur(8px);">
-                <span style="font-size:10px;font-weight:900;color:#f59e0b;">L{{ lb.level }}</span>
+          <div v-if="levelBreakdown.length" style="backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px);background:rgba(255,255,255,0.08);border:1px solid rgba(255,255,255,0.14);border-radius:13px;padding:10px;">
+            <div style="font-size:10px;font-weight:800;color:rgba(255,255,255,0.65);margin-bottom:8px;">📈 Commission by Level</div>
+            <div v-for="lb in levelBreakdown" :key="lb.level" style="display:flex;align-items:center;gap:8px;padding:7px 0;border-bottom:1px solid rgba(255,255,255,0.04);">
+              <div style="width:26px;height:26px;border-radius:50%;background:rgba(245,158,11,0.13);border:1px solid rgba(245,158,11,0.28);display:flex;align-items:center;justify-content:center;flex-shrink:0;backdrop-filter:blur(6px);">
+                <span style="font-size:9px;font-weight:900;color:#f59e0b;">L{{ lb.level }}</span>
               </div>
-              <div style="flex:1;"><div style="font-size:10px;color:rgba(255,255,255,0.5);">{{ lb.count }} members</div></div>
-              <div style="font-size:12px;font-weight:800;color:#4ade80;text-shadow:0 0 8px rgba(74,222,128,0.3);">{{ formatN(lb.commission) }} Ks</div>
+              <div style="flex:1;font-size:9px;color:rgba(255,255,255,0.45);">{{ lb.count }} members</div>
+              <div style="font-size:11px;font-weight:800;color:#4ade80;">{{ formatN(lb.commission) }} Ks</div>
             </div>
           </div>
-          <div v-else style="text-align:center;padding:32px;color:rgba(255,255,255,0.3);">
-            <div style="font-size:36px;margin-bottom:8px;">📊</div>
-            <div style="font-size:12px;">Commission records မရှိသေးပါ</div>
+          <div v-else style="text-align:center;padding:28px;color:rgba(255,255,255,0.28);">
+            <div style="font-size:30px;margin-bottom:6px;">📊</div>
+            <div style="font-size:11px;">Commission records မရှိသေးပါ</div>
           </div>
         </div><!-- /TAB 3 -->
 
 
-        <!-- ════ TAB 4 : ကော်မ ════ -->
-        <div v-if="activeTab===4" style="padding:12px;">
-
-          <!-- Total (Glass Gradient) -->
-          <div style="backdrop-filter:blur(20px) saturate(180%);-webkit-backdrop-filter:blur(20px) saturate(180%);background:linear-gradient(135deg,rgba(74,222,128,0.15),rgba(245,158,11,0.12));border:1px solid rgba(74,222,128,0.22);border-radius:16px;padding:16px;margin-bottom:12px;display:flex;align-items:center;justify-content:space-between;box-shadow:0 8px 32px rgba(0,0,0,0.2),inset 0 1px 0 rgba(255,255,255,0.1);">
+        <!-- ── TAB 4: ကော်မ ── -->
+        <div v-if="activeTab===4" style="padding:10px;">
+          <div style="backdrop-filter:blur(18px) saturate(180%);-webkit-backdrop-filter:blur(18px) saturate(180%);background:linear-gradient(135deg,rgba(74,222,128,0.12),rgba(245,158,11,0.1));border:1px solid rgba(74,222,128,0.2);border-radius:13px;padding:12px;margin-bottom:10px;display:flex;align-items:center;justify-content:space-between;">
             <div>
-              <div style="font-size:10px;color:rgba(255,255,255,0.5);margin-bottom:3px;">Total Commission</div>
-              <div style="font-size:24px;font-weight:900;color:#4ade80;text-shadow:0 0 20px rgba(74,222,128,0.4);">{{ formatN(totalCommission) }} <span style="font-size:12px;color:rgba(255,255,255,0.3);">Ks</span></div>
+              <div style="font-size:9px;color:rgba(255,255,255,0.45);margin-bottom:2px;">Total Commission</div>
+              <div style="font-size:20px;font-weight:900;color:#4ade80;text-shadow:0 0 14px rgba(74,222,128,0.35);">{{ formatN(totalCommission) }} <span style="font-size:10px;color:rgba(255,255,255,0.25);">Ks</span></div>
             </div>
             <div style="text-align:right;">
-              <div style="font-size:10px;color:rgba(255,255,255,0.5);margin-bottom:3px;">Records</div>
-              <div style="font-size:24px;font-weight:900;color:#fbbf24;">{{ commissionRecords.length }}</div>
+              <div style="font-size:9px;color:rgba(255,255,255,0.45);margin-bottom:2px;">Records</div>
+              <div style="font-size:20px;font-weight:900;color:#fbbf24;">{{ commissionRecords.length }}</div>
             </div>
           </div>
 
-          <div v-if="commissionRecords.length===0" style="text-align:center;padding:40px;color:rgba(255,255,255,0.3);">
-            <div style="font-size:36px;margin-bottom:8px;">💸</div>
-            <div style="font-size:13px;">Commission record မရှိသေးပါ</div>
+          <div v-if="commissionRecords.length===0" style="text-align:center;padding:36px;color:rgba(255,255,255,0.28);">
+            <div style="font-size:30px;margin-bottom:6px;">💸</div>
+            <div style="font-size:11px;">Commission record မရှိသေးပါ</div>
           </div>
           <div v-else>
             <div v-for="r in commissionRecords" :key="r.id"
-              style="backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);background:rgba(255,255,255,0.08);border:1px solid rgba(255,255,255,0.12);border-radius:12px;padding:11px 13px;margin-bottom:8px;display:flex;align-items:center;gap:10px;box-shadow:0 4px 16px rgba(0,0,0,0.15);">
-              <div style="width:36px;height:36px;border-radius:50%;background:rgba(245,158,11,0.15);border:1px solid rgba(245,158,11,0.3);display:flex;align-items:center;justify-content:center;flex-shrink:0;backdrop-filter:blur(8px);">
-                <span style="font-size:11px;font-weight:900;color:#f59e0b;">L{{ r.level }}</span>
+              style="backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);background:rgba(255,255,255,0.07);border:1px solid rgba(255,255,255,0.1);border-radius:11px;padding:9px 11px;margin-bottom:6px;display:flex;align-items:center;gap:8px;">
+              <div style="width:32px;height:32px;border-radius:50%;background:rgba(245,158,11,0.13);border:1px solid rgba(245,158,11,0.28);display:flex;align-items:center;justify-content:center;flex-shrink:0;">
+                <span style="font-size:9px;font-weight:900;color:#f59e0b;">L{{ r.level }}</span>
               </div>
               <div style="flex:1;min-width:0;">
-                <div style="font-size:11px;color:rgba(255,255,255,0.7);font-weight:700;">Turnover: {{ formatN(r.bet_turnover) }} Ks</div>
-                <div style="font-size:10px;color:rgba(255,255,255,0.35);margin-top:1px;">{{ fmtDate(r.created_at) }}</div>
+                <div style="font-size:10px;color:rgba(255,255,255,0.65);font-weight:700;">Turnover: {{ formatN(r.bet_turnover) }} Ks</div>
+                <div style="font-size:9px;color:rgba(255,255,255,0.32);margin-top:1px;">{{ fmtDate(r.created_at) }}</div>
               </div>
-              <div style="font-size:13px;font-weight:900;color:#4ade80;flex-shrink:0;text-shadow:0 0 10px rgba(74,222,128,0.3);">+{{ formatN(r.commission_amount) }} Ks</div>
+              <div style="font-size:12px;font-weight:900;color:#4ade80;flex-shrink:0;">+{{ formatN(r.commission_amount) }} Ks</div>
             </div>
           </div>
         </div><!-- /TAB 4 -->
 
 
-        <!-- ════ TAB 5 : အောက်လက် ════ -->
-        <div v-if="activeTab===5" style="padding:12px;">
-
-          <!-- Search + Filter -->
-          <div style="display:flex;gap:8px;margin-bottom:12px;">
+        <!-- ── TAB 5: အောက်လက် ── -->
+        <div v-if="activeTab===5" style="padding:10px;">
+          <div style="display:flex;gap:6px;margin-bottom:10px;">
             <input v-model="dlSearch" placeholder="Search member..."
-              style="flex:1;background:rgba(255,255,255,0.08);border:1px solid rgba(255,255,255,0.15);border-radius:12px;padding:10px 14px;font-size:12px;color:#fff;outline:none;backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);"
-              @focus="e=>e.target.style.borderColor='rgba(245,158,11,0.5)'"
-              @blur="e=>e.target.style.borderColor='rgba(255,255,255,0.15)'" />
+              style="flex:1;background:rgba(255,255,255,0.07);border:1px solid rgba(255,255,255,0.13);border-radius:10px;padding:8px 11px;font-size:11px;color:#fff;outline:none;backdrop-filter:blur(10px);"
+              @focus="e=>e.target.style.borderColor='rgba(245,158,11,0.45)'"
+              @blur="e=>e.target.style.borderColor='rgba(255,255,255,0.13)'" />
             <select v-model="dlLevelFilter"
-              style="background:rgba(255,255,255,0.08);border:1px solid rgba(255,255,255,0.15);border-radius:12px;padding:10px 10px;font-size:12px;color:#fff;outline:none;cursor:pointer;backdrop-filter:blur(12px);">
+              style="background:rgba(255,255,255,0.07);border:1px solid rgba(255,255,255,0.13);border-radius:10px;padding:8px 9px;font-size:11px;color:#fff;outline:none;cursor:pointer;backdrop-filter:blur(10px);">
               <option value="0" style="background:#1a1650;">All</option>
               <option value="1" style="background:#1a1650;">L1</option>
               <option value="2" style="background:#1a1650;">L2</option>
@@ -479,157 +416,136 @@
             </select>
           </div>
 
-          <!-- Summary (Glass) -->
-          <div style="backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);background:rgba(255,255,255,0.09);border:1px solid rgba(255,255,255,0.16);border-radius:14px;padding:12px 14px;margin-bottom:12px;display:flex;justify-content:space-around;box-shadow:0 8px 24px rgba(0,0,0,0.2);">
+          <div style="backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px);background:rgba(255,255,255,0.08);border:1px solid rgba(255,255,255,0.13);border-radius:12px;padding:9px 12px;margin-bottom:8px;display:flex;justify-content:space-around;">
             <div style="text-align:center;">
-              <div style="font-size:9px;color:rgba(255,255,255,0.4);">L1 Direct</div>
-              <div style="font-size:18px;font-weight:900;color:#fbbf24;text-shadow:0 0 12px rgba(251,191,36,0.3);">{{ formatN(allDownline.filter(u=>u.level===1).length) }}</div>
+              <div style="font-size:8px;color:rgba(255,255,255,0.35);">Direct</div>
+              <div style="font-size:16px;font-weight:900;color:#fbbf24;">{{ formatN(allDownline.filter(u=>u.level===1).length) }}</div>
             </div>
-            <div style="width:1px;background:rgba(255,255,255,0.08);"></div>
+            <div style="width:1px;background:rgba(255,255,255,0.07);"></div>
             <div style="text-align:center;">
-              <div style="font-size:9px;color:rgba(255,255,255,0.4);">Indirect</div>
-              <div style="font-size:18px;font-weight:900;color:#a78bfa;">{{ formatN(allDownline.filter(u=>u.level>1).length) }}</div>
+              <div style="font-size:8px;color:rgba(255,255,255,0.35);">Indirect</div>
+              <div style="font-size:16px;font-weight:900;color:#a78bfa;">{{ formatN(allDownline.filter(u=>u.level>1).length) }}</div>
             </div>
-            <div style="width:1px;background:rgba(255,255,255,0.08);"></div>
+            <div style="width:1px;background:rgba(255,255,255,0.07);"></div>
             <div style="text-align:center;">
-              <div style="font-size:9px;color:rgba(255,255,255,0.4);">Total</div>
-              <div style="font-size:18px;font-weight:900;color:#4ade80;">{{ formatN(allDownline.length) }}</div>
+              <div style="font-size:8px;color:rgba(255,255,255,0.35);">Total</div>
+              <div style="font-size:16px;font-weight:900;color:#4ade80;">{{ formatN(allDownline.length) }}</div>
             </div>
           </div>
 
-          <!-- Empty state -->
-          <div v-if="allDownline.length===0" style="text-align:center;padding:40px;color:rgba(255,255,255,0.3);">
-            <div style="font-size:36px;margin-bottom:8px;">👥</div>
-            <div style="font-size:13px;">Downline member မရှိသေးပါ</div>
-            <button @click="activeTab=1" style="margin-top:14px;backdrop-filter:blur(8px);background:rgba(245,158,11,0.2);border:1px solid rgba(245,158,11,0.35);border-radius:12px;padding:9px 22px;font-size:12px;font-weight:700;color:#fbbf24;cursor:pointer;">
-              ဖိတ်ကြားမည်
-            </button>
+          <div v-if="allDownline.length===0" style="text-align:center;padding:36px;color:rgba(255,255,255,0.28);">
+            <div style="font-size:30px;margin-bottom:6px;">👥</div>
+            <div style="font-size:11px;">Downline member မရှိသေးပါ</div>
+            <button @click="activeTab=1" style="margin-top:10px;backdrop-filter:blur(6px);background:rgba(245,158,11,0.18);border:1px solid rgba(245,158,11,0.32);border-radius:10px;padding:7px 18px;font-size:11px;font-weight:700;color:#fbbf24;cursor:pointer;">ဖိတ်ကြားမည်</button>
           </div>
-
-          <!-- Member rows (Glass) -->
           <div v-else>
             <div v-for="member in allDownline.filter(u=>{
               const ms = !dlSearch || (u.username||u.id||u.descendant_id||'').toString().toLowerCase().includes(dlSearch.toLowerCase())
-              const ml = !dlLevelFilter || dlLevelFilter==0 || (dlLevelFilter==3 ? u.level>=3 : u.level==dlLevelFilter)
+              const ml = !dlLevelFilter || dlLevelFilter==0 || (dlLevelFilter==3?u.level>=3:u.level==dlLevelFilter)
               return ms && ml
             })" :key="member.descendant_id||member.id"
               class="downline-node-row"
-              style="backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);background:rgba(255,255,255,0.08);border:1px solid rgba(255,255,255,0.12);border-radius:14px;padding:11px 13px;margin-bottom:8px;display:flex;align-items:center;gap:10px;box-shadow:0 4px 16px rgba(0,0,0,0.15);"
-              :style="(member.descendant_id||member.id)===latestNewMemberId ? 'border-color:rgba(74,222,128,0.45);background:rgba(74,222,128,0.1);box-shadow:0 4px 20px rgba(74,222,128,0.15);' : ''">
-
-              <div style="width:40px;height:40px;border-radius:50%;background:linear-gradient(135deg,rgba(245,158,11,0.3),rgba(139,92,246,0.3));border:1px solid rgba(255,255,255,0.15);display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:16px;font-weight:900;color:rgba(255,255,255,0.9);backdrop-filter:blur(8px);">
+              style="backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);background:rgba(255,255,255,0.07);border:1px solid rgba(255,255,255,0.1);border-radius:11px;padding:9px 11px;margin-bottom:6px;display:flex;align-items:center;gap:8px;"
+              :style="(member.descendant_id||member.id)===latestNewMemberId?'border-color:rgba(74,222,128,0.4);background:rgba(74,222,128,0.08);':''">
+              <div style="width:36px;height:36px;border-radius:50%;background:linear-gradient(135deg,rgba(245,158,11,0.25),rgba(139,92,246,0.25));border:1px solid rgba(255,255,255,0.12);display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:14px;font-weight:900;color:rgba(255,255,255,0.85);">
                 {{ (member.username||'?').charAt(0).toUpperCase() }}
               </div>
               <div style="flex:1;min-width:0;">
-                <div style="font-size:12px;font-weight:700;color:rgba(255,255,255,0.9);">{{ member.username || 'Anonymous' }}</div>
-                <div style="display:flex;align-items:center;gap:6px;margin-top:2px;">
-                  <span style="font-size:9px;background:rgba(245,158,11,0.15);border:1px solid rgba(245,158,11,0.25);border-radius:4px;padding:1px 5px;color:#f59e0b;font-weight:700;">L{{ member.level }}</span>
-                  <span style="font-size:9px;color:rgba(255,255,255,0.35);">{{ fmtDate(member.created_at) }}</span>
-                  <span v-if="(member.descendant_id||member.id)===latestNewMemberId" style="font-size:9px;color:#4ade80;font-weight:700;">🆕 NEW</span>
+                <div style="font-size:11px;font-weight:700;color:rgba(255,255,255,0.85);">{{ member.username||'Anonymous' }}</div>
+                <div style="display:flex;align-items:center;gap:5px;margin-top:2px;">
+                  <span style="font-size:8px;background:rgba(245,158,11,0.13);border:1px solid rgba(245,158,11,0.22);border-radius:3px;padding:1px 4px;color:#f59e0b;font-weight:700;">L{{ member.level }}</span>
+                  <span style="font-size:8px;color:rgba(255,255,255,0.3);">{{ fmtDate(member.created_at) }}</span>
+                  <span v-if="(member.descendant_id||member.id)===latestNewMemberId" style="font-size:8px;color:#4ade80;font-weight:700;">🆕</span>
                 </div>
               </div>
               <div style="text-align:right;flex-shrink:0;">
-                <div style="font-size:9px;color:rgba(255,255,255,0.35);margin-bottom:2px;">Deposit</div>
-                <div style="font-size:13px;font-weight:800;color:#fbbf24;">{{ formatN(member.total_deposit||0) }}</div>
+                <div style="font-size:8px;color:rgba(255,255,255,0.32);">Deposit</div>
+                <div style="font-size:12px;font-weight:800;color:#fbbf24;">{{ formatN(member.total_deposit||0) }}</div>
               </div>
             </div>
           </div>
         </div><!-- /TAB 5 -->
 
 
-        <!-- ════ TAB 6 : ကော်မ·မျိုး ════ -->
-        <div v-if="activeTab===6" style="padding:12px;">
-          <div style="font-size:13px;font-weight:800;color:rgba(255,255,255,0.8);margin-bottom:12px;">ကော်မရှင် အမျိုးအစားများ</div>
-          <div v-for="(ct, i) in commissionTypes" :key="i" style="margin-bottom:10px;border-radius:14px;overflow:hidden;backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);" :style="ct.style">
-            <div style="display:flex;align-items:center;gap:8px;margin-bottom:6px;">
-              <span style="font-size:18px;">{{ ct.icon }}</span>
-              <span style="font-size:12px;font-weight:800;" :style="ct.titleColor">{{ ct.title }}</span>
+        <!-- ── TAB 6: ကော်မ·မျိုး ── -->
+        <div v-if="activeTab===6" style="padding:10px;">
+          <div style="font-size:12px;font-weight:800;color:rgba(255,255,255,0.75);margin-bottom:10px;">ကော်မရှင် အမျိုးအစားများ</div>
+          <div v-for="(ct,i) in commissionTypes" :key="i" style="margin-bottom:8px;border-radius:12px;overflow:hidden;backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);" :style="ct.style">
+            <div style="display:flex;align-items:center;gap:6px;margin-bottom:4px;">
+              <span style="font-size:16px;">{{ ct.icon }}</span>
+              <span style="font-size:11px;font-weight:800;" :style="ct.titleColor">{{ ct.title }}</span>
             </div>
-            <div style="font-size:14px;font-weight:900;color:#fbbf24;margin-bottom:5px;text-shadow:0 0 12px rgba(251,191,36,0.3);">{{ ct.rate }}</div>
-            <div style="font-size:11px;color:rgba(255,255,255,0.6);line-height:1.6;">{{ ct.desc }}</div>
+            <div style="font-size:13px;font-weight:900;color:#fbbf24;margin-bottom:4px;">{{ ct.rate }}</div>
+            <div style="font-size:10px;color:rgba(255,255,255,0.55);line-height:1.5;">{{ ct.desc }}</div>
           </div>
 
-          <!-- Current rate (Glass) -->
-          <div style="backdrop-filter:blur(20px) saturate(180%);-webkit-backdrop-filter:blur(20px) saturate(180%);background:rgba(245,158,11,0.12);border:1px solid rgba(245,158,11,0.25);border-radius:16px;padding:16px;margin-top:12px;box-shadow:0 8px 24px rgba(245,158,11,0.1);">
-            <div style="font-size:11px;color:rgba(255,255,255,0.55);margin-bottom:8px;">သင့် လက်ရှိ Level Rate</div>
+          <div style="backdrop-filter:blur(18px) saturate(180%);-webkit-backdrop-filter:blur(18px) saturate(180%);background:rgba(245,158,11,0.1);border:1px solid rgba(245,158,11,0.22);border-radius:13px;padding:12px;margin-top:10px;">
+            <div style="font-size:10px;color:rgba(255,255,255,0.5);margin-bottom:6px;">သင့် Level Rate</div>
             <div style="display:flex;align-items:center;justify-content:space-between;">
               <div>
-                <div style="font-size:12px;color:rgba(255,255,255,0.5);">{{ currentLevelData?.tierName||'BRONZE' }} · {{ currentLevelData?.rankName||'NOVA I' }}</div>
-                <div style="font-size:32px;font-weight:900;color:#f59e0b;line-height:1.2;text-shadow:0 0 24px rgba(245,158,11,0.5);">{{ currentLevelData?.rate||10 }}%</div>
+                <div style="font-size:10px;color:rgba(255,255,255,0.45);">{{ currentLevelData?.tierName||'BRONZE' }} · {{ currentLevelData?.rankName||'NOVA I' }}</div>
+                <div style="font-size:28px;font-weight:900;color:#f59e0b;line-height:1.2;text-shadow:0 0 18px rgba(245,158,11,0.45);">{{ currentLevelData?.rate||10 }}%</div>
               </div>
-              <div v-html="miniShieldHtml(currentLevelData||AGENT_LEVELS[0])" style="width:62px;height:70px;filter:drop-shadow(0 4px 16px rgba(245,158,11,0.4));"></div>
+              <div v-html="miniShieldHtml(currentLevelData||AGENT_LEVELS[0])" style="width:52px;height:58px;filter:drop-shadow(0 3px 12px rgba(245,158,11,0.35));"></div>
             </div>
-            <button @click="showLevelModal=true" style="width:100%;margin-top:12px;backdrop-filter:blur(8px);background:rgba(245,158,11,0.15);border:1px solid rgba(245,158,11,0.3);border-radius:12px;padding:10px;font-size:12px;font-weight:700;color:#fbbf24;cursor:pointer;box-shadow:0 4px 16px rgba(245,158,11,0.1);">
-              Level System ကြည့်မည် →
-            </button>
+            <button @click="showLevelModal=true" style="width:100%;margin-top:10px;backdrop-filter:blur(6px);background:rgba(245,158,11,0.13);border:1px solid rgba(245,158,11,0.28);border-radius:10px;padding:8px;font-size:11px;font-weight:700;color:#fbbf24;cursor:pointer;">Level System ကြည့်မည် →</button>
           </div>
         </div><!-- /TAB 6 -->
 
       </div><!-- /content -->
 
 
-      <!-- ══════════════════════════════
-           LEVEL MODAL (Glass)
-      ══════════════════════════════ -->
+      <!-- ── LEVEL MODAL (Glass) ── -->
       <Transition name="modal-fade">
-        <div v-if="showLevelModal" style="position:fixed;inset:0;z-index:99;display:flex;flex-direction:column;background:rgba(10,8,40,0.85);backdrop-filter:blur(24px) saturate(200%);-webkit-backdrop-filter:blur(24px) saturate(200%);" @click.self="showLevelModal=false">
+        <div v-if="showLevelModal" style="position:fixed;inset:0;z-index:99;display:flex;flex-direction:column;background:rgba(10,8,40,0.88);backdrop-filter:blur(24px) saturate(200%);-webkit-backdrop-filter:blur(24px) saturate(200%);" @click.self="showLevelModal=false">
 
-          <!-- Modal Header (Glass) -->
-          <div style="position:relative;padding:16px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid rgba(255,255,255,0.1);flex-shrink:0;background:rgba(255,255,255,0.08);backdrop-filter:blur(20px);">
+          <div style="position:relative;padding:12px 14px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid rgba(255,255,255,0.09);flex-shrink:0;background:rgba(255,255,255,0.07);backdrop-filter:blur(18px);">
             <canvas ref="neuralCanvasRef" style="position:absolute;inset:0;width:100%;height:100%;opacity:0.2;pointer-events:none;"></canvas>
-            <div style="font-size:14px;font-weight:900;color:#fff;position:relative;z-index:1;">🏆 Level System</div>
-            <button @click="showLevelModal=false" style="background:rgba(255,255,255,0.1);border:1px solid rgba(255,255,255,0.2);border-radius:50%;width:34px;height:34px;display:flex;align-items:center;justify-content:center;cursor:pointer;color:#fff;font-size:16px;position:relative;z-index:1;flex-shrink:0;backdrop-filter:blur(8px);">✕</button>
+            <div style="font-size:13px;font-weight:900;color:#fff;position:relative;z-index:1;">🏆 Level System</div>
+            <button @click="showLevelModal=false" style="background:rgba(255,255,255,0.09);border:1px solid rgba(255,255,255,0.18);border-radius:50%;width:30px;height:30px;display:flex;align-items:center;justify-content:center;cursor:pointer;color:#fff;font-size:14px;position:relative;z-index:1;flex-shrink:0;">✕</button>
           </div>
 
-          <!-- Current Level Hero (Glass) -->
-          <div style="padding:16px;background:rgba(245,158,11,0.1);border-bottom:1px solid rgba(245,158,11,0.15);flex-shrink:0;backdrop-filter:blur(16px);">
-            <div style="display:flex;align-items:center;gap:14px;">
-              <div v-html="miniShieldHtml(currentLevelData||AGENT_LEVELS[0])" style="width:66px;height:74px;flex-shrink:0;filter:drop-shadow(0 4px 16px rgba(245,158,11,0.5));"></div>
+          <div style="padding:12px;background:rgba(245,158,11,0.08);border-bottom:1px solid rgba(245,158,11,0.12);flex-shrink:0;backdrop-filter:blur(14px);">
+            <div style="display:flex;align-items:center;gap:11px;">
+              <div v-html="miniShieldHtml(currentLevelData||AGENT_LEVELS[0])" style="width:56px;height:63px;flex-shrink:0;filter:drop-shadow(0 3px 12px rgba(245,158,11,0.45));"></div>
               <div>
-                <div style="font-size:10px;color:rgba(255,255,255,0.45);margin-bottom:2px;">Current Level</div>
-                <div style="font-size:20px;font-weight:900;color:#fbbf24;text-shadow:0 0 16px rgba(251,191,36,0.4);">LV{{ agentLevel }} — {{ currentLevelData?.rankName||'NOVA I' }}</div>
-                <div style="font-size:12px;color:rgba(255,255,255,0.55);">{{ currentLevelData?.tierName||'BRONZE' }} Tier · {{ currentLevelData?.rate||10 }}% Rate</div>
-                <div v-if="nextLevelData" style="margin-top:5px;font-size:10px;color:rgba(255,255,255,0.4);">
-                  Next: LV{{ agentLevel+1 }} → {{ formatN(nextLevelData.required) }} Ks needed
-                </div>
-                <div style="margin-top:6px;height:5px;background:rgba(255,255,255,0.1);border-radius:3px;overflow:hidden;width:180px;box-shadow:inset 0 1px 2px rgba(0,0,0,0.2);">
-                  <div :style="{width:(levelProgress||0)+'%',background:'linear-gradient(90deg,#f59e0b,#fbbf24)',height:'100%',boxShadow:'0 0 8px rgba(245,158,11,0.6)'}" ></div>
+                <div style="font-size:9px;color:rgba(255,255,255,0.4);margin-bottom:1px;">Current Level</div>
+                <div style="font-size:17px;font-weight:900;color:#fbbf24;">LV{{ agentLevel }} — {{ currentLevelData?.rankName||'NOVA I' }}</div>
+                <div style="font-size:10px;color:rgba(255,255,255,0.5);">{{ currentLevelData?.tierName||'BRONZE' }} · {{ currentLevelData?.rate||10 }}%</div>
+                <div v-if="nextLevelData" style="margin-top:3px;font-size:9px;color:rgba(255,255,255,0.35);">Next: LV{{ agentLevel+1 }} → {{ formatN(nextLevelData.required) }} Ks</div>
+                <div style="margin-top:5px;height:4px;background:rgba(255,255,255,0.08);border-radius:2px;overflow:hidden;width:160px;">
+                  <div :style="{width:(levelProgress||0)+'%',background:'linear-gradient(90deg,#f59e0b,#fbbf24)',height:'100%',boxShadow:'0 0 6px rgba(245,158,11,0.5)'}" ></div>
                 </div>
               </div>
             </div>
           </div>
 
-          <!-- Levels Scroll (Glass rows) -->
-          <div ref="levelScrollRef" style="flex:1;overflow-y:auto;padding:12px;" class="no-scrollbar">
+          <div ref="levelScrollRef" style="flex:1;overflow-y:auto;padding:10px;" class="no-scrollbar">
             <div v-for="lv in AGENT_LEVELS" :key="lv.level"
-              style="display:flex;align-items:center;gap:12px;padding:11px 13px;border-radius:14px;margin-bottom:8px;border:1px solid;transition:all 0.2s;backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);"
+              style="display:flex;align-items:center;gap:10px;padding:9px 11px;border-radius:11px;margin-bottom:6px;border:1px solid;transition:all 0.15s;backdrop-filter:blur(10px);"
               :style="lv.level===agentLevel
-                ? 'border-color:rgba(245,158,11,0.45);background:rgba(245,158,11,0.12);box-shadow:0 4px 20px rgba(245,158,11,0.1);'
-                : lv.level<agentLevel
-                  ? 'border-color:rgba(74,222,128,0.15);background:rgba(74,222,128,0.05);'
-                  : 'border-color:rgba(255,255,255,0.08);background:rgba(255,255,255,0.04);'">
-
-              <div v-html="miniShieldHtml(lv)" style="width:46px;height:52px;flex-shrink:0;"></div>
+                ?'border-color:rgba(245,158,11,0.4);background:rgba(245,158,11,0.1);'
+                :lv.level<agentLevel
+                  ?'border-color:rgba(74,222,128,0.13);background:rgba(74,222,128,0.04);'
+                  :'border-color:rgba(255,255,255,0.07);background:rgba(255,255,255,0.03);'">
+              <div v-html="miniShieldHtml(lv)" style="width:40px;height:45px;flex-shrink:0;"></div>
               <div style="flex:1;min-width:0;">
-                <div style="display:flex;align-items:center;gap:6px;margin-bottom:2px;">
-                  <span style="font-size:12px;font-weight:800;" :style="lv.level===agentLevel ? 'color:#fbbf24' : lv.level<agentLevel ? 'color:#4ade80' : 'color:rgba(255,255,255,0.7)'">LV{{ lv.level }} {{ lv.rankName }}</span>
-                  <span v-if="lv.level===agentLevel" style="font-size:9px;background:rgba(245,158,11,0.2);border:1px solid rgba(245,158,11,0.4);border-radius:4px;padding:1px 5px;color:#fbbf24;">NOW</span>
+                <div style="display:flex;align-items:center;gap:5px;margin-bottom:1px;">
+                  <span style="font-size:11px;font-weight:800;" :style="lv.level===agentLevel?'color:#fbbf24':lv.level<agentLevel?'color:#4ade80':'color:rgba(255,255,255,0.65)'">LV{{ lv.level }} {{ lv.rankName }}</span>
+                  <span v-if="lv.level===agentLevel" style="font-size:8px;background:rgba(245,158,11,0.18);border:1px solid rgba(245,158,11,0.35);border-radius:3px;padding:1px 4px;color:#fbbf24;">NOW</span>
                   <span v-else-if="lv.level<agentLevel" style="font-size:10px;color:#4ade80;">✓</span>
                 </div>
-                <div style="font-size:10px;color:rgba(255,255,255,0.4);">{{ lv.tierName }} · {{ lv.rate }}% Commission</div>
+                <div style="font-size:9px;color:rgba(255,255,255,0.38);">{{ lv.tierName }} · {{ lv.rate }}% Commission</div>
               </div>
               <div style="text-align:right;flex-shrink:0;">
-                <div style="font-size:9px;color:rgba(255,255,255,0.35);">Required</div>
-                <div style="font-size:11px;font-weight:800;" :style="lv.level<=agentLevel ? 'color:#4ade80' : 'color:rgba(255,255,255,0.5)'">{{ lv.required===0 ? 'Free' : formatN(lv.required)+' Ks' }}</div>
+                <div style="font-size:8px;color:rgba(255,255,255,0.3);">Required</div>
+                <div style="font-size:10px;font-weight:800;" :style="lv.level<=agentLevel?'color:#4ade80':'color:rgba(255,255,255,0.45)'">{{ lv.required===0?'Free':formatN(lv.required)+' Ks' }}</div>
               </div>
             </div>
           </div>
 
-          <!-- Close (Glass) -->
-          <div style="padding:12px;border-top:1px solid rgba(255,255,255,0.08);flex-shrink:0;background:rgba(255,255,255,0.04);backdrop-filter:blur(16px);">
-            <button @click="showLevelModal=false" style="width:100%;background:rgba(255,255,255,0.08);border:1px solid rgba(255,255,255,0.15);border-radius:12px;padding:13px;font-size:13px;font-weight:700;color:rgba(255,255,255,0.7);cursor:pointer;backdrop-filter:blur(8px);">
-              ပိတ်မည်
-            </button>
+          <div style="padding:10px;border-top:1px solid rgba(255,255,255,0.07);flex-shrink:0;background:rgba(255,255,255,0.03);backdrop-filter:blur(14px);">
+            <button @click="showLevelModal=false" style="width:100%;background:rgba(255,255,255,0.07);border:1px solid rgba(255,255,255,0.12);border-radius:10px;padding:11px;font-size:12px;font-weight:700;color:rgba(255,255,255,0.6);cursor:pointer;">ပိတ်မည်</button>
           </div>
         </div>
       </Transition>
@@ -2523,6 +2439,29 @@ onUnmounted(() => {
 }
 .modal-fade-enter-active { animation: modalIn 0.25s ease; }
 .modal-fade-leave-active { animation: modalIn 0.2s ease reverse; }
+@keyframes modalIn {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+
+/* ── Glassmorphism Keyframes ── */
+@keyframes glowPulse {
+  0%, 100% { box-shadow: 0 0 6px #f59e0b, 0 0 12px rgba(245,158,11,0.4); }
+  50%       { box-shadow: 0 0 10px #f59e0b, 0 0 22px rgba(245,158,11,0.65); }
+}
+@keyframes spin {
+  from { transform: rotate(0deg); }
+  to   { transform: rotate(360deg); }
+}
+.flash-in-enter-active { animation: flashSlideIn 0.35s ease; }
+.flash-in-leave-active { animation: flashSlideIn 0.25s ease reverse; }
+@keyframes flashSlideIn {
+  from { opacity: 0; transform: translateY(-6px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+.modal-fade-enter-active { animation: modalIn 0.22s ease; }
+.modal-fade-leave-active { animation: modalIn 0.18s ease reverse; }
 @keyframes modalIn {
   from { opacity: 0; }
   to   { opacity: 1; }
