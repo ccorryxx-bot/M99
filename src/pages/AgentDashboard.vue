@@ -1,38 +1,36 @@
 <template>
-  <div style="background:#1a1650;min-height:100dvh;color:#fff;-webkit-tap-highlight-color:transparent;overflow-x:hidden;position:relative;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;">
+  <div style="background:#0f0e1a;min-height:100dvh;color:#fff;-webkit-tap-highlight-color:transparent;overflow-x:hidden;position:relative;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;">
 
-    <!-- BACKGROUND BLOBS -->
+    <!-- AMBIENT BG -->
     <div style="position:fixed;inset:0;pointer-events:none;overflow:hidden;z-index:0;">
-      <div style="position:absolute;top:-10%;left:-15%;width:50%;height:50%;background:radial-gradient(circle,rgba(139,92,246,0.5),transparent 70%);filter:blur(50px);"></div>
-      <div style="position:absolute;top:25%;right:-10%;width:42%;height:42%;background:radial-gradient(circle,rgba(79,67,197,0.45),transparent 70%);filter:blur(55px);"></div>
-      <div style="position:absolute;top:55%;left:5%;width:40%;height:40%;background:radial-gradient(circle,rgba(245,158,11,0.18),transparent 70%);filter:blur(55px);"></div>
-      <div style="position:absolute;bottom:5%;right:5%;width:38%;height:38%;background:radial-gradient(circle,rgba(99,102,241,0.38),transparent 70%);filter:blur(50px);"></div>
+      <div style="position:absolute;top:-5%;left:-10%;width:55%;height:55%;background:radial-gradient(circle,rgba(139,92,246,0.22),transparent 68%);filter:blur(60px);"></div>
+      <div style="position:absolute;top:40%;right:-8%;width:40%;height:40%;background:radial-gradient(circle,rgba(79,67,197,0.18),transparent 68%);filter:blur(65px);"></div>
+      <div style="position:absolute;bottom:10%;left:5%;width:35%;height:35%;background:radial-gradient(circle,rgba(245,158,11,0.1),transparent 68%);filter:blur(60px);"></div>
     </div>
 
-    <!-- CONTENT LAYER -->
+    <!-- CONTENT -->
     <div style="position:relative;z-index:1;">
 
       <!-- HEADER -->
-      <header style="position:sticky;top:0;z-index:40;padding:8px 12px;display:flex;align-items:center;justify-content:space-between;backdrop-filter:blur(20px) saturate(180%);-webkit-backdrop-filter:blur(20px) saturate(180%);background:rgba(26,22,80,0.65);border-bottom:1px solid rgba(255,255,255,0.1);">
-        <button @click="$router.push('/home')" style="display:flex;align-items:center;background:rgba(255,255,255,0.08);border:1px solid rgba(255,255,255,0.13);border-radius:8px;color:#fff;cursor:pointer;padding:5px 9px;">
-          <svg width="14" height="14" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M15 19l-7-7 7-7"/></svg>
+      <header style="position:sticky;top:0;z-index:40;padding:7px 12px;display:flex;align-items:center;justify-content:space-between;backdrop-filter:blur(24px);-webkit-backdrop-filter:blur(24px);background:rgba(15,14,26,0.7);border-bottom:1px solid rgba(255,255,255,0.06);">
+        <button @click="$router.push('/home')" style="display:flex;align-items:center;background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.08);border-radius:8px;color:rgba(255,255,255,0.7);cursor:pointer;padding:5px 8px;">
+          <svg width="13" height="13" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M15 19l-7-7 7-7"/></svg>
         </button>
-        <div style="display:flex;align-items:center;gap:6px;">
-          <div style="width:7px;height:7px;border-radius:50%;background:#f59e0b;box-shadow:0 0 8px #f59e0b;animation:glowPulse 2s ease-in-out infinite;"></div>
-          <span style="font-size:13px;font-weight:800;color:#fff;">Agent Portal</span>
+        <div style="display:flex;align-items:center;gap:5px;">
+          <div style="width:6px;height:6px;border-radius:50%;background:#f59e0b;box-shadow:0 0 7px #f59e0b;animation:glowPulse 2s ease-in-out infinite;"></div>
+          <span style="font-size:12px;font-weight:800;color:rgba(255,255,255,0.9);letter-spacing:0.03em;">Agent Portal</span>
         </div>
-        <button @click="loadAll()" style="background:rgba(255,255,255,0.08);border:1px solid rgba(255,255,255,0.13);border-radius:8px;cursor:pointer;color:rgba(255,255,255,0.75);padding:5px 9px;" :style="loading?'opacity:0.5':''">
-          <svg width="14" height="14" fill="none" stroke="currentColor" viewBox="0 0 24 24" :style="loading?'animation:spin 1s linear infinite':''"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"/></svg>
+        <button @click="loadAll()" style="background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.08);border-radius:8px;cursor:pointer;color:rgba(255,255,255,0.5);padding:5px 8px;" :style="loading?'opacity:0.4':''">
+          <svg width="13" height="13" fill="none" stroke="currentColor" viewBox="0 0 24 24" :style="loading?'animation:spin 1s linear infinite':''"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"/></svg>
         </button>
       </header>
 
-
       <!-- TABS -->
-      <nav style="position:sticky;top:45px;z-index:30;overflow-x:auto;display:flex;scrollbar-width:none;backdrop-filter:blur(20px) saturate(180%);-webkit-backdrop-filter:blur(20px) saturate(180%);background:rgba(26,22,80,0.6);border-bottom:1px solid rgba(255,255,255,0.08);" class="no-scrollbar">
+      <nav style="position:sticky;top:41px;z-index:30;overflow-x:auto;display:flex;scrollbar-width:none;backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);background:rgba(15,14,26,0.6);border-bottom:1px solid rgba(255,255,255,0.05);" class="no-scrollbar">
         <button v-for="(tab,i) in tabs" :key="i"
           @click="activeTab=i; if(i===1) $nextTick(()=>animateReferralTab())"
-          style="flex-shrink:0;padding:8px 14px;font-size:11px;font-weight:600;white-space:nowrap;background:none;border:none;cursor:pointer;transition:all 0.15s;border-bottom:2px solid transparent;"
-          :style="activeTab===i?'color:#fbbf24;border-bottom-color:#f59e0b;':'color:rgba(255,255,255,0.4);'">
+          style="flex-shrink:0;padding:7px 13px;font-size:10px;font-weight:600;white-space:nowrap;background:none;border:none;cursor:pointer;transition:all 0.15s;border-bottom:2px solid transparent;"
+          :style="activeTab===i?'color:#fbbf24;border-bottom-color:#f59e0b;':'color:rgba(255,255,255,0.32);'">
           {{ tab.label }}
         </button>
       </nav>
@@ -78,29 +76,29 @@
             </div>
 
             <!-- Commission row -->
-            <div style="padding:6px 12px;display:flex;align-items:center;gap:6px;background:rgba(245,158,11,0.08);border-top:1px solid rgba(245,158,11,0.12);">
-              <span style="font-size:8px;font-weight:800;color:#f59e0b;background:rgba(245,158,11,0.18);border:1px solid rgba(245,158,11,0.28);border-radius:4px;padding:1px 5px;flex-shrink:0;">COMM</span>
-              <div style="flex:1;font-size:9px;color:rgba(255,255,255,0.45);">{{ currentLevelData?.rate||10 }}% · {{ formatN(totalTurnover) }} Ks</div>
-              <span style="font-size:12px;font-weight:900;color:rgba(255,255,255,0.92);flex-shrink:0;">{{ formatN(totalCommission) }} Ks</span>
+            <div style="padding:5px 12px 7px;display:flex;align-items:center;gap:6px;background:rgba(245,158,11,0.06);">
+              <span style="font-size:8px;font-weight:800;color:#f59e0b;background:rgba(245,158,11,0.14);border-radius:4px;padding:1px 5px;flex-shrink:0;">COMM</span>
+              <div style="flex:1;font-size:9px;color:rgba(255,255,255,0.4);">{{ currentLevelData?.rate||10 }}% · {{ formatN(totalTurnover) }} Ks turnover</div>
+              <span style="font-size:12px;font-weight:900;color:#4ade80;flex-shrink:0;">{{ formatN(totalCommission) }} Ks</span>
             </div>
 
-            <!-- 4-stat grid -->
-            <div style="display:grid;grid-template-columns:1fr 1fr;">
-              <div style="padding:8px 12px;border-right:1px solid rgba(255,255,255,0.07);border-bottom:1px solid rgba(255,255,255,0.07);">
-                <div style="font-size:8px;color:rgba(255,255,255,0.38);margin-bottom:2px;">ရရှိသည်</div>
-                <div style="font-size:15px;font-weight:900;color:rgba(255,255,255,0.92);">{{ formatN(mainBalance) }}<span style="font-size:8px;color:rgba(255,255,255,0.25);margin-left:2px;">Ks</span></div>
+            <!-- 4-stat grid — no divider lines -->
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:1px;background:rgba(255,255,255,0.04);padding:1px;">
+              <div style="padding:8px 12px;background:rgba(15,14,26,0.4);">
+                <div style="font-size:8px;color:rgba(255,255,255,0.35);margin-bottom:2px;">ရရှိသည်</div>
+                <div style="font-size:15px;font-weight:900;color:rgba(255,255,255,0.9);">{{ formatN(mainBalance) }}<span style="font-size:8px;color:rgba(255,255,255,0.22);margin-left:2px;">Ks</span></div>
               </div>
-              <div style="padding:8px 12px;border-bottom:1px solid rgba(255,255,255,0.07);">
-                <div style="font-size:8px;color:rgba(255,255,255,0.38);margin-bottom:2px;">ဆုလာဘ်</div>
-                <div style="font-size:15px;font-weight:900;color:rgba(255,255,255,0.92);">{{ formatN(bonusBalance) }}<span style="font-size:8px;color:rgba(255,255,255,0.25);margin-left:2px;">Ks</span></div>
+              <div style="padding:8px 12px;background:rgba(15,14,26,0.4);">
+                <div style="font-size:8px;color:rgba(255,255,255,0.35);margin-bottom:2px;">ဆုလာဘ်</div>
+                <div style="font-size:15px;font-weight:900;color:rgba(100,220,128,0.9);">{{ formatN(bonusBalance) }}<span style="font-size:8px;color:rgba(255,255,255,0.22);margin-left:2px;">Ks</span></div>
               </div>
-              <div style="padding:8px 12px;border-right:1px solid rgba(255,255,255,0.07);">
-                <div style="font-size:8px;color:rgba(255,255,255,0.38);margin-bottom:2px;">မနေ့ တိုက်ရိုက်</div>
-                <div style="font-size:15px;font-weight:900;color:rgba(255,255,255,0.92);">{{ formatN(myStats.directComm) }}<span style="font-size:8px;color:rgba(255,255,255,0.25);margin-left:2px;">Ks</span></div>
+              <div style="padding:8px 12px;background:rgba(15,14,26,0.4);">
+                <div style="font-size:8px;color:rgba(255,255,255,0.35);margin-bottom:2px;">မနေ့ Direct</div>
+                <div style="font-size:15px;font-weight:900;color:rgba(255,255,255,0.9);">{{ formatN(myStats.directComm) }}<span style="font-size:8px;color:rgba(255,255,255,0.22);margin-left:2px;">Ks</span></div>
               </div>
-              <div style="padding:8px 12px;">
-                <div style="font-size:8px;color:rgba(255,255,255,0.38);margin-bottom:2px;">ဒါလ ကော်မ</div>
-                <div style="font-size:15px;font-weight:900;color:rgba(255,255,255,0.92);">{{ formatN(myStats.totalComm) }}<span style="font-size:8px;color:rgba(255,255,255,0.25);margin-left:2px;">Ks</span></div>
+              <div style="padding:8px 12px;background:rgba(15,14,26,0.4);">
+                <div style="font-size:8px;color:rgba(255,255,255,0.35);margin-bottom:2px;">ဒီလ ကော်မ</div>
+                <div style="font-size:15px;font-weight:900;color:rgba(255,193,7,0.9);">{{ formatN(myStats.totalComm) }}<span style="font-size:8px;color:rgba(255,255,255,0.22);margin-left:2px;">Ks</span></div>
               </div>
             </div>
           </div>
@@ -167,23 +165,21 @@
             <button @click="activeTab=1" style="flex-shrink:0;backdrop-filter:blur(6px);background:rgba(251,191,36,0.18);border:1px solid rgba(251,191,36,0.35);border-radius:8px;padding:5px 10px;font-size:10px;font-weight:700;color:#fbbf24;cursor:pointer;">ဖိတ်</button>
           </div>
 
-          <!-- Downline strip (Glass compact) -->
-          <div style="margin:6px 10px 0;backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px);background:rgba(255,255,255,0.07);border:1px solid rgba(255,255,255,0.13);border-radius:12px;padding:10px 12px;display:flex;align-items:center;justify-content:space-around;">
+          <!-- Downline strip -->
+          <div style="margin:6px 10px 0;backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px);background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.08);border-radius:12px;padding:10px 12px;display:flex;align-items:center;justify-content:space-around;gap:4px;">
             <div style="text-align:center;">
-              <div style="font-size:8px;color:rgba(255,255,255,0.38);">တောင်စီး</div>
-              <div style="font-size:17px;font-weight:900;color:rgba(255,255,255,0.92);">{{ formatN(allDownline.filter(u=>u.level===1).length) }}</div>
+              <div style="font-size:8px;color:rgba(255,255,255,0.35);">တောင်စီး</div>
+              <div style="font-size:17px;font-weight:900;color:#fbbf24;">{{ formatN(allDownline.filter(u=>u.level===1).length) }}</div>
             </div>
-            <div style="width:1px;height:28px;background:rgba(255,255,255,0.08);"></div>
             <div style="text-align:center;">
-              <div style="font-size:8px;color:rgba(255,255,255,0.38);">စုစုပေါင်း</div>
-              <div style="font-size:17px;font-weight:900;color:rgba(255,255,255,0.92);">{{ formatN(allDownline.length) }}</div>
+              <div style="font-size:8px;color:rgba(255,255,255,0.35);">စုစုပေါင်း</div>
+              <div style="font-size:17px;font-weight:900;color:rgba(255,255,255,0.85);">{{ formatN(allDownline.length) }}</div>
             </div>
-            <div style="width:1px;height:28px;background:rgba(255,255,255,0.08);"></div>
             <div style="text-align:center;">
-              <div style="font-size:8px;color:rgba(255,255,255,0.38);">ကော်မ</div>
-              <div style="font-size:17px;font-weight:900;color:rgba(255,255,255,0.92);">{{ formatN(totalCommission) }}</div>
+              <div style="font-size:8px;color:rgba(255,255,255,0.35);">ကော်မ</div>
+              <div style="font-size:17px;font-weight:900;color:#4ade80;">{{ formatN(totalCommission) }}</div>
             </div>
-            <button @click="activeTab=5" style="backdrop-filter:blur(6px);background:rgba(251,191,36,0.13);border:1px solid rgba(251,191,36,0.25);border-radius:8px;padding:6px 10px;font-size:10px;font-weight:700;color:#fbbf24;cursor:pointer;">ကြည့်</button>
+            <button @click="activeTab=5" style="backdrop-filter:blur(6px);background:rgba(251,191,36,0.12);border:1px solid rgba(251,191,36,0.2);border-radius:8px;padding:6px 10px;font-size:10px;font-weight:700;color:#fbbf24;cursor:pointer;">ကြည့်</button>
           </div>
 
           <!-- Member info strip -->
@@ -282,8 +278,8 @@
                   {label:'Deposit ပမာဏ',val:formatN(myStats.depositAmount)+' Ks',raw:true,color:'#4ade80'},
                   {label:'Turnover',val:formatN(myStats.totalTurnover)+' Ks',raw:true,color:'#a78bfa'}
                 ]" :key="item.label"
-                  style="background:rgba(0,0,0,0.14);border:1px solid rgba(255,255,255,0.07);border-radius:8px;padding:7px 8px;backdrop-filter:blur(6px);">
-                  <div style="font-size:8px;color:rgba(255,255,255,0.38);margin-bottom:2px;">{{ item.label }}</div>
+                  style="background:rgba(255,255,255,0.04);border-radius:8px;padding:7px 8px;">
+                  <div style="font-size:8px;color:rgba(255,255,255,0.32);margin-bottom:2px;">{{ item.label }}</div>
                   <div style="font-size:13px;font-weight:900;" :style="{color:item.color}">{{ item.raw?item.val:formatN(item.val) }}</div>
                 </div>
               </div>
@@ -293,8 +289,8 @@
               <div style="font-size:10px;font-weight:800;color:rgba(255,255,255,0.65);margin-bottom:8px;display:flex;align-items:center;gap:5px;"><span style="width:2px;height:11px;background:#f59e0b;border-radius:2px;display:inline-block;"></span>ကော်မရှင်</div>
               <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:6px;">
                 <div v-for="item in [{label:'တိုက်ရိုက်',val:myStats.directComm,color:'#fbbf24'},{label:'Indirect',val:myStats.indirectComm,color:'#60a5fa'},{label:'စုစုပေါင်း',val:myStats.totalComm,color:'#4ade80'}]" :key="item.label"
-                  style="background:rgba(0,0,0,0.14);border:1px solid rgba(255,255,255,0.07);border-radius:8px;padding:7px 6px;text-align:center;backdrop-filter:blur(6px);">
-                  <div style="font-size:8px;color:rgba(255,255,255,0.38);margin-bottom:2px;">{{ item.label }}</div>
+                  style="background:rgba(255,255,255,0.04);border-radius:8px;padding:7px 6px;text-align:center;">
+                  <div style="font-size:8px;color:rgba(255,255,255,0.32);margin-bottom:2px;">{{ item.label }}</div>
                   <div style="font-size:12px;font-weight:900;" :style="{color:item.color}">{{ formatN(item.val) }}</div>
                 </div>
               </div>
@@ -304,8 +300,8 @@
               <div style="font-size:10px;font-weight:800;color:rgba(255,255,255,0.65);margin-bottom:8px;display:flex;align-items:center;gap:5px;"><span style="width:2px;height:11px;background:#f59e0b;border-radius:2px;display:inline-block;"></span>Member Stats</div>
               <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:6px;">
                 <div v-for="item in [{label:'Direct',val:myStats.directMembers,color:'#fbbf24'},{label:'Indirect',val:myStats.indirectMembers,color:'#a78bfa'},{label:'Total',val:myStats.totalMembers,color:'#4ade80'}]" :key="item.label"
-                  style="background:rgba(0,0,0,0.14);border:1px solid rgba(255,255,255,0.07);border-radius:8px;padding:7px 6px;text-align:center;backdrop-filter:blur(6px);">
-                  <div style="font-size:8px;color:rgba(255,255,255,0.38);margin-bottom:2px;">{{ item.label }}</div>
+                  style="background:rgba(255,255,255,0.04);border-radius:8px;padding:7px 6px;text-align:center;">
+                  <div style="font-size:8px;color:rgba(255,255,255,0.32);margin-bottom:2px;">{{ item.label }}</div>
                   <div style="font-size:16px;font-weight:900;" :style="{color:item.color}">{{ formatN(item.val) }}</div>
                 </div>
               </div>
@@ -330,8 +326,8 @@
             <div style="font-size:10px;font-weight:800;color:rgba(255,255,255,0.65);margin-bottom:8px;">📊 Performance</div>
             <div style="display:grid;grid-template-columns:1fr 1fr;gap:6px;">
               <div v-for="item in [{label:'Total Commission',val:formatN(totalCommission)+' Ks',color:'#4ade80'},{label:'Total Turnover',val:formatN(totalTurnover)+' Ks',color:'#a78bfa'},{label:'Direct Members',val:formatN(allDownline.filter(u=>u.level===1).length),color:'#fbbf24'},{label:'All Members',val:formatN(allDownline.length),color:'#60a5fa'}]" :key="item.label"
-                style="background:rgba(0,0,0,0.14);border:1px solid rgba(255,255,255,0.07);border-radius:8px;padding:8px;backdrop-filter:blur(6px);">
-                <div style="font-size:8px;color:rgba(255,255,255,0.38);margin-bottom:2px;">{{ item.label }}</div>
+                style="background:rgba(255,255,255,0.04);border-radius:8px;padding:8px;">
+                <div style="font-size:8px;color:rgba(255,255,255,0.32);margin-bottom:2px;">{{ item.label }}</div>
                 <div style="font-size:13px;font-weight:800;" :style="{color:item.color}">{{ item.val }}</div>
               </div>
             </div>
@@ -339,11 +335,11 @@
 
           <div v-if="levelBreakdown.length" style="backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px);background:rgba(255,255,255,0.08);border:1px solid rgba(255,255,255,0.14);border-radius:13px;padding:10px;">
             <div style="font-size:10px;font-weight:800;color:rgba(255,255,255,0.65);margin-bottom:8px;">📈 Commission by Level</div>
-            <div v-for="lb in levelBreakdown" :key="lb.level" style="display:flex;align-items:center;gap:8px;padding:7px 0;border-bottom:1px solid rgba(255,255,255,0.04);">
-              <div style="width:26px;height:26px;border-radius:50%;background:rgba(245,158,11,0.13);border:1px solid rgba(245,158,11,0.28);display:flex;align-items:center;justify-content:center;flex-shrink:0;backdrop-filter:blur(6px);">
+            <div v-for="lb in levelBreakdown" :key="lb.level" style="display:flex;align-items:center;gap:8px;padding:6px 0;">
+              <div style="width:24px;height:24px;border-radius:50%;background:rgba(245,158,11,0.12);display:flex;align-items:center;justify-content:center;flex-shrink:0;">
                 <span style="font-size:9px;font-weight:900;color:#f59e0b;">L{{ lb.level }}</span>
               </div>
-              <div style="flex:1;font-size:9px;color:rgba(255,255,255,0.45);">{{ lb.count }} members</div>
+              <div style="flex:1;font-size:9px;color:rgba(255,255,255,0.4);">{{ lb.count }} members</div>
               <div style="font-size:11px;font-weight:800;color:#4ade80;">{{ formatN(lb.commission) }} Ks</div>
             </div>
           </div>
@@ -403,17 +399,15 @@
             </select>
           </div>
 
-          <div style="backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px);background:rgba(255,255,255,0.08);border:1px solid rgba(255,255,255,0.13);border-radius:12px;padding:9px 12px;margin-bottom:8px;display:flex;justify-content:space-around;">
+          <div style="backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px);background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.08);border-radius:12px;padding:9px 12px;margin-bottom:8px;display:flex;justify-content:space-around;gap:4px;">
             <div style="text-align:center;">
               <div style="font-size:8px;color:rgba(255,255,255,0.35);">Direct</div>
               <div style="font-size:16px;font-weight:900;color:#fbbf24;">{{ formatN(allDownline.filter(u=>u.level===1).length) }}</div>
             </div>
-            <div style="width:1px;background:rgba(255,255,255,0.07);"></div>
             <div style="text-align:center;">
               <div style="font-size:8px;color:rgba(255,255,255,0.35);">Indirect</div>
               <div style="font-size:16px;font-weight:900;color:#a78bfa;">{{ formatN(allDownline.filter(u=>u.level>1).length) }}</div>
             </div>
-            <div style="width:1px;background:rgba(255,255,255,0.07);"></div>
             <div style="text-align:center;">
               <div style="font-size:8px;color:rgba(255,255,255,0.35);">Total</div>
               <div style="font-size:16px;font-weight:900;color:#4ade80;">{{ formatN(allDownline.length) }}</div>
