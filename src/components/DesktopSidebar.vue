@@ -2,7 +2,7 @@
   <aside class="ds-sidebar">
     <!-- Logo -->
     <div class="ds-logo-area">
-      <img src="https://ik.imagekit.io/tdpebgueq/Brand%20Name%20Logo/IMG_20260602_154542.png?updatedAt=1780391788280" alt="iW99" style="height:42px;width:auto;object-fit:contain;display:block;" />
+      <img src="https://ik.imagekit.io/tdpebgueq/Brand%20Name%20Logo/IMG_20260602_154542.png?tr=f-auto" alt="iW99" style="height:42px;width:auto;object-fit:contain;display:block;" />
     </div>
 
     <div class="ds-divider"></div>

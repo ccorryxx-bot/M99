@@ -366,9 +366,9 @@ async function refreshBalance() {
 // ── Payment ───────────────────────────────────────────────────────
 const amountPresets = [3000,5000,10000,30000,50000,100000,500000,1000000]
 const paymentMethods = [
-  { key:'kpay',   label:'KBZ Pay', popular:true,  img:'https://ik.imagekit.io/tdpebgueq/Payment%20Method%20/Screenshot_2026-06-04-00-35-27-327_mark.via.gp_1780510112167edit.jpg', iconBg:'rgba(37,99,235,0.3)' },
-  { key:'wave',   label:'WavePay', popular:false, img:'https://ik.imagekit.io/tdpebgueq/Payment%20Method%20/Screenshot_2026-06-04-00-35-34-166_mark.via.gp_1780510124725edit.jpg', iconBg:'rgba(5,150,105,0.25)' },
-  { key:'usdt',   label:'USDT',    popular:false, img:'https://ik.imagekit.io/tdpebgueq/Payment%20Method%20/61e20ad43bafe0ca2b7ada87f1792a4c.jpg', iconText:'₮', iconBg:'rgba(34,197,94,0.25)', iconColor:'#4ade80' },
+  { key:'kpay',   label:'KBZ Pay', popular:true,  img:'https://ik.imagekit.io/tdpebgueq/Payment%20Method%20/Screenshot_2026-06-04-00-35-27-327_mark.via.gp_1780510112167edit.jpg?tr=f-auto', iconBg:'rgba(37,99,235,0.3)' },
+  { key:'wave',   label:'WavePay', popular:false, img:'https://ik.imagekit.io/tdpebgueq/Payment%20Method%20/Screenshot_2026-06-04-00-35-34-166_mark.via.gp_1780510124725edit.jpg?tr=f-auto', iconBg:'rgba(5,150,105,0.25)' },
+  { key:'usdt',   label:'USDT',    popular:false, img:'https://ik.imagekit.io/tdpebgueq/Payment%20Method%20/61e20ad43bafe0ca2b7ada87f1792a4c.jpg?tr=f-auto', iconText:'₮', iconBg:'rgba(34,197,94,0.25)', iconColor:'#4ade80' },
   { key:'uabpay', label:'UAB Pay', popular:false, img:null, iconText:'U', iconBg:'rgba(139,92,246,0.25)', iconColor:'#c084fc' },
 ]
 

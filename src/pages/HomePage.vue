@@ -9,7 +9,7 @@
             <span class="nova-ndot nova-ndot--2"></span>
             <span class="nova-ndot nova-ndot--3"></span>
           </div>
-          <div class="nova-brand"><img src="https://ik.imagekit.io/tdpebgueq/Brand%20Name%20Logo/IMG_20260602_154542.png?updatedAt=1780391788280" alt="iW99" style="height:34px;width:auto;object-fit:contain;display:block;" /></div>
+          <div class="nova-brand"><img src="https://ik.imagekit.io/tdpebgueq/Brand%20Name%20Logo/IMG_20260602_154542.png?tr=f-auto" alt="iW99" style="height:34px;width:auto;object-fit:contain;display:block;" /></div>
         </div>
         <div style="display:flex;align-items:center;gap:8px;">
           <button @click="toggleLanguage" class="glass-btn-sm" style="color:rgba(34,197,94,0.9);font-size:11px;font-weight:700;padding:5px 10px;">{{ currentLang === 'en' ? '🇲🇲 မြန်မာ' : '🇬🇧 EN' }}</button>
@@ -182,12 +182,12 @@
           <div style="display:flex;gap:3px;">
             <!-- KPay -->
             <div style="display:flex;flex-direction:column;align-items:center;gap:1px;cursor:pointer;" @click="showDepositModal=true">
-              <div class="qsc-icon" style="width:30px;height:30px;border-radius:7px;border:1.5px solid rgba(74,222,128,0.55);background:rgba(74,222,128,0.06);box-shadow:0 0 6px rgba(74,222,128,0.15);animation-delay:0s;overflow:hidden;display:flex;align-items:center;justify-content:center;"><img src="https://ik.imagekit.io/tdpebgueq/Payment%20Method%20/Screenshot_2026-06-04-00-35-27-327_mark.via.gp_1780510112167edit.jpg" style="width:100%;height:100%;object-fit:cover;" @error="e=>e.target.style.display='none'"/></div>
+              <div class="qsc-icon" style="width:30px;height:30px;border-radius:7px;border:1.5px solid rgba(74,222,128,0.55);background:rgba(74,222,128,0.06);box-shadow:0 0 6px rgba(74,222,128,0.15);animation-delay:0s;overflow:hidden;display:flex;align-items:center;justify-content:center;"><img src="https://ik.imagekit.io/tdpebgueq/Payment%20Method%20/Screenshot_2026-06-04-00-35-27-327_mark.via.gp_1780510112167edit.jpg?tr=f-auto" style="width:100%;height:100%;object-fit:cover;" @error="e=>e.target.style.display='none'"/></div>
               <span style="font-size:8px;color:rgba(255,255,255,0.6);font-weight:600;">KPay</span>
             </div>
             <!-- Wave -->
             <div style="display:flex;flex-direction:column;align-items:center;gap:1px;cursor:pointer;" @click="showDepositModal=true">
-              <div class="qsc-icon" style="width:30px;height:30px;border-radius:7px;border:1.5px solid rgba(74,222,128,0.55);background:rgba(74,222,128,0.06);box-shadow:0 0 6px rgba(74,222,128,0.15);animation-delay:0.3s;overflow:hidden;display:flex;align-items:center;justify-content:center;"><img src="https://ik.imagekit.io/tdpebgueq/Payment%20Method%20/Screenshot_2026-06-04-00-35-34-166_mark.via.gp_1780510124725edit.jpg" style="width:100%;height:100%;object-fit:cover;" @error="e=>e.target.style.display='none'"/></div>
+              <div class="qsc-icon" style="width:30px;height:30px;border-radius:7px;border:1.5px solid rgba(74,222,128,0.55);background:rgba(74,222,128,0.06);box-shadow:0 0 6px rgba(74,222,128,0.15);animation-delay:0.3s;overflow:hidden;display:flex;align-items:center;justify-content:center;"><img src="https://ik.imagekit.io/tdpebgueq/Payment%20Method%20/Screenshot_2026-06-04-00-35-34-166_mark.via.gp_1780510124725edit.jpg?tr=f-auto" style="width:100%;height:100%;object-fit:cover;" @error="e=>e.target.style.display='none'"/></div>
               <span style="font-size:8px;color:rgba(255,255,255,0.6);font-weight:600;">Wave</span>
             </div>
             <!-- UAB -->
@@ -595,7 +595,7 @@
   function openAuth(tab) { authTab.value = tab; showAuthModal.value = true }
 
   // Banner
-  const bannerImages = ref(['https://ik.imagekit.io/tdpebgueq/NOVABETT,%20BANNER%20/1780215182926.png?updatedAt=1780215265078','https://ik.imagekit.io/tdpebgueq/NOVABETT,%20BANNER%20/f9b69370-5cc9-11f1-b238-fb0c6456ca35%20(5).png','https://ik.imagekit.io/tdpebgueq/NOVABETT,%20BANNER%20/1780214089706.png?updatedAt=1780215286920'])
+  const bannerImages = ref(['https://ik.imagekit.io/tdpebgueq/NOVABETT,%20BANNER%20/1780215182926.png?tr=f-auto','https://ik.imagekit.io/tdpebgueq/NOVABETT,%20BANNER%20/f9b69370-5cc9-11f1-b238-fb0c6456ca35%20(5).png?tr=f-auto','https://ik.imagekit.io/tdpebgueq/NOVABETT,%20BANNER%20/1780214089706.png?tr=f-auto'])
   const bannerIdx = ref(0); let bannerTimer = null; let touchStartX = 0
   function startBannerTimer() { clearInterval(bannerTimer); bannerTimer = setInterval(() => { bannerIdx.value = (bannerIdx.value+1)%bannerImages.value.length }, 4000) }
   function onBannerTouchStart(e) { touchStartX = e.touches[0].clientX; clearInterval(bannerTimer) }
@@ -604,12 +604,12 @@
 
   // Categories
   const categories = ref([
-    { id:'popular', name:'နာမည်ကြီး', emoji:'🔥', imageUrl:'https://ik.imagekit.io/tdpebgueq/Provider%20label%20icons%20/Screenshot_2026-06-04-01-02-41-326_mark.via.gp_1780514832069edit.jpg' },
-    { id:'slot',    name:'စလော့',     emoji:'🎰', imageUrl:'https://ik.imagekit.io/tdpebgueq/Provider%20label%20icons%20/Screenshot_2026-06-04-01-02-48-594_mark.via.gp_1780511877479edit.jpg' },
-    { id:'fish',    name:'ငါးဖမ်း',   emoji:'🐬', imageUrl:'https://ik.imagekit.io/tdpebgueq/Provider%20label%20icons%20/Screenshot_2026-06-04-01-02-57-533_mark.via.gp_1780511863896edit.jpg' },
-    { id:'live',    name:'တိုက်ရိုက် ကာစီနို', emoji:'🃏', imageUrl:'https://ik.imagekit.io/tdpebgueq/Provider%20label%20icons%20/Screenshot_2026-06-04-01-03-25-338_mark.via.gp_1780511848574edit.jpg' },
+    { id:'popular', name:'နာမည်ကြီး', emoji:'🔥', imageUrl:'https://ik.imagekit.io/tdpebgueq/Provider%20label%20icons%20/Screenshot_2026-06-04-01-02-41-326_mark.via.gp_1780514832069edit.jpg?tr=f-auto' },
+    { id:'slot',    name:'စလော့',     emoji:'🎰', imageUrl:'https://ik.imagekit.io/tdpebgueq/Provider%20label%20icons%20/Screenshot_2026-06-04-01-02-48-594_mark.via.gp_1780511877479edit.jpg?tr=f-auto' },
+    { id:'fish',    name:'ငါးဖမ်း',   emoji:'🐬', imageUrl:'https://ik.imagekit.io/tdpebgueq/Provider%20label%20icons%20/Screenshot_2026-06-04-01-02-57-533_mark.via.gp_1780511863896edit.jpg?tr=f-auto' },
+    { id:'live',    name:'တိုက်ရိုက် ကာစီနို', emoji:'🃏', imageUrl:'https://ik.imagekit.io/tdpebgueq/Provider%20label%20icons%20/Screenshot_2026-06-04-01-03-25-338_mark.via.gp_1780511848574edit.jpg?tr=f-auto' },
     { id:'arcade',  name:'Arcade',    emoji:'🕹️', arcadeSvg:`<defs><linearGradient id="arc-b" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#7c3aed"/><stop offset="100%" stop-color="#4f46e5"/></linearGradient><radialGradient id="arc-s" cx="50%" cy="30%" r="60%"><stop offset="0%" stop-color="#e879f9"/><stop offset="100%" stop-color="#a855f7"/></radialGradient></defs><rect x="5" y="17" width="18" height="9" rx="3" fill="url(#arc-b)"/><rect x="7" y="8" width="14" height="9" rx="2" fill="rgba(0,0,0,0.65)" stroke="rgba(168,85,247,0.7)" stroke-width="0.8"/><rect x="9" y="10" width="10" height="5" rx="1" fill="rgba(168,85,247,0.18)"/><text x="14" y="13.8" text-anchor="middle" font-size="3.6" font-weight="900" fill="#e879f9" font-family="Arial">ARCADE</text><line x1="8" y1="9.5" x2="20" y2="9.5" stroke="rgba(255,255,255,0.18)" stroke-width="0.6"/><circle cx="10" cy="21" r="3" fill="rgba(255,255,255,0.07)" stroke="rgba(255,255,255,0.25)" stroke-width="0.7"/><circle cx="10" cy="21" r="1.6" fill="url(#arc-s)"/><circle cx="10" cy="21" r="0.7" fill="rgba(255,255,255,0.6)"/><circle cx="17" cy="20" r="1.6" fill="#f43f5e" opacity="0.95"/><circle cx="20.2" cy="20" r="1.6" fill="#22d3ee" opacity="0.95"/><circle cx="17" cy="23.2" r="1.6" fill="#4ade80" opacity="0.95"/><circle cx="20.2" cy="23.2" r="1.6" fill="#fbbf24" opacity="0.95"/><rect x="13" y="20.8" width="2.5" height="1.2" rx="0.5" fill="rgba(255,255,255,0.4)"/>`},
-    { id:'fav',     name:'အကြိုက်ဆုံး', emoji:'⭐', imageUrl:'https://ik.imagekit.io/tdpebgueq/Provider%20label%20icons%20/Screenshot_2026-06-04-01-04-03-664_mark.via.gp_1780514801506edit.jpg' },
+    { id:'fav',     name:'အကြိုက်ဆုံး', emoji:'⭐', imageUrl:'https://ik.imagekit.io/tdpebgueq/Provider%20label%20icons%20/Screenshot_2026-06-04-01-04-03-664_mark.via.gp_1780514801506edit.jpg?tr=f-auto' },
   ])
     const activeCategory = ref('popular')
   const glowCanvases = {}

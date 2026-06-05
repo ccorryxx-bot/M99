@@ -19,7 +19,7 @@
     <div v-else class="ds-body">
       <!-- User Identity Card -->
       <div class="ds-id-card">
-        <img src="https://ik.imagekit.io/tdpebgueq/Brand%20Name%20Logo/IMG_20260602_154542.png?updatedAt=1780391788280" alt="iW99" style="height:26px;width:auto;object-fit:contain;display:block;" />
+        <img src="https://ik.imagekit.io/tdpebgueq/Brand%20Name%20Logo/IMG_20260602_154542.png?tr=f-auto" alt="iW99" style="height:26px;width:auto;object-fit:contain;display:block;" />
         <div class="ds-id-row">
           <span class="ds-id-label">ID:</span>
           <span class="ds-id-val">{{ shortId }}</span>
