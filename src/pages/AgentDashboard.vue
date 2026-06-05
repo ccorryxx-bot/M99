@@ -26,17 +26,6 @@
         </button>
       </header>
 
-      <!-- TICKER -->
-      <div ref="tickerEl" style="backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);background:rgba(245,158,11,0.08);border-bottom:1px solid rgba(245,158,11,0.15);overflow:hidden;height:24px;display:flex;align-items:center;">
-        <div class="ticker-track" style="display:inline-flex;align-items:center;gap:24px;white-space:nowrap;padding:0 12px;">
-          <span v-for="(item,i) in tickerItems" :key="i" style="display:flex;align-items:center;gap:5px;font-size:9px;flex-shrink:0;">
-            <span style="color:#f59e0b;font-weight:700;">🏆</span>
-            <span style="color:rgba(255,255,255,0.55);">{{ item.id }}</span>
-            <span style="color:#4ade80;font-weight:700;">+{{ item.amount }} Ks</span>
-            <span style="color:rgba(255,255,255,0.12);">|</span>
-          </span>
-        </div>
-      </div>
 
       <!-- TABS -->
       <nav style="position:sticky;top:45px;z-index:30;overflow-x:auto;display:flex;scrollbar-width:none;backdrop-filter:blur(20px) saturate(180%);-webkit-backdrop-filter:blur(20px) saturate(180%);background:rgba(26,22,80,0.6);border-bottom:1px solid rgba(255,255,255,0.08);" class="no-scrollbar">
@@ -78,7 +67,7 @@
                 <div style="display:flex;justify-content:space-between;margin-top:2px;">
                   <span style="font-size:8px;color:rgba(255,255,255,0.25);">LV{{ agentLevel }}</span>
                   <span v-if="nextLevelData" style="font-size:8px;color:rgba(255,255,255,0.25);">LV{{ agentLevel+1 }}: {{ formatN(nextLevelData.required) }} Ks</span>
-                  <span v-else style="font-size:8px;color:#f59e0b;font-weight:700;">🏆 MAX</span>
+                  <span v-else style="font-size:8px;color:rgba(255,255,255,0.7);font-weight:700;display:flex;align-items:center;gap:2px;"><svg width="10" height="10" viewBox="0 0 24 24" fill="none"><path d="M2 17h20l-2-9-5 5-3-7-3 7-5-5-2 9z" fill="rgba(255,255,255,0.85)"/></svg> MAX</span>
                 </div>
               </div>
               <div style="flex-shrink:0;text-align:right;">
@@ -92,26 +81,26 @@
             <div style="padding:6px 12px;display:flex;align-items:center;gap:6px;background:rgba(245,158,11,0.08);border-top:1px solid rgba(245,158,11,0.12);">
               <span style="font-size:8px;font-weight:800;color:#f59e0b;background:rgba(245,158,11,0.18);border:1px solid rgba(245,158,11,0.28);border-radius:4px;padding:1px 5px;flex-shrink:0;">COMM</span>
               <div style="flex:1;font-size:9px;color:rgba(255,255,255,0.45);">{{ currentLevelData?.rate||10 }}% · {{ formatN(totalTurnover) }} Ks</div>
-              <span style="font-size:12px;font-weight:900;color:#4ade80;flex-shrink:0;text-shadow:0 0 10px rgba(74,222,128,0.45);">{{ formatN(totalCommission) }} Ks</span>
+              <span style="font-size:12px;font-weight:900;color:rgba(255,255,255,0.92);flex-shrink:0;">{{ formatN(totalCommission) }} Ks</span>
             </div>
 
             <!-- 4-stat grid -->
             <div style="display:grid;grid-template-columns:1fr 1fr;">
               <div style="padding:8px 12px;border-right:1px solid rgba(255,255,255,0.07);border-bottom:1px solid rgba(255,255,255,0.07);">
                 <div style="font-size:8px;color:rgba(255,255,255,0.38);margin-bottom:2px;">ရရှိသည်</div>
-                <div style="font-size:15px;font-weight:900;color:#4ade80;text-shadow:0 0 12px rgba(74,222,128,0.35);">{{ formatN(mainBalance) }}<span style="font-size:8px;color:rgba(255,255,255,0.25);margin-left:2px;">Ks</span></div>
+                <div style="font-size:15px;font-weight:900;color:rgba(255,255,255,0.92);">{{ formatN(mainBalance) }}<span style="font-size:8px;color:rgba(255,255,255,0.25);margin-left:2px;">Ks</span></div>
               </div>
               <div style="padding:8px 12px;border-bottom:1px solid rgba(255,255,255,0.07);">
                 <div style="font-size:8px;color:rgba(255,255,255,0.38);margin-bottom:2px;">ဆုလာဘ်</div>
-                <div style="font-size:15px;font-weight:900;color:#fbbf24;text-shadow:0 0 12px rgba(251,191,36,0.35);">{{ formatN(bonusBalance) }}<span style="font-size:8px;color:rgba(255,255,255,0.25);margin-left:2px;">Ks</span></div>
+                <div style="font-size:15px;font-weight:900;color:rgba(255,255,255,0.92);">{{ formatN(bonusBalance) }}<span style="font-size:8px;color:rgba(255,255,255,0.25);margin-left:2px;">Ks</span></div>
               </div>
               <div style="padding:8px 12px;border-right:1px solid rgba(255,255,255,0.07);">
                 <div style="font-size:8px;color:rgba(255,255,255,0.38);margin-bottom:2px;">မနေ့ တိုက်ရိုက်</div>
-                <div style="font-size:15px;font-weight:900;color:#fff;">{{ formatN(myStats.directComm) }}<span style="font-size:8px;color:rgba(255,255,255,0.25);margin-left:2px;">Ks</span></div>
+                <div style="font-size:15px;font-weight:900;color:rgba(255,255,255,0.92);">{{ formatN(myStats.directComm) }}<span style="font-size:8px;color:rgba(255,255,255,0.25);margin-left:2px;">Ks</span></div>
               </div>
               <div style="padding:8px 12px;">
                 <div style="font-size:8px;color:rgba(255,255,255,0.38);margin-bottom:2px;">ဒါလ ကော်မ</div>
-                <div style="font-size:15px;font-weight:900;color:#fff;">{{ formatN(myStats.totalComm) }}<span style="font-size:8px;color:rgba(255,255,255,0.25);margin-left:2px;">Ks</span></div>
+                <div style="font-size:15px;font-weight:900;color:rgba(255,255,255,0.92);">{{ formatN(myStats.totalComm) }}<span style="font-size:8px;color:rgba(255,255,255,0.25);margin-left:2px;">Ks</span></div>
               </div>
             </div>
           </div>
@@ -132,16 +121,15 @@
               </div>
               <div style="flex:1;min-width:0;background:rgba(0,0,0,0.18);border:1px solid rgba(255,255,255,0.1);border-radius:8px;padding:6px 8px;display:flex;align-items:center;gap:5px;backdrop-filter:blur(6px);">
                 <span style="flex:1;font-size:9px;color:rgba(255,255,255,0.45);overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">{{ referralLink }}</span>
-                <button @click="copyText(referralLink)" style="background:rgba(74,222,128,0.12);border:1px solid rgba(74,222,128,0.25);border-radius:5px;padding:3px 7px;font-size:9px;font-weight:700;color:#4ade80;cursor:pointer;flex-shrink:0;">{{ copiedLink?'✓':'📋' }}</button>
+                <button @click="copyText(referralLink)" style="background:rgba(255,255,255,0.08);border:1px solid rgba(255,255,255,0.15);border-radius:5px;padding:3px 7px;font-size:9px;font-weight:700;color:rgba(255,255,255,0.8);cursor:pointer;flex-shrink:0;display:flex;align-items:center;gap:3px;"><span v-if="!copiedLink"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg></span><span v-else>✓</span></button>
               </div>
             </div>
             <!-- Social row -->
             <div style="display:flex;gap:5px;overflow-x:auto;" class="no-scrollbar">
               <button v-for="s in socialButtons" :key="s.id" @click="shareVia(s.id)"
-                style="flex:1;min-width:48px;display:flex;flex-direction:column;align-items:center;gap:3px;border-radius:9px;padding:7px 4px;cursor:pointer;border:1px solid;backdrop-filter:blur(8px);"
-                :style="{background:s.bg,borderColor:s.border}">
+                style="flex:1;min-width:48px;display:flex;flex-direction:column;align-items:center;gap:3px;border-radius:9px;padding:7px 4px;cursor:pointer;border:none;background:none;">
                 <span v-html="s.icon" style="display:flex;align-items:center;justify-content:center;"></span>
-                <span style="font-size:8px;color:rgba(255,255,255,0.6);white-space:nowrap;">{{ s.label }}</span>
+                <span style="font-size:8px;color:rgba(255,255,255,0.7);white-space:nowrap;">{{ s.label }}</span>
               </button>
             </div>
           </div>
@@ -161,7 +149,7 @@
           <!-- Flash notification -->
           <Transition name="flash-in">
             <div v-if="newMemberFlash" style="margin:6px 10px 0;backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);background:rgba(74,222,128,0.12);border:1px solid rgba(74,222,128,0.28);border-radius:11px;padding:9px 12px;display:flex;align-items:center;gap:8px;">
-              <span style="font-size:18px;">🎉</span>
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" style="flex-shrink:0;"><path d="M12 2l2.4 7.4H22l-6.2 4.5 2.4 7.4L12 17l-6.2 4.3 2.4-7.4L2 9.4h7.6z" fill="rgba(74,222,128,0.9)"/></svg>
               <div>
                 <div style="font-size:11px;font-weight:800;color:#4ade80;">အောက်လက် အသစ် ဝင်ရောက်လာပြီ!</div>
                 <div style="font-size:9px;color:rgba(255,255,255,0.45);margin-top:1px;">Commission ရရှိပါမည်</div>
@@ -171,7 +159,7 @@
 
           <!-- Promo strip (Glass compact) -->
           <div style="margin:6px 10px 0;backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);background:linear-gradient(135deg,rgba(139,92,246,0.2),rgba(245,158,11,0.14));border:1px solid rgba(139,92,246,0.25);border-radius:12px;padding:10px 12px;display:flex;align-items:center;gap:8px;">
-            <span style="font-size:20px;flex-shrink:0;">🎁</span>
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" style="flex-shrink:0;"><rect x="3" y="11" width="18" height="11" rx="2" fill="rgba(245,158,11,0.25)" stroke="rgba(245,158,11,0.7)" stroke-width="1.4"/><path d="M3 11h18M12 11V22M12 7c0-2.5-3-3.5-3-1s3 4 3 4 3-2.5 3-4-3-1-3 1z" stroke="rgba(245,158,11,0.7)" stroke-width="1.4" stroke-linecap="round"/><rect x="8" y="4" width="8" height="4" rx="2" fill="rgba(245,158,11,0.2)" stroke="rgba(245,158,11,0.6)" stroke-width="1"/></svg>
             <div style="flex:1;min-width:0;">
               <div style="font-size:11px;font-weight:800;color:#fbbf24;">ဖိတ်ကြားလေ · ဆုကြေးများများ ရရှိလေ</div>
               <div style="font-size:9px;color:rgba(255,255,255,0.45);margin-top:1px;">Friend တစ်ယောက်ချင်း Commission ရ</div>
@@ -183,17 +171,17 @@
           <div style="margin:6px 10px 0;backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px);background:rgba(255,255,255,0.07);border:1px solid rgba(255,255,255,0.13);border-radius:12px;padding:10px 12px;display:flex;align-items:center;justify-content:space-around;">
             <div style="text-align:center;">
               <div style="font-size:8px;color:rgba(255,255,255,0.38);">တောင်စီး</div>
-              <div style="font-size:17px;font-weight:900;color:#fbbf24;">{{ formatN(allDownline.filter(u=>u.level===1).length) }}</div>
+              <div style="font-size:17px;font-weight:900;color:rgba(255,255,255,0.92);">{{ formatN(allDownline.filter(u=>u.level===1).length) }}</div>
             </div>
             <div style="width:1px;height:28px;background:rgba(255,255,255,0.08);"></div>
             <div style="text-align:center;">
               <div style="font-size:8px;color:rgba(255,255,255,0.38);">စုစုပေါင်း</div>
-              <div style="font-size:17px;font-weight:900;color:#a78bfa;">{{ formatN(allDownline.length) }}</div>
+              <div style="font-size:17px;font-weight:900;color:rgba(255,255,255,0.92);">{{ formatN(allDownline.length) }}</div>
             </div>
             <div style="width:1px;height:28px;background:rgba(255,255,255,0.08);"></div>
             <div style="text-align:center;">
               <div style="font-size:8px;color:rgba(255,255,255,0.38);">ကော်မ</div>
-              <div style="font-size:17px;font-weight:900;color:#4ade80;">{{ formatN(totalCommission) }}</div>
+              <div style="font-size:17px;font-weight:900;color:rgba(255,255,255,0.92);">{{ formatN(totalCommission) }}</div>
             </div>
             <button @click="activeTab=5" style="backdrop-filter:blur(6px);background:rgba(251,191,36,0.13);border:1px solid rgba(251,191,36,0.25);border-radius:8px;padding:6px 10px;font-size:10px;font-weight:700;color:#fbbf24;cursor:pointer;">ကြည့်</button>
           </div>
@@ -201,17 +189,17 @@
           <!-- Member info strip -->
           <div style="margin:6px 10px 0;backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.1);border-radius:11px;padding:9px 12px;display:flex;align-items:center;justify-content:space-between;">
             <div style="display:flex;align-items:center;gap:6px;">
-              <span style="font-size:12px;">👤</span>
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.45)" stroke-width="1.8" style="flex-shrink:0;"><circle cx="12" cy="7" r="4"/><path d="M4 21c0-4.4 3.6-8 8-8s8 3.6 8 8" stroke-linecap="round"/></svg>
               <div>
                 <div style="font-size:8px;color:rgba(255,255,255,0.35);">Member Since</div>
-                <div style="font-size:10px;font-weight:700;color:rgba(255,255,255,0.7);">{{ memberSince }}</div>
+                <div style="font-size:10px;font-weight:700;color:rgba(255,255,255,0.82);">{{ memberSince }}</div>
               </div>
             </div>
             <div style="display:flex;align-items:center;gap:6px;">
-              <span style="font-size:12px;">💰</span>
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.45)" stroke-width="1.8" style="flex-shrink:0;"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 3" stroke-linecap="round" stroke-linejoin="round"/><path d="M9 15h6M12 7v1" stroke-linecap="round"/></svg>
               <div style="text-align:right;">
                 <div style="font-size:8px;color:rgba(255,255,255,0.35);">Total Deposit</div>
-                <div style="font-size:10px;font-weight:700;color:rgba(255,255,255,0.7);">{{ formatN(userTotalDeposit) }} Ks</div>
+                <div style="font-size:10px;font-weight:700;color:rgba(255,255,255,0.82);">{{ formatN(userTotalDeposit) }} Ks</div>
               </div>
             </div>
           </div>
@@ -230,8 +218,8 @@
             </div>
             <div style="font-size:9px;color:rgba(255,255,255,0.35);word-break:break-all;margin-bottom:12px;background:rgba(0,0,0,0.12);padding:6px 8px;border-radius:7px;">{{ referralLink }}</div>
             <div style="display:flex;gap:6px;justify-content:center;">
-              <button @click="copyText(inviteCode)" style="backdrop-filter:blur(6px);background:rgba(245,158,11,0.18);border:1px solid rgba(245,158,11,0.32);border-radius:9px;padding:7px 14px;font-size:11px;font-weight:700;color:#fbbf24;cursor:pointer;">{{ copiedCode?'✓ ကူးပြီး':'🔢 Code ကူး' }}</button>
-              <button @click="copyText(referralLink)" style="backdrop-filter:blur(6px);background:rgba(74,222,128,0.13);border:1px solid rgba(74,222,128,0.28);border-radius:9px;padding:7px 14px;font-size:11px;font-weight:700;color:#4ade80;cursor:pointer;">{{ copiedLink?'✓ ကူးပြီး':'🔗 Link ကူး' }}</button>
+              <button @click="copyText(inviteCode)" style="backdrop-filter:blur(6px);background:rgba(255,255,255,0.1);border:1px solid rgba(255,255,255,0.2);border-radius:9px;padding:7px 14px;font-size:11px;font-weight:700;color:rgba(255,255,255,0.88);cursor:pointer;display:inline-flex;align-items:center;gap:5px;"><svg v-if="!copiedCode" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg><span>{{ copiedCode?'✓ ကူးပြီး':'Code ကူး' }}</span></button>
+              <button @click="copyText(referralLink)" style="backdrop-filter:blur(6px);background:rgba(255,255,255,0.1);border:1px solid rgba(255,255,255,0.2);border-radius:9px;padding:7px 14px;font-size:11px;font-weight:700;color:rgba(255,255,255,0.88);cursor:pointer;display:inline-flex;align-items:center;gap:5px;"><svg v-if="!copiedLink" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10 13a5 5 0 007.54.54l3-3a5 5 0 00-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 00-7.54-.54l-3 3a5 5 0 007.07 7.07l1.71-1.71"/></svg><span>{{ copiedLink?'✓ ကူးပြီး':'Link ကူး' }}</span></button>
             </div>
           </div>
 
@@ -239,16 +227,15 @@
             <div style="font-size:10px;font-weight:700;color:rgba(255,255,255,0.45);margin-bottom:8px;text-align:center;">Share Via</div>
             <div style="display:flex;gap:6px;" class="no-scrollbar">
               <button v-for="s in socialButtons" :key="s.id" @click="shareVia(s.id)"
-                style="flex:1;display:flex;flex-direction:column;align-items:center;gap:4px;border-radius:10px;padding:8px 4px;cursor:pointer;border:1px solid;backdrop-filter:blur(8px);"
-                :style="{background:s.bg,borderColor:s.border}">
+                style="flex:1;display:flex;flex-direction:column;align-items:center;gap:4px;border-radius:10px;padding:8px 4px;cursor:pointer;border:none;background:none;">
                 <span v-html="s.icon" style="display:flex;align-items:center;justify-content:center;"></span>
-                <span style="font-size:8px;color:rgba(255,255,255,0.6);white-space:nowrap;">{{ s.label }}</span>
+                <span style="font-size:8px;color:rgba(255,255,255,0.7);white-space:nowrap;">{{ s.label }}</span>
               </button>
             </div>
           </div>
 
           <div style="backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);background:rgba(255,255,255,0.07);border:1px solid rgba(255,255,255,0.13);border-radius:13px;padding:10px;margin-bottom:8px;">
-            <div style="font-size:11px;font-weight:800;color:rgba(255,255,255,0.85);margin-bottom:8px;">📋 ဘယ်လိုရမလဲ?</div>
+            <div style="font-size:11px;font-weight:800;color:rgba(255,255,255,0.85);margin-bottom:8px;display:flex;align-items:center;gap:5px;"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.6)" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg> ဘယ်လိုရမလဲ?</div>
             <div v-for="(step,i) in inviteSteps" :key="i" style="display:flex;align-items:flex-start;gap:8px;margin-bottom:7px;">
               <div style="width:20px;height:20px;border-radius:50%;background:rgba(245,158,11,0.18);border:1px solid rgba(245,158,11,0.35);display:flex;align-items:center;justify-content:center;flex-shrink:0;backdrop-filter:blur(6px);">
                 <span style="font-size:9px;font-weight:900;color:#f59e0b;">{{ i+1 }}</span>
@@ -472,10 +459,10 @@
           <div style="font-size:12px;font-weight:800;color:rgba(255,255,255,0.75);margin-bottom:10px;">ကော်မရှင် အမျိုးအစားများ</div>
           <div v-for="(ct,i) in commissionTypes" :key="i" style="margin-bottom:8px;border-radius:12px;overflow:hidden;backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);" :style="ct.style">
             <div style="display:flex;align-items:center;gap:6px;margin-bottom:4px;">
-              <span style="font-size:16px;">{{ ct.icon }}</span>
+              <span v-html="ct.icon" style="display:flex;align-items:center;"></span>
               <span style="font-size:11px;font-weight:800;" :style="ct.titleColor">{{ ct.title }}</span>
             </div>
-            <div style="font-size:13px;font-weight:900;color:#fbbf24;margin-bottom:4px;">{{ ct.rate }}</div>
+            <div style="font-size:13px;font-weight:900;color:rgba(255,255,255,0.88);margin-bottom:4px;">{{ ct.rate }}</div>
             <div style="font-size:10px;color:rgba(255,255,255,0.55);line-height:1.5;">{{ ct.desc }}</div>
           </div>
 
@@ -1104,25 +1091,28 @@ const inviteSteps = [
 
 const commissionTypes = [
   {
-    icon:'🎯', title:'Level 1 — တိုက်ရိုက် (Direct)',
+    icon:`<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="rgba(255,193,7,0.85)" stroke-width="1.8"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2" fill="rgba(255,193,7,0.85)" stroke="none"/></svg>`,
+    title:'Level 1 — တိုက်ရိုက် (Direct)',
     rate: 'Turnover × 10%',
     desc: 'သင်တိုက်ရိုက် ဖိတ်ခေါ်သော အဖွဲ့ဝင်များ ကစားသည့် Turnover ၏ 10% ကို သင်ရမည်',
     style:'background:rgba(255,193,7,0.07);border:1px solid rgba(255,193,7,0.15);border-radius:12px;padding:12px',
-    titleColor:'color:rgba(255,193,7,0.9)'
+    titleColor:'color:rgba(255,255,255,0.88)'
   },
   {
-    icon:'🔗', title:'Level 2+ — Indirect Override',
+    icon:`<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="rgba(100,180,255,0.85)" stroke-width="1.8"><path d="M10 13a5 5 0 007.54.54l3-3a5 5 0 00-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 00-7.54-.54l-3 3a5 5 0 007.07 7.07l1.71-1.71"/></svg>`,
+    title:'Level 2+ — Indirect Override',
     rate: 'Turnover × 10% × 30% ≈ 3%',
     desc: 'Level 1 အဖွဲ့ဝင်များ ဖိတ်ခေါ်သော သူများ၏ Turnover မှ 30% Override ရမည်',
     style:'background:rgba(100,180,255,0.06);border:1px solid rgba(100,180,255,0.13);border-radius:12px;padding:12px',
-    titleColor:'color:rgba(100,180,255,0.9)'
+    titleColor:'color:rgba(255,255,255,0.88)'
   },
   {
-    icon:'♾️', title:'Unlimited Depth',
+    icon:`<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="rgba(200,130,255,0.85)" stroke-width="1.8"><path d="M12 12c-2.5-3-5-3-5 0s2.5 3 5 0 2.5 3 5 0-2.5-3-5 0z"/></svg>`,
+    title:'Unlimited Depth',
     rate: 'အဆင့်မကန့်သတ်ဘဲ ရမည်',
     desc: 'Downline tree ၏ အဆင့် မည်မျှ နက်နက် ဆင်းဆင်း ကော်မရှင် ဆက်ရနိုင်သည်',
     style:'background:rgba(200,100,255,0.06);border:1px solid rgba(200,100,255,0.13);border-radius:12px;padding:12px',
-    titleColor:'color:rgba(200,130,255,0.9)'
+    titleColor:'color:rgba(255,255,255,0.88)'
   },
 ]
 
@@ -1414,30 +1404,8 @@ function shareVia(platform) {
   if (map[platform]) window.open(map[platform], '_blank')
 }
 
-// ── GSAP Ticker ─────────────────────────────────────────────
-const tickerEl = ref(null)
-let tickerTween = null
-
-function initTicker() {
-  if (!tickerEl.value) return
-  const track = tickerEl.value.querySelector('.ticker-track')
-  if (!track) return
-  // Duplicate content for seamless loop
-  const clone = track.cloneNode(true)
-  tickerEl.value.appendChild(clone)
-  const totalW = track.scrollWidth
-  gsap.set([track, clone], { x: 0 })
-  gsap.set(clone, { x: totalW })
-  tickerTween = gsap.to([track, clone], {
-    x: `-=${totalW}`,
-    duration: 22,
-    ease: 'none',
-    repeat: -1,
-    modifiers: {
-      x: gsap.utils.unitize(x => parseFloat(x) % totalW)
-    }
-  })
-}
+// ── GSAP Ticker (removed) ────────────────────────────────────
+function initTicker() { /* ticker removed */ }
 
 function animateReferralTab() {
   gsap.from('.referral-hero-card', { opacity:0, y:22, duration:0.55, ease:'power3.out' })
@@ -1595,7 +1563,6 @@ onMounted(async () => {
 })
 
 onUnmounted(() => {
-  if (tickerTween) tickerTween.kill()
   if (plexusRaf) { cancelAnimationFrame(plexusRaf); plexusRaf = null }
   if (neuralRaf)  { cancelAnimationFrame(neuralRaf);  neuralRaf  = null }
   if (realtimeChannel) { supabase.removeChannel(realtimeChannel); realtimeChannel = null }
