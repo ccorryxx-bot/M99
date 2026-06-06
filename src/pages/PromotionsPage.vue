@@ -126,32 +126,58 @@
           </div>
 
           <!-- Table header -->
-          <div class="vip-table-header">
+          <div v-if="activeVipTab !== 'weekly'" class="vip-table-header">
             <div class="vip-th vip-th--badge"></div>
             <div class="vip-th vip-th--req">အဆင်တရောင်မြင်တင်ရရာနေများ</div>
             <div class="vip-th vip-th--bonus">ဘောနပ်ဒ်</div>
+          </div>
+          <div v-else class="vip-table-header vip-table-header--weekly">
+            <div class="vip-th vip-th--wbadge">အဆင့်</div>
+            <div class="vip-th vip-th--wcol">အပတ်စဉ် အကျုံးဝင်သောငွေဖြည့်သွင်းမှု</div>
+            <div class="vip-th vip-th--wcol">အပတ်စဉ် တရားဝင်သောအလောင်းအစားများ</div>
+            <div class="vip-th vip-th--wbonus">အပတ်စဉ် ဘောနပ်စ်</div>
           </div>
 
           </div><!-- /vip-sticky-top -->
 
           <!-- Level Rows 0-50 — ONLY THIS SCROLLS -->
           <div class="vip-level-list">
-            <div
-              v-for="lv in vipLevels" :key="lv.level"
-              class="vip-level-row"
-            >
-              <div class="vip-lv-badge">
-                <img v-if="lv.badgeImg" :src="lv.badgeImg" :alt="'VIP ' + lv.level" class="vip-lv-img" loading="lazy" />
-                <div v-else class="vip-lv-placeholder">
-                  <span>{{ lv.level }}</span>
+
+            <!-- ── Regular tab rows (non-weekly) ── -->
+            <template v-if="activeVipTab !== 'weekly'">
+              <div
+                v-for="lv in vipLevels" :key="lv.level"
+                class="vip-level-row"
+              >
+                <div class="vip-lv-badge">
+                  <img v-if="lv.badgeImg" :src="lv.badgeImg" :alt="'VIP ' + lv.level" class="vip-lv-img" loading="lazy" />
+                  <div v-else class="vip-lv-placeholder">
+                    <span>{{ lv.level }}</span>
+                  </div>
                 </div>
+                <div class="vip-lv-req">
+                  <span class="vip-lv-dep">{{ lv.deposit }}</span>
+                  <span class="vip-lv-turn">{{ lv.turnover }}</span>
+                </div>
+                <div class="vip-lv-bonus">{{ lv.bonus }}</div>
               </div>
-              <div class="vip-lv-req">
-                <span class="vip-lv-dep">{{ lv.deposit }}</span>
-                <span class="vip-lv-turn">{{ lv.turnover }}</span>
+            </template>
+
+            <!-- ── Weekly bonus rows ── -->
+            <template v-else>
+              <div
+                v-for="(wb, idx) in weeklyBonuses" :key="'w' + idx"
+                class="vip-level-row vip-level-row--weekly"
+              >
+                <div class="vip-lv-badge">
+                  <img v-if="vipLevels[idx]?.badgeImg" :src="vipLevels[idx].badgeImg" :alt="'VIP ' + idx" class="vip-lv-img" loading="lazy" />
+                  <div v-else class="vip-lv-placeholder"><span>{{ idx }}</span></div>
+                </div>
+                <div class="vip-wcell">3,000.00</div>
+                <div class="vip-wcell vip-wcell--dim">0.00</div>
+                <div class="vip-wcell vip-wcell--bonus">{{ fmtNum(wb) }}</div>
               </div>
-              <div class="vip-lv-bonus">{{ lv.bonus }}</div>
-            </div>
+            </template>
 
             <!-- ══ Rules separator ══ -->
             <div class="vip-rules-sep">
@@ -407,6 +433,19 @@ const vipSubTabs = [
   { key: 'privilege', label: 'VIP အကြိုးကျေးဇူးများ' },
 ]
 const activeVipTab = ref('extra')
+
+const weeklyBonuses = [
+  200, 300, 500, 800, 1300, 1800, 2800,
+  4300, 6300, 8800, 11800, 15300,
+  19800, 24800, 30800, 37800, 45800,
+  54800, 65800, 77800, 91800, 107800,
+  125800, 145800, 170800, 198800, 229800,
+  263800, 301800, 343800, 393800, 448800,
+  508800, 573800, 643800, 718800, 808800,
+  908800, 1018800, 1138800, 1268800, 1408800,
+  1568800, 1743800, 1933800, 2138800, 2358800,
+  2593800, 2843800, 3108800, 3388800,
+]
 
 const vipLevels = ref([
   { level: 0,  deposit: '0',                      turnover: '0',                   bonus: '0.00',         badgeImg: 'https://ik.imagekit.io/rbok01qam/VIP%20LEVEL%20img/62cf696c-b2f6-4a6c-acd5-501c79dc2f50.png?tr=f-auto' },
@@ -693,6 +732,18 @@ const vipLevels = ref([
 .vip-th--badge { width: 48px; flex-shrink: 0; }
 .vip-th--req { flex: 1; padding-left: 8px; }
 .vip-th--bonus { width: 90px; text-align: right; flex-shrink: 0; }
+
+/* Weekly table header */
+.vip-table-header--weekly { padding: 6px 10px; gap: 0; }
+.vip-th--wbadge { width: 48px; flex-shrink: 0; text-align: center; font-size: 8.5px; font-weight: 700; color: rgba(255,255,255,0.5); }
+.vip-th--wcol { flex: 1; text-align: center; font-size: 7.5px; font-weight: 700; color: rgba(255,255,255,0.4); line-height: 1.3; padding: 0 2px; }
+.vip-th--wbonus { width: 80px; flex-shrink: 0; text-align: right; font-size: 7.5px; font-weight: 700; color: rgba(251,191,36,0.7); }
+
+/* Weekly rows */
+.vip-level-row--weekly { padding: 9px 10px; }
+.vip-wcell { flex: 1; text-align: center; font-size: 11.5px; color: rgba(255,255,255,0.65); font-weight: 500; }
+.vip-wcell--dim { color: rgba(255,255,255,0.3); }
+.vip-wcell--bonus { flex: none; width: 80px; text-align: right; font-size: 12.5px; font-weight: 700; color: #fbbf24; }
 
 /* Level list */
 .vip-level-list { display: flex; flex-direction: column; }
