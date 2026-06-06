@@ -147,7 +147,217 @@
         </div>
       </div>
 
-      <!-- ══ TAB 1: ငါ့ကော်မရှင် ══ -->
+
+        <!-- ══ INFINITE LEVERAGE GUIDE ══ -->
+        <div class="lever-guide">
+
+          <!-- Title -->
+          <div class="lever-title-row">
+            <svg class="lever-title-icon" viewBox="0 0 24 24" fill="none">
+              <path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z" stroke="#f59e0b" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+            <div>
+              <div class="lever-title">အကန့်အသတ်မဲ့ အေးဂျင့် ကော်မရှင် မဟာဗျူဟာ</div>
+              <div class="lever-subtitle">The Infinite Leverage Guide</div>
+            </div>
+          </div>
+
+          <!-- Quote -->
+          <div class="lever-quote">
+            <div class="lever-quote-bar"></div>
+            <div>
+              <p class="lever-quote-text">"သင် အိပ်ပျော်နေရင်တောင် သင့်အဖွဲ့က သင့်အတွက် ပိုက်ဆံ ရှာပေးနေလိမ့်မယ်။"</p>
+              <p class="lever-quote-body">ဤစနစ်သည် သင့်ကိုယ်ပိုင် စွမ်းဆောင်ရည်တစ်ခုတည်းအပေါ်တွင် မူတည်ခြင်းမရှိဘဲ၊ သင့်အဖွဲ့အစည်း (Network) ကြီးထွားလာသည်နှင့်အမျှ <span class="lever-hl">အကန့်အသတ်မဲ့ ဝင်ငွေ (Passive Income)</span> ကို ဖန်တီးပေးမည့် အခွင့်အရေး ဖြစ်သည်။</p>
+            </div>
+          </div>
+
+          <div class="lever-divider"></div>
+
+          <!-- Section 1 -->
+          <div class="lever-section">
+            <div class="lever-sec-header">
+              <div class="lever-sec-icon lever-sec-icon--gold">
+                <svg viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="9" stroke="#f59e0b" stroke-width="1.8"/><path d="M12 7v5l3 3" stroke="#f59e0b" stroke-width="1.8" stroke-linecap="round"/></svg>
+              </div>
+              <div>
+                <div class="lever-sec-num">၁</div>
+                <div class="lever-sec-title">ဝင်ငွေအလွှာ ကွဲပြားမှုနှင့် အမြင့်ဆုံး ကော်မရှင်နှုန်း</div>
+                <div class="lever-sec-en">Maximizing Your Leverage</div>
+              </div>
+            </div>
+            <p class="lever-body">စနစ်က သင့်ကို အနိမ့်ဆုံး ရာခိုင်နှုန်းမှာတင် ရပ်တန့်မနေစေပါဘူး။ စွမ်းဆောင်ရည် တက်လာတာနဲ့အမျှ ကော်မရှင်နှုန်းက 3 ဆထိ ခုန်တက်သွားမှာပါ။</p>
+            <div class="lever-level-cards">
+              <div class="lever-lvl-card">
+                <div class="lever-lvl-badge">L1</div>
+                <div class="lever-lvl-desc">ခြေလှမ်းစတင်ခြင်း</div>
+                <div class="lever-lvl-pct">1%</div>
+                <div class="lever-lvl-note">Valid Bet 0–10,000<br/>10,000 တိုင်းအတွက် 100</div>
+              </div>
+              <div class="lever-arrow">
+                <svg viewBox="0 0 24 24" fill="none"><path d="M5 12h14M13 6l6 6-6 6" stroke="#f59e0b" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              </div>
+              <div class="lever-lvl-card lever-lvl-card--gold">
+                <div class="lever-lvl-badge lever-lvl-badge--gold">L2</div>
+                <div class="lever-lvl-desc">မဟာအေးဂျင့်</div>
+                <div class="lever-lvl-pct lever-lvl-pct--gold">3%</div>
+                <div class="lever-lvl-note">Valid Bet 10,000+<br/>10,000 တိုင်းအတွက် 300</div>
+              </div>
+            </div>
+            <div class="lever-tip">
+              <svg class="lever-tip-icon" viewBox="0 0 24 24" fill="none"><path d="M12 2a7 7 0 017 7c0 2.5-1.3 4.7-3.3 6l-.7 3H9l-.7-3A7.03 7.03 0 015 9a7 7 0 017-7z" stroke="#fbbf24" stroke-width="1.6"/><path d="M9 21h6" stroke="#fbbf24" stroke-width="1.6" stroke-linecap="round"/></svg>
+              <div><span class="lever-tip-label">စိတ်ပညာ လှည့်ကွက် (The Rebate Gap):</span> သင့်အဆင့် မြင့်လေလေ၊ Rebate Gap ကို <strong>ဘာမှမလုပ်ဘဲ အလကားထိုင်စားခွင့်</strong> ပိုများလေလေ ဖြစ်သည်။</div>
+            </div>
+          </div>
+
+          <div class="lever-divider"></div>
+
+          <!-- Section 2 -->
+          <div class="lever-section">
+            <div class="lever-sec-header">
+              <div class="lever-sec-icon lever-sec-icon--blue">
+                <svg viewBox="0 0 24 24" fill="none"><rect x="3" y="3" width="18" height="18" rx="2" stroke="#60a5fa" stroke-width="1.8"/><path d="M3 9h18M9 21V9" stroke="#60a5fa" stroke-width="1.8"/></svg>
+              </div>
+              <div>
+                <div class="lever-sec-num">၂</div>
+                <div class="lever-sec-title">လက်တွေ့အမြတ်ထုတ်မှု ပြကွက်</div>
+                <div class="lever-sec-en">Real-Case Execution</div>
+              </div>
+            </div>
+            <p class="lever-body">သင်နှင့် သင့်အဖွဲ့သား B1, B2, B3 တို့၏ ကွန်ရက်မှ ပိုက်ဆံ မည်သို့ စီးဆင်းလာသည်ကို ကြည့်ပါ။</p>
+            <div class="lever-network-table">
+              <div class="lever-nt-row lever-nt-row--head">
+                <span>Agent</span><span>Network</span><span>Valid Bet</span>
+              </div>
+              <div class="lever-nt-row"><span class="lever-nt-name">B1</span><span class="lever-nt-note">C1 + C2 ရှိ</span><span class="lever-nt-val">500</span></div>
+              <div class="lever-nt-row"><span class="lever-nt-name">B2</span><span class="lever-nt-note">တစ်ကိုယ်တော်</span><span class="lever-nt-val">3,000</span></div>
+              <div class="lever-nt-row"><span class="lever-nt-name">B3</span><span class="lever-nt-note">Super C3 ရှိ</span><span class="lever-nt-val">2,000</span></div>
+              <div class="lever-nt-row"><span class="lever-nt-name" style="color:#a78bfa">C1</span><span class="lever-nt-note">B1 အောက်</span><span class="lever-nt-val">1,000</span></div>
+              <div class="lever-nt-row"><span class="lever-nt-name" style="color:#a78bfa">C2</span><span class="lever-nt-note">B1 အောက်</span><span class="lever-nt-val">2,000</span></div>
+              <div class="lever-nt-row lever-nt-row--highlight"><span class="lever-nt-name" style="color:#fbbf24">C3</span><span class="lever-nt-note">B3 Super</span><span class="lever-nt-val" style="color:#fbbf24">20,000</span></div>
+            </div>
+          </div>
+
+          <div class="lever-divider"></div>
+
+          <!-- Section 3 -->
+          <div class="lever-section">
+            <div class="lever-sec-header">
+              <div class="lever-sec-icon lever-sec-icon--green">
+                <svg viewBox="0 0 24 24" fill="none"><path d="M12 2v20M17 5H9.5a3.5 3.5 0 000 7h5a3.5 3.5 0 010 7H6" stroke="#4ade80" stroke-width="1.8" stroke-linecap="round"/></svg>
+              </div>
+              <div>
+                <div class="lever-sec-num">၃</div>
+                <div class="lever-sec-title">တစ်ဦးချင်းစီ၏ အမြတ်ခွဲတမ်း တွက်ချက်မှု</div>
+                <div class="lever-sec-en">Detailed Breakdown</div>
+              </div>
+            </div>
+
+            <!-- B1 -->
+            <div class="lever-agent-card">
+              <div class="lever-agent-tag">Network B1</div>
+              <div class="lever-agent-rows">
+                <div class="lever-agent-row"><span>ကိုယ်ပိုင် Bet</span><span>500</span></div>
+                <div class="lever-agent-row"><span>C1 + C2 ပံ့ပိုးမှု</span><span>3,000</span></div>
+                <div class="lever-agent-row"><span>စုစုပေါင်း</span><span class="lever-sum">3,500</span></div>
+                <div class="lever-agent-row lever-agent-row--profit"><span>Net Profit</span><span class="lever-profit">+ 30 Ks</span></div>
+              </div>
+            </div>
+
+            <!-- B2 -->
+            <div class="lever-agent-card">
+              <div class="lever-agent-tag">Network B2</div>
+              <div class="lever-agent-rows">
+                <div class="lever-agent-row"><span>ကိုယ်ပိုင် Bet</span><span>3,000</span></div>
+                <div class="lever-agent-row"><span>အောက်လိုင်း</span><span>မရှိသေးပါ</span></div>
+                <div class="lever-agent-row lever-agent-row--profit"><span>Net Profit</span><span class="lever-profit">ကိုယ်ပိုင် ရာခိုင်နှုန်းသာ</span></div>
+              </div>
+            </div>
+
+            <!-- B3 -->
+            <div class="lever-agent-card lever-agent-card--gold">
+              <div class="lever-agent-tag lever-agent-tag--gold">Network B3 ★</div>
+              <div class="lever-agent-rows">
+                <div class="lever-agent-row"><span>ကိုယ်ပိုင် Bet</span><span>2,000</span></div>
+                <div class="lever-agent-row"><span>Super C3</span><span style="color:#fbbf24">20,000</span></div>
+                <div class="lever-agent-row"><span>စုစုပေါင်း</span><span class="lever-sum">22,000 → 3% အဆင့်</span></div>
+                <div class="lever-agent-row lever-agent-row--profit"><span>Net Profit</span><span class="lever-profit lever-profit--big">+ 600 Ks</span></div>
+              </div>
+            </div>
+          </div>
+
+          <div class="lever-divider"></div>
+
+          <!-- Section 4 -->
+          <div class="lever-section">
+            <div class="lever-sec-header">
+              <div class="lever-sec-icon lever-sec-icon--crown">
+                <svg viewBox="0 0 24 24" fill="none"><path d="M2 19h20M4 19l2-9 6 5 4-9 4 9" stroke="#f59e0b" stroke-width="1.8" stroke-linejoin="round"/></svg>
+              </div>
+              <div>
+                <div class="lever-sec-num">၄</div>
+                <div class="lever-sec-title">မဟာအေးဂျင့် A ၏ ဘုရင် အဆင့် ဝင်ငွေ</div>
+                <div class="lever-sec-en">The Master's Revenue</div>
+              </div>
+            </div>
+            <div class="lever-master-grid">
+              <div class="lever-master-box">
+                <div class="lever-master-label">Direct Volume</div>
+                <div class="lever-master-val">5,500</div>
+                <div class="lever-master-sub">B1 + B2 + B3</div>
+              </div>
+              <div class="lever-master-box">
+                <div class="lever-master-label">Indirect Volume</div>
+                <div class="lever-master-val">23,000</div>
+                <div class="lever-master-sub">C1 + C2 + C3</div>
+              </div>
+              <div class="lever-master-box lever-master-box--total">
+                <div class="lever-master-label">Total Network</div>
+                <div class="lever-master-val" style="color:#fbbf24">28,500</div>
+                <div class="lever-master-sub">3% အမြင့်ဆုံး</div>
+              </div>
+            </div>
+            <div class="lever-harvest">
+              <div class="lever-harvest-row"><span>တိုက်ရိုက် Volume အမြတ်</span><span>165 Ks</span></div>
+              <div class="lever-harvest-row"><span>B1 Team Rebate Gap 2%</span><span>60 Ks</span></div>
+              <div class="lever-harvest-total">
+                <svg viewBox="0 0 24 24" fill="none" class="lever-fire"><path d="M12 2c0 0-5 4-5 10a5 5 0 0010 0c0-2.5-1.5-5-3-6.5 0 2-1.5 3-3 3.5 0-2.5-1-4.5 1-7z" stroke="#f59e0b" stroke-width="1.6" stroke-linejoin="round"/></svg>
+                <span>စုစုပေါင်း အသားတင်အမြတ်</span>
+                <span class="lever-harvest-num">225 Ks</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="lever-divider"></div>
+
+          <!-- Section 5 -->
+          <div class="lever-section">
+            <div class="lever-sec-header">
+              <div class="lever-sec-icon lever-sec-icon--purple">
+                <svg viewBox="0 0 24 24" fill="none"><path d="M12 2a10 10 0 100 20A10 10 0 0012 2z" stroke="#a78bfa" stroke-width="1.8"/><path d="M8 12h8M12 8v8" stroke="#a78bfa" stroke-width="1.8" stroke-linecap="round"/></svg>
+              </div>
+              <div>
+                <div class="lever-sec-num">၅</div>
+                <div class="lever-sec-title">Infinitus — အကန့်အသတ်မဲ့ အဆင့်ဆင့် စည်းစိမ်စနစ်</div>
+                <div class="lever-sec-en">The Endless Wealth Loop</div>
+              </div>
+            </div>
+            <div class="lever-infinity-quote">
+              "သင့်အောက်မှာ အဆင့် ၁၀၀၊ အဆင့် ၁၀၀၀ ပဲ ရှိရှိ... ကော်မရှင်က သင့်ဆီ စီးဆင်းနေဦးမှာပါ။"
+            </div>
+            <p class="lever-body">ဤစနစ်သည် အဆင့် ကန့်သတ်ချက် မရှိပါ (Infinite Downlines)။ မိမိနှင့် မိမိအောက်လိုင်းများအကြား ကော်မရှင် ရာခိုင်နှုန်း ကွာခြားချက် (Rebate Gap) ရှိနေသရွေ့ အောက်ဆုံးအဆင့်က ဆော့ကစားသမျှ ရာခိုင်နှုန်းများသည် <span class="lever-hl">လှိုင်းလုံးကဲ့သို့ အဆက်မပြတ် ဆင့်ကဲတက်</span> လာမည်ဖြစ်သည်။</p>
+            <div class="lever-loop-row">
+              <div class="lever-loop-node">Downline ဆော့</div>
+              <svg class="lever-loop-arr" viewBox="0 0 24 24" fill="none"><path d="M5 12h14M13 6l6 6-6 6" stroke="#a78bfa" stroke-width="2" stroke-linecap="round"/></svg>
+              <div class="lever-loop-node">Rebate Gap</div>
+              <svg class="lever-loop-arr" viewBox="0 0 24 24" fill="none"><path d="M5 12h14M13 6l6 6-6 6" stroke="#a78bfa" stroke-width="2" stroke-linecap="round"/></svg>
+              <div class="lever-loop-node lever-loop-node--you">သင် ရသည်</div>
+            </div>
+            <div class="lever-final-note">အလုပ်လုပ်ရကျိုး အနပ်ဆုံးနှင့် စိတ်ချရဆုံးသော အနာဂတ် ရွှေတွင်းစနစ် ဖြစ်သည်။</div>
+          </div>
+
+        </div>
+
+            <!-- ══ TAB 1: ငါ့ကော်မရှင် ══ -->
       <div v-if="activeTab === 1">
         <div class="ag-card" style="padding-bottom:12px;">
           <p class="tab-section-title">ကော်မရှင် အကျဉ်းချုပ်</p>
@@ -745,4 +955,86 @@ onUnmounted(() => {
 /* ── Utils ── */
 .loading-row { text-align: center; padding: 24px; font-size: 12px; color: rgba(255,255,255,0.35); }
 .empty-row   { text-align: center; padding: 24px; font-size: 12px; color: rgba(255,255,255,0.35); }
+
+/* ══ LEVERAGE GUIDE STYLES ══ */
+.lever-guide {
+  background: rgba(0,0,0,0.25);
+  border: 1px solid rgba(255,255,255,0.08);
+  border-radius: 14px;
+  padding: 16px;
+  margin-bottom: 10px;
+}
+.lever-title-row { display:flex; align-items:flex-start; gap:10px; margin-bottom:12px; }
+.lever-title-icon { width:28px; height:28px; flex-shrink:0; margin-top:2px; }
+.lever-title { font-size:13px; font-weight:900; color:#fff; line-height:1.4; }
+.lever-subtitle { font-size:10px; color:#f59e0b; font-weight:600; margin-top:2px; }
+.lever-quote { display:flex; gap:10px; background:rgba(245,158,11,0.08); border-radius:10px; padding:10px; margin-bottom:12px; }
+.lever-quote-bar { width:3px; border-radius:99px; background:#f59e0b; flex-shrink:0; }
+.lever-quote-text { font-size:11px; font-weight:700; color:#fbbf24; font-style:italic; margin-bottom:5px; }
+.lever-quote-body { font-size:10px; color:rgba(255,255,255,0.65); line-height:1.6; }
+.lever-hl { color:#4ade80; font-weight:700; }
+.lever-divider { height:1px; background:rgba(255,255,255,0.07); margin:14px 0; }
+.lever-section { margin-bottom:4px; }
+.lever-sec-header { display:flex; align-items:flex-start; gap:10px; margin-bottom:10px; }
+.lever-sec-icon { width:32px; height:32px; border-radius:8px; display:flex; align-items:center; justify-content:center; flex-shrink:0; padding:6px; }
+.lever-sec-icon--gold   { background:rgba(245,158,11,0.12); border:1px solid rgba(245,158,11,0.25); }
+.lever-sec-icon--blue   { background:rgba(96,165,250,0.10); border:1px solid rgba(96,165,250,0.22); }
+.lever-sec-icon--green  { background:rgba(74,222,128,0.10); border:1px solid rgba(74,222,128,0.22); }
+.lever-sec-icon--crown  { background:rgba(245,158,11,0.12); border:1px solid rgba(245,158,11,0.25); }
+.lever-sec-icon--purple { background:rgba(167,139,250,0.10); border:1px solid rgba(167,139,250,0.22); }
+.lever-sec-icon svg { width:100%; height:100%; }
+.lever-sec-num { font-size:9px; color:rgba(255,255,255,0.35); font-weight:700; margin-bottom:1px; }
+.lever-sec-title { font-size:12px; font-weight:800; color:#fff; line-height:1.4; }
+.lever-sec-en { font-size:9px; color:rgba(255,255,255,0.35); margin-top:2px; }
+.lever-body { font-size:10.5px; color:rgba(255,255,255,0.6); line-height:1.65; margin-bottom:10px; }
+.lever-level-cards { display:flex; align-items:center; gap:6px; margin-bottom:10px; }
+.lever-lvl-card { flex:1; background:rgba(255,255,255,0.06); border:1px solid rgba(255,255,255,0.1); border-radius:10px; padding:10px; text-align:center; }
+.lever-lvl-card--gold { background:rgba(245,158,11,0.1); border-color:rgba(245,158,11,0.3); }
+.lever-lvl-badge { font-size:9px; font-weight:800; color:rgba(255,255,255,0.5); margin-bottom:3px; }
+.lever-lvl-badge--gold { color:#f59e0b; }
+.lever-lvl-desc { font-size:9px; color:rgba(255,255,255,0.45); margin-bottom:4px; }
+.lever-lvl-pct { font-size:22px; font-weight:900; color:#fff; line-height:1; margin-bottom:3px; }
+.lever-lvl-pct--gold { color:#fbbf24; }
+.lever-lvl-note { font-size:8.5px; color:rgba(255,255,255,0.35); line-height:1.5; }
+.lever-arrow { flex-shrink:0; width:22px; height:22px; }
+.lever-arrow svg { width:100%; height:100%; }
+.lever-tip { display:flex; align-items:flex-start; gap:7px; background:rgba(251,191,36,0.06); border:1px solid rgba(251,191,36,0.18); border-radius:8px; padding:9px; font-size:10px; color:rgba(255,255,255,0.6); line-height:1.6; }
+.lever-tip-icon { width:16px; height:16px; flex-shrink:0; margin-top:1px; }
+.lever-tip-label { font-weight:700; color:#fbbf24; }
+.lever-network-table { border-radius:8px; overflow:hidden; border:1px solid rgba(255,255,255,0.08); font-size:10px; }
+.lever-nt-row { display:grid; grid-template-columns:1fr 1.5fr 1fr; gap:0; }
+.lever-nt-row > span { padding:7px 8px; border-bottom:1px solid rgba(255,255,255,0.05); }
+.lever-nt-row--head { background:rgba(255,255,255,0.07); font-size:9px; font-weight:700; color:rgba(255,255,255,0.5); }
+.lever-nt-row--highlight { background:rgba(245,158,11,0.07); }
+.lever-nt-name { font-weight:800; color:#4ade80; }
+.lever-nt-note { color:rgba(255,255,255,0.4); }
+.lever-nt-val { font-weight:700; color:#fff; text-align:right; }
+.lever-agent-card { background:rgba(255,255,255,0.04); border:1px solid rgba(255,255,255,0.08); border-radius:10px; padding:10px; margin-bottom:7px; }
+.lever-agent-card--gold { background:rgba(245,158,11,0.06); border-color:rgba(245,158,11,0.2); }
+.lever-agent-tag { font-size:9px; font-weight:800; color:rgba(255,255,255,0.5); margin-bottom:8px; }
+.lever-agent-tag--gold { color:#f59e0b; }
+.lever-agent-rows { display:flex; flex-direction:column; gap:4px; }
+.lever-agent-row { display:flex; justify-content:space-between; font-size:10.5px; color:rgba(255,255,255,0.6); }
+.lever-agent-row--profit { border-top:1px solid rgba(255,255,255,0.07); padding-top:5px; margin-top:3px; }
+.lever-sum { color:#60a5fa; font-weight:700; }
+.lever-profit { color:#4ade80; font-weight:800; }
+.lever-profit--big { font-size:13px; }
+.lever-master-grid { display:grid; grid-template-columns:1fr 1fr 1fr; gap:6px; margin-bottom:10px; }
+.lever-master-box { background:rgba(255,255,255,0.05); border:1px solid rgba(255,255,255,0.08); border-radius:8px; padding:8px; text-align:center; }
+.lever-master-box--total { background:rgba(245,158,11,0.08); border-color:rgba(245,158,11,0.25); }
+.lever-master-label { font-size:8px; color:rgba(255,255,255,0.4); margin-bottom:3px; }
+.lever-master-val { font-size:16px; font-weight:900; color:#fff; }
+.lever-master-sub { font-size:8px; color:rgba(255,255,255,0.3); margin-top:2px; }
+.lever-harvest { background:rgba(0,0,0,0.2); border-radius:10px; overflow:hidden; }
+.lever-harvest-row { display:flex; justify-content:space-between; padding:8px 12px; font-size:10.5px; color:rgba(255,255,255,0.6); border-bottom:1px solid rgba(255,255,255,0.05); }
+.lever-harvest-total { display:flex; align-items:center; gap:6px; padding:10px 12px; background:rgba(245,158,11,0.1); font-size:11px; font-weight:700; color:#fbbf24; }
+.lever-fire { width:16px; height:16px; flex-shrink:0; }
+.lever-harvest-num { margin-left:auto; font-size:16px; font-weight:900; }
+.lever-infinity-quote { background:rgba(167,139,250,0.08); border:1px solid rgba(167,139,250,0.2); border-radius:8px; padding:10px; font-size:11px; color:#c4b5fd; font-style:italic; font-weight:600; line-height:1.6; margin-bottom:10px; }
+.lever-loop-row { display:flex; align-items:center; gap:4px; justify-content:center; margin-bottom:10px; flex-wrap:wrap; }
+.lever-loop-node { font-size:9.5px; font-weight:700; color:rgba(255,255,255,0.7); background:rgba(167,139,250,0.1); border:1px solid rgba(167,139,250,0.25); border-radius:7px; padding:6px 10px; white-space:nowrap; }
+.lever-loop-node--you { background:rgba(74,222,128,0.12); border-color:rgba(74,222,128,0.3); color:#4ade80; }
+.lever-loop-arr { width:18px; height:18px; flex-shrink:0; }
+.lever-final-note { font-size:10px; color:rgba(255,255,255,0.45); text-align:center; font-style:italic; padding-top:4px; }
+
 </style>
