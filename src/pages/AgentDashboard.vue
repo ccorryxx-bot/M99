@@ -145,9 +145,6 @@
             class="brand-img"
           />
         </div>
-      </div>
-
-
         <!-- ══ INFINITE LEVERAGE GUIDE ══ -->
         <div class="lever-guide">
 
@@ -356,6 +353,9 @@
           </div>
 
         </div>
+
+      </div>
+
 
             <!-- ══ TAB 1: ငါ့ကော်မရှင် ══ -->
       <div v-if="activeTab === 1">
