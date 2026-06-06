@@ -68,31 +68,44 @@
           <div class="vip-banner">
             <div class="vip-banner-left">
               <div class="vip-badge-wrap">
-                <div class="vip-badge-circle">
-                  <span class="vip-badge-num">0</span>
+                <img
+                  v-if="currentLevelImg"
+                  :src="currentLevelImg"
+                  :alt="'VIP ' + userVipLevel"
+                  class="vip-banner-badge-img"
+                />
+                <div v-else class="vip-badge-circle">
+                  <span class="vip-badge-num">{{ userVipLevel }}</span>
                 </div>
               </div>
               <div class="vip-banner-info">
-                <div class="vip-tag">လက်ရှိဆင့် <span class="vip-tag-name">VIP1</span></div>
+                <div class="vip-tag">လက်ရှိဆင့် <span class="vip-tag-name">VIP{{ userVipLevel }}</span></div>
                 <div class="vip-banner-row">
                   <span class="vip-label">အာမိန်ဘွဲ့ ရရှိရာ တိုတောင်းနေပါ</span>
                 </div>
                 <div class="vip-banner-row">
-                  <span class="vip-amount">3,000.00</span>
+                  <span class="vip-amount">{{ depositRemaining }}</span>
                 </div>
                 <div class="vip-banner-row vip-turnover">
                   <span>လောင်ကျော် တိုတောင်းနေသား</span>
                 </div>
                 <div class="vip-banner-row">
-                  <span class="vip-amount">50,000.00</span>
-                  <svg class="vip-refresh-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#4ade80" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-                    <polyline points="23 4 23 10 17 10"/><path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10"/>
-                  </svg>
+                  <span class="vip-amount">{{ turnoverTarget }}</span>
+                  <button
+                    class="vip-refresh-btn"
+                    :class="{ spinning: refreshing }"
+                    @click="fetchVipData"
+                    :disabled="refreshing"
+                  >
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#4ade80" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                      <polyline points="23 4 23 10 17 10"/><path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10"/>
+                    </svg>
+                  </button>
                 </div>
               </div>
             </div>
             <div class="vip-banner-right">
-              <button class="vip-deposit-btn">
+              <button class="vip-deposit-btn" @click="$router.push('/deposit')">
                 <svg width="12" height="12" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 5v14m7-7H5"/></svg>
                 <span>မြဲပြာ</span>
               </button>
@@ -138,6 +151,17 @@
                 <span class="vip-lv-turn">{{ lv.turnover }}</span>
               </div>
               <div class="vip-lv-bonus">{{ lv.bonus }}</div>
+            </div>
+
+            <!-- ══ Rules separator ══ -->
+            <div class="vip-rules-sep">
+              <div class="vip-rules-sep-line"></div>
+              <div class="vip-rules-sep-label">
+                <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="#fbbf24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+                <span>VIP စည်းကမ်းများ</span>
+                <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="#fbbf24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+              </div>
+              <div class="vip-rules-sep-line"></div>
             </div>
 
             <!-- ══ VIP Rules Section (after level 50) ══ -->
@@ -282,7 +306,73 @@
 </template>
 
 <script setup>
-import { ref } from 'vue'
+import { ref, computed, onMounted } from 'vue'
+import { supabase } from '@/supabase'
+
+// ─── Real-time user VIP data ───
+const deposited    = ref(0)
+const refreshing   = ref(false)
+const vipLevelsDb  = ref([])
+
+async function fetchVipData() {
+  refreshing.value = true
+  try {
+    const { data: { user } } = await supabase.auth.getUser()
+    if (!user) return
+
+    // Total confirmed deposits
+    const { data: txs } = await supabase
+      .from('transactions').select('amount')
+      .eq('user_id', user.id).eq('type', 'deposit').eq('status', 'confirmed')
+    if (txs) deposited.value = txs.reduce((s, t) => s + Number(t.amount), 0)
+
+    // VIP thresholds from DB
+    const { data: lvls } = await supabase.from('vip_levels').select('*').order('level')
+    if (lvls) vipLevelsDb.value = lvls
+  } catch (_) {
+  } finally {
+    setTimeout(() => { refreshing.value = false }, 600)
+  }
+}
+
+onMounted(fetchVipData)
+
+const userVipLevel = computed(() => {
+  let lvl = 0
+  if (vipLevelsDb.value.length) {
+    vipLevelsDb.value.forEach(r => {
+      if (deposited.value >= Number(r.min_deposit)) lvl = r.level
+    })
+  }
+  return lvl
+})
+
+const currentLevelImg = computed(() =>
+  vipLevels.value.find(l => l.level === userVipLevel.value)?.badgeImg || ''
+)
+
+const nextLevelStatic = computed(() =>
+  vipLevels.value.find(l => l.level === userVipLevel.value + 1) || null
+)
+
+const nextLevelDb = computed(() =>
+  vipLevelsDb.value.find(r => r.level === userVipLevel.value + 1) || null
+)
+
+const depositRemaining = computed(() => {
+  if (nextLevelDb.value) {
+    return fmtNum(Math.max(0, Number(nextLevelDb.value.min_deposit) - deposited.value))
+  }
+  return nextLevelStatic.value?.deposit || '0.00'
+})
+
+const turnoverTarget = computed(() =>
+  nextLevelStatic.value?.turnover || '0.00'
+)
+
+function fmtNum(n) {
+  return Number(n).toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })
+}
 
 const topTabs = [
   { key: 'events',  label: 'ဖြစ်ရပ်များ' },
@@ -500,6 +590,29 @@ const vipLevels = ref([
 .vip-level-list::-webkit-scrollbar { width: 2px; }
 .vip-level-list::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.07); border-radius:10px; }
 
+/* Banner badge image */
+.vip-banner-badge-img {
+  width: 52px; height: 52px; object-fit: contain;
+  filter: drop-shadow(0 0 8px rgba(20,184,166,0.5));
+}
+
+/* Refresh button */
+.vip-refresh-btn {
+  background: none; border: none; padding: 2px;
+  cursor: pointer; display: flex; align-items: center;
+  border-radius: 50%; transition: background 0.15s;
+  -webkit-tap-highlight-color: transparent;
+}
+.vip-refresh-btn:active { background: rgba(255,255,255,0.08); }
+.vip-refresh-btn:disabled { cursor: not-allowed; opacity: 0.6; }
+.vip-refresh-btn.spinning svg {
+  animation: vip-spin 0.7s linear infinite;
+}
+@keyframes vip-spin {
+  from { transform: rotate(0deg); }
+  to   { transform: rotate(360deg); }
+}
+
 /* VIP Banner */
 .vip-banner {
   margin: 10px 10px 0;
@@ -618,6 +731,21 @@ const vipLevels = ref([
 }
 
 @media (min-width: 768px) { .promo-sidebar { width: 66px; } }
+
+/* Rules separator */
+.vip-rules-sep {
+  display: flex; align-items: center; gap: 8px;
+  padding: 14px 12px 8px;
+}
+.vip-rules-sep-line {
+  flex: 1; height: 1px;
+  background: linear-gradient(to right, transparent, rgba(251,191,36,0.3), transparent);
+}
+.vip-rules-sep-label {
+  display: flex; align-items: center; gap: 5px;
+  font-size: 10px; font-weight: 700; color: rgba(251,191,36,0.8);
+  white-space: nowrap; letter-spacing: 0.4px;
+}
 
 /* ===== VIP RULES ===== */
 .vip-rules {
