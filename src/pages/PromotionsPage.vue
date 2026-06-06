@@ -61,6 +61,9 @@
       <template v-else-if="activeTopTab === 'vvip'">
         <main class="vip-area">
 
+          <!-- ── Fixed top section (never scrolls) ── -->
+          <div class="vip-sticky-top">
+
           <!-- VIP User Banner -->
           <div class="vip-banner">
             <div class="vip-banner-left">
@@ -116,7 +119,9 @@
             <div class="vip-th vip-th--bonus">ဘောနပ်ဒ်</div>
           </div>
 
-          <!-- Level Rows 0-50 (scrollable) -->
+          </div><!-- /vip-sticky-top -->
+
+          <!-- Level Rows 0-50 — ONLY THIS SCROLLS -->
           <div class="vip-level-list">
             <div
               v-for="lv in vipLevels" :key="lv.level"
@@ -354,12 +359,25 @@ const vipLevels = ref([
 
 /* ===== VIP AREA ===== */
 .vip-area {
-  flex: 1; min-width: 0; overflow-y: auto;
+  flex: 1; min-width: 0; min-height: 0;
+  display: flex; flex-direction: column;
+  overflow: hidden;
+}
+
+/* Banner + title + subtabs + table-header — never scroll */
+.vip-sticky-top {
+  flex-shrink: 0;
+}
+
+/* ONLY the level list scrolls */
+.vip-level-list {
+  flex: 1; min-height: 0;
+  overflow-y: auto;
   -webkit-overflow-scrolling: touch; overscroll-behavior: contain;
   padding-bottom: 96px;
 }
-.vip-area::-webkit-scrollbar { width: 2px; }
-.vip-area::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.07); border-radius:10px; }
+.vip-level-list::-webkit-scrollbar { width: 2px; }
+.vip-level-list::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.07); border-radius:10px; }
 
 /* VIP Banner */
 .vip-banner {
@@ -444,6 +462,7 @@ const vipLevels = ref([
 
 /* Level list */
 .vip-level-list { display: flex; flex-direction: column; }
+/* (overflow/scroll rules are declared above in the VIP AREA block) */
 .vip-level-row {
   display: flex; align-items: center;
   padding: 10px 10px;
