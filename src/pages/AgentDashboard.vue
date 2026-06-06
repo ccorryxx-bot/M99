@@ -139,6 +139,15 @@
             <span class="social-label">WhatsApp</span>
           </button>
         </div>
+
+        <!-- Brand Banner Image -->
+        <div class="brand-img-wrap">
+          <img
+            src="https://ik.imagekit.io/rbok01qam/Brand%20Logo%20/1780741257071.png?tr=f-auto"
+            alt="NovaBett"
+            class="brand-img"
+          />
+        </div>
       </div>
 
       <!-- ══ TAB 1: ငါ့ကော်မရှင် ══ -->
@@ -718,6 +727,19 @@ onUnmounted(() => {
 .info-key { font-size: 11px; color: rgba(255,255,255,0.45); flex-shrink: 0; }
 .info-val { font-size: 12px; font-weight: 700; color: #fff; text-align: right; }
 .info-val.green { color: #4ade80; }
+
+/* ── Brand banner image ── */
+.brand-img-wrap {
+  margin-top: 12px;
+  border-radius: 14px;
+  overflow: hidden;
+}
+.brand-img {
+  width: 100%;
+  display: block;
+  border-radius: 14px;
+  object-fit: cover;
+}
 
 /* ── Utils ── */
 .loading-row { text-align: center; padding: 24px; font-size: 12px; color: rgba(255,255,255,0.35); }
