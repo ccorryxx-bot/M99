@@ -126,16 +126,22 @@
           </div>
 
           <!-- Table header -->
-          <div v-if="activeVipTab !== 'weekly'" class="vip-table-header">
+          <div v-if="activeVipTab !== 'weekly' && activeVipTab !== 'monthly'" class="vip-table-header">
             <div class="vip-th vip-th--badge"></div>
             <div class="vip-th vip-th--req">အဆင်တရောင်မြင်တင်ရရာနေများ</div>
             <div class="vip-th vip-th--bonus">ဘောနပ်ဒ်</div>
           </div>
-          <div v-else class="vip-table-header vip-table-header--weekly">
+          <div v-else-if="activeVipTab === 'weekly'" class="vip-table-header vip-table-header--weekly">
             <div class="vip-th vip-th--wbadge">အဆင့်</div>
             <div class="vip-th vip-th--wcol">အပတ်စဉ် အကျုံးဝင်သောငွေဖြည့်သွင်းမှု</div>
             <div class="vip-th vip-th--wcol">အပတ်စဉ် တရားဝင်သောအလောင်းအစားများ</div>
             <div class="vip-th vip-th--wbonus">အပတ်စဉ် ဘောနပ်စ်</div>
+          </div>
+          <div v-else class="vip-table-header vip-table-header--weekly">
+            <div class="vip-th vip-th--wbadge">အဆင့်</div>
+            <div class="vip-th vip-th--wcol">လစဉ် အကျုံးဝင်သောငွေဖြည့်သွင်းမှု</div>
+            <div class="vip-th vip-th--wcol">လစဉ် အကျုံးဝင်သောအလောင်းအစားများ</div>
+            <div class="vip-th vip-th--wbonus">လစဉ် ဘောနပ်စ်</div>
           </div>
 
           </div><!-- /vip-sticky-top -->
@@ -143,8 +149,8 @@
           <!-- Level Rows 0-50 — ONLY THIS SCROLLS -->
           <div class="vip-level-list">
 
-            <!-- ── Regular tab rows (non-weekly) ── -->
-            <template v-if="activeVipTab !== 'weekly'">
+            <!-- ── Regular tab rows ── -->
+            <template v-if="activeVipTab !== 'weekly' && activeVipTab !== 'monthly'">
               <div
                 v-for="lv in vipLevels" :key="lv.level"
                 class="vip-level-row"
@@ -164,7 +170,7 @@
             </template>
 
             <!-- ── Weekly bonus rows ── -->
-            <template v-else>
+            <template v-else-if="activeVipTab === 'weekly'">
               <div
                 v-for="(wb, idx) in weeklyBonuses" :key="'w' + idx"
                 class="vip-level-row vip-level-row--weekly"
@@ -176,6 +182,22 @@
                 <div class="vip-wcell">3,000.00</div>
                 <div class="vip-wcell vip-wcell--dim">0.00</div>
                 <div class="vip-wcell vip-wcell--bonus">{{ fmtNum(wb) }}</div>
+              </div>
+            </template>
+
+            <!-- ── Monthly bonus rows ── -->
+            <template v-else>
+              <div
+                v-for="(mb, idx) in monthlyBonuses" :key="'m' + idx"
+                class="vip-level-row vip-level-row--weekly"
+              >
+                <div class="vip-lv-badge">
+                  <img v-if="vipLevels[idx]?.badgeImg" :src="vipLevels[idx].badgeImg" :alt="'VIP ' + idx" class="vip-lv-img" loading="lazy" />
+                  <div v-else class="vip-lv-placeholder"><span>{{ idx }}</span></div>
+                </div>
+                <div class="vip-wcell">3,000.00</div>
+                <div class="vip-wcell vip-wcell--dim">0.00</div>
+                <div class="vip-wcell vip-wcell--bonus">{{ fmtNum(mb) }}</div>
               </div>
             </template>
 
@@ -445,6 +467,19 @@ const weeklyBonuses = [
   908800, 1018800, 1138800, 1268800, 1408800,
   1568800, 1743800, 1933800, 2138800, 2358800,
   2593800, 2843800, 3108800, 3388800,
+]
+
+const monthlyBonuses = [
+  300, 500, 800, 1500, 2300, 3800, 7800,
+  12000, 17600, 24600, 33000, 42800,
+  55400, 69400, 86200, 105800, 128200,
+  153400, 184200, 217800, 257000, 301800,
+  352200, 408200, 478200, 556600, 643400,
+  738600, 845000, 962600, 1102600, 1256600,
+  1424600, 1606600, 1802600, 2012600, 2264600,
+  2544600, 2852600, 3188600, 3552600, 3944600,
+  4392600, 4882600, 5414600, 5988600, 6604600,
+  7262600, 7962600, 8704600, 9488600,
 ]
 
 const vipLevels = ref([
