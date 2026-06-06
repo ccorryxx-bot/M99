@@ -203,50 +203,18 @@
         </div><!-- /TAB 0 -->
 
 
-        <!-- ── TAB 1: ဖိတ်ခေါ် ── -->
-        <div v-if="activeTab===1" class="referral-tab" style="padding:10px;">
-
-          <div class="referral-hero-card" style="backdrop-filter:blur(22px) saturate(200%);-webkit-backdrop-filter:blur(22px) saturate(200%);background:rgba(255,255,255,0.1);border:1px solid rgba(255,255,255,0.2);border-radius:16px;padding:16px;text-align:center;margin-bottom:8px;box-shadow:0 8px 32px rgba(0,0,0,0.25),inset 0 1px 0 rgba(255,255,255,0.2);">
-            <div style="font-size:11px;font-weight:800;color:rgba(255,255,255,0.7);margin-bottom:3px;">Invite Code</div>
-            <div style="font-size:26px;font-weight:900;color:#f59e0b;letter-spacing:4px;margin-bottom:14px;text-shadow:0 0 16px rgba(245,158,11,0.5);">{{ inviteCode }}</div>
-            <div style="width:110px;height:110px;background:rgba(255,255,255,0.95);border-radius:12px;padding:5px;margin:0 auto 14px;box-shadow:0 6px 24px rgba(0,0,0,0.35);">
-              <img :src="qrUrl" style="width:100%;height:100%;border-radius:8px;object-fit:cover;" />
-            </div>
-            <div style="font-size:9px;color:rgba(255,255,255,0.35);word-break:break-all;margin-bottom:12px;background:rgba(0,0,0,0.12);padding:6px 8px;border-radius:7px;">{{ referralLink }}</div>
-            <div style="display:flex;gap:6px;justify-content:center;">
-              <button @click="copyText(inviteCode)" style="backdrop-filter:blur(6px);background:rgba(255,255,255,0.1);border:1px solid rgba(255,255,255,0.2);border-radius:9px;padding:7px 14px;font-size:11px;font-weight:700;color:rgba(255,255,255,0.88);cursor:pointer;display:inline-flex;align-items:center;gap:5px;"><svg v-if="!copiedCode" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg><span>{{ copiedCode?'✓ ကူးပြီး':'Code ကူး' }}</span></button>
-              <button @click="copyText(referralLink)" style="backdrop-filter:blur(6px);background:rgba(255,255,255,0.1);border:1px solid rgba(255,255,255,0.2);border-radius:9px;padding:7px 14px;font-size:11px;font-weight:700;color:rgba(255,255,255,0.88);cursor:pointer;display:inline-flex;align-items:center;gap:5px;"><svg v-if="!copiedLink" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10 13a5 5 0 007.54.54l3-3a5 5 0 00-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 00-7.54-.54l-3 3a5 5 0 007.07 7.07l1.71-1.71"/></svg><span>{{ copiedLink?'✓ ကူးပြီး':'Link ကူး' }}</span></button>
-            </div>
+        <!-- ── TAB 1: ဖိတ်ခေါ် (moved to /network) ── -->
+        <div v-if="activeTab===1" style="padding:10px;">
+          <div style="backdrop-filter:blur(22px) saturate(200%);-webkit-backdrop-filter:blur(22px) saturate(200%);background:linear-gradient(135deg,rgba(245,158,11,0.14),rgba(139,92,246,0.14));border:1px solid rgba(245,158,11,0.22);border-radius:16px;padding:28px 20px;text-align:center;box-shadow:0 8px 32px rgba(0,0,0,0.22);">
+            <div style="font-size:36px;margin-bottom:10px;">🔗</div>
+            <div style="font-size:15px;font-weight:900;color:#fbbf24;margin-bottom:6px;">ဖိတ်ခေါ်ရန်</div>
+            <div style="font-size:11px;color:rgba(255,255,255,0.5);margin-bottom:20px;line-height:1.6;">Referral link, QR code နှင့် social share<br>အားလုံးကို အောက်ကနေ ကြည့်နိုင်ပါတယ်</div>
+            <router-link to="/network"
+              style="display:inline-flex;align-items:center;gap:8px;backdrop-filter:blur(8px);background:rgba(245,158,11,0.2);border:1px solid rgba(245,158,11,0.4);border-radius:12px;padding:11px 24px;font-size:13px;font-weight:800;color:#fbbf24;text-decoration:none;cursor:pointer;">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M8.684 13.342C8.886 12.938 9 12.482 9 12c0-.482-.114-.938-.316-1.342m0 2.684a3 3 0 110-2.684m0 2.684l6.632 3.316m-6.632-6l6.632-3.316m0 0a3 3 0 105.367-2.684 3 3 0 00-5.367 2.684zm0 9.316a3 3 0 105.368 2.684 3 3 0 00-5.368-2.684z"/></svg>
+              ဖိတ်ခေါ်မည် →
+            </router-link>
           </div>
-
-          <div style="backdrop-filter:blur(18px) saturate(200%);-webkit-backdrop-filter:blur(18px) saturate(200%);background:rgba(255,255,255,0.09);border:1px solid rgba(255,255,255,0.16);border-radius:13px;padding:10px;margin-bottom:8px;">
-            <div style="font-size:10px;font-weight:700;color:rgba(255,255,255,0.45);margin-bottom:8px;text-align:center;">Share Via</div>
-            <div style="display:flex;gap:6px;" class="no-scrollbar">
-              <button v-for="s in socialButtons" :key="s.id" @click="shareVia(s.id)"
-                style="flex:1;display:flex;flex-direction:column;align-items:center;gap:4px;border-radius:10px;padding:8px 4px;cursor:pointer;border:none;background:none;">
-                <span v-html="s.icon" style="display:flex;align-items:center;justify-content:center;"></span>
-                <span style="font-size:8px;color:rgba(255,255,255,0.7);white-space:nowrap;">{{ s.label }}</span>
-              </button>
-            </div>
-          </div>
-
-          <div style="backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);background:rgba(255,255,255,0.07);border:1px solid rgba(255,255,255,0.13);border-radius:13px;padding:10px;margin-bottom:8px;">
-            <div style="font-size:11px;font-weight:800;color:rgba(255,255,255,0.85);margin-bottom:8px;display:flex;align-items:center;gap:5px;"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.6)" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg> ဘယ်လိုရမလဲ?</div>
-            <div v-for="(step,i) in inviteSteps" :key="i" style="display:flex;align-items:flex-start;gap:8px;margin-bottom:7px;">
-              <div style="width:20px;height:20px;border-radius:50%;background:rgba(245,158,11,0.18);border:1px solid rgba(245,158,11,0.35);display:flex;align-items:center;justify-content:center;flex-shrink:0;backdrop-filter:blur(6px);">
-                <span style="font-size:9px;font-weight:900;color:#f59e0b;">{{ i+1 }}</span>
-              </div>
-              <div style="font-size:10px;color:rgba(255,255,255,0.6);line-height:1.5;" :style="step.style">{{ step.text }}</div>
-            </div>
-          </div>
-
-          <div class="floating-node-card" style="backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.1);border-radius:13px;overflow:hidden;aspect-ratio:16/6;position:relative;">
-            <canvas ref="plexusRef" style="width:100%;height:100%;display:block;"></canvas>
-            <div style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;pointer-events:none;">
-              <div style="font-size:10px;color:rgba(255,255,255,0.15);">Network · {{ formatN(allDownline.length) }} Members</div>
-            </div>
-          </div>
-
         </div><!-- /TAB 1 -->
 
 

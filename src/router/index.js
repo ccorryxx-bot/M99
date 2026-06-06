@@ -2,6 +2,7 @@ import { createRouter, createWebHistory } from 'vue-router'
 import HomePage from '@/pages/HomePage.vue'
 import PromotionsPage from '@/pages/PromotionsPage.vue'
 import AgentDashboard from '@/pages/AgentDashboard.vue'
+import ReferralPage from '@/pages/ReferralPage.vue'
 import ServicePage from '@/pages/ServicePage.vue'
 import AccountPage from '@/pages/AccountPage.vue'
 import AdminDashboard from '@/pages/AdminDashboard.vue'
@@ -12,6 +13,7 @@ const routes = [
   { path: '/', redirect: '/home' },
   { path: '/home', component: HomePage },
   { path: '/promotions', component: PromotionsPage, meta: { requiresAuth: true } },
+  { path: '/network', component: ReferralPage, meta: { requiresAuth: true } },
   { path: '/agent', component: AgentDashboard, meta: { requiresAuth: true } },
   { path: '/service', component: ServicePage, meta: { requiresAuth: true } },
   { path: '/account', component: AccountPage, meta: { requiresAuth: true } },

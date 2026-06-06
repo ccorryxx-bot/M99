@@ -8,7 +8,7 @@
         <span>အိမ်</span>
       </router-link>
 
-      <router-link to="/promotions" class="gnav-item" :class="{active: route.path==='/promotions'}">
+      <router-link to="/network" class="gnav-item" :class="{active: route.path==='/network'}">
         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="26" viewBox="0 0 38 41">
           <defs><filter id="gnav-pf"><feGaussianBlur stdDeviation="0.8" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter></defs>
           <line x1="19" y1="20" x2="7" y2="10" stroke="#334155" stroke-width="1.2"/>
