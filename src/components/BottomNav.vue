@@ -1,5 +1,5 @@
 <template>
-  <nav class="gnav">
+  <nav class="gnav" v-show="route.path !== '/agent'">
     <div class="gnav-inner">
       <router-link to="/home" class="gnav-item" :class="{active: route.path==='/home'}">
         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="26" viewBox="0 0 38 41">
