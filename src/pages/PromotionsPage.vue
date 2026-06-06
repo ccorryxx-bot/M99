@@ -126,7 +126,7 @@
           </div>
 
           <!-- Table header -->
-          <div v-if="activeVipTab !== 'weekly' && activeVipTab !== 'monthly'" class="vip-table-header">
+          <div v-if="activeVipTab === 'extra'" class="vip-table-header">
             <div class="vip-th vip-th--badge"></div>
             <div class="vip-th vip-th--req">အဆင်တရောင်မြင်တင်ရရာနေများ</div>
             <div class="vip-th vip-th--bonus">ဘောနပ်ဒ်</div>
@@ -137,11 +137,23 @@
             <div class="vip-th vip-th--wcol">အပတ်စဉ် တရားဝင်သောအလောင်းအစားများ</div>
             <div class="vip-th vip-th--wbonus">အပတ်စဉ် ဘောနပ်စ်</div>
           </div>
-          <div v-else class="vip-table-header vip-table-header--weekly">
+          <div v-else-if="activeVipTab === 'monthly'" class="vip-table-header vip-table-header--weekly">
             <div class="vip-th vip-th--wbadge">အဆင့်</div>
             <div class="vip-th vip-th--wcol">လစဉ် အကျုံးဝင်သောငွေဖြည့်သွင်းမှု</div>
             <div class="vip-th vip-th--wcol">လစဉ် အကျုံးဝင်သောအလောင်းအစားများ</div>
             <div class="vip-th vip-th--wbonus">လစဉ် ဘောနပ်စ်</div>
+          </div>
+          <div v-else-if="activeVipTab === 'benefit'" class="vip-table-header vip-table-header--weekly">
+            <div class="vip-th vip-th--wbadge">အဆင့်</div>
+            <div class="vip-th vip-th--wcol">နေ့စဉ်ထုတ်ယူမှု<br/>စုစုပေါင်း<br/>ကန့်သတ်ချက်</div>
+            <div class="vip-th vip-th--wcol">နေ့စဉ်ငွေထုတ်သည့်<br/>အရေအတွက်<br/>ကန့်သတ်ချက်</div>
+            <div class="vip-th vip-th--wbonus">တစ်ခုတည်းထုတ်ယူချင်း<br/>ကန့်သတ်ချက်</div>
+          </div>
+          <div v-else class="vip-table-header vip-table-header--weekly">
+            <div class="vip-th vip-th--wbadge">အဆင့်</div>
+            <div class="vip-th vip-th--wcol">မွေးနေ့<br/>ဘောနပ်စ်</div>
+            <div class="vip-th vip-th--wcol">လစဉ်<br/>စာအိတ်အနီ</div>
+            <div class="vip-th vip-th--wbonus">ပြန်အမ်းငွေ</div>
           </div>
 
           </div><!-- /vip-sticky-top -->
@@ -150,7 +162,7 @@
           <div class="vip-level-list">
 
             <!-- ── Regular tab rows ── -->
-            <template v-if="activeVipTab !== 'weekly' && activeVipTab !== 'monthly'">
+            <template v-if="activeVipTab === 'extra'">
               <div
                 v-for="lv in vipLevels" :key="lv.level"
                 class="vip-level-row"
@@ -186,7 +198,7 @@
             </template>
 
             <!-- ── Monthly bonus rows ── -->
-            <template v-else>
+            <template v-else-if="activeVipTab === 'monthly'">
               <div
                 v-for="(mb, idx) in monthlyBonuses" :key="'m' + idx"
                 class="vip-level-row vip-level-row--weekly"
@@ -198,6 +210,38 @@
                 <div class="vip-wcell">3,000.00</div>
                 <div class="vip-wcell vip-wcell--dim">0.00</div>
                 <div class="vip-wcell vip-wcell--bonus">{{ fmtNum(mb) }}</div>
+              </div>
+            </template>
+
+            <!-- ── VIP ခံစားခွင့် rows ── -->
+            <template v-else-if="activeVipTab === 'benefit'">
+              <div
+                v-for="(lv, idx) in vipLevels" :key="'bf' + idx"
+                class="vip-level-row vip-level-row--weekly"
+              >
+                <div class="vip-lv-badge">
+                  <img v-if="lv.badgeImg" :src="lv.badgeImg" :alt="'VIP ' + idx" class="vip-lv-img" loading="lazy" />
+                  <div v-else class="vip-lv-placeholder"><span>{{ idx }}</span></div>
+                </div>
+                <div class="vip-wcell" style="font-size:10px">100,000,000.00</div>
+                <div class="vip-wcell">10</div>
+                <div class="vip-wcell vip-wcell--bonus" style="font-size:10px">5,000,000.00</div>
+              </div>
+            </template>
+
+            <!-- ── VIP အကြိုးကျေးဇူးများ rows ── -->
+            <template v-else>
+              <div
+                v-for="(pd, idx) in privilegeData" :key="'pv' + idx"
+                class="vip-level-row vip-level-row--weekly"
+              >
+                <div class="vip-lv-badge">
+                  <img v-if="vipLevels[idx]?.badgeImg" :src="vipLevels[idx].badgeImg" :alt="'VIP ' + idx" class="vip-lv-img" loading="lazy" />
+                  <div v-else class="vip-lv-placeholder"><span>{{ idx }}</span></div>
+                </div>
+                <div class="vip-wcell">{{ pd.birthday }}</div>
+                <div class="vip-wcell">{{ pd.envelope }}</div>
+                <div class="vip-wcell vip-wcell--bonus">{{ pd.cashback }}</div>
               </div>
             </template>
 
@@ -481,6 +525,12 @@ const monthlyBonuses = [
   4392600, 4882600, 5414600, 5988600, 6604600,
   7262600, 7962600, 8704600, 9488600,
 ]
+
+const privilegeData = Array.from({ length: 51 }, (_, i) => ({
+  birthday: 0,
+  envelope: '0.00',
+  cashback: i === 0 ? '0%' : i <= 10 ? '0.6%' : i <= 20 ? '0.8%' : i <= 30 ? '1.0%' : i <= 40 ? '1.2%' : '1.5%',
+}))
 
 const vipLevels = ref([
   { level: 0,  deposit: '0',                      turnover: '0',                   bonus: '0.00',         badgeImg: 'https://ik.imagekit.io/rbok01qam/VIP%20LEVEL%20img/62cf696c-b2f6-4a6c-acd5-501c79dc2f50.png?tr=f-auto' },
