@@ -359,44 +359,91 @@
 
             <!-- ══ TAB 1: ငါ့ကော်မရှင် ══ -->
       <div v-if="activeTab === 1">
-        <div class="ag-card" style="padding-bottom:12px;">
-          <p class="tab-section-title">ကော်မရှင် အကျဉ်းချုပ်</p>
-          <div class="stat-grid">
-            <div class="stat-box">
-              <div class="stat-label">ဒီနေ့</div>
-              <div class="stat-val green">{{ formatN(myStats.todayComm) }} <span class="stat-unit">Ks</span></div>
+        <div class="ag-card" style="padding:0;overflow:visible;">
+
+          <!-- Info Row -->
+          <div class="cm-info-row">
+            <div class="cm-info-cell">
+              <div class="cm-info-label">အခြေချကာလ</div>
+              <div class="cm-info-val">{{ commPeriodLabel }}</div>
             </div>
-            <div class="stat-box">
-              <div class="stat-label">ဒီလ</div>
-              <div class="stat-val green">{{ formatN(myStats.totalComm) }} <span class="stat-unit">Ks</span></div>
+            <div class="cm-info-divider"></div>
+            <div class="cm-info-cell">
+              <div class="cm-info-label">နေ့စဉ်ငွေပေးချေမှု</div>
+              <div class="cm-info-val green">{{ formatN(filteredCommTotal) }} Ks</div>
             </div>
-            <div class="stat-box">
-              <div class="stat-label">Direct</div>
-              <div class="stat-val">{{ formatN(myStats.directComm) }} <span class="stat-unit">Ks</span></div>
-            </div>
-            <div class="stat-box">
-              <div class="stat-label">Override</div>
-              <div class="stat-val">{{ formatN(myStats.overrideComm) }} <span class="stat-unit">Ks</span></div>
+            <div class="cm-info-divider"></div>
+            <div class="cm-info-cell">
+              <div class="cm-info-label">နောင်ငွေတောင်းခံရက်စွဲ</div>
+              <div class="cm-info-val">{{ nextPayDate }}</div>
             </div>
           </div>
 
-          <div class="divider-line"></div>
-          <p class="tab-section-title" style="margin-bottom:8px;">ကော်မရှင် မှတ်တမ်း</p>
+          <!-- Period Dropdown -->
+          <div class="cm-period-wrap">
+            <button class="cm-period-btn" @click="showPeriodDrop = !showPeriodDrop">
+              <span>{{ commPeriodLabel }}</span>
+              <svg class="cm-period-caret" :class="showPeriodDrop ? 'cm-caret-up' : ''" viewBox="0 0 24 24" fill="none">
+                <path d="M6 9l6 6 6-6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+            </button>
 
-          <div v-if="loadingComm" class="loading-row">Loading...</div>
-          <div v-else-if="commissionRecords.length === 0" class="empty-row">ကော်မရှင် မှတ်တမ်း မရှိသေးပါ</div>
-          <div v-else>
-            <div v-for="r in commissionRecords.slice(0, 20)" :key="r.id" class="comm-row">
-              <div style="flex:1;min-width:0;">
-                <div class="comm-row-user">{{ r.player_id?.slice(0,8) || '—' }}</div>
-                <div class="comm-row-date">{{ fmtDate(r.created_at) }}</div>
-              </div>
-              <div style="text-align:right;">
-                <div class="comm-row-amount">+{{ formatN(r.commission_amount) }} Ks</div>
-                <div class="comm-row-turn">Turnover: {{ formatN(r.bet_turnover) }}</div>
-              </div>
+            <div v-if="showPeriodDrop" class="cm-drop">
+              <button
+                v-for="p in commPeriods" :key="p.key"
+                class="cm-drop-item" :class="commPeriod === p.key ? 'cm-drop-item--active' : ''"
+                @click="selectPeriod(p.key)">
+                {{ p.label }}
+              </button>
+              <button
+                class="cm-drop-item" :class="commPeriod === 'custom' ? 'cm-drop-item--active' : ''"
+                @click="selectPeriod('custom')">
+                စိတ်ကြုက်ရွေးချယ်ပါ
+              </button>
             </div>
           </div>
+
+          <!-- Custom date range (shown only when custom selected) -->
+          <div v-if="commPeriod === 'custom'" class="cm-custom-range">
+            <div class="cm-custom-row">
+              <label class="cm-custom-label">မှ</label>
+              <input type="date" v-model="customFrom" class="cm-custom-input" @change="applyCustom" />
+            </div>
+            <div class="cm-custom-row">
+              <label class="cm-custom-label">ထိ</label>
+              <input type="date" v-model="customTo" class="cm-custom-input" @change="applyCustom" />
+            </div>
+          </div>
+
+          <!-- Records -->
+          <div class="cm-records">
+            <div v-if="loadingComm" class="cm-empty">
+              <svg viewBox="0 0 24 24" fill="none" width="28" height="28"><circle cx="12" cy="12" r="9" stroke="rgba(255,255,255,0.2)" stroke-width="2"/><path d="M12 7v5l3 3" stroke="rgba(255,255,255,0.2)" stroke-width="2" stroke-linecap="round"/></svg>
+              <span>Loading...</span>
+            </div>
+
+            <div v-else-if="filteredCommRecords.length === 0" class="cm-empty">
+              <svg viewBox="0 0 24 24" fill="none" width="32" height="32"><rect x="3" y="5" width="18" height="14" rx="2" stroke="rgba(255,255,255,0.18)" stroke-width="1.8"/><path d="M3 9h18" stroke="rgba(255,255,255,0.18)" stroke-width="1.8"/><path d="M8 13h2M14 13h2" stroke="rgba(255,255,255,0.18)" stroke-width="1.8" stroke-linecap="round"/></svg>
+              <span>မတ်တမ်းမရှိပါ!!!</span>
+            </div>
+
+            <template v-else>
+              <div v-for="r in filteredCommRecords" :key="r.id" class="cm-record-row">
+                <div class="cm-rec-left">
+                  <div class="cm-rec-avatar">{{ (r.player_id || 'U').charAt(0).toUpperCase() }}</div>
+                  <div>
+                    <div class="cm-rec-user">{{ r.player_id?.slice(0,8) || '—' }}</div>
+                    <div class="cm-rec-date">{{ fmtDateFull(r.created_at) }}</div>
+                  </div>
+                </div>
+                <div class="cm-rec-right">
+                  <div class="cm-rec-amount">+{{ formatN(r.commission_amount) }} Ks</div>
+                  <div class="cm-rec-turn">Turnover {{ formatN(r.bet_turnover) }}</div>
+                </div>
+              </div>
+            </template>
+          </div>
+
         </div>
       </div>
 
@@ -538,6 +585,20 @@ const myStats = ref({
   overrideComm: 0, depositAmt: 0, profitLoss: 0
 })
 let realtimeChannel = null
+const commPeriod      = ref('today')
+const showPeriodDrop  = ref(false)
+const customFrom      = ref('')
+const customTo        = ref('')
+
+const commPeriods = [
+  { key: 'today',     label: 'ဒီနေ့' },
+  { key: 'yesterday', label: 'မနေ့က' },
+  { key: 'thisweek',  label: 'ဒီတစ်ပတ်' },
+  { key: 'lastweek',  label: 'ပြီးခဲ့သောအပတ်' },
+  { key: 'thismonth', label: 'ဒီလ' },
+  { key: 'lastmonth', label: 'ပြီးခဲ့သည့်လ' },
+  { key: 'all',       label: 'အားလုံး' },
+]
 
 const tabs    = ['ပိုင်စာလင်မ်', 'ငါ့ကော်မရှင်', 'ငါ့တောင', 'စွမ်းဆောင်ရည်', 'အချက်အလက်အားလုံး']
 const periods = [
@@ -545,6 +606,65 @@ const periods = [
   { key: 'yesterday', label: 'မနေ့က' },
   { key: 'month',     label: 'ဒီလ' },
 ]
+
+const commPeriodLabel = computed(() => {
+  if (commPeriod.value === 'custom') {
+    if (customFrom.value && customTo.value) return customFrom.value + ' ~ ' + customTo.value
+    return 'စိတ်ကြုက်'
+  }
+  return commPeriods.find(p => p.key === commPeriod.value)?.label || 'ဒီနေ့'
+})
+
+const getPeriodRange = (key) => {
+  const now = new Date()
+  const today = new Date(now.getFullYear(), now.getMonth(), now.getDate())
+  if (key === 'today') return { from: today, to: new Date(today.getTime() + 86400000) }
+  if (key === 'yesterday') {
+    const y = new Date(today); y.setDate(y.getDate() - 1)
+    return { from: y, to: today }
+  }
+  if (key === 'thisweek') {
+    const dow = today.getDay(); const mon = new Date(today); mon.setDate(today.getDate() - (dow === 0 ? 6 : dow - 1))
+    return { from: mon, to: new Date(now) }
+  }
+  if (key === 'lastweek') {
+    const dow = today.getDay(); const thisMon = new Date(today); thisMon.setDate(today.getDate() - (dow === 0 ? 6 : dow - 1))
+    const lastMon = new Date(thisMon); lastMon.setDate(thisMon.getDate() - 7)
+    return { from: lastMon, to: thisMon }
+  }
+  if (key === 'thismonth') {
+    return { from: new Date(now.getFullYear(), now.getMonth(), 1), to: new Date(now) }
+  }
+  if (key === 'lastmonth') {
+    const firstThisMonth = new Date(now.getFullYear(), now.getMonth(), 1)
+    const firstLast = new Date(now.getFullYear(), now.getMonth() - 1, 1)
+    return { from: firstLast, to: firstThisMonth }
+  }
+  return null
+}
+
+const filteredCommRecords = computed(() => {
+  const all = commissionRecords.value
+  if (commPeriod.value === 'all') return all
+  if (commPeriod.value === 'custom') {
+    if (!customFrom.value || !customTo.value) return all
+    const from = new Date(customFrom.value)
+    const to   = new Date(customTo.value); to.setDate(to.getDate() + 1)
+    return all.filter(r => { const d = new Date(r.created_at); return d >= from && d < to })
+  }
+  const range = getPeriodRange(commPeriod.value)
+  if (!range) return all
+  return all.filter(r => { const d = new Date(r.created_at); return d >= range.from && d < range.to })
+})
+
+const filteredCommTotal = computed(() =>
+  filteredCommRecords.value.reduce((s, r) => s + Number(r.commission_amount), 0)
+)
+
+const nextPayDate = computed(() => {
+  const d = new Date(); d.setDate(d.getDate() + 1)
+  return d.toLocaleDateString('my-MM', { month: 'short', day: 'numeric' })
+})
 
 const inviteCode = computed(() =>
   userId.value
@@ -699,6 +819,20 @@ const loadMyDataStats = async (period) => {
   myStats.value.profitLoss  = 0
   totalTurnover.value       = turn
   availableCommission.value = comm
+}
+
+const fmtDateFull = (d) => {
+  if (!d) return '—'
+  return new Date(d).toLocaleDateString('en-GB', { year: '2-digit', month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit' })
+}
+
+const selectPeriod = (key) => {
+  commPeriod.value = key
+  showPeriodDrop.value = false
+}
+
+const applyCustom = () => {
+  // reactive — filteredCommRecords updates automatically
 }
 
 onMounted(() => { loadAll() })
@@ -1036,5 +1170,103 @@ onUnmounted(() => {
 .lever-loop-node--you { background:rgba(74,222,128,0.12); border-color:rgba(74,222,128,0.3); color:#4ade80; }
 .lever-loop-arr { width:18px; height:18px; flex-shrink:0; }
 .lever-final-note { font-size:10px; color:rgba(255,255,255,0.45); text-align:center; font-style:italic; padding-top:4px; }
+
+
+/* ══ TAB 1: ငါ့ကော်မရှင် ══ */
+.cm-info-row {
+  display: grid;
+  grid-template-columns: 1fr auto 1fr auto 1fr;
+  align-items: center;
+  padding: 14px 12px 12px;
+  border-bottom: 1px solid rgba(255,255,255,0.07);
+}
+.cm-info-cell { text-align: center; }
+.cm-info-label { font-size: 9px; color: rgba(255,255,255,0.4); margin-bottom: 4px; white-space: nowrap; }
+.cm-info-val { font-size: 12px; font-weight: 800; color: #fff; }
+.cm-info-divider { width: 1px; height: 32px; background: rgba(255,255,255,0.08); }
+
+.cm-period-wrap { position: relative; padding: 10px 12px 0; }
+.cm-period-btn {
+  width: 100%;
+  display: flex; align-items: center; justify-content: space-between;
+  background: rgba(255,255,255,0.06);
+  border: 1px solid rgba(255,255,255,0.12);
+  border-radius: 8px;
+  padding: 9px 12px;
+  color: #fff;
+  font-size: 12px; font-weight: 600;
+  cursor: pointer;
+}
+.cm-period-caret { width: 16px; height: 16px; color: rgba(255,255,255,0.5); transition: transform 0.2s; }
+.cm-caret-up { transform: rotate(180deg); }
+
+.cm-drop {
+  position: absolute;
+  top: calc(100% + 4px); left: 12px; right: 12px;
+  background: #252844;
+  border: 1px solid rgba(255,255,255,0.12);
+  border-radius: 10px;
+  overflow: hidden;
+  z-index: 50;
+  box-shadow: 0 8px 24px rgba(0,0,0,0.4);
+}
+.cm-drop-item {
+  display: block; width: 100%;
+  padding: 11px 14px;
+  text-align: left;
+  font-size: 12px; font-weight: 500;
+  color: rgba(255,255,255,0.7);
+  background: none; border: none;
+  border-bottom: 1px solid rgba(255,255,255,0.05);
+  cursor: pointer;
+}
+.cm-drop-item:last-child { border-bottom: none; }
+.cm-drop-item--active { color: #22c55e; font-weight: 700; }
+.cm-drop-item:active { background: rgba(255,255,255,0.05); }
+
+.cm-custom-range {
+  padding: 8px 12px 0;
+  display: flex; gap: 8px;
+}
+.cm-custom-row { flex: 1; display: flex; align-items: center; gap: 6px; }
+.cm-custom-label { font-size: 10px; color: rgba(255,255,255,0.4); white-space: nowrap; }
+.cm-custom-input {
+  flex: 1; padding: 7px 8px;
+  background: rgba(255,255,255,0.06);
+  border: 1px solid rgba(255,255,255,0.12);
+  border-radius: 7px;
+  color: #fff; font-size: 11px;
+  width: 100%;
+}
+.cm-custom-input::-webkit-calendar-picker-indicator { filter: invert(1) opacity(0.5); }
+
+.cm-records { padding: 10px 12px 14px; min-height: 180px; }
+
+.cm-empty {
+  display: flex; flex-direction: column; align-items: center; justify-content: center;
+  gap: 10px; padding: 40px 0;
+  font-size: 12px; color: rgba(255,255,255,0.3);
+}
+
+.cm-record-row {
+  display: flex; justify-content: space-between; align-items: center;
+  padding: 10px 0;
+  border-bottom: 1px solid rgba(255,255,255,0.05);
+}
+.cm-record-row:last-child { border-bottom: none; }
+.cm-rec-left { display: flex; align-items: center; gap: 8px; }
+.cm-rec-avatar {
+  width: 34px; height: 34px; border-radius: 50%;
+  background: rgba(255,255,255,0.08);
+  border: 1px solid rgba(255,255,255,0.12);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 13px; font-weight: 800; color: #22c55e;
+  flex-shrink: 0;
+}
+.cm-rec-user { font-size: 11px; font-weight: 700; color: #fff; }
+.cm-rec-date { font-size: 9px; color: rgba(255,255,255,0.35); margin-top: 2px; }
+.cm-rec-right { text-align: right; }
+.cm-rec-amount { font-size: 13px; font-weight: 800; color: #4ade80; }
+.cm-rec-turn { font-size: 9px; color: rgba(255,255,255,0.3); margin-top: 2px; }
 
 </style>
