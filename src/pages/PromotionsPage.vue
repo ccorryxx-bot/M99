@@ -139,6 +139,127 @@
               </div>
               <div class="vip-lv-bonus">{{ lv.bonus }}</div>
             </div>
+
+            <!-- ══ VIP Rules Section (after level 50) ══ -->
+            <div class="vip-rules">
+
+              <!-- Title -->
+              <div class="vr-title">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#fbbf24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+                <span>VIP အဖွဲ့ဝင်များအတွက် သီးသန့်စည်းကမ်းနှင့် သတ်မှတ်ချက်များ</span>
+              </div>
+              <p class="vr-intro">ဤစည်းကမ်းချက်များသည် VIP အဆင့်ကို ထိန်းသိမ်းရန်နှင့် ရပိုင်ခွင့်များကို ကာကွယ်ရန်ဖြစ်သည်။</p>
+
+              <!-- Rule 1 -->
+              <div class="vr-rule">
+                <div class="vr-rule-head">
+                  <svg class="vr-icon vr-icon--gold" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+                  <span>VIP Upgrade (အဆင့်မြှင့်တင်ခြင်း)</span>
+                </div>
+                <ul class="vr-list">
+                  <li>အပ်ငွေ (Deposit) နှင့် တရားဝင်လောင်းကြေး (Valid Turnover) နှစ်မျိုးလုံး ပြည့်မီရမည်။</li>
+                  <li>အဆင့်များစွာ ကျော်တက်သွားပါက၊ ရောက်ရှိသည့် အဆင့်၏ Upgrade Bonus ကိုသာ ရရှိမည်။</li>
+                  <li>အဆင့်မြှင့်ပြီး နောက်တစ်နေ့မှ ဘောနပ်စ် တောင်းခံနိုင်သည်။</li>
+                </ul>
+              </div>
+
+              <!-- Rule 2 -->
+              <div class="vr-rule">
+                <div class="vr-rule-head">
+                  <svg class="vr-icon vr-icon--teal" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+                  <span>နေ့စဉ်အပိုဆု (Daily Bonus)</span>
+                </div>
+                <ul class="vr-list">
+                  <li>နေ့စဉ် သတ်မှတ်ထားသော အပ်ငွေ + Turnover ပြည့်မီမှ ရမည်။</li>
+                  <li>အဆင့် ကျော်တက်သော်လည်း လက်ရှိအဆင့်၏ Daily Bonus တစ်ခုသာ ရမည်။</li>
+                  <li>တစ်ရက်တာ ကန့်သတ်ချက် — နေ့စဉ် 00:00:00 တွင် Reset ဖြစ်သည်။</li>
+                </ul>
+              </div>
+
+              <!-- Rule 3 -->
+              <div class="vr-rule">
+                <div class="vr-rule-head">
+                  <svg class="vr-icon vr-icon--purple" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/><polyline points="17 6 23 6 23 12"/></svg>
+                  <span>အပတ်စဉ်ဘောနပ်စ် (Weekly Bonus)</span>
+                </div>
+                <ul class="vr-list">
+                  <li>အပတ်စဉ် သတ်မှတ်ချက်များ ပြည့်မီပါက ရရှိမည်။ အဆင့်ကျော်တက်သော်လည်း လက်ရှိ VIP Weekly Bonus သာ ရမည်။</li>
+                  <li>တောင်းဆိုချိန် — တနင်္လာနေ့တိုင်း 00:00:00 – 23:59:59 အတွင်း။</li>
+                </ul>
+              </div>
+
+              <!-- Rule 4 -->
+              <div class="vr-rule">
+                <div class="vr-rule-head">
+                  <svg class="vr-icon vr-icon--blue" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 16V8a2 2 0 00-1-1.73l-7-4a2 2 0 00-2 0l-7 4A2 2 0 003 8v8a2 2 0 001 1.73l7 4a2 2 0 002 0l7-4A2 2 0 0021 16z"/></svg>
+                  <span>လစဉ်ဘောနပ်စ် (Monthly Bonus)</span>
+                </div>
+                <ul class="vr-list">
+                  <li>လအလိုက် သတ်မှတ်ထားသော အပ်ငွေ + Turnover ပြည့်မီမှ ရမည်။ အဆင့်ကျော်တက်သော်လည်း လက်ရှိ VIP Monthly Bonus သာ ရမည်။</li>
+                  <li>တောင်းဆိုချိန် — လစဉ် (၁) ရက်နေ့တိုင်း 00:00:00 – 23:59:59 အတွင်း။</li>
+                </ul>
+              </div>
+
+              <!-- Divider -->
+              <div class="vr-divider">
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="rgba(239,68,68,0.7)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+                <span>Anti-Fraud &amp; Audit Compliance</span>
+              </div>
+
+              <!-- Rule 5 -->
+              <div class="vr-rule">
+                <div class="vr-rule-head">
+                  <svg class="vr-icon vr-icon--orange" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+                  <span>ဆုကြေးသက်တမ်း ကန့်သတ်ချက် (Validity)</span>
+                </div>
+                <ul class="vr-list">
+                  <li>VIP ဘောနပ်စ်သည် ထုတ်ပေးသည့်နေ့မှ <strong>(၇) ရက်</strong> သာ သက်တမ်းရှိသည်။</li>
+                  <li>(၇) ရက်အတွင်း မတောင်းဆိုပါက စနစ်မှ အလိုအလျောက် ရုပ်သိမ်းသည်။</li>
+                </ul>
+              </div>
+
+              <!-- Rule 6 -->
+              <div class="vr-rule">
+                <div class="vr-rule-head">
+                  <svg class="vr-icon vr-icon--teal" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 01-2 2H5a2 2 0 01-2-2V5a2 2 0 012-2h11"/></svg>
+                  <span>Audit &amp; ဂိမ်းကန့်သတ်ချက်</span>
+                </div>
+                <ul class="vr-list">
+                  <li>ဘောနပ်စ် ငွေထုတ်ရန် အနည်းဆုံး <strong>1x Turnover</strong> ကစားရမည်။</li>
+                  <li>Slot, ငါးဖမ်း, CQ9 / JDB / MG / WG / KA / NetEnt / Redtiger / PP / JILI / Joker / ELK / Thunderkick / Blockchain တွင်သာ ကစားရမည်။</li>
+                </ul>
+              </div>
+
+              <!-- Rule 7 -->
+              <div class="vr-rule">
+                <div class="vr-rule-head">
+                  <svg class="vr-icon vr-icon--red" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="4.93" y1="4.93" x2="19.07" y2="19.07"/></svg>
+                  <span>တရားမဝင် ဆော့ကစားမှု ပိတ်ပင်ချက်</span>
+                </div>
+                <ul class="vr-list">
+                  <li>အကောင့်များစွာ ငှားရမ်း / ဂိုဏ်းစုဖွဲ့ ကစားခြင်း တားမြစ်သည်။</li>
+                  <li>ဘေးနှစ်ဖက်မျှ လောင်းခြင်း၊ Arbitrage နည်း သုံးခြင်း တားမြစ်သည်။</li>
+                  <li>Software / Bot ဖြင့် အလိုအလျောက် ကစားခြင်း တားမြစ်သည်။</li>
+                </ul>
+                <div class="vr-warning">
+                  <svg width="11" height="11" viewBox="0 0 24 24" fill="#ef4444" stroke="none"><path d="M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z"/></svg>
+                  <span>ချိုးဖောက်မှု တွေ့ရှိပါက — အကောင့်ပိတ်ခြင်း၊ ဘောနပ်စ်နှင့် အမြတ်ငွေများ သိမ်းဆည်းခြင်း ဆောင်ရွက်ခြင်း ခံရမည်။</span>
+                </div>
+              </div>
+
+              <!-- Rule 8 -->
+              <div class="vr-rule vr-rule--last">
+                <div class="vr-rule-head">
+                  <svg class="vr-icon vr-icon--gold" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
+                  <span>အပြီးသတ် ရှင်းလင်းချက်</span>
+                </div>
+                <ul class="vr-list">
+                  <li>VIP ဆုများ တောင်းခံခြင်းဖြင့် ဤစည်းကမ်းများ အားလုံးကို သဘောတူသည်ဟု မှတ်ယူသည်။</li>
+                  <li>အပြီးသတ် အနက်ဖွင့်ဆိုပိုင်ခွင့်နှင့် ပြင်ဆင်ပိုင်ခွင့် (Final Interpretation Right) သည် ပလတ်ဖောင်းထံတွင်သာ ရှိသည်။</li>
+                </ul>
+              </div>
+
+            </div><!-- /vip-rules -->
           </div>
 
         </main>
@@ -497,4 +618,93 @@ const vipLevels = ref([
 }
 
 @media (min-width: 768px) { .promo-sidebar { width: 66px; } }
+
+/* ===== VIP RULES ===== */
+.vip-rules {
+  margin: 6px 10px 0;
+  border-radius: 12px;
+  border: 1px solid rgba(99,102,241,0.2);
+  background: rgba(15,17,45,0.6);
+  overflow: hidden;
+}
+
+/* Title */
+.vr-title {
+  display: flex; align-items: center; gap: 6px;
+  padding: 10px 12px 4px;
+  font-size: 11px; font-weight: 700; color: #fbbf24;
+  border-bottom: 1px solid rgba(255,255,255,0.05);
+}
+.vr-intro {
+  font-size: 10px; color: rgba(255,255,255,0.4);
+  padding: 6px 12px 8px; margin: 0;
+  line-height: 1.5;
+  border-bottom: 1px solid rgba(255,255,255,0.04);
+}
+
+/* Individual rule block */
+.vr-rule {
+  padding: 8px 12px;
+  border-bottom: 1px solid rgba(255,255,255,0.04);
+}
+.vr-rule--last { border-bottom: none; }
+
+.vr-rule-head {
+  display: flex; align-items: center; gap: 5px;
+  margin-bottom: 5px;
+  font-size: 10.5px; font-weight: 700;
+  color: rgba(255,255,255,0.8);
+}
+
+/* SVG icon colours */
+.vr-icon { flex-shrink: 0; }
+.vr-icon--gold   { stroke: #fbbf24; }
+.vr-icon--teal   { stroke: #2dd4bf; }
+.vr-icon--purple { stroke: #a78bfa; }
+.vr-icon--blue   { stroke: #60a5fa; }
+.vr-icon--orange { stroke: #fb923c; }
+.vr-icon--red    { stroke: #f87171; }
+
+/* Bullet list */
+.vr-list {
+  margin: 0; padding: 0 0 0 14px;
+  list-style: none;
+  display: flex; flex-direction: column; gap: 3px;
+}
+.vr-list li {
+  font-size: 10px; color: rgba(255,255,255,0.5);
+  line-height: 1.55; position: relative;
+}
+.vr-list li::before {
+  content: '·';
+  position: absolute; left: -10px;
+  color: rgba(255,255,255,0.2); font-weight: 700;
+}
+.vr-list strong { color: rgba(255,255,255,0.75); font-weight: 700; }
+
+/* Section divider */
+.vr-divider {
+  display: flex; align-items: center; gap: 5px;
+  padding: 7px 12px 5px;
+  font-size: 9.5px; font-weight: 700;
+  color: rgba(239,68,68,0.8);
+  background: rgba(239,68,68,0.05);
+  border-top: 1px solid rgba(239,68,68,0.15);
+  border-bottom: 1px solid rgba(239,68,68,0.1);
+  text-transform: uppercase; letter-spacing: 0.4px;
+}
+
+/* Warning callout */
+.vr-warning {
+  margin-top: 6px;
+  display: flex; align-items: flex-start; gap: 5px;
+  background: rgba(239,68,68,0.08);
+  border: 1px solid rgba(239,68,68,0.2);
+  border-radius: 7px; padding: 6px 8px;
+}
+.vr-warning svg { flex-shrink: 0; margin-top: 1px; }
+.vr-warning span {
+  font-size: 9.5px; color: rgba(239,68,68,0.85);
+  line-height: 1.5;
+}
 </style>
