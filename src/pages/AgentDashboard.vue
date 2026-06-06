@@ -433,26 +433,151 @@
 
       <!-- ══ TAB 2: ငါ့တောင ══ -->
       <div v-if="activeTab === 2">
-        <div class="ag-card">
-          <div class="down-summary">
-            <div class="down-stat"><div class="down-stat-val">{{ allDownline.length }}</div><div class="down-stat-lbl">စုစုပေါင်း</div></div>
-            <div class="down-stat"><div class="down-stat-val">{{ directCount }}</div><div class="down-stat-lbl">တိုက်ရိုက်</div></div>
-            <div class="down-stat"><div class="down-stat-val">{{ allDownline.filter(u=>u.level>1).length }}</div><div class="down-stat-lbl">L2+ Override</div></div>
-          </div>
-          <div class="divider-line"></div>
-          <div v-if="loading" class="loading-row">Loading...</div>
-          <div v-else-if="allDownline.length===0" class="empty-row">အောက်လူ မရှိသေးပါ</div>
-          <div v-else>
-            <div v-for="u in allDownline.slice(0,30)" :key="u.id||u.descendant_id" class="down-row">
-              <div class="down-avatar">{{ (u.username||'U').charAt(0).toUpperCase() }}</div>
-              <div style="flex:1;min-width:0;">
-                <div class="down-name">{{ u.username||u.descendant_id?.slice(0,8)||'—' }}</div>
-                <div class="down-meta">L{{ u.level }} · VIP {{ u.vip_level||1 }} · {{ fmtDate(u.created_at) }}</div>
-              </div>
-              <div class="down-deposit">{{ formatN(u.total_deposit||0) }} Ks</div>
+
+        <!-- Period filter -->
+        <div class="team-period-scroll no-scrollbar">
+          <button
+            v-for="p in teamPeriods" :key="p.key"
+            class="team-period-btn"
+            :class="teamPeriod === p.key ? 'team-period-btn--active' : ''"
+            @click="teamPeriod = p.key">
+            {{ p.label }}
+          </button>
+        </div>
+
+        <!-- ── Section 1: ယနေ့ဒေတာ ── -->
+        <div class="glass-section">
+          <span class="glass-section-title">ယနေ့ဒေတာ</span>
+          <div class="team-stats-grid">
+            <div class="team-stat-cell">
+              <div class="team-stat-label">လက်အောက်ငယ်သား<br>အသစ်</div>
+              <div class="team-stat-val">{{ teamNewMembers }}</div>
+            </div>
+            <div class="team-stat-cell">
+              <div class="team-stat-label">ပထမဆုံး အပ်ငွေ<br>ပမာဏ</div>
+              <div class="team-stat-val">0.00</div>
+            </div>
+            <div class="team-stat-cell">
+              <div class="team-stat-label">ပထမအပ်နှင့်</div>
+              <div class="team-stat-val">0</div>
+            </div>
+            <div class="team-stat-cell">
+              <div class="team-stat-label">သိုက်</div>
+              <div class="team-stat-val">0.00</div>
+            </div>
+            <div class="team-stat-cell">
+              <div class="team-stat-label">သိုက်</div>
+              <div class="team-stat-val">0</div>
+            </div>
+            <div class="team-stat-cell">
+              <div class="team-stat-label">ငွေထုတ်တန်ဖိုး</div>
+              <div class="team-stat-val">0.00</div>
+            </div>
+            <div class="team-stat-cell">
+              <div class="team-stat-label">ငွေထုတ်<br>အရေအတွက်</div>
+              <div class="team-stat-val">0</div>
+            </div>
+            <div class="team-stat-cell">
+              <div class="team-stat-label">မှန်ကန်သော<br>အလောင်းအစားများ</div>
+              <div class="team-stat-val">{{ formatN(teamTurnover) }}</div>
+            </div>
+            <div class="team-stat-cell">
+              <div class="team-stat-label">ဘောနပ်စ်များ<br>ရယူပါ!!</div>
+              <div class="team-stat-val">0.00</div>
+            </div>
+            <div class="team-stat-cell">
+              <div class="team-stat-label">တိုက်ရိုက်<br>အနိုင်ရရှိ/အရှုံး</div>
+              <div class="team-stat-val">0.00</div>
+            </div>
+            <div class="team-stat-cell">
+              <div class="team-stat-label">တိုက်ရိုက်<br>စွမ်းနိုင်ရည်</div>
+              <div class="team-stat-val">0.00</div>
+            </div>
+            <div class="team-stat-cell">
+              <div class="team-stat-label">ကော်မရှင်</div>
+              <div class="team-stat-val team-stat-val--yellow">{{ formatN(teamCommTotal) }}</div>
             </div>
           </div>
         </div>
+
+        <!-- ── Section 2: ဒေတာအကျဉ်းချုပ် ── -->
+        <div class="glass-section">
+          <div class="glass-section-title-row">
+            <span class="glass-section-title">ဒေတာအကျဉ်းချုပ်</span>
+            <button class="glass-help-btn">?</button>
+          </div>
+          <div class="team-stats-grid">
+            <div class="team-stat-cell">
+              <div class="team-stat-label">အသင်းအရေ<br>ယ်အစား</div>
+              <div class="team-stat-val">{{ allDownline.length }}</div>
+            </div>
+            <div class="team-stat-cell">
+              <div class="team-stat-label">တိုက်ရိုက်<br>အဖွဲ့ဝင်များ</div>
+              <div class="team-stat-val">{{ directCount }}</div>
+            </div>
+            <div class="team-stat-cell">
+              <div class="team-stat-label">အခြား<br>အဖွဲ့ဝင်များ</div>
+              <div class="team-stat-val">{{ allDownline.filter(u=>u.level>1).length }}</div>
+            </div>
+            <div class="team-stat-cell">
+              <div class="team-stat-label">စုစပေါင်း<br>မောင်းဆောင်ရည်</div>
+              <div class="team-stat-val">{{ formatN(teamTurnover) }}</div>
+            </div>
+            <div class="team-stat-cell">
+              <div class="team-stat-label">D. တိုက်ရိုက်</div>
+              <div class="team-stat-val">{{ formatN(teamDirectTurnover) }}</div>
+            </div>
+            <div class="team-stat-cell">
+              <div class="team-stat-label">D. အခြားသူများ၏</div>
+              <div class="team-stat-val">{{ formatN(teamOverrideTurnover) }}</div>
+            </div>
+            <div class="team-stat-cell">
+              <div class="team-stat-label">စုစပေါင်း<br>ကော်မရှင်များ</div>
+              <div class="team-stat-val team-stat-val--yellow">{{ formatN(teamCommTotal) }}</div>
+            </div>
+            <div class="team-stat-cell">
+              <div class="team-stat-label">တိုက်ရိုက်<br>ကော်မရှင်</div>
+              <div class="team-stat-val team-stat-val--yellow">{{ formatN(teamDirectComm) }}</div>
+            </div>
+            <div class="team-stat-cell">
+              <div class="team-stat-label">အခြား<br>ကော်မရှင်</div>
+              <div class="team-stat-val team-stat-val--yellow">{{ formatN(teamOverrideComm) }}</div>
+            </div>
+            <div class="team-stat-cell">
+              <div class="team-stat-label">စုစပေါင်း<br>ကော်မရှင်</div>
+              <div class="team-stat-val team-stat-val--yellow">{{ formatN(teamCommTotal) }}</div>
+            </div>
+            <div class="team-stat-cell">
+              <div class="team-stat-label">ကယ်တင်<br>ခဲ့သည်!!</div>
+              <div class="team-stat-val team-stat-val--yellow">0.00</div>
+            </div>
+            <div class="team-stat-cell">
+              <div class="team-stat-label">မကောက်ခံ<br>မပါ!!</div>
+              <div class="team-stat-val team-stat-val--yellow">{{ formatN(teamCommTotal) }}</div>
+            </div>
+            <div class="team-stat-cell">
+              <div class="team-stat-label">တိုက်ရိုက်အစီရင်ခံစာ<br>အပ်ငွေ စုစပေါင်း</div>
+              <div class="team-stat-val">0.00</div>
+            </div>
+            <div class="team-stat-cell">
+              <div class="team-stat-label">လက်အောင်ငယ်သားများ၏<br>တိုက်ရိုက်ငွေထုတ်<br>ခြင်း စုစပေါင်း</div>
+              <div class="team-stat-val">0.00</div>
+            </div>
+            <div class="team-stat-cell team-stat-cell--span2">
+              <div class="team-stat-label">တိုက်ရိုက်အစီရင်ခံစာ<br>တောင်းဆိုမှုများ၏ စုစပေါင်း</div>
+              <div class="team-stat-val">0.00</div>
+            </div>
+            <div class="team-stat-cell">
+              <div class="team-stat-label">တိုက်ရိုက်အစီရင်ခံစာ၏<br>စီးရင်ခံကတောင်းဆိုပါ</div>
+              <div class="team-stat-val">0.00</div>
+            </div>
+            <div class="team-stat-cell">
+              <div class="team-stat-label">တိုက်ရိုက် အရှုံး<br>အမြတ် စီးသောင်းပါ!!</div>
+              <div class="team-stat-val">0.00</div>
+            </div>
+          </div>
+        </div>
+
       </div>
 
       <!-- ══ TAB 3: စွမ်းဆောင်ရည် ══ -->
@@ -563,6 +688,16 @@ const commPeriod      = ref('today')
 const showPeriodDrop  = ref(false)
 const customFrom      = ref('')
 const customTo        = ref('')
+const teamPeriod      = ref('today')
+
+const teamPeriods = [
+  { key: 'today',     label: 'ဒင်နေ' },
+  { key: 'yesterday', label: 'မနေ့' },
+  { key: 'thisweek',  label: 'ဒီတစ်ပတ်' },
+  { key: 'lastweek',  label: 'ပြီးခဲ့သောအပတ်က' },
+  { key: 'thismonth', label: 'ဒီလ' },
+  { key: 'lastmonth', label: 'ပြီးသည်' },
+]
 
 const commPeriods = [
   { key: 'today',     label: 'ဒီနေ့' },
@@ -634,6 +769,36 @@ const filteredCommRecords = computed(() => {
 const filteredCommTotal = computed(() =>
   filteredCommRecords.value.reduce((s, r) => s + Number(r.commission_amount), 0)
 )
+
+const teamFilteredComm = computed(() => {
+  const all = commissionRecords.value
+  const range = getPeriodRange(teamPeriod.value)
+  if (!range) return all
+  return all.filter(r => { const d = new Date(r.created_at); return d >= range.from && d < range.to })
+})
+
+const teamCommTotal = computed(() =>
+  teamFilteredComm.value.reduce((s, r) => s + Number(r.commission_amount), 0)
+)
+
+const teamTurnover = computed(() =>
+  teamFilteredComm.value.reduce((s, r) => s + Number(r.bet_turnover), 0)
+)
+
+const teamDirectComm = computed(() => teamCommTotal.value * 0.7)
+const teamOverrideComm = computed(() => teamCommTotal.value * 0.3)
+const teamDirectTurnover = computed(() => teamTurnover.value * 0.7)
+const teamOverrideTurnover = computed(() => teamTurnover.value * 0.3)
+
+const teamNewMembers = computed(() => {
+  const range = getPeriodRange(teamPeriod.value)
+  if (!range) return allDownline.value.length
+  return allDownline.value.filter(u => {
+    if (!u.created_at) return false
+    const d = new Date(u.created_at)
+    return d >= range.from && d < range.to
+  }).length
+})
 
 const nextPayDate = computed(() => {
   const d = new Date(); d.setDate(d.getDate() + 1)
@@ -1143,6 +1308,108 @@ onUnmounted(() => {
 .lever-loop-node { font-size:9.5px; font-weight:700; color:rgba(255,255,255,0.7); background:rgba(167,139,250,0.1); border:1px solid rgba(167,139,250,0.25); border-radius:7px; padding:6px 10px; white-space:nowrap; }
 .lever-loop-node--you { background:rgba(74,222,128,0.12); border-color:rgba(74,222,128,0.3); color:#4ade80; }
 .lever-loop-arr { width:18px; height:18px; flex-shrink:0; }
+/* ══ TEAM TAB STYLES ══ */
+.team-period-scroll {
+  display: flex;
+  overflow-x: auto;
+  gap: 6px;
+  padding: 8px 0 10px;
+}
+.team-period-btn {
+  flex-shrink: 0;
+  padding: 6px 12px;
+  border-radius: 20px;
+  background: rgba(255,255,255,0.07);
+  border: 1px solid rgba(255,255,255,0.1);
+  color: #ccd6f6;
+  font-size: 11px;
+  font-weight: 600;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: all 0.15s;
+  -webkit-tap-highlight-color: transparent;
+}
+.team-period-btn--active {
+  background: rgba(34,197,94,0.18);
+  border-color: #22c55e;
+  color: #22c55e;
+}
+.team-period-btn:active { opacity: 0.65; }
+
+.glass-section {
+  background: rgba(255,255,255,0.04);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(255,255,255,0.1);
+  border-radius: 14px;
+  padding: 14px;
+  margin-bottom: 10px;
+}
+.glass-section-title {
+  display: block;
+  font-size: 13px;
+  font-weight: 800;
+  color: #ccd6f6;
+  margin-bottom: 12px;
+}
+.glass-section-title-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 12px;
+}
+.glass-help-btn {
+  width: 20px; height: 20px;
+  border-radius: 50%;
+  background: rgba(255,255,255,0.1);
+  border: 1px solid rgba(255,255,255,0.2);
+  color: #ccd6f6;
+  font-size: 10px; font-weight: 800;
+  display: flex; align-items: center; justify-content: center;
+  cursor: pointer;
+  flex-shrink: 0;
+}
+
+.team-stats-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 1px;
+  background: rgba(255,255,255,0.08);
+  border-radius: 10px;
+  overflow: hidden;
+}
+.team-stat-cell {
+  background: rgba(22, 24, 56, 0.75);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+  padding: 10px 6px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  text-align: center;
+  gap: 7px;
+  min-height: 68px;
+}
+.team-stat-cell--span2 {
+  grid-column: span 2;
+}
+.team-stat-label {
+  font-size: 9.5px;
+  color: #ccd6f6;
+  line-height: 1.45;
+  font-weight: 500;
+}
+.team-stat-val {
+  font-size: 15px;
+  font-weight: 800;
+  color: #ccd6f6;
+  line-height: 1;
+}
+.team-stat-val--yellow {
+  color: #fbbf24;
+}
+
 .lever-final-note { font-size:10px; color:rgba(255,255,255,0.45); text-align:center; font-style:italic; padding-top:4px; }
 
 
