@@ -582,17 +582,29 @@
 
       <!-- ══ TAB 3: စွမ်းဆောင်ရည် ══ -->
       <div v-if="activeTab === 3">
-        <div class="ag-card">
-          <p class="tab-section-title">ကာလရွေးချယ်ပါ</p>
-          <div class="period-tabs">
-            <button v-for="p in periods" :key="p.key"
-              @click="myDataPeriod = p.key; loadMyDataStats(p.key)"
-              class="period-btn" :class="myDataPeriod === p.key ? 'period-btn--active' : ''">
-              {{ p.label }}
+        <div class="ag-card" style="padding:0;overflow:visible;">
+
+          <!-- Period dropdown -->
+          <div class="cm-period-wrap" style="padding:12px 12px 0;">
+            <button class="cm-period-btn perf-drop-btn" @click="showPerfDrop = !showPerfDrop">
+              <span>{{ perfPeriodLabel }}</span>
+              <svg class="cm-period-caret" :class="showPerfDrop ? 'cm-caret-up' : ''" viewBox="0 0 24 24" fill="none">
+                <path d="M6 9l6 6 6-6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
             </button>
+            <div v-if="showPerfDrop" class="cm-drop perf-drop">
+              <button v-for="p in perfPeriods" :key="p.key"
+                class="cm-drop-item" :class="myDataPeriod === p.key ? 'cm-drop-item--active' : ''"
+                @click="myDataPeriod = p.key; loadMyDataStats(p.key); showPerfDrop = false">
+                {{ p.label }}
+              </button>
+            </div>
           </div>
-          <div class="divider-line"></div>
-          <div class="stat-grid" style="margin-top:8px;">
+
+          <div class="divider-line" style="margin:12px 0 0;"></div>
+
+          <!-- Stats -->
+          <div class="stat-grid" style="padding:10px 12px 14px;">
             <div class="stat-box">
               <div class="stat-label">Deposit</div>
               <div class="stat-val">{{ formatN(myStats.depositAmt) }} <span class="stat-unit">Ks</span></div>
@@ -610,6 +622,13 @@
               <div class="stat-val green">{{ formatN(myStats.totalComm) }} <span class="stat-unit">Ks</span></div>
             </div>
           </div>
+
+          <!-- Empty state -->
+          <div v-if="!myStats.depositAmt && !myStats.totalComm" class="cm-empty" style="padding-bottom:24px;">
+            <svg viewBox="0 0 24 24" fill="none" width="36" height="36"><rect x="3" y="5" width="18" height="14" rx="2" stroke="rgba(255,255,255,0.15)" stroke-width="1.8"/><path d="M3 9h18" stroke="rgba(255,255,255,0.15)" stroke-width="1.8"/></svg>
+            <span>မတ်တမ်းမရှိပါ!!!</span>
+          </div>
+
         </div>
       </div>
 
@@ -990,9 +1009,24 @@ const myStats = ref({
 let realtimeChannel = null
 const commPeriod      = ref('today')
 const showPeriodDrop  = ref(false)
+const showPerfDrop    = ref(false)
 const customFrom      = ref('')
 const customTo        = ref('')
 const teamPeriod      = ref('today')
+
+const perfPeriods = [
+  { key: 'today',     label: 'ဒီနေ့' },
+  { key: 'yesterday', label: 'မနေ့က' },
+  { key: 'thisweek',  label: 'ဒီတစ်ပတ်' },
+  { key: 'lastweek',  label: 'ပြီးခဲ့သောအပတ်က' },
+  { key: 'thismonth', label: 'ဒီလ' },
+  { key: 'lastmonth', label: 'ပြီးခဲ့သည့်လ' },
+  { key: 'all',       label: 'အားလုံး' },
+]
+
+const perfPeriodLabel = computed(() =>
+  perfPeriods.find(p => p.key === myDataPeriod.value)?.label || 'ဒီနေ့'
+)
 
 const teamPeriods = [
   { key: 'today',     label: 'ဒင်နေ' },
