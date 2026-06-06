@@ -654,6 +654,310 @@
         </div>
       </div>
 
+      <!-- ══ TAB 5: လက်အောက်ငယ်သားများ၏ဘဏ္ဏာရေး ══ -->
+      <div v-if="activeTab === 5">
+        <div class="glass-section">
+          <div class="glass-section-title-row">
+            <span class="glass-section-title">ကာလ ရွေးချယ်ပါ</span>
+          </div>
+          <div class="team-period-scroll no-scrollbar">
+            <button v-for="p in teamPeriods" :key="p.key"
+              @click="finPeriod = p.key"
+              class="team-period-btn" :class="finPeriod === p.key ? 'team-period-btn--active' : ''">
+              {{ p.label }}
+            </button>
+          </div>
+        </div>
+
+        <div class="glass-section" style="margin-top:10px;">
+          <div class="glass-section-title-row">
+            <span class="glass-section-title">လက်အောက်ငယ်သားများ၏ဘဏ္ဏာရေး</span>
+            <button class="glass-help-btn">?</button>
+          </div>
+          <div class="team-stats-grid">
+            <div class="team-stat-cell">
+              <div class="team-stat-label">ငွေသွင်းစုစုပေါင်း</div>
+              <div class="team-stat-val">{{ formatN(finDepositTotal) }}</div>
+            </div>
+            <div class="team-stat-cell">
+              <div class="team-stat-label">ငွေသွင်း အရေအတွက်</div>
+              <div class="team-stat-val">{{ finDepositCount }}</div>
+            </div>
+            <div class="team-stat-cell">
+              <div class="team-stat-label">ငွေထုတ်စုစုပေါင်း</div>
+              <div class="team-stat-val">{{ formatN(finWithdrawTotal) }}</div>
+            </div>
+            <div class="team-stat-cell">
+              <div class="team-stat-label">ငွေထုတ် အရေအတွက်</div>
+              <div class="team-stat-val">{{ finWithdrawCount }}</div>
+            </div>
+            <div class="team-stat-cell">
+              <div class="team-stat-label">အသားတင် ငွေ</div>
+              <div class="team-stat-val" :class="(finDepositTotal - finWithdrawTotal) >= 0 ? 'team-stat-val--green' : 'team-stat-val--red'">{{ formatN(finDepositTotal - finWithdrawTotal) }}</div>
+            </div>
+            <div class="team-stat-cell">
+              <div class="team-stat-label">လက်ကျန်ငွေ</div>
+              <div class="team-stat-val">{{ formatN(finBalance) }}</div>
+            </div>
+            <div class="team-stat-cell">
+              <div class="team-stat-label">အသစ် မှတ်ပုံတင်</div>
+              <div class="team-stat-val">{{ finNewMembers }}</div>
+            </div>
+            <div class="team-stat-cell">
+              <div class="team-stat-label">ပထမဆုံး အပ်ငွေ</div>
+              <div class="team-stat-val">{{ finFirstDeposit }}</div>
+            </div>
+            <div class="team-stat-cell">
+              <div class="team-stat-label">ငွေလုပ်ဆောင်သူ</div>
+              <div class="team-stat-val">{{ finActiveCount }}</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ══ TAB 6: အောက်လက်ငယ်သားလောင်းကစား ══ -->
+      <div v-if="activeTab === 6">
+        <div class="glass-section">
+          <div class="glass-section-title-row">
+            <span class="glass-section-title">ကာလ ရွေးချယ်ပါ</span>
+          </div>
+          <div class="team-period-scroll no-scrollbar">
+            <button v-for="p in teamPeriods" :key="p.key"
+              @click="gambPeriod = p.key"
+              class="team-period-btn" :class="gambPeriod === p.key ? 'team-period-btn--active' : ''">
+              {{ p.label }}
+            </button>
+          </div>
+        </div>
+
+        <div class="glass-section" style="margin-top:10px;">
+          <div class="glass-section-title-row">
+            <span class="glass-section-title">လောင်းကစားဒေတာ</span>
+            <button class="glass-help-btn">?</button>
+          </div>
+          <div class="team-stats-grid">
+            <div class="team-stat-cell">
+              <div class="team-stat-label">စုစုပေါင်း Turnover</div>
+              <div class="team-stat-val team-stat-val--yellow">{{ formatN(gambTurnover) }}</div>
+            </div>
+            <div class="team-stat-cell">
+              <div class="team-stat-label">Bet အရေအတွက်</div>
+              <div class="team-stat-val">{{ gambBetCount }}</div>
+            </div>
+            <div class="team-stat-cell">
+              <div class="team-stat-label">အနိုင်ရ ငွေ</div>
+              <div class="team-stat-val team-stat-val--green">{{ formatN(gambWinAmt) }}</div>
+            </div>
+            <div class="team-stat-cell">
+              <div class="team-stat-label">အရှုံးပေး ငွေ</div>
+              <div class="team-stat-val team-stat-val--red">{{ formatN(gambLoseAmt) }}</div>
+            </div>
+            <div class="team-stat-cell">
+              <div class="team-stat-label">Profit / Loss</div>
+              <div class="team-stat-val" :class="gambProfitLoss >= 0 ? 'team-stat-val--green' : 'team-stat-val--red'">{{ formatN(gambProfitLoss) }}</div>
+            </div>
+            <div class="team-stat-cell">
+              <div class="team-stat-label">လောင်းကစားသူ</div>
+              <div class="team-stat-val">{{ gambActiveCount }}</div>
+            </div>
+            <div class="team-stat-cell team-stat-cell--span2">
+              <div class="team-stat-label">အမြတ်ရ Bet % (RTP)</div>
+              <div class="team-stat-val">{{ gambRtp }}%</div>
+            </div>
+            <div class="team-stat-cell">
+              <div class="team-stat-label">ပျမ်းမျှ Bet</div>
+              <div class="team-stat-val">{{ formatN(gambAvgBet) }}</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ══ TAB 7: လက်အောက်ခံဒေတာ ══ -->
+      <div v-if="activeTab === 7">
+        <div class="glass-section">
+          <div class="glass-section-title-row">
+            <span class="glass-section-title">ကာလ ရွေးချယ်ပါ</span>
+          </div>
+          <div class="team-period-scroll no-scrollbar">
+            <button v-for="p in teamPeriods" :key="p.key"
+              @click="dlPeriod = p.key"
+              class="team-period-btn" :class="dlPeriod === p.key ? 'team-period-btn--active' : ''">
+              {{ p.label }}
+            </button>
+          </div>
+        </div>
+
+        <div class="glass-section" style="margin-top:10px;">
+          <div class="glass-section-title-row">
+            <span class="glass-section-title">လက်အောက်ခံဒေတာ အကျဉ်းချုပ်</span>
+            <button class="glass-help-btn">?</button>
+          </div>
+          <div class="team-stats-grid">
+            <div class="team-stat-cell">
+              <div class="team-stat-label">စုစုပေါင်း L1</div>
+              <div class="team-stat-val">{{ directCount }}</div>
+            </div>
+            <div class="team-stat-cell">
+              <div class="team-stat-label">စုစုပေါင်း Downline</div>
+              <div class="team-stat-val">{{ allDownline.length }}</div>
+            </div>
+            <div class="team-stat-cell">
+              <div class="team-stat-label">တက်ကြွသောသူ</div>
+              <div class="team-stat-val team-stat-val--green">{{ dlActiveCount }}</div>
+            </div>
+            <div class="team-stat-cell">
+              <div class="team-stat-label">မတက်ကြွသောသူ</div>
+              <div class="team-stat-val">{{ allDownline.length - dlActiveCount }}</div>
+            </div>
+            <div class="team-stat-cell">
+              <div class="team-stat-label">ကာလတွင် အသစ်</div>
+              <div class="team-stat-val">{{ teamNewMembers }}</div>
+            </div>
+            <div class="team-stat-cell">
+              <div class="team-stat-label">ပထမအပ်ငွေ ရသူ</div>
+              <div class="team-stat-val">{{ finFirstDeposit }}</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="glass-section" style="margin-top:10px;">
+          <div class="glass-section-title-row">
+            <span class="glass-section-title">လက်အောက်ငယ်သား စာရင်း</span>
+          </div>
+          <div class="dl-list">
+            <div v-if="allDownline.length === 0" class="dl-empty">လက်အောက်ငယ်သား မရှိသေးပါ</div>
+            <div v-for="m in allDownline.slice(0, 20)" :key="m.id" class="dl-row">
+              <div class="dl-avatar">{{ (m.username || '?')[0].toUpperCase() }}</div>
+              <div class="dl-info">
+                <div class="dl-name">{{ m.username }}</div>
+                <div class="dl-meta">Level {{ m.level || 1 }} · {{ m.joined_at ? new Date(m.joined_at).toLocaleDateString('my-MM') : '—' }}</div>
+              </div>
+              <div class="dl-badge" :class="m.is_active ? 'dl-badge--active' : 'dl-badge--inactive'">
+                {{ m.is_active ? 'တက်ကြွ' : 'မတက်ကြွ' }}
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ══ TAB 8: ကော်မရှင်ရယူပြီးသောလက်အောက်ငယ်သားများ ══ -->
+      <div v-if="activeTab === 8">
+        <div class="glass-section">
+          <div class="glass-section-title-row">
+            <span class="glass-section-title">ကာလ ရွေးချယ်ပါ</span>
+          </div>
+          <div class="team-period-scroll no-scrollbar">
+            <button v-for="p in teamPeriods" :key="p.key"
+              @click="commDlPeriod = p.key"
+              class="team-period-btn" :class="commDlPeriod === p.key ? 'team-period-btn--active' : ''">
+              {{ p.label }}
+            </button>
+          </div>
+        </div>
+
+        <div class="glass-section" style="margin-top:10px;">
+          <div class="glass-section-title-row">
+            <span class="glass-section-title">ကော်မရှင် ထောက်ပံ့သောသူများ</span>
+            <button class="glass-help-btn">?</button>
+          </div>
+          <div class="team-stats-grid" style="margin-bottom:14px;">
+            <div class="team-stat-cell">
+              <div class="team-stat-label">ကော်မရှင်ပေးသောသူ</div>
+              <div class="team-stat-val">{{ commDlList.length }}</div>
+            </div>
+            <div class="team-stat-cell">
+              <div class="team-stat-label">ရရှိသည့် ကော်မရှင်</div>
+              <div class="team-stat-val team-stat-val--yellow">{{ formatN(commissions.filter(c => c.status === 'paid').reduce((s,c) => s + (Number(c.commission_amount) || 0), 0)) }}</div>
+            </div>
+            <div class="team-stat-cell">
+              <div class="team-stat-label">ဆိုင်းငံ့ဆဲ</div>
+              <div class="team-stat-val">{{ commissions.filter(c => c.status === 'pending').length }}</div>
+            </div>
+          </div>
+          <div class="dl-list">
+            <div v-if="commDlList.length === 0" class="dl-empty">ဒေတာ မရှိသေးပါ</div>
+            <div v-for="(item, idx) in commDlList.slice(0,15)" :key="idx" class="dl-row">
+              <div class="dl-avatar" style="background:linear-gradient(135deg,#fbbf24,#f59e0b);">{{ (item.username || '?')[0].toUpperCase() }}</div>
+              <div class="dl-info">
+                <div class="dl-name">{{ item.username }}</div>
+                <div class="dl-meta">Turnover: {{ formatN(item.turnover || 0) }} Ks</div>
+              </div>
+              <div class="dl-comm-val">{{ formatN(item.comm || 0) }} <span style="font-size:9px;">Ks</span></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ══ TAB 9: ကော်မရှင်ကြေး ══ -->
+      <div v-if="activeTab === 9">
+        <div class="glass-section">
+          <div class="glass-section-title-row">
+            <span class="glass-section-title">ကာလ ရွေးချယ်ပါ</span>
+          </div>
+          <div class="team-period-scroll no-scrollbar">
+            <button v-for="p in teamPeriods" :key="p.key"
+              @click="feesPeriod = p.key"
+              class="team-period-btn" :class="feesPeriod === p.key ? 'team-period-btn--active' : ''">
+              {{ p.label }}
+            </button>
+          </div>
+        </div>
+
+        <div class="glass-section" style="margin-top:10px;">
+          <div class="glass-section-title-row">
+            <span class="glass-section-title">ကော်မရှင်ကြေး အကျဉ်းချုပ်</span>
+            <button class="glass-help-btn">?</button>
+          </div>
+          <div class="team-stats-grid">
+            <div class="team-stat-cell team-stat-cell--span2">
+              <div class="team-stat-label">စုစုပေါင်း ကော်မရှင်</div>
+              <div class="team-stat-val team-stat-val--yellow" style="font-size:20px;">{{ formatN(teamCommTotal) }}</div>
+            </div>
+            <div class="team-stat-cell">
+              <div class="team-stat-label">တိုက်ရိုက်ကြေး</div>
+              <div class="team-stat-val team-stat-val--yellow">{{ formatN(teamDirectComm) }}</div>
+            </div>
+            <div class="team-stat-cell">
+              <div class="team-stat-label">Override ကြေး</div>
+              <div class="team-stat-val team-stat-val--yellow">{{ formatN(teamOverrideComm) }}</div>
+            </div>
+            <div class="team-stat-cell">
+              <div class="team-stat-label">တိုက်ရိုက် Rate</div>
+              <div class="team-stat-val">{{ commDirectRate }}%</div>
+            </div>
+            <div class="team-stat-cell">
+              <div class="team-stat-label">Override Rate</div>
+              <div class="team-stat-val">{{ commOverrideRate }}%</div>
+            </div>
+            <div class="team-stat-cell">
+              <div class="team-stat-label">ပေးဆောင်ပြီး</div>
+              <div class="team-stat-val team-stat-val--green">{{ commissions.filter(c => c.status === 'paid').length }}</div>
+            </div>
+            <div class="team-stat-cell">
+              <div class="team-stat-label">ဆိုင်းငံ့ဆဲ</div>
+              <div class="team-stat-val">{{ commissions.filter(c => c.status === 'pending').length }}</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="glass-section" style="margin-top:10px;">
+          <div class="glass-section-title-row">
+            <span class="glass-section-title">ကော်မရှင် မှတ်တမ်း</span>
+          </div>
+          <div class="dl-list">
+            <div v-if="commissions.length === 0" class="dl-empty">ကော်မရှင် မှတ်တမ်း မရှိသေးပါ</div>
+            <div v-for="(c, idx) in commissions.slice(0,20)" :key="idx" class="dl-row">
+              <div class="dl-avatar" style="background:linear-gradient(135deg,#22c55e,#16a34a);">{{ idx + 1 }}</div>
+              <div class="dl-info">
+                <div class="dl-name">{{ c.type === 'direct' ? 'တိုက်ရိုက်ကြေး' : 'Override ကြေး' }}</div>
+                <div class="dl-meta">{{ c.created_at ? new Date(c.created_at).toLocaleDateString('my-MM') : '—' }}</div>
+              </div>
+              <div class="dl-comm-val" :class="c.status === 'paid' ? 'team-stat-val--green' : ''">{{ formatN(Number(c.commission_amount) || 0) }} <span style="font-size:9px;">Ks</span></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
     </div>
   </div>
 </template>
@@ -709,7 +1013,7 @@ const commPeriods = [
   { key: 'all',       label: 'အားလုံး' },
 ]
 
-const tabs    = ['ပိုင်စာလင်မ်', 'ငါ့ကော်မရှင်', 'ငါ့တောင', 'စွမ်းဆောင်ရည်', 'အချက်အလက်အားလုံး']
+const tabs    = ['ပိုင်စာလင်မ်', 'ငါ့ကော်မရှင်', 'ငါ့တောင', 'စွမ်းဆောင်ရည်', 'အချက်အလက်အားလုံး', 'လက်အောက်ငယ်သားများ၏ဘဏ္ဏာရေး', 'အောက်လက်ငယ်သားလောင်းကစား', 'လက်အောက်ခံဒေတာ', 'ကော်မရှင်ရယူပြီးသောလက်အောက်ငယ်သားများ', 'ကော်မရှင်ကြေး']
 const periods = [
   { key: 'today',     label: 'ဒီနေ့' },
   { key: 'yesterday', label: 'မနေ့က' },
@@ -798,6 +1102,83 @@ const teamNewMembers = computed(() => {
     const d = new Date(u.created_at)
     return d >= range.from && d < range.to
   }).length
+})
+
+// ── Tab 5–9 period refs ──
+const finPeriod     = ref('today')
+const gambPeriod    = ref('today')
+const dlPeriod      = ref('today')
+const commDlPeriod  = ref('today')
+const feesPeriod    = ref('today')
+
+// commissions alias (same data as commissionRecords)
+const commissions = computed(() => commissionRecords.value)
+
+// ── Tab 5: Finance computed ──
+const finDownlineTxns = computed(() => {
+  const ids = allDownline.value.map(u => u.id)
+  const range = getPeriodRange(finPeriod.value)
+  return commissionRecords.value.filter(r => {
+    if (!ids.includes(r.user_id)) return false
+    if (!range) return true
+    const d = new Date(r.created_at)
+    return d >= range.from && d < range.to
+  })
+})
+const finDepositTotal   = computed(() => finDownlineTxns.value.reduce((s,r) => s + (Number(r.deposit_amount) || 0), 0))
+const finDepositCount   = computed(() => finDownlineTxns.value.filter(r => (Number(r.deposit_amount) || 0) > 0).length)
+const finWithdrawTotal  = computed(() => finDownlineTxns.value.reduce((s,r) => s + (Number(r.withdraw_amount) || 0), 0))
+const finWithdrawCount  = computed(() => finDownlineTxns.value.filter(r => (Number(r.withdraw_amount) || 0) > 0).length)
+const finBalance        = computed(() => finDepositTotal.value - finWithdrawTotal.value)
+const finNewMembers     = computed(() => {
+  const range = getPeriodRange(finPeriod.value)
+  if (!range) return allDownline.value.length
+  return allDownline.value.filter(u => { if (!u.created_at) return false; const d = new Date(u.created_at); return d >= range.from && d < range.to }).length
+})
+const finFirstDeposit   = computed(() => finDownlineTxns.value.filter(r => r.is_first_deposit).length)
+const finActiveCount    = computed(() => new Set(finDownlineTxns.value.map(r => r.user_id)).size)
+
+// ── Tab 6: Gambling computed ──
+const gambFilteredComm = computed(() => {
+  const range = getPeriodRange(gambPeriod.value)
+  if (!range) return commissionRecords.value
+  return commissionRecords.value.filter(r => { const d = new Date(r.created_at); return d >= range.from && d < range.to })
+})
+const gambTurnover    = computed(() => gambFilteredComm.value.reduce((s,r) => s + (Number(r.bet_turnover) || 0), 0))
+const gambBetCount    = computed(() => gambFilteredComm.value.length)
+const gambWinAmt      = computed(() => gambFilteredComm.value.reduce((s,r) => s + (Number(r.win_amount) || 0), 0))
+const gambLoseAmt     = computed(() => gambFilteredComm.value.reduce((s,r) => s + (Number(r.lose_amount) || 0), 0))
+const gambProfitLoss  = computed(() => gambWinAmt.value - gambLoseAmt.value)
+const gambActiveCount = computed(() => new Set(gambFilteredComm.value.map(r => r.user_id)).size)
+const gambRtp         = computed(() => gambTurnover.value > 0 ? ((gambWinAmt.value / gambTurnover.value) * 100).toFixed(1) : '0.0')
+const gambAvgBet      = computed(() => gambBetCount.value > 0 ? gambTurnover.value / gambBetCount.value : 0)
+
+// ── Tab 7: Downline Data computed ──
+const dlActiveCount = computed(() => {
+  const range = getPeriodRange(dlPeriod.value)
+  if (!range) return allDownline.value.filter(u => u.is_active).length
+  return allDownline.value.filter(u => {
+    if (!u.last_active_at) return false
+    const d = new Date(u.last_active_at)
+    return d >= range.from && d < range.to
+  }).length
+})
+
+// ── Tab 8: Commission DL list ──
+const commDlList = computed(() => {
+  const range = getPeriodRange(commDlPeriod.value)
+  const filtered = commissionRecords.value.filter(r => {
+    if (!range) return true
+    const d = new Date(r.created_at); return d >= range.from && d < range.to
+  })
+  const map = {}
+  for (const r of filtered) {
+    const uid = r.user_id || r.referral_id || 'unknown'
+    if (!map[uid]) map[uid] = { username: r.username || uid, turnover: 0, comm: 0 }
+    map[uid].turnover += Number(r.bet_turnover) || 0
+    map[uid].comm += Number(r.commission_amount) || 0
+  }
+  return Object.values(map).sort((a,b) => b.comm - a.comm)
 })
 
 const nextPayDate = computed(() => {
@@ -1406,8 +1787,47 @@ onUnmounted(() => {
   color: #ccd6f6;
   line-height: 1;
 }
-.team-stat-val--yellow {
-  color: #fbbf24;
+.team-stat-val--yellow { color: #fbbf24; }
+.team-stat-val--green  { color: #22c55e; }
+.team-stat-val--red    { color: #f87171; }
+
+/* ── Downline List (Tabs 7, 8, 9) ── */
+.dl-list {
+  display: flex; flex-direction: column; gap: 8px;
+  margin-top: 8px;
+}
+.dl-empty {
+  text-align: center; color: rgba(255,255,255,0.3);
+  font-size: 12px; padding: 20px 0;
+}
+.dl-row {
+  display: flex; align-items: center; gap: 10px;
+  background: rgba(255,255,255,0.04);
+  border: 1px solid rgba(255,255,255,0.07);
+  border-radius: 10px; padding: 8px 10px;
+}
+.dl-avatar {
+  width: 34px; height: 34px; border-radius: 50%;
+  background: linear-gradient(135deg, #4f6ef7, #7c3aed);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 13px; font-weight: 800; color: #fff;
+  flex-shrink: 0;
+}
+.dl-info { flex: 1; min-width: 0; }
+.dl-name {
+  font-size: 12px; font-weight: 700; color: #ccd6f6;
+  white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+}
+.dl-meta { font-size: 10px; color: rgba(255,255,255,0.38); margin-top: 2px; }
+.dl-badge {
+  font-size: 9px; font-weight: 700; padding: 3px 7px;
+  border-radius: 20px; flex-shrink: 0;
+}
+.dl-badge--active   { background: rgba(34,197,94,0.15); color: #22c55e; }
+.dl-badge--inactive { background: rgba(255,255,255,0.06); color: rgba(255,255,255,0.35); }
+.dl-comm-val {
+  font-size: 13px; font-weight: 800; color: #fbbf24;
+  flex-shrink: 0; text-align: right;
 }
 
 .lever-final-note { font-size:10px; color:rgba(255,255,255,0.45); text-align:center; font-style:italic; padding-top:4px; }
