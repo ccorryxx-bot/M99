@@ -634,8 +634,29 @@
 
       <!-- ══ TAB 4: အချက်အလက်အားလုံး ══ -->
       <div v-if="activeTab === 4">
-        <div class="ag-card">
-          <p class="tab-section-title">ကျွန်ုပ်၏ Agent အချက်အလက်</p>
+        <div class="ag-card" style="padding:0;overflow:visible;">
+
+          <!-- Filter row -->
+          <div class="tab-filter-row">
+            <div class="tab-filter-drop">
+              <button class="tab-filter-drop-btn" @click="showDrop4 = !showDrop4">
+                <span>{{ perfPeriods.find(p=>p.key===perfPeriod4)?.label || 'ဒီနေ့' }}</span>
+                <svg class="tab-filter-caret" :class="showDrop4 ? 'tab-filter-caret-up':''" viewBox="0 0 24 24" fill="none"><path d="M6 9l6 6 6-6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              </button>
+              <div v-if="showDrop4" class="tab-filter-list">
+                <button v-for="p in perfPeriods" :key="p.key"
+                  class="tab-filter-list-item" :class="perfPeriod4===p.key?'tab-filter-list-item--active':''"
+                  @click="perfPeriod4=p.key; showDrop4=false">{{ p.label }}</button>
+              </div>
+            </div>
+            <div class="tab-filter-search-wrap">
+              <svg viewBox="0 0 24 24" fill="none" width="15" height="15" class="tab-filter-search-icon"><circle cx="11" cy="11" r="7" stroke="currentColor" stroke-width="2"/><path d="M16.5 16.5l3 3" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+              <input class="tab-filter-search" v-model="searchQ4" placeholder="အမျိုးအစား ID"/>
+            </div>
+          </div>
+
+          <div style="padding:0 12px 14px;">
+          <p class="tab-section-title" style="padding-top:10px;">ကျွန်ုပ်၏ Agent အချက်အလက်</p>
           <div class="info-table">
             <div class="info-row">
               <span class="info-key">Username</span>
@@ -670,21 +691,28 @@
               <span class="info-val green">{{ formatN(totalCommission) }} Ks</span>
             </div>
           </div>
+          </div>
         </div>
       </div>
 
       <!-- ══ TAB 5: လက်အောက်ငယ်သားများ၏ဘဏ္ဏာရေး ══ -->
       <div v-if="activeTab === 5">
-        <div class="glass-section">
-          <div class="glass-section-title-row">
-            <span class="glass-section-title">ကာလ ရွေးချယ်ပါ</span>
-          </div>
-          <div class="team-period-scroll no-scrollbar">
-            <button v-for="p in teamPeriods" :key="p.key"
-              @click="finPeriod = p.key"
-              class="team-period-btn" :class="finPeriod === p.key ? 'team-period-btn--active' : ''">
-              {{ p.label }}
+        <!-- Filter row -->
+        <div class="tab-filter-row">
+          <div class="tab-filter-drop">
+            <button class="tab-filter-drop-btn" @click="showDrop5 = !showDrop5">
+              <span>{{ perfPeriods.find(p=>p.key===finPeriod)?.label || 'ဒီနေ့' }}</span>
+              <svg class="tab-filter-caret" :class="showDrop5?'tab-filter-caret-up':''" viewBox="0 0 24 24" fill="none"><path d="M6 9l6 6 6-6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
             </button>
+            <div v-if="showDrop5" class="tab-filter-list">
+              <button v-for="p in perfPeriods" :key="p.key"
+                class="tab-filter-list-item" :class="finPeriod===p.key?'tab-filter-list-item--active':''"
+                @click="finPeriod=p.key; showDrop5=false">{{ p.label }}</button>
+            </div>
+          </div>
+          <div class="tab-filter-search-wrap">
+            <svg viewBox="0 0 24 24" fill="none" width="15" height="15" class="tab-filter-search-icon"><circle cx="11" cy="11" r="7" stroke="currentColor" stroke-width="2"/><path d="M16.5 16.5l3 3" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+            <input class="tab-filter-search" v-model="searchQ5" placeholder="အမျိုးအစား ID"/>
           </div>
         </div>
 
@@ -736,16 +764,22 @@
 
       <!-- ══ TAB 6: အောက်လက်ငယ်သားလောင်းကစား ══ -->
       <div v-if="activeTab === 6">
-        <div class="glass-section">
-          <div class="glass-section-title-row">
-            <span class="glass-section-title">ကာလ ရွေးချယ်ပါ</span>
-          </div>
-          <div class="team-period-scroll no-scrollbar">
-            <button v-for="p in teamPeriods" :key="p.key"
-              @click="gambPeriod = p.key"
-              class="team-period-btn" :class="gambPeriod === p.key ? 'team-period-btn--active' : ''">
-              {{ p.label }}
+        <!-- Filter row -->
+        <div class="tab-filter-row">
+          <div class="tab-filter-drop">
+            <button class="tab-filter-drop-btn" @click="showDrop6 = !showDrop6">
+              <span>{{ perfPeriods.find(p=>p.key===gambPeriod)?.label || 'ဒီနေ့' }}</span>
+              <svg class="tab-filter-caret" :class="showDrop6?'tab-filter-caret-up':''" viewBox="0 0 24 24" fill="none"><path d="M6 9l6 6 6-6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
             </button>
+            <div v-if="showDrop6" class="tab-filter-list">
+              <button v-for="p in perfPeriods" :key="p.key"
+                class="tab-filter-list-item" :class="gambPeriod===p.key?'tab-filter-list-item--active':''"
+                @click="gambPeriod=p.key; showDrop6=false">{{ p.label }}</button>
+            </div>
+          </div>
+          <div class="tab-filter-search-wrap">
+            <svg viewBox="0 0 24 24" fill="none" width="15" height="15" class="tab-filter-search-icon"><circle cx="11" cy="11" r="7" stroke="currentColor" stroke-width="2"/><path d="M16.5 16.5l3 3" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+            <input class="tab-filter-search" v-model="searchQ6" placeholder="အမျိုးအစား ID"/>
           </div>
         </div>
 
@@ -793,16 +827,22 @@
 
       <!-- ══ TAB 7: လက်အောက်ခံဒေတာ ══ -->
       <div v-if="activeTab === 7">
-        <div class="glass-section">
-          <div class="glass-section-title-row">
-            <span class="glass-section-title">ကာလ ရွေးချယ်ပါ</span>
-          </div>
-          <div class="team-period-scroll no-scrollbar">
-            <button v-for="p in teamPeriods" :key="p.key"
-              @click="dlPeriod = p.key"
-              class="team-period-btn" :class="dlPeriod === p.key ? 'team-period-btn--active' : ''">
-              {{ p.label }}
+        <!-- Filter row -->
+        <div class="tab-filter-row">
+          <div class="tab-filter-drop">
+            <button class="tab-filter-drop-btn" @click="showDrop7 = !showDrop7">
+              <span>{{ perfPeriods.find(p=>p.key===dlPeriod)?.label || 'ဒီနေ့' }}</span>
+              <svg class="tab-filter-caret" :class="showDrop7?'tab-filter-caret-up':''" viewBox="0 0 24 24" fill="none"><path d="M6 9l6 6 6-6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
             </button>
+            <div v-if="showDrop7" class="tab-filter-list">
+              <button v-for="p in perfPeriods" :key="p.key"
+                class="tab-filter-list-item" :class="dlPeriod===p.key?'tab-filter-list-item--active':''"
+                @click="dlPeriod=p.key; showDrop7=false">{{ p.label }}</button>
+            </div>
+          </div>
+          <div class="tab-filter-search-wrap">
+            <svg viewBox="0 0 24 24" fill="none" width="15" height="15" class="tab-filter-search-icon"><circle cx="11" cy="11" r="7" stroke="currentColor" stroke-width="2"/><path d="M16.5 16.5l3 3" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+            <input class="tab-filter-search" v-model="searchQ7" placeholder="အမျိုးအစား ID"/>
           </div>
         </div>
 
@@ -861,16 +901,22 @@
 
       <!-- ══ TAB 8: ကော်မရှင်ရယူပြီးသောလက်အောက်ငယ်သားများ ══ -->
       <div v-if="activeTab === 8">
-        <div class="glass-section">
-          <div class="glass-section-title-row">
-            <span class="glass-section-title">ကာလ ရွေးချယ်ပါ</span>
-          </div>
-          <div class="team-period-scroll no-scrollbar">
-            <button v-for="p in teamPeriods" :key="p.key"
-              @click="commDlPeriod = p.key"
-              class="team-period-btn" :class="commDlPeriod === p.key ? 'team-period-btn--active' : ''">
-              {{ p.label }}
+        <!-- Filter row -->
+        <div class="tab-filter-row">
+          <div class="tab-filter-drop">
+            <button class="tab-filter-drop-btn" @click="showDrop8 = !showDrop8">
+              <span>{{ perfPeriods.find(p=>p.key===commDlPeriod)?.label || 'ဒီနေ့' }}</span>
+              <svg class="tab-filter-caret" :class="showDrop8?'tab-filter-caret-up':''" viewBox="0 0 24 24" fill="none"><path d="M6 9l6 6 6-6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
             </button>
+            <div v-if="showDrop8" class="tab-filter-list">
+              <button v-for="p in perfPeriods" :key="p.key"
+                class="tab-filter-list-item" :class="commDlPeriod===p.key?'tab-filter-list-item--active':''"
+                @click="commDlPeriod=p.key; showDrop8=false">{{ p.label }}</button>
+            </div>
+          </div>
+          <div class="tab-filter-search-wrap">
+            <svg viewBox="0 0 24 24" fill="none" width="15" height="15" class="tab-filter-search-icon"><circle cx="11" cy="11" r="7" stroke="currentColor" stroke-width="2"/><path d="M16.5 16.5l3 3" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+            <input class="tab-filter-search" v-model="searchQ8" placeholder="အမျိုးအစား ID"/>
           </div>
         </div>
 
@@ -1137,6 +1183,19 @@ const teamNewMembers = computed(() => {
     return d >= range.from && d < range.to
   }).length
 })
+
+// ── Tab 4–8 dropdown + search refs ──
+const showDrop4   = ref(false)
+const showDrop5   = ref(false)
+const showDrop6   = ref(false)
+const showDrop7   = ref(false)
+const showDrop8   = ref(false)
+const searchQ4    = ref('')
+const searchQ5    = ref('')
+const searchQ6    = ref('')
+const searchQ7    = ref('')
+const searchQ8    = ref('')
+const perfPeriod4 = ref('today')
 
 // ── Tab 5–9 period refs ──
 const finPeriod     = ref('today')
@@ -1863,6 +1922,66 @@ onUnmounted(() => {
   font-size: 13px; font-weight: 800; color: #fbbf24;
   flex-shrink: 0; text-align: right;
 }
+
+/* ── Tab Filter Row (Tabs 4–8) ── */
+.tab-filter-row {
+  display: flex; align-items: center; gap: 8px;
+  padding: 10px 12px 10px;
+  border-bottom: 1px solid rgba(255,255,255,0.07);
+}
+.tab-filter-drop { position: relative; flex-shrink: 0; }
+.tab-filter-drop-btn {
+  display: flex; align-items: center; gap: 6px;
+  background: rgba(255,255,255,0.07);
+  border: 1px solid rgba(255,255,255,0.14);
+  border-radius: 8px;
+  padding: 7px 10px;
+  color: #ccd6f6; font-size: 12px; font-weight: 600;
+  cursor: pointer; white-space: nowrap;
+}
+.tab-filter-caret {
+  width: 14px; height: 14px; color: rgba(255,255,255,0.5);
+  transition: transform 0.2s; flex-shrink: 0;
+}
+.tab-filter-caret-up { transform: rotate(180deg); }
+.tab-filter-list {
+  position: absolute; top: calc(100% + 4px); left: 0; z-index: 50;
+  background: #1e2147;
+  border: 1px solid rgba(255,255,255,0.12);
+  border-radius: 10px;
+  min-width: 150px;
+  box-shadow: 0 8px 24px rgba(0,0,0,0.5);
+  overflow: hidden;
+}
+.tab-filter-list-item {
+  display: block; width: 100%;
+  padding: 11px 16px;
+  text-align: left; font-size: 13px; font-weight: 500;
+  color: rgba(255,255,255,0.75);
+  background: none; border: none;
+  border-bottom: 1px solid rgba(255,255,255,0.06);
+  cursor: pointer;
+}
+.tab-filter-list-item:last-child { border-bottom: none; }
+.tab-filter-list-item--active { color: #22c55e; font-weight: 700; }
+.tab-filter-list-item:active { background: rgba(255,255,255,0.05); }
+.tab-filter-search-wrap {
+  flex: 1; display: flex; align-items: center; gap: 7px;
+  background: rgba(255,255,255,0.06);
+  border: 1px solid rgba(255,255,255,0.13);
+  border-radius: 8px;
+  padding: 7px 10px;
+  transition: border-color 0.15s;
+}
+.tab-filter-search-wrap:focus-within {
+  border-color: #22c55e;
+}
+.tab-filter-search-icon { color: rgba(255,255,255,0.35); flex-shrink: 0; }
+.tab-filter-search {
+  flex: 1; background: none; border: none; outline: none;
+  color: #ccd6f6; font-size: 12px;
+}
+.tab-filter-search::placeholder { color: rgba(255,255,255,0.3); }
 
 .lever-final-note { font-size:10px; color:rgba(255,255,255,0.45); text-align:center; font-style:italic; padding-top:4px; }
 
