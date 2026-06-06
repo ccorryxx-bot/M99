@@ -66,6 +66,7 @@
 
           <!-- VIP User Banner -->
           <div class="vip-banner">
+            <div class="vip-current-level-tag">လက်ရှိအဆင့်</div>
             <div class="vip-banner-left">
               <div class="vip-badge-wrap">
                 <img
@@ -166,12 +167,17 @@
               <div
                 v-for="lv in vipLevels" :key="lv.level"
                 class="vip-level-row"
+                :class="{ 'vip-level-row--active': lv.level === userVipLevel }"
               >
+                <div class="vip-hand-cell">
+                  <svg v-if="lv.level === userVipLevel" class="vip-hand-svg" viewBox="0 0 40 56" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M22 4C22 1.8 20.2 0 18 0C15.8 0 14 1.8 14 4V22L10 20C8 19 6 20.5 6.5 22.5L12 42C13.5 49 19.5 56 27 56H28C34 56 40 50 40 44V28C40 25.8 38.2 24 36 24C35.2 24 34.4 24.3 33.8 24.8C33.2 23 31.5 21.8 29.6 22C28.8 20.6 27.3 19.7 25.6 19.8C25.2 18.7 24.2 17.8 23 17.4V4z" fill="#4ade80"/>
+                    <path d="M14 4C14 1.8 15.8 0 18 0C20.2 0 22 1.8 22 4V22" stroke="#22c55e" stroke-width="1.5" fill="none"/>
+                  </svg>
+                </div>
                 <div class="vip-lv-badge">
                   <img v-if="lv.badgeImg" :src="lv.badgeImg" :alt="'VIP ' + lv.level" class="vip-lv-img" loading="lazy" />
-                  <div v-else class="vip-lv-placeholder">
-                    <span>{{ lv.level }}</span>
-                  </div>
+                  <div v-else class="vip-lv-placeholder"><span>{{ lv.level }}</span></div>
                 </div>
                 <div class="vip-lv-req">
                   <span class="vip-lv-dep">{{ lv.deposit }}</span>
@@ -186,7 +192,14 @@
               <div
                 v-for="(wb, idx) in weeklyBonuses" :key="'w' + idx"
                 class="vip-level-row vip-level-row--weekly"
+                :class="{ 'vip-level-row--active': idx === userVipLevel }"
               >
+                <div class="vip-hand-cell">
+                  <svg v-if="idx === userVipLevel" class="vip-hand-svg" viewBox="0 0 40 56" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M22 4C22 1.8 20.2 0 18 0C15.8 0 14 1.8 14 4V22L10 20C8 19 6 20.5 6.5 22.5L12 42C13.5 49 19.5 56 27 56H28C34 56 40 50 40 44V28C40 25.8 38.2 24 36 24C35.2 24 34.4 24.3 33.8 24.8C33.2 23 31.5 21.8 29.6 22C28.8 20.6 27.3 19.7 25.6 19.8C25.2 18.7 24.2 17.8 23 17.4V4z" fill="#4ade80"/>
+                    <path d="M14 4C14 1.8 15.8 0 18 0C20.2 0 22 1.8 22 4V22" stroke="#22c55e" stroke-width="1.5" fill="none"/>
+                  </svg>
+                </div>
                 <div class="vip-lv-badge">
                   <img v-if="vipLevels[idx]?.badgeImg" :src="vipLevels[idx].badgeImg" :alt="'VIP ' + idx" class="vip-lv-img" loading="lazy" />
                   <div v-else class="vip-lv-placeholder"><span>{{ idx }}</span></div>
@@ -202,7 +215,14 @@
               <div
                 v-for="(mb, idx) in monthlyBonuses" :key="'m' + idx"
                 class="vip-level-row vip-level-row--weekly"
+                :class="{ 'vip-level-row--active': idx === userVipLevel }"
               >
+                <div class="vip-hand-cell">
+                  <svg v-if="idx === userVipLevel" class="vip-hand-svg" viewBox="0 0 40 56" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M22 4C22 1.8 20.2 0 18 0C15.8 0 14 1.8 14 4V22L10 20C8 19 6 20.5 6.5 22.5L12 42C13.5 49 19.5 56 27 56H28C34 56 40 50 40 44V28C40 25.8 38.2 24 36 24C35.2 24 34.4 24.3 33.8 24.8C33.2 23 31.5 21.8 29.6 22C28.8 20.6 27.3 19.7 25.6 19.8C25.2 18.7 24.2 17.8 23 17.4V4z" fill="#4ade80"/>
+                    <path d="M14 4C14 1.8 15.8 0 18 0C20.2 0 22 1.8 22 4V22" stroke="#22c55e" stroke-width="1.5" fill="none"/>
+                  </svg>
+                </div>
                 <div class="vip-lv-badge">
                   <img v-if="vipLevels[idx]?.badgeImg" :src="vipLevels[idx].badgeImg" :alt="'VIP ' + idx" class="vip-lv-img" loading="lazy" />
                   <div v-else class="vip-lv-placeholder"><span>{{ idx }}</span></div>
@@ -218,7 +238,14 @@
               <div
                 v-for="(lv, idx) in vipLevels" :key="'bf' + idx"
                 class="vip-level-row vip-level-row--weekly"
+                :class="{ 'vip-level-row--active': idx === userVipLevel }"
               >
+                <div class="vip-hand-cell">
+                  <svg v-if="idx === userVipLevel" class="vip-hand-svg" viewBox="0 0 40 56" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M22 4C22 1.8 20.2 0 18 0C15.8 0 14 1.8 14 4V22L10 20C8 19 6 20.5 6.5 22.5L12 42C13.5 49 19.5 56 27 56H28C34 56 40 50 40 44V28C40 25.8 38.2 24 36 24C35.2 24 34.4 24.3 33.8 24.8C33.2 23 31.5 21.8 29.6 22C28.8 20.6 27.3 19.7 25.6 19.8C25.2 18.7 24.2 17.8 23 17.4V4z" fill="#4ade80"/>
+                    <path d="M14 4C14 1.8 15.8 0 18 0C20.2 0 22 1.8 22 4V22" stroke="#22c55e" stroke-width="1.5" fill="none"/>
+                  </svg>
+                </div>
                 <div class="vip-lv-badge">
                   <img v-if="lv.badgeImg" :src="lv.badgeImg" :alt="'VIP ' + idx" class="vip-lv-img" loading="lazy" />
                   <div v-else class="vip-lv-placeholder"><span>{{ idx }}</span></div>
@@ -234,7 +261,14 @@
               <div
                 v-for="(pd, idx) in privilegeData" :key="'pv' + idx"
                 class="vip-level-row vip-level-row--weekly"
+                :class="{ 'vip-level-row--active': idx === userVipLevel }"
               >
+                <div class="vip-hand-cell">
+                  <svg v-if="idx === userVipLevel" class="vip-hand-svg" viewBox="0 0 40 56" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M22 4C22 1.8 20.2 0 18 0C15.8 0 14 1.8 14 4V22L10 20C8 19 6 20.5 6.5 22.5L12 42C13.5 49 19.5 56 27 56H28C34 56 40 50 40 44V28C40 25.8 38.2 24 36 24C35.2 24 34.4 24.3 33.8 24.8C33.2 23 31.5 21.8 29.6 22C28.8 20.6 27.3 19.7 25.6 19.8C25.2 18.7 24.2 17.8 23 17.4V4z" fill="#4ade80"/>
+                    <path d="M14 4C14 1.8 15.8 0 18 0C20.2 0 22 1.8 22 4V22" stroke="#22c55e" stroke-width="1.5" fill="none"/>
+                  </svg>
+                </div>
                 <div class="vip-lv-badge">
                   <img v-if="vipLevels[idx]?.badgeImg" :src="vipLevels[idx].badgeImg" :alt="'VIP ' + idx" class="vip-lv-img" loading="lazy" />
                   <div v-else class="vip-lv-placeholder"><span>{{ idx }}</span></div>
@@ -744,6 +778,43 @@ const vipLevels = ref([
   border: 1px solid rgba(99,102,241,0.3);
   border-radius: 14px; padding: 14px 12px;
   display: flex; gap: 10px; align-items: flex-start;
+  position: relative;
+  overflow: hidden;
+}
+
+/* Current level red tag — top-left corner of banner */
+.vip-current-level-tag {
+  position: absolute;
+  top: 0; left: 0;
+  background: #ef4444;
+  color: #fff;
+  font-size: 8.5px;
+  font-weight: 700;
+  padding: 3px 9px 3px 7px;
+  border-radius: 0 0 8px 0;
+  letter-spacing: 0.3px;
+  line-height: 1;
+  z-index: 2;
+}
+
+/* Hand indicator cell in each row */
+.vip-hand-cell {
+  width: 14px;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.vip-hand-svg {
+  width: 14px;
+  height: 19px;
+  filter: drop-shadow(0 0 4px rgba(74,222,128,0.6));
+}
+
+/* Active (current) level row highlight */
+.vip-level-row--active {
+  background: rgba(74, 222, 128, 0.05);
+  border-left: 2px solid rgba(74,222,128,0.5);
 }
 .vip-banner-left { display: flex; gap: 10px; flex: 1; min-width: 0; }
 .vip-badge-wrap { flex-shrink: 0; }
