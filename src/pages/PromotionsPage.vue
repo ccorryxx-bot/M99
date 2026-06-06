@@ -702,6 +702,7 @@ const vipLevels = ref([
   padding: 10px 10px;
   border-bottom: 1px solid rgba(255,255,255,0.04);
   transition: background 0.12s;
+  flex-shrink: 0;
 }
 .vip-level-row:active { background: rgba(255,255,255,0.04); }
 
@@ -736,6 +737,7 @@ const vipLevels = ref([
 .vip-rules-sep {
   display: flex; align-items: center; gap: 8px;
   padding: 14px 12px 8px;
+  flex-shrink: 0;
 }
 .vip-rules-sep-line {
   flex: 1; height: 1px;
@@ -753,7 +755,7 @@ const vipLevels = ref([
   border-radius: 12px;
   border: 1px solid rgba(99,102,241,0.2);
   background: rgba(15,17,45,0.6);
-  overflow: hidden;
+  flex-shrink: 0;
 }
 
 /* Title */
