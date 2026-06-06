@@ -122,19 +122,16 @@
               v-for="lv in vipLevels" :key="lv.level"
               class="vip-level-row"
             >
-              <!-- Badge image — blank for now, URL will be added later -->
               <div class="vip-lv-badge">
-                <img v-if="lv.badgeImg" :src="lv.badgeImg" :alt="'VIP ' + lv.level" class="vip-lv-img" />
+                <img v-if="lv.badgeImg" :src="lv.badgeImg" :alt="'VIP ' + lv.level" class="vip-lv-img" loading="lazy" />
                 <div v-else class="vip-lv-placeholder">
                   <span>{{ lv.level }}</span>
                 </div>
               </div>
-              <!-- Requirements -->
               <div class="vip-lv-req">
                 <span class="vip-lv-dep">{{ lv.deposit }}</span>
                 <span class="vip-lv-turn">{{ lv.turnover }}</span>
               </div>
-              <!-- Bonus -->
               <div class="vip-lv-bonus">{{ lv.bonus }}</div>
             </div>
           </div>
@@ -170,7 +167,6 @@ const topTabs = [
 ]
 const activeTopTab = ref('events')
 
-// Events tab
 const sideCategories = [
   { key: 'all',      label: 'အားလုံး'  },
   { key: 'discount', label: 'လျော့ဈေး' },
@@ -187,76 +183,74 @@ const allCards = ref([
   { id:6, title:'ဘောနပ်မိမိ',    img:'https://ik.imagekit.io/rbok01qam/Promotion%20page%20imags/1780760452860.png?updatedAt=1780761090851&tr=f-auto' },
 ])
 
-// VIP tab
 const vipSubTabs = [
-  { key: 'extra',   label: 'ပရိုမိုးရှင်းအပိုဆု' },
-  { key: 'weekly',  label: 'အပတ်စဉ် ဘောနပ်' },
-  { key: 'monthly', label: 'လစဉ် ဘောနပ်' },
-  { key: 'benefit', label: 'VIP ခံစားခွင့်' },
+  { key: 'extra',     label: 'ပရိုမိုးရှင်းအပိုဆု' },
+  { key: 'weekly',    label: 'အပတ်စဉ် ဘောနပ်' },
+  { key: 'monthly',   label: 'လစဉ် ဘောနပ်' },
+  { key: 'benefit',   label: 'VIP ခံစားခွင့်' },
   { key: 'privilege', label: 'VIP အကြိုးကျေးဇူးများ' },
 ]
 const activeVipTab = ref('extra')
 
-// VIP level data — badge images blank until user provides 50 URLs
 const vipLevels = ref([
-  { level: 0,  deposit: '0',             turnover: '0',                  bonus: '0.00',        badgeImg: '' },
-  { level: 1,  deposit: '3,000.00',      turnover: '50,000.00',          bonus: '1,500.00',    badgeImg: '' },
-  { level: 2,  deposit: '3,000.00',      turnover: '150,000.00',         bonus: '2,500.00',    badgeImg: '' },
-  { level: 3,  deposit: '3,000.00',      turnover: '750,000.00',         bonus: '5,000.00',    badgeImg: '' },
-  { level: 4,  deposit: '3,000.00',      turnover: '1,650,000.00',       bonus: '9,000.00',    badgeImg: '' },
-  { level: 5,  deposit: '3,000.00',      turnover: '6,500,000.00',       bonus: '20,000.00',   badgeImg: '' },
-  { level: 6,  deposit: '3,000.00',      turnover: '30,000,000.00',      bonus: '38,000.00',   badgeImg: '' },
-  { level: 7,  deposit: '3,000.00',      turnover: '120,000,000.00',     bonus: '68,000.00',   badgeImg: '' },
-  { level: 8,  deposit: '3,000.00',      turnover: '330,000,000.00',     bonus: '118,000.00',  badgeImg: '' },
-  { level: 9,  deposit: '3,000.00',      turnover: '600,000,000.00',     bonus: '158,000.00',  badgeImg: '' },
-  { level: 10, deposit: '3,000.00',      turnover: '900,000,000.00',     bonus: '218,000.00',  badgeImg: '' },
-  { level: 11, deposit: '3,000.00',      turnover: '1,200,000,000.00',   bonus: '251,000.00',  badgeImg: '' },
-  { level: 12, deposit: '3,000.00',      turnover: '1,600,000,000.00',   bonus: '387,000.00',  badgeImg: '' },
-  { level: 13, deposit: '3,000.00',      turnover: '3,440,000,000.00',   bonus: '430,000.00',  badgeImg: '' },
-  { level: 14, deposit: '3,000.00',      turnover: '4,300,000,000.00',   bonus: '473,000.00',  badgeImg: '' },
-  { level: 15, deposit: '3,000.00',      turnover: '5,160,000,000.00',   bonus: '516,000.00',  badgeImg: '' },
-  { level: 16, deposit: '3,000.00',      turnover: '6,020,000,000.00',   bonus: '559,000.00',  badgeImg: '' },
-  { level: 17, deposit: '3,000.00',      turnover: '6,880,000,000.00',   bonus: '602,000.00',  badgeImg: '' },
-  { level: 18, deposit: '3,000.00',      turnover: '7,740,000,000.00',   bonus: '645,000.00',  badgeImg: '' },
-  { level: 19, deposit: '3,000.00',      turnover: '9,030,000,000.00',   bonus: '688,000.00',  badgeImg: '' },
-  { level: 20, deposit: '3,000.00',      turnover: '10,320,000,000.00',  bonus: '731,000.00',  badgeImg: '' },
-  { level: 21, deposit: '3,000.00',      turnover: '11,610,000,000.00',  bonus: '817,000.00',  badgeImg: '' },
-  { level: 22, deposit: '3,000.00',      turnover: '12,900,000,000.00',  bonus: '1,161,000.00',badgeImg: '' },
-  { level: 23, deposit: '3,000.00',      turnover: '15,050,000,000.00',  bonus: '1,204,000.00',badgeImg: '' },
-  { level: 24, deposit: '3,000.00',      turnover: '17,200,000,000.00',  bonus: '1,247,000.00',badgeImg: '' },
-  { level: 25, deposit: '3,000.00',      turnover: '19,350,000,000.00',  bonus: '1,290,000.00',badgeImg: '' },
-  { level: 26, deposit: '3,000.00',      turnover: '21,500,000,000.00',  bonus: '1,333,000.00',badgeImg: '' },
-  { level: 27, deposit: '3,000.00',      turnover: '23,650,000,000.00',  bonus: '1,376,000.00',badgeImg: '' },
-  { level: 28, deposit: '3,000.00',      turnover: '25,800,000,000.00',  bonus: '2,365,000.00',badgeImg: '' },
-  { level: 29, deposit: '3,000.00',      turnover: '30,100,000,000.00',  bonus: '2,494,000.00',badgeImg: '' },
-  { level: 30, deposit: '3,000.00',      turnover: '34,400,000,000.00',  bonus: '2,623,000.00',badgeImg: '' },
-  { level: 31, deposit: '3,000.00',      turnover: '38,700,000,000.00',  bonus: '2,752,000.00',badgeImg: '' },
-  { level: 32, deposit: '3,000.00',      turnover: '43,000,000,000.00',  bonus: '2,881,000.00',badgeImg: '' },
-  { level: 33, deposit: '3,000.00',      turnover: '47,300,000,000.00',  bonus: '3,010,000.00',badgeImg: '' },
-  { level: 34, deposit: '3,000.00',      turnover: '51,600,000,000.00',  bonus: '5,160,000.00',badgeImg: '' },
-  { level: 35, deposit: '3,000.00',      turnover: '60,200,000,000.00',  bonus: '5,375,000.00',badgeImg: '' },
-  { level: 36, deposit: '3,000.00',      turnover: '68,800,000,000.00',  bonus: '5,590,000.00',badgeImg: '' },
-  { level: 37, deposit: '3,000.00',      turnover: '77,400,000,000.00',  bonus: '5,805,000.00',badgeImg: '' },
-  { level: 38, deposit: '3,000.00',      turnover: '86,000,000,000.00',  bonus: '7,654,000.00',badgeImg: '' },
-  { level: 39, deposit: '3,000.00',      turnover: '98,900,000,000.00',  bonus: '8,170,000.00',badgeImg: '' },
-  { level: 40, deposit: '3,000.00',      turnover: '111,800,000,000.00', bonus: '8,600,000.00',badgeImg: '' },
-  { level: 41, deposit: '3,000.00',      turnover: '124,700,000,000.00', bonus: '9,030,000.00',badgeImg: '' },
-  { level: 42, deposit: '3,000.00',      turnover: '137,600,000,000.00', bonus: '9,460,000.00',badgeImg: '' },
-  { level: 43, deposit: '3,000.00',      turnover: '150,500,000,000.00', bonus: '12,900,000.00',badgeImg: ''},
-  { level: 44, deposit: '3,000.00',      turnover: '172,000,000,000.00', bonus: '13,000,000.00',badgeImg: ''},
-  { level: 45, deposit: '3,000.00',      turnover: '193,500,000,000.00', bonus: '13,760,000.00',badgeImg: ''},
-  { level: 46, deposit: '3,000.00',      turnover: '215,000,000,000.00', bonus: '14,190,000.00',badgeImg: ''},
-  { level: 47, deposit: '3,000.00',      turnover: '236,500,000,000.00', bonus: '14,620,000.00',badgeImg: ''},
-  { level: 48, deposit: '3,000.00',      turnover: '258,000,000,000.00', bonus: '27,950,000.00',badgeImg: ''},
-  { level: 49, deposit: '3,000.00',      turnover: '279,500,000,000.00', bonus: '30,100,000.00',badgeImg: ''},
-  { level: 50, deposit: '3,000.00',      turnover: '301,000,000,000.00', bonus: '34,400,000.00',badgeImg: ''},
+  { level: 0,  deposit: '0',                      turnover: '0',                   bonus: '0.00',         badgeImg: 'https://ik.imagekit.io/rbok01qam/VIP%20LEVEL%20img/62cf696c-b2f6-4a6c-acd5-501c79dc2f50.png?tr=f-auto' },
+  { level: 1,  deposit: '3,000.00',               turnover: '50,000.00',           bonus: '1,500.00',     badgeImg: 'https://ik.imagekit.io/rbok01qam/VIP%20LEVEL%20img/dfeb825d-6f63-46f5-a3ea-b472f4ddaff1.png?tr=f-auto' },
+  { level: 2,  deposit: '3,000.00',               turnover: '150,000.00',          bonus: '2,500.00',     badgeImg: 'https://ik.imagekit.io/rbok01qam/VIP%20LEVEL%20img/5ea5657f-9a07-41a9-b869-9dee36f5b805.png?tr=f-auto' },
+  { level: 3,  deposit: '3,000.00',               turnover: '750,000.00',          bonus: '5,000.00',     badgeImg: 'https://ik.imagekit.io/rbok01qam/VIP%20LEVEL%20img/47c06c9b-32d2-4906-8cd2-7277f32c64a2.png?tr=f-auto' },
+  { level: 4,  deposit: '3,000.00',               turnover: '1,650,000.00',        bonus: '9,000.00',     badgeImg: 'https://ik.imagekit.io/rbok01qam/VIP%20LEVEL%20img/a563b371-a36b-4456-97b8-40bc9e1590e2.png?tr=f-auto' },
+  { level: 5,  deposit: '3,000.00',               turnover: '6,500,000.00',        bonus: '20,000.00',    badgeImg: 'https://ik.imagekit.io/rbok01qam/VIP%20LEVEL%20img/dfc63a7f-b27b-441a-9d6e-8668769a5aca.png?tr=f-auto' },
+  { level: 6,  deposit: '3,000.00',               turnover: '30,000,000.00',       bonus: '38,000.00',    badgeImg: 'https://ik.imagekit.io/rbok01qam/VIP%20LEVEL%20img/e000c280-1c1f-46a7-bb6d-3a73c0f17e2c.png?tr=f-auto' },
+  { level: 7,  deposit: '3,000.00',               turnover: '120,000,000.00',      bonus: '68,000.00',    badgeImg: 'https://ik.imagekit.io/rbok01qam/VIP%20LEVEL%20img/b577b877-aa6a-45c5-a7dc-0a6e57532bed.png?tr=f-auto' },
+  { level: 8,  deposit: '3,000.00',               turnover: '330,000,000.00',      bonus: '118,000.00',   badgeImg: 'https://ik.imagekit.io/rbok01qam/VIP%20LEVEL%20img/b09d940f-6292-4638-9c03-93de174f5a9e.png?tr=f-auto' },
+  { level: 9,  deposit: '3,000.00',               turnover: '600,000,000.00',      bonus: '158,000.00',   badgeImg: 'https://ik.imagekit.io/rbok01qam/VIP%20LEVEL%20img/232e445e-3638-40af-bdb2-6e15aedc739a.png?tr=f-auto' },
+  { level: 10, deposit: '3,000.00',               turnover: '900,000,000.00',      bonus: '218,000.00',   badgeImg: 'https://ik.imagekit.io/rbok01qam/VIP%20LEVEL%20img/18beaa06-1041-4220-85fa-8c799f5d3cea.png?tr=f-auto' },
+  { level: 11, deposit: '3,000.00',               turnover: '1,200,000,000.00',    bonus: '251,000.00',   badgeImg: 'https://ik.imagekit.io/rbok01qam/VIP%20LEVEL%20img/bf8eac00-9ce9-44cd-892e-4329fcb5db37.png?tr=f-auto' },
+  { level: 12, deposit: '3,000.00',               turnover: '1,600,000,000.00',    bonus: '387,000.00',   badgeImg: 'https://ik.imagekit.io/rbok01qam/VIP%20LEVEL%20img/1ebae457-e6ca-4903-9380-6d3fddc7ef93.png?tr=f-auto' },
+  { level: 13, deposit: '3,000.00',               turnover: '3,440,000,000.00',    bonus: '430,000.00',   badgeImg: 'https://ik.imagekit.io/rbok01qam/VIP%20LEVEL%20img/a9fb8c9e-43d0-48cf-9040-8ff3e3f4525b.png?tr=f-auto' },
+  { level: 14, deposit: '3,000.00',               turnover: '4,300,000,000.00',    bonus: '473,000.00',   badgeImg: 'https://ik.imagekit.io/rbok01qam/VIP%20LEVEL%20img/68473b49-14ef-4207-8c18-2dd667e33c92.png?tr=f-auto' },
+  { level: 15, deposit: '3,000.00',               turnover: '5,160,000,000.00',    bonus: '516,000.00',   badgeImg: 'https://ik.imagekit.io/rbok01qam/VIP%20LEVEL%20img/e5d4fffd-731a-416c-85a4-058aa9a989b3.png?tr=f-auto' },
+  { level: 16, deposit: '3,000.00',               turnover: '6,020,000,000.00',    bonus: '559,000.00',   badgeImg: 'https://ik.imagekit.io/rbok01qam/VIP%20LEVEL%20img/a3fa5319-a6c0-43ff-93fc-e861919ed7cf.png?tr=f-auto' },
+  { level: 17, deposit: '3,000.00',               turnover: '6,880,000,000.00',    bonus: '602,000.00',   badgeImg: 'https://ik.imagekit.io/rbok01qam/VIP%20LEVEL%20img/21ad6d6e-1c52-4c68-be68-a593e9ea0c38.png?tr=f-auto' },
+  { level: 18, deposit: '3,000.00',               turnover: '7,740,000,000.00',    bonus: '645,000.00',   badgeImg: 'https://ik.imagekit.io/rbok01qam/VIP%20LEVEL%20img/780d34db-de12-4f55-a8a5-bf768b5e9716.png?tr=f-auto' },
+  { level: 19, deposit: '3,000.00',               turnover: '9,030,000,000.00',    bonus: '688,000.00',   badgeImg: 'https://ik.imagekit.io/rbok01qam/VIP%20LEVEL%20img/8b58a700-e2a2-4f32-8ce6-2dcba1ff77fe.png?tr=f-auto' },
+  { level: 20, deposit: '3,000.00',               turnover: '10,320,000,000.00',   bonus: '731,000.00',   badgeImg: 'https://ik.imagekit.io/rbok01qam/VIP%20LEVEL%20img/41f6de69-c5a4-49e5-ba7f-aabad40992ce.png?tr=f-auto' },
+  { level: 21, deposit: '3,000.00',               turnover: '11,610,000,000.00',   bonus: '817,000.00',   badgeImg: 'https://ik.imagekit.io/rbok01qam/VIP%20LEVEL%20img/b753262e-c102-4bb4-8968-2c9112c2c2b6.png?tr=f-auto' },
+  { level: 22, deposit: '3,000.00',               turnover: '12,900,000,000.00',   bonus: '1,161,000.00', badgeImg: 'https://ik.imagekit.io/rbok01qam/VIP%20LEVEL%20img/2090bb15-c391-4a02-8e20-fe2e39e137d5.png?tr=f-auto' },
+  { level: 23, deposit: '3,000.00',               turnover: '15,050,000,000.00',   bonus: '1,204,000.00', badgeImg: 'https://ik.imagekit.io/rbok01qam/VIP%20LEVEL%20img/7eefc194-21fa-4f23-8a5d-48d68f377a6a.png?tr=f-auto' },
+  { level: 24, deposit: '3,000.00',               turnover: '17,200,000,000.00',   bonus: '1,247,000.00', badgeImg: 'https://ik.imagekit.io/rbok01qam/VIP%20LEVEL%20img/5407e2c4-5b05-44a0-be30-d5fdb7e356a4.png?tr=f-auto' },
+  { level: 25, deposit: '3,000.00',               turnover: '19,350,000,000.00',   bonus: '1,290,000.00', badgeImg: 'https://ik.imagekit.io/rbok01qam/VIP%20LEVEL%20img/ea639c2d-377f-4880-be1e-5563f3153ae8.png?tr=f-auto' },
+  { level: 26, deposit: '3,000.00',               turnover: '21,500,000,000.00',   bonus: '1,333,000.00', badgeImg: 'https://ik.imagekit.io/rbok01qam/VIP%20LEVEL%20img/d9945bd5-0e81-42b1-9ea0-36b8537fa2e6.png?tr=f-auto' },
+  { level: 27, deposit: '3,000.00',               turnover: '23,650,000,000.00',   bonus: '1,376,000.00', badgeImg: 'https://ik.imagekit.io/rbok01qam/VIP%20LEVEL%20img/0c0238d0-5dda-4cb1-9e3d-8042e704c7af.png?tr=f-auto' },
+  { level: 28, deposit: '3,000.00',               turnover: '25,800,000,000.00',   bonus: '2,365,000.00', badgeImg: 'https://ik.imagekit.io/rbok01qam/VIP%20LEVEL%20img/92d93b41-5ceb-4b50-ba94-bf91403994b7.png?tr=f-auto' },
+  { level: 29, deposit: '3,000.00',               turnover: '30,100,000,000.00',   bonus: '2,494,000.00', badgeImg: 'https://ik.imagekit.io/rbok01qam/VIP%20LEVEL%20img/be721faa-9624-444b-ac25-5e0711b4ef5a.png?tr=f-auto' },
+  { level: 30, deposit: '3,000.00',               turnover: '34,400,000,000.00',   bonus: '2,623,000.00', badgeImg: 'https://ik.imagekit.io/rbok01qam/VIP%20LEVEL%20img/8c45b901-1807-4eb2-8d60-66b5a8b4f22d.png?tr=f-auto' },
+  { level: 31, deposit: '3,000.00',               turnover: '38,700,000,000.00',   bonus: '2,752,000.00', badgeImg: 'https://ik.imagekit.io/rbok01qam/VIP%20LEVEL%20img/eb64a0ba-4ee1-4e1e-8147-12c335529474.png?tr=f-auto' },
+  { level: 32, deposit: '3,000.00',               turnover: '43,000,000,000.00',   bonus: '2,881,000.00', badgeImg: 'https://ik.imagekit.io/rbok01qam/VIP%20LEVEL%20img/3e7b77a3-1ebf-4ca9-9099-f3a25c4e2522.png?tr=f-auto' },
+  { level: 33, deposit: '3,000.00',               turnover: '47,300,000,000.00',   bonus: '3,010,000.00', badgeImg: 'https://ik.imagekit.io/rbok01qam/VIP%20LEVEL%20img/d2cba07a-e01f-4636-8695-105d68492316.png?tr=f-auto' },
+  { level: 34, deposit: '3,000.00',               turnover: '51,600,000,000.00',   bonus: '5,160,000.00', badgeImg: 'https://ik.imagekit.io/rbok01qam/VIP%20LEVEL%20img/bf5407bb-45d5-491b-9ba9-c8f18d0db49c.png?tr=f-auto' },
+  { level: 35, deposit: '3,000.00',               turnover: '60,200,000,000.00',   bonus: '5,375,000.00', badgeImg: 'https://ik.imagekit.io/rbok01qam/VIP%20LEVEL%20img/fcfc7c26-0be4-4f08-b484-51644ce0235b.png?tr=f-auto' },
+  { level: 36, deposit: '3,000.00',               turnover: '68,800,000,000.00',   bonus: '5,590,000.00', badgeImg: 'https://ik.imagekit.io/rbok01qam/VIP%20LEVEL%20img/18d9f6e0-57eb-483f-913b-4cef2d062853.png?tr=f-auto' },
+  { level: 37, deposit: '3,000.00',               turnover: '77,400,000,000.00',   bonus: '5,805,000.00', badgeImg: 'https://ik.imagekit.io/rbok01qam/VIP%20LEVEL%20img/81423c38-af50-4aab-aa0d-d3c389876191.png?tr=f-auto' },
+  { level: 38, deposit: '3,000.00',               turnover: '86,000,000,000.00',   bonus: '7,654,000.00', badgeImg: 'https://ik.imagekit.io/rbok01qam/VIP%20LEVEL%20img/9a061855-2795-45b3-b3a8-32b237d07def.png?tr=f-auto' },
+  { level: 39, deposit: '3,000.00',               turnover: '98,900,000,000.00',   bonus: '8,170,000.00', badgeImg: 'https://ik.imagekit.io/rbok01qam/VIP%20LEVEL%20img/949f7f5d-cbb8-4f32-aebf-738e3c89f1c9.png?tr=f-auto' },
+  { level: 40, deposit: '3,000.00',               turnover: '111,800,000,000.00',  bonus: '8,600,000.00', badgeImg: 'https://ik.imagekit.io/rbok01qam/VIP%20LEVEL%20img/8f262c5a-b2df-4bb9-a9b9-186fb8fcb066.png?tr=f-auto' },
+  { level: 41, deposit: '3,000.00',               turnover: '124,700,000,000.00',  bonus: '9,030,000.00', badgeImg: 'https://ik.imagekit.io/rbok01qam/VIP%20LEVEL%20img/28fd9140-7172-48ce-8172-4bc0efeaab26.png?tr=f-auto' },
+  { level: 42, deposit: '3,000.00',               turnover: '137,600,000,000.00',  bonus: '9,460,000.00', badgeImg: 'https://ik.imagekit.io/rbok01qam/VIP%20LEVEL%20img/85a9a1ea-c9a1-4c9a-b1ff-2f9dcbe2cc51.png?tr=f-auto' },
+  { level: 43, deposit: '3,000.00',               turnover: '150,500,000,000.00',  bonus: '12,900,000.00',badgeImg: 'https://ik.imagekit.io/rbok01qam/VIP%20LEVEL%20img/08173b03-2b76-4fce-ad74-787e9452d165.png?tr=f-auto' },
+  { level: 44, deposit: '3,000.00',               turnover: '172,000,000,000.00',  bonus: '13,000,000.00',badgeImg: 'https://ik.imagekit.io/rbok01qam/VIP%20LEVEL%20img/73b9210c-6cb4-4551-b45e-ae8cf66996e3.png?tr=f-auto' },
+  { level: 45, deposit: '3,000.00',               turnover: '193,500,000,000.00',  bonus: '13,760,000.00',badgeImg: 'https://ik.imagekit.io/rbok01qam/VIP%20LEVEL%20img/68b91b29-cac8-4895-805d-e8d2fed83986.png?tr=f-auto' },
+  { level: 46, deposit: '3,000.00',               turnover: '215,000,000,000.00',  bonus: '14,190,000.00',badgeImg: 'https://ik.imagekit.io/rbok01qam/VIP%20LEVEL%20img/f0689f9a-3aae-4e3a-a26a-0152e37787e8.png?tr=f-auto' },
+  { level: 47, deposit: '3,000.00',               turnover: '236,500,000,000.00',  bonus: '14,620,000.00',badgeImg: 'https://ik.imagekit.io/rbok01qam/VIP%20LEVEL%20img/73972439-0db5-47e6-9b84-b0ddf392fc9b.png?tr=f-auto' },
+  { level: 48, deposit: '3,000.00',               turnover: '258,000,000,000.00',  bonus: '27,950,000.00',badgeImg: 'https://ik.imagekit.io/rbok01qam/VIP%20LEVEL%20img/406edfe8-9ecc-4e1e-9d30-49f03d657ca4.png?tr=f-auto' },
+  { level: 49, deposit: '3,000.00',               turnover: '279,500,000,000.00',  bonus: '30,100,000.00',badgeImg: 'https://ik.imagekit.io/rbok01qam/VIP%20LEVEL%20img/e090fa8b-f145-4fa1-a3c5-7c68fb4a0fd4.png?tr=f-auto' },
+  { level: 50, deposit: '3,000.00',               turnover: '301,000,000,000.00',  bonus: '34,400,000.00',badgeImg: 'https://ik.imagekit.io/rbok01qam/VIP%20LEVEL%20img/c04a5850-3b58-438c-ba03-1b99c2a59eeb.png?tr=f-auto' },
 ])
 </script>
 
 <style scoped>
-/* ===== ROOT ===== */
+/* ===== ROOT — height:100dvh fixes inner scroll ===== */
 .promo-root {
-  min-height: 100dvh;
+  height: 100dvh;
   background: linear-gradient(160deg, #16183a 0%, #252870 50%, #16183a 100%);
   color: #fff;
   display: flex; flex-direction: column;
@@ -433,9 +427,7 @@ const vipLevels = ref([
   border-bottom: 2px solid transparent;
   transition: color 0.18s, border-color 0.18s;
 }
-.vip-subtab.active {
-  color: #4ade80; border-bottom-color: #4ade80; font-weight: 700;
-}
+.vip-subtab.active { color: #4ade80; border-bottom-color: #4ade80; font-weight: 700; }
 .vip-subtab:active { opacity: 0.6; }
 
 /* Table header */
