@@ -359,6 +359,49 @@
 
             <!-- ══ TAB 1: ငါ့ကော်မရှင် ══ -->
       <div v-if="activeTab === 1">
+        <div class="ag-card" style="padding-bottom:12px;">
+          <p class="tab-section-title">ကော်မရှင် အကျဉ်းချုပ်</p>
+          <div class="stat-grid">
+            <div class="stat-box">
+              <div class="stat-label">ဒီနေ့</div>
+              <div class="stat-val green">{{ formatN(myStats.todayComm) }} <span class="stat-unit">Ks</span></div>
+            </div>
+            <div class="stat-box">
+              <div class="stat-label">ဒီလ</div>
+              <div class="stat-val green">{{ formatN(myStats.totalComm) }} <span class="stat-unit">Ks</span></div>
+            </div>
+            <div class="stat-box">
+              <div class="stat-label">Direct</div>
+              <div class="stat-val">{{ formatN(myStats.directComm) }} <span class="stat-unit">Ks</span></div>
+            </div>
+            <div class="stat-box">
+              <div class="stat-label">Override</div>
+              <div class="stat-val">{{ formatN(myStats.overrideComm) }} <span class="stat-unit">Ks</span></div>
+            </div>
+          </div>
+
+          <div class="divider-line"></div>
+          <p class="tab-section-title" style="margin-bottom:8px;">ကော်မရှင် မှတ်တမ်း</p>
+
+          <div v-if="loadingComm" class="loading-row">Loading...</div>
+          <div v-else-if="commissionRecords.length === 0" class="empty-row">ကော်မရှင် မှတ်တမ်း မရှိသေးပါ</div>
+          <div v-else>
+            <div v-for="r in commissionRecords.slice(0, 20)" :key="r.id" class="comm-row">
+              <div style="flex:1;min-width:0;">
+                <div class="comm-row-user">{{ r.player_id?.slice(0,8) || '—' }}</div>
+                <div class="comm-row-date">{{ fmtDate(r.created_at) }}</div>
+              </div>
+              <div style="text-align:right;">
+                <div class="comm-row-amount">+{{ formatN(r.commission_amount) }} Ks</div>
+                <div class="comm-row-turn">Turnover: {{ formatN(r.bet_turnover) }}</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ══ TAB 2: ငါ့တောင ══ -->
+      <div v-if="activeTab === 2">
         <div class="ag-card" style="padding:0;overflow:visible;">
 
           <!-- Info Row -->
@@ -403,15 +446,15 @@
             </div>
           </div>
 
-          <!-- Custom date range (shown only when custom selected) -->
+          <!-- Custom date range -->
           <div v-if="commPeriod === 'custom'" class="cm-custom-range">
             <div class="cm-custom-row">
               <label class="cm-custom-label">မှ</label>
-              <input type="date" v-model="customFrom" class="cm-custom-input" @change="applyCustom" />
+              <input type="date" v-model="customFrom" class="cm-custom-input" />
             </div>
             <div class="cm-custom-row">
               <label class="cm-custom-label">ထိ</label>
-              <input type="date" v-model="customTo" class="cm-custom-input" @change="applyCustom" />
+              <input type="date" v-model="customTo" class="cm-custom-input" />
             </div>
           </div>
 
@@ -421,12 +464,10 @@
               <svg viewBox="0 0 24 24" fill="none" width="28" height="28"><circle cx="12" cy="12" r="9" stroke="rgba(255,255,255,0.2)" stroke-width="2"/><path d="M12 7v5l3 3" stroke="rgba(255,255,255,0.2)" stroke-width="2" stroke-linecap="round"/></svg>
               <span>Loading...</span>
             </div>
-
             <div v-else-if="filteredCommRecords.length === 0" class="cm-empty">
               <svg viewBox="0 0 24 24" fill="none" width="32" height="32"><rect x="3" y="5" width="18" height="14" rx="2" stroke="rgba(255,255,255,0.18)" stroke-width="1.8"/><path d="M3 9h18" stroke="rgba(255,255,255,0.18)" stroke-width="1.8"/><path d="M8 13h2M14 13h2" stroke="rgba(255,255,255,0.18)" stroke-width="1.8" stroke-linecap="round"/></svg>
               <span>မတ်တမ်းမရှိပါ!!!</span>
             </div>
-
             <template v-else>
               <div v-for="r in filteredCommRecords" :key="r.id" class="cm-record-row">
                 <div class="cm-rec-left">
@@ -444,40 +485,6 @@
             </template>
           </div>
 
-        </div>
-      </div>
-
-      <!-- ══ TAB 2: ငါ့တောင ══ -->
-      <div v-if="activeTab === 2">
-        <div class="ag-card">
-          <div class="down-summary">
-            <div class="down-stat">
-              <div class="down-stat-val">{{ allDownline.length }}</div>
-              <div class="down-stat-lbl">စုစုပေါင်း</div>
-            </div>
-            <div class="down-stat">
-              <div class="down-stat-val">{{ directCount }}</div>
-              <div class="down-stat-lbl">တိုက်ရိုက်</div>
-            </div>
-            <div class="down-stat">
-              <div class="down-stat-val">{{ allDownline.filter(u => u.level > 1).length }}</div>
-              <div class="down-stat-lbl">L2+ Override</div>
-            </div>
-          </div>
-          <div class="divider-line"></div>
-
-          <div v-if="loading" class="loading-row">Loading...</div>
-          <div v-else-if="allDownline.length === 0" class="empty-row">အောက်လူ မရှိသေးပါ</div>
-          <div v-else>
-            <div v-for="u in allDownline.slice(0, 30)" :key="u.id || u.descendant_id" class="down-row">
-              <div class="down-avatar">{{ (u.username || 'U').charAt(0).toUpperCase() }}</div>
-              <div style="flex:1;min-width:0;">
-                <div class="down-name">{{ u.username || u.descendant_id?.slice(0,8) || '—' }}</div>
-                <div class="down-meta">L{{ u.level }} · VIP {{ u.vip_level || 1 }} · {{ fmtDate(u.created_at) }}</div>
-              </div>
-              <div class="down-deposit">{{ formatN(u.total_deposit || 0) }} Ks</div>
-            </div>
-          </div>
         </div>
       </div>
 
