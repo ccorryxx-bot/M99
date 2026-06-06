@@ -97,7 +97,7 @@
         <span class="agent-lbl">အေးဂျင့်</span>
       </router-link>
 
-      <router-link to="/service" class="gnav-item" :class="{active: route.path==='/service'}">
+      <router-link to="/promotions" class="gnav-item" :class="{active: route.path==='/promotions'}">
         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="26" viewBox="0 0 38 41">
           <rect x="5" y="18" width="28" height="21" rx="2" fill="none" stroke="#60a5fa" stroke-width="2.5" stroke-linecap="round"/>
           <rect x="4" y="13" width="30" height="7" rx="2" fill="none" stroke="#60a5fa" stroke-width="2.5" stroke-linecap="round"/>
