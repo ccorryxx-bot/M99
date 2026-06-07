@@ -27,6 +27,7 @@
             <div class="av av-a">
               <img src="https://ik.imagekit.io/rbok01qam/Agent%20avatar%20img/avt0.dd0fe52d.png?tr=f-auto" class="av-img" alt="A"/>
               <span class="badge badge-a">A</span>
+              <span class="red-dot">{{ bRealCount }}</span>
             </div>
             <div class="info">
               <div class="nname">{{ username }}</div>
@@ -66,6 +67,7 @@
             <div class="av av-b">
               <img :src="b.avatarUrl" class="av-img" :alt="'B'+(i+1)"/>
               <span class="badge badge-b">B{{ i+1 }}</span>
+              <span class="red-dot">0</span>
             </div>
             <div class="info">
               <div class="nname-b" :class="b.empty ? 'tc-dim' : ''">{{ b.empty ? '—' : (b.username || 'Member') }}</div>
@@ -102,6 +104,7 @@
               <div class="av av-c">
                 <img :src="c.avatarUrl" class="av-img" :alt="'C'+(i+1)"/>
                 <span class="badge badge-c">C{{ i+1 }}</span>
+                <span class="red-dot">0</span>
               </div>
               <div class="info">
                 <div class="nname-c" :class="c.empty ? 'tc-dim' : ''">{{ c.empty ? '—' : (c.username || 'Member') }}</div>
@@ -138,6 +141,7 @@
             <div class="av av-n">
               <img :src="n.avatarUrl" class="av-img" alt="N"/>
               <span class="badge badge-n">N</span>
+              <span class="red-dot">0</span>
             </div>
             <div class="nname-n">N</div>
           </div>
@@ -151,32 +155,22 @@
           <div class="leg-row"><span class="dot dot-c"></span><span class="leg-lbl">C Level — B ဖိတ်ခေါ်သူများ (Indirect Override)</span></div>
           <div class="leg-row"><span class="dot dot-n"></span><span class="leg-lbl">N Level — အကန့်အသတ်မရှိ ချဲ့နိုင်သောကွန်ရက် (∞)</span></div>
           <div class="leg-note">⚡ C Level ကြီးလေ — သင် Override Commission ရလေ!</div>
-        </div>
 
-        <!-- ═══════════════════════════════════════
-             REFERRAL SECTION — AgentDashboard Tab 0
-             "ကွန်တော် Link" card fallback
-        ════════════════════════════════════════ -->
-        <div class="ag-card">
+          <div class="leg-divider"></div>
 
+          <!-- ── Link section inside legend ── -->
           <div class="invite-header-bar">
             <span class="invite-header-title">ကျွန်တော် Link</span>
             <span class="invite-header-link">ရွေးချယ်ပါ ▸</span>
           </div>
-
-          <!-- QR + Info -->
           <div class="invite-body">
-            <!-- QR Code Column -->
             <div class="qr-col">
               <div class="qr-box">
                 <img :src="qrUrl" alt="QR" class="qr-img"/>
               </div>
               <button class="btn-green-sm" @click="downloadQr">သမ်းရည်</button>
             </div>
-
-            <!-- Info Column -->
             <div class="info-col">
-              <!-- Referral URL -->
               <div class="url-row">
                 <span class="url-text">{{ referralLink }}</span>
                 <button @click="copyLink" class="copy-icon-btn">
@@ -189,14 +183,10 @@
                   </svg>
                 </button>
               </div>
-
-              <!-- Direct count -->
               <p class="info-stat">
                 တိုက်ရိုက်အစီရင်ခံစာများ
                 <strong style="color:#22c55e;">{{ directCount }} လူတွေ</strong>
               </p>
-
-              <!-- Invite code -->
               <div class="code-row">
                 <span class="code-label">ဖိတ်စာကုဒ် <strong>{{ inviteCode }}</strong></span>
                 <button @click="copyCode" class="copy-icon-btn">
@@ -211,42 +201,28 @@
               </div>
             </div>
           </div>
-        </div>
 
-        <!-- Social Share Row — same as AgentDashboard -->
-        <div class="social-row">
-          <button @click="shareVia('native')" class="social-btn">
-            <div class="social-icon social-icon--share">
-              <svg width="15" height="15" fill="none" stroke="white" stroke-width="2" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" d="M8.684 13.342C8.886 12.938 9 12.482 9 12c0-.482-.114-.938-.316-1.342m0 2.684a3 3 0 110-2.684m0 2.684l6.632 3.316m-6.632-6l6.632-3.316m0 0a3 3 0 105.367-2.684 3 3 0 00-5.367 2.684zm0 9.316a3 3 0 105.368 2.684 3 3 0 00-5.368-2.684z"/>
-              </svg>
-            </div>
-            <span class="social-label">မျှဝေ</span>
-          </button>
-          <button @click="shareVia('facebook')" class="social-btn">
-            <div class="social-icon social-icon--fb">
-              <svg width="16" height="16" fill="white" viewBox="0 0 24 24">
-                <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/>
-              </svg>
-            </div>
-            <span class="social-label">Facebook</span>
-          </button>
-          <button @click="shareVia('telegram')" class="social-btn">
-            <div class="social-icon social-icon--tg">
-              <svg width="16" height="16" fill="white" viewBox="0 0 24 24">
-                <path d="M11.944 0A12 12 0 0 0 0 12a12 12 0 0 0 12 12 12 12 0 0 0 12-12A12 12 0 0 0 12 0a12 12 0 0 0-.056 0zm4.962 7.224c.1-.002.321.023.465.14a.506.506 0 0 1 .171.325c.016.093.036.306.02.472-.18 1.898-.962 6.502-1.36 8.627-.168.9-.499 1.201-.82 1.23-.696.065-1.225-.46-1.9-.902-1.056-.693-1.653-1.124-2.678-1.8-1.185-.78-.417-1.21.258-1.91.177-.184 3.247-2.977 3.307-3.23.007-.032.014-.15-.056-.212s-.174-.041-.249-.024c-.106.024-1.793 1.14-5.061 3.345-.48.33-.913.49-1.302.48-.428-.008-1.252-.241-1.865-.44-.752-.245-1.349-.374-1.297-.789.027-.216.325-.437.893-.663 3.498-1.524 5.83-2.529 6.998-3.014 3.332-1.386 4.025-1.627 4.476-1.635z"/>
-              </svg>
-            </div>
-            <span class="social-label">Telegram</span>
-          </button>
-          <button @click="shareVia('whatsapp')" class="social-btn">
-            <div class="social-icon social-icon--wa">
-              <svg width="16" height="16" fill="white" viewBox="0 0 24 24">
-                <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/>
-              </svg>
-            </div>
-            <span class="social-label">WhatsApp</span>
-          </button>
+          <div class="leg-divider"></div>
+
+          <!-- ── Social buttons inside legend (no card frames) ── -->
+          <div class="leg-social-row">
+            <button @click="shareVia('native')" class="social-btn leg-social-btn">
+              <div class="social-icon social-icon--share"><svg width="15" height="15" fill="none" stroke="white" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M8.684 13.342C8.886 12.938 9 12.482 9 12c0-.482-.114-.938-.316-1.342m0 2.684a3 3 0 110-2.684m0 2.684l6.632 3.316m-6.632-6l6.632-3.316m0 0a3 3 0 105.367-2.684 3 3 0 00-5.367 2.684zm0 9.316a3 3 0 105.368 2.684 3 3 0 00-5.368-2.684z"/></svg></div>
+              <span class="social-label">မျှဝေ</span>
+            </button>
+            <button @click="shareVia('facebook')" class="social-btn leg-social-btn">
+              <div class="social-icon social-icon--fb"><svg width="16" height="16" fill="white" viewBox="0 0 24 24"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg></div>
+              <span class="social-label">Facebook</span>
+            </button>
+            <button @click="shareVia('telegram')" class="social-btn leg-social-btn">
+              <div class="social-icon social-icon--tg"><svg width="16" height="16" fill="white" viewBox="0 0 24 24"><path d="M11.944 0A12 12 0 0 0 0 12a12 12 0 0 0 12 12 12 12 0 0 0 12-12A12 12 0 0 0 12 0a12 12 0 0 0-.056 0zm4.962 7.224c.1-.002.321.023.465.14a.506.506 0 0 1 .171.325c.016.093.036.306.02.472-.18 1.898-.962 6.502-1.36 8.627-.168.9-.499 1.201-.82 1.23-.696.065-1.225-.46-1.9-.902-1.056-.693-1.653-1.124-2.678-1.8-1.185-.78-.417-1.21.258-1.91.177-.184 3.247-2.977 3.307-3.23.007-.032.014-.15-.056-.212s-.174-.041-.249-.024c-.106.024-1.793 1.14-5.061 3.345-.48.33-.913.49-1.302.48-.428-.008-1.252-.241-1.865-.44-.752-.245-1.349-.374-1.297-.789.027-.216.325-.437.893-.663 3.498-1.524 5.83-2.529 6.998-3.014 3.332-1.386 4.025-1.627 4.476-1.635z"/></svg></div>
+              <span class="social-label">Telegram</span>
+            </button>
+            <button @click="shareVia('whatsapp')" class="social-btn leg-social-btn">
+              <div class="social-icon social-icon--wa"><svg width="16" height="16" fill="white" viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg></div>
+              <span class="social-label">WhatsApp</span>
+            </button>
+          </div>
         </div>
 
       </template>
@@ -356,6 +332,8 @@ const cSlots = computed(() => {
 // A-level totals
 const totalBetB  = computed(() => bSlots.value.reduce((s, b) => s + b.turnover, 0))
 const totalCommA = computed(() => commissionRecords.value.reduce((s, r) => s + (Number(r.commission_amount) || 0), 0))
+const bRealCount = computed(() => allDownline.value.filter(u => u.level === 1).length)
+const cRealCount = computed(() => allDownline.value.filter(u => u.level === 2).length)
 
 // ── Helpers ────────────────────────────────────
 const formatN = (n) => {
@@ -704,23 +682,53 @@ onMounted(loadData)
   background: rgba(255,255,255,0.12); border: 1px solid rgba(255,255,255,0.22);
   border-radius: 7px; padding: 5px 7px;
 }
-.url-text { flex: 1; font-size: 8px; color: rgba(255,255,255,0.78); word-break: break-all; line-height: 1.4; }
+.url-text { flex: 1; font-size: 8px; color: #7dd3fc; word-break: break-all; line-height: 1.4; font-weight: 600; }
 
 .info-stat { font-size: 8.5px; color: rgba(255,255,255,0.78); margin: 0; }
 
 .code-row {
   display: flex; align-items: center; gap: 5px;
-  background: rgba(245,158,11,0.18); border: 1px solid rgba(245,158,11,0.45);
+  background: rgba(245,158,11,0.22); border: 1px solid rgba(245,158,11,0.55);
   border-radius: 7px; padding: 5px 7px;
 }
-.code-label { flex: 1; font-size: 9px; color: rgba(255,255,255,0.85); }
-.code-label strong { color: #fde68a; font-size: 11px; letter-spacing: 1.5px; }
+.code-label { flex: 1; font-size: 9px; color: #fde68a; font-weight: 700; }
+.code-label strong { color: #ffffff; font-size: 11px; letter-spacing: 1.5px; text-shadow: 0 0 8px rgba(245,158,11,0.8); }
 
 .copy-icon-btn {
   background: rgba(255,255,255,0.18); border: 1px solid rgba(255,255,255,0.30);
   border-radius: 5px; padding: 4px; color: #fff; cursor: pointer; flex-shrink: 0;
   display: flex; align-items: center;
 }
+
+/* ── Red dot badge ── */
+.red-dot {
+  position: absolute; top: -3px; right: -3px;
+  width: 14px; height: 14px; border-radius: 50%;
+  background: #ef4444;
+  border: 1.5px solid rgba(15,20,45,0.95);
+  font-size: 7px; font-weight: 900; color: #fff;
+  display: flex; align-items: center; justify-content: center;
+  line-height: 1; z-index: 6;
+  box-shadow: 0 0 5px rgba(239,68,68,0.7);
+}
+
+/* ── Legend divider ── */
+.leg-divider {
+  width: 100%; height: 1px;
+  background: rgba(255,255,255,0.15);
+  margin: 10px 0;
+}
+
+/* ── Social inside legend ── */
+.leg-social-row {
+  display: flex; gap: 8px; width: 100%; margin-top: 2px;
+}
+.leg-social-btn {
+  background: none !important;
+  border: none !important;
+  padding: 6px 4px;
+}
+.leg-social-btn:active { opacity: 0.6; }
 
 /* ── Social Share Row ── */
 .social-row {
