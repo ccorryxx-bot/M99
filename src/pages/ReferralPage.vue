@@ -112,12 +112,44 @@
           </template>
         </div>
 
+        <!-- SVG connector C→N -->
+        <div class="connector-wrap connector-cn">
+          <svg class="conn-svg" viewBox="0 0 300 22" preserveAspectRatio="none">
+            <line x1="50"  y1="0" x2="30"  y2="22" class="conn-vline conn-vline--n"/>
+            <line x1="110" y1="0" x2="80"  y2="22" class="conn-vline conn-vline--n"/>
+            <line x1="150" y1="0" x2="150" y2="22" class="conn-vline conn-vline--n"/>
+            <line x1="220" y1="0" x2="220" y2="22" class="conn-vline conn-vline--n"/>
+            <line x1="220" y1="0" x2="270" y2="22" class="conn-vline conn-vline--n"/>
+            <circle r="2" class="flow-dot-n"><animateMotion dur="2s"   repeatCount="indefinite" path="M50,0 L30,22"/></circle>
+            <circle r="2" class="flow-dot-n"><animateMotion dur="2.3s" repeatCount="indefinite" path="M110,0 L80,22"/></circle>
+            <circle r="2" class="flow-dot-n"><animateMotion dur="2.6s" repeatCount="indefinite" path="M150,0 L150,22"/></circle>
+            <circle r="2" class="flow-dot-n"><animateMotion dur="2.9s" repeatCount="indefinite" path="M220,0 L220,22"/></circle>
+            <circle r="2" class="flow-dot-n"><animateMotion dur="3.2s" repeatCount="indefinite" path="M220,0 L270,22"/></circle>
+          </svg>
+        </div>
+
+        <!-- ═══════ ROW N ═══════ -->
+        <div class="row-n-label">
+          <span class="n-level-badge">∞</span>
+          <span class="n-level-text">N Level — အကန့်အသတ်မရှိ ချဲ့နိုင်သောကွန်ရက်</span>
+        </div>
+        <div class="row-n-wrap">
+          <div v-for="(n, i) in nSlots" :key="'n'+i" class="node node-n">
+            <div class="av av-n">
+              <img :src="n.avatarUrl" class="av-img" alt="N"/>
+              <span class="badge badge-n">N</span>
+            </div>
+            <div class="nname-n">N</div>
+          </div>
+        </div>
+
         <!-- Legend -->
         <div class="legend">
           <div class="leg-title">📊 Commission အဆင့်များ</div>
           <div class="leg-row"><span class="dot dot-a"></span><span class="leg-lbl">A (သင်) — ကွန်ရက်ထိပ်ဆုံး၊ override + direct commission ရသူ</span></div>
           <div class="leg-row"><span class="dot dot-b"></span><span class="leg-lbl">B Level — တိုက်ရိုက်ဖိတ်ခေါ်သူများ (Direct)</span></div>
           <div class="leg-row"><span class="dot dot-c"></span><span class="leg-lbl">C Level — B ဖိတ်ခေါ်သူများ (Indirect Override)</span></div>
+          <div class="leg-row"><span class="dot dot-n"></span><span class="leg-lbl">N Level — အကန့်အသတ်မရှိ ချဲ့နိုင်သောကွန်ရက် (∞)</span></div>
           <div class="leg-note">⚡ C Level ကြီးလေ — သင် Override Commission ရလေ!</div>
         </div>
 
@@ -274,6 +306,14 @@ const C_AVATARS = [
   'https://ik.imagekit.io/rbok01qam/Agent%20avatar%20img/avt4.e51f6a6a.png?tr=f-auto',
   'https://ik.imagekit.io/rbok01qam/Agent%20avatar%20img/avt3.4dd4d61a.png?tr=f-auto',
 ]
+const N_AVATARS = [
+  'https://ik.imagekit.io/rbok01qam/Agent%20avatar%20img/avt2.9b11cc3a.png?tr=f-auto',
+  'https://ik.imagekit.io/rbok01qam/Agent%20avatar%20img/avt1.3b182abb.png?tr=f-auto',
+  'https://ik.imagekit.io/rbok01qam/Agent%20avatar%20img/avt3.4dd4d61a.png?tr=f-auto',
+  'https://ik.imagekit.io/rbok01qam/Agent%20avatar%20img/avt4.e51f6a6a.png?tr=f-auto',
+  'https://ik.imagekit.io/rbok01qam/Agent%20avatar%20img/avt3.4dd4d61a.png?tr=f-auto',
+]
+const nSlots = Array.from({ length: 5 }, (_, i) => ({ avatarUrl: N_AVATARS[i] }))
 
 // 3 B-level slots (level === 1)
 const bSlots = computed(() => {
@@ -541,10 +581,49 @@ onMounted(loadData)
 /* ── Color helpers ── */
 .y  { color: #fbbf24; } .g  { color: #4ade80; } .bl { color: #60a5fa; } .p { color: #c4b5fd; }
 
+/* ── Row N ── */
+.row-n-label {
+  display: flex; align-items: center; gap: 6px;
+  width: min(310px, 92vw); margin: 4px 0 3px;
+}
+.n-level-badge {
+  font-size: 13px; font-weight: 900; color: #4ade80;
+  text-shadow: 0 0 10px rgba(74,222,128,0.9);
+  line-height: 1;
+}
+.n-level-text {
+  font-size: 8px; font-weight: 700;
+  color: rgba(74,222,128,0.9);
+  text-shadow: 0 0 6px rgba(74,222,128,0.5);
+}
+.row-n-wrap {
+  display: flex; justify-content: center; gap: 3px; width: 100%;
+}
+.node-n {
+  display: flex; flex-direction: column; align-items: center; gap: 2px;
+  background: none; border: none;
+  padding: 4px 2px;
+  flex: 1; max-width: 64px; min-width: 52px;
+}
+.av-n {
+  width: 24px; height: 24px; border-radius: 50%;
+  background: rgba(74,222,128,0.25);
+  border: 1.8px solid #4ade80;
+  box-shadow: 0 0 10px rgba(74,222,128,0.8), 0 0 20px rgba(74,222,128,0.4);
+}
+.badge-n {
+  background: #4ade80; color: #000; font-size: 5.5px;
+}
+.nname-n {
+  font-size: 8px; font-weight: 800; color: #4ade80;
+  text-shadow: 0 0 8px rgba(74,222,128,0.8);
+}
+
 /* ── SVG Connectors ── */
 .connector-wrap { width: min(310px, 92vw); overflow: visible; }
 .connector-ab   { height: 30px; margin: 3px 0; }
 .connector-bc   { height: 26px; margin: 2px 0; }
+.connector-cn   { height: 22px; margin: 2px 0; }
 .conn-svg { width: 100%; height: 100%; overflow: visible; }
 
 .conn-hline {
@@ -569,6 +648,12 @@ onMounted(loadData)
 /* animated flow dots */
 .flow-dot { fill: rgba(245,158,11,0.85); }
 .flow-dot-c1, .flow-dot-c2, .flow-dot-c3 { fill: rgba(167,139,250,0.8); }
+.flow-dot-n { fill: rgba(74,222,128,0.85); }
+.conn-vline--n {
+  stroke: rgba(74,222,128,0.7); stroke-width: 1.1;
+  stroke-dasharray: 3 3;
+  animation-duration: 2s;
+}
 
 /* ── Legend ── */
 .legend {
@@ -579,7 +664,7 @@ onMounted(loadData)
 .leg-title { font-size: 9.5px; font-weight: 800; color: #fff; margin-bottom: 7px; }
 .leg-row   { display: flex; align-items: center; gap: 7px; margin-bottom: 4px; }
 .dot       { width: 7px; height: 7px; border-radius: 50%; flex-shrink: 0; }
-.dot-a { background: #f59e0b; } .dot-b { background: #60a5fa; } .dot-c { background: #a78bfa; }
+.dot-a { background: #f59e0b; } .dot-b { background: #60a5fa; } .dot-c { background: #a78bfa; } .dot-n { background: #4ade80; }
 .leg-lbl  { font-size: 8.5px; color: rgba(255,255,255,0.82); }
 .leg-note { margin-top: 7px; font-size: 8.5px; color: #4ade80; background: rgba(74,222,128,0.15); border: 1px solid rgba(74,222,128,0.35); border-radius: 7px; padding: 5px 8px; }
 
