@@ -494,7 +494,76 @@
         </main>
       </template>
 
-      <!-- ===== OTHER TABS (mission / history) ===== -->
+      <!-- ===== သမိုင်း TAB ===== -->
+      <template v-else-if="activeTopTab === 'history'">
+        <main class="hist-area" @click.self="histDateOpen=false;histTypeOpen=false">
+
+          <!-- Filter row -->
+          <div class="hist-filter-row">
+
+            <!-- Date filter dropdown -->
+            <div class="hist-dropdown" :class="{ open: histDateOpen }">
+              <button class="hist-dd-btn" @click.stop="histDateOpen=!histDateOpen; histTypeOpen=false">
+                <span>{{ histDateLabel }}</span>
+                <svg width="9" height="9" viewBox="0 0 10 10" fill="none">
+                  <path :d="histDateOpen ? 'M2 7l3-4 3 4' : 'M2 3l3 4 3-4'"
+                    stroke="#00c896" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+              </button>
+              <transition name="hist-dd-fade">
+                <div v-if="histDateOpen" class="hist-dd-menu">
+                  <button
+                    v-for="opt in histDateOptions" :key="opt.key"
+                    class="hist-dd-item" :class="{ active: histDateFilter === opt.key }"
+                    @click.stop="histDateFilter=opt.key; histDateOpen=false"
+                  >{{ opt.label }}</button>
+                </div>
+              </transition>
+            </div>
+
+            <!-- Type filter dropdown -->
+            <div class="hist-dropdown" :class="{ open: histTypeOpen }">
+              <button class="hist-dd-btn" @click.stop="histTypeOpen=!histTypeOpen; histDateOpen=false">
+                <span>{{ histTypeLabel }}</span>
+                <svg width="9" height="9" viewBox="0 0 10 10" fill="none">
+                  <path :d="histTypeOpen ? 'M2 7l3-4 3 4' : 'M2 3l3 4 3-4'"
+                    stroke="#00c896" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+              </button>
+              <transition name="hist-dd-fade">
+                <div v-if="histTypeOpen" class="hist-dd-menu">
+                  <button
+                    v-for="opt in histTypeOptions" :key="opt.key"
+                    class="hist-dd-item" :class="{ active: histTypeFilter === opt.key }"
+                    @click.stop="histTypeFilter=opt.key; histTypeOpen=false"
+                  >{{ opt.label }}</button>
+                </div>
+              </transition>
+            </div>
+
+            <!-- Bonus total (right) -->
+            <div class="hist-bonus-total">
+              <span class="hist-bonus-label">ဘောနပ်စီ</span>
+              <span class="hist-bonus-val">{{ fmtNum(histBonusTotal) }}</span>
+            </div>
+          </div>
+
+          <!-- Empty state -->
+          <div class="hist-empty" @click="histDateOpen=false;histTypeOpen=false">
+            <svg width="42" height="42" viewBox="0 0 24 24" fill="none"
+              stroke="rgba(255,255,255,0.1)" stroke-width="1.2"
+              stroke-linecap="round" stroke-linejoin="round">
+              <path d="M22 12h-6l-2 3h-4l-2-3H2"/>
+              <path d="M5.45 5.11L2 12v6a2 2 0 002 2h16a2 2 0 002-2v-6l-3.45-6.89A2 2 0 0016.76 4H7.24a2 2 0 00-1.79 1.11z"/>
+            </svg>
+            <p class="hist-empty-text">{{ histDateLabel }} မှတ်တမ်းများ မရှိပါ</p>
+            <p class="hist-empty-sub">ဒီလကိုကြည့်ပါ</p>
+          </div>
+
+        </main>
+      </template>
+
+      <!-- ===== တာဝန် + ကျန်တဲ့ tabs ===== -->
       <template v-else>
         <main class="promo-cards-area">
           <div class="promo-empty">
@@ -612,6 +681,33 @@ async function refreshRewardBalance() {
     setTimeout(() => { rewardRefreshDone.value = false }, 900)
   }, 800)
 }
+
+// ─── သမိုင်း tab state ───
+const histDateFilter = ref('today')
+const histTypeFilter = ref('all')
+const histDateOpen   = ref(false)
+const histTypeOpen   = ref(false)
+const histBonusTotal = ref(0)
+
+const histDateOptions = [
+  { key: 'today',     label: 'ဒီနေ့' },
+  { key: 'yesterday', label: 'မနေ့က' },
+  { key: 'thisweek',  label: 'ဒီတပ်ပတ်' },
+  { key: 'lastweek',  label: 'ပြီးခဲ့သောအပတ်က' },
+  { key: 'thismonth', label: 'ဒီလ' },
+  { key: 'lastmonth', label: 'ပြီးခဲ့သည့်လက' },
+]
+const histTypeOptions = [
+  { key: 'all',       label: 'အားလုး' },
+  { key: 'collected', label: 'စုဆောင်းထားသည်' },
+  { key: 'sent',      label: 'မြန်ဝေခဲ့သည်' },
+]
+const histDateLabel = computed(() =>
+  histDateOptions.find(o => o.key === histDateFilter.value)?.label ?? 'ဒီနေ့'
+)
+const histTypeLabel = computed(() =>
+  histTypeOptions.find(o => o.key === histTypeFilter.value)?.label ?? 'အားလုး'
+)
 
 const sideCategories = [
   { key: 'all',      label: 'အားလုံး'  },
@@ -1193,6 +1289,94 @@ const vipLevels = ref([
 }
 .reward-empty-text {
   font-size: 12px; color: rgba(255,255,255,0.22); margin: 0;
+}
+
+/* ══════════════════════════════════════
+   သမိုင်း History Tab
+   ══════════════════════════════════════ */
+.hist-area {
+  flex: 1; display: flex; flex-direction: column;
+  padding: 10px 12px; overflow-y: auto;
+}
+
+/* Filter row */
+.hist-filter-row {
+  display: flex; align-items: center;
+  gap: 7px; position: relative; z-index: 10;
+}
+
+/* Dropdown wrapper */
+.hist-dropdown { position: relative; }
+
+/* Dropdown button — pill with teal border */
+.hist-dd-btn {
+  display: flex; align-items: center; gap: 5px;
+  background: transparent;
+  border: 1px solid rgba(0,200,150,0.45);
+  border-radius: 20px; padding: 4px 10px;
+  color: #00c896; font-size: 11.5px; font-weight: 500;
+  cursor: pointer; white-space: nowrap;
+  transition: background 0.15s;
+}
+.hist-dropdown.open .hist-dd-btn,
+.hist-dd-btn:active {
+  background: rgba(0,200,150,0.1);
+}
+
+/* Dropdown menu */
+.hist-dd-menu {
+  position: absolute; top: calc(100% + 5px); left: 0;
+  background: #151b28;
+  border: 1px solid rgba(0,200,150,0.18);
+  border-radius: 10px; overflow: hidden;
+  min-width: 140px; z-index: 100;
+  box-shadow: 0 8px 28px rgba(0,0,0,0.55);
+}
+
+/* Dropdown item */
+.hist-dd-item {
+  display: block; width: 100%; text-align: left;
+  padding: 9px 14px; background: none; border: none;
+  border-bottom: 1px solid rgba(255,255,255,0.04);
+  font-size: 12px; color: rgba(255,255,255,0.65);
+  cursor: pointer; transition: background 0.12s, color 0.12s;
+}
+.hist-dd-item:last-child { border-bottom: none; }
+.hist-dd-item:active { background: rgba(0,200,150,0.08); }
+.hist-dd-item.active {
+  color: #00c896; font-weight: 600;
+  background: rgba(0,200,150,0.06);
+}
+
+/* Dropdown fade transition */
+.hist-dd-fade-enter-active,
+.hist-dd-fade-leave-active { transition: opacity 0.15s, transform 0.15s; }
+.hist-dd-fade-enter-from,
+.hist-dd-fade-leave-to { opacity: 0; transform: translateY(-4px); }
+
+/* Bonus total (right-aligned) */
+.hist-bonus-total {
+  margin-left: auto; display: flex;
+  align-items: center; gap: 5px; flex-shrink: 0;
+}
+.hist-bonus-label {
+  font-size: 11px; color: rgba(255,255,255,0.45);
+}
+.hist-bonus-val {
+  font-size: 13px; font-weight: 700; color: #00c896;
+}
+
+/* Empty state */
+.hist-empty {
+  flex: 1; display: flex; flex-direction: column;
+  align-items: center; justify-content: center;
+  gap: 8px; padding-bottom: 40px;
+}
+.hist-empty-text {
+  font-size: 12px; color: rgba(255,255,255,0.28); margin: 0;
+}
+.hist-empty-sub {
+  font-size: 11px; color: #00c896; margin: 0;
 }
 
 /* Bullet list */
