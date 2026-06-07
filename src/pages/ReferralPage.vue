@@ -124,8 +124,8 @@
         <div class="ag-card">
 
           <div class="invite-header-bar">
-            <span class="invite-header-title">ကွန်တော် Link</span>
-            <span class="invite-header-link">ရှေးချယ်ပါ ▸</span>
+            <span class="invite-header-title">ကျွန်တော် Link</span>
+            <span class="invite-header-link">ရွေးချယ်ပါ ▸</span>
           </div>
 
           <!-- QR + Info -->
@@ -156,13 +156,13 @@
 
               <!-- Direct count -->
               <p class="info-stat">
-                တိုက်ရိုက်ရောင်းစပိုများ
+                တိုက်ရိုက်အစီရင်ခံစာများ
                 <strong style="color:#22c55e;">{{ directCount }} လူတွေ</strong>
               </p>
 
               <!-- Invite code -->
               <div class="code-row">
-                <span class="code-label">ပိုင်တကုဒ် <strong>{{ inviteCode }}</strong></span>
+                <span class="code-label">ဖိတ်စာကုဒ် <strong>{{ inviteCode }}</strong></span>
                 <button @click="copyCode" class="copy-icon-btn">
                   <svg v-if="!copiedCode" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
                     <rect x="9" y="9" width="13" height="13" rx="2"/>
