@@ -438,8 +438,10 @@
                 :disabled="rewardRefreshing"
                 aria-label="Balance refresh"
               >
-                <svg class="reward-refresh-svg"
-                  width="28" height="28" viewBox="0 0 36 36"
+                <svg
+                  class="reward-refresh-svg"
+                  :class="{ 'is-spinning': rewardRefreshing }"
+                  width="18" height="18" viewBox="0 0 36 36"
                   xmlns="http://www.w3.org/2000/svg"
                 >
                   <defs>
@@ -456,28 +458,13 @@
                         stroke-linejoin="round"/>
                     </marker>
                   </defs>
-
-                  <g id="rw-sync">
-                    <!-- Top arc -->
+                  <g>
                     <path d="M 8.6 14.6 A 10 10 0 0 1 27.4 14.6"
                       fill="none" stroke="#00c896" stroke-width="2.2"
                       stroke-linecap="round" marker-end="url(#rw-arr)"/>
-                    <!-- Bottom arc -->
                     <path d="M 27.4 21.4 A 10 10 0 0 1 8.6 21.4"
                       fill="none" stroke="#00c896" stroke-width="2.2"
                       stroke-linecap="round" marker-end="url(#rw-arr)"/>
-
-                    <!-- SMIL: spin once on click, center pivot (18,18) -->
-                    <animateTransform
-                      attributeName="transform"
-                      type="rotate"
-                      from="0 18 18"
-                      to="360 18 18"
-                      dur="0.5s"
-                      begin="rw-sync.click"
-                      fill="remove"
-                      repeatCount="1"
-                    />
                   </g>
                 </svg>
               </button>
@@ -1168,13 +1155,20 @@ const vipLevels = ref([
 }
 .reward-refresh-btn.is-done { color: #4ade80; }
 
-/* Refresh SVG — SMIL animation handles spin on click */
+/* Refresh SVG */
 .reward-refresh-svg {
-  display: block;
-  flex-shrink: 0;
+  display: block; flex-shrink: 0;
+  transform-origin: center center;
+}
+.reward-refresh-svg.is-spinning {
+  animation: rw-spin 0.6s linear infinite;
+}
+@keyframes rw-spin {
+  from { transform: rotate(0deg); }
+  to   { transform: rotate(360deg); }
 }
 .reward-refresh-btn:active .reward-refresh-svg {
-  opacity: 0.7;
+  opacity: 0.65;
 }
 
 /* Activity points (right side) */
