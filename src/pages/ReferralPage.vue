@@ -463,7 +463,7 @@ onMounted(loadData)
 .row-b-wrap { display: flex; justify-content: center; gap: 5px; width: 100%; }
 .node-b {
   display: flex; flex-direction: column; align-items: center; gap: 3px;
-  background: rgba(255,255,255,0.14); border: 1.2px solid rgba(255,255,255,0.28);
+  background: none; border: none;
   border-radius: 10px; padding: 7px 5px;
   flex: 1; max-width: 105px; min-width: 84px;
 }
@@ -472,38 +472,38 @@ onMounted(loadData)
 .row-c-wrap { display: flex; justify-content: center; gap: 4px; width: 100%; }
 .node-c {
   display: flex; flex-direction: column; align-items: center; gap: 2px;
-  background: rgba(255,255,255,0.12); border: 1px solid rgba(255,255,255,0.24);
+  background: none; border: none;
   border-radius: 9px; padding: 6px 4px;
   flex: 1; max-width: 88px; min-width: 72px;
 }
-.node-c--hi { background: rgba(255,255,255,0.20); border-color: rgba(255,255,255,0.40); }
+.node-c--hi { background: none; border: none; }
 .node-gap { flex: 1; max-width: 88px; }
 
 /* ── Avatars ── */
 .av { position: relative; flex-shrink: 0; display: flex; align-items: center; justify-content: center; }
 .av-a { width: 36px; height: 36px; border-radius: 50%; background: rgba(245,158,11,0.25); border: 2px solid rgba(245,158,11,0.85); }
-.av-b { width: 28px; height: 28px; border-radius: 50%; background: rgba(96,165,250,0.2); border: 1.5px solid rgba(96,165,250,0.7); }
-.av-c { width: 22px; height: 22px; border-radius: 50%; background: rgba(167,139,250,0.2); border: 1.2px solid rgba(167,139,250,0.7); }
+.av-b { width: 28px; height: 28px; border-radius: 50%; background: rgba(96,165,250,0.18); border: 2px solid #93c5fd; box-shadow: 0 0 10px rgba(96,165,250,0.7); }
+.av-c { width: 22px; height: 22px; border-radius: 50%; background: rgba(167,139,250,0.18); border: 2px solid #c4b5fd; box-shadow: 0 0 8px rgba(167,139,250,0.65); }
 .av-img { width: 100%; height: 100%; border-radius: 50%; object-fit: cover; display: block; }
 
 /* ── Badges ── */
 .badge { position: absolute; bottom: -3px; right: -4px; font-size: 7px; font-weight: 900; border-radius: 3px; padding: 1px 3px; line-height: 1.3; }
 .badge-a { background: #f59e0b; color: #000; font-size: 8px; }
-.badge-b { background: #60a5fa; color: #000; }
-.badge-c { background: #a78bfa; color: #000; font-size: 6px; }
+.badge-b { background: #60a5fa; color: #fff; text-shadow: 0 0 4px rgba(0,0,0,0.5); }
+.badge-c { background: #a78bfa; color: #fff; font-size: 6px; text-shadow: 0 0 4px rgba(0,0,0,0.5); }
 
 /* ── Text styles ── */
 .nname   { font-size: 10px; font-weight: 800; color: #fff; }
-.nname-b { font-size: 9.5px; font-weight: 700; color: #fff; }
-.nname-c { font-size: 8.5px; font-weight: 700; color: #fff; }
+.nname-b { font-size: 9.5px; font-weight: 800; color: #e0f2fe; text-shadow: 0 0 8px rgba(96,165,250,0.6); }
+.nname-c { font-size: 8.5px; font-weight: 800; color: #ede9fe; text-shadow: 0 0 8px rgba(167,139,250,0.6); }
 .nline   { font-size: 8px; color: rgba(255,255,255,0.8); line-height: 1.5; }
-.nline-b { font-size: 8px; color: rgba(255,255,255,0.75); line-height: 1.4; }
-.nline-c { font-size: 7.5px; color: rgba(255,255,255,0.75); line-height: 1.4; }
+.nline-b { font-size: 8px; color: rgba(255,255,255,0.95); line-height: 1.4; }
+.nline-c { font-size: 7.5px; color: rgba(255,255,255,0.92); line-height: 1.4; }
 .ntotal     { margin-top: 3px; font-size: 9px; font-weight: 700; color: #fff; background: rgba(0,0,0,0.18); border-radius: 5px; padding: 2px 7px; display: inline-block; }
-.ntotal-sm  { font-size: 9px; font-weight: 700; margin-top: 2px; }
-.ntotal-c   { font-size: 8px; font-weight: 700; margin-top: 2px; }
-.ntotal-c--big { color: #4ade80; font-size: 9px; }
-.tc-dim { color: rgba(255,255,255,0.2) !important; }
+.ntotal-sm  { font-size: 9px; font-weight: 800; margin-top: 2px; color: #fff; text-shadow: 0 0 6px rgba(96,165,250,0.5); }
+.ntotal-c   { font-size: 8px; font-weight: 800; margin-top: 2px; color: #fff; text-shadow: 0 0 6px rgba(167,139,250,0.5); }
+.ntotal-c--big { color: #4ade80; font-size: 9px; text-shadow: 0 0 8px rgba(74,222,128,0.7); }
+.tc-dim { color: rgba(255,255,255,0.28) !important; text-shadow: none !important; }
 
 /* ── Color helpers ── */
 .y  { color: #fbbf24; } .g  { color: #4ade80; } .bl { color: #60a5fa; } .p { color: #c4b5fd; }
