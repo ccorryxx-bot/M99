@@ -8,7 +8,7 @@
           <path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7"/>
         </svg>
       </button>
-      <h1 class="ag-title">ပိုင်ကြားရန်</h1>
+      <h1 class="ag-title">ဖိတ်ကြားရန်</h1>
       <div style="width:36px;"></div>
     </header>
 
@@ -26,7 +26,7 @@
     <!-- CONTENT -->
     <div class="ag-body">
 
-      <!-- ══ TAB 0: ပိုင်စာလင်မ် ══ -->
+      <!-- ══ TAB 0: ဖိတ်စာလင်ခ့် ══ -->
       <div v-if="activeTab === 0">
 
         <!-- Balance Card -->
@@ -38,18 +38,18 @@
               စုဆောင်းနိုင်သော <strong class="balance-num">{{ formatN(availableCommission) }}</strong>
             </span>
             <div class="balance-btns">
-              <button class="btn-gray" @click="handleWithdraw">ရလုရန်</button>
+              <button class="btn-gray" @click="handleWithdraw">ရယူရန်</button>
               <button class="btn-green" @click="activeTab = 2">သမိုင်းစဉ်</button>
             </div>
           </div>
 
-          <p class="ag-subtitle">သာလွန်အကောင်း သာလွတ်ကြားမှုပ</p>
-          <p class="ag-desc">ပရောမိုးရှိ တင်အနည်းဆုံး မှရ ကြားချည်ကြားချောင် (နေစဉ်အကြားမှု)</p>
+          <p class="ag-subtitle">သာလွန်အကောက် သာလွန်ချင်းမရှိပါ</p>
+          <p class="ag-desc">ProcydMod အကန့်သက်မရှိအဆင့် ကွာခြားချက် (နေစဉ်အခြေချမှု့)</p>
 
           <!-- Invite Link Header -->
           <div class="invite-header-bar">
-            <span class="invite-header-title">ကွန်တော် Link</span>
-            <span class="invite-header-link">ရှေးချယ်ပါ ▸</span>
+            <span class="invite-header-title">ကျွန်တော် Link</span>
+            <span class="invite-header-link">ရွေးချယ်ပါ ▸</span>
           </div>
 
           <!-- QR + Info -->
@@ -59,7 +59,7 @@
               <div class="qr-box">
                 <img :src="qrUrl" alt="QR" class="qr-img" />
               </div>
-              <button class="btn-green-sm" @click="downloadQr">သမ်းရည်</button>
+              <button class="btn-green-sm" @click="downloadQr">စွမ်းရည်</button>
             </div>
 
             <!-- Info Column -->
@@ -80,13 +80,13 @@
 
               <!-- Direct count -->
               <p class="info-stat">
-                တိုက်ရိုက်ရစေ်ရာဝင်များ
+                တိုက်ရိုက်မှတ်ပုံတင်သူများ
                 <strong style="color:#22c55e;">{{ directCount }}လူတွေ</strong>
               </p>
 
               <!-- Invite code -->
               <div class="code-row">
-                <span class="code-label">ပိုင်စာကုဒ် <strong>{{ inviteCode }}</strong></span>
+                <span class="code-label">ဖိတ်စာကုဒ် <strong>{{ inviteCode }}</strong></span>
                 <button @click="copyCode" class="copy-icon-btn">
                   <svg v-if="!copiedCode" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
                     <rect x="9" y="9" width="13" height="13" rx="2"/>
@@ -431,7 +431,7 @@
         </div>
       </div>
 
-      <!-- ══ TAB 2: ငါ့တောင ══ -->
+      <!-- ══ TAB 2: ငါ့ဒေတာ ══ -->
       <div v-if="activeTab === 2">
 
         <!-- Period filter -->
