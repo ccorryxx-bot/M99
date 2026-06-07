@@ -441,37 +441,25 @@
                 <svg
                   class="reward-refresh-svg"
                   :class="{ 'is-spinning': rewardRefreshing, 'is-done': rewardRefreshDone }"
-                  viewBox="0 0 24 24" width="22" height="22" fill="none"
                   xmlns="http://www.w3.org/2000/svg"
+                  viewBox="0 0 100 100" width="20" height="20"
                 >
                   <defs>
-                    <!-- Top arrow gradient: light→dark blue -->
-                    <linearGradient id="rw-g-top" x1="1" y1="0" x2="0" y2="1" gradientUnits="objectBoundingBox">
-                      <stop offset="0%"   stop-color="#bfdbfe"/>
-                      <stop offset="55%"  stop-color="#3b82f6"/>
-                      <stop offset="100%" stop-color="#1d4ed8"/>
+                    <linearGradient id="rw2-grad" x1="0%" y1="0%" x2="100%" y2="100%">
+                      <stop offset="0%"   stop-color="#70a1ff"/>
+                      <stop offset="50%"  stop-color="#1e90ff"/>
+                      <stop offset="100%" stop-color="#0052cc"/>
                     </linearGradient>
-                    <!-- Bottom arrow gradient: mid→deep blue -->
-                    <linearGradient id="rw-g-bot" x1="0" y1="1" x2="1" y2="0" gradientUnits="objectBoundingBox">
-                      <stop offset="0%"   stop-color="#93c5fd"/>
-                      <stop offset="55%"  stop-color="#2563eb"/>
-                      <stop offset="100%" stop-color="#1e3a8a"/>
-                    </linearGradient>
+                    <filter id="rw2-shadow" x="-10%" y="-10%" width="130%" height="130%">
+                      <feDropShadow dx="0" dy="4" stdDeviation="3" flood-opacity="0.3"/>
+                    </filter>
                   </defs>
-                  <!-- Top-right arrow (clockwise) -->
-                  <path d="M23 4v6h-6"
-                    stroke="url(#rw-g-top)" stroke-width="3.2"
-                    stroke-linecap="round" stroke-linejoin="round"/>
-                  <path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10"
-                    stroke="url(#rw-g-top)" stroke-width="3.2"
-                    stroke-linecap="round"/>
-                  <!-- Bottom-left arrow (clockwise) -->
-                  <path d="M1 20v-6h6"
-                    stroke="url(#rw-g-bot)" stroke-width="3.2"
-                    stroke-linecap="round" stroke-linejoin="round"/>
-                  <path d="M20.49 15a9 9 0 0 1-14.85 3.36L1 14"
-                    stroke="url(#rw-g-bot)" stroke-width="3.2"
-                    stroke-linecap="round"/>
+                  <g filter="url(#rw2-shadow)">
+                    <path d="M 20,40 C 20,15 80,15 80,40 L 93,40 L 73,15 L 53,40 L 66,40 C 66,28 34,28 34,40 Z"
+                      fill="url(#rw2-grad)" stroke="#0033aa" stroke-width="1.5"/>
+                    <path d="M 80,60 C 80,85 20,85 20,60 L 7,60 L 27,85 L 47,60 L 34,60 C 34,72 66,72 66,60 Z"
+                      fill="url(#rw2-grad)" stroke="#0033aa" stroke-width="1.5"/>
+                  </g>
                 </svg>
               </button>
             </div>
@@ -1127,18 +1115,14 @@ const vipLevels = ref([
   margin-bottom: 0;
 }
 
-/* Balance pill */
+/* Balance pill — no box, no border */
 .reward-balance-pill {
-  display: flex; align-items: center; gap: 7px;
-  background: rgba(255,255,255,0.06);
-  border: 1px solid rgba(255,255,255,0.09);
-  border-radius: 20px;
-  padding: 4px 10px 4px 4px;
+  display: flex; align-items: center; gap: 6px;
 }
 
 /* Flag emoji */
 .reward-flag-emoji {
-  font-size: 22px; line-height: 1;
+  font-size: 16px; line-height: 1;
   flex-shrink: 0; user-select: none;
 }
 
@@ -1168,17 +1152,15 @@ const vipLevels = ref([
 /* Refresh SVG — 3 animation states */
 .reward-refresh-svg {
   display: block;
-  filter: drop-shadow(0 1px 3px rgba(29,78,216,0.55));
-  transition: filter 0.3s;
+  transition: opacity 0.3s;
 }
 /* State 2: spinning */
 .reward-refresh-svg.is-spinning {
   animation: rw-spin 0.75s linear infinite;
-  filter: drop-shadow(0 0 5px rgba(96,165,250,0.8));
+  opacity: 0.85;
 }
-/* State 3: done */
+/* State 3: done pulse */
 .reward-refresh-svg.is-done {
-  filter: drop-shadow(0 0 7px rgba(74,222,128,0.85));
   animation: rw-pop 0.45s cubic-bezier(.36,.07,.19,.97);
 }
 @keyframes rw-spin {
