@@ -354,8 +354,8 @@ onUnmounted(() => { clearInterval(timerInterval); stopStep2Timer(); unlockScroll
 async function fetchBalance() {
   const { data: { user } } = await supabase.auth.getUser()
   if (!user) return
-  const { data } = await supabase.from('wallets').select('balance').eq('user_id', user.id).maybeSingle()
-  if (data) walletBalance.value = Number(data.balance) || 0
+  const { data } = await supabase.from('wallets').select('main_balance').eq('user_id', user.id).maybeSingle()
+  if (data) walletBalance.value = Number(data.main_balance) || 0
 }
 async function refreshBalance() {
   refreshing.value = true

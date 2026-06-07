@@ -630,7 +630,7 @@
     catch { isLoggedIn.value=false }
   }
   async function fetchBalance() {
-    try { const {data:{session}}=await supabase.auth.getSession(); if(!session)return; const {data}=await supabase.from('wallets').select('balance').eq('user_id',session.user.id).single(); if(data)mainBalance.value=Number(data.balance)||0 }
+    try { const {data:{session}}=await supabase.auth.getSession(); if(!session)return; const {data}=await supabase.from('wallets').select('main_balance').eq('user_id',session.user.id).single(); if(data)mainBalance.value=Number(data.main_balance)||0 }
     catch {}
   }
   async function refreshBalance() {
