@@ -424,20 +424,8 @@
 
             <!-- Left: Balance pill -->
             <div class="reward-balance-pill">
-              <!-- Myanmar flag circle -->
-              <div class="reward-flag-circle">
-                <svg viewBox="0 0 36 36" width="24" height="24" xmlns="http://www.w3.org/2000/svg">
-                  <defs>
-                    <clipPath id="rfc"><circle cx="18" cy="18" r="18"/></clipPath>
-                  </defs>
-                  <circle cx="18" cy="18" r="18" fill="#fcd116"/>
-                  <rect x="0" y="0"  width="36" height="12" fill="#fcd116" clip-path="url(#rfc)"/>
-                  <rect x="0" y="12" width="36" height="12" fill="#ea2839" clip-path="url(#rfc)"/>
-                  <rect x="0" y="24" width="36" height="12" fill="#34b233" clip-path="url(#rfc)"/>
-                  <polygon points="18,6 19.8,12 26,12 21,15.5 23,21.5 18,18 13,21.5 15,15.5 10,12 16.2,12" fill="white" clip-path="url(#rfc)"/>
-                  <circle cx="18" cy="18" r="17.5" fill="none" stroke="rgba(0,0,0,0.15)" stroke-width="1"/>
-                </svg>
-              </div>
+              <!-- Myanmar flag emoji -->
+              <span class="reward-flag-emoji">🇲🇲</span>
 
               <!-- Amount -->
               <span class="reward-balance-amount">{{ rewardBalance }}</span>
@@ -453,15 +441,37 @@
                 <svg
                   class="reward-refresh-svg"
                   :class="{ 'is-spinning': rewardRefreshing, 'is-done': rewardRefreshDone }"
-                  viewBox="0 0 24 24" width="16" height="16" fill="none"
-                  stroke="currentColor" stroke-width="2.2"
-                  stroke-linecap="round" stroke-linejoin="round"
+                  viewBox="0 0 24 24" width="22" height="22" fill="none"
+                  xmlns="http://www.w3.org/2000/svg"
                 >
-                  <!-- circular arrows — same shape as screenshot -->
-                  <path d="M23 4v6h-6"/>
-                  <path d="M1 20v-6h6"/>
-                  <path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10"/>
-                  <path d="M1 14l4.64 4.36A9 9 0 0 0 20.49 15"/>
+                  <defs>
+                    <!-- Top arrow gradient: light→dark blue -->
+                    <linearGradient id="rw-g-top" x1="1" y1="0" x2="0" y2="1" gradientUnits="objectBoundingBox">
+                      <stop offset="0%"   stop-color="#bfdbfe"/>
+                      <stop offset="55%"  stop-color="#3b82f6"/>
+                      <stop offset="100%" stop-color="#1d4ed8"/>
+                    </linearGradient>
+                    <!-- Bottom arrow gradient: mid→deep blue -->
+                    <linearGradient id="rw-g-bot" x1="0" y1="1" x2="1" y2="0" gradientUnits="objectBoundingBox">
+                      <stop offset="0%"   stop-color="#93c5fd"/>
+                      <stop offset="55%"  stop-color="#2563eb"/>
+                      <stop offset="100%" stop-color="#1e3a8a"/>
+                    </linearGradient>
+                  </defs>
+                  <!-- Top-right arrow (clockwise) -->
+                  <path d="M23 4v6h-6"
+                    stroke="url(#rw-g-top)" stroke-width="3.2"
+                    stroke-linecap="round" stroke-linejoin="round"/>
+                  <path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10"
+                    stroke="url(#rw-g-top)" stroke-width="3.2"
+                    stroke-linecap="round"/>
+                  <!-- Bottom-left arrow (clockwise) -->
+                  <path d="M1 20v-6h6"
+                    stroke="url(#rw-g-bot)" stroke-width="3.2"
+                    stroke-linecap="round" stroke-linejoin="round"/>
+                  <path d="M20.49 15a9 9 0 0 1-14.85 3.36L1 14"
+                    stroke="url(#rw-g-bot)" stroke-width="3.2"
+                    stroke-linecap="round"/>
                 </svg>
               </button>
             </div>
@@ -1126,11 +1136,10 @@ const vipLevels = ref([
   padding: 4px 10px 4px 4px;
 }
 
-/* Flag circle */
-.reward-flag-circle {
-  width: 26px; height: 26px; border-radius: 50%;
-  overflow: hidden; flex-shrink: 0;
-  display: flex; align-items: center; justify-content: center;
+/* Flag emoji */
+.reward-flag-emoji {
+  font-size: 22px; line-height: 1;
+  flex-shrink: 0; user-select: none;
 }
 
 /* Amount */
@@ -1159,16 +1168,17 @@ const vipLevels = ref([
 /* Refresh SVG — 3 animation states */
 .reward-refresh-svg {
   display: block;
-  transition: color 0.35s;
+  filter: drop-shadow(0 1px 3px rgba(29,78,216,0.55));
+  transition: filter 0.3s;
 }
 /* State 2: spinning */
 .reward-refresh-svg.is-spinning {
   animation: rw-spin 0.75s linear infinite;
-  color: #6ee7b7;
+  filter: drop-shadow(0 0 5px rgba(96,165,250,0.8));
 }
 /* State 3: done */
 .reward-refresh-svg.is-done {
-  color: #4ade80;
+  filter: drop-shadow(0 0 7px rgba(74,222,128,0.85));
   animation: rw-pop 0.45s cubic-bezier(.36,.07,.19,.97);
 }
 @keyframes rw-spin {
