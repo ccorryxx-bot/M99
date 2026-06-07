@@ -34,6 +34,10 @@
               <div class="nline">Commission: <b class="g">{{ formatN(totalCommA) }} Ks</b></div>
               <div class="ntotal">💰 {{ formatN(totalCommA) }} Ks / session</div>
             </div>
+            <div class="a-note">
+              <div class="a-note-line1">သင်၏ အောက်လက်ငယ်သားများအား ဤနေရာတွင် ဖော်ပြပေးမည်။</div>
+              <div class="a-note-line2">🔴 Real Time Live Update ဖြစ်သည်။</div>
+            </div>
           </div>
         </div>
 
@@ -457,6 +461,25 @@ onMounted(loadData)
   box-shadow: 0 0 20px rgba(245,158,11,0.25), 0 4px 16px rgba(0,0,0,0.2);
   border-radius: 12px; padding: 9px 10px;
   width: min(310px, 92vw);
+}
+
+/* ── Node A right note ── */
+.a-note {
+  margin-left: auto;
+  display: flex; flex-direction: column; justify-content: center; gap: 5px;
+  text-align: right; flex-shrink: 0; max-width: 108px;
+}
+.a-note-line1 {
+  font-size: 8px; font-weight: 600;
+  color: rgba(255,255,255,0.82);
+  line-height: 1.5;
+  text-shadow: 0 0 6px rgba(245,158,11,0.4);
+}
+.a-note-line2 {
+  font-size: 8px; font-weight: 700;
+  color: #fbbf24;
+  text-shadow: 0 0 8px rgba(245,158,11,0.7);
+  letter-spacing: 0.2px;
 }
 
 /* ── Row B ── */
