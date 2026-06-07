@@ -438,27 +438,46 @@
                 :disabled="rewardRefreshing"
                 aria-label="Balance refresh"
               >
-                <svg
-                  class="reward-refresh-svg"
-                  :class="{ 'is-spinning': rewardRefreshing, 'is-done': rewardRefreshDone }"
+                <svg class="reward-refresh-svg"
+                  width="28" height="28" viewBox="0 0 36 36"
                   xmlns="http://www.w3.org/2000/svg"
-                  viewBox="0 0 100 100" width="20" height="20"
                 >
                   <defs>
-                    <linearGradient id="rw2-grad" x1="0%" y1="0%" x2="100%" y2="100%">
-                      <stop offset="0%"   stop-color="#70a1ff"/>
-                      <stop offset="50%"  stop-color="#1e90ff"/>
-                      <stop offset="100%" stop-color="#0052cc"/>
-                    </linearGradient>
-                    <filter id="rw2-shadow" x="-10%" y="-10%" width="130%" height="130%">
-                      <feDropShadow dx="0" dy="4" stdDeviation="3" flood-opacity="0.3"/>
-                    </filter>
+                    <marker id="rw-arr"
+                      markerWidth="10" markerHeight="9"
+                      refX="8" refY="4.5"
+                      orient="auto"
+                      markerUnits="userSpaceOnUse">
+                      <polyline points="0,1 7,4.5 0,8"
+                        fill="none"
+                        stroke="#00c896"
+                        stroke-width="2"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"/>
+                    </marker>
                   </defs>
-                  <g filter="url(#rw2-shadow)">
-                    <path d="M 20,40 C 20,15 80,15 80,40 L 93,40 L 73,15 L 53,40 L 66,40 C 66,28 34,28 34,40 Z"
-                      fill="url(#rw2-grad)" stroke="#0033aa" stroke-width="1.5"/>
-                    <path d="M 80,60 C 80,85 20,85 20,60 L 7,60 L 27,85 L 47,60 L 34,60 C 34,72 66,72 66,60 Z"
-                      fill="url(#rw2-grad)" stroke="#0033aa" stroke-width="1.5"/>
+
+                  <g id="rw-sync">
+                    <!-- Top arc -->
+                    <path d="M 8.6 14.6 A 10 10 0 0 1 27.4 14.6"
+                      fill="none" stroke="#00c896" stroke-width="2.2"
+                      stroke-linecap="round" marker-end="url(#rw-arr)"/>
+                    <!-- Bottom arc -->
+                    <path d="M 27.4 21.4 A 10 10 0 0 1 8.6 21.4"
+                      fill="none" stroke="#00c896" stroke-width="2.2"
+                      stroke-linecap="round" marker-end="url(#rw-arr)"/>
+
+                    <!-- SMIL: spin once on click, center pivot (18,18) -->
+                    <animateTransform
+                      attributeName="transform"
+                      type="rotate"
+                      from="0 18 18"
+                      to="360 18 18"
+                      dur="0.5s"
+                      begin="rw-sync.click"
+                      fill="remove"
+                      repeatCount="1"
+                    />
                   </g>
                 </svg>
               </button>
@@ -1149,29 +1168,13 @@ const vipLevels = ref([
 }
 .reward-refresh-btn.is-done { color: #4ade80; }
 
-/* Refresh SVG — 3 animation states */
+/* Refresh SVG — SMIL animation handles spin on click */
 .reward-refresh-svg {
   display: block;
-  transition: opacity 0.3s;
+  flex-shrink: 0;
 }
-/* State 2: spinning */
-.reward-refresh-svg.is-spinning {
-  animation: rw-spin 0.75s linear infinite;
-  opacity: 0.85;
-}
-/* State 3: done pulse */
-.reward-refresh-svg.is-done {
-  animation: rw-pop 0.45s cubic-bezier(.36,.07,.19,.97);
-}
-@keyframes rw-spin {
-  from { transform: rotate(0deg); }
-  to   { transform: rotate(360deg); }
-}
-@keyframes rw-pop {
-  0%   { transform: scale(1); }
-  40%  { transform: scale(1.35); }
-  70%  { transform: scale(0.9); }
-  100% { transform: scale(1); }
+.reward-refresh-btn:active .reward-refresh-svg {
+  opacity: 0.7;
 }
 
 /* Activity points (right side) */
