@@ -415,7 +415,82 @@
         </main>
       </template>
 
-      <!-- ===== OTHER TABS ===== -->
+      <!-- ===== ဆုလာဘ် TAB ===== -->
+      <template v-else-if="activeTopTab === 'reward'">
+        <main class="reward-area">
+
+          <!-- Top row: balance pill + activity points -->
+          <div class="reward-top-row">
+
+            <!-- Left: Balance pill -->
+            <div class="reward-balance-pill">
+              <!-- Myanmar flag circle -->
+              <div class="reward-flag-circle">
+                <svg viewBox="0 0 36 36" width="24" height="24" xmlns="http://www.w3.org/2000/svg">
+                  <defs>
+                    <clipPath id="rfc"><circle cx="18" cy="18" r="18"/></clipPath>
+                  </defs>
+                  <circle cx="18" cy="18" r="18" fill="#fcd116"/>
+                  <rect x="0" y="0"  width="36" height="12" fill="#fcd116" clip-path="url(#rfc)"/>
+                  <rect x="0" y="12" width="36" height="12" fill="#ea2839" clip-path="url(#rfc)"/>
+                  <rect x="0" y="24" width="36" height="12" fill="#34b233" clip-path="url(#rfc)"/>
+                  <polygon points="18,6 19.8,12 26,12 21,15.5 23,21.5 18,18 13,21.5 15,15.5 10,12 16.2,12" fill="white" clip-path="url(#rfc)"/>
+                  <circle cx="18" cy="18" r="17.5" fill="none" stroke="rgba(0,0,0,0.15)" stroke-width="1"/>
+                </svg>
+              </div>
+
+              <!-- Amount -->
+              <span class="reward-balance-amount">{{ rewardBalance }}</span>
+
+              <!-- Refresh toggle — 3 states: idle / spinning / done -->
+              <button
+                class="reward-refresh-btn"
+                :class="{ 'is-done': rewardRefreshDone }"
+                @click="refreshRewardBalance"
+                :disabled="rewardRefreshing"
+                aria-label="Balance refresh"
+              >
+                <svg
+                  class="reward-refresh-svg"
+                  :class="{ 'is-spinning': rewardRefreshing, 'is-done': rewardRefreshDone }"
+                  viewBox="0 0 24 24" width="16" height="16" fill="none"
+                  stroke="currentColor" stroke-width="2.2"
+                  stroke-linecap="round" stroke-linejoin="round"
+                >
+                  <!-- circular arrows — same shape as screenshot -->
+                  <path d="M23 4v6h-6"/>
+                  <path d="M1 20v-6h6"/>
+                  <path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10"/>
+                  <path d="M1 14l4.64 4.36A9 9 0 0 0 20.49 15"/>
+                </svg>
+              </button>
+            </div>
+
+            <!-- Right: Activity points -->
+            <div class="reward-activity">
+              <span class="reward-activity-label">လှုပ်ရှားမှုအဆင်</span>
+              <span class="reward-activity-val">
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="#4ade80" stroke="none">
+                  <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/>
+                </svg>
+                {{ activityPoints }}
+              </span>
+            </div>
+          </div>
+
+          <!-- Empty state -->
+          <div class="reward-empty">
+            <svg width="44" height="44" viewBox="0 0 24 24" fill="none"
+              stroke="rgba(255,255,255,0.1)" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M20 13V6a2 2 0 00-2-2H6a2 2 0 00-2 2v7m16 0v5a2 2 0 01-2 2H6a2 2 0 01-2-2v-5m16 0h-2.586a1 1 0 00-.707.293l-2.414 2.414a1 1 0 01-.707.293h-3.172a1 1 0 01-.707-.293l-2.414-2.414A1 1 0 006.586 13H4"/>
+            </svg>
+            <p class="reward-empty-text">မတ်တာမရှိပါ</p>
+          </div>
+
+        </main>
+      </template>
+
+      <!-- ===== OTHER TABS (mission / history) ===== -->
       <template v-else>
         <main class="promo-cards-area">
           <div class="promo-empty">
@@ -508,6 +583,31 @@ const topTabs = [
   { key: 'history', label: 'သမိုင်း' },
 ]
 const activeTopTab = ref('events')
+
+// ─── ဆုလာဘ် tab state ───
+const rewardBalance     = ref('0.00')
+const activityPoints    = ref('0.00')
+const rewardRefreshing  = ref(false)
+const rewardRefreshDone = ref(false)
+
+async function refreshRewardBalance() {
+  if (rewardRefreshing.value) return
+  rewardRefreshing.value  = true
+  rewardRefreshDone.value = false
+  try {
+    const { data: { user } } = await supabase.auth.getUser()
+    if (user) {
+      const { data: wallet } = await supabase
+        .from('wallets').select('main_balance').eq('user_id', user.id).single()
+      if (wallet) rewardBalance.value = fmtNum(wallet.main_balance)
+    }
+  } catch (_) {}
+  setTimeout(() => {
+    rewardRefreshing.value  = false
+    rewardRefreshDone.value = true
+    setTimeout(() => { rewardRefreshDone.value = false }, 900)
+  }, 800)
+}
 
 const sideCategories = [
   { key: 'all',      label: 'အားလုံး'  },
@@ -1001,6 +1101,110 @@ const vipLevels = ref([
 .vr-icon--blue   { stroke: #60a5fa; }
 .vr-icon--orange { stroke: #fb923c; }
 .vr-icon--red    { stroke: #f87171; }
+
+/* ══════════════════════════════════════
+   ဆုလာဘ် Reward Tab
+   ══════════════════════════════════════ */
+.reward-area {
+  flex: 1; display: flex; flex-direction: column;
+  padding: 10px 12px; overflow-y: auto;
+}
+
+/* Top row */
+.reward-top-row {
+  display: flex; align-items: center;
+  justify-content: space-between; gap: 10px;
+  margin-bottom: 0;
+}
+
+/* Balance pill */
+.reward-balance-pill {
+  display: flex; align-items: center; gap: 7px;
+  background: rgba(255,255,255,0.06);
+  border: 1px solid rgba(255,255,255,0.09);
+  border-radius: 20px;
+  padding: 4px 10px 4px 4px;
+}
+
+/* Flag circle */
+.reward-flag-circle {
+  width: 26px; height: 26px; border-radius: 50%;
+  overflow: hidden; flex-shrink: 0;
+  display: flex; align-items: center; justify-content: center;
+}
+
+/* Amount */
+.reward-balance-amount {
+  font-size: 14px; font-weight: 700;
+  color: #f59e0b; white-space: nowrap;
+  border-bottom: 1.5px solid #f59e0b;
+  padding-bottom: 1px; line-height: 1.2;
+}
+
+/* Refresh button */
+.reward-refresh-btn {
+  background: none; border: none; padding: 2px;
+  cursor: pointer; flex-shrink: 0;
+  color: rgba(255,255,255,0.45);
+  display: flex; align-items: center;
+  border-radius: 50%;
+  transition: color 0.3s, background 0.2s;
+}
+.reward-refresh-btn:not(:disabled):hover {
+  color: rgba(255,255,255,0.75);
+  background: rgba(255,255,255,0.06);
+}
+.reward-refresh-btn.is-done { color: #4ade80; }
+
+/* Refresh SVG — 3 animation states */
+.reward-refresh-svg {
+  display: block;
+  transition: color 0.35s;
+}
+/* State 2: spinning */
+.reward-refresh-svg.is-spinning {
+  animation: rw-spin 0.75s linear infinite;
+  color: #6ee7b7;
+}
+/* State 3: done */
+.reward-refresh-svg.is-done {
+  color: #4ade80;
+  animation: rw-pop 0.45s cubic-bezier(.36,.07,.19,.97);
+}
+@keyframes rw-spin {
+  from { transform: rotate(0deg); }
+  to   { transform: rotate(360deg); }
+}
+@keyframes rw-pop {
+  0%   { transform: scale(1); }
+  40%  { transform: scale(1.35); }
+  70%  { transform: scale(0.9); }
+  100% { transform: scale(1); }
+}
+
+/* Activity points (right side) */
+.reward-activity {
+  display: flex; flex-direction: column;
+  align-items: flex-end; gap: 2px; flex-shrink: 0;
+}
+.reward-activity-label {
+  font-size: 10px; color: rgba(255,255,255,0.45);
+  white-space: nowrap;
+}
+.reward-activity-val {
+  display: flex; align-items: center; gap: 4px;
+  font-size: 13px; font-weight: 700; color: #4ade80;
+}
+
+/* Empty state */
+.reward-empty {
+  flex: 1; display: flex; flex-direction: column;
+  align-items: center; justify-content: center;
+  gap: 10px; padding-bottom: 40px;
+}
+.reward-empty-text {
+  font-size: 12px; color: rgba(255,255,255,0.22); margin: 0;
+}
 
 /* Bullet list */
 .vr-list {
