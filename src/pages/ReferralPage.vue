@@ -14,198 +14,206 @@
 
     <div class="net-body">
 
-      <!-- ═══════════ ROW A ═══════════ -->
-      <div class="row-a-wrap">
-        <div class="node node-a">
-          <div class="av av-a">
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="8" r="4" fill="rgba(245,158,11,0.9)"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7" fill="rgba(245,158,11,0.7)"/></svg>
-            <span class="badge badge-a">A</span>
-          </div>
-          <div class="info">
-            <div class="nname">မင်း (A)</div>
-            <div class="nline">Direct: <b class="y">500K+300K+200K = 1,000K</b></div>
-            <div class="nline">1,000K × 0.15% = <b class="g">1,500 Ks</b></div>
-            <div class="nline">Override: <b class="g">600+1,200 = 1,800 Ks</b></div>
-            <div class="ntotal">💰 3,300 Ks / session</div>
-          </div>
-        </div>
+      <!-- Loading overlay -->
+      <div v-if="loading" class="net-loading">
+        <div class="spin"></div>
       </div>
 
-      <!-- arrows A→B -->
-      <div class="arrows-ab">
-        <div class="vl"></div>
-        <div class="hl"></div>
-        <div class="vl"></div>
-        <div class="hl"></div>
-        <div class="vl"></div>
-      </div>
+      <template v-else>
 
-      <!-- ═══════════ ROW B ═══════════ -->
-      <div class="row-b-wrap">
-        <div class="node node-b">
-          <div class="av av-b">
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="8" r="4" fill="rgba(96,165,250,0.9)"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7" fill="rgba(96,165,250,0.7)"/></svg>
-            <span class="badge badge-b">B1</span>
-          </div>
-          <div class="info">
-            <div class="nname">B1</div>
-            <div class="nline">Bet: <b class="bl">500K</b></div>
-            <div class="nline">× 0.15%</div>
-            <div class="ntotal-sm">= <b class="g">750 Ks</b></div>
-          </div>
-        </div>
-
-        <div class="node node-b">
-          <div class="av av-b">
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="8" r="4" fill="rgba(96,165,250,0.9)"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7" fill="rgba(96,165,250,0.7)"/></svg>
-            <span class="badge badge-b">B2</span>
-          </div>
-          <div class="info">
-            <div class="nname">B2</div>
-            <div class="nline">Bet: <b class="bl">3,000K</b></div>
-            <div class="nline">× 0.15%</div>
-            <div class="ntotal-sm">= <b class="g">4,500 Ks</b></div>
-          </div>
-        </div>
-
-        <div class="node node-b">
-          <div class="av av-b">
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="8" r="4" fill="rgba(96,165,250,0.9)"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7" fill="rgba(96,165,250,0.7)"/></svg>
-            <span class="badge badge-b">B3</span>
-          </div>
-          <div class="info">
-            <div class="nname">B3</div>
-            <div class="nline">Bet: <b class="bl">2,000K</b></div>
-            <div class="nline">× 0.15%</div>
-            <div class="ntotal-sm">= <b class="g">3,000 Ks</b></div>
-          </div>
-        </div>
-      </div>
-
-      <!-- arrows B→C -->
-      <div class="arrows-bc">
-        <div class="bc-left">
-          <div class="vl"></div>
-          <div class="hl-sm"></div>
-          <div class="vl"></div>
-        </div>
-        <div class="bc-mid"><div class="vl vl-fade"></div></div>
-        <div class="bc-right"><div class="vl"></div></div>
-      </div>
-
-      <!-- ═══════════ ROW C ═══════════ -->
-      <div class="row-c-wrap">
-        <div class="node node-c">
-          <div class="av av-c">
-            <svg width="11" height="11" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="8" r="4" fill="rgba(167,139,250,0.9)"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7" fill="rgba(167,139,250,0.7)"/></svg>
-            <span class="badge badge-c">C1</span>
-          </div>
-          <div class="info">
-            <div class="nname-c">C1</div>
-            <div class="nline-c">Bet B1: <b class="p">1,000K</b></div>
-            <div class="nline-c">× 0.09%</div>
-            <div class="ntotal-c">= <b class="g">900 Ks</b></div>
-          </div>
-        </div>
-
-        <div class="node node-c">
-          <div class="av av-c">
-            <svg width="11" height="11" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="8" r="4" fill="rgba(167,139,250,0.9)"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7" fill="rgba(167,139,250,0.7)"/></svg>
-            <span class="badge badge-c">C2</span>
-          </div>
-          <div class="info">
-            <div class="nname-c">C2</div>
-            <div class="nline-c">Bet B1: <b class="p">2,000K</b></div>
-            <div class="nline-c">× 0.15%</div>
-            <div class="ntotal-c">= <b class="g">3,000 Ks</b></div>
-          </div>
-        </div>
-
-        <div class="node-gap"></div>
-
-        <div class="node node-c node-c3">
-          <div class="av av-c">
-            <svg width="11" height="11" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="8" r="4" fill="rgba(167,139,250,0.9)"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7" fill="rgba(167,139,250,0.7)"/></svg>
-            <span class="badge badge-c">C3</span>
-          </div>
-          <div class="info">
-            <div class="nname-c">C3</div>
-            <div class="nline-c">Bet B3: <b class="p">20,000K</b></div>
-            <div class="nline-c">× 0.45%</div>
-            <div class="ntotal-c ntotal-c--big">= <b class="g">90,000 Ks</b></div>
-          </div>
-        </div>
-      </div>
-
-      <!-- Legend -->
-      <div class="legend">
-        <div class="leg-title">📊 Commission အဆင့်များ</div>
-        <div class="leg-row"><span class="dot dot-a"></span><span class="leg-lbl">A (သင်) — ကွန်ရက်အကြီးဆုံး လုပ်ကြေး</span></div>
-        <div class="leg-row"><span class="dot dot-b"></span><span class="leg-lbl">B Level — တိုက်ရိုက်ဖိတ်ခေါ်သူများ (Direct)</span></div>
-        <div class="leg-row"><span class="dot dot-c"></span><span class="leg-lbl">C Level — B ဖိတ်ခေါ်သူများ (Indirect)</span></div>
-        <div class="leg-note">⚡ C Level ကြီးလေ — သင် Override Commission ရလေ!</div>
-      </div>
-
-      <!-- ═══════════ REFERRAL SECTION ═══════════ -->
-      <div class="ref-section">
-
-        <div class="ref-title">🔗 သင့် Referral Link</div>
-
-        <!-- Loading state -->
-        <div v-if="loading" class="ref-loading">
-          <div class="ref-spinner"></div>
-        </div>
-
-        <template v-else>
-          <!-- Invite Code -->
-          <div class="ref-code-row">
-            <div class="ref-code-label">Invite Code</div>
-            <div class="ref-code-val">{{ inviteCode }}</div>
-            <button @click="copyText(inviteCode, 'code')" class="ref-copy-btn" :class="copiedCode ? 'ref-copy-btn--ok' : ''">
-              <svg v-if="!copiedCode" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg>
-              <span>{{ copiedCode ? '✓ ကူးပြီး' : 'ကူး' }}</span>
-            </button>
-          </div>
-
-          <!-- Link -->
-          <div class="ref-link-row">
-            <div class="ref-link-text">{{ referralLink }}</div>
-            <button @click="copyText(referralLink, 'link')" class="ref-copy-btn" :class="copiedLink ? 'ref-copy-btn--ok' : ''">
-              <svg v-if="!copiedLink" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M10 13a5 5 0 007.54.54l3-3a5 5 0 00-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 00-7.54-.54l-3 3a5 5 0 007.07 7.07l1.71-1.71"/></svg>
-              <span>{{ copiedLink ? '✓' : 'Link' }}</span>
-            </button>
-          </div>
-
-          <!-- QR Code -->
-          <div class="ref-qr-wrap">
-            <div class="ref-qr-box">
-              <img :src="qrUrl" alt="QR" class="ref-qr-img" />
+        <!-- ═══════ NODE A ═══════ -->
+        <div class="row-a-wrap">
+          <div class="node node-a">
+            <div class="av av-a">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="8" r="4" fill="rgba(245,158,11,0.9)"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7" fill="rgba(245,158,11,0.7)"/></svg>
+              <span class="badge badge-a">A</span>
             </div>
-            <div class="ref-qr-hint">QR ကို Screenshot ရိုက်ပြီး မျှဝေပါ</div>
+            <div class="info">
+              <div class="nname">{{ username }}</div>
+              <div class="nline">Direct B: <b class="y">{{ formatN(totalBetB) }} Ks turnover</b></div>
+              <div class="nline">Commission: <b class="g">{{ formatN(totalCommA) }} Ks</b></div>
+              <div class="ntotal">💰 {{ formatN(totalCommA) }} Ks / session</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- SVG connector A→B -->
+        <div class="connector-wrap connector-ab">
+          <svg class="conn-svg" viewBox="0 0 300 28" preserveAspectRatio="none">
+            <!-- horizontal bar -->
+            <line x1="50" y1="0" x2="250" y2="0" class="conn-hline"/>
+            <!-- vertical drops to B1 B2 B3 -->
+            <line x1="80"  y1="0" x2="80"  y2="28" class="conn-vline"/>
+            <line x1="150" y1="0" x2="150" y2="28" class="conn-vline"/>
+            <line x1="220" y1="0" x2="220" y2="28" class="conn-vline"/>
+            <!-- animated flow dots -->
+            <circle r="3" class="flow-dot flow-dot-1"><animateMotion dur="1.4s" repeatCount="indefinite" path="M80,0 L80,28"/></circle>
+            <circle r="3" class="flow-dot flow-dot-2"><animateMotion dur="1.6s" repeatCount="indefinite" path="M150,0 L150,28"/></circle>
+            <circle r="3" class="flow-dot flow-dot-3"><animateMotion dur="1.8s" repeatCount="indefinite" path="M220,0 L220,28"/></circle>
+          </svg>
+        </div>
+
+        <!-- ═══════ ROW B ═══════ -->
+        <div class="row-b-wrap">
+          <div
+            v-for="(b, i) in bSlots" :key="'b'+i"
+            class="node node-b"
+            :class="b.empty ? 'node--empty' : ''">
+            <div class="av av-b">
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="8" r="4" :fill="b.empty ? 'rgba(96,165,250,0.25)' : 'rgba(96,165,250,0.9)'"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7" :fill="b.empty ? 'rgba(96,165,250,0.15)' : 'rgba(96,165,250,0.7)'"/></svg>
+              <span class="badge badge-b">B{{ i+1 }}</span>
+            </div>
+            <div class="info">
+              <div class="nname-b" :class="b.empty ? 'tc-dim' : ''">{{ b.empty ? '—' : (b.username || 'Member') }}</div>
+              <div class="nline-b">Turnover</div>
+              <div class="nline-b"><b :class="b.empty ? 'tc-dim' : 'bl'">{{ formatN(b.turnover) }} K</b></div>
+              <div class="ntotal-sm">= <b class="g">{{ formatN(b.comm) }} Ks</b></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- SVG connector B→C -->
+        <div class="connector-wrap connector-bc">
+          <svg class="conn-svg" viewBox="0 0 300 24" preserveAspectRatio="none">
+            <!-- left branch (B1→C1,C2) -->
+            <line x1="80" y1="0" x2="50" y2="24"  class="conn-vline conn-vline--c"/>
+            <line x1="80" y1="0" x2="110" y2="24" class="conn-vline conn-vline--c"/>
+            <!-- B3→C3 only -->
+            <line x1="220" y1="0" x2="220" y2="24" class="conn-vline conn-vline--c"/>
+            <!-- animated flow dots -->
+            <circle r="2.5" class="flow-dot flow-dot-c1"><animateMotion dur="2s" repeatCount="indefinite" path="M80,0 L50,24"/></circle>
+            <circle r="2.5" class="flow-dot flow-dot-c2"><animateMotion dur="2.2s" repeatCount="indefinite" path="M80,0 L110,24"/></circle>
+            <circle r="2.5" class="flow-dot flow-dot-c3"><animateMotion dur="2.4s" repeatCount="indefinite" path="M220,0 L220,24"/></circle>
+          </svg>
+        </div>
+
+        <!-- ═══════ ROW C ═══════ -->
+        <div class="row-c-wrap">
+          <template v-for="(c, i) in cSlots" :key="'c'+i">
+            <!-- gap between C2 and C3 -->
+            <div v-if="i === 2" class="node-gap"></div>
+            <div
+              class="node node-c"
+              :class="[c.empty ? 'node--empty' : '', i===2 ? 'node-c--hi' : '']">
+              <div class="av av-c">
+                <svg width="10" height="10" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="8" r="4" :fill="c.empty ? 'rgba(167,139,250,0.2)' : 'rgba(167,139,250,0.9)'"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7" :fill="c.empty ? 'rgba(167,139,250,0.1)' : 'rgba(167,139,250,0.7)'"/></svg>
+                <span class="badge badge-c">C{{ i+1 }}</span>
+              </div>
+              <div class="info">
+                <div class="nname-c" :class="c.empty ? 'tc-dim' : ''">{{ c.empty ? '—' : (c.username || 'Member') }}</div>
+                <div class="nline-c"><b :class="c.empty ? 'tc-dim' : 'p'">{{ formatN(c.turnover) }} K</b></div>
+                <div class="ntotal-c" :class="i===2 && !c.empty ? 'ntotal-c--big' : ''">= <b class="g">{{ formatN(c.comm) }} Ks</b></div>
+              </div>
+            </div>
+          </template>
+        </div>
+
+        <!-- Legend -->
+        <div class="legend">
+          <div class="leg-title">📊 Commission အဆင့်များ</div>
+          <div class="leg-row"><span class="dot dot-a"></span><span class="leg-lbl">A (သင်) — ကွန်ရက်ထိပ်ဆုံး၊ override + direct commission ရသူ</span></div>
+          <div class="leg-row"><span class="dot dot-b"></span><span class="leg-lbl">B Level — တိုက်ရိုက်ဖိတ်ခေါ်သူများ (Direct)</span></div>
+          <div class="leg-row"><span class="dot dot-c"></span><span class="leg-lbl">C Level — B ဖိတ်ခေါ်သူများ (Indirect Override)</span></div>
+          <div class="leg-note">⚡ C Level ကြီးလေ — သင် Override Commission ရလေ!</div>
+        </div>
+
+        <!-- ═══════════════════════════════════════
+             REFERRAL SECTION — AgentDashboard Tab 0
+             "ကွန်တော် Link" card fallback
+        ════════════════════════════════════════ -->
+        <div class="ag-card">
+
+          <div class="invite-header-bar">
+            <span class="invite-header-title">ကွန်တော် Link</span>
+            <span class="invite-header-link">ရှေးချယ်ပါ ▸</span>
           </div>
 
-          <!-- Share Buttons -->
-          <div class="ref-share-row">
-            <button @click="share('native')" class="ref-share-btn">
-              <svg width="16" height="16" fill="none" stroke="rgba(255,255,255,0.7)" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M8.684 13.342C8.886 12.938 9 12.482 9 12c0-.482-.114-.938-.316-1.342m0 2.684a3 3 0 110-2.684m0 2.684l6.632 3.316m-6.632-6l6.632-3.316m0 0a3 3 0 105.367-2.684 3 3 0 00-5.367 2.684zm0 9.316a3 3 0 105.368 2.684 3 3 0 00-5.368-2.684z"/></svg>
-              <span>မျှဝေ</span>
-            </button>
-            <button @click="share('telegram')" class="ref-share-btn ref-share-btn--tg">
-              <img src="https://ik.imagekit.io/tdpebgueq/icons/telegram_logo_QeWRW9-okP.png?tr=f-auto" style="width:16px;height:16px;object-fit:contain;border-radius:3px;" />
-              <span>Telegram</span>
-            </button>
-            <button @click="share('facebook')" class="ref-share-btn ref-share-btn--fb">
-              <svg width="15" height="15" fill="white" viewBox="0 0 24 24"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>
-              <span>Facebook</span>
-            </button>
-            <button @click="share('whatsapp')" class="ref-share-btn ref-share-btn--wa">
-              <svg width="15" height="15" fill="white" viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
-              <span>WhatsApp</span>
-            </button>
-          </div>
-        </template>
-      </div>
+          <!-- QR + Info -->
+          <div class="invite-body">
+            <!-- QR Code Column -->
+            <div class="qr-col">
+              <div class="qr-box">
+                <img :src="qrUrl" alt="QR" class="qr-img"/>
+              </div>
+              <button class="btn-green-sm" @click="downloadQr">သမ်းရည်</button>
+            </div>
 
+            <!-- Info Column -->
+            <div class="info-col">
+              <!-- Referral URL -->
+              <div class="url-row">
+                <span class="url-text">{{ referralLink }}</span>
+                <button @click="copyLink" class="copy-icon-btn">
+                  <svg v-if="!copiedLink" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                    <rect x="9" y="9" width="13" height="13" rx="2"/>
+                    <path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/>
+                  </svg>
+                  <svg v-else width="14" height="14" fill="none" stroke="#22c55e" stroke-width="2.5" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/>
+                  </svg>
+                </button>
+              </div>
+
+              <!-- Direct count -->
+              <p class="info-stat">
+                တိုက်ရိုက်ရောင်းစပိုများ
+                <strong style="color:#22c55e;">{{ directCount }} လူတွေ</strong>
+              </p>
+
+              <!-- Invite code -->
+              <div class="code-row">
+                <span class="code-label">ပိုင်တကုဒ် <strong>{{ inviteCode }}</strong></span>
+                <button @click="copyCode" class="copy-icon-btn">
+                  <svg v-if="!copiedCode" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                    <rect x="9" y="9" width="13" height="13" rx="2"/>
+                    <path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/>
+                  </svg>
+                  <svg v-else width="14" height="14" fill="none" stroke="#22c55e" stroke-width="2.5" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/>
+                  </svg>
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Social Share Row — same as AgentDashboard -->
+        <div class="social-row">
+          <button @click="shareVia('native')" class="social-btn">
+            <div class="social-icon social-icon--share">
+              <svg width="15" height="15" fill="none" stroke="white" stroke-width="2" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M8.684 13.342C8.886 12.938 9 12.482 9 12c0-.482-.114-.938-.316-1.342m0 2.684a3 3 0 110-2.684m0 2.684l6.632 3.316m-6.632-6l6.632-3.316m0 0a3 3 0 105.367-2.684 3 3 0 00-5.367 2.684zm0 9.316a3 3 0 105.368 2.684 3 3 0 00-5.368-2.684z"/>
+              </svg>
+            </div>
+            <span class="social-label">မျှဝေ</span>
+          </button>
+          <button @click="shareVia('facebook')" class="social-btn">
+            <div class="social-icon social-icon--fb">
+              <svg width="16" height="16" fill="white" viewBox="0 0 24 24">
+                <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/>
+              </svg>
+            </div>
+            <span class="social-label">Facebook</span>
+          </button>
+          <button @click="shareVia('telegram')" class="social-btn">
+            <div class="social-icon social-icon--tg">
+              <svg width="16" height="16" fill="white" viewBox="0 0 24 24">
+                <path d="M11.944 0A12 12 0 0 0 0 12a12 12 0 0 0 12 12 12 12 0 0 0 12-12A12 12 0 0 0 12 0a12 12 0 0 0-.056 0zm4.962 7.224c.1-.002.321.023.465.14a.506.506 0 0 1 .171.325c.016.093.036.306.02.472-.18 1.898-.962 6.502-1.36 8.627-.168.9-.499 1.201-.82 1.23-.696.065-1.225-.46-1.9-.902-1.056-.693-1.653-1.124-2.678-1.8-1.185-.78-.417-1.21.258-1.91.177-.184 3.247-2.977 3.307-3.23.007-.032.014-.15-.056-.212s-.174-.041-.249-.024c-.106.024-1.793 1.14-5.061 3.345-.48.33-.913.49-1.302.48-.428-.008-1.252-.241-1.865-.44-.752-.245-1.349-.374-1.297-.789.027-.216.325-.437.893-.663 3.498-1.524 5.83-2.529 6.998-3.014 3.332-1.386 4.025-1.627 4.476-1.635z"/>
+              </svg>
+            </div>
+            <span class="social-label">Telegram</span>
+          </button>
+          <button @click="shareVia('whatsapp')" class="social-btn">
+            <div class="social-icon social-icon--wa">
+              <svg width="16" height="16" fill="white" viewBox="0 0 24 24">
+                <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/>
+              </svg>
+            </div>
+            <span class="social-label">WhatsApp</span>
+          </button>
+        </div>
+
+      </template>
     </div>
   </div>
 </template>
@@ -214,61 +222,173 @@
 import { ref, computed, onMounted } from 'vue'
 import { supabase } from '@/supabase'
 
+// ── State ──────────────────────────────────────
 const loading    = ref(true)
 const userId     = ref('')
+const username   = ref(localStorage.getItem('sb_username') || 'မင်း (A)')
 const copiedCode = ref(false)
 const copiedLink = ref(false)
 
+const allDownline       = ref([])   // { descendant_id, level, username, ... }
+const commissionRecords = ref([])   // { agent_id, commission_amount, bet_turnover, user_id }
+
+// ── Derived: invite / QR ───────────────────────
 const inviteCode = computed(() =>
-  userId.value ? userId.value.substring(0, 8).toUpperCase() : (localStorage.getItem('sb_username') || '—')
+  userId.value
+    ? userId.value.substring(0, 8).toUpperCase()
+    : (localStorage.getItem('sb_username') || '——').toUpperCase()
 )
 const referralLink = computed(() =>
   window.location.origin + '/?dl=' + inviteCode.value
 )
 const qrUrl = computed(() =>
-  `https://api.qrserver.com/v1/create-qr-code/?size=130x130&data=${encodeURIComponent(referralLink.value)}&bgcolor=ffffff&color=000000&margin=6`
+  `https://api.qrserver.com/v1/create-qr-code/?size=160x160&data=${encodeURIComponent(referralLink.value)}&bgcolor=ffffff&color=000000&margin=6`
 )
+const directCount = computed(() => allDownline.value.filter(u => u.level === 1).length)
 
-async function loadUser() {
+// ── Derived: network nodes ─────────────────────
+// Commission map: user_id → { turnover, comm }
+const commMap = computed(() => {
+  const m = {}
+  for (const r of commissionRecords.value) {
+    const uid = r.user_id || r.referral_id
+    if (!uid) continue
+    if (!m[uid]) m[uid] = { turnover: 0, comm: 0 }
+    m[uid].turnover += Number(r.bet_turnover)   || 0
+    m[uid].comm     += Number(r.commission_amount) || 0
+  }
+  return m
+})
+
+// 3 B-level slots (level === 1)
+const bSlots = computed(() => {
+  const real = allDownline.value
+    .filter(u => u.level === 1)
+    .slice(0, 3)
+    .map(u => ({
+      username: u.username || 'Member',
+      turnover: (commMap.value[u.descendant_id] || {}).turnover || 0,
+      comm:     (commMap.value[u.descendant_id] || {}).comm     || 0,
+      empty: false,
+    }))
+  while (real.length < 3) real.push({ username: '', turnover: 0, comm: 0, empty: true })
+  return real
+})
+
+// 3 C-level slots (level === 2)
+const cSlots = computed(() => {
+  const real = allDownline.value
+    .filter(u => u.level === 2)
+    .slice(0, 3)
+    .map(u => ({
+      username: u.username || 'Member',
+      turnover: (commMap.value[u.descendant_id] || {}).turnover || 0,
+      comm:     (commMap.value[u.descendant_id] || {}).comm     || 0,
+      empty: false,
+    }))
+  while (real.length < 3) real.push({ username: '', turnover: 0, comm: 0, empty: true })
+  return real
+})
+
+// A-level totals
+const totalBetB  = computed(() => bSlots.value.reduce((s, b) => s + b.turnover, 0))
+const totalCommA = computed(() => commissionRecords.value.reduce((s, r) => s + (Number(r.commission_amount) || 0), 0))
+
+// ── Helpers ────────────────────────────────────
+const formatN = (n) => {
+  const v = Number(n) || 0
+  if (v >= 1_000_000) return (v / 1_000_000).toFixed(2) + 'M'
+  if (v >= 1_000)     return new Intl.NumberFormat('en-US').format(Math.round(v))
+  return v.toFixed(0)
+}
+
+// ── Data loading ───────────────────────────────
+async function loadData() {
   try {
     const { data: { user } } = await supabase.auth.getUser()
-    if (user) userId.value = user.id
-  } catch (_) {}
-  finally { loading.value = false }
-}
+    if (!user) return
 
-async function copyText(text, type) {
-  try { await navigator.clipboard.writeText(text) } catch { prompt('Copy:', text) }
-  if (type === 'code') { copiedCode.value = true; setTimeout(() => copiedCode.value = false, 2000) }
-  else { copiedLink.value = true; setTimeout(() => copiedLink.value = false, 2000) }
-}
+    userId.value = user.id
 
-function share(platform) {
-  const url  = encodeURIComponent(referralLink.value)
-  const msg  = encodeURIComponent(`iW99 မှာ ကစားပါ! Referral: ${referralLink.value}`)
-  const map  = {
-    native:   null,
-    telegram: `https://t.me/share/url?url=${url}&text=${msg}`,
-    facebook: `https://www.facebook.com/sharer/sharer.php?u=${url}`,
-    whatsapp: `https://wa.me/?text=${msg}`,
+    // 1. Downline tree (B = level 1, C = level 2)
+    const { data: treeRows } = await supabase
+      .from('affiliate_tree')
+      .select('descendant_id, level')
+      .eq('ancestor_id', user.id)
+      .in('level', [1, 2])
+      .order('level')
+
+    if (treeRows?.length) {
+      const ids = treeRows.map(r => r.descendant_id)
+      const { data: profiles } = await supabase
+        .from('users')
+        .select('id, username')
+        .in('id', ids)
+      const pMap = {}
+      ;(profiles || []).forEach(p => { pMap[p.id] = p })
+      allDownline.value = treeRows.map(r => ({
+        ...r,
+        ...(pMap[r.descendant_id] || {}),
+      }))
+    }
+
+    // 2. Commissions for A's network
+    const { data: comms } = await supabase
+      .from('affiliate_commissions')
+      .select('commission_amount, bet_turnover, user_id, referral_id')
+      .eq('agent_id', user.id)
+      .order('created_at', { ascending: false })
+      .limit(200)
+    commissionRecords.value = comms || []
+
+  } catch (e) {
+    console.error('ReferralPage load error', e)
+  } finally {
+    loading.value = false
   }
+}
+
+// ── Referral actions (same as AgentDashboard) ──
+async function copyLink() {
+  try { await navigator.clipboard.writeText(referralLink.value) } catch { prompt('Copy:', referralLink.value) }
+  copiedLink.value = true; setTimeout(() => copiedLink.value = false, 2000)
+}
+async function copyCode() {
+  try { await navigator.clipboard.writeText(inviteCode.value) } catch { prompt('Copy:', inviteCode.value) }
+  copiedCode.value = true; setTimeout(() => copiedCode.value = false, 2000)
+}
+function downloadQr() {
+  const a = document.createElement('a')
+  a.href = qrUrl.value
+  a.download = 'iW99-referral-qr.png'
+  a.target = '_blank'
+  a.click()
+}
+function shareVia(platform) {
+  const url = encodeURIComponent(referralLink.value)
+  const msg = encodeURIComponent(`iW99 မှာ ကစားပါ! Referral: ${referralLink.value}`)
   if (platform === 'native') {
-    if (navigator.share) navigator.share({ title: 'iW99 Agent', url: referralLink.value }).catch(() => {})
-    else copyText(referralLink.value, 'link')
+    if (navigator.share) { navigator.share({ title: 'iW99 Agent', url: referralLink.value }).catch(() => {}) }
+    else copyLink()
     return
+  }
+  const map = {
+    facebook: `https://www.facebook.com/sharer/sharer.php?u=${url}`,
+    telegram: `https://t.me/share/url?url=${url}&text=${msg}`,
+    whatsapp: `https://wa.me/?text=${msg}`,
   }
   if (map[platform]) window.open(map[platform], '_blank')
 }
 
-onMounted(loadUser)
+onMounted(loadData)
 </script>
 
 <style scoped>
+/* ── Root ── */
 .net-root {
   min-height: 100vh;
   background: linear-gradient(160deg, #0e0c2e 0%, #1a1650 50%, #0d1525 100%);
-  display: flex;
-  flex-direction: column;
+  display: flex; flex-direction: column;
 }
 
 /* ── Header ── */
@@ -290,10 +410,24 @@ onMounted(loadUser)
 
 /* ── Body ── */
 .net-body {
-  flex: 1;
-  padding: 10px 10px 80px;
+  flex: 1; padding: 10px 10px 80px;
   display: flex; flex-direction: column; align-items: center; gap: 0;
 }
+
+/* ── Loading ── */
+.net-loading { display: flex; justify-content: center; padding: 60px 0; }
+.spin {
+  width: 32px; height: 32px; border-radius: 50%;
+  border: 3px solid rgba(255,255,255,0.08); border-top-color: #f59e0b;
+  animation: spin 0.8s linear infinite;
+}
+@keyframes spin { to { transform: rotate(360deg); } }
+
+/* ── Generic node ── */
+.node {
+  border-radius: 10px; transition: opacity 0.3s;
+}
+.node--empty { opacity: 0.45; }
 
 /* ── Node A ── */
 .row-a-wrap { width: 100%; display: flex; justify-content: center; }
@@ -306,37 +440,31 @@ onMounted(loadUser)
   width: min(310px, 92vw);
 }
 
-/* ── Node B ── */
-.row-b-wrap {
-  display: flex; justify-content: center; gap: 5px; width: 100%;
-}
+/* ── Row B ── */
+.row-b-wrap { display: flex; justify-content: center; gap: 5px; width: 100%; }
 .node-b {
-  display: flex; flex-direction: column; align-items: center; gap: 4px;
-  background: rgba(96,165,250,0.07); border: 1.2px solid rgba(96,165,250,0.3);
-  border-radius: 10px; padding: 7px 6px;
-  flex: 1; max-width: 105px; min-width: 88px;
+  display: flex; flex-direction: column; align-items: center; gap: 3px;
+  background: rgba(96,165,250,0.07); border: 1.2px solid rgba(96,165,250,0.28);
+  border-radius: 10px; padding: 7px 5px;
+  flex: 1; max-width: 105px; min-width: 84px;
 }
 
-/* ── Node C ── */
-.row-c-wrap {
-  display: flex; justify-content: center; gap: 4px; width: 100%;
-}
+/* ── Row C ── */
+.row-c-wrap { display: flex; justify-content: center; gap: 4px; width: 100%; }
 .node-c {
-  display: flex; flex-direction: column; align-items: center; gap: 3px;
-  background: rgba(167,139,250,0.07); border: 1px solid rgba(167,139,250,0.28);
-  border-radius: 9px; padding: 6px 5px;
-  flex: 1; max-width: 88px; min-width: 74px;
+  display: flex; flex-direction: column; align-items: center; gap: 2px;
+  background: rgba(167,139,250,0.07); border: 1px solid rgba(167,139,250,0.25);
+  border-radius: 9px; padding: 6px 4px;
+  flex: 1; max-width: 88px; min-width: 72px;
 }
-.node-c3 {
-  background: rgba(167,139,250,0.12); border-color: rgba(167,139,250,0.48);
-}
+.node-c--hi { background: rgba(167,139,250,0.12); border-color: rgba(167,139,250,0.45); }
 .node-gap { flex: 1; max-width: 88px; }
 
 /* ── Avatars ── */
 .av { position: relative; flex-shrink: 0; display: flex; align-items: center; justify-content: center; }
-.av-a { width: 38px; height: 38px; border-radius: 50%; background: rgba(245,158,11,0.13); border: 2px solid rgba(245,158,11,0.55); }
-.av-b { width: 30px; height: 30px; border-radius: 50%; background: rgba(96,165,250,0.1); border: 1.5px solid rgba(96,165,250,0.4); }
-.av-c { width: 24px; height: 24px; border-radius: 50%; background: rgba(167,139,250,0.1); border: 1.2px solid rgba(167,139,250,0.4); }
+.av-a { width: 36px; height: 36px; border-radius: 50%; background: rgba(245,158,11,0.12); border: 2px solid rgba(245,158,11,0.5); }
+.av-b { width: 28px; height: 28px; border-radius: 50%; background: rgba(96,165,250,0.1); border: 1.5px solid rgba(96,165,250,0.38); }
+.av-c { width: 22px; height: 22px; border-radius: 50%; background: rgba(167,139,250,0.09); border: 1.2px solid rgba(167,139,250,0.35); }
 
 /* ── Badges ── */
 .badge { position: absolute; bottom: -3px; right: -4px; font-size: 7px; font-weight: 900; border-radius: 3px; padding: 1px 3px; line-height: 1.3; }
@@ -344,118 +472,138 @@ onMounted(loadUser)
 .badge-b { background: #60a5fa; color: #000; }
 .badge-c { background: #a78bfa; color: #000; font-size: 6px; }
 
-/* ── Info text ── */
-.info { flex: 1; min-width: 0; }
-.nname { font-size: 10.5px; font-weight: 800; color: #fff; margin-bottom: 2px; }
-.nname-c { font-size: 9px; font-weight: 800; color: #fff; margin-bottom: 1px; }
-.nline { font-size: 8.5px; color: rgba(255,255,255,0.5); line-height: 1.5; }
-.nline-c { font-size: 7.5px; color: rgba(255,255,255,0.5); line-height: 1.5; }
-.ntotal { margin-top: 3px; font-size: 9.5px; font-weight: 700; color: #fff; background: rgba(0,0,0,0.28); border-radius: 5px; padding: 2px 7px; display: inline-block; }
-.ntotal-sm { font-size: 9px; font-weight: 700; color: rgba(255,255,255,0.9); margin-top: 2px; }
-.ntotal-c { font-size: 8.5px; font-weight: 700; color: rgba(255,255,255,0.9); margin-top: 2px; }
+/* ── Text styles ── */
+.nname   { font-size: 10px; font-weight: 800; color: #fff; }
+.nname-b { font-size: 9.5px; font-weight: 700; color: #fff; }
+.nname-c { font-size: 8.5px; font-weight: 700; color: #fff; }
+.nline   { font-size: 8px; color: rgba(255,255,255,0.5); line-height: 1.5; }
+.nline-b { font-size: 8px; color: rgba(255,255,255,0.45); line-height: 1.4; }
+.nline-c { font-size: 7.5px; color: rgba(255,255,255,0.45); line-height: 1.4; }
+.ntotal     { margin-top: 3px; font-size: 9px; font-weight: 700; color: #fff; background: rgba(0,0,0,0.28); border-radius: 5px; padding: 2px 7px; display: inline-block; }
+.ntotal-sm  { font-size: 9px; font-weight: 700; margin-top: 2px; }
+.ntotal-c   { font-size: 8px; font-weight: 700; margin-top: 2px; }
 .ntotal-c--big { color: #4ade80; font-size: 9px; }
+.tc-dim { color: rgba(255,255,255,0.2) !important; }
 
 /* ── Color helpers ── */
-.y { color: #fbbf24; } .g { color: #4ade80; } .bl { color: #60a5fa; } .p { color: #c4b5fd; }
+.y  { color: #fbbf24; } .g  { color: #4ade80; } .bl { color: #60a5fa; } .p { color: #c4b5fd; }
 
-/* ── Arrows A→B ── */
-.arrows-ab {
-  display: flex; align-items: flex-start; justify-content: space-between;
-  width: min(290px, 88vw); height: 22px; padding: 0 34px; margin: 2px 0;
-}
-.vl { width: 2px; height: 22px; background: linear-gradient(to bottom, rgba(245,158,11,0.5), rgba(96,165,250,0.4)); border-radius: 1px; flex-shrink: 0; }
-.vl-fade { background: rgba(255,255,255,0.08); }
-.hl { flex: 1; height: 2px; background: rgba(245,158,11,0.3); align-self: flex-end; }
+/* ── SVG Connectors ── */
+.connector-wrap { width: min(310px, 92vw); overflow: visible; }
+.connector-ab   { height: 30px; margin: 3px 0; }
+.connector-bc   { height: 26px; margin: 2px 0; }
+.conn-svg { width: 100%; height: 100%; overflow: visible; }
 
-/* ── Arrows B→C ── */
-.arrows-bc {
-  display: flex; align-items: flex-end; gap: 5px;
-  width: 100%; height: 20px; padding: 0 4px; margin: 2px 0;
+.conn-hline {
+  stroke: rgba(245,158,11,0.4); stroke-width: 1.5;
+  stroke-dasharray: 4 3;
+  animation: dash-flow 1.2s linear infinite;
 }
-.bc-left { display: flex; align-items: flex-end; gap: 0; flex: 2; justify-content: center; }
-.bc-mid  { flex: 1; display: flex; justify-content: center; }
-.bc-right{ flex: 1; display: flex; justify-content: center; }
-.hl-sm { width: 30px; height: 2px; background: rgba(96,165,250,0.28); flex-shrink: 0; }
+.conn-vline {
+  stroke: rgba(96,165,250,0.45); stroke-width: 1.5;
+  stroke-dasharray: 4 3;
+  animation: dash-flow 1.5s linear infinite;
+}
+.conn-vline--c {
+  stroke: rgba(167,139,250,0.38); stroke-width: 1.2;
+  animation-duration: 1.8s;
+}
+
+@keyframes dash-flow {
+  to { stroke-dashoffset: -14; }
+}
+
+/* animated flow dots */
+.flow-dot { fill: rgba(245,158,11,0.85); }
+.flow-dot-c1, .flow-dot-c2, .flow-dot-c3 { fill: rgba(167,139,250,0.8); }
 
 /* ── Legend ── */
 .legend {
-  margin-top: 12px; width: min(320px, 94vw);
-  background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.09);
-  border-radius: 12px; padding: 11px 13px;
+  margin-top: 10px; width: min(320px, 94vw);
+  background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.08);
+  border-radius: 12px; padding: 10px 12px;
 }
-.leg-title { font-size: 10px; font-weight: 800; color: rgba(255,255,255,0.7); margin-bottom: 8px; }
-.leg-row { display: flex; align-items: center; gap: 7px; margin-bottom: 5px; }
-.dot { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; }
+.leg-title { font-size: 9.5px; font-weight: 800; color: rgba(255,255,255,0.65); margin-bottom: 7px; }
+.leg-row   { display: flex; align-items: center; gap: 7px; margin-bottom: 4px; }
+.dot       { width: 7px; height: 7px; border-radius: 50%; flex-shrink: 0; }
 .dot-a { background: #f59e0b; } .dot-b { background: #60a5fa; } .dot-c { background: #a78bfa; }
-.leg-lbl { font-size: 9px; color: rgba(255,255,255,0.5); }
-.leg-note { margin-top: 8px; font-size: 9px; color: #4ade80; background: rgba(74,222,128,0.07); border: 1px solid rgba(74,222,128,0.15); border-radius: 7px; padding: 6px 9px; }
+.leg-lbl  { font-size: 8.5px; color: rgba(255,255,255,0.45); }
+.leg-note { margin-top: 7px; font-size: 8.5px; color: #4ade80; background: rgba(74,222,128,0.06); border: 1px solid rgba(74,222,128,0.13); border-radius: 7px; padding: 5px 8px; }
 
-/* ── Referral Section ── */
-.ref-section {
-  margin-top: 14px; width: min(320px, 94vw);
-  background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1);
-  border-radius: 14px; padding: 14px 14px;
+/* ══════════════════════════════════════════════
+   REFERRAL CARD — AgentDashboard Tab 0 styles
+   (same class names so it feels consistent)
+══════════════════════════════════════════════ */
+.ag-card {
+  margin-top: 14px;
+  width: min(320px, 94vw);
+  background: rgba(255,255,255,0.04);
+  border: 1px solid rgba(255,255,255,0.09);
+  border-radius: 14px;
+  padding: 13px 13px;
 }
-.ref-title {
-  font-size: 11px; font-weight: 800; color: rgba(255,255,255,0.8);
-  margin-bottom: 12px;
+.invite-header-bar {
+  display: flex; align-items: center; justify-content: space-between;
+  margin-bottom: 10px;
 }
-.ref-loading { display: flex; justify-content: center; padding: 20px 0; }
-.ref-spinner {
-  width: 24px; height: 24px; border-radius: 50%;
-  border: 2px solid rgba(255,255,255,0.1); border-top-color: #f59e0b;
-  animation: spin 0.8s linear infinite;
-}
-@keyframes spin { to { transform: rotate(360deg); } }
+.invite-header-title { font-size: 11px; font-weight: 800; color: rgba(255,255,255,0.85); }
+.invite-header-link  { font-size: 9px; color: #f59e0b; cursor: pointer; }
 
-/* Code row */
-.ref-code-row {
-  display: flex; align-items: center; gap: 8px;
-  background: rgba(245,158,11,0.08); border: 1px solid rgba(245,158,11,0.2);
-  border-radius: 9px; padding: 8px 10px; margin-bottom: 8px;
-}
-.ref-code-label { font-size: 9px; color: rgba(255,255,255,0.4); flex-shrink: 0; }
-.ref-code-val { flex: 1; font-size: 14px; font-weight: 900; color: #f59e0b; letter-spacing: 3px; }
+.invite-body { display: flex; gap: 10px; }
 
-/* Link row */
-.ref-link-row {
-  display: flex; align-items: center; gap: 7px;
-  background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.08);
-  border-radius: 9px; padding: 7px 10px; margin-bottom: 12px;
-}
-.ref-link-text {
-  flex: 1; font-size: 9px; color: rgba(255,255,255,0.35);
-  word-break: break-all; line-height: 1.4;
+.qr-col { display: flex; flex-direction: column; align-items: center; gap: 6px; flex-shrink: 0; }
+.qr-box { width: 82px; height: 82px; background: #fff; border-radius: 8px; padding: 3px; box-shadow: 0 3px 12px rgba(0,0,0,0.3); }
+.qr-img { width: 100%; height: 100%; border-radius: 5px; display: block; object-fit: cover; }
+.btn-green-sm {
+  font-size: 9px; font-weight: 700; padding: 4px 10px; border-radius: 6px; border: none; cursor: pointer;
+  background: linear-gradient(135deg, #22c55e, #16a34a); color: #fff;
 }
 
-/* Copy button */
-.ref-copy-btn {
-  display: flex; align-items: center; gap: 4px; flex-shrink: 0;
-  background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.14);
-  border-radius: 6px; padding: 4px 8px; color: rgba(255,255,255,0.7); font-size: 9px; cursor: pointer;
-  transition: all 0.2s;
-}
-.ref-copy-btn--ok { background: rgba(74,222,128,0.15); border-color: rgba(74,222,128,0.3); color: #4ade80; }
+.info-col { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 6px; }
 
-/* QR */
-.ref-qr-wrap { display: flex; flex-direction: column; align-items: center; gap: 6px; margin-bottom: 12px; }
-.ref-qr-box {
-  width: 110px; height: 110px; background: rgba(255,255,255,0.95);
-  border-radius: 10px; padding: 4px; box-shadow: 0 4px 18px rgba(0,0,0,0.35);
+.url-row {
+  display: flex; align-items: center; gap: 5px;
+  background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.08);
+  border-radius: 7px; padding: 5px 7px;
 }
-.ref-qr-img { width: 100%; height: 100%; border-radius: 7px; object-fit: cover; display: block; }
-.ref-qr-hint { font-size: 9px; color: rgba(255,255,255,0.3); }
+.url-text { flex: 1; font-size: 8px; color: rgba(255,255,255,0.4); word-break: break-all; line-height: 1.4; }
 
-/* Share */
-.ref-share-row { display: flex; gap: 5px; }
-.ref-share-btn {
+.info-stat { font-size: 8.5px; color: rgba(255,255,255,0.4); margin: 0; }
+
+.code-row {
+  display: flex; align-items: center; gap: 5px;
+  background: rgba(245,158,11,0.07); border: 1px solid rgba(245,158,11,0.18);
+  border-radius: 7px; padding: 5px 7px;
+}
+.code-label { flex: 1; font-size: 9px; color: rgba(255,255,255,0.5); }
+.code-label strong { color: #f59e0b; font-size: 11px; letter-spacing: 1.5px; }
+
+.copy-icon-btn {
+  background: rgba(255,255,255,0.07); border: 1px solid rgba(255,255,255,0.12);
+  border-radius: 5px; padding: 4px; color: rgba(255,255,255,0.6); cursor: pointer; flex-shrink: 0;
+  display: flex; align-items: center;
+}
+
+/* ── Social Share Row ── */
+.social-row {
+  display: flex; gap: 8px;
+  margin-top: 10px; width: min(320px, 94vw);
+}
+.social-btn {
   flex: 1; display: flex; flex-direction: column; align-items: center; gap: 4px;
-  padding: 8px 4px; border-radius: 9px; cursor: pointer; border: none;
-  background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.1); color: rgba(255,255,255,0.7);
-  font-size: 8px; transition: opacity 0.15s;
+  padding: 9px 4px; border-radius: 10px; cursor: pointer; border: none;
+  background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.08);
+  transition: opacity 0.15s;
 }
-.ref-share-btn:active { opacity: 0.6; }
-.ref-share-btn--tg { background: rgba(42,171,238,0.1); border-color: rgba(42,171,238,0.2); }
-.ref-share-btn--fb { background: rgba(24,119,242,0.1); border-color: rgba(24,119,242,0.2); }
-.ref-share-btn--wa { background: rgba(37,211,102,0.1); border-color: rgba(37,211,102,0.2); }
+.social-btn:active { opacity: 0.6; }
+.social-label { font-size: 8.5px; color: rgba(255,255,255,0.6); }
+
+.social-icon {
+  width: 32px; height: 32px; border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+}
+.social-icon--share { background: rgba(107,114,128,0.4); }
+.social-icon--fb    { background: #1877f2; }
+.social-icon--tg    { background: #29a9eb; }
+.social-icon--wa    { background: #25d366; }
 </style>
