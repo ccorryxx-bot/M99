@@ -446,7 +446,7 @@ onMounted(loadData)
 .node {
   border-radius: 10px; transition: opacity 0.3s;
 }
-.node--empty { opacity: 0.45; }
+.node--empty { opacity: 0.92; }
 
 /* ── Node A ── */
 .row-a-wrap { width: 100%; display: flex; justify-content: center; }
@@ -495,8 +495,6 @@ onMounted(loadData)
   box-shadow: 0 0 14px rgba(167,139,250,1), 0 0 26px rgba(167,139,250,0.5);
 }
 .av-img { width: 100%; height: 100%; border-radius: 50%; object-fit: cover; display: block; }
-.av-b .av-img { filter: brightness(1.7) contrast(1.1) saturate(1.3); }
-.av-c .av-img { filter: brightness(1.7) contrast(1.1) saturate(1.3); }
 
 /* ── Badges ── */
 .badge { position: absolute; bottom: -3px; right: -4px; font-size: 7px; font-weight: 900; border-radius: 3px; padding: 1px 3px; line-height: 1.3; }
