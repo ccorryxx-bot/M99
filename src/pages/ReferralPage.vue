@@ -25,7 +25,7 @@
         <div class="row-a-wrap">
           <div class="node node-a">
             <div class="av av-a">
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="8" r="4" fill="rgba(245,158,11,0.9)"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7" fill="rgba(245,158,11,0.7)"/></svg>
+              <img src="https://ik.imagekit.io/rbok01qam/Agent%20avatar%20img/avt0.dd0fe52d.png?tr=f-auto" class="av-img" alt="A"/>
               <span class="badge badge-a">A</span>
             </div>
             <div class="info">
@@ -60,7 +60,7 @@
             class="node node-b"
             :class="b.empty ? 'node--empty' : ''">
             <div class="av av-b">
-              <svg width="13" height="13" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="8" r="4" :fill="b.empty ? 'rgba(96,165,250,0.25)' : 'rgba(96,165,250,0.9)'"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7" :fill="b.empty ? 'rgba(96,165,250,0.15)' : 'rgba(96,165,250,0.7)'"/></svg>
+              <img :src="b.avatarUrl" class="av-img" :alt="'B'+(i+1)"/>
               <span class="badge badge-b">B{{ i+1 }}</span>
             </div>
             <div class="info">
@@ -96,7 +96,7 @@
               class="node node-c"
               :class="[c.empty ? 'node--empty' : '', i===2 ? 'node-c--hi' : '']">
               <div class="av av-c">
-                <svg width="10" height="10" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="8" r="4" :fill="c.empty ? 'rgba(167,139,250,0.2)' : 'rgba(167,139,250,0.9)'"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7" :fill="c.empty ? 'rgba(167,139,250,0.1)' : 'rgba(167,139,250,0.7)'"/></svg>
+                <img :src="c.avatarUrl" class="av-img" :alt="'C'+(i+1)"/>
                 <span class="badge badge-c">C{{ i+1 }}</span>
               </div>
               <div class="info">
@@ -260,18 +260,33 @@ const commMap = computed(() => {
   return m
 })
 
+const B_AVATARS = [
+  'https://ik.imagekit.io/rbok01qam/Agent%20avatar%20img/avt1.3b182abb.png?tr=f-auto',
+  'https://ik.imagekit.io/rbok01qam/Agent%20avatar%20img/avt2.9b11cc3a.png?tr=f-auto',
+  'https://ik.imagekit.io/rbok01qam/Agent%20avatar%20img/avt1.3b182abb.png?tr=f-auto',
+]
+const C_AVATARS = [
+  'https://ik.imagekit.io/rbok01qam/Agent%20avatar%20img/avt3.4dd4d61a.png?tr=f-auto',
+  'https://ik.imagekit.io/rbok01qam/Agent%20avatar%20img/avt4.e51f6a6a.png?tr=f-auto',
+  'https://ik.imagekit.io/rbok01qam/Agent%20avatar%20img/avt3.4dd4d61a.png?tr=f-auto',
+]
+
 // 3 B-level slots (level === 1)
 const bSlots = computed(() => {
   const real = allDownline.value
     .filter(u => u.level === 1)
     .slice(0, 3)
-    .map(u => ({
-      username: u.username || 'Member',
-      turnover: (commMap.value[u.descendant_id] || {}).turnover || 0,
-      comm:     (commMap.value[u.descendant_id] || {}).comm     || 0,
+    .map((u, i) => ({
+      username:  u.username || 'Member',
+      turnover:  (commMap.value[u.descendant_id] || {}).turnover || 0,
+      comm:      (commMap.value[u.descendant_id] || {}).comm     || 0,
+      avatarUrl: B_AVATARS[i],
       empty: false,
     }))
-  while (real.length < 3) real.push({ username: '', turnover: 0, comm: 0, empty: true })
+  while (real.length < 3) {
+    const i = real.length
+    real.push({ username: '', turnover: 0, comm: 0, avatarUrl: B_AVATARS[i], empty: true })
+  }
   return real
 })
 
@@ -280,13 +295,17 @@ const cSlots = computed(() => {
   const real = allDownline.value
     .filter(u => u.level === 2)
     .slice(0, 3)
-    .map(u => ({
-      username: u.username || 'Member',
-      turnover: (commMap.value[u.descendant_id] || {}).turnover || 0,
-      comm:     (commMap.value[u.descendant_id] || {}).comm     || 0,
+    .map((u, i) => ({
+      username:  u.username || 'Member',
+      turnover:  (commMap.value[u.descendant_id] || {}).turnover || 0,
+      comm:      (commMap.value[u.descendant_id] || {}).comm     || 0,
+      avatarUrl: C_AVATARS[i],
       empty: false,
     }))
-  while (real.length < 3) real.push({ username: '', turnover: 0, comm: 0, empty: true })
+  while (real.length < 3) {
+    const i = real.length
+    real.push({ username: '', turnover: 0, comm: 0, avatarUrl: C_AVATARS[i], empty: true })
+  }
   return real
 })
 
@@ -465,6 +484,7 @@ onMounted(loadData)
 .av-a { width: 36px; height: 36px; border-radius: 50%; background: rgba(245,158,11,0.12); border: 2px solid rgba(245,158,11,0.5); }
 .av-b { width: 28px; height: 28px; border-radius: 50%; background: rgba(96,165,250,0.1); border: 1.5px solid rgba(96,165,250,0.38); }
 .av-c { width: 22px; height: 22px; border-radius: 50%; background: rgba(167,139,250,0.09); border: 1.2px solid rgba(167,139,250,0.35); }
+.av-img { width: 100%; height: 100%; border-radius: 50%; object-fit: cover; display: block; }
 
 /* ── Badges ── */
 .badge { position: absolute; bottom: -3px; right: -4px; font-size: 7px; font-weight: 900; border-radius: 3px; padding: 1px 3px; line-height: 1.3; }
