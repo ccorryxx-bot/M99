@@ -258,7 +258,7 @@
 
         <!-- Avatar grid — images only, compact, no visible box -->
         <div style="flex:1;overflow-y:auto;padding:10px 12px;">
-          <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:6px;">
+          <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:10px;">
             <div v-for="(url,idx) in currentTabUrls" :key="idx"
               @click="pendingAvatar = url"
               style="position:relative;aspect-ratio:1/1;border-radius:12px;overflow:hidden;cursor:pointer;"
