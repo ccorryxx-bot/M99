@@ -599,16 +599,16 @@ const submitDeposit = () => {
 
 /* Scrollable body */
 .s2-body {
-  flex:1;overflow-y:auto;padding:0 18px;
+  flex:1;overflow-y:auto;
+  padding:0 18px 100px;
   -webkit-overflow-scrolling:touch;
   overscroll-behavior:contain;
-  padding-bottom:80px;
 }
 .s2-body::-webkit-scrollbar { width:0; }
 .s2-body-inner {
-  display:flex;flex-direction:column;min-height:100%;padding-bottom:12px;
+  display:flex;flex-direction:column;padding-bottom:0;
 }
-.s2-spacer { flex:1;min-height:12px; }
+.s2-spacer { height:16px;flex-shrink:0; }
 
 /* Field rows — plain underline style */
 .s2-field {
