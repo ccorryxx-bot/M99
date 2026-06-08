@@ -393,157 +393,112 @@
         </div>
       </Transition>
 
-      <!-- ══ AUTH MODAL — Green Theme ══ -->
+      <!-- ══ AUTH PANEL — Slide from right ══ -->
       <Teleport to="body">
-        <Transition name="nova-auth-fade">
-          <div v-if="showAuthModal" class="nova-auth-overlay" @click.self="showAuthModal=false">
+        <Transition name="nova-auth-slide">
+          <div v-if="showAuthModal" class="nova-auth-panel">
 
-            <!-- CARD -->
-            <div class="nova-auth-card">
-              <!-- TABS -->
+            <!-- ── Header: back + tabs ── -->
+            <div class="nova-auth-header">
+              <button @click="showAuthModal=false" class="nova-auth-back">
+                <svg width="20" height="20" fill="none" stroke="rgba(255,255,255,0.85)" stroke-width="2.5" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7"/>
+                </svg>
+              </button>
               <div class="nova-auth-tabs">
                 <button @click="authTab='register'" :class="['nova-auth-tab-btn', authTab==='register'?'nova-auth-tab-btn--active':'']">
-                  <svg width="14" height="14" fill="currentColor" viewBox="0 0 24 24" style="opacity:0.7;"><path d="M15 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm-9-2V7H4v3H1v2h3v3h2v-3h3v-2H6zm9 4c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/></svg>
+                  <svg width="13" height="13" fill="currentColor" viewBox="0 0 24 24" style="opacity:0.75;"><path d="M15 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm-9-2V7H4v3H1v2h3v3h2v-3h3v-2H6zm9 4c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/></svg>
                   မှတ်ပုံတင်
                 </button>
                 <button @click="authTab='login'" :class="['nova-auth-tab-btn', authTab==='login'?'nova-auth-tab-btn--active':'']">
-                  <svg width="14" height="14" fill="currentColor" viewBox="0 0 24 24" style="opacity:0.7;"><path d="M10.09 15.59L11.5 17l5-5-5-5-1.41 1.41L12.67 11H3v2h9.67l-2.58 2.59zM19 3H5c-1.11 0-2 .9-2 2v4h2V5h14v14H5v-4H3v4c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2z"/></svg>
+                  <svg width="13" height="13" fill="currentColor" viewBox="0 0 24 24" style="opacity:0.75;"><path d="M10.09 15.59L11.5 17l5-5-5-5-1.41 1.41L12.67 11H3v2h9.67l-2.58 2.59zM19 3H5c-1.11 0-2 .9-2 2v4h2V5h14v14H5v-4H3v4c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2z"/></svg>
                   လောဂ်အင်
                 </button>
               </div>
+              <div style="width:36px;"></div>
+            </div>
+
+            <!-- ── Scrollable form area ── -->
+            <div class="nova-auth-body">
 
               <!-- REGISTER FORM -->
               <div v-if="authTab==='register'" class="nova-auth-form-body">
-                <p class="nova-auth-subtitle">အထောက်အပံ့များသာဘဖြစ်သည်။ အကောင့် မှတ်ပုံတင်</p>
-                <!-- Username -->
+                <p class="nova-auth-subtitle">အကူညီများသာဘဖြစ်သည်။ အကောင့် မှတ်ပုံတင်</p>
                 <div class="nova-auth-field">
                   <svg width="15" height="15" fill="rgba(180,180,180,0.5)" viewBox="0 0 24 24"><path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/></svg>
                   <input v-model="regUsername" type="text" placeholder="*ကျေးဇူးပြု၍ ဝင်ပါ အကောင့်" class="nova-auth-input"/>
-                  <button v-if="regUsername" @click="regUsername=''" class="nova-clear-btn">
-                    <svg width="14" height="14" fill="none" stroke="rgba(255,255,255,0.4)" stroke-width="2.5" viewBox="0 0 24 24"><path d="M18 6L6 18M6 6l12 12"/></svg>
-                  </button>
+                  <button v-if="regUsername" @click="regUsername=''" class="nova-clear-btn"><svg width="14" height="14" fill="none" stroke="rgba(255,255,255,0.4)" stroke-width="2.5" viewBox="0 0 24 24"><path d="M18 6L6 18M6 6l12 12"/></svg></button>
                 </div>
-                <!-- Password -->
                 <div class="nova-auth-field">
                   <svg width="15" height="15" fill="rgba(180,180,180,0.5)" viewBox="0 0 24 24"><path d="M18 8h-1V6c0-2.76-2.24-5-5-5S7 3.24 7 6v2H6c-1.1 0-2 .9-2 2v10c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V10c0-1.1-.9-2-2-2zm-6 9c-1.1 0-2-.9-2-2s.9-2 2-2 2 .9 2 2-.9 2-2 2zm3.1-9H8.9V6c0-1.71 1.39-3.1 3.1-3.1 1.71 0 3.1 1.39 3.1 3.1v2z"/></svg>
                   <input v-model="regPassword" :type="regShowPassword?'text':'password'" placeholder="*စကားဝှက်ထည့်ဆည်ပါ" class="nova-auth-input"/>
-                  <button v-if="regPassword" @click="regPassword=''" class="nova-clear-btn">
-                    <svg width="14" height="14" fill="none" stroke="rgba(255,255,255,0.4)" stroke-width="2.5" viewBox="0 0 24 24"><path d="M18 6L6 18M6 6l12 12"/></svg>
-                  </button>
-                  <button @click="regShowPassword=!regShowPassword" class="nova-clear-btn" style="margin-left:2px;">
-                    <svg width="16" height="16" fill="none" stroke="rgba(180,180,180,0.5)" stroke-width="2" viewBox="0 0 24 24"><path :d="regShowPassword?'M17.94 17.94A10.07 10.07 0 0112 20c-7 0-11-8-11-8a18.45 18.45 0 015.06-5.94M9.9 4.24A9.12 9.12 0 0112 4c7 0 11 8 11 8a18.5 18.5 0 01-2.16 3.19m-6.72-1.07a3 3 0 11-4.24-4.24M1 1l22 22':'M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z M12 9a3 3 0 100 6 3 3 0 000-6z'"/></svg>
-                  </button>
+                  <button v-if="regPassword" @click="regPassword=''" class="nova-clear-btn"><svg width="14" height="14" fill="none" stroke="rgba(255,255,255,0.4)" stroke-width="2.5" viewBox="0 0 24 24"><path d="M18 6L6 18M6 6l12 12"/></svg></button>
+                  <button @click="regShowPassword=!regShowPassword" class="nova-clear-btn" style="margin-left:2px;"><svg width="16" height="16" fill="none" stroke="rgba(180,180,180,0.5)" stroke-width="2" viewBox="0 0 24 24"><path :d="regShowPassword?'M17.94 17.94A10.07 10.07 0 0112 20c-7 0-11-8-11-8a18.45 18.45 0 015.06-5.94M9.9 4.24A9.12 9.12 0 0112 4c7 0 11 8 11 8a18.5 18.5 0 01-2.16 3.19m-6.72-1.07a3 3 0 11-4.24-4.24M1 1l22 22':'M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z M12 9a3 3 0 100 6 3 3 0 000-6z'"/></svg></button>
                 </div>
-                <!-- Strength bars -->
-                <div style="margin-bottom:10px;">
+                <div style="margin-bottom:12px;">
                   <div style="display:flex;align-items:center;gap:6px;">
-                    <span style="font-size:10px;color:rgba(255,255,255,0.4);">ခွန်အား</span>
+                    <span style="font-size:10px;color:rgba(255,255,255,0.35);">ခွန်အား</span>
                     <div style="display:flex;gap:3px;flex:1;">
                       <div v-for="i in 5" :key="i" :style="i<=pwStrength?'background:'+pwColor+';':'background:rgba(255,255,255,0.1);'" style="height:3px;flex:1;border-radius:2px;transition:all 0.3s;"></div>
                     </div>
                   </div>
                 </div>
-                <!-- Phone -->
                 <div class="nova-auth-field">
                   <div style="display:flex;align-items:center;gap:6px;padding-right:8px;border-right:1px solid rgba(255,255,255,0.1);flex-shrink:0;">
                     <span style="font-size:16px;">🇲🇲</span>
                     <span style="font-size:12px;color:rgba(255,255,255,0.55);font-weight:600;">+95</span>
                   </div>
                   <input v-model="regPhone" type="tel" placeholder="*ဖုန်းနံပါတ်ထည့်ဆည်ပါ" class="nova-auth-input" style="padding-left:8px;"/>
-                  <button v-if="regPhone" @click="regPhone=''" class="nova-clear-btn">
-                    <svg width="14" height="14" fill="none" stroke="rgba(255,255,255,0.4)" stroke-width="2.5" viewBox="0 0 24 24"><path d="M18 6L6 18M6 6l12 12"/></svg>
-                  </button>
+                  <button v-if="regPhone" @click="regPhone=''" class="nova-clear-btn"><svg width="14" height="14" fill="none" stroke="rgba(255,255,255,0.4)" stroke-width="2.5" viewBox="0 0 24 24"><path d="M18 6L6 18M6 6l12 12"/></svg></button>
                 </div>
-                <!-- 18+ checkbox -->
-                <div style="display:flex;align-items:flex-start;gap:10px;margin-bottom:12px;">
+                <div style="display:flex;align-items:flex-start;gap:10px;margin-bottom:18px;">
                   <div @click="reg18Agreed=!reg18Agreed" :style="reg18Agreed?'background:#22c55e;border-color:#22c55e;':''" style="width:18px;height:18px;border-radius:4px;border:2px solid rgba(255,255,255,0.3);flex-shrink:0;display:flex;align-items:center;justify-content:center;cursor:pointer;transition:all 0.2s;margin-top:1px;">
                     <svg v-if="reg18Agreed" width="10" height="10" fill="white" viewBox="0 0 24 24"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg>
                   </div>
                   <p style="font-size:11px;color:rgba(255,255,255,0.45);line-height:1.6;margin:0;">ကျွန်ုပ်သည် အသက် 18 နှစ်ကျော်သည်။ <span style="color:#22c55e;font-weight:700;">«အသုံးပြုသူသဘောတူညီချက်»</span> ကို ဖတ်ပြီး သဘောတူသည်</p>
                 </div>
                 <p v-if="regError" class="nova-auth-error">{{ regError }}</p>
-                <button @click="handleRegister" :disabled="regLoading" class="nova-auth-submit-btn">
-                  <span>{{ regLoading ? 'Loading...' : 'မှတ်ပုံတင်' }}</span>
-                </button>
-                <div style="text-align:center;margin-top:12px;">
-                  <span style="font-size:11px;color:rgba(255,255,255,0.35);cursor:pointer;">ဘည်ဝန်ဆောင်မှု</span>
-                </div>
-                <div class="nova-auth-divider">
-                  <div style="flex:1;height:1px;background:rgba(255,255,255,0.1);"></div>
-                  <span style="font-size:11px;color:rgba(255,255,255,0.25);">မှတ်ပုံတင်ခြင်း</span>
-                  <div style="flex:1;height:1px;background:rgba(255,255,255,0.1);"></div>
-                </div>
-                <div style="display:flex;justify-content:center;">
-                  <button class="nova-fb-btn">
-                    <svg width="22" height="22" fill="white" viewBox="0 0 24 24"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>
-                  </button>
-                </div>
+                <button @click="handleRegister" :disabled="regLoading" class="nova-auth-submit-btn"><span>{{ regLoading ? 'Loading...' : 'မှတ်ပုံတင်' }}</span></button>
+                <div style="text-align:center;margin-top:14px;"><span style="font-size:11px;color:rgba(255,255,255,0.32);cursor:pointer;">ဘည်ဝန်ဆောင်မှု</span></div>
+                <div class="nova-auth-divider"><div style="flex:1;height:1px;background:rgba(255,255,255,0.08);"></div><span style="font-size:11px;color:rgba(255,255,255,0.22);">မှတ်ပုံတင်ခြင်း</span><div style="flex:1;height:1px;background:rgba(255,255,255,0.08);"></div></div>
+                <div style="display:flex;justify-content:center;"><button class="nova-fb-btn"><svg width="22" height="22" fill="white" viewBox="0 0 24 24"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg></button></div>
               </div>
 
               <!-- LOGIN FORM -->
               <div v-if="authTab==='login'" class="nova-auth-form-body">
                 <p class="nova-auth-subtitle">ဖုန်းနံပါတ်/အကောင့် ဖြင့် လောဂ်အင်ဝင်ပါ</p>
-                <!-- Username/Phone -->
                 <div class="nova-auth-field">
                   <svg width="15" height="15" fill="rgba(180,180,180,0.5)" viewBox="0 0 24 24"><path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/></svg>
                   <input v-model="loginUsername" type="text" placeholder="*ဖုန်းနံပါတ်/အကောင့်" class="nova-auth-input"/>
-                  <button v-if="loginUsername" @click="loginUsername=''" class="nova-clear-btn">
-                    <svg width="14" height="14" fill="none" stroke="rgba(255,255,255,0.4)" stroke-width="2.5" viewBox="0 0 24 24"><path d="M18 6L6 18M6 6l12 12"/></svg>
-                  </button>
+                  <button v-if="loginUsername" @click="loginUsername=''" class="nova-clear-btn"><svg width="14" height="14" fill="none" stroke="rgba(255,255,255,0.4)" stroke-width="2.5" viewBox="0 0 24 24"><path d="M18 6L6 18M6 6l12 12"/></svg></button>
                 </div>
-                <!-- Password type toggle -->
                 <div style="display:flex;gap:8px;margin-bottom:9px;">
-                  <button @click="loginType='password'" :class="['nova-login-type-btn', loginType==='password'?'nova-login-type-btn--active':'']">
-                    <span style="font-size:13px;">🔒</span> ကားဝှက် လောဂ်အင်
-                  </button>
-                  <button @click="loginType='otp'" :class="['nova-login-type-btn', loginType==='otp'?'nova-login-type-btn--active':'']">
-                    <span style="font-size:13px;">🔢</span> အတည်ပြကုဒ်
-                  </button>
+                  <button @click="loginType='password'" :class="['nova-login-type-btn', loginType==='password'?'nova-login-type-btn--active':'']"><span style="font-size:13px;">🔒</span> ကားဝှက် လောဂ်အင်</button>
+                  <button @click="loginType='otp'" :class="['nova-login-type-btn', loginType==='otp'?'nova-login-type-btn--active':'']"><span style="font-size:13px;">🔢</span> အတည်ပြကုဒ်</button>
                 </div>
-                <!-- Password -->
                 <div class="nova-auth-field">
                   <svg width="15" height="15" fill="rgba(180,180,180,0.5)" viewBox="0 0 24 24"><path d="M18 8h-1V6c0-2.76-2.24-5-5-5S7 3.24 7 6v2H6c-1.1 0-2 .9-2 2v10c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V10c0-1.1-.9-2-2-2zm-6 9c-1.1 0-2-.9-2-2s.9-2 2-2 2 .9 2 2-.9 2-2 2zm3.1-9H8.9V6c0-1.71 1.39-3.1 3.1-3.1 1.71 0 3.1 1.39 3.1 3.1v2z"/></svg>
                   <input v-model="loginPassword" :type="loginShowPassword?'text':'password'" placeholder="*သင်ကားဝှက်ကို ထည့်ဆည်ပါ" class="nova-auth-input"/>
-                  <button v-if="loginPassword" @click="loginPassword=''" class="nova-clear-btn">
-                    <svg width="14" height="14" fill="none" stroke="rgba(255,255,255,0.4)" stroke-width="2.5" viewBox="0 0 24 24"><path d="M18 6L6 18M6 6l12 12"/></svg>
-                  </button>
-                  <button @click="loginShowPassword=!loginShowPassword" class="nova-clear-btn" style="margin-left:2px;">
-                    <svg width="16" height="16" fill="none" stroke="rgba(180,180,180,0.5)" stroke-width="2" viewBox="0 0 24 24"><path :d="loginShowPassword?'M17.94 17.94A10.07 10.07 0 0112 20c-7 0-11-8-11-8a18.45 18.45 0 015.06-5.94M9.9 4.24A9.12 9.12 0 0112 4c7 0 11 8 11 8a18.5 18.5 0 01-2.16 3.19m-6.72-1.07a3 3 0 11-4.24-4.24M1 1l22 22':'M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z M12 9a3 3 0 100 6 3 3 0 000-6z'"/></svg>
-                  </button>
+                  <button v-if="loginPassword" @click="loginPassword=''" class="nova-clear-btn"><svg width="14" height="14" fill="none" stroke="rgba(255,255,255,0.4)" stroke-width="2.5" viewBox="0 0 24 24"><path d="M18 6L6 18M6 6l12 12"/></svg></button>
+                  <button @click="loginShowPassword=!loginShowPassword" class="nova-clear-btn" style="margin-left:2px;"><svg width="16" height="16" fill="none" stroke="rgba(180,180,180,0.5)" stroke-width="2" viewBox="0 0 24 24"><path :d="loginShowPassword?'M17.94 17.94A10.07 10.07 0 0112 20c-7 0-11-8-11-8a18.45 18.45 0 015.06-5.94M9.9 4.24A9.12 9.12 0 0112 4c7 0 11 8 11 8a18.5 18.5 0 01-2.16 3.19m-6.72-1.07a3 3 0 11-4.24-4.24M1 1l22 22':'M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z M12 9a3 3 0 100 6 3 3 0 000-6z'"/></svg></button>
                 </div>
-                <!-- Remember me -->
-                <div style="display:flex;align-items:center;gap:8px;margin-bottom:12px;">
+                <div style="display:flex;align-items:center;gap:8px;margin-bottom:18px;">
                   <div @click="rememberMe=!rememberMe" :style="rememberMe?'background:#22c55e;border-color:#22c55e;':''" style="width:18px;height:18px;border-radius:4px;border:2px solid rgba(255,255,255,0.3);flex-shrink:0;display:flex;align-items:center;justify-content:center;cursor:pointer;transition:all 0.2s;">
                     <svg v-if="rememberMe" width="10" height="10" fill="white" viewBox="0 0 24 24"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg>
                   </div>
                   <span style="font-size:11px;color:rgba(255,255,255,0.45);">အကောင့်ကားဝှက်ကို မှတ်ထားပါ</span>
                 </div>
                 <p v-if="loginError" class="nova-auth-error">{{ loginError }}</p>
-                <button @click="handleLogin" :disabled="loginLoading" class="nova-auth-submit-btn">
-                  <span>{{ loginLoading ? 'Loading...' : 'လောဂ်အင်' }}</span>
-                </button>
-                <div style="display:flex;justify-content:space-between;margin-top:12px;">
-                  <span style="font-size:11px;color:rgba(255,255,255,0.35);cursor:pointer;">ဘည်ဝန်ဆောင်မှု</span>
-                  <span style="font-size:11px;color:rgba(34,197,94,0.7);cursor:pointer;">ကားဝှက်မေ့နေသည်</span>
+                <button @click="handleLogin" :disabled="loginLoading" class="nova-auth-submit-btn"><span>{{ loginLoading ? 'Loading...' : 'လောဂ်အင်' }}</span></button>
+                <div style="display:flex;justify-content:space-between;margin-top:14px;">
+                  <span style="font-size:11px;color:rgba(255,255,255,0.32);cursor:pointer;">ဘည်ဝန်ဆောင်မှု</span>
+                  <span style="font-size:11px;color:rgba(255,255,255,0.5);cursor:pointer;">ကားဝှက်မေ့နေသည်</span>
                 </div>
-                <div class="nova-auth-divider">
-                  <div style="flex:1;height:1px;background:rgba(255,255,255,0.1);"></div>
-                  <span style="font-size:11px;color:rgba(255,255,255,0.25);">အဂြန်ဝင်ရောက်မှု</span>
-                  <div style="flex:1;height:1px;background:rgba(255,255,255,0.1);"></div>
-                </div>
-                <div style="display:flex;justify-content:center;">
-                  <button class="nova-fb-btn">
-                    <svg width="22" height="22" fill="white" viewBox="0 0 24 24"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>
-                  </button>
-                </div>
+                <div class="nova-auth-divider"><div style="flex:1;height:1px;background:rgba(255,255,255,0.08);"></div><span style="font-size:11px;color:rgba(255,255,255,0.22);">အဂြန်ဝင်ရောက်မှု</span><div style="flex:1;height:1px;background:rgba(255,255,255,0.08);"></div></div>
+                <div style="display:flex;justify-content:center;"><button class="nova-fb-btn"><svg width="22" height="22" fill="white" viewBox="0 0 24 24"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg></button></div>
               </div>
+
             </div>
-
-            <!-- ✦ CLOSE BUTTON — BELOW CARD ✦ -->
-            <button @click="showAuthModal=false" class="nova-auth-close-bottom">
-              <svg width="22" height="22" fill="none" stroke="rgba(255,255,255,0.85)" stroke-width="2.5" viewBox="0 0 24 24"><path d="M18 6L6 18M6 6l12 12"/></svg>
-            </button>
-
           </div>
         </Transition>
       </Teleport>
@@ -883,125 +838,108 @@
   .nova-input::placeholder { color:rgba(255,255,255,0.18); }
   .nova-input:focus { border-color:rgba(34,197,94,0.42);box-shadow:0 0 0 3px rgba(34,197,94,0.07); }
 
-  /* ══ AUTH MODAL — Green Theme ══ */
-  .nova-auth-overlay {
-    position:fixed; inset:0; z-index:1000;
-    background:rgba(0,0,0,0.82);
-    backdrop-filter:blur(8px); -webkit-backdrop-filter:blur(8px);
-    display:flex; flex-direction:column; align-items:center; justify-content:center;
-    padding:16px 16px 20px;
-    overflow:hidden;
+  /* ══ AUTH PANEL — Slide from right ══ */
+  .nova-auth-panel {
+    position: fixed; inset: 0; z-index: 1000;
+    background: linear-gradient(160deg, #16183a 0%, #252870 55%, #16183a 100%);
+    display: flex; flex-direction: column; overflow: hidden;
   }
 
-  .nova-auth-card {
-    width:100%; max-width:360px;
-    max-height:calc(100vh - 110px);
-    overflow-y:auto; border-radius:18px;
-    background:linear-gradient(170deg,rgba(10,22,14,0.98) 0%,rgba(8,18,12,0.99) 100%);
-    border:1px solid rgba(34,197,94,0.18);
-    box-shadow: 0 24px 64px rgba(0,0,0,0.85), 0 0 0 1px rgba(255,255,255,0.03) inset, 0 1px 0 rgba(34,197,94,0.12) inset;
-    -ms-overflow-style:none; scrollbar-width:none;
+  /* Header */
+  .nova-auth-header {
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 14px 14px 0; flex-shrink: 0;
   }
-  .nova-auth-card::-webkit-scrollbar { display:none; }
+  .nova-auth-back {
+    width: 36px; height: 36px; background: none; border: none; cursor: pointer;
+    display: flex; align-items: center; justify-content: center;
+    -webkit-tap-highlight-color: transparent;
+  }
 
   /* Tabs */
   .nova-auth-tabs {
-    display:flex; border-bottom:1px solid rgba(255,255,255,0.07);
-    position:sticky; top:0; z-index:1;
-    background:linear-gradient(170deg,rgba(10,22,14,0.99),rgba(8,18,12,0.99));
-    border-radius:18px 18px 0 0;
+    display: flex; flex: 1; justify-content: center;
   }
   .nova-auth-tab-btn {
-    flex:1; padding:14px 12px; background:transparent; border:none; cursor:pointer;
-    font-size:13.5px; font-weight:700; color:rgba(255,255,255,0.3);
-    display:flex; align-items:center; justify-content:center; gap:6px;
-    position:relative; transition:color 0.2s; -webkit-tap-highlight-color:transparent; letter-spacing:0.03em;
+    flex: 1; max-width: 150px; padding: 10px 10px 12px; background: transparent; border: none; cursor: pointer;
+    font-size: 13.5px; font-weight: 700; color: rgba(255,255,255,0.28);
+    display: flex; align-items: center; justify-content: center; gap: 5px;
+    position: relative; transition: color 0.2s; -webkit-tap-highlight-color: transparent; letter-spacing: 0.02em;
   }
-  .nova-auth-tab-btn--active { color:#22c55e; }
+  .nova-auth-tab-btn--active { color: rgba(255,255,255,0.95); }
   .nova-auth-tab-btn--active::after {
-    content:''; position:absolute; bottom:0; left:16px; right:16px; height:2px;
-    background:linear-gradient(90deg,transparent,#22c55e,transparent);
-    border-radius:2px; box-shadow:0 0 10px rgba(34,197,94,0.7);
+    content: ''; position: absolute; bottom: 0; left: 18%; right: 18%; height: 2px;
+    background: rgba(255,255,255,0.75); border-radius: 2px;
   }
 
-  /* Form body */
-  .nova-auth-form-body { padding:14px 18px 18px; }
-  .nova-auth-subtitle { font-size:11.5px; color:rgba(255,255,255,0.4); margin-bottom:12px; line-height:1.5; }
-  .nova-auth-error { color:#f87171; font-size:11px; text-align:center; margin-bottom:8px; }
-  .nova-auth-divider { display:flex; align-items:center; gap:10px; margin:12px 0; }
+  /* Scrollable body */
+  .nova-auth-body { flex: 1; overflow-y: auto; -ms-overflow-style: none; scrollbar-width: none; }
+  .nova-auth-body::-webkit-scrollbar { display: none; }
 
-  /* Auth fields */
+  /* Form */
+  .nova-auth-form-body { padding: 20px 20px 32px; }
+  .nova-auth-subtitle { font-size: 12px; color: rgba(255,255,255,0.4); margin-bottom: 18px; line-height: 1.5; }
+  .nova-auth-error { color: #f87171; font-size: 11px; text-align: center; margin-bottom: 8px; }
+  .nova-auth-divider { display: flex; align-items: center; gap: 10px; margin: 16px 0; }
+
+  /* Input fields — soft card */
   .nova-auth-field {
-    display:flex; align-items:center; gap:8px;
-    background:rgba(255,255,255,0.04); border:1px solid rgba(255,255,255,0.09);
-    border-radius:10px; padding:9px 10px; margin-bottom:9px;
-    transition:border-color 0.2s;
+    display: flex; align-items: center; gap: 8px;
+    background: rgba(255,255,255,0.07);
+    border: 1px solid rgba(255,255,255,0.12);
+    border-radius: 12px; padding: 12px 14px; margin-bottom: 11px;
+    transition: border-color 0.2s, background 0.2s;
   }
   .nova-auth-field:focus-within {
-    border-color:rgba(34,197,94,0.45);
-    box-shadow:0 0 0 3px rgba(34,197,94,0.07);
+    border-color: rgba(255,255,255,0.3);
+    background: rgba(255,255,255,0.1);
   }
   .nova-auth-input {
-    flex:1; background:transparent; border:none; outline:none;
-    color:rgba(255,255,255,0.85); font-size:13px; min-width:0;
+    flex: 1; background: transparent; border: none; outline: none;
+    color: rgba(255,255,255,0.92); font-size: 13.5px; min-width: 0;
   }
-  .nova-auth-input::placeholder { color:rgba(255,255,255,0.22); }
+  .nova-auth-input::placeholder { color: rgba(255,255,255,0.22); }
 
   /* Clear / eye button */
   .nova-clear-btn {
-    background:none; border:none; cursor:pointer; padding:0;
-    display:flex; align-items:center; flex-shrink:0;
-    -webkit-tap-highlight-color:transparent; transition:opacity 0.15s;
+    background: none; border: none; cursor: pointer; padding: 0;
+    display: flex; align-items: center; flex-shrink: 0;
+    -webkit-tap-highlight-color: transparent; transition: opacity 0.15s;
   }
-  .nova-clear-btn:active { opacity:0.5; }
+  .nova-clear-btn:active { opacity: 0.5; }
 
-  /* Submit button — green */
+  /* Submit button — gold */
   .nova-auth-submit-btn {
-    width:100%; height:46px; border-radius:12px; border:none; cursor:pointer;
-    font-size:15px; font-weight:800; letter-spacing:0.06em; color:#fff;
-    background:linear-gradient(135deg,#22c55e 0%,#16a34a 50%,#15803d 100%);
-    box-shadow:0 6px 22px rgba(34,197,94,0.35), inset 0 1px 0 rgba(255,255,255,0.2), inset 0 -1px 0 rgba(0,0,0,0.15);
-    position:relative; overflow:hidden; transition:transform 0.1s, box-shadow 0.2s;
-    -webkit-tap-highlight-color:transparent;
+    width: 100%; height: 48px; border-radius: 12px; border: none; cursor: pointer;
+    font-size: 15px; font-weight: 800; letter-spacing: 0.05em; color: #1a1a2e;
+    background: linear-gradient(135deg, #f0b429 0%, #f59e0b 50%, #d97706 100%);
+    box-shadow: 0 4px 18px rgba(240,180,41,0.28);
+    transition: transform 0.1s; -webkit-tap-highlight-color: transparent;
   }
-  .nova-auth-submit-btn::before { content:''; position:absolute; top:0; left:0; right:0; height:50%; background:linear-gradient(to bottom,rgba(255,255,255,0.15),transparent); border-radius:12px 12px 0 0; pointer-events:none; }
-  .nova-auth-submit-btn:active { transform:scale(0.97); box-shadow:0 3px 12px rgba(34,197,94,0.25); }
-  .nova-auth-submit-btn:disabled { opacity:0.45; }
+  .nova-auth-submit-btn:active { transform: scale(0.97); }
+  .nova-auth-submit-btn:disabled { opacity: 0.45; }
 
   /* Login type pills */
   .nova-login-type-btn {
-    flex:1; padding:7px 6px; border-radius:8px; background:rgba(255,255,255,0.05);
-    border:1px solid rgba(255,255,255,0.1); cursor:pointer; color:rgba(255,255,255,0.38);
-    font-size:10px; font-weight:700; display:flex; align-items:center; justify-content:center; gap:4px;
-    transition:all 0.2s; -webkit-tap-highlight-color:transparent;
+    flex: 1; padding: 8px 6px; border-radius: 9px; background: rgba(255,255,255,0.05);
+    border: 1px solid rgba(255,255,255,0.1); cursor: pointer; color: rgba(255,255,255,0.35);
+    font-size: 10.5px; font-weight: 700; display: flex; align-items: center; justify-content: center; gap: 4px;
+    transition: all 0.2s; -webkit-tap-highlight-color: transparent;
   }
-  .nova-login-type-btn--active { background:rgba(34,197,94,0.1); border-color:rgba(34,197,94,0.4); color:#22c55e; }
+  .nova-login-type-btn--active { background: rgba(255,255,255,0.1); border-color: rgba(255,255,255,0.25); color: rgba(255,255,255,0.9); }
 
   /* Facebook button */
   .nova-fb-btn {
-    width:46px; height:46px; border-radius:50%;
-    background:linear-gradient(135deg,#1877f2,#0a5dc9); border:none; cursor:pointer;
-    display:flex; align-items:center; justify-content:center;
-    box-shadow:0 4px 14px rgba(24,119,242,0.4); -webkit-tap-highlight-color:transparent;
+    width: 46px; height: 46px; border-radius: 50%;
+    background: linear-gradient(135deg, #1877f2, #0a5dc9); border: none; cursor: pointer;
+    display: flex; align-items: center; justify-content: center;
+    box-shadow: 0 4px 14px rgba(24,119,242,0.4); -webkit-tap-highlight-color: transparent;
   }
 
-  /* ✦ Close button — BELOW the card ✦ */
-  .nova-auth-close-bottom {
-    margin-top:18px;
-    width:44px; height:44px; border-radius:50%;
-    background:rgba(255,255,255,0.1);
-    border:1.5px solid rgba(255,255,255,0.2);
-    display:flex; align-items:center; justify-content:center;
-    cursor:pointer; flex-shrink:0;
-    -webkit-tap-highlight-color:transparent;
-    transition:background 0.2s, transform 0.15s;
-    box-shadow:0 4px 16px rgba(0,0,0,0.5);
-  }
-  .nova-auth-close-bottom:active { transform:scale(0.9); background:rgba(255,255,255,0.18); }
-
-  /* Transition */
-  .nova-auth-fade-enter-active,.nova-auth-fade-leave-active { transition:opacity 0.22s ease,transform 0.22s ease; }
-  .nova-auth-fade-enter-from,.nova-auth-fade-leave-to { opacity:0; transform:scale(0.96) translateY(8px); }
+  /* Slide transition */
+  .nova-auth-slide-enter-active { transition: transform 0.3s cubic-bezier(0.32,0.72,0,1); }
+  .nova-auth-slide-leave-active  { transition: transform 0.25s cubic-bezier(0.32,0.72,0,1); }
+  .nova-auth-slide-enter-from,.nova-auth-slide-leave-to { transform: translateX(100%); }
 
   /* ── FOOTER ── */
   .nova-contact-icon { display:flex;flex-direction:column;align-items:center;gap:5px;padding:10px 14px;border-radius:14px;cursor:pointer;border:1px solid rgba(255,255,255,0.1);background:rgba(255,255,255,0.05);box-shadow:0 1px 6px rgba(0,0,0,0.25);-webkit-tap-highlight-color:transparent; }
