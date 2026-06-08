@@ -461,7 +461,8 @@ const submitDeposit = () => {
 .nova-sheet {
   position:relative;
   width:100%;max-width:480px;
-  height:100svh;height:100vh;
+  height:100vh;
+  height:100dvh;
   border-radius:0;
   overflow:hidden;
   display:flex;flex-direction:column;
