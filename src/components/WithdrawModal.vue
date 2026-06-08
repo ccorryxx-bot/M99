@@ -89,7 +89,7 @@
           <div class="wd-section-label">ငွေထုတ်မမာ</div>
 
           <!-- Amount input with "အားလုံး" button -->
-          <div class="wd-amt-wrap wd-amt-wrap--yellow" @click="!linkedAccount ? activeTab = 1 : null">
+          <div class="wd-amt-wrap wd-amt-wrap--yellow">
             <span class="wd-k-prefix">K</span>
             <input
               v-model.number="amount"
@@ -97,12 +97,14 @@
               inputmode="numeric"
               class="wd-amt-input"
               placeholder="အနည်းဆုံး 10000 အများဆုံး 1000000"
-              :disabled="!linkedAccount"
-              @focus="!linkedAccount ? activeTab = 1 : null"
+              :readonly="!linkedAccount"
+              @focus="!linkedAccount ? ($event.target.blur(), activeTab = 1) : null"
             />
             <button v-if="linkedAccount && balance > 0" class="wd-amt-all-btn" @click.stop="amount = balance">
               အားလုံး
             </button>
+            <!-- Transparent overlay tap target when no account -->
+            <div v-if="!linkedAccount" class="wd-amt-tap-overlay" @click="activeTab = 1"></div>
           </div>
 
           <p v-if="error" class="wd-error">{{ error }}</p>
@@ -694,6 +696,13 @@ function spin(r) { r.value = true; setTimeout(() => r.value = false, 800) }
 }
 .wd-amt-all-btn:active { background: rgba(245,200,66,0.25); }
 
+/* Full-cover tap overlay when no account linked */
+.wd-amt-tap-overlay {
+  position: absolute; inset: 0; z-index: 2;
+  border-radius: 10px; cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+}
+
 .wd-error { font-size: 11px; color: #f87171; padding: 6px 16px 0; margin: 0; }
 
 /* ── Submit Button (thin, gold, inline below input) ── */
@@ -720,8 +729,9 @@ function spin(r) { r.value = true; setTimeout(() => r.value = false, 800) }
   box-shadow: 0 0 0 #a8860d, 0 2px 8px rgba(0,0,0,0.3);
 }
 .wd-submit-btn--disabled {
-  background: #3a3f8e; color: rgba(255,255,255,0.25);
-  box-shadow: 0 3px 0 #1a1f5c, 0 5px 14px rgba(0,0,0,0.35);
+  background: rgba(245,200,66,0.13); color: rgba(245,200,66,0.45);
+  border: 1px solid rgba(245,200,66,0.22);
+  box-shadow: 0 2px 0 rgba(168,134,13,0.2);
   cursor: not-allowed;
 }
 
