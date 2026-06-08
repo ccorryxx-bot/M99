@@ -7,12 +7,14 @@ import ServicePage from '@/pages/ServicePage.vue'
 import AccountPage from '@/pages/AccountPage.vue'
 import AdminDashboard from '@/pages/AdminDashboard.vue'
 import DeviceSessionsPage from '@/pages/DeviceSessionsPage.vue'
+import ExchangeCodePage from '@/pages/ExchangeCodePage.vue'
 import { supabase } from '@/supabase'
 
 const routes = [
   { path: '/', redirect: '/home' },
   { path: '/home', component: HomePage },
   { path: '/promotions', component: PromotionsPage, meta: { requiresAuth: true } },
+  { path: '/exchange-code', component: ExchangeCodePage, meta: { requiresAuth: true } },
   { path: '/network', component: ReferralPage, meta: { requiresAuth: true } },
   { path: '/agent', component: AgentDashboard, meta: { requiresAuth: true } },
   { path: '/service', component: ServicePage, meta: { requiresAuth: true } },
