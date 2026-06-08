@@ -12,20 +12,11 @@
 
       <!-- POSITION 2: Network (always) -->
       <router-link to="/network" class="gnav-item" :class="{active: route.path==='/network'}">
-        <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 38 41">
-          <defs><filter id="gnav-pf"><feGaussianBlur stdDeviation="0.8" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter></defs>
-          <line x1="19" y1="20" x2="7" y2="10" stroke="#334155" stroke-width="1.2"/>
-          <line x1="19" y1="20" x2="31" y2="10" stroke="#334155" stroke-width="1.2"/>
-          <line x1="19" y1="20" x2="6" y2="32" stroke="#334155" stroke-width="1.2"/>
-          <line x1="19" y1="20" x2="32" y2="32" stroke="#334155" stroke-width="1.2"/>
-          <circle cx="19" cy="20" r="5" fill="#3d4187" stroke="currentColor" stroke-width="1.8" filter="url(#gnav-pf)"/>
-          <circle cx="19" cy="18.5" r="1.6" fill="none" stroke="currentColor" stroke-width="1.2"/>
-          <path d="M 15.5 22.5 Q 16 20.5 19 20 Q 22 20.5 22.5 22.5" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/>
-          <circle cx="7" cy="10" r="3.5" fill="#3d4187" stroke="rgba(147,197,253,0.6)" stroke-width="1.5"/>
-          <circle cx="31" cy="10" r="3.5" fill="#3d4187" stroke="rgba(147,197,253,0.6)" stroke-width="1.5"/>
-          <circle cx="6" cy="32" r="3.5" fill="#3d4187" stroke="rgba(147,197,253,0.6)" stroke-width="1.5"/>
-          <circle cx="32" cy="32" r="3.5" fill="#3d4187" stroke="rgba(147,197,253,0.6)" stroke-width="1.5"/>
-        </svg>
+        <img
+            src="https://ik.imagekit.io/rbok01qam/Custom%20icons%20img/4415ded0-6355-11f1-9488-d1cd5b84fe3e.gif?tr=f-auto"
+            alt="အေးဂျင့်ကွန်ရက်"
+            class="network-gif-icon"
+          />
         <span>အေးဂျင့်ကွန်ရက်</span>
       </router-link>
 
@@ -153,4 +144,10 @@ onMounted(async () => {
 
 /* ── hide on desktop ── */
 @media (min-width: 768px) { .gnav { display: none; } }
+/* ── network gif icon ── */
+.network-gif-icon {
+  width: 24px; height: 24px;
+  object-fit: contain;
+  border-radius: 6px;
+}
 </style>
