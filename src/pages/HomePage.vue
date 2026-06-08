@@ -290,9 +290,9 @@
                 <img :src="game.image_url" alt="" @error="e=>e.target.style.display='none'" style="width:100%;height:100%;object-fit:cover;display:block;" loading="lazy"/>
                 <div style="position:absolute;inset:0;background:linear-gradient(to top,rgba(6,8,18,0.95) 0%,rgba(6,8,18,0.3) 40%,transparent 100%);"></div>
                 <div v-if="idx%5<2" class="nova-badge nova-badge--hot">HOT</div>
-                <div class="nova-badge nova-badge--provider">{{ game.provider }}</div>
+                <div class="nova-badge nova-badge--provider">{{ game.provider_code?.toUpperCase() }}</div>
                 <div style="position:absolute;bottom:0;left:0;right:0;padding:4px 5px 5px;">
-                  <div style="font-size:9px;font-weight:700;color:rgba(255,255,255,0.9);overflow:hidden;text-overflow:ellipsis;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;line-height:1.3;">{{ game.name }}</div>
+                  <div style="font-size:9px;font-weight:700;color:rgba(255,255,255,0.9);overflow:hidden;text-overflow:ellipsis;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;line-height:1.3;">{{ game.game_name }}</div>
                 </div>
               </div>
             </div>
@@ -575,10 +575,26 @@
   const games = ref([]); const loadingGames = ref(true); const fetchError = ref(null)
   async function fetchGames() {
     loadingGames.value=true; fetchError.value=null
-    try { const {data,error}=await supabase.from('games').select('*').eq('is_active',true).order('provider',{ascending:true}); if(error)throw error; games.value=data||[] }
+    try { const {data,error}=await supabase.from('game_cards').select('*').eq('is_active',true).order('play_count',{ascending:false}); if(error)throw error; games.value=data||[] }
     catch { fetchError.value='ဂိမ်းများ ရယူ၍မရပါ' } finally { loadingGames.value=false }
   }
-  const filteredGames = computed(() => { let l=games.value; if(searchQuery.value){const q=searchQuery.value.toLowerCase();l=l.filter(g=>g.name?.toLowerCase().includes(q))} return l })
+  const filteredGames = computed(() => {
+    let l = games.value
+    // Category filter
+    if (activeCategory.value === 'popular') {
+      l = [...l].sort((a,b) => (b.play_count||0) - (a.play_count||0)).slice(0,60)
+    } else if (activeCategory.value === 'fav') {
+      l = [...l].sort((a,b) => (b.play_count||0) - (a.play_count||0)).slice(0,30)
+    } else {
+      l = l.filter(g => g.category === activeCategory.value)
+    }
+    // Search filter
+    if (searchQuery.value) {
+      const q = searchQuery.value.toLowerCase()
+      l = l.filter(g => g.game_name?.toLowerCase().includes(q))
+    }
+    return l
+  })
 
   async function loadUserInfo() {
     try { const {data:{session}}=await supabase.auth.getSession(); if(!session){isLoggedIn.value=false;return}; isLoggedIn.value=true; username.value=(session.user.email||'').replace(/@novabett\.internal$/,'').toUpperCase(); await fetchBalance() }
@@ -606,7 +622,7 @@
     try { const referral=route.query.dl||''; const res=await fetch('https://vuywhhmwrqykukcemifd.supabase.co/functions/v1/register3',{method:'POST',headers:{'Authorization':'Bearer sb_publishable_nQArOtFqTbi9ZtJCJC0STA_pE4ztXGb','apikey':'sb_publishable_nQArOtFqTbi9ZtJCJC0STA_pE4ztXGb','Content-Type':'application/json'},body:JSON.stringify({username:regUsername.value,phone:regPhone.value,password:regPassword.value,referral})}); const data=await res.json(); if(data.error)throw new Error(data.error); const email=regUsername.value.toUpperCase()+'@novabett.internal'; const {data:ld,error:le}=await supabase.auth.signInWithPassword({email,password:regPassword.value}); if(le)throw le; if(ld.session?.access_token)localStorage.setItem('sb_token',ld.session.access_token); await loadUserInfo(); showToast({type:'success',message:'အကောင့်ဖွင့် အောင်မြင်ပါသည်'}); showAuthModal.value=false; regUsername.value='';regPhone.value='';regPassword.value='' }
     catch(e) { regError.value=e.message } finally { regLoading.value=false }
   }
-  function openGame(game) { if(!isLoggedIn.value){showAuthModal.value=true;authTab.value='login';return}; showToast(game.name+' မကြာမီ ရနိုင်မည်') }
+  function openGame(game) { if(!isLoggedIn.value){showAuthModal.value=true;authTab.value='login';return}; showToast(game.game_name+' မကြာမီ ရနိုင်မည်') }
   function toggleLanguage() { currentLang.value=currentLang.value==='en'?'mm':'en' }
   const formatCurrency = n => new Intl.NumberFormat('en-US').format(n)
   async function handleDepositSubmit(data) { try { const token=(await supabase.auth.getSession()).data.session?.access_token; if(!token){showToast({type:'fail',message:'ဝင်ရောက်ပါ'});return}; const res=await fetch('https://vuywhhmwrqykukcemifd.supabase.co/functions/v1/deposit',{method:'POST',headers:{'Authorization':'Bearer '+token,'Content-Type':'application/json'},body:JSON.stringify({method:data.method,amount:data.amount,slip:data.slip})}); const result=await res.json(); if(result.error)throw new Error(result.error); showToast({type:'success',message:'ငွေသွင်းမှု အောင်မြင်ပါသည်'}); setTimeout(()=>fetchBalance(),2000) } catch(e){showToast({type:'fail',message:e.message})} }
