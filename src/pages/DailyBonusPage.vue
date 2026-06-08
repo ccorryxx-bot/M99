@@ -15,14 +15,11 @@
     <!-- BODY -->
     <div class="db-body">
 
-      <!-- Intro -->
       <p class="db-intro">(IW99) VIP အဖွဲ့ဝင် ဖြစ်လိုက်ပါ၊အကျိုးကျေးဇူးများစွာခံစားရမည်၊ နေ့စဉ်အဆက်မပျက်ငွေသားဆုများဆက်တိုက်ရယူလိုက်ပါ။</p>
 
-      <!-- Section -->
       <div class="db-section-label">VIPဘောနပ်အကြောင်းအရာ -</div>
-      <p class="db-text">Systemအဖွဲ့ဝင်၏ VIP အဆင့်အရ နေ့စဉ် ငွေသားဆုများကို အလိုအလျောက်ပေးအပ်မည်ဖြစ်သည်။ သင်၏အဆင့်သည် VIP1 သို့မဟုတ် အထက်တို့‌ရောက်ရှိနေပါက၊ မည့်သည့်အခြေအနေမဆို System ကနေ့ စဥ်ဘောနပ်များကိုပေးအပ်မည်ဖြစ်ပါသည်။ သင်၏ VIP အဆင့် မြင့်လာလေလေ၊Systemမှ ပေးအပ်သော ဘောနပ်လည်း မြင့်မားလေလေ ဖြစ်သည်။ (ဘောနပ်ပေးအပ်ချိန်မှာ  မြန်မာစံတော်ချိန် နေ့လည် 12မှ2 နာရီကြား  ကိုယ်တိုင် ဝင်ရောက်၍ လက်ခံရယူရန် လိုအပ်သည်။)</p>
+      <p class="db-text">Systemအဖွဲ့ဝင်၏ VIP အဆင့်အရ နေ့စဉ် ငွေသားဆုများကို အလိုအလျောက်ပေးအပ်မည်ဖြစ်သည်။ သင်၏အဆင့်သည် VIP1 သို့မဟုတ် အထက်တို့‌ရောက်ရှိနေပါက၊ မည့်သည့်အခြေအနေမဆို System ကနေ့ စဥ်ဘောနပ်များကိုပေးအပ်မည်ဖြစ်ပါသည်။ သင်၏ VIP အဆင့် မြင့်လာလေလေ၊Systemမှ ပေးအပ်သော ဘောနပ်လည်း မြင့်မားလေလေ ဖြစ်သည်။ (ဘောနပ်ပေးအပ်ချိန်မှာ မြန်မာစံတော်ချိန် နေ့လည် 12မှ2 နာရီကြား ကိုယ်တိုင် ဝင်ရောက်၍ လက်ခံရယူရန် လိုအပ်သည်။)</p>
 
-      <!-- Table -->
       <div class="db-table-wrap">
         <table class="db-table">
           <thead>
@@ -41,36 +38,24 @@
         </table>
       </div>
 
-      <!-- Rules -->
       <div class="db-section-label">ဘောနပ်စည်းကမ်းနှင့်သတ်မှတ်ချက်များ</div>
       <p class="db-text">VIP1 သို့မဟုတ် အထက်တို့‌ရောက်ရှိနေပါကမည့်သည့်အခြေအနေမဆို System ကနေ့ စဥ်ဘောနပ်များကိုပေးအပ်မည်ဖြစ်ပါသည်။</p>
       <p class="db-text">1.လည်ပတ်ကြိမ် 1ကြိမ် ကစားပြီး နိုင်ငွေကို အကန့်အသတ်မရှိအကုန်ထုတ်ယူနိုင်ပါသည်။</p>
       <p class="db-text">2.နေ့စဥ်ဘောနပ်ကိုနောက်နေ့တွင်Systemမှအော်တိုထည့်ပေးပါမည်။</p>
       <p class="db-text">3.ဘောနပ်ကုန်ဆုံးချိန်နေ့တိုင်းပေးအပ်သောနေ့စဥ်ဘောနပ်သည် နောက်နေ့လျှင်အကျုံးဝင်တော့မည်မဟုတ်ပါ။သတ်မှတ်ထားသောအချိန်အတွင်း မလက်ခံရင် အလိုအလျောက်သက်တမ်းကုန်သွားပါမယ်။</p>
       <p class="db-text">4.ကစားသမားတစ်ဦးစီ၊ အမည်၊ ဖုန်းနံပါတ်၊ ဖုန်းအမျိုးအစား ၊ ဘဏ်ကတ်အချက်အလက်စသည်ဖြင့် အကောင့်တစ်ခုနှင့် ပရိုမိုးရှင်းကို ထပ်ခါထပ်ခါ လျှောက်ထားပါက၊ ပရိုမိုးရှင်း ကို ပယ်ဖျက်ရန် သိုမဟုတ် နုတ်ယူခွင့်ရှိသည်။</p>
-      <p class="db-text">5.ပရိုမိုးများကို အကျုံးဝင်သည့်ရက် အသိပေးချင်းမရှိဘဲ အစီစဉ်ကို ပြင်ဆင်ခြင်း နှင့်ရပ်စဲခြင်းကို IWBET မှကန့်သတ်ပိုင်ခွင့်ရှိသည်။စကားလုံး အဓိပ္ပာယ်လွဲမှားပြီး အငြင်းပွားမူ့ဖြစ်လာပါက IWBET ဆုံးဖြတ်ချက်သာအတည်ဖြစ်သည်။ယခုအချက်လက်သည် IWBET တွင်ရှိသည့် ပိုမိုးရှင်း အားလုံးအတွက်အကျုံးဝင်သည်။</p>
+      <p class="db-text">5.ပရိုမိုးများကို အကျုံးဝင်သည့်ရက် အသိပေးချင်းမရှိဘဲ အစီစဉ်ကို ပြင်ဆင်ခြင်း နှင့်ရပ်စဲခြင်းကို IWBET မှကန့်သတ်ပိုင်ခွင့်ရှိသည်။စကားလုံး အဓိပ္ပာယ်လွဲမှားပြီး အငြင်းပွားမူ့ဖြစ်လာပါက IWBET ဆုံးဖြတ်ချက်သာအတည်ဖြစ်သည်။ ယခုအချက်လက်သည် IWBET တွင်ရှိသည့် ပိုမိုးရှင်း အားလုံးအတွက်အကျုံးဝင်သည်။</p>
       <p class="db-text">ကစားသမားတစ်ဦးစီ၊ အမည်၊ ဖုန်းနံပါတ်၊ ဖုန်းအမျိုးအစား ၊ ဘဏ်ကတ်အချက်အလက်စသည်ဖြင့် အကောင့်တစ်ခုနှင့် ပရိုမိုးရှင်းကို ထပ်ခါထပ်ခါ လျှောက်ထားပါက၊ ပရိုမိုးရှင်း ကို ပယ်ဖျက်ရန် သိုမဟုတ် နုတ်ယူခွင့်ရှိသည်။</p>
 
       <!-- Promo thumbnails -->
       <div class="db-thumbs-wrap">
-        <div
-          v-for="card in allCards"
-          :key="card.id"
-          class="db-thumb-item"
-          @click="handleThumbClick(card)"
-        >
+        <div v-for="card in allCards" :key="card.id" class="db-thumb-item" @click="handleThumbClick(card)">
           <img :src="card.img" :alt="card.title" class="db-thumb-img" loading="lazy" />
           <span class="db-thumb-label" :class="{ active: card.id === 2 }">{{ card.title }}</span>
         </div>
       </div>
 
     </div>
-
-    <!-- Bottom button -->
-    <div class="db-footer">
-      <button class="db-apply-btn" @click="$router.push('/promotions')">ဘောနပ်များကို ရှေးပါ</button>
-    </div>
-
   </div>
 </template>
 
@@ -100,7 +85,6 @@ function handleThumbClick(card) {
   font-family: system-ui, sans-serif;
 }
 
-/* HEADER */
 .db-header {
   display: flex;
   align-items: center;
@@ -113,140 +97,101 @@ function handleThumbClick(card) {
   z-index: 10;
 }
 .db-back-btn {
-  background: none;
-  border: none;
+  background: none; border: none;
   color: rgba(255,255,255,0.85);
-  cursor: pointer;
-  padding: 4px;
-  display: flex;
-  align-items: center;
+  cursor: pointer; padding: 4px;
+  display: flex; align-items: center;
   -webkit-tap-highlight-color: transparent;
 }
 .db-title {
-  font-size: 14px;
-  font-weight: 700;
-  color: #fff;
-  letter-spacing: 0.02em;
+  font-size: 13px; font-weight: 700;
+  color: #fff; letter-spacing: 0.02em;
 }
 .db-hist-btn {
-  background: none;
-  border: none;
+  background: none; border: none;
   color: rgba(74,222,128,0.9);
-  font-size: 12px;
-  font-weight: 600;
-  cursor: pointer;
-  padding: 4px 2px;
+  font-size: 11px; font-weight: 600;
+  cursor: pointer; padding: 4px 2px;
   -webkit-tap-highlight-color: transparent;
 }
 
-/* BODY */
 .db-body {
   flex: 1;
-  padding: 16px 14px 24px;
+  padding: 12px 14px 28px;
   overflow-y: auto;
 }
 
-/* Text — plain, no borders */
 .db-intro {
-  font-size: 13px;
-  color: rgba(255,255,255,0.82);
-  line-height: 1.7;
-  margin: 0 0 18px 0;
+  font-size: 10.5px;
+  color: rgba(255,255,255,0.78);
+  line-height: 1.6;
+  margin: 0 0 12px 0;
 }
 .db-section-label {
-  font-size: 13px;
-  color: rgba(255,255,255,0.55);
-  margin: 0 0 6px 0;
+  font-size: 10px;
+  color: rgba(255,255,255,0.5);
+  margin: 0 0 4px 0;
 }
 .db-text {
-  font-size: 12.5px;
-  color: rgba(255,255,255,0.75);
-  line-height: 1.65;
-  margin: 0 0 10px 0;
+  font-size: 10px;
+  color: rgba(255,255,255,0.7);
+  line-height: 1.6;
+  margin: 0 0 7px 0;
 }
 
-/* Table */
 .db-table-wrap {
-  margin: 12px 0 18px 0;
+  margin: 10px 0 14px 0;
   overflow-x: auto;
 }
 .db-table {
   width: 100%;
   border-collapse: collapse;
-  font-size: 12.5px;
+  font-size: 10px;
 }
 .db-table thead tr {
-  background: rgba(74,222,128,0.12);
+  background: rgba(74,222,128,0.1);
 }
 .db-table th {
-  padding: 9px 12px;
+  padding: 7px 10px;
   text-align: left;
-  color: rgba(255,255,255,0.7);
+  color: rgba(255,255,255,0.65);
   font-weight: 600;
   border-bottom: 1px solid rgba(255,255,255,0.08);
 }
 .db-table td {
-  padding: 9px 12px;
-  color: rgba(255,255,255,0.82);
-  border-bottom: 1px solid rgba(255,255,255,0.05);
+  padding: 7px 10px;
+  color: rgba(255,255,255,0.78);
+  border-bottom: 1px solid rgba(255,255,255,0.04);
 }
 .db-table tbody tr:nth-child(odd) {
   background: rgba(255,255,255,0.02);
 }
 
-/* Thumbnails */
 .db-thumbs-wrap {
   display: flex;
   gap: 10px;
   overflow-x: auto;
-  padding-bottom: 6px;
-  margin-top: 20px;
+  padding-bottom: 4px;
+  margin-top: 18px;
   -webkit-overflow-scrolling: touch;
 }
 .db-thumbs-wrap::-webkit-scrollbar { display: none; }
 .db-thumb-item {
-  flex-shrink: 0;
-  width: 80px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 5px;
+  flex-shrink: 0; width: 78px;
+  display: flex; flex-direction: column;
+  align-items: center; gap: 4px;
   cursor: pointer;
   -webkit-tap-highlight-color: transparent;
 }
 .db-thumb-img {
-  width: 80px;
-  height: 54px;
-  object-fit: cover;
-  border-radius: 8px;
+  width: 78px; height: 52px;
+  object-fit: cover; border-radius: 7px;
   display: block;
 }
 .db-thumb-label {
-  font-size: 10px;
-  color: rgba(255,255,255,0.45);
-  text-align: center;
-  line-height: 1.3;
+  font-size: 9.5px;
+  color: rgba(255,255,255,0.4);
+  text-align: center; line-height: 1.3;
 }
-.db-thumb-label.active {
-  color: rgba(74,222,128,0.9);
-}
-
-/* Footer */
-.db-footer {
-  padding: 18px 14px 28px;
-  background: rgba(30,35,100,0.4);
-  border-top: 1px solid rgba(255,255,255,0.06);
-}
-.db-apply-btn {
-  width: 100%;
-  padding: 14px;
-  background: rgba(60,70,140,0.5);
-  border: 1px solid rgba(255,255,255,0.12);
-  border-radius: 10px;
-  color: rgba(255,255,255,0.7);
-  font-size: 14px;
-  font-weight: 600;
-  cursor: pointer;
-  -webkit-tap-highlight-color: transparent;
-}
+.db-thumb-label.active { color: rgba(74,222,128,0.9); }
 </style>
