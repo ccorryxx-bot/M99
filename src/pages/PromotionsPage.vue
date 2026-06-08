@@ -51,7 +51,7 @@
         </aside>
         <!-- Cards -->
         <main class="promo-cards-area">
-          <div v-for="card in allCards" :key="card.id" class="promo-card" :style="card.id===1?{cursor:'pointer'}:{}" @click="card.id===1?$router.push('/exchange-code'):null">
+          <div v-for="card in allCards" :key="card.id" class="promo-card" :style="card.id===1?{cursor:'pointer'}:{}" @click="card.id===1?$router.push('/exchange-code'):card.id===2?$router.push('/daily-bonus'):null">
             <img :src="card.img" :alt="card.title" class="promo-card-img" loading="lazy" />
           </div>
         </main>
