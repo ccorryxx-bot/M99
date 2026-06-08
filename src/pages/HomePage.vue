@@ -271,7 +271,7 @@
 
         <!-- GAME GRID (full width) -->
         <div style="flex:1;min-width:0;padding:8px;">
-          <div v-if="loadingGames" style="display:grid;grid-template-columns:repeat(3,1fr);gap:6px;">
+          <div v-if="loadingGames" style="display:grid;grid-template-columns:repeat(3,1fr);gap:10px;">
             <div v-for="n in 9" :key="n" style="border-radius:12px;aspect-ratio:3/4;background:rgba(255,255,255,0.04);animation:nova-pulse 1.5s ease-in-out infinite;"></div>
           </div>
           <div v-else-if="fetchError" style="text-align:center;padding:30px 0;">
@@ -281,11 +281,9 @@
           <div v-else-if="filteredGames.length===0" style="text-align:center;padding:30px 0;">
             <p style="color:rgba(255,255,255,0.22);font-size:12px;">ဂိမ်းမတွေ့ပါ</p>
           </div>
-          <div v-else style="display:grid;grid-template-columns:repeat(3,1fr);gap:6px;">
+          <div v-else style="display:grid;grid-template-columns:repeat(3,1fr);gap:10px;">
             <div v-for="(game,idx) in filteredGames" :key="game.id"
-              class="nova-game-card" @click="openGame(game)"
-              @touchstart="e=>e.currentTarget.style.transform='scale(0.93)'"
-              @touchend="e=>e.currentTarget.style.transform='scale(1)'">
+              class="nova-game-card" @click="openGame(game)">
               <div style="position:relative;aspect-ratio:3/4;overflow:hidden;background:#2e3375;">
                 <img :src="game.image_url" alt="" @error="e=>e.target.style.display='none'" style="width:100%;height:100%;object-fit:cover;display:block;" loading="lazy"/>
                 <div style="position:absolute;inset:0;background:linear-gradient(to top,rgba(6,8,18,0.95) 0%,rgba(6,8,18,0.3) 40%,transparent 100%);"></div>
@@ -857,9 +855,9 @@
   .nova-hcat-btn--active .nova-hcat-label { color:rgba(255,255,255,0.96); text-shadow:0 0 14px rgba(200,210,255,0.6); }
 
   /* ── GAME CARDS ── */
-  .nova-game-card { border-radius:14px; overflow:hidden; cursor:pointer; background:rgba(255,255,255,0.058); border:1px solid rgba(255,255,255,0.14); box-shadow:0 4px 22px rgba(0,0,0,0.55), 0 1px 0 rgba(255,255,255,0.08) inset, 0 0 0 0.5px rgba(34,197,94,0.08); will-change:transform; transform:translateZ(0); transition:transform 0.15s ease, box-shadow 0.15s ease; -webkit-tap-highlight-color:transparent; contain:layout style; }
-.nova-game-card:active { transform:scale(0.95) translateZ(0); box-shadow:0 2px 10px rgba(0,0,0,0.65); }
-.nova-game-card:hover { transform:translateY(-2px) translateZ(0); box-shadow:0 8px 32px rgba(0,0,0,0.6), 0 0 0 1px rgba(34,197,94,0.18), 0 1px 0 rgba(255,255,255,0.1) inset; }
+  .nova-game-card { border-radius:14px; overflow:hidden; cursor:pointer; background:transparent; border:none; box-shadow:none; will-change:transform; transform:translateZ(0); transition:transform 0.15s ease; -webkit-tap-highlight-color:transparent; contain:layout style; }
+.nova-game-card:active { transform:translateZ(0); }
+.nova-game-card:hover { transform:translateY(-2px) scale(1.02) translateZ(0); }
   .nova-badge { position:absolute; font-size:7px; font-weight:900; border-radius:5px; padding:2px 4px; }
   .nova-badge--hot { top:5px; right:5px; background:linear-gradient(135deg,#ef4444,#dc2626); color:#fff; box-shadow:0 2px 6px rgba(239,68,68,0.4); }
   .nova-badge--provider { top:5px; left:5px; background:rgba(0,0,0,0.72); color:rgba(255,255,255,0.65); }
