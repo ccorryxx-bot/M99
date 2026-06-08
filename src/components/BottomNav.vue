@@ -10,17 +10,39 @@
         <span>{{ isLoggedIn ? 'အိမ်' : 'ပင်မ' }}</span>
       </router-link>
 
-      <!-- PROMOTIONS (always shown at position 2) -->
-      <router-link to="/promotions" class="gnav-item" :class="{active: route.path==='/promotions'}">
-        <svg width="22" height="22" fill="none" viewBox="0 0 38 41" xmlns="http://www.w3.org/2000/svg">
-          <rect x="5" y="18" width="28" height="21" rx="2" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/>
-          <rect x="4" y="13" width="30" height="7" rx="2" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/>
-          <line x1="19" y1="13" x2="19" y2="39" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/>
-          <path d="M 19 13 Q 14 10 15 7 Q 16 4 19 7" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/>
-          <path d="M 19 13 Q 24 10 23 7 Q 22 4 19 7" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/>
-        </svg>
-        <span>ပရိုမိုးရှင်း</span>
-      </router-link>
+      <!-- POSITION 2: Network (logged in) / Promotions SVG (not logged in) -->
+      <template v-if="isLoggedIn">
+        <router-link to="/network" class="gnav-item" :class="{active: route.path==='/network'}">
+          <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 38 41">
+            <defs><filter id="gnav-pf"><feGaussianBlur stdDeviation="0.8" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter></defs>
+            <line x1="19" y1="20" x2="7" y2="10" stroke="#334155" stroke-width="1.2"/>
+            <line x1="19" y1="20" x2="31" y2="10" stroke="#334155" stroke-width="1.2"/>
+            <line x1="19" y1="20" x2="6" y2="32" stroke="#334155" stroke-width="1.2"/>
+            <line x1="19" y1="20" x2="32" y2="32" stroke="#334155" stroke-width="1.2"/>
+            <circle cx="19" cy="20" r="5" fill="#3d4187" stroke="currentColor" stroke-width="1.8" filter="url(#gnav-pf)"/>
+            <circle cx="19" cy="18.5" r="1.6" fill="none" stroke="currentColor" stroke-width="1.2"/>
+            <path d="M 15.5 22.5 Q 16 20.5 19 20 Q 22 20.5 22.5 22.5" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/>
+            <circle cx="7" cy="10" r="3.5" fill="#3d4187" stroke="rgba(147,197,253,0.6)" stroke-width="1.5"/>
+            <circle cx="31" cy="10" r="3.5" fill="#3d4187" stroke="rgba(147,197,253,0.6)" stroke-width="1.5"/>
+            <circle cx="6" cy="32" r="3.5" fill="#3d4187" stroke="rgba(147,197,253,0.6)" stroke-width="1.5"/>
+            <circle cx="32" cy="32" r="3.5" fill="#3d4187" stroke="rgba(147,197,253,0.6)" stroke-width="1.5"/>
+          </svg>
+          <span>အေးဂျင့်ကွန်ရက်</span>
+        </router-link>
+      </template>
+
+      <template v-else>
+        <router-link to="/promotions" class="gnav-item" :class="{active: route.path==='/promotions'}">
+          <svg width="22" height="22" fill="none" viewBox="0 0 38 41" xmlns="http://www.w3.org/2000/svg">
+            <rect x="5" y="18" width="28" height="21" rx="2" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/>
+            <rect x="4" y="13" width="30" height="7" rx="2" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/>
+            <line x1="19" y1="13" x2="19" y2="39" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/>
+            <path d="M 19 13 Q 14 10 15 7 Q 16 4 19 7" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/>
+            <path d="M 19 13 Q 24 10 23 7 Q 22 4 19 7" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/>
+          </svg>
+          <span>ပရိုမိုးရှင်း</span>
+        </router-link>
+      </template>
 
       <!-- CENTER: AGENT (logged in) / REGISTER (not logged in) -->
       <template v-if="isLoggedIn">
@@ -48,24 +70,17 @@
         </router-link>
       </template>
 
-      <!-- PROMOTIONS GIF (not logged in at position 4) / NETWORK (logged in) -->
+      <!-- POSITION 4: Promotions (logged in) / Promotions GIF (not logged in) -->
       <template v-if="isLoggedIn">
-        <router-link to="/network" class="gnav-item" :class="{active: route.path==='/network'}">
-          <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 38 41">
-            <defs><filter id="gnav-pf"><feGaussianBlur stdDeviation="0.8" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter></defs>
-            <line x1="19" y1="20" x2="7" y2="10" stroke="#334155" stroke-width="1.2"/>
-            <line x1="19" y1="20" x2="31" y2="10" stroke="#334155" stroke-width="1.2"/>
-            <line x1="19" y1="20" x2="6" y2="32" stroke="#334155" stroke-width="1.2"/>
-            <line x1="19" y1="20" x2="32" y2="32" stroke="#334155" stroke-width="1.2"/>
-            <circle cx="19" cy="20" r="5" fill="#3d4187" stroke="currentColor" stroke-width="1.8" filter="url(#gnav-pf)"/>
-            <circle cx="19" cy="18.5" r="1.6" fill="none" stroke="currentColor" stroke-width="1.2"/>
-            <path d="M 15.5 22.5 Q 16 20.5 19 20 Q 22 20.5 22.5 22.5" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/>
-            <circle cx="7" cy="10" r="3.5" fill="#3d4187" stroke="rgba(147,197,253,0.6)" stroke-width="1.5"/>
-            <circle cx="31" cy="10" r="3.5" fill="#3d4187" stroke="rgba(147,197,253,0.6)" stroke-width="1.5"/>
-            <circle cx="6" cy="32" r="3.5" fill="#3d4187" stroke="rgba(147,197,253,0.6)" stroke-width="1.5"/>
-            <circle cx="32" cy="32" r="3.5" fill="#3d4187" stroke="rgba(147,197,253,0.6)" stroke-width="1.5"/>
+        <router-link to="/promotions" class="gnav-item" :class="{active: route.path==='/promotions'}">
+          <svg width="22" height="22" fill="none" viewBox="0 0 38 41" xmlns="http://www.w3.org/2000/svg">
+            <rect x="5" y="18" width="28" height="21" rx="2" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/>
+            <rect x="4" y="13" width="30" height="7" rx="2" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/>
+            <line x1="19" y1="13" x2="19" y2="39" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/>
+            <path d="M 19 13 Q 14 10 15 7 Q 16 4 19 7" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/>
+            <path d="M 19 13 Q 24 10 23 7 Q 22 4 19 7" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/>
           </svg>
-          <span>အေးဂျင့်ကွန်ရက်</span>
+          <span>ပရိုမိုးရှင်း</span>
         </router-link>
       </template>
 
@@ -76,7 +91,7 @@
             alt="ပရိုမိုးရှင်း"
             class="promo-gif-icon"
           />
-          <span>လော့ဂ်အင်</span>
+          <span>ပရိုမိုးရှင်း</span>
         </router-link>
       </template>
 
@@ -138,7 +153,7 @@ onMounted(async () => {
 .gnav-item.active svg { filter: drop-shadow(0 0 4px rgba(59,130,246,0.65)); }
 .gnav-item:active { opacity: 0.6; }
 
-/* ── register flat (not logged in center) — same size as other items ── */
+/* ── register flat (not logged in center) ── */
 .gnav-register-flat {
   color: rgba(74,222,128,0.75);
 }
@@ -184,17 +199,6 @@ onMounted(async () => {
   50%      { box-shadow: 0 0 0 2px #1e2220, 0 0 20px rgba(59,130,246,0.65), 0 0 38px rgba(30,58,138,0.35); }
 }
 .agent-lbl { font-size: 8px; font-weight: 700; letter-spacing: 0.04em; line-height: 1; }
-
-/* ── brain animations ── */
-.nb-tdl { animation: tdl-flow 1.8s linear infinite; }
-@keyframes tdl-flow { 0%{stroke-dashoffset:16;opacity:0.55} 50%{opacity:1} 100%{stroke-dashoffset:0;opacity:0.55} }
-.nb-node-1,.nb-node-2,.nb-node-3,.nb-node-4,.nb-node-5 { transform-box:fill-box; transform-origin:center; }
-.nb-node-1{animation:nb-node 2s ease-in-out infinite 0s}
-.nb-node-2{animation:nb-node 2s ease-in-out infinite 0.4s}
-.nb-node-3{animation:nb-node 2s ease-in-out infinite 0.8s}
-.nb-node-4{animation:nb-node 2s ease-in-out infinite 1.2s}
-.nb-node-5{animation:nb-node 2s ease-in-out infinite 1.6s}
-@keyframes nb-node { 0%,100%{opacity:0.55;transform:scale(0.78)} 50%{opacity:1;transform:scale(1.32)} }
 
 /* ── hide on desktop ── */
 @media (min-width: 768px) { .gnav { display: none; } }
