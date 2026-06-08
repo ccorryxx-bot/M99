@@ -20,7 +20,7 @@ const routes = [
   { path: '/network', component: ReferralPage, meta: { requiresAuth: true } },
   { path: '/agent', component: AgentDashboard, meta: { requiresAuth: true } },
   { path: '/service', component: ServicePage, meta: { requiresAuth: true } },
-  { path: '/account', component: AccountPage, meta: { requiresAuth: true } },
+  { path: '/account', component: AccountPage },
   { path: '/device-sessions', component: DeviceSessionsPage, meta: { requiresAuth: true } },
   { path: '/admin', component: AdminDashboard },
   { path: '/login', redirect: '/home?auth=login' },
