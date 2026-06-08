@@ -51,7 +51,7 @@
         </aside>
         <!-- Cards -->
         <main class="promo-cards-area">
-          <div v-for="card in allCards" :key="card.id" class="promo-card">
+          <div v-for="card in allCards" :key="card.id" class="promo-card" :style="card.id===1?{cursor:'pointer'}:{}" @click="card.id===1?$router.push('/exchange-code'):null">
             <img :src="card.img" :alt="card.title" class="promo-card-img" loading="lazy" />
           </div>
         </main>
@@ -916,7 +916,7 @@ const vipLevels = ref([
   transition: transform 0.13s; -webkit-tap-highlight-color: transparent;
   background: rgba(255,255,255,0.04);
 }
-.promo-card:active { transform: scale(0.975); }
+.promo-card:active { /* scale removed */ }
 .promo-card-img { width:100%; display:block; border-radius:14px; object-fit:cover; }
 
 /* ===== EMPTY STATE ===== */
