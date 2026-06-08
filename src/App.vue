@@ -1,18 +1,24 @@
 <template>
   <div class="nova-root">
-    <DesktopSidebar />
+    <DesktopSidebar v-if="!isFullScreen" />
     <div class="nova-content-wrap">
       <div class="nova-page-frame">
         <router-view />
       </div>
-      <BottomNav />
+      <BottomNav v-if="!isFullScreen" />
     </div>
   </div>
 </template>
 
 <script setup>
+import { computed } from 'vue'
+import { useRoute } from 'vue-router'
 import BottomNav from '@/components/BottomNav.vue'
 import DesktopSidebar from '@/components/DesktopSidebar.vue'
+
+const route = useRoute()
+const fullScreenRoutes = ['/exchange-code', '/daily-bonus']
+const isFullScreen = computed(() => fullScreenRoutes.includes(route.path))
 </script>
 
 <style>
@@ -21,7 +27,6 @@ body {
   background: #3d4187;
 }
 
-/* ── Mobile: plain block — no flex, no interference with inner scroll/sticky ── */
 .nova-root {
   min-height: 100vh;
   position: relative;
@@ -33,10 +38,9 @@ body {
 }
 
 .nova-page-frame {
-  /* no flex on mobile — pages manage their own height */
+  /* no flex on mobile */
 }
 
-/* ── Desktop 768px+: introduce sidebar flex layout ── */
 @media (min-width: 768px) {
   .nova-root {
     display: flex;
@@ -57,6 +61,11 @@ body {
     position: relative;
     box-shadow: 0 0 60px rgba(0,0,0,0.8), 0 0 0 1px rgba(255,255,255,0.04);
     background: #3d4187;
+  }
+
+  /* full-screen pages: remove sidebar offset */
+  .nova-root.full-screen-page {
+    margin-left: 0;
   }
 }
 
