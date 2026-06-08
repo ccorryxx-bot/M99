@@ -280,7 +280,7 @@ const allCards = [
 
 /* Footer */
 .ec-footer {
-  padding: 12px 14px 24px;
+  padding: 20px 14px 24px;
   background: rgba(30,35,100,0.4);
   border-top: 1px solid rgba(255,255,255,0.06);
 }
