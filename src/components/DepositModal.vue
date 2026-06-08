@@ -452,29 +452,23 @@ const submitDeposit = () => {
 <style scoped>
 /* ── Overlay ── */
 .nova-overlay {
-  position:fixed;inset:0;z-index:50;
-  display:flex;align-items:flex-end;justify-content:center;
-  background:rgba(0,0,0,0.84);
-  padding-top:48px;
-}
-.nova-overlay--full {
-  padding:0;
-  align-items:stretch;
-  z-index:9999;
+  position:fixed;inset:0;z-index:9999;
+  display:flex;align-items:stretch;justify-content:center;
+  background:rgba(0,0,0,0.88);
 }
 
 /* ── Sheet ── */
 .nova-sheet {
   position:relative;
   width:100%;max-width:480px;
-  height:calc(100dvh - 48px);
-  border-radius:20px 20px 0 0;
+  height:100dvh;
+  border-radius:0;
   overflow:hidden;
   display:flex;flex-direction:column;
   background:linear-gradient(160deg, #16183a 0%, #252870 55%, #16183a 100%);
 }
 .nova-sheet--white { background:#ffffff; }
-.nova-sheet--full  { height:100dvh;border-radius:0;max-width:100%; }
+.nova-sheet--full  { max-width:100%; }
 
 /* ── Step 1 Content ── */
 .nova-content { position:relative;z-index:1;display:flex;flex-direction:column;height:100%; }
