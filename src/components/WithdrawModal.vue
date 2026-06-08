@@ -136,8 +136,30 @@
             </button>
           </div>
 
+          <!-- Linked account card shown at top (same row style) -->
+          <div v-if="linkedAccount" class="wd-method-row wd-method-row--linked">
+            <div class="wd-method-left">
+              <div class="wd-method-logo">
+                <img v-if="methodImg(linkedAccount.key)"
+                  :src="methodImg(linkedAccount.key)"
+                  style="width:36px;height:36px;object-fit:cover;border-radius:7px;" alt=""/>
+                <div v-else :style="{background: methodBg(linkedAccount.key), width:'36px', height:'36px', borderRadius:'7px', display:'flex', alignItems:'center', justifyContent:'center'}">
+                  <span style="color:#fff;font-size:13px;font-weight:900;">{{ methodSymbol(linkedAccount.key) }}</span>
+                </div>
+              </div>
+              <div class="wd-method-info">
+                <div class="wd-method-badge wd-method-badge--ok">ချိတ်ဆက်ပြီး</div>
+                <div class="wd-method-name">{{ linkedAccount.label }}({{ maskPhone(linkedAccount.phone) }})</div>
+              </div>
+            </div>
+            <svg width="14" height="14" fill="none" stroke="rgba(245,200,66,0.6)" stroke-width="2.2" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7"/>
+            </svg>
+          </div>
+
           <!-- KBZ Pay -->
-          <button class="wd-method-row" @click="linkedAccount?.key === 'kpay' ? (linkedAccount = null) : openLinkForm('kpay')">
+          <button class="wd-method-row"
+            @click="linkedAccount?.key !== 'kpay' && openLinkForm('kpay')">
             <div class="wd-method-left">
               <div class="wd-method-logo">
                 <img src="https://ik.imagekit.io/tdpebgueq/Payment%20Method%20/Screenshot_2026-06-04-00-35-27-327_mark.via.gp_1780510112167edit.jpg?tr=f-auto" style="width:36px;height:36px;object-fit:cover;border-radius:7px;" alt="KBZ"/>
@@ -149,13 +171,15 @@
                 <div class="wd-method-name">KBZPay</div>
               </div>
             </div>
-            <div class="wd-method-link">{{ linkedAccount?.key === 'kpay' ? 'ဖျက်ရန်' : 'ချိတ်သက်ရန်' }}
-              <svg width="12" height="12" fill="none" stroke="currentColor" stroke-width="2.2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7"/></svg>
+            <div class="wd-method-link">
+              {{ linkedAccount?.key === 'kpay' ? '' : 'ချိတ်သက်ရန်' }}
+              <svg v-if="linkedAccount?.key !== 'kpay'" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2.2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7"/></svg>
             </div>
           </button>
 
           <!-- Wave Money -->
-          <button class="wd-method-row" @click="linkedAccount?.key === 'wave' ? (linkedAccount = null) : openLinkForm('wave')">
+          <button class="wd-method-row"
+            @click="linkedAccount?.key !== 'wave' && openLinkForm('wave')">
             <div class="wd-method-left">
               <div class="wd-method-logo">
                 <img src="https://ik.imagekit.io/tdpebgueq/Payment%20Method%20/Screenshot_2026-06-04-00-35-34-166_mark.via.gp_1780510124725edit.jpg?tr=f-auto" style="width:36px;height:36px;object-fit:cover;border-radius:7px;" alt="Wave"/>
@@ -167,16 +191,23 @@
                 <div class="wd-method-name">Wave Money</div>
               </div>
             </div>
-            <div class="wd-method-link">{{ linkedAccount?.key === 'wave' ? 'ဖျက်ရန်' : 'ချိတ်သက်ရန်' }}
-              <svg width="12" height="12" fill="none" stroke="currentColor" stroke-width="2.2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7"/></svg>
+            <div class="wd-method-link">
+              {{ linkedAccount?.key === 'wave' ? '' : 'ချိတ်သက်ရန်' }}
+              <svg v-if="linkedAccount?.key !== 'wave'" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2.2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7"/></svg>
             </div>
           </button>
 
-          <!-- USDT -->
-          <button class="wd-method-row" @click="linkedAccount?.key === 'usdt' ? (linkedAccount = null) : openLinkForm('usdt')">
+          <!-- USDT (real image from deposit modal) -->
+          <button class="wd-method-row"
+            @click="linkedAccount?.key !== 'usdt' && openLinkForm('usdt')">
             <div class="wd-method-left">
-              <div class="wd-method-logo" style="background:#1ba27a;display:flex;align-items:center;justify-content:center;border-radius:7px;">
-                <span style="color:#fff;font-size:14px;font-weight:900;line-height:1;">₮</span>
+              <div class="wd-method-logo">
+                <img src="https://ik.imagekit.io/tdpebgueq/Payment%20Method%20/61e20ad43bafe0ca2b7ada87f1792a4c.jpg?tr=f-auto"
+                  style="width:36px;height:36px;object-fit:cover;border-radius:7px;" alt="USDT"
+                  @error="e => { e.target.style.display='none'; e.target.nextSibling.style.display='flex' }"/>
+                <div style="display:none;background:#1ba27a;width:36px;height:36px;border-radius:7px;align-items:center;justify-content:center;">
+                  <span style="color:#fff;font-size:14px;font-weight:900;">₮</span>
+                </div>
               </div>
               <div class="wd-method-info">
                 <div :class="linkedAccount?.key === 'usdt' ? 'wd-method-badge wd-method-badge--ok' : 'wd-method-badge'">
@@ -185,28 +216,38 @@
                 <div class="wd-method-name">USDT (TRC20)</div>
               </div>
             </div>
-            <div class="wd-method-link">{{ linkedAccount?.key === 'usdt' ? 'ဖျက်ရန်' : 'ချိတ်သက်ရန်' }}
-              <svg width="12" height="12" fill="none" stroke="currentColor" stroke-width="2.2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7"/></svg>
+            <div class="wd-method-link">
+              {{ linkedAccount?.key === 'usdt' ? '' : 'ချိတ်သက်ရန်' }}
+              <svg v-if="linkedAccount?.key !== 'usdt'" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2.2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7"/></svg>
             </div>
           </button>
 
-          <!-- UAB -->
-          <button class="wd-method-row" @click="linkedAccount?.key === 'uab' ? (linkedAccount = null) : openLinkForm('uab')">
+          <!-- UAB Pay — coming soon notice -->
+          <button class="wd-method-row wd-method-row--soon" @click="showUabNotice">
             <div class="wd-method-left">
               <div class="wd-method-logo" style="background:#c0392b;display:flex;align-items:center;justify-content:center;border-radius:7px;">
                 <span style="color:#fff;font-size:9px;font-weight:900;letter-spacing:0.5px;line-height:1;">UAB</span>
               </div>
               <div class="wd-method-info">
-                <div :class="linkedAccount?.key === 'uab' ? 'wd-method-badge wd-method-badge--ok' : 'wd-method-badge'">
-                  {{ linkedAccount?.key === 'uab' ? 'ချိတ်ဆက်ပြီး' : 'ငွေထုတ်မပါဝင်နိုင်ပါ' }}
-                </div>
+                <div class="wd-method-badge">ငွေထုတ်မပါဝင်နိုင်ပါ</div>
                 <div class="wd-method-name">UAB Pay</div>
               </div>
             </div>
-            <div class="wd-method-link">{{ linkedAccount?.key === 'uab' ? 'ဖျက်ရန်' : 'ချိတ်သက်ရန်' }}
+            <div class="wd-method-link" style="color:rgba(255,255,255,0.3);">
+              ချိတ်သက်ရန်
               <svg width="12" height="12" fill="none" stroke="currentColor" stroke-width="2.2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7"/></svg>
             </div>
           </button>
+
+          <!-- UAB Notice Toast -->
+          <Transition name="wd-toast">
+            <div v-if="uabNoticeVisible" class="wd-uab-toast">
+              <svg width="14" height="14" fill="none" stroke="#f5c842" stroke-width="2" viewBox="0 0 24 24">
+                <circle cx="12" cy="12" r="10"/><path d="M12 8v4m0 4h.01" stroke-linecap="round"/>
+              </svg>
+              လတ်တလောမရနိုင်သေးပါ
+            </div>
+          </Transition>
         </div>
 
         <!-- ══ TAB 2: ငွေထုတ်မှတ်တမ်း ══ -->
@@ -417,6 +458,10 @@ const balRefreshing  = ref(false)
 const linkRefreshing = ref(false)
 const histRefreshing = ref(false)
 
+// UAB coming-soon toast
+const uabNoticeVisible = ref(false)
+let uabTimer = null
+
 // History tab
 const showStatusDropdown = ref(false)
 const selectedStatus     = ref('ဖော်ပြချက်အားလုံး')
@@ -497,7 +542,8 @@ function maskPhone(phone) {
 function methodImg(key) {
   const imgs = {
     kpay: 'https://ik.imagekit.io/tdpebgueq/Payment%20Method%20/Screenshot_2026-06-04-00-35-27-327_mark.via.gp_1780510112167edit.jpg?tr=f-auto',
-    wave: 'https://ik.imagekit.io/tdpebgueq/Payment%20Method%20/Screenshot_2026-06-04-00-35-34-166_mark.via.gp_1780510124725edit.jpg?tr=f-auto'
+    wave: 'https://ik.imagekit.io/tdpebgueq/Payment%20Method%20/Screenshot_2026-06-04-00-35-34-166_mark.via.gp_1780510124725edit.jpg?tr=f-auto',
+    usdt: 'https://ik.imagekit.io/tdpebgueq/Payment%20Method%20/61e20ad43bafe0ca2b7ada87f1792a4c.jpg?tr=f-auto'
   }
   return imgs[key] || null
 }
@@ -542,6 +588,12 @@ function doBalRefresh()  { spin(balRefreshing);  emit('refresh') }
 function doLinkRefresh() { spin(linkRefreshing) }
 function doHistRefresh() { spin(histRefreshing) }
 function spin(r) { r.value = true; setTimeout(() => r.value = false, 800) }
+
+function showUabNotice() {
+  uabNoticeVisible.value = true
+  clearTimeout(uabTimer)
+  uabTimer = setTimeout(() => { uabNoticeVisible.value = false }, 2500)
+}
 </script>
 
 <style scoped>
@@ -751,6 +803,16 @@ function spin(r) { r.value = true; setTimeout(() => r.value = false, 800) }
   transition: background 0.12s;
 }
 .wd-method-row:active { background: rgba(255,255,255,0.04); }
+/* Linked card at top — same row style with yellow left accent */
+.wd-method-row--linked {
+  background: rgba(245,200,66,0.06);
+  border-left: 3px solid rgba(245,200,66,0.5) !important;
+  border-bottom: 1px solid rgba(245,200,66,0.15) !important;
+  cursor: default;
+}
+.wd-method-row--linked:active { background: rgba(245,200,66,0.06); }
+/* Coming-soon row dimmed */
+.wd-method-row--soon { opacity: 0.65; }
 .wd-method-left { display: flex; align-items: center; gap: 12px; }
 .wd-method-logo { width: 36px; height: 36px; border-radius: 7px; overflow: hidden; flex-shrink: 0; }
 .wd-method-info { display: flex; flex-direction: column; gap: 3px; align-items: flex-start; }
@@ -761,6 +823,21 @@ function spin(r) { r.value = true; setTimeout(() => r.value = false, 800) }
 .wd-method-badge--ok { background: #22c55e; }
 .wd-method-name { font-size: 13px; font-weight: 700; color: rgba(255,255,255,0.9); }
 .wd-method-link { display: flex; align-items: center; gap: 3px; font-size: 11px; font-weight: 700; color: #f5c842; }
+
+/* UAB coming-soon toast */
+.wd-uab-toast {
+  position: fixed; bottom: calc(90px + env(safe-area-inset-bottom, 0px));
+  left: 50%; transform: translateX(-50%);
+  background: #1e1f5c; border: 1px solid rgba(245,200,66,0.45);
+  color: #f5c842; font-size: 12px; font-weight: 700;
+  padding: 10px 18px; border-radius: 20px;
+  display: flex; align-items: center; gap: 7px;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.4);
+  z-index: 9999; white-space: nowrap;
+}
+.wd-toast-enter-active, .wd-toast-leave-active { transition: opacity 0.25s, transform 0.25s; }
+.wd-toast-enter-from { opacity: 0; transform: translateX(-50%) translateY(12px); }
+.wd-toast-leave-to  { opacity: 0; transform: translateX(-50%) translateY(12px); }
 
 /* ── TAB 2 ── */
 .wd-hist-filters {
