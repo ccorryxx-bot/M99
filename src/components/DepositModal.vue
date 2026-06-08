@@ -4,8 +4,6 @@
       <div v-if="visible" class="nova-overlay" :class="step===2&&'nova-overlay--full'" @click.self="close">
         <div class="nova-sheet" :class="[step===2&&'nova-sheet--white', step===2&&'nova-sheet--full']">
 
-
-
           <!-- ══ STEP 1 LAYOUT ══ -->
           <template v-if="step===1">
             <div class="nova-content">
@@ -45,11 +43,17 @@
                     class="nova-pm-btn"
                     :class="method===pm.key?'nova-pm-active':'nova-pm-idle'">
                     <span v-if="pm.popular" class="nova-popular-badge">လူကြိုက်များ</span>
+                    <!-- Active checkmark -->
+                    <span v-if="method===pm.key" class="nova-pm-check">
+                      <svg width="10" height="10" fill="none" stroke="#f59e0b" stroke-width="3" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/>
+                      </svg>
+                    </span>
                     <div class="nova-pm-icon" :style="{background:pm.iconBg}">
                       <img v-if="pm.img" :src="pm.img" style="width:22px;height:22px;object-fit:contain;"/>
                       <span v-else style="font-size:13px;font-weight:900;" :style="{color:pm.iconColor}">{{pm.iconText}}</span>
                     </div>
-                    <span class="nova-pm-label" :style="method===pm.key?{color:'#e2e8f0'}:{color:'rgba(148,163,184,0.85)'}">
+                    <span class="nova-pm-label" :style="method===pm.key?{color:'#fef9c3'}:{color:'rgba(148,163,184,0.85)'}">
                       {{pm.label}}
                     </span>
                   </button>
@@ -123,127 +127,125 @@
             </div>
           </template>
 
-          <!-- ══ STEP 2 — WHITE PAGE ══ -->
+          <!-- ══ STEP 2 — FULL WHITE PAGE ══ -->
           <template v-else-if="step===2">
             <div class="s2-page">
 
-              <!-- Top bar: step dots + language -->
+              <!-- Top bar -->
               <div class="s2-topbar">
                 <div class="s2-steps">
                   <div class="s2-dot s2-dot--done">1</div>
                   <div class="s2-dot-line"></div>
                   <div class="s2-dot s2-dot--active">2</div>
                 </div>
-                <div class="s2-lang-pill">မြန်မာ</div>
+                <div class="s2-timer-badge">
+                  <svg width="12" height="12" fill="none" stroke="currentColor" viewBox="0 0 24 24" style="flex-shrink:0;">
+                    <circle cx="12" cy="12" r="10" stroke-width="2"/>
+                    <path stroke-linecap="round" stroke-width="2" d="M12 6v6l4 2"/>
+                  </svg>
+                  <span class="s2-timer-text">{{ step2Timer }}</span>
+                </div>
               </div>
 
               <!-- Scrollable body -->
               <div class="s2-body">
                 <div class="s2-body-inner">
 
-                <!-- Method badge + countdown -->
-                <div class="s2-method-row">
-                  <div class="s2-method-badge">{{ selectedMethod?.label?.toUpperCase() }}</div>
-                  <div class="s2-timer-badge">
-                    <svg width="13" height="13" fill="none" stroke="currentColor" viewBox="0 0 24 24" style="flex-shrink:0;">
-                      <circle cx="12" cy="12" r="10" stroke-width="2"/>
-                      <path stroke-linecap="round" stroke-width="2" d="M12 6v6l4 2"/>
-                    </svg>
-                    <span class="s2-timer-text">{{ step2Timer }}</span>
+                  <!-- Method label -->
+                  <div class="s2-method-row">
+                    <span class="s2-method-badge">{{ selectedMethod?.label?.toUpperCase() }}</span>
+                    <span class="s2-via-hint">မှ လွှဲပါ</span>
+                    <img v-if="selectedMethod?.img" :src="selectedMethod.img" style="width:20px;height:20px;object-fit:contain;border-radius:4px;"/>
                   </div>
-                </div>
 
-                <!-- Account name (correct: name first) -->
-                <div class="s2-field-label">အကောင့် နာမည်</div>
-                <div class="s2-account-row s2-account-row--name">
-                  <span class="s2-account-name">{{ recipientName }}</span>
-                  <button @click="copyText(recipientName)" class="s2-copy-btn">
-                    <svg width="11" height="11" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                        d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"/>
-                    </svg>
-                    ကော်ပီ
-                  </button>
-                </div>
-
-                <!-- Account number -->
-                <div class="s2-field-label">အကောင့်နံပါတ်</div>
-                <div class="s2-account-row s2-account-row--num">
-                  <span class="s2-account-num">{{ recipientAccount }}</span>
-                  <button @click="copyText(recipientAccount)" class="s2-copy-btn">
-                    <svg width="11" height="11" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                        d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"/>
-                    </svg>
-                    ကော်ပီ
-                  </button>
-                </div>
-
-                <!-- Copy toast -->
-                <Transition name="toast">
-                  <div v-if="copied" class="s2-toast">✅ ကူးယူပြီးပါပြီ</div>
-                </Transition>
-
-                <!-- Amount row (compact) -->
-                <div class="s2-amount-row">
-                  <div class="s2-amount-big">Ks. {{ Number(amount).toLocaleString() }}.00</div>
-                  <button @click="copyText(String(amount))" class="s2-copy-btn s2-copy-btn--amt">
-                    <svg width="11" height="11" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                        d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"/>
-                    </svg>
-                    ကော်ပီ
-                  </button>
-                  <span class="s2-exact-hint">ပမာဏအတိုင်းလွှဲပါ</span>
-                </div>
-
-                <!-- Method chip (compact inline) -->
-                <div class="s2-apps-section">
-                  <div class="s2-app-chip">
-                    <img v-if="selectedMethod?.img" :src="selectedMethod.img" style="width:18px;height:18px;object-fit:contain;border-radius:3px;"/>
-                    <span v-else class="s2-app-text-icon" :style="{background:selectedMethod?.iconBg,color:selectedMethod?.iconColor}">{{ selectedMethod?.iconText }}</span>
-                    <span class="s2-app-name">{{ selectedMethod?.label }}</span>
-                    <span class="s2-apps-via">မှ လွှဲပါ</span>
+                  <!-- Account name -->
+                  <div class="s2-field">
+                    <div class="s2-field-label">အကောင့် နာမည်</div>
+                    <div class="s2-field-row">
+                      <span class="s2-field-val s2-field-val--name">{{ recipientName }}</span>
+                      <button @click="copyText(recipientName)" class="s2-copy-btn">
+                        <svg width="11" height="11" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"/>
+                        </svg>
+                        ကော်ပီ
+                      </button>
+                    </div>
                   </div>
-                </div>
 
-                <!-- ပြေစာ နံပါတ် input -->
-                <div class="s2-ref-section">
-                  <label class="s2-ref-label">ပြေစာ နံပါတ် (နောက်ဆုံး ၅ လုံး)</label>
-                  <div class="s2-ref-boxes">
-                    <input
-                      v-for="(_, i) in 5"
-                      :key="i"
-                      :ref="el => refInputs[i] = el"
-                      class="s2-ref-box"
-                      type="text"
-                      inputmode="numeric"
-                      maxlength="1"
-                      :value="refDigits[i]"
-                      @input="onRefInput(i, $event)"
-                      @keydown="onRefKeydown(i, $event)"
-                      @paste="onRefPaste($event)"
-                    />
+                  <!-- Account number -->
+                  <div class="s2-field">
+                    <div class="s2-field-label">အကောင့်နံပါတ်</div>
+                    <div class="s2-field-row">
+                      <span class="s2-field-val s2-field-val--num">{{ recipientAccount }}</span>
+                      <button @click="copyText(recipientAccount)" class="s2-copy-btn">
+                        <svg width="11" height="11" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"/>
+                        </svg>
+                        ကော်ပီ
+                      </button>
+                    </div>
                   </div>
+
+                  <!-- Copy toast -->
+                  <Transition name="toast">
+                    <div v-if="copied" class="s2-toast">✅ ကူးယူပြီးပါပြီ</div>
+                  </Transition>
+
+                  <!-- Amount -->
+                  <div class="s2-field">
+                    <div class="s2-field-label">သွင်းမည့်ပမာဏ</div>
+                    <div class="s2-field-row">
+                      <span class="s2-field-val s2-field-val--amt">Ks {{ Number(amount).toLocaleString() }}</span>
+                      <button @click="copyText(String(amount))" class="s2-copy-btn s2-copy-btn--amt">
+                        <svg width="11" height="11" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"/>
+                        </svg>
+                        ကော်ပီ
+                      </button>
+                      <span class="s2-exact-hint">ပမာဏအတိုင်း</span>
+                    </div>
+                  </div>
+
+                  <!-- ပြေစာ နံပါတ် -->
+                  <div class="s2-ref-section">
+                    <label class="s2-ref-label">ပြေစာ နံပါတ် (နောက်ဆုံး ၅ လုံး)</label>
+                    <div class="s2-ref-boxes">
+                      <input
+                        v-for="(_, i) in 5"
+                        :key="i"
+                        :ref="el => refInputs[i] = el"
+                        class="s2-ref-box"
+                        type="text"
+                        inputmode="numeric"
+                        maxlength="1"
+                        :value="refDigits[i]"
+                        @input="onRefInput(i, $event)"
+                        @keydown="onRefKeydown(i, $event)"
+                        @paste="onRefPaste($event)"
+                      />
+                    </div>
+                  </div>
+
+                  <!-- Spacer -->
+                  <div class="s2-spacer"></div>
+
+                  <!-- Tips -->
+                  <div class="s2-tips-section">
+                    <p class="s2-tips-title">အကြံပြုချက်များ</p>
+                    <ol class="s2-tips-list">
+                      <li>ငွေပေးချေမှုအတွက် သတ်မှတ်ချိန်အတွင်း ငွေအော်ဒါတင်ပါ။ သတ်မှတ်ချိန် ကျော်လွန်သွားပါက ငွေအော်ဒါတင်ထားခြင်း ပျက်ပြယ်သွားမည်။</li>
+                      <li>ငွေလွှဲရန်အတွက် ဖုန်းနံပါတ်ကိုကော်ပီယူပါ။ ဂိမ်းထဲမှ ငွေလက်ခံဖုန်းနံပါတ်သည် အမြဲပြောင်းလဲနေသည်။</li>
+                      <li>ငွေအော်ဒါတင်ထားသော ပမာဏနှင့် ငွေသွင်းပမာဏသည် တူညီရမည်။</li>
+                    </ol>
+                  </div>
+
                 </div>
+              </div>
 
-                <!-- Spacer — pushes tips to bottom when content is short -->
-                <div class="s2-spacer"></div>
-
-                <!-- Tips -->
-                <div class="s2-tips-card">
-                  <p class="s2-tips-title">အကြံပြုချက်များ</p>
-                  <ol class="s2-tips-list">
-                    <li>ငွေပေးချေမှုအတွက် သတ်မှတ်ချိန်အတွင်း ငွေအော်ဒါတင်ပါ။ သတ်မှတ်ချိန် ကျော်လွန်သွားပါက ငွေအော်ဒါတင်ထားခြင်း ပျက်ပြယ်သွားမည်။ နောက်တစ်ကြိမ် ငွေထပ်လွှဲရန်မလိုပါ။ ငွေသွင်းပမာဏနှင့် ငွေလွှဲဖုန်းနံပါတ်ကိုမှန်ကန်စွာ ရွေးချယ်ထည့်သွင်းပါ။ ငွေသွင်းနည်းမှန်ကန်မှုမရှိပါက ငွေဝင်မည်မဟုတ်ပါ။</li>
-                    <li>ငွေလွှဲရန်အတွက် ဖုန်းနံပါတ်ကိုကော်ပီယူပါ။ ငွေအော်ဒါမှန်ကန်စွာတင်ပြီး ငွေလွှဲပါက ဂိမ်းထဲသို့ ငွေအော်တိုဝင်မည်။ ဂိမ်းထဲမှ ငွေလက်ခံဖုန်းနံပါတ်သည် အမြဲပြောင်းလဲနေသည့်အတွက် ဖုန်းနံပါတ်တစ်ခုတည်းကို အတည်မသတ်မှတ်ပါနှင့်။</li>
-                    <li>ငွေအော်ဒါတင်ထားသော ပမာဏနှင့် ငွေသွင်းပမာဏသည် တူညီရမည်။ တူညီမှုမရှိပါက ငွေအော်ဒါပျက်ပြယ်ပြီး အမှတ်ရရှိရန် ကြန့်ကြာနိုင်သည်။ သင့်သွင်းငွေအတွက် ငွေအော်ဒါမှန်ကန်စွာတင်ပြီးပါက မိနစ် ၃၀ အတွင်း အချိန်မီ ငွေသွင်းရမည်ဖြစ်သည်။</li>
-                  </ol>
-                </div>
-
-                </div><!-- /s2-body-inner -->
-              </div><!-- /s2-body -->
-
-              <!-- Back + Confirm -->
+              <!-- Footer -->
               <div class="s2-footer">
                 <button @click="step=1" class="s2-back-btn">
                   <svg width="14" height="14" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -280,7 +282,7 @@ const bonusOption   = ref('none')
 const walletBalance = ref(0)
 const refreshing    = ref(false)
 const focusMode     = ref(false)
-const amtInput      = ref(null)  // uncontrolled input ref
+const amtInput      = ref(null)
 
 let _savedScrollY = 0
 function lockScroll() {
@@ -298,7 +300,6 @@ function unlockScroll() {
   window.scrollTo(0, _savedScrollY)
 }
 
-// ── Bonus countdown (step 1) ───────────────────────────────────────
 const countdown = ref('00:00:00')
 let timerInterval = null
 function startTimer() {
@@ -312,7 +313,6 @@ function startTimer() {
   }, 1000)
 }
 
-// ── Step 2 countdown (3 min) ──────────────────────────────────────
 const step2Secs = ref(180)
 let step2Interval = null
 const step2Timer = computed(() => {
@@ -332,7 +332,6 @@ function stopStep2Timer() {
   step2Interval = null
 }
 
-// ── Hardware back button support ──────────────────────────────────
 function handlePopState() {
   if (!visible.value) return
   if (step.value === 2) {
@@ -350,7 +349,6 @@ watch(visible, (val) => {
 onMounted(() => { startTimer(); window.addEventListener('popstate', handlePopState) })
 onUnmounted(() => { clearInterval(timerInterval); stopStep2Timer(); unlockScroll(); window.removeEventListener('popstate', handlePopState) })
 
-// ── Balance ───────────────────────────────────────────────────────
 async function fetchBalance() {
   const { data: { user } } = await supabase.auth.getUser()
   if (!user) return
@@ -363,7 +361,6 @@ async function refreshBalance() {
   setTimeout(() => { refreshing.value = false }, 600)
 }
 
-// ── Payment ───────────────────────────────────────────────────────
 const amountPresets = [3000,5000,10000,30000,50000,100000,500000,1000000]
 const paymentMethods = [
   { key:'kpay',   label:'KBZ Pay', popular:true,  img:'https://ik.imagekit.io/tdpebgueq/Payment%20Method%20/Screenshot_2026-06-04-00-35-27-327_mark.via.gp_1780510112167edit.jpg?tr=f-auto', iconBg:'rgba(37,99,235,0.3)' },
@@ -402,7 +399,6 @@ watch(() => props.modelValue, (val) => {
   }
 })
 
-// ── Amount ────────────────────────────────────────────────────────
 const displayAmount = computed(() => {
   if (!amount.value) return ''
   return focusMode.value ? String(amount.value) : amount.value.toLocaleString()
@@ -417,7 +413,6 @@ function onAmountFocus(e)  {
 function onAmountBlur()   { focusMode.value = false; if (amtInput.value) amtInput.value.value = amount.value ? amount.value.toLocaleString() : '' }
 function formatAmt(n)     { return n.toLocaleString() }
 
-// ── ပြေစာ (5-digit ref) ───────────────────────────────────────────
 const refDigits  = ref(['','','','',''])
 const refInputs  = ref([])
 function onRefInput(i, e) {
@@ -442,7 +437,6 @@ function onRefPaste(e) {
 }
 const transactionRef = computed(() => refDigits.value.join(''))
 
-// ── Actions ───────────────────────────────────────────────────────
 const close    = () => emit('update:modelValue', false)
 const nextStep = () => { if (!method.value || amount.value < 3000) return; step.value = 2 }
 const copyText = async (text) => {
@@ -461,11 +455,10 @@ const submitDeposit = () => {
   position:fixed;inset:0;z-index:50;
   display:flex;align-items:flex-end;justify-content:center;
   background:rgba(0,0,0,0.84);
-  padding-bottom:80px;
-  padding-top:64px;
+  padding-top:48px;
 }
 .nova-overlay--full {
-  padding-bottom:0;
+  padding:0;
   align-items:stretch;
   z-index:9999;
 }
@@ -474,84 +467,110 @@ const submitDeposit = () => {
 .nova-sheet {
   position:relative;
   width:100%;max-width:480px;
-  height:calc(100lvh - 144px);
+  height:calc(100dvh - 48px);
   border-radius:20px 20px 0 0;
   overflow:hidden;
   display:flex;flex-direction:column;
   background:linear-gradient(160deg, #16183a 0%, #252870 55%, #16183a 100%);
 }
-.nova-sheet--white { background:#f5f6fa; }
+.nova-sheet--white { background:#ffffff; }
 .nova-sheet--full  { height:100dvh;border-radius:0;max-width:100%; }
-
-/* ── BG ── */
-/* bg handled by .nova-sheet */
 
 /* ── Step 1 Content ── */
 .nova-content { position:relative;z-index:1;display:flex;flex-direction:column;height:100%; }
-.nova-header-wrap { flex-shrink:0;padding:18px 16px 0; }
+.nova-header-wrap { flex-shrink:0;padding:16px 16px 0; }
 .nova-header-row  { display:flex;align-items:center;justify-content:space-between;margin-bottom:10px; }
 .nova-title       { font-size:13px;font-weight:700;color:#22c55e;letter-spacing:0.04em; }
-.nova-balance-bar { display:flex;align-items:center;justify-content:space-between;margin-bottom:8px;padding:6px 10px;border-radius:9px;background:rgba(255,255,255,0.07);border:1px solid rgba(255,255,255,0.1);box-shadow:none; }
+.nova-balance-bar { display:flex;align-items:center;justify-content:space-between;margin-bottom:8px;padding:6px 10px;border-radius:9px;background:rgba(255,255,255,0.07); }
 .nova-balance-label { font-size:10px;color:rgba(255,255,255,0.8); }
 .nova-balance-num   { font-size:12px;font-weight:700;color:rgba(253,224,71,0.9); }
 .nova-divider       { height:1px;background:rgba(255,255,255,0.07);margin-bottom:8px; }
 .nova-body { flex:1;overflow-y:auto;padding:0 16px;overscroll-behavior:contain;-webkit-overflow-scrolling:touch; }
 .nova-body::-webkit-scrollbar { width:2px; }
 .nova-body::-webkit-scrollbar-thumb { background:rgba(100,116,139,0.22);border-radius:10px; }
-.nova-cta-wrap { flex-shrink:0;padding:2px 16px 12px; }
+.nova-cta-wrap { flex-shrink:0;padding:8px 16px calc(16px + env(safe-area-inset-bottom, 0px)); }
 .nova-label { font-size:11px;color:#fff;margin:0 0 5px 0;font-weight:700; }
+
+/* Payment method grid */
 .nova-pm-grid { display:grid;grid-template-columns:1fr 1fr;gap:7px;margin-bottom:8px; }
-.nova-pm-btn { position:relative;display:flex;align-items:center;gap:8px;padding:8px 10px;border-radius:12px;cursor:pointer;border:1px solid rgba(255,255,255,0.08);outline:none;transition:border-color 0.15s,background 0.15s;text-align:left;user-select:none;-webkit-tap-highlight-color:transparent; }
-.nova-pm-idle   { background:#2e3375;border-color:rgba(255,255,255,0.15); }
-.nova-pm-active { background:#2e3375;border-color:rgba(255,255,255,0.15); }
-.nova-pm-btn:active { opacity:0.72; }
+.nova-pm-btn {
+  position:relative;display:flex;align-items:center;gap:8px;
+  padding:8px 10px;border-radius:12px;cursor:pointer;
+  outline:none;transition:border-color 0.15s,background 0.15s,box-shadow 0.15s;
+  text-align:left;user-select:none;-webkit-tap-highlight-color:transparent;
+}
+.nova-pm-idle   { background:#2e3375;border:1.5px solid rgba(255,255,255,0.1); }
+.nova-pm-active {
+  background:#2e3375;
+  border:2px solid #f59e0b;
+  box-shadow:0 0 0 1px rgba(245,158,11,0.25), inset 0 0 12px rgba(245,158,11,0.06);
+}
+.nova-pm-btn:active { opacity:0.78; }
+.nova-pm-check {
+  position:absolute;top:5px;right:6px;
+  width:16px;height:16px;border-radius:50%;
+  background:#f59e0b;
+  display:flex;align-items:center;justify-content:center;
+}
 .nova-pm-icon  { width:28px;height:28px;border-radius:8px;flex-shrink:0;display:flex;align-items:center;justify-content:center;overflow:hidden; }
 .nova-pm-label { font-size:12px;font-weight:600;padding-left:8px;border-left:1.5px solid rgba(255,255,255,0.18);line-height:1; }
-.nova-pm-active .nova-pm-label { border-left-color:rgba(34,197,94,0.55); }
-.nova-popular-badge { position:absolute;top:-7px;left:50%;transform:translateX(-50%);font-size:8px;font-weight:900;padding:2px 8px;border-radius:99px;background:linear-gradient(90deg,#f97316,#ef4444);color:#fff;white-space:nowrap;box-shadow:0 1px 6px rgba(249,115,22,0.5); }
+.nova-pm-active .nova-pm-label { border-left-color:rgba(245,158,11,0.5); }
+.nova-popular-badge { position:absolute;top:-7px;left:50%;transform:translateX(-50%);font-size:8px;font-weight:900;padding:2px 8px;border-radius:99px;background:linear-gradient(90deg,#f97316,#ef4444);color:#fff;white-space:nowrap; }
+
+/* Amount grid */
 .nova-amt-grid { display:grid;grid-template-columns:repeat(4,1fr);gap:5px;margin-bottom:6px; }
-.nova-amt-btn { padding:7px 2px;border-radius:10px;border:1px solid rgba(234,179,8,0.2);outline:none;font-size:11px;font-weight:700;cursor:pointer;transition:background 0.12s,border-color 0.12s,color 0.12s;text-align:center;user-select:none;-webkit-tap-highlight-color:transparent; }
-.nova-amt-idle  { background:#2e3375;color:#fff; }
-.nova-amt-active { background:#2e3375;color:#fff;border-color:rgba(255,255,255,0.15); }
+.nova-amt-btn {
+  padding:7px 2px;border-radius:10px;outline:none;
+  font-size:11px;font-weight:700;cursor:pointer;
+  transition:background 0.12s,border-color 0.12s,color 0.12s;
+  text-align:center;user-select:none;-webkit-tap-highlight-color:transparent;
+}
+.nova-amt-idle   { background:#2e3375;color:rgba(255,255,255,0.7);border:1.5px solid rgba(255,255,255,0.1); }
+.nova-amt-active {
+  background:rgba(245,158,11,0.15);
+  color:#fef9c3;
+  border:2px solid #f59e0b;
+  box-shadow:0 0 0 1px rgba(245,158,11,0.15);
+}
 .nova-amt-btn:active { opacity:0.68; }
+
 .nova-input-wrap { position:relative;margin-bottom:8px; }
 .nova-k-prefix { position:absolute;left:12px;top:50%;transform:translateY(-50%);font-size:11px;font-weight:700;color:rgba(156,163,175,0.6);z-index:1; }
-.nova-input { width:100%;padding:10px 12px 10px 26px;border-radius:11px;border:1px solid rgba(234,179,8,0.3);outline:none;font-size:12px;font-weight:600;box-sizing:border-box;background:#2e3375;box-shadow:none;color:#fff;caret-color:#ffffff;transition:border-color 0.15s; }
-.nova-input:focus { border-color:rgba(234,179,8,0.6);box-shadow:inset 0 1px 0 rgba(255,255,255,0.09),0 0 0 1.5px rgba(234,179,8,0.15); }
+.nova-input { width:100%;padding:10px 12px 10px 26px;border-radius:11px;border:1.5px solid rgba(245,158,11,0.3);outline:none;font-size:12px;font-weight:600;box-sizing:border-box;background:#2e3375;color:#fff;caret-color:#ffffff;transition:border-color 0.15s; }
+.nova-input:focus { border-color:rgba(245,158,11,0.7); }
 .nova-input::placeholder { color:rgba(107,114,128,0.45); }
-.nova-bonus-card { border-radius:13px;overflow:hidden;margin-bottom:4px;background:#2e3375;box-shadow:none; }
+
+.nova-bonus-card { border-radius:13px;overflow:hidden;margin-bottom:8px;background:#2e3375; }
 .nova-bonus-header { display:flex;align-items:center;justify-content:space-between;padding:8px 12px;border-bottom:1px solid rgba(255,255,255,0.05); }
 .nova-bonus-title    { font-size:11px;font-weight:700;color:rgba(253,224,71,0.85); }
 .nova-countdown-badge { display:flex;align-items:center;gap:3px;padding:2px 7px;border-radius:99px;background:rgba(239,68,68,0.18); }
 .nova-countdown      { font-size:9px;font-weight:700;color:#fca5a5;font-variant-numeric:tabular-nums; }
-.nova-radio-row  { display:flex;align-items:center;justify-content:space-between;padding:6px 12px;cursor:pointer;user-select:none;transition:background 0.15s; }
-.nova-radio-row:hover { background:rgba(255,255,255,0.03); }
-.nova-radio-text  { font-size:11px;font-weight:500;color:rgba(255,255,255,0.9);white-space:nowrap;overflow:hidden;text-overflow:ellipsis; }
+.nova-radio-row  { display:flex;align-items:center;justify-content:space-between;padding:6px 12px;cursor:pointer;user-select:none; }
+.nova-radio-text  { font-size:11px;font-weight:500;color:rgba(255,255,255,0.9); }
 .nova-radio-title { font-size:11px;font-weight:700;color:rgba(203,213,225,0.9);white-space:nowrap;flex-shrink:0; }
 .nova-radio-sub   { font-size:10px;color:rgba(255,255,255,0.65);white-space:nowrap;overflow:hidden;text-overflow:ellipsis; }
 .nova-radio-divline { font-size:10px;color:rgba(100,116,139,0.45);flex-shrink:0; }
 .nova-row-divider { height:1px;background:rgba(255,255,255,0.04);margin:0 12px; }
 .nova-radio { width:16px;height:16px;border-radius:50%;flex-shrink:0;border:1.5px solid rgba(100,116,139,0.5);background:transparent;transition:border-color 0.15s,background 0.15s; }
 .nova-radio-on { border-color:#22c55e;background:radial-gradient(circle,#22c55e 0%,#22c55e 40%,transparent 60%);box-shadow:0 0 6px rgba(34,197,94,0.5); }
-.nova-cta { width:100%;padding:11px;border-radius:99px;border:1px solid rgba(34,197,94,0.35);outline:none;font-size:13px;font-weight:700;letter-spacing:0.04em;cursor:pointer;background:#2e3375;color:#fff;transition:opacity 0.15s;-webkit-tap-highlight-color:transparent; }
+.nova-cta { width:100%;padding:13px;border-radius:99px;border:none;outline:none;font-size:13px;font-weight:700;letter-spacing:0.04em;cursor:pointer;background:linear-gradient(135deg,#16a34a,#15803d);color:#fff;transition:opacity 0.15s;-webkit-tap-highlight-color:transparent; }
 .nova-cta:disabled { opacity:0.3;cursor:not-allowed; }
-.nova-icon-btn { width:26px;height:26px;border-radius:8px;border:none;outline:none;cursor:pointer;background:rgba(255,255,255,0.07);box-shadow:inset 0 1px 0 rgba(255,255,255,0.1);color:rgba(156,163,175,0.8);display:flex;align-items:center;justify-content:center;transition:background 0.15s; }
-.nova-refresh-btn { width:22px;height:22px;border-radius:6px;border:none;outline:none;cursor:pointer;background:rgba(255,255,255,0.07);display:flex;align-items:center;justify-content:center;color:rgba(156,163,175,0.8);transition:opacity 0.15s; }
+.nova-icon-btn { width:26px;height:26px;border-radius:8px;border:none;outline:none;cursor:pointer;background:rgba(255,255,255,0.07);color:rgba(156,163,175,0.8);display:flex;align-items:center;justify-content:center; }
+.nova-refresh-btn { width:22px;height:22px;border-radius:6px;border:none;outline:none;cursor:pointer;background:rgba(255,255,255,0.07);display:flex;align-items:center;justify-content:center;color:rgba(156,163,175,0.8); }
 .nova-spin svg { animation:spin 0.6s linear infinite; }
 @keyframes spin { to { transform:rotate(360deg); } }
 
-/* ══ STEP 2 WHITE PAGE ══ */
+/* ══ STEP 2 — CLEAN WHITE ══ */
 .s2-page {
   display:flex;flex-direction:column;height:100%;
-  background:#f5f6fa;border-radius:20px 20px 0 0;
+  background:#ffffff;
 }
 
 /* Top bar */
 .s2-topbar {
   flex-shrink:0;display:flex;align-items:center;justify-content:space-between;
-  padding:12px 14px 10px;
-  background:#fff;
-  border-bottom:1px solid #eaecf0;
+  padding:14px 16px 12px;
+  border-bottom:1px solid #f0f0f0;
 }
 .s2-steps { display:flex;align-items:center;gap:0; }
 .s2-dot {
@@ -559,196 +578,135 @@ const submitDeposit = () => {
   display:flex;align-items:center;justify-content:center;
   font-size:11px;font-weight:700;
 }
-.s2-dot--done   { background:#22c55e;color:#fff; }
-.s2-dot--active { background:#1e293b;color:#fff; }
-.s2-dot-line { width:22px;height:1.5px;background:#22c55e; }
-.s2-lang-pill {
-  font-size:11px;font-weight:600;color:#374151;
-  padding:3px 9px;border-radius:99px;
-  border:1px solid #d1d5db;background:#fff;
+.s2-dot--done   { background:#16a34a;color:#fff; }
+.s2-dot--active { background:#111827;color:#fff; }
+.s2-dot-line { width:22px;height:1.5px;background:#16a34a; }
+.s2-timer-badge {
+  display:flex;align-items:center;gap:4px;
+  color:#dc2626;
 }
+.s2-timer-text { font-size:12px;font-weight:700;font-variant-numeric:tabular-nums;color:#dc2626; }
+
+/* Method row */
+.s2-method-row {
+  display:flex;align-items:center;gap:6px;
+  padding:12px 0 4px;
+}
+.s2-method-badge {
+  font-size:12px;font-weight:800;color:#111827;letter-spacing:0.03em;
+}
+.s2-via-hint { font-size:11px;color:#9ca3af; }
 
 /* Scrollable body */
 .s2-body {
-  flex:1;overflow-y:auto;padding:12px 14px 0;
+  flex:1;overflow-y:auto;padding:0 18px;
   -webkit-overflow-scrolling:touch;
   overscroll-behavior:contain;
 }
-.s2-body::-webkit-scrollbar { width:2px; }
-.s2-body::-webkit-scrollbar-thumb { background:#d1d5db;border-radius:10px; }
-
-/* Inner flex wrapper — tips pushed to bottom */
+.s2-body::-webkit-scrollbar { width:0; }
 .s2-body-inner {
-  display:flex;flex-direction:column;min-height:100%;padding-bottom:10px;
+  display:flex;flex-direction:column;min-height:100%;padding-bottom:12px;
 }
-.s2-spacer { flex:1;min-height:10px; }
+.s2-spacer { flex:1;min-height:12px; }
 
-/* Method + timer row */
-.s2-method-row {
-  display:flex;align-items:center;justify-content:space-between;
-  margin-bottom:10px;
+/* Field rows — plain underline style */
+.s2-field {
+  margin-bottom:14px;
 }
-.s2-method-badge {
-  padding:4px 10px;border-radius:7px;
-  background:#1e293b;color:#fff;
-  font-size:11px;font-weight:800;letter-spacing:0.04em;
-}
-.s2-timer-badge {
-  display:flex;align-items:center;gap:4px;
-  padding:4px 10px;border-radius:7px;
-  background:#fef2f2;border:1px solid #fecaca;
-  color:#dc2626;
-}
-.s2-timer-text { font-size:11px;font-weight:700;font-variant-numeric:tabular-nums; }
-
-/* Account rows */
 .s2-field-label {
-  font-size:10px;font-weight:600;color:#6b7280;
-  margin:0 0 3px 0;
+  font-size:10px;font-weight:600;color:#9ca3af;
+  margin:0 0 4px 0;letter-spacing:0.04em;text-transform:uppercase;
 }
-.s2-account-row {
+.s2-field-row {
   display:flex;align-items:center;justify-content:space-between;
-  padding:9px 12px;border-radius:10px;
-  border:1.5px solid #e5e7eb;
-  margin-bottom:9px;
+  padding-bottom:8px;
+  border-bottom:1px solid #e5e7eb;
 }
-.s2-account-row--name {
-  background:rgba(37,99,235,0.04);
-  border-color:rgba(37,99,235,0.18);
-}
-.s2-account-row--num {
-  background:rgba(22,163,74,0.04);
-  border-color:rgba(22,163,74,0.2);
-}
-.s2-account-num {
-  font-family:monospace;font-size:14px;font-weight:800;
-  color:#dc2626;letter-spacing:0.04em;
-}
-.s2-account-name {
-  font-size:13px;font-weight:700;color:#111827;
-  letter-spacing:0.06em;
-}
+.s2-field-val { font-size:14px;font-weight:700;color:#111827; }
+.s2-field-val--name { color:#111827;letter-spacing:0.04em; }
+.s2-field-val--num  { font-family:monospace;font-size:15px;color:#dc2626;letter-spacing:0.06em; }
+.s2-field-val--amt  { font-size:18px;font-weight:900;color:#111827; }
+
 .s2-copy-btn {
   display:flex;align-items:center;gap:3px;
-  padding:4px 10px;border-radius:6px;border:none;outline:none;cursor:pointer;
+  padding:4px 10px;border-radius:5px;border:none;outline:none;cursor:pointer;
   background:#2563eb;color:#fff;
   font-size:10px;font-weight:700;
-  transition:opacity 0.12s;
   flex-shrink:0;
+  transition:opacity 0.12s;
 }
-.s2-copy-btn:active { transform:scale(0.95);background:#1d4ed8; }
+.s2-copy-btn:active { opacity:0.75; }
+.s2-copy-btn--amt { background:#d97706; }
+.s2-exact-hint { font-size:10px;color:#9ca3af;font-weight:500; }
 
-/* Toast */
+/* Copy toast */
 .s2-toast {
-  text-align:center;margin:0 0 6px 0;
+  text-align:center;margin:0 0 8px 0;
   font-size:10px;font-weight:600;color:#16a34a;
-  padding:2px 0;
 }
 
-/* Amount row (compact inline) */
-.s2-amount-row {
-  display:flex;align-items:center;gap:8px;justify-content:center;
-  padding:8px 12px;border-radius:10px;margin-bottom:7px;
-  background:rgba(251,191,36,0.07);
-  border:1.5px solid rgba(251,191,36,0.35);
-}
-.s2-amount-big {
-  font-size:20px;font-weight:900;color:#111827;
-  letter-spacing:-0.01em;white-space:nowrap;
-}
-.s2-copy-btn--amt { background:#f59e0b; }
-.s2-copy-btn--amt:active { background:#d97706; }
-.s2-exact-hint {
-  font-size:10px;color:#92400e;font-weight:600;white-space:nowrap;
-}
-
-/* Method chip (compact) */
-.s2-apps-section {
-  margin-bottom:7px;
-  padding:6px 12px;border-radius:10px;
-  background:#fff;border:1.5px solid #e5e7eb;
-}
-.s2-app-chip {
-  display:inline-flex;align-items:center;gap:6px;
-}
-.s2-app-text-icon {
-  width:18px;height:18px;border-radius:4px;
-  display:flex;align-items:center;justify-content:center;
-  font-size:10px;font-weight:900;
-}
-.s2-app-name { font-size:11px;font-weight:700;color:#374151; }
-.s2-apps-via { font-size:10px;color:#9ca3af; }
-
-/* ပြေစာ input */
+/* ပြေစာ — underline style */
 .s2-ref-section {
-  margin-bottom:7px;
-  padding:8px 12px;border-radius:10px;
-  background:rgba(139,92,246,0.04);
-  border:1.5px solid rgba(139,92,246,0.2);
+  margin-bottom:10px;
+  padding-top:4px;
 }
 .s2-ref-label {
-  display:block;font-size:10px;font-weight:700;color:#6d28d9;
-  margin-bottom:8px;
+  display:block;font-size:10px;font-weight:600;color:#9ca3af;
+  margin-bottom:12px;letter-spacing:0.04em;text-transform:uppercase;
 }
 .s2-ref-boxes {
-  display:flex;gap:7px;justify-content:center;
+  display:flex;gap:10px;justify-content:center;
 }
 .s2-ref-box {
-  width:44px;height:48px;
-  border:2px solid #c4b5fd;border-radius:10px;
-  background:#fff;
+  width:40px;height:44px;
+  border:none;
+  border-bottom:2px solid #111827;
+  background:transparent;
   font-size:22px;font-weight:800;color:#111827;
   text-align:center;
   outline:none;
-  transition:border-color 0.15s,box-shadow 0.15s;
+  border-radius:0;
+  transition:border-color 0.15s;
   -webkit-appearance:none;
   caret-color:transparent;
 }
 .s2-ref-box:focus {
-  border-color:#7c3aed;
-  box-shadow:0 0 0 3px rgba(124,58,237,0.15);
-  background:#faf5ff;
+  border-bottom-color:#2563eb;
 }
 
-/* Tips card (compact) */
-.s2-tips-card {
-  padding:8px 12px;border-radius:10px;
-  background:#fffbeb;
-  border:1.5px solid #fde68a;
-  margin-bottom:6px;
-}
+/* Tips — plain text */
+.s2-tips-section { padding-top:8px; }
 .s2-tips-title {
-  font-size:11px;font-weight:800;color:#92400e;
-  margin:0 0 5px 0;
+  font-size:10px;font-weight:700;color:#374151;
+  margin:0 0 6px 0;text-transform:uppercase;letter-spacing:0.04em;
 }
 .s2-tips-list {
   padding-left:14px;margin:0;
-  display:flex;flex-direction:column;gap:4px;
+  display:flex;flex-direction:column;gap:5px;
 }
 .s2-tips-list li {
-  font-size:10px;line-height:1.5;color:#374151;
+  font-size:10px;line-height:1.55;color:#6b7280;
 }
 
 /* Footer */
 .s2-footer {
   flex-shrink:0;
   display:flex;align-items:center;gap:10px;
-  padding:8px 14px calc(10px + env(safe-area-inset-bottom, 0px));
-  background:#fff;
-  border-top:1px solid #eaecf0;
+  padding:10px 16px calc(12px + env(safe-area-inset-bottom, 0px));
+  border-top:1px solid #f0f0f0;
+  background:#ffffff;
 }
 .s2-back-btn {
-  width:44px;height:44px;border-radius:12px;
-  border:1.5px solid #d1d5db;background:#f9fafb;
+  width:44px;height:44px;border-radius:10px;
+  border:1px solid #e5e7eb;background:#f9fafb;
   display:flex;align-items:center;justify-content:center;
   color:#374151;cursor:pointer;flex-shrink:0;
-  transition:opacity 0.12s;
 }
 .s2-back-btn:active { opacity:0.7; }
 .s2-confirm-btn {
-  flex:1;padding:13px;border-radius:12px;
+  flex:1;padding:13px;border-radius:10px;
   border:none;outline:none;cursor:pointer;
-  background:linear-gradient(135deg,#16a34a,#15803d);
+  background:#111827;
   color:#fff;font-size:14px;font-weight:700;
   transition:opacity 0.15s;
 }
