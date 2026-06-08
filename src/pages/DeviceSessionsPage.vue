@@ -19,7 +19,7 @@
     <div v-else class="ds-body">
       <!-- User Identity Card -->
       <div class="ds-id-card">
-        <img src="https://ik.imagekit.io/tdpebgueq/Brand%20Name%20Logo/IMG_20260602_154542.png?tr=f-auto" alt="iW99" style="height:26px;width:auto;object-fit:contain;display:block;" />
+        <img src="https://ik.imagekit.io/rbok01qam/Brand%20Logo%20/IMG_20260605_215459.png?tr=f-auto" alt="NovaBett" style="height:26px;width:auto;object-fit:contain;display:block;" />
         <div class="ds-id-row">
           <span class="ds-id-label">ID:</span>
           <span class="ds-id-val">{{ shortId }}</span>
@@ -44,15 +44,15 @@
 
         <div class="ds-info-table">
           <div class="ds-row">
-            <span class="ds-label">လောဂ်ကွာ</span>
+            <span class="ds-label">ကိရိယာ အမျိုး</span>
             <span class="ds-val">{{ info.device_type }}</span>
           </div>
           <div class="ds-row">
-            <span class="ds-label">တားရှင်း</span>
+            <span class="ds-label">ဗားရှင်း</span>
             <span class="ds-val">{{ info.version }}</span>
           </div>
           <div class="ds-row">
-            <span class="ds-label">ပစ္စည်းအမိုး</span>
+            <span class="ds-label">ဘောင်ဆာ</span>
             <span class="ds-val">{{ info.browser }}</span>
           </div>
           <div class="ds-row">
@@ -60,11 +60,11 @@
             <span class="ds-val">{{ info.os }}</span>
           </div>
           <div class="ds-row" style="align-items:flex-start;">
-            <span class="ds-label">IP ရိုဟာ</span>
+            <span class="ds-label">IP လိပ်စာ</span>
             <span class="ds-val ip-multi">{{ info.ipFull || (ipLoading ? 'ရယူနေသည်...' : '—') }}</span>
           </div>
           <div class="ds-row">
-            <span class="ds-label">လောဂ်အင်နာရီ</span>
+            <span class="ds-label">ဝင်ရောက်ချိန်</span>
             <span class="ds-val">{{ info.loginTime }}</span>
           </div>
         </div>
