@@ -158,12 +158,12 @@
                     <img v-if="selectedMethod?.img" :src="selectedMethod.img" style="width:20px;height:20px;object-fit:contain;border-radius:4px;"/>
                   </div>
 
-                  <!-- Account name -->
+                  <!-- Account number FIRST -->
                   <div class="s2-field">
-                    <div class="s2-field-label">အကောင့် နာမည်</div>
+                    <div class="s2-field-label">အကောင့်နံပါတ်</div>
                     <div class="s2-field-row">
-                      <span class="s2-field-val s2-field-val--name">{{ recipientName }}</span>
-                      <button @click="copyText(recipientName)" class="s2-copy-btn">
+                      <span class="s2-field-val s2-field-val--num">{{ recipientAccount }}</span>
+                      <button @click="copyText(recipientAccount)" class="s2-copy-btn">
                         <svg width="11" height="11" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                             d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"/>
@@ -173,12 +173,12 @@
                     </div>
                   </div>
 
-                  <!-- Account number -->
+                  <!-- Account name SECOND -->
                   <div class="s2-field">
-                    <div class="s2-field-label">အကောင့်နံပါတ်</div>
+                    <div class="s2-field-label">အကောင့် နာမည်</div>
                     <div class="s2-field-row">
-                      <span class="s2-field-val s2-field-val--num">{{ recipientAccount }}</span>
-                      <button @click="copyText(recipientAccount)" class="s2-copy-btn">
+                      <span class="s2-field-val s2-field-val--name">{{ recipientName }}</span>
+                      <button @click="copyText(recipientName)" class="s2-copy-btn">
                         <svg width="11" height="11" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                             d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"/>
@@ -461,7 +461,7 @@ const submitDeposit = () => {
 .nova-sheet {
   position:relative;
   width:100%;max-width:480px;
-  height:100dvh;
+  height:100svh;height:100vh;
   border-radius:0;
   overflow:hidden;
   display:flex;flex-direction:column;
@@ -479,10 +479,15 @@ const submitDeposit = () => {
 .nova-balance-label { font-size:10px;color:rgba(255,255,255,0.8); }
 .nova-balance-num   { font-size:12px;font-weight:700;color:rgba(253,224,71,0.9); }
 .nova-divider       { height:1px;background:rgba(255,255,255,0.07);margin-bottom:8px; }
-.nova-body { flex:1;overflow-y:auto;padding:0 16px;overscroll-behavior:contain;-webkit-overflow-scrolling:touch; }
+.nova-body { flex:1;overflow-y:auto;padding:0 16px 80px;overscroll-behavior:contain;-webkit-overflow-scrolling:touch; }
 .nova-body::-webkit-scrollbar { width:2px; }
 .nova-body::-webkit-scrollbar-thumb { background:rgba(100,116,139,0.22);border-radius:10px; }
-.nova-cta-wrap { flex-shrink:0;padding:8px 16px calc(16px + env(safe-area-inset-bottom, 0px)); }
+.nova-cta-wrap {
+  position:absolute;left:0;right:0;bottom:0;
+  padding:8px 16px calc(16px + env(safe-area-inset-bottom, 0px));
+  background:linear-gradient(to top, rgba(22,24,58,0.98) 80%, transparent);
+  z-index:2;
+}
 .nova-label { font-size:11px;color:#fff;margin:0 0 5px 0;font-weight:700; }
 
 /* Payment method grid */
@@ -556,6 +561,7 @@ const submitDeposit = () => {
 
 /* ══ STEP 2 — CLEAN WHITE ══ */
 .s2-page {
+  position:relative;
   display:flex;flex-direction:column;height:100%;
   background:#ffffff;
 }
@@ -596,6 +602,7 @@ const submitDeposit = () => {
   flex:1;overflow-y:auto;padding:0 18px;
   -webkit-overflow-scrolling:touch;
   overscroll-behavior:contain;
+  padding-bottom:80px;
 }
 .s2-body::-webkit-scrollbar { width:0; }
 .s2-body-inner {
@@ -639,7 +646,7 @@ const submitDeposit = () => {
   font-size:10px;font-weight:600;color:#16a34a;
 }
 
-/* ပြေစာ — underline style */
+/* ပြေစာ — single underline style */
 .s2-ref-section {
   margin-bottom:10px;
   padding-top:4px;
@@ -649,23 +656,24 @@ const submitDeposit = () => {
   margin-bottom:12px;letter-spacing:0.04em;text-transform:uppercase;
 }
 .s2-ref-boxes {
-  display:flex;gap:10px;justify-content:center;
+  display:flex;gap:0;justify-content:center;
+  border-bottom:2px solid #111827;
+  padding-bottom:4px;
+  transition:border-color 0.15s;
+}
+.s2-ref-boxes:focus-within {
+  border-bottom-color:#2563eb;
 }
 .s2-ref-box {
-  width:40px;height:44px;
+  width:44px;height:40px;
   border:none;
-  border-bottom:2px solid #111827;
   background:transparent;
   font-size:22px;font-weight:800;color:#111827;
   text-align:center;
   outline:none;
   border-radius:0;
-  transition:border-color 0.15s;
   -webkit-appearance:none;
   caret-color:transparent;
-}
-.s2-ref-box:focus {
-  border-bottom-color:#2563eb;
 }
 
 /* Tips — plain text */
@@ -682,13 +690,14 @@ const submitDeposit = () => {
   font-size:10px;line-height:1.55;color:#6b7280;
 }
 
-/* Footer */
+/* Footer — anchored to bottom, never rises with keyboard */
 .s2-footer {
-  flex-shrink:0;
+  position:absolute;left:0;right:0;bottom:0;
   display:flex;align-items:center;gap:10px;
   padding:10px 16px calc(12px + env(safe-area-inset-bottom, 0px));
   border-top:1px solid #f0f0f0;
   background:#ffffff;
+  z-index:2;
 }
 .s2-back-btn {
   width:44px;height:44px;border-radius:10px;
