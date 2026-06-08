@@ -632,7 +632,26 @@
     try { const referral=route.query.dl||''; const res=await fetch('https://vuywhhmwrqykukcemifd.supabase.co/functions/v1/register3',{method:'POST',headers:{'Authorization':'Bearer sb_publishable_nQArOtFqTbi9ZtJCJC0STA_pE4ztXGb','apikey':'sb_publishable_nQArOtFqTbi9ZtJCJC0STA_pE4ztXGb','Content-Type':'application/json'},body:JSON.stringify({username:regUsername.value,phone:regPhone.value,password:regPassword.value,referral})}); const data=await res.json(); if(data.error)throw new Error(data.error); const email=regUsername.value.toUpperCase()+'@novabett.internal'; const {data:ld,error:le}=await supabase.auth.signInWithPassword({email,password:regPassword.value}); if(le)throw le; if(ld.session?.access_token)localStorage.setItem('sb_token',ld.session.access_token); await loadUserInfo(); showToast({type:'success',message:'အကောင့်ဖွင့် အောင်မြင်ပါသည်'}); showAuthModal.value=false; regUsername.value='';regPhone.value='';regPassword.value='' }
     catch(e) { regError.value=e.message } finally { regLoading.value=false }
   }
-  function openGame(game) { if(!isLoggedIn.value){showAuthModal.value=true;authTab.value='login';return}; showToast(game.game_name+' မကြာမီ ရနိုင်မည်') }
+  async function openGame(game) {
+    if(!isLoggedIn.value){showAuthModal.value=true;authTab.value='login';return}
+    showToast({type:'loading',message:'ဂိမ်း ဖွင့်နေသည်...',duration:8000})
+    try {
+      const {data:{session}}=await supabase.auth.getSession()
+      if(!session) throw new Error('session_expired')
+      const res=await fetch('https://vuywhhmwrqykukcemifd.supabase.co/functions/v1/launch_game',{
+        method:'POST',
+        headers:{'Authorization':'Bearer '+session.access_token,'Content-Type':'application/json'},
+        body:JSON.stringify({provider_code:game.provider_code,game_code:game.game_code})
+      })
+      const data=await res.json()
+      if(data.error) throw new Error(data.error)
+      const gameUrl=data.url||data.game_url||data.launch_url||data.data?.url
+      if(gameUrl) window.open(gameUrl,'_blank')
+      else throw new Error('URL မရပါ')
+    } catch(e) {
+      showToast({type:'fail',message:e.message==='session_expired'?'ပြန်လော့ဂ်အင်ဝင်ပါ':e.message||'ဂိမ်း ဖွင့်မရပါ'})
+    }
+  }
   function toggleLanguage() { currentLang.value=currentLang.value==='en'?'mm':'en' }
   const formatCurrency = n => new Intl.NumberFormat('en-US').format(n)
   async function handleDepositSubmit(data) { try { const token=(await supabase.auth.getSession()).data.session?.access_token; if(!token){showToast({type:'fail',message:'ဝင်ရောက်ပါ'});return}; const res=await fetch('https://vuywhhmwrqykukcemifd.supabase.co/functions/v1/deposit',{method:'POST',headers:{'Authorization':'Bearer '+token,'Content-Type':'application/json'},body:JSON.stringify({method:data.method,amount:data.amount,slip:data.slip})}); const result=await res.json(); if(result.error)throw new Error(result.error); showToast({type:'success',message:'ငွေသွင်းမှု အောင်မြင်ပါသည်'}); setTimeout(()=>fetchBalance(),2000) } catch(e){showToast({type:'fail',message:e.message})} }
