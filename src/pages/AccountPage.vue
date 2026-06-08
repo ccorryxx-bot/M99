@@ -52,58 +52,46 @@
       </div>
 
       <!-- Section 1: two icon items -->
-      <div class="sec-row" style="margin-top:16px;">
+      <div class="sec-row sec-card" style="margin-top:16px;">
         <button class="sec-icon-item" @click="$router.push('/login')">
           <div class="sec-icon-wrap">
-            <svg width="22" height="22" fill="none" viewBox="0 0 24 24" stroke="rgba(96,165,250,0.9)" stroke-width="1.7">
-              <path stroke-linecap="round" stroke-linejoin="round" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-3 7h3m-3 4h3m-6-4h.01M9 16h.01"/>
-            </svg>
+            <img src="https://ik.imagekit.io/rbok01qam/Custom%20icons%20img/style_6_icon_list_zdjl.avif?updatedAt=1780926787548&tr=f-auto" class="sec-img-icon" alt="ငါ့မှတ်တမ်း"/>
           </div>
-          <span class="sec-lbl">ငါ့မတ်တမ်း</span>
+          <span class="sec-lbl">ငါ့မှတ်တမ်း</span>
         </button>
         <button class="sec-icon-item" @click="$router.push('/login')">
           <div class="sec-icon-wrap">
-            <svg width="22" height="22" fill="none" viewBox="0 0 24 24" stroke="rgba(251,146,60,0.9)" stroke-width="1.7">
-              <path stroke-linecap="round" stroke-linejoin="round" d="M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z"/>
-            </svg>
+            <img src="https://ik.imagekit.io/rbok01qam/Custom%20icons%20img/style_6_icon_list_txgl.avif?updatedAt=1780926787637&tr=f-auto" class="sec-img-icon" alt="ငွေထုတ်စီမံ"/>
           </div>
           <span class="sec-lbl">ငွေထုတ်စီမံ<br>ခန့်ခွဲမှု</span>
         </button>
       </div>
 
       <!-- Section 2: ကမ်းလှမ်းချက်ပင်တာ -->
-      <div class="sec-group" style="margin-top:14px;">
+      <div class="sec-group sec-card" style="margin-top:14px;">
         <div class="sec-group-title">ကမ်းလှမ်းချက်စင်တာ</div>
         <div class="sec-grid4">
           <button class="sec-icon-item" @click="$router.push('/login')">
             <div class="sec-icon-wrap">
-              <svg width="22" height="22" fill="none" viewBox="0 0 24 24" stroke="rgba(96,165,250,0.9)" stroke-width="1.7">
-                <path stroke-linecap="round" stroke-linejoin="round" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0z"/>
-              </svg>
+              <img src="https://ik.imagekit.io/rbok01qam/Custom%20icons%20img/style_6_icon_list_fxzq.avif?updatedAt=1780926787711&tr=f-auto" class="sec-img-icon" alt="အေးဂျင့်"/>
             </div>
-            <span class="sec-lbl">အဲရျင့်</span>
+            <span class="sec-lbl">အေးဂျင့်</span>
           </button>
           <button class="sec-icon-item" @click="$router.push('/login')">
             <div class="sec-icon-wrap">
-              <svg width="22" height="22" fill="none" viewBox="0 0 24 24" stroke="rgba(167,139,250,0.9)" stroke-width="1.7">
-                <path stroke-linecap="round" stroke-linejoin="round" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/>
-              </svg>
+              <img src="https://ik.imagekit.io/rbok01qam/Custom%20icons%20img/style_6_icon_list_kyd.avif?updatedAt=1780926787634&tr=f-auto" class="sec-img-icon" alt="ကစားပမ်း"/>
             </div>
-            <span class="sec-lbl">ကစ်ပမ်း</span>
+            <span class="sec-lbl">ကစားပမ်း</span>
           </button>
           <button class="sec-icon-item" @click="$router.push('/login')">
             <div class="sec-icon-wrap">
-              <svg width="22" height="22" fill="none" viewBox="0 0 24 24" stroke="rgba(52,211,153,0.9)" stroke-width="1.7">
-                <path stroke-linecap="round" stroke-linejoin="round" d="M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z"/>
-              </svg>
+              <img src="https://ik.imagekit.io/rbok01qam/Custom%20icons%20img/style_6_icon_list_czhd.avif?updatedAt=1780926787610&tr=f-auto" class="sec-img-icon" alt="လုပ်ဆောင်ချက်"/>
             </div>
             <span class="sec-lbl">လုပ်ဆောင်ချ<br>ကိုကြိ အား..</span>
           </button>
           <button class="sec-icon-item" @click="$router.push('/login')">
             <div class="sec-icon-wrap">
-              <svg width="22" height="22" fill="none" viewBox="0 0 24 24" stroke="rgba(251,191,36,0.9)" stroke-width="1.7">
-                <path stroke-linecap="round" stroke-linejoin="round" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/>
-              </svg>
+              <img src="https://ik.imagekit.io/rbok01qam/Custom%20icons%20img/style_6_icon_list_mrqd.avif?updatedAt=1780926787645&tr=f-auto" class="sec-img-icon" alt="နေ့စဉ်ဆိုင်း"/>
             </div>
             <span class="sec-lbl">နေ့စဉ် ဆိုင်း<br>အပါဝင်ဘ...</span>
           </button>
@@ -546,6 +534,11 @@ const comingSoon = () => {}
 .sec-row {
   display: flex; gap: 12px;
 }
+.sec-card {
+  background: rgba(255,255,255,0.06);
+  border-radius: 14px;
+  padding: 14px 12px;
+}
 .sec-group-title {
   font-size: 10.5px; color: rgba(255,255,255,0.45);
   margin-bottom: 12px;
@@ -563,8 +556,12 @@ const comingSoon = () => {}
 }
 .sec-icon-wrap {
   width: 44px; height: 44px; border-radius: 12px;
-  background: rgba(255,255,255,0.07);
+  background: none;
   display: flex; align-items: center; justify-content: center;
+}
+.sec-img-icon {
+  width: 38px; height: 38px;
+  object-fit: contain;
 }
 .sec-lbl {
   font-size: 9.5px; color: rgba(255,255,255,0.65);
