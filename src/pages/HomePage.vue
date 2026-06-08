@@ -638,10 +638,10 @@
     try {
       const {data:{session}}=await supabase.auth.getSession()
       if(!session) throw new Error('session_expired')
-      const res=await fetch('https://vuywhhmwrqykukcemifd.supabase.co/functions/v1/launch_game',{
+      const res=await fetch('https://vuywhhmwrqykukcemifd.supabase.co/functions/v1/api/games/launch',{
         method:'POST',
-        headers:{'Authorization':'Bearer '+session.access_token,'Content-Type':'application/json'},
-        body:JSON.stringify({provider_code:game.provider_code,game_code:game.game_code})
+        headers:{'Authorization':'Bearer '+session.access_token,'Content-Type':'application/json','apikey':'sb_publishable_nQArOtFqTbi9ZtJCJC0STA_pE4ztXGb'},
+        body:JSON.stringify({user_id:session.user.id,game_uid:game.game_code,platform:2,lang:'my'})
       })
       const data=await res.json()
       if(data.error) throw new Error(data.error)
