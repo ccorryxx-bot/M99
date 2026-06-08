@@ -575,7 +575,7 @@
   const games = ref([]); const loadingGames = ref(true); const fetchError = ref(null)
   async function fetchGames() {
     loadingGames.value=true; fetchError.value=null
-    try { const {data,error}=await supabase.from('game_cards').select('*').eq('is_active',true).order('play_count',{ascending:false}); if(error)throw error; games.value=data||[] }
+    try { const {data,error}=await supabase.from('game_cards').select('*').eq('is_active',true).order('play_count',{ascending:false}).limit(1500); if(error)throw error; games.value=data||[] }
     catch { fetchError.value='ဂိမ်းများ ရယူ၍မရပါ' } finally { loadingGames.value=false }
   }
   const filteredGames = computed(() => {
