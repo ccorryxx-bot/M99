@@ -8,6 +8,7 @@ import AccountPage from '@/pages/AccountPage.vue'
 import AdminDashboard from '@/pages/AdminDashboard.vue'
 import DeviceSessionsPage from '@/pages/DeviceSessionsPage.vue'
 import ExchangeCodePage from '@/pages/ExchangeCodePage.vue'
+import DailyBonusPage from '@/pages/DailyBonusPage.vue'
 import { supabase } from '@/supabase'
 
 const routes = [
@@ -15,6 +16,7 @@ const routes = [
   { path: '/home', component: HomePage },
   { path: '/promotions', component: PromotionsPage, meta: { requiresAuth: true } },
   { path: '/exchange-code', component: ExchangeCodePage, meta: { requiresAuth: true } },
+  { path: '/daily-bonus', component: DailyBonusPage, meta: { requiresAuth: true } },
   { path: '/network', component: ReferralPage, meta: { requiresAuth: true } },
   { path: '/agent', component: AgentDashboard, meta: { requiresAuth: true } },
   { path: '/service', component: ServicePage, meta: { requiresAuth: true } },
