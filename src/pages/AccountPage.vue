@@ -8,7 +8,7 @@
           <path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7"/>
         </svg>
       </button>
-      <div style="display:flex;gap:7px;">
+      <div v-if="isLoggedIn" style="display:flex;gap:7px;">
         <button class="icon-btn">
           <svg width="15" height="15" fill="none" stroke="rgba(255,255,255,0.65)" stroke-width="2" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"/>
@@ -23,7 +23,154 @@
       </div>
     </header>
 
-    <div class="acc-body">
+    <!-- ══════════════════════════════
+         NOT LOGGED IN STATE
+         ══════════════════════════════ -->
+    <div v-if="!isLoggedIn" class="acc-body">
+
+      <!-- Avatar + prompt -->
+      <div class="guest-hero">
+        <div class="guest-av">
+          <svg width="36" height="36" fill="none" viewBox="0 0 24 24">
+            <circle cx="12" cy="8" r="4.5" stroke="rgba(255,255,255,0.35)" stroke-width="1.6"/>
+            <path d="M4 20c0-4 3.6-7 8-7s8 3 8 7" stroke="rgba(255,255,255,0.35)" stroke-width="1.6" stroke-linecap="round"/>
+          </svg>
+        </div>
+        <p class="guest-prompt">ကျေးဇူးပြု၍ ဦးစွာ လော့ဂ်အင်<br>သို့မဟုတ် မတ်ပုံတင်</p>
+      </div>
+
+      <!-- Balance card -->
+      <div class="bal-card">
+        <div class="bal-left">
+          <span style="font-size:15px;line-height:1;">🇲🇲</span>
+          <span class="bal-amt">---.--</span>
+        </div>
+        <div class="bal-btns">
+          <button class="bal-btn" @click="$router.push('/login')">ငွေသောင်းနန်</button>
+          <button class="bal-btn bal-btn--out" @click="$router.push('/login')">ငွေထုတ်ရန်</button>
+        </div>
+      </div>
+
+      <!-- Section 1: two icon items -->
+      <div class="sec-row" style="margin-top:16px;">
+        <button class="sec-icon-item" @click="$router.push('/login')">
+          <div class="sec-icon-wrap">
+            <svg width="22" height="22" fill="none" viewBox="0 0 24 24" stroke="rgba(96,165,250,0.9)" stroke-width="1.7">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-3 7h3m-3 4h3m-6-4h.01M9 16h.01"/>
+            </svg>
+          </div>
+          <span class="sec-lbl">ငါ့မတ်တမ်း</span>
+        </button>
+        <button class="sec-icon-item" @click="$router.push('/login')">
+          <div class="sec-icon-wrap">
+            <svg width="22" height="22" fill="none" viewBox="0 0 24 24" stroke="rgba(251,146,60,0.9)" stroke-width="1.7">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z"/>
+            </svg>
+          </div>
+          <span class="sec-lbl">ငွေထုတ်စီမံ<br>ခန့်ခွဲမှု</span>
+        </button>
+      </div>
+
+      <!-- Section 2: ကမ်းလှမ်းချက်ပင်တာ -->
+      <div class="sec-group" style="margin-top:14px;">
+        <div class="sec-group-title">ကမ်းလှမ်းချက်စင်တာ</div>
+        <div class="sec-grid4">
+          <button class="sec-icon-item" @click="$router.push('/login')">
+            <div class="sec-icon-wrap">
+              <svg width="22" height="22" fill="none" viewBox="0 0 24 24" stroke="rgba(96,165,250,0.9)" stroke-width="1.7">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0z"/>
+              </svg>
+            </div>
+            <span class="sec-lbl">အဲရျင့်</span>
+          </button>
+          <button class="sec-icon-item" @click="$router.push('/login')">
+            <div class="sec-icon-wrap">
+              <svg width="22" height="22" fill="none" viewBox="0 0 24 24" stroke="rgba(167,139,250,0.9)" stroke-width="1.7">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/>
+              </svg>
+            </div>
+            <span class="sec-lbl">ကစ်ပမ်း</span>
+          </button>
+          <button class="sec-icon-item" @click="$router.push('/login')">
+            <div class="sec-icon-wrap">
+              <svg width="22" height="22" fill="none" viewBox="0 0 24 24" stroke="rgba(52,211,153,0.9)" stroke-width="1.7">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z"/>
+              </svg>
+            </div>
+            <span class="sec-lbl">လုပ်ဆောင်ချ<br>ကိုကြိ အား..</span>
+          </button>
+          <button class="sec-icon-item" @click="$router.push('/login')">
+            <div class="sec-icon-wrap">
+              <svg width="22" height="22" fill="none" viewBox="0 0 24 24" stroke="rgba(251,191,36,0.9)" stroke-width="1.7">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/>
+              </svg>
+            </div>
+            <span class="sec-lbl">နေ့စဉ် ဆိုင်း<br>အပါဝင်ဘ...</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- Section 3: အခြားလုပ်ဆောင်ချက်များ -->
+      <div class="sec-group" style="margin-top:14px;">
+        <div class="sec-group-title">အခြားလုပ်ဆောင်ချက်များ</div>
+        <div class="sec-grid4">
+          <button class="sec-icon-item" @click="$router.push('/login')">
+            <div class="sec-icon-wrap">
+              <svg width="22" height="22" fill="none" viewBox="0 0 24 24" stroke="rgba(96,165,250,0.9)" stroke-width="1.7">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/>
+              </svg>
+            </div>
+            <span class="sec-lbl">ကိုယ်ရေး<br>အချက်အ...</span>
+          </button>
+          <button class="sec-icon-item" @click="$router.push('/login')">
+            <div class="sec-icon-wrap">
+              <svg width="22" height="22" fill="none" viewBox="0 0 24 24" stroke="rgba(167,139,250,0.85)" stroke-width="1.7">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/>
+              </svg>
+            </div>
+            <span class="sec-lbl">လုံခြုံရေးစင်<br>တာ</span>
+          </button>
+          <button class="sec-icon-item" @click="$router.push('/login')">
+            <div class="sec-icon-wrap">
+              <svg width="22" height="22" fill="none" viewBox="0 0 24 24" stroke="rgba(52,211,153,0.85)" stroke-width="1.7">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M3 5h12M9 3v2m1.048 9.5A18.022 18.022 0 016.412 9m6.088 9h7M11 21l5-10 5 10M12.751 5C11.783 10.77 8.07 15.61 3 18.129"/>
+              </svg>
+            </div>
+            <span class="sec-lbl">ဘာသာစကား</span>
+          </button>
+          <button class="sec-icon-item" @click="$router.push('/login')">
+            <div class="sec-icon-wrap">
+              <svg width="22" height="22" fill="none" viewBox="0 0 24 24" stroke="rgba(251,191,36,0.85)" stroke-width="1.7">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M8.228 9c.549-1.165 2.03-2 3.772-2 2.21 0 4 1.343 4 3 0 1.4-1.278 2.575-3.006 2.907-.542.104-.994.54-.994 1.093m0 3h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
+              </svg>
+            </div>
+            <span class="sec-lbl">မော်သည်<br>ဝင်ဆောင်ငမ</span>
+          </button>
+          <button class="sec-icon-item" @click="$router.push('/login')">
+            <div class="sec-icon-wrap">
+              <svg width="22" height="22" fill="none" viewBox="0 0 24 24" stroke="rgba(248,113,113,0.85)" stroke-width="1.7">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M11 5.882V19.24a1.76 1.76 0 01-3.417.592l-2.147-6.15M18 13a3 3 0 100-6M5.436 13.683A4.001 4.001 0 017 6h1.832c4.1 0 7.625-1.234 9.168-3v14c-1.543-1.766-5.067-3-9.168-3H7a3.988 3.988 0 01-1.564-.317z"/>
+              </svg>
+            </div>
+            <span class="sec-lbl">အကြောင်းပေး<br>ခြင်</span>
+          </button>
+          <button class="sec-icon-item" @click="$router.push('/login')">
+            <div class="sec-icon-wrap">
+              <svg width="22" height="22" fill="none" viewBox="0 0 24 24" stroke="rgba(156,163,175,0.85)" stroke-width="1.7">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17H3a2 2 0 01-2-2V5a2 2 0 012-2h14a2 2 0 012 2v10a2 2 0 01-2 2h-2"/>
+              </svg>
+            </div>
+            <span class="sec-lbl">စက်ပစ္စည်းသို<br>ဝင်ရောက်ပါ</span>
+          </button>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- ══════════════════════════════
+         LOGGED IN STATE
+         ══════════════════════════════ -->
+    <div v-else class="acc-body">
 
       <!-- ── Profile row ── -->
       <div style="display:flex;align-items:center;gap:10px;padding:8px 0 10px;">
@@ -120,7 +267,7 @@
       <!-- ── Menu ── -->
       <button @click="comingSoon" class="mrow"><div class="micon"><svg width="14" height="14" fill="none" stroke="rgba(255,255,255,0.6)" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"/></svg></div><div style="flex:1;text-align:left;"><div class="mlbl">ငါ့မတ်တမ်း</div><div style="font-size:9px;color:rgba(255,255,255,0.28);margin-top:1px;">အသေးစိတ်၊ လောင်းကစား၊ အတိုရ</div></div><svg class="marr" fill="none" stroke="rgba(255,255,255,0.22)" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg></button>
       <button @click="comingSoon" class="mrow"><div class="micon"><svg width="14" height="14" fill="none" stroke="rgba(255,255,255,0.6)" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z"/></svg></div><span class="mlbl" style="flex:1;text-align:left;">ငွေထုတ်စီမံခန့်ခွဲမှု</span><svg class="marr" fill="none" stroke="rgba(255,255,255,0.22)" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg></button>
-      <button @click="$router.push('/agent')" class="mrow"><div class="micon"><svg width="14" height="14" fill="none" stroke="rgba(255,255,255,0.6)" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0z"/></svg></div><span class="mlbl" style="flex:1;text-align:left;">အေးဂျင့်</span><span style="font-size:9px;font-weight:700;color:rgba(255,255,255,0.45);margin-right:3px;">တစ်လဝင်ငွေ တစ်သန်း</span><svg class="marr" fill="none" stroke="rgba(255,255,255,0.22)" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg></button>
+      <button @click="$router.push('/agent')" class="mrow"><div class="micon"><svg width="14" height="14" fill="none" stroke="rgba(255,255,255,0.6)" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0z"/></svg></div><span class="mlbl" style="flex:1;text-align:left;">အေးဂျင့်</span><span style="font-size:9px;font-weight:700;color:rgba(255,255,255,0.45);margin-right:3px;">တစ်လဝင်ငွေ တစ်သန်း</span><svg class="marr" fill="none" stroke="rgba(255,255,255,0.22)" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg></button>
       <button @click="openProfile" class="mrow"><div class="micon"><svg width="14" height="14" fill="none" stroke="rgba(255,255,255,0.6)" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/></svg></div><span class="mlbl" style="flex:1;text-align:left;">ကိုယ်ရေးအချက်အလက်များ</span><svg class="marr" fill="none" stroke="rgba(255,255,255,0.22)" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg></button>
       <button @click="comingSoon" class="mrow"><div class="micon"><svg width="14" height="14" fill="none" stroke="rgba(255,255,255,0.6)" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/></svg></div><span class="mlbl" style="flex:1;text-align:left;">လုံခြုံရေးစင်တာ</span><svg class="marr" fill="none" stroke="rgba(255,255,255,0.22)" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg></button>
       <button @click="comingSoon" class="mrow"><div class="micon"><svg width="14" height="14" fill="none" stroke="rgba(255,255,255,0.6)" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M21 12a9 9 0 01-9 9m9-9a9 9 0 00-9-9m9 9H3m9 9a9 9 0 01-9-9m9 9c1.657 0 3-4.03 3-9s-1.343-9-3-9m0 18c-1.657 0-3-4.03-3-9s1.343-9 3-9m-9 9a9 9 0 019-9"/></svg></div><span class="mlbl" style="flex:1;text-align:left;">ဘာသာစကား</span><span style="font-size:9px;color:rgba(255,255,255,0.28);margin-right:3px;">မြန်မာဘာသာ</span><svg class="marr" fill="none" stroke="rgba(255,255,255,0.22)" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg></button>
@@ -171,7 +318,6 @@
 
           <!-- Dropdown field -->
           <div>
-            <!-- Trigger row -->
             <button @click="dropOpen = !dropOpen" style="width:100%;display:flex;align-items:center;gap:10px;padding:12px 12px;background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.1);border-radius:10px;cursor:pointer;text-align:left;transition:border-color 0.15s;" :style="dropOpen ? 'border-color:rgba(255,255,255,0.18);border-radius:10px 10px 0 0;' : ''">
               <svg width="14" height="14" fill="none" stroke="#4ade80" stroke-width="2" viewBox="0 0 24 24" style="flex-shrink:0;">
                 <path stroke-linecap="round" stroke-linejoin="round" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/>
@@ -181,93 +327,39 @@
                 <path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/>
               </svg>
             </button>
-
-            <!-- Dropdown panel -->
             <Transition name="drop">
               <div v-if="dropOpen" style="background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.1);border-top:none;border-radius:0 0 10px 10px;overflow:hidden;">
-                <!-- Username row -->
                 <div style="display:flex;align-items:center;gap:10px;padding:11px 12px;border-bottom:1px solid rgba(255,255,255,0.06);">
-                  <svg width="14" height="14" fill="none" stroke="#4ade80" stroke-width="2" viewBox="0 0 24 24" style="flex-shrink:0;">
-                    <path stroke-linecap="round" stroke-linejoin="round" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/>
-                  </svg>
+                  <svg width="14" height="14" fill="none" stroke="#4ade80" stroke-width="2" viewBox="0 0 24 24" style="flex-shrink:0;"><path stroke-linecap="round" stroke-linejoin="round" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/></svg>
                   <span style="font-size:12.5px;color:rgba(255,255,255,0.8);">{{ username }}</span>
                 </div>
-                <!-- Phone row -->
                 <div style="display:flex;align-items:center;gap:10px;padding:11px 12px;border-bottom:1px solid rgba(255,255,255,0.06);">
-                  <svg width="14" height="14" fill="none" stroke="rgba(255,255,255,0.45)" stroke-width="2" viewBox="0 0 24 24" style="flex-shrink:0;">
-                    <path stroke-linecap="round" stroke-linejoin="round" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"/>
-                  </svg>
+                  <svg width="14" height="14" fill="none" stroke="rgba(255,255,255,0.45)" stroke-width="2" viewBox="0 0 24 24" style="flex-shrink:0;"><path stroke-linecap="round" stroke-linejoin="round" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"/></svg>
                   <span style="font-size:12.5px;color:rgba(255,255,255,0.55);">+95 *** ***</span>
-                </div>
-                <!-- ID row -->
-                <div style="display:flex;align-items:center;gap:10px;padding:11px 12px;">
-                  <svg width="14" height="14" fill="none" stroke="rgba(255,255,255,0.45)" stroke-width="2" viewBox="0 0 24 24" style="flex-shrink:0;">
-                    <path stroke-linecap="round" stroke-linejoin="round" d="M10 6H5a2 2 0 00-2 2v9a2 2 0 002 2h14a2 2 0 002-2V8a2 2 0 00-2-2h-5m-4 0V5a2 2 0 114 0v1m-4 0a2 2 0 104 0"/>
-                  </svg>
-                  <span style="font-size:12.5px;color:rgba(255,255,255,0.55);">ID &nbsp;{{ gameId }}</span>
                 </div>
               </div>
             </Transition>
           </div>
-
         </div>
-
-        <div class="fp-footer">
-          <button @click="showProfile = false" class="fp-back">နောက်သို့</button>
-          <button @click="showProfile = false" class="fp-save">သိမ်းဆည်းပါ!!</button>
-        </div>
-
       </div>
     </Transition>
 
-    <!-- ══════════════════════════════════════════════
-         AVATAR PICKER PAGE — full screen
-         ══════════════════════════════════════════════ -->
+    <!-- Avatar picker -->
     <Transition name="pg">
-      <div v-if="showPicker" class="fullpage" style="background:#13152c;">
-
+      <div v-if="showPicker" class="fullpage" style="background:#0f1128;">
         <div class="fp-header">
-          <button @click="showPicker = false" class="icon-btn">
-            <svg width="18" height="18" fill="none" stroke="rgba(255,255,255,0.85)" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7"/></svg>
-          </button>
-          <span class="fp-title">avatar ကိုပြောင်းပါ</span>
-          <div style="width:34px;"></div>
+          <button @click="showPicker = false" class="icon-btn"><svg width="18" height="18" fill="none" stroke="rgba(255,255,255,0.85)" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7"/></svg></button>
+          <span class="fp-title">Avatar ရွေးချယ်ရန်</span>
+          <button @click="saveAvatar" style="background:rgba(74,222,128,0.12);border:1px solid rgba(74,222,128,0.3);border-radius:7px;padding:4px 10px;color:#4ade80;font-size:11px;font-weight:700;cursor:pointer;">သိမ်းမည်</button>
         </div>
-
-        <!-- Compact tabs -->
-        <div style="display:flex;gap:8px;padding:8px 14px 0;flex-shrink:0;">
-          <button v-for="(t,i) in tabs" :key="i" @click="activeTab = i"
-            :style="activeTab===i
-              ? 'background:rgba(34,197,94,0.15);border:1.5px solid rgba(34,197,94,0.45);color:#4ade80;'
-              : 'background:rgba(255,255,255,0.05);border:1.5px solid rgba(255,255,255,0.08);color:rgba(255,255,255,0.4);'"
-            style="flex:1;padding:7px 0;border-radius:10px;font-size:12px;font-weight:700;cursor:pointer;">
-            {{ t }}
-          </button>
+        <div style="display:flex;gap:0;border-bottom:1px solid rgba(255,255,255,0.07);padding:0 14px;">
+          <button v-for="(t,i) in tabs" :key="i" @click="activeTab=i" style="padding:9px 14px;font-size:11px;font-weight:600;cursor:pointer;background:none;border:none;border-bottom:2px solid transparent;transition:all 0.15s;" :style="activeTab===i ? 'color:#4ade80;border-bottom-color:#4ade80;' : 'color:rgba(255,255,255,0.3);'">{{ t }}</button>
         </div>
-
-        <!-- Avatar grid — images only, compact, no visible box -->
-        <div style="flex:1;overflow-y:auto;padding:10px 12px;">
-          <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:10px;">
-            <div v-for="(url,idx) in currentTabUrls" :key="idx"
-              @click="pendingAvatar = url"
-              style="position:relative;aspect-ratio:1/1;border-radius:12px;overflow:hidden;cursor:pointer;"
-              :style="pendingAvatar===url ? 'box-shadow:0 0 0 2.5px #22c55e;' : 'box-shadow:none;'">
-              <img :src="url" style="width:100%;height:100%;object-fit:cover;display:block;border-radius:12px;" loading="lazy" />
-              <div v-if="pendingAvatar===url"
-                style="position:absolute;top:3px;right:3px;width:18px;height:18px;border-radius:50%;background:rgba(34,197,94,0.9);display:flex;align-items:center;justify-content:center;">
-                <svg width="10" height="10" fill="none" stroke="#fff" stroke-width="3" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg>
-              </div>
-            </div>
+        <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:10px;padding:14px;overflow-y:auto;flex:1;">
+          <div v-for="url in currentTabUrls" :key="url" @click="pendingAvatar=url" style="cursor:pointer;border-radius:10px;overflow:hidden;aspect-ratio:1;" :style="pendingAvatar===url ? 'outline:2px solid #4ade80;outline-offset:2px;' : ''">
+            <img :src="url" style="width:100%;height:100%;object-fit:cover;display:block;" loading="lazy" />
           </div>
         </div>
-
-        <!-- Save -->
-        <div style="padding:10px 14px;padding-bottom:calc(10px + env(safe-area-inset-bottom,0px));flex-shrink:0;">
-          <button @click="saveAvatar" style="width:100%;padding:13px;border-radius:12px;background:linear-gradient(135deg,#16a34a,#22c55e);border:none;color:#fff;font-size:14px;font-weight:800;cursor:pointer;box-shadow:0 4px 16px rgba(34,197,94,0.4);">
-            ကယ်ဆယ်
-          </button>
-        </div>
-
       </div>
     </Transition>
 
@@ -278,11 +370,12 @@
 import { ref, computed, onMounted } from 'vue'
 import { supabase } from '@/supabase'
 
-const username    = ref(localStorage.getItem('sb_username') || 'PLAYER')
-const gameId      = ref('')
-const mainBalance = ref(0)
-const deposited   = ref(0)
-const refreshing  = ref(false)
+const isLoggedIn   = ref(false)
+const username     = ref(localStorage.getItem('sb_username') || 'PLAYER')
+const gameId       = ref('')
+const mainBalance  = ref(0)
+const deposited    = ref(0)
+const refreshing   = ref(false)
 
 const showProfile = ref(false)
 const showPicker  = ref(false)
@@ -355,7 +448,16 @@ async function fetchWallet() {
     if (txs) deposited.value = txs.reduce((s, t) => s + Number(t.amount), 0)
   } catch {} finally { setTimeout(() => { refreshing.value = false }, 500) }
 }
-onMounted(() => { fetchWallet(); loadVip(); setInterval(fetchWallet, 5000) })
+
+onMounted(async () => {
+  const { data: { session } } = await supabase.auth.getSession()
+  isLoggedIn.value = !!session
+  if (session) {
+    fetchWallet()
+    loadVip()
+    setInterval(fetchWallet, 5000)
+  }
+})
 
 const vipLevels = ref([])
 async function loadVip() { const { data } = await supabase.from('vip_levels').select('*').order('level'); if (data) vipLevels.value = data }
@@ -384,65 +486,132 @@ const comingSoon = () => {}
 </script>
 
 <style scoped>
-.acc-root { display:flex;flex-direction:column;min-height:100dvh;width:100%;background:#3d4187;color:#fff;overscroll-behavior:contain;-webkit-tap-highlight-color:transparent; }
-.acc-header { display:flex;align-items:center;justify-content:space-between;padding:8px 14px; }
-.icon-btn { width:32px;height:32px;display:flex;align-items:center;justify-content:center;border-radius:9px;background:rgba(255,255,255,0.09);border:1px solid rgba(255,255,255,0.12);cursor:pointer;transition:transform 0.12s; }
-.icon-btn:active { transform:scale(0.86); }
-.notif-dot { position:absolute;top:-3px;right:-3px;width:14px;height:14px;background:#ef4444;border-radius:50%;font-size:7px;font-weight:700;color:#fff;display:flex;align-items:center;justify-content:center; }
-.acc-body { flex:1;padding:4px 14px 90px; }
+/* ─── root ─── */
+.acc-root {
+  min-height: 100vh;
+  background: linear-gradient(160deg, #1e1b4b 0%, #312e81 40%, #3d4187 100%);
+  display: flex; flex-direction: column;
+  color: rgba(255,255,255,0.92);
+  font-family: system-ui, sans-serif;
+  padding-bottom: 72px;
+}
+.acc-header {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 12px 14px;
+  background: rgba(20,24,80,0.5);
+  border-bottom: 1px solid rgba(255,255,255,0.05);
+  position: sticky; top: 0; z-index: 10;
+}
+.acc-body { padding: 14px 14px 4px; flex: 1; }
+.icon-btn { background: none; border: none; cursor: pointer; padding: 5px; display:flex; align-items:center; -webkit-tap-highlight-color:transparent; position:relative; }
+.notif-dot { position:absolute; top:2px; right:2px; width:14px; height:14px; background:#ef4444; border-radius:50%; font-size:7.5px; font-weight:900; color:#fff; display:flex; align-items:center; justify-content:center; }
 
-.av-wrap { position:relative;flex-shrink:0;cursor:pointer; }
-.av-img  { width:50px;height:50px;border-radius:13px;object-fit:cover;border:1.5px solid rgba(255,255,255,0.18);box-shadow:0 0 10px rgba(34,197,94,0.3); }
-.av-edit { position:absolute;bottom:0;right:0;width:15px;height:15px;border-radius:4px;background:rgba(34,197,94,0.85);border:1.5px solid #3d4187;display:flex;align-items:center;justify-content:center; }
-.vip-pill { position:absolute;bottom:-4px;right:-5px;padding:1px 4px;border-radius:4px;font-size:8px;font-weight:900;color:#fff;line-height:1.5;z-index:2; }
+/* ─── guest state ─── */
+.guest-hero {
+  display: flex; align-items: center; gap: 14px;
+  padding: 10px 0 16px;
+}
+.guest-av {
+  width: 56px; height: 56px; border-radius: 50%;
+  background: rgba(255,255,255,0.1);
+  display: flex; align-items: center; justify-content: center;
+  flex-shrink: 0;
+}
+.guest-prompt {
+  font-size: 13px; font-weight: 700;
+  color: rgba(255,255,255,0.85);
+  line-height: 1.5; margin: 0;
+}
 
-.uname { font-size:14px;font-weight:800;color:#fff; }
-.uid   { font-size:11px;color:rgba(255,255,255,0.48);font-family:monospace;font-weight:600; }
-.bal   { font-size:16px;font-weight:900;color:#34d399; }
+/* ─── balance card ─── */
+.bal-card {
+  background: linear-gradient(135deg, #d97706 0%, #f59e0b 50%, #fbbf24 100%);
+  border-radius: 12px;
+  padding: 12px 14px;
+  display: flex; align-items: center; justify-content: space-between;
+  gap: 10px;
+}
+.bal-left { display: flex; align-items: center; gap: 7px; }
+.bal-amt { font-size: 18px; font-weight: 900; color: #1a1a2e; letter-spacing: 0.02em; }
+.bal-btns { display: flex; gap: 7px; }
+.bal-btn {
+  padding: 5px 11px; border-radius: 7px; border: none;
+  background: rgba(0,0,0,0.15);
+  color: #fff; font-size: 10.5px; font-weight: 700;
+  cursor: pointer; -webkit-tap-highlight-color: transparent;
+}
+.bal-btn--out { background: rgba(255,255,255,0.2); color: #1a1a2e; }
 
-.cp-btn { background:rgba(255,255,255,0.07);border:1px solid rgba(255,255,255,0.12);border-radius:5px;padding:2px 4px;cursor:pointer;display:flex;align-items:center;color:rgba(255,255,255,0.55);transition:transform 0.1s; }
-.cp-btn:active { transform:scale(0.82); }
-.cp-btn--blue { color:#60a5fa;border-color:rgba(96,165,250,0.22);background:rgba(96,165,250,0.07); }
+/* ─── icon section ─── */
+.sec-row {
+  display: flex; gap: 12px;
+}
+.sec-group-title {
+  font-size: 10.5px; color: rgba(255,255,255,0.45);
+  margin-bottom: 12px;
+}
+.sec-grid4 {
+  display: grid; grid-template-columns: repeat(4, 1fr);
+  gap: 8px;
+}
+.sec-icon-item {
+  display: flex; flex-direction: column; align-items: center;
+  gap: 6px; padding: 10px 4px;
+  background: none; border: none; cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+  text-align: center;
+}
+.sec-icon-wrap {
+  width: 44px; height: 44px; border-radius: 12px;
+  background: rgba(255,255,255,0.07);
+  display: flex; align-items: center; justify-content: center;
+}
+.sec-lbl {
+  font-size: 9.5px; color: rgba(255,255,255,0.65);
+  line-height: 1.35; text-align: center;
+}
 
-.ref-btn { width:22px;height:22px;background:rgba(34,197,94,0.1);border:1px solid rgba(34,197,94,0.28);border-radius:50%;display:flex;align-items:center;justify-content:center;cursor:pointer;color:#16a34a; }
-.ref-btn:active { transform:scale(0.82); }
-.ref-btn.refreshing .ref-svg { animation:spin 0.7s linear infinite; }
+/* ─── logged-in profile row ─── */
+.av-wrap { position:relative; cursor:pointer; flex-shrink:0; }
+.av-img  { width:50px; height:50px; border-radius:12px; object-fit:cover; border:1.5px solid rgba(255,255,255,0.15); }
+.vip-pill { position:absolute; bottom:-5px; left:-4px; padding:1px 5px; border-radius:5px; font-size:8px; font-weight:900; line-height:1.5; }
+.av-edit { position:absolute; bottom:0; right:0; width:16px; height:16px; border-radius:50%; background:#1d4ed8; display:flex; align-items:center; justify-content:center; }
+.uname { font-size:13px; font-weight:700; color:#fff; }
+.uid   { font-size:10px; color:rgba(255,255,255,0.45); font-family:monospace; }
+.cp-btn { background:rgba(255,255,255,0.08); border:1px solid rgba(255,255,255,0.12); border-radius:4px; padding:2px 4px; color:rgba(255,255,255,0.45); cursor:pointer; display:flex; align-items:center; }
+.cp-btn--blue { color:#60a5fa; border-color:rgba(96,165,250,0.25); background:rgba(96,165,250,0.06); }
+.bal { font-size:14px; font-weight:900; color:#fbbf24; }
+.ref-btn { background:rgba(255,255,255,0.06); border:1px solid rgba(255,255,255,0.1); border-radius:5px; padding:3px 5px; color:rgba(255,255,255,0.5); cursor:pointer; display:flex; align-items:center; transition:transform 0.4s; }
+.ref-btn.refreshing .ref-svg { animation: spin 0.6s linear infinite; }
+@keyframes spin { to { transform: rotate(360deg); } }
 
-.thin-div { display:none; }
-.mrow { display:flex;align-items:center;gap:9px;padding:10px 0;width:100%;cursor:pointer;background:none;border:none;-webkit-tap-highlight-color:transparent;transition:opacity 0.15s; }
-.mrow:active { opacity:0.6; }
-.micon { width:28px;height:28px;border-radius:8px;background:rgba(255,255,255,0.08);display:flex;align-items:center;justify-content:center;flex-shrink:0; }
-.mlbl { font-size:12.5px;font-weight:600;color:#fff; }
-.marr { width:13px;height:13px;flex-shrink:0; }
+/* ─── menu rows ─── */
+.mrow { width:100%; display:flex; align-items:center; gap:10px; padding:11px 12px; background:none; border:none; border-bottom:1px solid rgba(255,255,255,0.05); cursor:pointer; text-align:left; -webkit-tap-highlight-color:transparent; }
+.mrow:last-child { border-bottom:none; }
+.micon { width:28px; height:28px; border-radius:8px; background:rgba(255,255,255,0.06); display:flex; align-items:center; justify-content:center; flex-shrink:0; }
+.mlbl { font-size:11.5px; color:rgba(255,255,255,0.85); font-weight:500; }
+.marr { width:14px; height:14px; flex-shrink:0; }
 
-.vip-card { position:relative;overflow:hidden;border-radius:13px;padding:10px 12px;background:linear-gradient(135deg,#0d9488 0%,#14b8a6 45%,#0f766e 100%);margin:7px 0; }
-.vip-shimmer { position:absolute;inset:0;pointer-events:none;background:linear-gradient(110deg,transparent 30%,rgba(255,255,255,0.12) 50%,transparent 70%); }
-.vip-lv { flex-shrink:0;background:rgba(255,255,255,0.2);border-radius:6px;padding:2px 7px;display:flex;align-items:center;justify-content:center; }
-.vip-coin { width:24px;height:24px;border-radius:50%;background:radial-gradient(circle,#fde68a 30%,#f59e0b 100%);border:1.5px solid rgba(255,255,255,0.3);display:flex;align-items:center;justify-content:center;flex-shrink:0; }
-.vbar { height:5px;border-radius:999px;background:rgba(0,0,0,0.18);overflow:hidden; }
-.vbar-f  { height:100%;border-radius:999px;background:rgba(255,255,255,0.85);transition:width 0.5s; }
-.vbar-f2 { height:100%;border-radius:999px;background:rgba(254,243,199,0.75);transition:width 0.5s; }
+/* ─── VIP card ─── */
+.vip-card { background:linear-gradient(135deg,#312e81,#4338ca); border-radius:12px; padding:12px 14px; margin:10px 0; position:relative; overflow:hidden; }
+.vip-shimmer { position:absolute; inset:0; background:linear-gradient(105deg,transparent 40%,rgba(255,255,255,0.06) 50%,transparent 60%); animation:shimmer 3s ease-in-out infinite; }
+@keyframes shimmer { 0%{transform:translateX(-100%)} 100%{transform:translateX(200%)} }
+.vip-lv { padding:2px 8px; background:linear-gradient(135deg,#f59e0b,#d97706); border-radius:6px; flex-shrink:0; }
+.vip-coin { width:24px; height:24px; border-radius:50%; background:linear-gradient(135deg,#f59e0b,#d97706); display:flex; align-items:center; justify-content:center; flex-shrink:0; }
+.vbar { height:4px; border-radius:2px; background:rgba(255,255,255,0.12); overflow:hidden; }
+.vbar-f  { height:100%; border-radius:2px; background:linear-gradient(90deg,#6ee7b7,#34d399); transition:width 0.5s; }
+.vbar-f2 { height:100%; border-radius:2px; background:linear-gradient(90deg,#93c5fd,#3b82f6); transition:width 0.5s; }
 
-/* ── Full-screen page ── */
-.fullpage { position:fixed;inset:0;z-index:300;display:flex;flex-direction:column;overflow:hidden; }
-.fp-header { display:flex;align-items:center;justify-content:space-between;padding:11px 14px 9px;flex-shrink:0; }
-.fp-title  { font-size:14px;font-weight:800;color:#fff; }
-.fp-body   { flex:1;overflow-y:auto;padding:0 14px; }
-.fp-footer { display:flex;gap:9px;padding:10px 14px;flex-shrink:0;padding-bottom:calc(10px + env(safe-area-inset-bottom,0px)); }
-.fp-back { flex:1;padding:11px;border-radius:11px;background:rgba(255,255,255,0.07);border:1px solid rgba(255,255,255,0.11);color:rgba(255,255,255,0.7);font-size:13px;font-weight:700;cursor:pointer; }
-.fp-back:active { opacity:0.65; }
-.fp-save { flex:2;padding:11px;border-radius:11px;background:linear-gradient(135deg,#16a34a,#22c55e);border:none;color:#fff;font-size:13px;font-weight:800;cursor:pointer;box-shadow:0 3px 12px rgba(34,197,94,0.38); }
-.fp-save:active { transform:scale(0.97); }
+/* ─── full-screen pages ─── */
+.fullpage { position:fixed; inset:0; z-index:100; display:flex; flex-direction:column; overflow:hidden; }
+.fp-header { display:flex; align-items:center; justify-content:space-between; padding:12px 14px; border-bottom:1px solid rgba(255,255,255,0.06); }
+.fp-title { font-size:13px; font-weight:700; color:#fff; }
+.fp-body { flex:1; overflow-y:auto; padding:0 14px 20px; }
 
-/* ── Dropdown transition ── */
-.drop-enter-active { transition:opacity 0.18s,transform 0.18s; }
-.drop-leave-active { transition:opacity 0.14s,transform 0.14s; }
-.drop-enter-from,.drop-leave-to { opacity:0;transform:translateY(-6px); }
-
-/* ── Page slide ── */
-.pg-enter-active { transition:transform 0.28s cubic-bezier(0.25,0.46,0.45,0.94); }
-.pg-leave-active { transition:transform 0.2s ease-in; }
-.pg-enter-from,.pg-leave-to { transform:translateX(100%); }
-
-@keyframes spin { from { transform:rotate(0deg); } to { transform:rotate(360deg); } }
+/* ─── transitions ─── */
+.pg-enter-active, .pg-leave-active { transition: transform 0.28s cubic-bezier(0.4,0,0.2,1); }
+.pg-enter-from { transform: translateX(100%); }
+.pg-leave-to  { transform: translateX(100%); }
+.drop-enter-active, .drop-leave-active { transition: all 0.18s ease; }
+.drop-enter-from, .drop-leave-to { opacity:0; transform:translateY(-6px); }
 </style>
