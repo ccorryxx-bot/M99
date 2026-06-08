@@ -14,7 +14,7 @@ import { supabase } from '@/supabase'
 const routes = [
   { path: '/', redirect: '/home' },
   { path: '/home', component: HomePage },
-  { path: '/promotions', component: PromotionsPage, meta: { requiresAuth: true } },
+  { path: '/promotions', component: PromotionsPage },
   { path: '/exchange-code', component: ExchangeCodePage, meta: { requiresAuth: true } },
   { path: '/daily-bonus', component: DailyBonusPage, meta: { requiresAuth: true } },
   { path: '/network', component: ReferralPage, meta: { requiresAuth: true } },
