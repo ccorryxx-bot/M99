@@ -36,7 +36,13 @@
             <path d="M4 20c0-4 3.6-7 8-7s8 3 8 7" stroke="rgba(255,255,255,0.35)" stroke-width="1.6" stroke-linecap="round"/>
           </svg>
         </div>
-        <p class="guest-prompt">ကျေးဇူးပြု၍ ဦးစွာ လော့ဂ်အင်<br>သို့မဟုတ် မတ်ပုံတင်</p>
+        <div style="flex:1;min-width:0;">
+          <p class="guest-prompt" style="margin:0 0 8px;">ကျေးဇူးပြု၍ ဦးစွာ လော့ဂ်အင်<br>သို့မဟုတ် မတ်ပုံတင်</p>
+          <div style="display:flex;gap:7px;">
+            <button @click="$router.push('/home?auth=login')" class="g-auth-btn">လောဂ်အင်</button>
+            <button @click="$router.push('/home?auth=register')" class="g-auth-btn g-auth-btn--primary">မှတ်ပုံတင်</button>
+          </div>
+        </div>
       </div>
 
       <!-- Balance card -->
@@ -46,20 +52,20 @@
           <span class="bal-amt">---.--</span>
         </div>
         <div class="bal-btns">
-          <button class="bal-btn" @click="$router.push('/login')">ငွေသောင်းနန်</button>
-          <button class="bal-btn bal-btn--out" @click="$router.push('/login')">ငွေထုတ်ရန်</button>
+          <button class="bal-btn" @click="$router.push('/home?auth=login')">ငွေသောင်းနန်</button>
+          <button class="bal-btn bal-btn--out" @click="$router.push('/home?auth=login')">ငွေထုတ်ရန်</button>
         </div>
       </div>
 
       <!-- Section 1: two icon items -->
       <div class="sec-row sec-card" style="margin-top:16px;">
-        <button class="sec-icon-item" @click="$router.push('/login')">
+        <button class="sec-icon-item" @click="$router.push('/home?auth=login')">
           <div class="sec-icon-wrap">
             <img src="https://ik.imagekit.io/rbok01qam/Custom%20icons%20img/style_6_icon_list_zdjl.avif?updatedAt=1780926787548&tr=f-auto" class="sec-img-icon" alt="ငါ့မှတ်တမ်း"/>
           </div>
           <span class="sec-lbl">ငါ့မှတ်တမ်း</span>
         </button>
-        <button class="sec-icon-item" @click="$router.push('/login')">
+        <button class="sec-icon-item" @click="$router.push('/home?auth=login')">
           <div class="sec-icon-wrap">
             <img src="https://ik.imagekit.io/rbok01qam/Custom%20icons%20img/style_6_icon_list_txgl.avif?updatedAt=1780926787637&tr=f-auto" class="sec-img-icon" alt="ငွေထုတ်စီမံ"/>
           </div>
@@ -71,25 +77,25 @@
       <div class="sec-group sec-card" style="margin-top:14px;">
         <div class="sec-group-title">ကမ်းလှမ်းချက်စင်တာ</div>
         <div class="sec-grid4">
-          <button class="sec-icon-item" @click="$router.push('/login')">
+          <button class="sec-icon-item" @click="$router.push('/home?auth=login')">
             <div class="sec-icon-wrap">
               <img src="https://ik.imagekit.io/rbok01qam/Custom%20icons%20img/style_6_icon_list_fxzq.avif?updatedAt=1780926787711&tr=f-auto" class="sec-img-icon" alt="အေးဂျင့်"/>
             </div>
             <span class="sec-lbl">အေးဂျင့်</span>
           </button>
-          <button class="sec-icon-item" @click="$router.push('/login')">
+          <button class="sec-icon-item" @click="$router.push('/home?auth=login')">
             <div class="sec-icon-wrap">
               <img src="https://ik.imagekit.io/rbok01qam/Custom%20icons%20img/style_6_icon_list_kyd.avif?updatedAt=1780926787634&tr=f-auto" class="sec-img-icon" alt="ကစားပမ်း"/>
             </div>
             <span class="sec-lbl">ကစားပမ်း</span>
           </button>
-          <button class="sec-icon-item" @click="$router.push('/login')">
+          <button class="sec-icon-item" @click="$router.push('/home?auth=login')">
             <div class="sec-icon-wrap">
               <img src="https://ik.imagekit.io/rbok01qam/Custom%20icons%20img/style_6_icon_list_czhd.avif?updatedAt=1780926787610&tr=f-auto" class="sec-img-icon" alt="လုပ်ဆောင်ချက်"/>
             </div>
             <span class="sec-lbl">လုပ်ဆောင်ချ<br>ကိုကြိ အား..</span>
           </button>
-          <button class="sec-icon-item" @click="$router.push('/login')">
+          <button class="sec-icon-item" @click="$router.push('/home?auth=login')">
             <div class="sec-icon-wrap">
               <img src="https://ik.imagekit.io/rbok01qam/Custom%20icons%20img/style_6_icon_list_mrqd.avif?updatedAt=1780926787645&tr=f-auto" class="sec-img-icon" alt="နေ့စဉ်ဆိုင်း"/>
             </div>
@@ -102,7 +108,7 @@
       <div class="sec-group" style="margin-top:14px;">
         <div class="sec-group-title">အခြားလုပ်ဆောင်ချက်များ</div>
         <div class="sec-grid4">
-          <button class="sec-icon-item" @click="$router.push('/login')">
+          <button class="sec-icon-item" @click="$router.push('/home?auth=login')">
             <div class="sec-icon-wrap">
               <svg width="22" height="22" fill="none" viewBox="0 0 24 24" stroke="rgba(96,165,250,0.9)" stroke-width="1.7">
                 <path stroke-linecap="round" stroke-linejoin="round" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/>
@@ -110,7 +116,7 @@
             </div>
             <span class="sec-lbl">ကိုယ်ရေး<br>အချက်အ...</span>
           </button>
-          <button class="sec-icon-item" @click="$router.push('/login')">
+          <button class="sec-icon-item" @click="$router.push('/home?auth=login')">
             <div class="sec-icon-wrap">
               <svg width="22" height="22" fill="none" viewBox="0 0 24 24" stroke="rgba(167,139,250,0.85)" stroke-width="1.7">
                 <path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/>
@@ -118,7 +124,7 @@
             </div>
             <span class="sec-lbl">လုံခြုံရေးစင်<br>တာ</span>
           </button>
-          <button class="sec-icon-item" @click="$router.push('/login')">
+          <button class="sec-icon-item" @click="$router.push('/home?auth=login')">
             <div class="sec-icon-wrap">
               <svg width="22" height="22" fill="none" viewBox="0 0 24 24" stroke="rgba(52,211,153,0.85)" stroke-width="1.7">
                 <path stroke-linecap="round" stroke-linejoin="round" d="M3 5h12M9 3v2m1.048 9.5A18.022 18.022 0 016.412 9m6.088 9h7M11 21l5-10 5 10M12.751 5C11.783 10.77 8.07 15.61 3 18.129"/>
@@ -126,7 +132,7 @@
             </div>
             <span class="sec-lbl">ဘာသာစကား</span>
           </button>
-          <button class="sec-icon-item" @click="$router.push('/login')">
+          <button class="sec-icon-item" @click="$router.push('/home?auth=login')">
             <div class="sec-icon-wrap">
               <svg width="22" height="22" fill="none" viewBox="0 0 24 24" stroke="rgba(251,191,36,0.85)" stroke-width="1.7">
                 <path stroke-linecap="round" stroke-linejoin="round" d="M8.228 9c.549-1.165 2.03-2 3.772-2 2.21 0 4 1.343 4 3 0 1.4-1.278 2.575-3.006 2.907-.542.104-.994.54-.994 1.093m0 3h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
@@ -134,7 +140,7 @@
             </div>
             <span class="sec-lbl">မော်သည်<br>ဝင်ဆောင်ငမ</span>
           </button>
-          <button class="sec-icon-item" @click="$router.push('/login')">
+          <button class="sec-icon-item" @click="$router.push('/home?auth=login')">
             <div class="sec-icon-wrap">
               <svg width="22" height="22" fill="none" viewBox="0 0 24 24" stroke="rgba(248,113,113,0.85)" stroke-width="1.7">
                 <path stroke-linecap="round" stroke-linejoin="round" d="M11 5.882V19.24a1.76 1.76 0 01-3.417.592l-2.147-6.15M18 13a3 3 0 100-6M5.436 13.683A4.001 4.001 0 017 6h1.832c4.1 0 7.625-1.234 9.168-3v14c-1.543-1.766-5.067-3-9.168-3H7a3.988 3.988 0 01-1.564-.317z"/>
@@ -142,7 +148,7 @@
             </div>
             <span class="sec-lbl">အကြောင်းပေး<br>ခြင်</span>
           </button>
-          <button class="sec-icon-item" @click="$router.push('/login')">
+          <button class="sec-icon-item" @click="$router.push('/home?auth=login')">
             <div class="sec-icon-wrap">
               <svg width="22" height="22" fill="none" viewBox="0 0 24 24" stroke="rgba(156,163,175,0.85)" stroke-width="1.7">
                 <path stroke-linecap="round" stroke-linejoin="round" d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17H3a2 2 0 01-2-2V5a2 2 0 012-2h14a2 2 0 012 2v10a2 2 0 01-2 2h-2"/>
@@ -477,7 +483,7 @@ const comingSoon = () => {}
 /* ─── root ─── */
 .acc-root {
   min-height: 100vh;
-  background: linear-gradient(160deg, #1e1b4b 0%, #312e81 40%, #3d4187 100%);
+  background: linear-gradient(160deg, #16183a 0%, #252870 50%, #16183a 100%);
   display: flex; flex-direction: column;
   color: rgba(255,255,255,0.92);
   font-family: system-ui, sans-serif;
@@ -486,7 +492,7 @@ const comingSoon = () => {}
 .acc-header {
   display: flex; align-items: center; justify-content: space-between;
   padding: 12px 14px;
-  background: rgba(20,24,80,0.5);
+  background: rgba(22,24,58,0.75); backdrop-filter:blur(16px); -webkit-backdrop-filter:blur(16px);
   border-bottom: 1px solid rgba(255,255,255,0.05);
   position: sticky; top: 0; z-index: 10;
 }
@@ -611,4 +617,19 @@ const comingSoon = () => {}
 .pg-leave-to  { transform: translateX(100%); }
 .drop-enter-active, .drop-leave-active { transition: all 0.18s ease; }
 .drop-enter-from, .drop-leave-to { opacity:0; transform:translateY(-6px); }
+
+/* ─── guest auth buttons ─── */
+.g-auth-btn {
+  padding: 6px 14px; border-radius: 8px; border: 1.5px solid rgba(255,255,255,0.22);
+  background: rgba(255,255,255,0.08);
+  color: rgba(255,255,255,0.9); font-size: 11px; font-weight: 700;
+  cursor: pointer; -webkit-tap-highlight-color: transparent;
+  transition: opacity 0.15s;
+}
+.g-auth-btn:active { opacity: 0.6; }
+.g-auth-btn--primary {
+  background: linear-gradient(135deg, #4f46e5, #7c3aed);
+  border-color: transparent;
+  color: #fff;
+}
 </style>
