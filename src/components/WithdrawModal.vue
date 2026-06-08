@@ -27,53 +27,88 @@
         <div v-if="activeTab === 0" class="wd-body">
           <div class="wd-balance-row">
             <span class="wd-balance-label">လက်ကျန်</span>
-            <span class="wd-balance-num">{{ formatBal(balance) }}</span>
+            <span class="wd-balance-num wd-balance-num--gold">{{ formatBal(balance) }}</span>
             <button class="wd-vip-refresh" :class="{ spinning: balRefreshing }" @click="doBalRefresh">
-              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.65)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#f5c842" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
                 <polyline points="23 4 23 10 17 10"/><path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10"/>
               </svg>
             </button>
           </div>
 
-          <button class="wd-acct-row" @click="linkedAccount ? null : (activeTab = 1)">
-            <div class="wd-acct-left">
-              <div class="wd-acct-icon">
-                <svg width="16" height="16" fill="none" viewBox="0 0 24 24">
-                  <rect x="2" y="5" width="20" height="14" rx="2" stroke="rgba(245,200,66,0.9)" stroke-width="1.6"/>
-                  <path d="M2 10h20" stroke="rgba(245,200,66,0.9)" stroke-width="1.6"/>
-                  <path d="M6 15h4" stroke="rgba(245,200,66,0.6)" stroke-width="1.5" stroke-linecap="round"/>
-                  <circle cx="18" cy="15" r="1.5" fill="rgba(245,200,66,0.7)"/>
-                </svg>
+          <!-- Account row + gear icon -->
+          <div class="wd-acct-outer">
+            <button class="wd-acct-row wd-acct-row--yellow" @click="activeTab = 1">
+              <div class="wd-acct-left">
+                <!-- Logo / fallback icon -->
+                <div class="wd-acct-logo-wrap">
+                  <template v-if="linkedAccount">
+                    <img v-if="methodImg(linkedAccount.key)"
+                      :src="methodImg(linkedAccount.key)"
+                      class="wd-acct-logo-img"
+                      @error="e => e.target.style.display='none'"
+                      alt=""/>
+                    <div v-else class="wd-acct-logo-text" :style="{ background: methodBg(linkedAccount.key) }">
+                      {{ methodSymbol(linkedAccount.key) }}
+                    </div>
+                  </template>
+                  <template v-else>
+                    <div class="wd-acct-logo-icon">
+                      <svg width="16" height="16" fill="none" viewBox="0 0 24 24">
+                        <rect x="2" y="5" width="20" height="14" rx="2" stroke="rgba(245,200,66,0.9)" stroke-width="1.6"/>
+                        <path d="M2 10h20" stroke="rgba(245,200,66,0.9)" stroke-width="1.6"/>
+                        <path d="M6 15h4" stroke="rgba(245,200,66,0.55)" stroke-width="1.5" stroke-linecap="round"/>
+                        <circle cx="18" cy="15" r="1.5" fill="rgba(245,200,66,0.65)"/>
+                      </svg>
+                    </div>
+                  </template>
+                </div>
+
+                <div v-if="linkedAccount" class="wd-acct-info">
+                  <span class="wd-acct-display">{{ linkedAccount.label }}({{ maskPhone(linkedAccount.phone) }})</span>
+                </div>
+                <span v-else class="wd-acct-placeholder">ငွေထုတ်အကောင့်ထည့်ပါ။</span>
               </div>
-              <div v-if="linkedAccount" class="wd-acct-info">
-                <span class="wd-acct-method">{{ linkedAccount.label }}</span>
-                <span class="wd-acct-phone">{{ linkedAccount.phone }}</span>
-              </div>
-              <span v-else class="wd-acct-placeholder">ငွေထုတ်အကောင့်ထည့်ပါ။</span>
-            </div>
-            <svg width="14" height="14" fill="none" stroke="rgba(255,255,255,0.35)" stroke-width="2.2" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7"/>
-            </svg>
-          </button>
+              <!-- chevron -->
+              <svg width="14" height="14" fill="none" stroke="rgba(255,255,255,0.45)" stroke-width="2.2" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/>
+              </svg>
+            </button>
+
+            <!-- Gear icon (settings) -->
+            <button v-if="linkedAccount" class="wd-acct-gear" @click="activeTab = 1">
+              <svg width="18" height="18" fill="none" viewBox="0 0 24 24">
+                <rect x="3" y="3" width="18" height="14" rx="2" fill="rgba(245,200,66,0.15)" stroke="rgba(245,200,66,0.7)" stroke-width="1.5"/>
+                <path d="M3 8h18" stroke="rgba(245,200,66,0.6)" stroke-width="1.3"/>
+                <circle cx="9" cy="13" r="1.3" fill="rgba(245,200,66,0.7)"/>
+                <path d="M20 18v2M20 21v.01" stroke="rgba(245,200,66,0.8)" stroke-width="1.5" stroke-linecap="round"/>
+                <circle cx="20" cy="20" r="3" stroke="rgba(245,200,66,0.6)" stroke-width="1.3"/>
+              </svg>
+            </button>
+          </div>
 
           <div class="wd-section-label">ငွေထုတ်မမာ</div>
 
-          <div class="wd-amt-wrap">
+          <!-- Amount input with "အားလုံး" button -->
+          <div class="wd-amt-wrap wd-amt-wrap--yellow" @click="!linkedAccount ? activeTab = 1 : null">
             <span class="wd-k-prefix">K</span>
             <input
               v-model.number="amount"
               type="number"
               inputmode="numeric"
               class="wd-amt-input"
-              :placeholder="linkedAccount ? 'ငွေထုတ်ယူမည့်ပမာဏ ထည့်ပါ' : 'ငွေထုတ်ယူမြင်မပြမမဲ ထုတ်ယူမည့်အကောင့်ကို ထည့်သွင်းပါ။'"
+              placeholder="အနည်းဆုံး 10000 အများဆုံး 1000000"
               :disabled="!linkedAccount"
+              @focus="!linkedAccount ? activeTab = 1 : null"
             />
+            <button v-if="linkedAccount && balance > 0" class="wd-amt-all-btn" @click.stop="amount = balance">
+              အားလုံး
+            </button>
           </div>
 
           <p v-if="error" class="wd-error">{{ error }}</p>
-          <div style="flex:1;"></div>
 
-          <div class="wd-cta-wrap">
+          <!-- Submit button — directly below input, not fixed to bottom -->
+          <div class="wd-cta-wrap wd-cta-wrap--inline">
             <button
               class="wd-submit-btn"
               :class="canSubmit ? 'wd-submit-btn--active' : 'wd-submit-btn--disabled'"
@@ -82,6 +117,8 @@
               ငွေထုတ်ကြောင်း အတည်ပြုပါ။
             </button>
           </div>
+
+          <div style="flex:1;"></div>
         </div>
 
         <!-- ══ TAB 1: ငွေထုတ်အကောင့် ချိတ်ရန် ══ -->
@@ -450,6 +487,24 @@ function close() { emit('update:modelValue', false) }
 function methodLabel(key) {
   return { kpay: 'KBZPay', wave: 'Wave Money', usdt: 'USDT', uab: 'UAB Pay' }[key] || key
 }
+function maskPhone(phone) {
+  if (!phone) return ''
+  if (phone.length <= 4) return phone
+  return '****' + phone.slice(-4)
+}
+function methodImg(key) {
+  const imgs = {
+    kpay: 'https://ik.imagekit.io/tdpebgueq/Payment%20Method%20/Screenshot_2026-06-04-00-35-27-327_mark.via.gp_1780510112167edit.jpg?tr=f-auto',
+    wave: 'https://ik.imagekit.io/tdpebgueq/Payment%20Method%20/Screenshot_2026-06-04-00-35-34-166_mark.via.gp_1780510124725edit.jpg?tr=f-auto'
+  }
+  return imgs[key] || null
+}
+function methodBg(key) {
+  return { usdt: '#1ba27a', uab: '#c0392b' }[key] || '#3d4187'
+}
+function methodSymbol(key) {
+  return { usdt: '₮', uab: 'UAB' }[key] || '?'
+}
 
 function openLinkForm(key) {
   linkFormData.key   = key
@@ -551,54 +606,103 @@ function spin(r) { r.value = true; setTimeout(() => r.value = false, 800) }
 }
 .wd-balance-label { font-size: 12px; color: rgba(255,255,255,0.55); }
 .wd-balance-num { font-size: 15px; font-weight: 800; color: #fff; }
+.wd-balance-num--gold { color: #f5c842; }
 
+/* Account outer (row + gear side by side) */
+.wd-acct-outer {
+  display: flex; align-items: center; gap: 8px;
+  margin: 6px 14px 14px;
+}
 .wd-acct-row {
-  display: flex; align-items: center; justify-content: space-between;
-  margin: 6px 14px 14px; padding: 13px 14px;
+  flex: 1; display: flex; align-items: center; justify-content: space-between;
+  padding: 11px 12px;
   background: #313478; border: 1px solid rgba(255,255,255,0.09);
   border-radius: 10px; cursor: pointer; -webkit-tap-highlight-color: transparent;
-  transition: background 0.12s;
+  transition: background 0.12s; min-width: 0;
 }
+.wd-acct-row--yellow { border-color: rgba(245,200,66,0.3); }
 .wd-acct-row:active { background: #2a2d6a; }
-.wd-acct-left { display: flex; align-items: center; gap: 10px; }
-.wd-acct-icon {
-  width: 32px; height: 32px; border-radius: 8px;
+.wd-acct-left { display: flex; align-items: center; gap: 10px; min-width: 0; }
+
+/* Logo area */
+.wd-acct-logo-wrap { width: 36px; height: 36px; flex-shrink: 0; }
+.wd-acct-logo-img { width: 36px; height: 36px; object-fit: cover; border-radius: 7px; display: block; }
+.wd-acct-logo-text {
+  width: 36px; height: 36px; border-radius: 7px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 13px; font-weight: 900; color: #fff;
+}
+.wd-acct-logo-icon {
+  width: 36px; height: 36px; border-radius: 8px;
   background: rgba(245,200,66,0.12);
-  display: flex; align-items: center; justify-content: center; flex-shrink: 0;
+  display: flex; align-items: center; justify-content: center;
+}
+
+.wd-acct-info { display: flex; flex-direction: column; min-width: 0; }
+.wd-acct-display {
+  font-size: 13px; font-weight: 700; color: rgba(255,255,255,0.92);
+  white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
 }
 .wd-acct-placeholder { font-size: 12px; color: rgba(255,255,255,0.45); }
-.wd-acct-info { display: flex; flex-direction: column; gap: 1px; }
-.wd-acct-method { font-size: 11px; font-weight: 700; color: rgba(255,255,255,0.9); }
-.wd-acct-phone { font-size: 10px; color: rgba(255,255,255,0.5); font-family: monospace; }
+
+/* Gear settings button */
+.wd-acct-gear {
+  width: 44px; height: 44px; flex-shrink: 0;
+  background: #313478; border: 1px solid rgba(245,200,66,0.3);
+  border-radius: 10px; cursor: pointer;
+  display: flex; align-items: center; justify-content: center;
+  -webkit-tap-highlight-color: transparent; transition: background 0.12s;
+}
+.wd-acct-gear:active { background: #2a2d6a; }
 
 .wd-section-label { font-size: 11px; font-weight: 700; color: rgba(255,255,255,0.65); padding: 0 16px 6px; }
 
 .wd-amt-wrap { position: relative; margin: 0 14px; }
+.wd-amt-wrap--yellow {
+  border: 1px solid rgba(245,200,66,0.3);
+  border-radius: 10px;
+}
+.wd-amt-wrap--yellow .wd-amt-input {
+  border: none;
+}
 .wd-k-prefix {
   position: absolute; left: 12px; top: 50%; transform: translateY(-50%);
   font-size: 12px; font-weight: 800; color: rgba(255,255,255,0.5);
   pointer-events: none; z-index: 1;
 }
 .wd-amt-input {
-  width: 100%; box-sizing: border-box; padding: 13px 14px 13px 28px;
+  width: 100%; box-sizing: border-box; padding: 13px 60px 13px 28px;
   background: #313478; border: 1px solid rgba(255,255,255,0.09);
   border-radius: 10px; font-size: 14px; font-weight: 700; color: #fff;
   outline: none; caret-color: #f5c842; -webkit-appearance: none;
   transition: border-color 0.15s;
 }
-.wd-amt-input::placeholder { color: rgba(255,255,255,0.22); font-size: 11px; font-weight: 500; }
+.wd-amt-input::placeholder { color: rgba(255,255,255,0.22); font-size: 11px; font-weight: 400; }
 .wd-amt-input:focus { border-color: rgba(245,200,66,0.5); }
-.wd-amt-input:disabled { opacity: 0.6; cursor: not-allowed; }
+.wd-amt-input:disabled { opacity: 0.55; cursor: pointer; }
 .wd-amt-input::-webkit-outer-spin-button,
 .wd-amt-input::-webkit-inner-spin-button { -webkit-appearance: none; }
 .wd-amt-input[type=number] { -moz-appearance: textfield; }
 
+/* "အားလုံး" max button */
+.wd-amt-all-btn {
+  position: absolute; right: 10px; top: 50%; transform: translateY(-50%);
+  background: rgba(245,200,66,0.15); border: 1px solid rgba(245,200,66,0.35);
+  border-radius: 6px; padding: 4px 8px;
+  font-size: 10px; font-weight: 700; color: #f5c842;
+  cursor: pointer; -webkit-tap-highlight-color: transparent;
+}
+.wd-amt-all-btn:active { background: rgba(245,200,66,0.25); }
+
 .wd-error { font-size: 11px; color: #f87171; padding: 6px 16px 0; margin: 0; }
 
-/* ── HIGH ELEVATION Submit Button (thin, gold) ── */
+/* ── Submit Button (thin, gold, inline below input) ── */
 .wd-cta-wrap {
   padding: 20px 14px calc(20px + env(safe-area-inset-bottom, 0px));
   flex-shrink: 0;
+}
+.wd-cta-wrap--inline {
+  padding: 14px 14px 0;
 }
 .wd-submit-btn {
   width: 100%; border: none; border-radius: 10px; padding: 15px;
