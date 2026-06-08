@@ -648,20 +648,8 @@
   async function handleRegister() {
     regError.value=''; if(!regUsername.value||!regPhone.value||!regPassword.value){regError.value='အချက်အလက်များ ဖြည့်ပါ';return}
     regLoading.value=true
-    try {
-      const email=regUsername.value.toUpperCase()+'@novabett.internal'
-      const referral=route.query.dl||''
-      const {data:sd,error:se}=await supabase.auth.signUp({email,password:regPassword.value,options:{data:{username:regUsername.value.toUpperCase(),phone:regPhone.value,referral}}})
-      if(se)throw se
-      if(sd.user){await supabase.from('wallets').insert({user_id:sd.user.id,main_balance:0})}
-      const {data:ld,error:le}=await supabase.auth.signInWithPassword({email,password:regPassword.value})
-      if(le)throw le
-      if(ld.session?.access_token)localStorage.setItem('sb_token',ld.session.access_token)
-      await loadUserInfo()
-      showToast({type:'success',message:'အကောင့်ဖွင့် အောင်မြင်ပါသည်'})
-      showAuthModal.value=false; regUsername.value='';regPhone.value='';regPassword.value=''
-    }
-    catch(e) { regError.value=e.message||'မှတ်ပုံတင်မှု မအောင်မြင်ပါ' } finally { regLoading.value=false }
+    try { const referral=route.query.dl||''; const res=await fetch('https://vuywhhmwrqykukcemifd.supabase.co/functions/v1/register3',{method:'POST',headers:{'Authorization':'Bearer sb_publishable_nQArOtFqTbi9ZtJCJC0STA_pE4ztXGb','apikey':'sb_publishable_nQArOtFqTbi9ZtJCJC0STA_pE4ztXGb','Content-Type':'application/json'},body:JSON.stringify({username:regUsername.value,phone:regPhone.value,password:regPassword.value,referral})}); const data=await res.json(); if(data.error)throw new Error(data.error); const email=regUsername.value.toUpperCase()+'@novabett.internal'; const {data:ld,error:le}=await supabase.auth.signInWithPassword({email,password:regPassword.value}); if(le)throw le; if(ld.session?.access_token)localStorage.setItem('sb_token',ld.session.access_token); await loadUserInfo(); showToast({type:'success',message:'အကောင့်ဖွင့် အောင်မြင်ပါသည်'}); showAuthModal.value=false; regUsername.value='';regPhone.value='';regPassword.value='' }
+    catch(e) { regError.value=e.message } finally { regLoading.value=false }
   }
   function openGame(game) { if(!isLoggedIn.value){showAuthModal.value=true;authTab.value='login';return}; showToast(game.name+' မကြာမီ ရနိုင်မည်') }
   function toggleLanguage() { currentLang.value=currentLang.value==='en'?'mm':'en' }
