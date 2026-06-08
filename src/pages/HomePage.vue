@@ -9,7 +9,7 @@
             <span class="nova-ndot nova-ndot--2"></span>
             <span class="nova-ndot nova-ndot--3"></span>
           </div>
-          <div class="nova-brand"><img src="https://ik.imagekit.io/tdpebgueq/Brand%20Name%20Logo/IMG_20260602_154542.png?tr=f-auto" alt="iW99" style="height:34px;width:auto;object-fit:contain;display:block;" /></div>
+          <div class="nova-brand"><img src="https://ik.imagekit.io/rbok01qam/Brand%20Logo%20/IMG_20260605_215459.png?tr=f-auto" alt="NovaBett" style="height:34px;width:auto;object-fit:contain;display:block;" /></div>
         </div>
         <div style="display:flex;align-items:center;gap:8px;">
           <button @click="toggleLanguage" class="glass-btn-sm" style="color:rgba(34,197,94,0.9);font-size:11px;font-weight:700;padding:5px 10px;">{{ currentLang === 'en' ? '🇲🇲 မြန်မာ' : '🇬🇧 EN' }}</button>
