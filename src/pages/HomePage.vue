@@ -4,11 +4,6 @@
       <!-- ══ HEADER ══ -->
       <header class="nova-header">
         <div class="nova-brand-wrap">
-          <div class="nova-neural-dots">
-            <span class="nova-ndot nova-ndot--1"></span>
-            <span class="nova-ndot nova-ndot--2"></span>
-            <span class="nova-ndot nova-ndot--3"></span>
-          </div>
           <div class="nova-brand"><img src="https://ik.imagekit.io/rbok01qam/Brand%20Logo%20/IMG_20260605_215459.png?tr=f-auto" alt="NovaBett" style="height:34px;width:auto;object-fit:contain;display:block;" /></div>
         </div>
         <div style="display:flex;align-items:center;gap:8px;">
@@ -742,7 +737,7 @@
   /* ── HEADER ── */
   .nova-header {
     position:relative; z-index:10; background:transparent;
-    padding:8px 14px 6px; display:flex; align-items:center; justify-content:space-between;
+    padding:8px 14px 6px 0; display:flex; align-items:center; justify-content:space-between;
   }
   /* Radial glow behind brand text — "floating text on background" cinematic vibe */
   .nova-header::before {
