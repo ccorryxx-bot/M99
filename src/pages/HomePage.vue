@@ -297,32 +297,59 @@
       <!-- ══ 777 SLOT PROVIDERS ══ -->
       <div class="nova-prov-section">
         <div class="nova-prov-header">
-          <svg width="22" height="22" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg" class="nova-prov-777-svg">
-            <rect x="1" y="5" width="10" height="22" rx="2.5" fill="#f5c842" opacity="0.9"/>
-            <rect x="11" y="5" width="10" height="22" rx="2.5" fill="#f5c842" opacity="0.9"/>
-            <rect x="21" y="5" width="10" height="22" rx="2.5" fill="#f5c842" opacity="0.9"/>
-            <text x="4" y="21" font-family="Arial Black,Arial" font-size="13" font-weight="900" fill="#1e1f5c">7</text>
-            <text x="14" y="21" font-family="Arial Black,Arial" font-size="13" font-weight="900" fill="#1e1f5c">7</text>
-            <text x="24" y="21" font-family="Arial Black,Arial" font-size="13" font-weight="900" fill="#1e1f5c">7</text>
+          <svg width="24" height="20" viewBox="0 0 48 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <rect width="14" height="20" rx="3" fill="url(#pg1)"/>
+            <rect x="17" width="14" height="20" rx="3" fill="url(#pg2)"/>
+            <rect x="34" width="14" height="20" rx="3" fill="url(#pg3)"/>
+            <text x="3.5" y="14.5" font-family="Arial Black,sans-serif" font-size="12" font-weight="900" fill="#1a1c4e">7</text>
+            <text x="20.5" y="14.5" font-family="Arial Black,sans-serif" font-size="12" font-weight="900" fill="#1a1c4e">7</text>
+            <text x="37.5" y="14.5" font-family="Arial Black,sans-serif" font-size="12" font-weight="900" fill="#1a1c4e">7</text>
+            <defs>
+              <linearGradient id="pg1" x1="0" y1="0" x2="14" y2="20" gradientUnits="userSpaceOnUse"><stop stop-color="#fde68a"/><stop offset="1" stop-color="#f59e0b"/></linearGradient>
+              <linearGradient id="pg2" x1="0" y1="0" x2="14" y2="20" gradientUnits="userSpaceOnUse"><stop stop-color="#fef3c7"/><stop offset="1" stop-color="#fbbf24"/></linearGradient>
+              <linearGradient id="pg3" x1="0" y1="0" x2="14" y2="20" gradientUnits="userSpaceOnUse"><stop stop-color="#fde68a"/><stop offset="1" stop-color="#d97706"/></linearGradient>
+            </defs>
           </svg>
           <span class="nova-prov-title">စလော့ ဂိမ်း</span>
         </div>
-        <div class="nova-prov-grid">
-          <button class="nova-prov-card" :class="activeProvider==='pg'&&'nova-prov-card--active'"
+
+        <!-- Row 1: 3 cards -->
+        <div class="nova-prov-row3">
+          <button class="nova-prov-card nova-prov-card--pg" :class="activeProvider==='pg'&&'nova-prov-card--on'"
             @click="activeProvider=activeProvider==='pg'?null:'pg'; activeCategory='slot'">
-            <img src="https://ik.imagekit.io/tdpebgueq/Home%20Page%20_icons_linces%20logo/3b38cced-f446-4727-ab37-879557be37cb.png?tr=f-auto" class="nova-prov-logo" alt="PG"/>
+            <img src="https://ik.imagekit.io/tdpebgueq/Home%20Page%20_icons_linces%20logo/3b38cced-f446-4727-ab37-879557be37cb.png?tr=f-auto" class="nova-prov-img" alt="PG"/>
+            <div class="nova-prov-info">
+              <span class="nova-prov-name">PG Soft</span>
+              <span class="nova-prov-sub">{{ games.filter(g=>g.provider_code==='pg').length }} ဂိမ်း</span>
+            </div>
           </button>
-          <button class="nova-prov-card" :class="activeProvider==='pp'&&'nova-prov-card--active'"
+          <button class="nova-prov-card nova-prov-card--pp" :class="activeProvider==='pp'&&'nova-prov-card--on'"
             @click="activeProvider=activeProvider==='pp'?null:'pp'; activeCategory='slot'">
-            <img src="https://ik.imagekit.io/tdpebgueq/Home%20Page%20_icons_linces%20logo/a04d3bed-f475-42eb-9f35-4f9802068315.png?tr=f-auto" class="nova-prov-logo" alt="PP"/>
+            <img src="https://ik.imagekit.io/tdpebgueq/Home%20Page%20_icons_linces%20logo/a04d3bed-f475-42eb-9f35-4f9802068315.png?tr=f-auto" class="nova-prov-img" alt="PP"/>
+            <div class="nova-prov-info">
+              <span class="nova-prov-name">Pragmatic</span>
+              <span class="nova-prov-sub">{{ games.filter(g=>g.provider_code==='pp').length }} ဂိမ်း</span>
+            </div>
           </button>
-          <button class="nova-prov-card" :class="activeProvider==='jdb'&&'nova-prov-card--active'"
+          <button class="nova-prov-card nova-prov-card--jdb" :class="activeProvider==='jdb'&&'nova-prov-card--on'"
             @click="activeProvider=activeProvider==='jdb'?null:'jdb'; activeCategory='slot'">
-            <img src="https://ik.imagekit.io/tdpebgueq/Home%20Page%20_icons_linces%20logo/f519ade7-dd80-4235-a650-3d8744d5795c.png?tr=f-auto" class="nova-prov-logo" alt="JDB"/>
+            <img src="https://ik.imagekit.io/tdpebgueq/Home%20Page%20_icons_linces%20logo/f519ade7-dd80-4235-a650-3d8744d5795c.png?tr=f-auto" class="nova-prov-img" alt="JDB"/>
+            <div class="nova-prov-info">
+              <span class="nova-prov-name">JDB</span>
+              <span class="nova-prov-sub">{{ games.filter(g=>g.provider_code==='jdb').length }} ဂိမ်း</span>
+            </div>
           </button>
-          <button class="nova-prov-card" :class="activeProvider==='jili'&&'nova-prov-card--active'"
+        </div>
+
+        <!-- Row 2: 1 full-width card -->
+        <div class="nova-prov-row1" style="margin-top:10px;">
+          <button class="nova-prov-card nova-prov-card--jili nova-prov-card--wide" :class="activeProvider==='jili'&&'nova-prov-card--on'"
             @click="activeProvider=activeProvider==='jili'?null:'jili'; activeCategory='slot'">
-            <img src="https://ik.imagekit.io/tdpebgueq/Home%20Page%20_icons_linces%20logo/40_N_JILI_LOGO.avif" class="nova-prov-logo" alt="JILI"/>
+            <img src="https://ik.imagekit.io/tdpebgueq/Home%20Page%20_icons_linces%20logo/40_N_JILI_LOGO.avif" class="nova-prov-img nova-prov-img--wide" alt="JILI"/>
+            <div class="nova-prov-info">
+              <span class="nova-prov-name">JILI Gaming</span>
+              <span class="nova-prov-sub">{{ games.filter(g=>g.provider_code==='jili').length }} ဂိမ်း · Myanmar မှ ကြိုက်နှစ်သက်</span>
+            </div>
           </button>
         </div>
       </div>
@@ -1215,43 +1242,94 @@
   }
 
   /* ── Provider Section ── */
-  .nova-prov-section {
-    padding: 0 14px 18px;
-  }
+  .nova-prov-section { padding: 0 14px 20px; }
   .nova-prov-header {
-    display: flex; align-items: center; gap: 8px;
-    margin-bottom: 12px; padding-top: 4px;
+    display: flex; align-items: center; gap: 9px;
+    margin-bottom: 14px;
   }
-  .nova-prov-777-svg { flex-shrink: 0; }
   .nova-prov-title {
-    font-size: 15px; font-weight: 800; color: rgba(255,255,255,0.9);
+    font-size: 15px; font-weight: 800; color: rgba(255,255,255,0.95);
     letter-spacing: 0.02em;
   }
-  .nova-prov-grid {
-    display: grid; grid-template-columns: repeat(2,1fr); gap: 10px;
-  }
+  .nova-prov-row3 { display: grid; grid-template-columns: repeat(3,1fr); gap: 8px; }
+  .nova-prov-row1 { display: flex; }
+
+  /* Base card */
   .nova-prov-card {
-    position: relative; display: flex; align-items: center; justify-content: center;
-    height: 68px; border-radius: 14px; border: 1.5px solid rgba(255,255,255,0.1);
-    background: linear-gradient(145deg, #2a2e7a 0%, #1e2260 100%);
-    box-shadow: 0 4px 16px rgba(0,0,0,0.35), inset 0 1px 0 rgba(255,255,255,0.07);
+    position: relative; display: flex; align-items: center; gap: 0;
+    padding: 0; border-radius: 14px; border: 1.5px solid transparent;
     cursor: pointer; -webkit-tap-highlight-color: transparent;
-    overflow: hidden; transition: transform 0.15s ease, box-shadow 0.15s ease;
+    overflow: hidden; transition: transform 0.14s ease, box-shadow 0.14s ease;
+    flex-direction: column; justify-content: center;
   }
-  .nova-prov-card::before {
-    content: ''; position: absolute; inset: 0;
-    background: linear-gradient(135deg, rgba(255,255,255,0.04) 0%, transparent 60%);
-    border-radius: inherit; pointer-events: none;
+  .nova-prov-card:active { transform: scale(0.95); }
+
+  /* PG — vivid violet-indigo */
+  .nova-prov-card--pg {
+    background: linear-gradient(145deg, #5b21b6 0%, #7c3aed 60%, #4f46e5 100%);
+    box-shadow: 0 6px 20px rgba(91,33,182,0.55), inset 0 1px 0 rgba(255,255,255,0.18);
+    border-color: rgba(167,139,250,0.35);
+    height: 86px;
   }
-  .nova-prov-card:active { transform: scale(0.96); }
-  .nova-prov-card--active {
-    border-color: rgba(245,200,66,0.7);
-    background: linear-gradient(145deg, #35396e 0%, #2a2e6a 100%);
-    box-shadow: 0 0 0 1px rgba(245,200,66,0.3), 0 4px 20px rgba(245,200,66,0.15), inset 0 1px 0 rgba(255,255,255,0.1);
+  /* PP — vivid amber-orange */
+  .nova-prov-card--pp {
+    background: linear-gradient(145deg, #92400e 0%, #d97706 55%, #f59e0b 100%);
+    box-shadow: 0 6px 20px rgba(217,119,6,0.5), inset 0 1px 0 rgba(255,255,255,0.2);
+    border-color: rgba(251,191,36,0.4);
+    height: 86px;
   }
-  .nova-prov-logo {
-    width: 100%; height: 100%; object-fit: contain; padding: 10px 18px;
-    box-sizing: border-box; display: block;
+  /* JDB — vivid cyan-teal */
+  .nova-prov-card--jdb {
+    background: linear-gradient(145deg, #065f46 0%, #0891b2 55%, #06b6d4 100%);
+    box-shadow: 0 6px 20px rgba(6,182,212,0.45), inset 0 1px 0 rgba(255,255,255,0.18);
+    border-color: rgba(34,211,238,0.35);
+    height: 86px;
+  }
+  /* JILI — vivid red-rose, full width */
+  .nova-prov-card--jili {
+    background: linear-gradient(135deg, #7f1d1d 0%, #dc2626 45%, #ef4444 75%, #f87171 100%);
+    box-shadow: 0 6px 24px rgba(220,38,38,0.5), inset 0 1px 0 rgba(255,255,255,0.18);
+    border-color: rgba(252,165,165,0.3);
+    height: 80px;
+  }
+  .nova-prov-card--wide { width: 100%; flex-direction: row; padding: 0 16px; gap: 14px; }
+
+  /* Selected state */
+  .nova-prov-card--on {
+    border-color: #f5c842 !important;
+    box-shadow: 0 0 0 2px rgba(245,200,66,0.4), 0 8px 28px rgba(0,0,0,0.4) !important;
+  }
+
+  /* Shine overlay */
+  .nova-prov-card::after {
+    content: ''; position: absolute; inset: 0; pointer-events: none;
+    background: linear-gradient(135deg, rgba(255,255,255,0.14) 0%, transparent 55%);
+    border-radius: inherit;
+  }
+
+  /* Logo inside card */
+  .nova-prov-img {
+    width: 100%; height: 52px; object-fit: contain;
+    padding: 6px 10px; box-sizing: border-box; display: block; flex-shrink: 0;
+    filter: drop-shadow(0 2px 6px rgba(0,0,0,0.4)) brightness(1.08);
+  }
+  .nova-prov-img--wide {
+    width: 110px; height: 60px; padding: 6px 0;
+  }
+
+  /* Text inside card */
+  .nova-prov-info {
+    display: flex; flex-direction: column; gap: 2px; flex: 1; text-align: left;
+    z-index: 1;
+  }
+  .nova-prov-name {
+    font-size: 12px; font-weight: 800; color: #fff;
+    letter-spacing: 0.02em; line-height: 1.2;
+    text-shadow: 0 1px 4px rgba(0,0,0,0.5);
+  }
+  .nova-prov-sub {
+    font-size: 10px; font-weight: 600; color: rgba(255,255,255,0.72);
+    text-shadow: 0 1px 3px rgba(0,0,0,0.4);
   }
 
 </style>
