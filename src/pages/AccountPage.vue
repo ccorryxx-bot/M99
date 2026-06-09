@@ -259,7 +259,7 @@
         </div>
 
         <!-- ══ ACCOUNT TAB content ══ -->
-        <template v-if="recordsTab !== 'bet'">
+        <template v-if="recordsTab !== 'bet' && recordsTab !== 'report'">
           <div style="flex:1;overflow-y:auto;-webkit-overflow-scrolling:touch;" @click="showTypeDrop=false;showStatusDrop=false;">
             <div class="rec-bal-card">
               <div style="display:flex;align-items:center;justify-content:space-between;">
@@ -351,6 +351,99 @@
               <div style="font-size:9px;color:rgba(255,255,255,0.4);">ဆုပ်ပေါ်ဖြစ်</div>
               <div :style="(recTotalIn-recTotalOut)>=0?'color:#4ade80':'color:#f87171'" style="font-size:13px;font-weight:800;">{{ (recTotalIn-recTotalOut)>=0?'+':'' }}{{ formatCurrency(recTotalIn-recTotalOut) }}</div>
             </div>
+          </div>
+        </template>
+
+        <!-- ══ REPORT TAB content ══ -->
+        <template v-else-if="recordsTab === 'report'">
+          <div class="rpt-page" @click="showRptDatePicker=false">
+
+            <!-- Stats summary grid -->
+            <div class="rpt-stats-grid">
+              <div class="rpt-stat-cell">
+                <div class="rpt-stat-label">စုစုပေါင်း W/L</div>
+                <div class="rpt-stat-value rpt-val-red">{{ formatCurrency(0) }}</div>
+              </div>
+              <div class="rpt-stat-cell rpt-cell-right">
+                <div class="rpt-stat-label">စုသောင်းဇဲပမာ</div>
+                <div class="rpt-stat-value">{{ formatCurrency(0) }}</div>
+              </div>
+              <div class="rpt-stat-cell">
+                <div class="rpt-stat-label">စုစုပေါင်း တရားဝင် လောင်းကြေး</div>
+                <div class="rpt-stat-value">{{ formatCurrency(0) }}</div>
+              </div>
+              <div class="rpt-stat-cell rpt-cell-right">
+                <div class="rpt-stat-label">စုစုပေါင်းအမိနူပမာ</div>
+                <div class="rpt-stat-value">0</div>
+              </div>
+            </div>
+
+            <!-- Filter row + sort label -->
+            <div class="rpt-filter-row" @click.stop>
+              <div class="rpt-drop-wrap">
+                <button class="rpt-date-btn" :class="showRptDatePicker?'rpt-date-btn--open':''" @click.stop="showRptDatePicker=!showRptDatePicker">
+                  <span>{{ rptDateLabel }}</span>
+                  <svg width="10" height="10" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24" :style="showRptDatePicker?'transform:rotate(180deg);':''" style="transition:transform 0.2s;flex-shrink:0;"><path stroke-linecap="round" d="M19 9l-7 7-7-7"/></svg>
+                </button>
+
+                <!-- Drum Date Picker -->
+                <Transition name="bet-drop">
+                  <div v-if="showRptDatePicker" class="rpt-datepicker" @click.stop>
+                    <div class="bdp-tabs">
+                      <button :class="['bdp-tab', rptQuickDate==='today'?'bdp-tab--active':'']" @click="rptQuickDate='today'">ဒီနေ့</button>
+                      <button :class="['bdp-tab', rptQuickDate==='yesterday'?'bdp-tab--active':'']" @click="rptQuickDate='yesterday'">မနေကာ</button>
+                    </div>
+                    <div class="bdp-custom-label">စီတင်ကြိုက်လပ်ပါ</div>
+                    <div class="bdp-drums-row">
+                      <div class="bdp-date-group">
+                        <div class="bdp-col-label">စတင်ရက်</div>
+                        <div class="bdp-drums">
+                          <div class="bdp-col"><div class="bdp-track" @scroll.passive="e=>onBetDrumScroll(e,betYears,v=>rptStartYear=v)"><div class="bdp-spacer"></div><div v-for="y in betYears" :key="y" class="bdp-item" :class="rptStartYear===y?'bdp-item--sel':''">{{y}}</div><div class="bdp-spacer"></div></div></div>
+                          <div class="bdp-col"><div class="bdp-track" @scroll.passive="e=>onBetDrumScroll(e,betMonths,v=>rptStartMonth=v)"><div class="bdp-spacer"></div><div v-for="m in betMonths" :key="m" class="bdp-item" :class="rptStartMonth===m?'bdp-item--sel':''">{{bdpPad(m)}}</div><div class="bdp-spacer"></div></div></div>
+                          <div class="bdp-col"><div class="bdp-track" @scroll.passive="e=>onBetDrumScroll(e,betDays,v=>rptStartDay=v)"><div class="bdp-spacer"></div><div v-for="d in betDays" :key="d" class="bdp-item" :class="rptStartDay===d?'bdp-item--sel':''">{{bdpPad(d)}}</div><div class="bdp-spacer"></div></div></div>
+                        </div>
+                      </div>
+                      <div class="bdp-divider"></div>
+                      <div class="bdp-date-group">
+                        <div class="bdp-col-label">ပြီးဆုံးရက်</div>
+                        <div class="bdp-drums">
+                          <div class="bdp-col"><div class="bdp-track" @scroll.passive="e=>onBetDrumScroll(e,betYears,v=>rptEndYear=v)"><div class="bdp-spacer"></div><div v-for="y in betYears" :key="y" class="bdp-item" :class="rptEndYear===y?'bdp-item--sel':''">{{y}}</div><div class="bdp-spacer"></div></div></div>
+                          <div class="bdp-col"><div class="bdp-track" @scroll.passive="e=>onBetDrumScroll(e,betMonths,v=>rptEndMonth=v)"><div class="bdp-spacer"></div><div v-for="m in betMonths" :key="m" class="bdp-item" :class="rptEndMonth===m?'bdp-item--sel':''">{{bdpPad(m)}}</div><div class="bdp-spacer"></div></div></div>
+                          <div class="bdp-col"><div class="bdp-track" @scroll.passive="e=>onBetDrumScroll(e,betDays,v=>rptEndDay=v)"><div class="bdp-spacer"></div><div v-for="d in betDays" :key="d" class="bdp-item" :class="rptEndDay===d?'bdp-item--sel':''">{{bdpPad(d)}}</div><div class="bdp-spacer"></div></div></div>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="bdp-actions">
+                      <button class="bdp-cancel-btn" @click="showRptDatePicker=false">မလပ်တော?</button>
+                      <button class="bdp-confirm-btn" @click="applyRptDate">အတည်ပြ</button>
+                    </div>
+                  </div>
+                </Transition>
+              </div>
+
+              <div class="rpt-sort-label">
+                <span>အနိုင် နှင့် ရှုံး</span>
+                <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.45)" stroke-width="2.2" stroke-linecap="round"><path d="M8 6l4-4 4 4M16 18l-4 4-4-4"/></svg>
+                <span>မ အတင်</span>
+              </div>
+            </div>
+
+            <!-- Scroll area -->
+            <div class="bet-scroll-area">
+              <div class="rec-empty" style="padding-top:70px;">
+                <svg width="90" height="90" viewBox="0 0 120 120" fill="none" style="opacity:0.3;">
+                  <rect x="15" y="58" width="90" height="54" rx="9" fill="rgba(80,90,200,0.5)" stroke="rgba(255,255,255,0.5)" stroke-width="2"/>
+                  <path d="M15 58l45-28 45 28" stroke="rgba(255,255,255,0.4)" stroke-width="2" stroke-linejoin="round"/>
+                  <rect x="15" y="30" width="90" height="54" rx="9" fill="rgba(60,70,180,0.5)" stroke="rgba(255,255,255,0.45)" stroke-width="2"/>
+                  <path d="M15 30l45-24 45 24" stroke="rgba(255,255,255,0.4)" stroke-width="2" stroke-linejoin="round"/>
+                  <path d="M75 18 Q90 10 85 26 Q95 20 88 34" stroke="rgba(245,200,66,0.7)" stroke-width="1.8" fill="none" stroke-linecap="round"/>
+                  <polygon points="88,34 82,28 94,28" fill="rgba(245,200,66,0.7)" transform="rotate(30 88 34)"/>
+                </svg>
+                <div style="color:rgba(255,255,255,0.28);font-size:13px;margin-top:12px;">ဒီနေ့ မှတ်တမ်းမရှိပါ</div>
+                <div style="color:#f5c842;font-size:11px;margin-top:4px;font-weight:700;cursor:pointer;" @click="$router.push('/home')">ပိုကြာ &rsaquo;</div>
+              </div>
+            </div>
+
           </div>
         </template>
 
@@ -608,6 +701,27 @@ const betDateLabel     = computed(() => {
 const betStatusLabel   = computed(() => betStatusOptions.find(o => o.value === betStatusFilter.value)?.label || 'ဖောပြချက်အားလုံး')
 const betTypeLabel     = computed(() => betTypeOptions.find(o => o.value === betTypeFilter.value)?.label || 'အမျိုးအစားအားလုံး')
 const betPlatformLabel = computed(() => betPlatformOptions.find(o => o.value === betPlatformFilter.value)?.label || 'ပလမ်ဖောင်...')
+
+// ── Report Tab state ──
+const showRptDatePicker = ref(false)
+const rptQuickDate      = ref('today')
+const rptStartYear  = ref(betNow.getFullYear())
+const rptStartMonth = ref(betNow.getMonth() + 1)
+const rptStartDay   = ref(betNow.getDate())
+const rptEndYear    = ref(betNow.getFullYear())
+const rptEndMonth   = ref(betNow.getMonth() + 1)
+const rptEndDay     = ref(betNow.getDate())
+
+const rptDateLabel = computed(() => {
+  if (rptQuickDate.value === 'today')     return 'ဒီနေ့'
+  if (rptQuickDate.value === 'yesterday') return 'မနေကာ'
+  return `${bdpPad(rptStartMonth.value)}/${bdpPad(rptStartDay.value)} ~ ${bdpPad(rptEndMonth.value)}/${bdpPad(rptEndDay.value)}`
+})
+
+function applyRptDate() {
+  rptQuickDate.value = 'custom'
+  showRptDatePicker.value = false
+}
 
 function bdpPad(n) { return String(n).padStart(2, '0') }
 
@@ -1136,6 +1250,77 @@ const comingSoon = () => {}
   padding: 10px 14px 12px;
   background: rgba(15,18,56,0.98);
   border-top: 1px solid rgba(255,255,255,0.08);
+}
+
+/* ══════════════════════════════════════
+   REPORT TAB STYLES
+   ══════════════════════════════════════ */
+
+.rpt-page {
+  flex: 1; display: flex; flex-direction: column; overflow: hidden;
+}
+
+/* 2×2 stats grid */
+.rpt-stats-grid {
+  display: grid; grid-template-columns: 1fr 1fr;
+  gap: 0;
+  border-bottom: 1px solid rgba(255,255,255,0.07);
+  background: rgba(255,255,255,0.02);
+  flex-shrink: 0;
+}
+.rpt-stat-cell {
+  padding: 10px 14px 10px;
+  border-right: 1px solid rgba(255,255,255,0.06);
+  border-bottom: 1px solid rgba(255,255,255,0.06);
+}
+.rpt-cell-right { border-right: none; }
+.rpt-stat-label {
+  font-size: 9px; color: rgba(255,255,255,0.38);
+  margin-bottom: 3px; line-height: 1.4;
+}
+.rpt-stat-value {
+  font-size: 15px; font-weight: 800; color: rgba(255,255,255,0.85);
+}
+.rpt-val-red { color: #f87171; }
+
+/* Filter row */
+.rpt-filter-row {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 10px 12px 8px;
+  flex-shrink: 0;
+}
+.rpt-drop-wrap { position: relative; }
+
+.rpt-date-btn {
+  display: flex; align-items: center; gap: 6px;
+  padding: 7px 12px; border-radius: 8px;
+  background: rgba(255,255,255,0.07);
+  border: 1px solid rgba(255,255,255,0.14);
+  color: rgba(255,255,255,0.8); font-size: 11px; font-weight: 600;
+  cursor: pointer; white-space: nowrap;
+  -webkit-tap-highlight-color: transparent;
+  transition: border-color 0.15s, background 0.15s;
+}
+.rpt-date-btn--open {
+  background: rgba(245,200,66,0.1);
+  border-color: rgba(245,200,66,0.4);
+  color: #f5c842;
+}
+
+/* Sort label on the right */
+.rpt-sort-label {
+  display: flex; align-items: center; gap: 3px;
+  font-size: 9px; color: rgba(255,255,255,0.35);
+  flex-shrink: 0;
+}
+
+/* Date picker — positioned same as bet tab */
+.rpt-datepicker {
+  position: absolute; top: calc(100% + 6px); left: 0; z-index: 90;
+  width: 310px; background: #181b4a;
+  border: 1px solid rgba(255,255,255,0.12); border-radius: 12px;
+  box-shadow: 0 12px 40px rgba(0,0,0,0.7);
+  overflow: hidden;
 }
 
 /* ══════════════════════════════════════
