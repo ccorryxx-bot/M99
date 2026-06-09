@@ -390,7 +390,7 @@
         </div>
       </div>
 
-      <!-- ══ LIVE CASINO ══ -->
+      <!-- ══ LIVE CASINO + ARCADE ══ -->
       <div class="nova-live-section">
         <div class="nova-live-header">
           <div class="nova-live-icon-wrap">
@@ -402,18 +402,17 @@
             />
             <span class="nova-live-icon-fallback">🃏</span>
           </div>
-          <span class="nova-live-title">တိုက်ရိုက် ကာစီနို</span>
-          <span class="nova-live-count">{{ games.filter(g=>g.category==='live').length }} ဂိမ်း</span>
+          <span class="nova-live-title">Live & Arcade</span>
+          <span class="nova-live-count">{{ games.filter(g=>g.category==='live'||g.category==='arcade').length }} ဂိမ်း</span>
         </div>
-        <!-- Row 1: 3 cards -->
         <div class="nova-live-row3">
-          <div v-for="game in liveGames.slice(0,3)" :key="game.id"
+          <div v-for="game in liveGames" :key="game.id"
             class="nova-game-card" @click="openGame(game)">
             <div style="position:relative;aspect-ratio:3/4;overflow:hidden;background:#1a0a2e;">
               <img :src="game.image_url" alt="" @error="e=>e.target.style.display='none'"
                 style="width:100%;height:100%;object-fit:cover;display:block;" loading="lazy"/>
               <div style="position:absolute;inset:0;background:linear-gradient(to top,rgba(20,4,40,0.92) 0%,rgba(20,4,40,0.2) 40%,transparent 100%);"></div>
-              <div class="nova-badge nova-badge--live">LIVE</div>
+              <div class="nova-badge nova-badge--live">{{ game.category==='live'?'LIVE':'ARC' }}</div>
               <div class="nova-badge nova-badge--provider">{{ game.provider_code?.toUpperCase() }}</div>
               <div style="position:absolute;bottom:0;left:0;right:0;padding:4px 5px 5px;">
                 <div style="font-size:9px;font-weight:700;color:rgba(255,255,255,0.9);overflow:hidden;text-overflow:ellipsis;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;line-height:1.3;">{{ game.game_name }}</div>
@@ -421,24 +420,6 @@
             </div>
           </div>
         </div>
-        <!-- Row 2: 1 full-width card -->
-        <div v-if="liveGames.length >= 4" class="nova-live-row1" style="margin-top:10px;">
-          <div class="nova-game-card nova-live-wide-card" @click="openGame(liveGames[3])">
-            <div style="position:relative;aspect-ratio:16/7;overflow:hidden;background:#1a0a2e;">
-              <img :src="liveGames[3].image_url" alt="" @error="e=>e.target.style.display='none'"
-                style="width:100%;height:100%;object-fit:cover;display:block;" loading="lazy"/>
-              <div style="position:absolute;inset:0;background:linear-gradient(to top,rgba(20,4,40,0.88) 0%,rgba(20,4,40,0.15) 45%,transparent 100%);"></div>
-              <div class="nova-badge nova-badge--live">LIVE</div>
-              <div class="nova-badge nova-badge--provider">{{ liveGames[3].provider_code?.toUpperCase() }}</div>
-              <div style="position:absolute;bottom:0;left:0;right:0;padding:6px 8px 8px;">
-                <div style="font-size:11px;font-weight:800;color:rgba(255,255,255,0.95);overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">{{ liveGames[3].game_name }}</div>
-              </div>
-            </div>
-          </div>
-        </div>
-        <button class="nova-live-see-all" @click="activeCategory='live';$el.closest('.nova-app').scrollTop=0;window.scrollTo({top:0,behavior:'smooth'})">
-          တိုက်ရိုက် ကာစီနို အားလုံးကြည့်ရန် →
-        </button>
       </div>
 
       <!-- ══ FOOTER ══ -->
@@ -770,7 +751,7 @@
   })
 
   const fishGames = computed(() => games.value.filter(g => g.category === 'fish'))
-  const liveGames = computed(() => games.value.filter(g => g.category === 'live').slice(0, 4))
+  const liveGames = computed(() => games.value.filter(g => g.category === 'live' || g.category === 'arcade').slice(0, 7))
 
   async function loadUserInfo() {
     try { const {data:{session}}=await supabase.auth.getSession(); if(!session){isLoggedIn.value=false;return}; isLoggedIn.value=true; username.value=(session.user.email||'').replace(/@novabett\.internal$/,'').toUpperCase(); await fetchBalance() }
