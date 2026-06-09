@@ -13,7 +13,7 @@
       <!-- POSITION 2: Network (always) -->
       <router-link to="/network" class="gnav-item" :class="{active: route.path==='/network'}">
         <img
-            src="https://ik.imagekit.io/rbok01qam/Custom%20icons%20img/4415ded0-6355-11f1-9488-d1cd5b84fe3e.gif?tr=f-auto"
+            src="https://ik.imagekit.io/rbok01qam/Custom%20icons%20img/2144a370-6425-11f1-a3e1-aff0ca16f106.gif?tr=f-auto"
             alt="အေးဂျင့်ကွန်ရက်"
             class="network-gif-icon"
           />
@@ -47,7 +47,7 @@
       <!-- POSITION 4: Promotions GIF (always) -->
       <router-link to="/promotions" class="gnav-item gnav-promo-gif" :class="{active: route.path==='/promotions'}">
         <img
-          src="https://ik.imagekit.io/rbok01qam/Custom%20icons%20img/2029438851734429697.gif?tr=f-auto"
+          src="https://ik.imagekit.io/rbok01qam/Custom%20icons%20img/834f20b0-6423-11f1-bc87-f9b3121d3d29.webp?tr=f-auto"
           alt="ပရိုမိုးရှင်း"
           class="promo-gif-icon"
         />
