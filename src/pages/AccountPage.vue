@@ -258,126 +258,242 @@
           </div>
         </div>
 
-        <!-- Scrollable content area -->
-        <div style="flex:1;overflow-y:auto;-webkit-overflow-scrolling:touch;" @click="showTypeDrop=false;showStatusDrop=false;">
-
-          <!-- Balance summary card -->
-          <div class="rec-bal-card">
-            <div style="display:flex;align-items:center;justify-content:space-between;">
-              <div>
-                <div style="font-size:9.5px;color:rgba(255,255,255,0.45);margin-bottom:2px;">လက်ကျန်လက်ကျန်ကျန်ငွေ</div>
-                <div style="display:flex;align-items:center;gap:7px;">
-                  <span style="font-size:22px;font-weight:900;color:#f5c842;">{{ formatBalance(mainBalance) }}</span>
-                  <button @click.stop="fetchWallet" class="rec-ref-btn" :class="{refreshing}">
-                    <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" class="ref-svg"><path d="M12 5C8.13 5 5 8.13 5 12s3.13 7 7 7c2.76 0 5.16-1.59 6.34-3.93"/><path d="M17 7.5l1.5 3.5-3.5 0.5"/></svg>
-                  </button>
+        <!-- ══ ACCOUNT TAB content ══ -->
+        <template v-if="recordsTab !== 'bet'">
+          <div style="flex:1;overflow-y:auto;-webkit-overflow-scrolling:touch;" @click="showTypeDrop=false;showStatusDrop=false;">
+            <div class="rec-bal-card">
+              <div style="display:flex;align-items:center;justify-content:space-between;">
+                <div>
+                  <div style="font-size:9.5px;color:rgba(255,255,255,0.45);margin-bottom:2px;">လက်ကျန်လက်ကျန်ကျန်ငွေ</div>
+                  <div style="display:flex;align-items:center;gap:7px;">
+                    <span style="font-size:22px;font-weight:900;color:#f5c842;">{{ formatBalance(mainBalance) }}</span>
+                    <button @click.stop="fetchWallet" class="rec-ref-btn" :class="{refreshing}">
+                      <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" class="ref-svg"><path d="M12 5C8.13 5 5 8.13 5 12s3.13 7 7 7c2.76 0 5.16-1.59 6.34-3.93"/><path d="M17 7.5l1.5 3.5-3.5 0.5"/></svg>
+                    </button>
+                  </div>
+                </div>
+                <div style="text-align:right;">
+                  <div style="font-size:9px;color:rgba(255,255,255,0.35);">ငွေသွင်းပြီးမှ</div>
+                  <div style="font-size:10px;color:#f5c842;font-weight:700;cursor:pointer;" @click.stop="$router.push('/home')">ဆုဲစဲ → သောဘူကျိုပ ရယူပါ &rsaquo;</div>
                 </div>
               </div>
-              <div style="text-align:right;">
-                <div style="font-size:9px;color:rgba(255,255,255,0.35);">ငွေသွင်းပြီးမှ</div>
-                <div style="font-size:10px;color:#f5c842;font-weight:700;cursor:pointer;" @click.stop="$router.push('/home')">ဆုဲစဲ → သောဘူကျိုပ ရယူပါ &rsaquo;</div>
+              <div class="rec-note-box">
+                <svg width="13" height="13" fill="none" viewBox="0 0 24 24" style="flex-shrink:0;margin-top:1px;"><circle cx="12" cy="12" r="10" stroke="rgba(255,255,255,0.35)" stroke-width="1.5"/><path d="M12 8v4M12 16h.01" stroke="rgba(255,255,255,0.5)" stroke-width="1.8" stroke-linecap="round"/></svg>
+                <span>ဝင်ငွေထွက်ငွေ စစ်ဆေးရန် ဒိုနေ့ ရဲ့ မှတ်တမ်း filter ကိုသုံးပါ။ ငွေသွင်းမှု၊ ငွေထုတ်မှု အားလုံး ဤနေရာမှာ ကြည့်ရပါမည်။</span>
               </div>
             </div>
-            <div class="rec-note-box">
-              <svg width="13" height="13" fill="none" viewBox="0 0 24 24" style="flex-shrink:0;margin-top:1px;"><circle cx="12" cy="12" r="10" stroke="rgba(255,255,255,0.35)" stroke-width="1.5"/><path d="M12 8v4M12 16h.01" stroke="rgba(255,255,255,0.5)" stroke-width="1.8" stroke-linecap="round"/></svg>
-              <span>ဝင်ငွေထွက်ငွေ စစ်ဆေးရန် ဒိုနေ့ ရဲ့ မှတ်တမ်း filter ကိုသုံးပါ။ ငွေသွင်းမှု၊ ငွေထုတ်မှု အားလုံး ဤနေရာမှာ ကြည့်ရပါမည်။</span>
-            </div>
-          </div>
-
-          <!-- Filters row -->
-          <div class="rec-filters" @click.stop>
-
-            <!-- Date filter tabs -->
-            <div class="rec-date-tabs">
-              <button :class="['rec-date-btn', recDateFilter==='today'?'active':'']" @click="recDateFilter='today';fetchRecords()">ဒိုနေ့</button>
-              <button :class="['rec-date-btn', recDateFilter==='yesterday'?'active':'']" @click="recDateFilter='yesterday';fetchRecords()">မနေ့က</button>
-            </div>
-
-            <!-- Type dropdown -->
-            <div class="rec-drop-wrap">
-              <button class="rec-drop-btn" @click.stop="showTypeDrop=!showTypeDrop;showStatusDrop=false">
-                <span>{{ recTypeLabel }}</span>
-                <svg width="10" height="10" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24" :style="showTypeDrop?'transform:rotate(180deg);transition:0.2s':'transition:0.2s'"><path stroke-linecap="round" d="M19 9l-7 7-7-7"/></svg>
-              </button>
-              <Transition name="drop">
-                <div v-if="showTypeDrop" class="rec-drop-list" @click.stop>
-                  <button v-for="opt in typeOptions" :key="opt.value"
-                    :class="['rec-drop-item', recTypeFilter===opt.value?'active':'']"
-                    @click="recTypeFilter=opt.value;showTypeDrop=false;fetchRecords()">
-                    {{ opt.label }}
-                  </button>
-                </div>
-              </Transition>
-            </div>
-
-            <!-- Status dropdown -->
-            <div class="rec-drop-wrap">
-              <button class="rec-drop-btn" @click.stop="showStatusDrop=!showStatusDrop;showTypeDrop=false">
-                <span>{{ recStatusLabel }}</span>
-                <svg width="10" height="10" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24" :style="showStatusDrop?'transform:rotate(180deg);transition:0.2s':'transition:0.2s'"><path stroke-linecap="round" d="M19 9l-7 7-7-7"/></svg>
-              </button>
-              <Transition name="drop">
-                <div v-if="showStatusDrop" class="rec-drop-list" @click.stop>
-                  <button v-for="opt in statusOptions" :key="opt.value"
-                    :class="['rec-drop-item', recStatusFilter===opt.value?'active':'']"
-                    @click="recStatusFilter=opt.value;showStatusDrop=false;fetchRecords()">
-                    {{ opt.label }}
-                    <svg v-if="recStatusFilter===opt.value" width="13" height="13" fill="#f5c842" viewBox="0 0 24 24"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg>
-                  </button>
-                </div>
-              </Transition>
-            </div>
-          </div>
-
-          <!-- Loading -->
-          <div v-if="recLoading" style="display:flex;justify-content:center;padding:40px 0;">
-            <div class="rec-spinner"></div>
-          </div>
-
-          <!-- Empty state -->
-          <div v-else-if="recTransactions.length===0" class="rec-empty">
-            <svg width="64" height="64" viewBox="0 0 80 80" fill="none" style="opacity:0.22;"><rect x="10" y="30" width="60" height="42" rx="6" stroke="rgba(255,255,255,0.8)" stroke-width="3"/><path d="M10 46h60" stroke="rgba(255,255,255,0.6)" stroke-width="2"/><path d="M27 30c0-7.18 5.82-13 13-13s13 5.82 13 13" stroke="rgba(255,255,255,0.6)" stroke-width="3" stroke-linecap="round"/><path d="M33 55l7 7 14-14" stroke="rgba(255,255,255,0.5)" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" opacity="0"/></svg>
-            <div style="color:rgba(255,255,255,0.28);font-size:12px;margin-top:10px;">ဒိုနေ့ မှတ်တမ်းမရှိပါ</div>
-            <div style="color:#f5c842;font-size:10px;margin-top:3px;font-weight:600;">ပိုင်ကြည်</div>
-          </div>
-
-          <!-- Transaction list -->
-          <div v-else style="padding:0 10px 10px;">
-            <div v-for="tx in recTransactions" :key="tx.id" class="rec-tx-item">
-              <div style="display:flex;align-items:center;gap:8px;flex:1;min-width:0;">
-                <div :class="['rec-tx-dot', tx.type==='deposit'?'dot-green':'dot-red']"></div>
-                <div style="flex:1;min-width:0;">
-                  <div style="font-size:11px;font-weight:700;color:rgba(255,255,255,0.9);">{{ tx.type==='deposit'?'ငွေသွင်း':'ငွေထုတ်' }}</div>
-                  <div style="font-size:9px;color:rgba(255,255,255,0.35);margin-top:1px;">{{ formatTxDate(tx.created_at) }}</div>
-                </div>
+            <div class="rec-filters" @click.stop>
+              <div class="rec-date-tabs">
+                <button :class="['rec-date-btn', recDateFilter==='today'?'active':'']" @click="recDateFilter='today';fetchRecords()">ဒိုနေ့</button>
+                <button :class="['rec-date-btn', recDateFilter==='yesterday'?'active':'']" @click="recDateFilter='yesterday';fetchRecords()">မနေ့က</button>
               </div>
-              <div style="text-align:right;flex-shrink:0;">
-                <div :style="tx.type==='deposit'?'color:#4ade80;':'color:#f87171;'" style="font-size:13px;font-weight:800;">{{ tx.type==='deposit'?'+':'-' }}{{ formatCurrency(tx.amount) }}</div>
-                <div :class="['rec-status-badge', tx.status==='confirmed'?'badge-ok':tx.status==='pending'?'badge-pending':'badge-fail']">{{ tx.status==='confirmed'?'အတည်ပြု':tx.status==='pending'?'စောင့်':'ပယ်ဖျက်' }}</div>
+              <div class="rec-drop-wrap">
+                <button class="rec-drop-btn" @click.stop="showTypeDrop=!showTypeDrop;showStatusDrop=false">
+                  <span>{{ recTypeLabel }}</span>
+                  <svg width="10" height="10" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24" :style="showTypeDrop?'transform:rotate(180deg);transition:0.2s':'transition:0.2s'"><path stroke-linecap="round" d="M19 9l-7 7-7-7"/></svg>
+                </button>
+                <Transition name="drop">
+                  <div v-if="showTypeDrop" class="rec-drop-list" @click.stop>
+                    <button v-for="opt in typeOptions" :key="opt.value" :class="['rec-drop-item', recTypeFilter===opt.value?'active':'']" @click="recTypeFilter=opt.value;showTypeDrop=false;fetchRecords()">{{ opt.label }}</button>
+                  </div>
+                </Transition>
+              </div>
+              <div class="rec-drop-wrap">
+                <button class="rec-drop-btn" @click.stop="showStatusDrop=!showStatusDrop;showTypeDrop=false">
+                  <span>{{ recStatusLabel }}</span>
+                  <svg width="10" height="10" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24" :style="showStatusDrop?'transform:rotate(180deg);transition:0.2s':'transition:0.2s'"><path stroke-linecap="round" d="M19 9l-7 7-7-7"/></svg>
+                </button>
+                <Transition name="drop">
+                  <div v-if="showStatusDrop" class="rec-drop-list" @click.stop>
+                    <button v-for="opt in statusOptions" :key="opt.value" :class="['rec-drop-item', recStatusFilter===opt.value?'active':'']" @click="recStatusFilter=opt.value;showStatusDrop=false;fetchRecords()">
+                      {{ opt.label }}
+                      <svg v-if="recStatusFilter===opt.value" width="13" height="13" fill="#f5c842" viewBox="0 0 24 24"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg>
+                    </button>
+                  </div>
+                </Transition>
               </div>
             </div>
+            <div v-if="recLoading" style="display:flex;justify-content:center;padding:40px 0;"><div class="rec-spinner"></div></div>
+            <div v-else-if="recTransactions.length===0" class="rec-empty">
+              <svg width="64" height="64" viewBox="0 0 80 80" fill="none" style="opacity:0.22;"><rect x="10" y="30" width="60" height="42" rx="6" stroke="rgba(255,255,255,0.8)" stroke-width="3"/><path d="M10 46h60" stroke="rgba(255,255,255,0.6)" stroke-width="2"/><path d="M27 30c0-7.18 5.82-13 13-13s13 5.82 13 13" stroke="rgba(255,255,255,0.6)" stroke-width="3" stroke-linecap="round"/></svg>
+              <div style="color:rgba(255,255,255,0.28);font-size:12px;margin-top:10px;">ဒိုနေ့ မှတ်တမ်းမရှိပါ</div>
+              <div style="color:#f5c842;font-size:10px;margin-top:3px;font-weight:600;">ပိုင်ကြည်</div>
+            </div>
+            <div v-else style="padding:0 10px 10px;">
+              <div v-for="tx in recTransactions" :key="tx.id" class="rec-tx-item">
+                <div style="display:flex;align-items:center;gap:8px;flex:1;min-width:0;">
+                  <div :class="['rec-tx-dot', tx.type==='deposit'?'dot-green':'dot-red']"></div>
+                  <div style="flex:1;min-width:0;">
+                    <div style="font-size:11px;font-weight:700;color:rgba(255,255,255,0.9);">{{ tx.type==='deposit'?'ငွေသွင်း':'ငွေထုတ်' }}</div>
+                    <div style="font-size:9px;color:rgba(255,255,255,0.35);margin-top:1px;">{{ formatTxDate(tx.created_at) }}</div>
+                  </div>
+                </div>
+                <div style="text-align:right;flex-shrink:0;">
+                  <div :style="tx.type==='deposit'?'color:#4ade80;':'color:#f87171;'" style="font-size:13px;font-weight:800;">{{ tx.type==='deposit'?'+':'-' }}{{ formatCurrency(tx.amount) }}</div>
+                  <div :class="['rec-status-badge', tx.status==='confirmed'?'badge-ok':tx.status==='pending'?'badge-pending':'badge-fail']">{{ tx.status==='confirmed'?'အတည်ပြု':tx.status==='pending'?'စောင့်':'ပယ်ဖျက်' }}</div>
+                </div>
+              </div>
+            </div>
+            <div style="height:16px;"></div>
           </div>
+          <div class="rec-bottom-bar">
+            <div style="text-align:center;">
+              <div style="font-size:9px;color:rgba(255,255,255,0.4);">အဘိုးဘျပ်သော ငွေ</div>
+              <div style="font-size:13px;font-weight:800;color:#4ade80;">+{{ formatCurrency(recTotalIn) }}</div>
+            </div>
+            <div style="width:1px;background:rgba(255,255,255,0.08);height:28px;"></div>
+            <div style="text-align:center;">
+              <div style="font-size:9px;color:rgba(255,255,255,0.4);">ဆုံးရှုံးမှု</div>
+              <div style="font-size:13px;font-weight:800;color:#f87171;">-{{ formatCurrency(recTotalOut) }}</div>
+            </div>
+            <div style="width:1px;background:rgba(255,255,255,0.08);height:28px;"></div>
+            <div style="text-align:center;">
+              <div style="font-size:9px;color:rgba(255,255,255,0.4);">ဆုပ်ပေါ်ဖြစ်</div>
+              <div :style="(recTotalIn-recTotalOut)>=0?'color:#4ade80':'color:#f87171'" style="font-size:13px;font-weight:800;">{{ (recTotalIn-recTotalOut)>=0?'+':'' }}{{ formatCurrency(recTotalIn-recTotalOut) }}</div>
+            </div>
+          </div>
+        </template>
 
-          <div style="height:16px;"></div>
-        </div>
+        <!-- ══ BET TAB content ══ -->
+        <template v-else>
+          <div class="bet-page" @click="closeBetDrops">
 
-        <!-- Bottom total bar -->
-        <div class="rec-bottom-bar">
-          <div style="text-align:center;">
-            <div style="font-size:9px;color:rgba(255,255,255,0.4);">အဘိုးဘျပ်သော ငွေ</div>
-            <div style="font-size:13px;font-weight:800;color:#4ade80;">+{{ formatCurrency(recTotalIn) }}</div>
+            <!-- 4-filter bar -->
+            <div class="bet-filter-bar" @click.stop>
+
+              <!-- Filter 1: Date -->
+              <div class="bet-drop-wrap">
+                <button class="bet-filter-btn" :class="showBetDatePicker?'bet-filter-btn--open':''" @click.stop="showBetDatePicker=!showBetDatePicker;showBetStatusDrop=false;showBetTypeDrop=false;showBetPlatformDrop=false">
+                  <span>{{ betDateLabel }}</span>
+                  <svg width="9" height="9" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24" :style="showBetDatePicker?'transform:rotate(180deg);':''" style="transition:transform 0.2s;flex-shrink:0;"><path stroke-linecap="round" d="M19 9l-7 7-7-7"/></svg>
+                </button>
+
+                <!-- Drum Date Picker dropdown -->
+                <Transition name="bet-drop">
+                  <div v-if="showBetDatePicker" class="bet-datepicker" @click.stop>
+                    <div class="bdp-tabs">
+                      <button :class="['bdp-tab', betQuickDate==='today'?'bdp-tab--active':'']" @click="betQuickDate='today'">ဒီနေ့</button>
+                      <button :class="['bdp-tab', betQuickDate==='yesterday'?'bdp-tab--active':'']" @click="betQuickDate='yesterday'">မနေ</button>
+                    </div>
+                    <div class="bdp-custom-label">စီတကြြဲက်လုပ်ပါ</div>
+                    <div class="bdp-drums-row">
+                      <div class="bdp-date-group">
+                        <div class="bdp-col-label">စတင်ရက်</div>
+                        <div class="bdp-drums">
+                          <div class="bdp-col"><div class="bdp-track" :ref="el=>betDrumEls.sY=el" @scroll.passive="e=>onBetDrumScroll(e,betYears,v=>betStartYear=v)"><div class="bdp-spacer"></div><div v-for="y in betYears" :key="y" class="bdp-item" :class="betStartYear===y?'bdp-item--sel':''">{{y}}</div><div class="bdp-spacer"></div></div></div>
+                          <div class="bdp-col"><div class="bdp-track" :ref="el=>betDrumEls.sM=el" @scroll.passive="e=>onBetDrumScroll(e,betMonths,v=>betStartMonth=v)"><div class="bdp-spacer"></div><div v-for="m in betMonths" :key="m" class="bdp-item" :class="betStartMonth===m?'bdp-item--sel':''">{{bdpPad(m)}}</div><div class="bdp-spacer"></div></div></div>
+                          <div class="bdp-col"><div class="bdp-track" :ref="el=>betDrumEls.sD=el" @scroll.passive="e=>onBetDrumScroll(e,betDays,v=>betStartDay=v)"><div class="bdp-spacer"></div><div v-for="d in betDays" :key="d" class="bdp-item" :class="betStartDay===d?'bdp-item--sel':''">{{bdpPad(d)}}</div><div class="bdp-spacer"></div></div></div>
+                        </div>
+                      </div>
+                      <div class="bdp-divider"></div>
+                      <div class="bdp-date-group">
+                        <div class="bdp-col-label">ပြီးဆုံးရက်</div>
+                        <div class="bdp-drums">
+                          <div class="bdp-col"><div class="bdp-track" :ref="el=>betDrumEls.eY=el" @scroll.passive="e=>onBetDrumScroll(e,betYears,v=>betEndYear=v)"><div class="bdp-spacer"></div><div v-for="y in betYears" :key="y" class="bdp-item" :class="betEndYear===y?'bdp-item--sel':''">{{y}}</div><div class="bdp-spacer"></div></div></div>
+                          <div class="bdp-col"><div class="bdp-track" :ref="el=>betDrumEls.eM=el" @scroll.passive="e=>onBetDrumScroll(e,betMonths,v=>betEndMonth=v)"><div class="bdp-spacer"></div><div v-for="m in betMonths" :key="m" class="bdp-item" :class="betEndMonth===m?'bdp-item--sel':''">{{bdpPad(m)}}</div><div class="bdp-spacer"></div></div></div>
+                          <div class="bdp-col"><div class="bdp-track" :ref="el=>betDrumEls.eD=el" @scroll.passive="e=>onBetDrumScroll(e,betDays,v=>betEndDay=v)"><div class="bdp-spacer"></div><div v-for="d in betDays" :key="d" class="bdp-item" :class="betEndDay===d?'bdp-item--sel':''">{{bdpPad(d)}}</div><div class="bdp-spacer"></div></div></div>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="bdp-actions">
+                      <button class="bdp-cancel-btn" @click="showBetDatePicker=false">မလုပ်တော့</button>
+                      <button class="bdp-confirm-btn" @click="applyBetDate">အတည်ပြု</button>
+                    </div>
+                  </div>
+                </Transition>
+              </div>
+
+              <!-- Filter 2: Status (ဖောပြချက်) -->
+              <div class="bet-drop-wrap">
+                <button class="bet-filter-btn" :class="showBetStatusDrop?'bet-filter-btn--open':''" @click.stop="showBetStatusDrop=!showBetStatusDrop;showBetDatePicker=false;showBetTypeDrop=false;showBetPlatformDrop=false">
+                  <span>{{ betStatusLabel }}</span>
+                  <svg width="9" height="9" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24" :style="showBetStatusDrop?'transform:rotate(180deg);':''" style="transition:transform 0.2s;flex-shrink:0;"><path stroke-linecap="round" d="M19 9l-7 7-7-7"/></svg>
+                </button>
+                <Transition name="bet-drop">
+                  <div v-if="showBetStatusDrop" class="bet-drop-list" @click.stop>
+                    <button v-for="opt in betStatusOptions" :key="opt.value"
+                      :class="['bet-drop-item', betStatusFilter===opt.value?'bet-drop-item--active':'']"
+                      @click="betStatusFilter=opt.value;showBetStatusDrop=false">
+                      {{ opt.label }}
+                      <svg v-if="betStatusFilter===opt.value" width="13" height="13" fill="#f5c842" viewBox="0 0 24 24"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg>
+                    </button>
+                  </div>
+                </Transition>
+              </div>
+
+              <!-- Filter 3: Game Type (အမျိုးအစား) -->
+              <div class="bet-drop-wrap">
+                <button class="bet-filter-btn" :class="showBetTypeDrop?'bet-filter-btn--open':''" @click.stop="showBetTypeDrop=!showBetTypeDrop;showBetDatePicker=false;showBetStatusDrop=false;showBetPlatformDrop=false">
+                  <span>{{ betTypeLabel }}</span>
+                  <svg width="9" height="9" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24" :style="showBetTypeDrop?'transform:rotate(180deg);':''" style="transition:transform 0.2s;flex-shrink:0;"><path stroke-linecap="round" d="M19 9l-7 7-7-7"/></svg>
+                </button>
+                <Transition name="bet-drop">
+                  <div v-if="showBetTypeDrop" class="bet-drop-list" @click.stop>
+                    <button v-for="opt in betTypeOptions" :key="opt.value"
+                      :class="['bet-drop-item', betTypeFilter===opt.value?'bet-drop-item--active':'']"
+                      @click="betTypeFilter=opt.value;showBetTypeDrop=false">
+                      {{ opt.label }}
+                      <svg v-if="betTypeFilter===opt.value" width="13" height="13" fill="#f5c842" viewBox="0 0 24 24"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg>
+                    </button>
+                  </div>
+                </Transition>
+              </div>
+
+              <!-- Filter 4: Platform -->
+              <div class="bet-drop-wrap">
+                <button class="bet-filter-btn" :class="showBetPlatformDrop?'bet-filter-btn--open':''" @click.stop="showBetPlatformDrop=!showBetPlatformDrop;showBetDatePicker=false;showBetStatusDrop=false;showBetTypeDrop=false">
+                  <span>{{ betPlatformLabel }}</span>
+                  <svg width="9" height="9" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24" :style="showBetPlatformDrop?'transform:rotate(180deg);':''" style="transition:transform 0.2s;flex-shrink:0;"><path stroke-linecap="round" d="M19 9l-7 7-7-7"/></svg>
+                </button>
+                <Transition name="bet-drop">
+                  <div v-if="showBetPlatformDrop" class="bet-drop-list" @click.stop>
+                    <button v-for="opt in betPlatformOptions" :key="opt.value"
+                      :class="['bet-drop-item', betPlatformFilter===opt.value?'bet-drop-item--active':'']"
+                      @click="betPlatformFilter=opt.value;showBetPlatformDrop=false">
+                      {{ opt.label }}
+                      <svg v-if="betPlatformFilter===opt.value" width="13" height="13" fill="#f5c842" viewBox="0 0 24 24"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg>
+                    </button>
+                  </div>
+                </Transition>
+              </div>
+
+            </div><!-- end bet-filter-bar -->
+
+            <!-- Scrollable records area -->
+            <div class="bet-scroll-area">
+              <div v-if="betLoading" style="display:flex;justify-content:center;padding:60px 0;"><div class="rec-spinner"></div></div>
+              <div v-else class="rec-empty" style="padding-top:80px;">
+                <svg width="72" height="72" viewBox="0 0 90 90" fill="none" style="opacity:0.25;">
+                  <rect x="8" y="28" width="64" height="50" rx="7" stroke="rgba(255,255,255,0.8)" stroke-width="2.5"/>
+                  <path d="M8 44h64" stroke="rgba(255,255,255,0.5)" stroke-width="1.5"/>
+                  <path d="M30 28c0-8.28 6.72-15 15-15s15 6.72 15 15" stroke="rgba(255,255,255,0.5)" stroke-width="2.5" stroke-linecap="round"/>
+                  <path d="M55 12l8 6-4 3" stroke="rgba(255,255,255,0.6)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                  <line x1="60" y1="18" x2="52" y2="30" stroke="rgba(200,200,255,0.6)" stroke-width="1.5" stroke-linecap="round"/>
+                </svg>
+                <div style="color:rgba(255,255,255,0.28);font-size:13px;margin-top:12px;">ဒီနေ့ မှတ်တမ်းမရှိပါ</div>
+                <div style="color:#f5c842;font-size:11px;margin-top:4px;font-weight:700;cursor:pointer;" @click="$router.push('/home')">ပိုကြည် &rsaquo;</div>
+              </div>
+            </div>
+
+            <!-- Bet bottom bar -->
+            <div class="rec-bottom-bar">
+              <div style="text-align:center;">
+                <div style="font-size:9px;color:rgba(255,255,255,0.4);">လောင်းကြေး</div>
+                <div style="font-size:13px;font-weight:800;color:rgba(255,255,255,0.75);">0</div>
+              </div>
+              <div style="width:1px;background:rgba(255,255,255,0.08);height:28px;"></div>
+              <div style="text-align:center;">
+                <div style="font-size:9px;color:rgba(255,255,255,0.4);">နိုင်ငွေ</div>
+                <div style="font-size:13px;font-weight:800;color:#4ade80;">0</div>
+              </div>
+              <div style="width:1px;background:rgba(255,255,255,0.08);height:28px;"></div>
+              <div style="text-align:center;">
+                <div style="font-size:9px;color:rgba(255,255,255,0.4);">အမြတ်/အရှုံး</div>
+                <div style="font-size:13px;font-weight:800;color:rgba(255,255,255,0.75);">0</div>
+              </div>
+            </div>
           </div>
-          <div style="width:1px;background:rgba(255,255,255,0.08);height:28px;"></div>
-          <div style="text-align:center;">
-            <div style="font-size:9px;color:rgba(255,255,255,0.4);">ဆုံးရှုံးမှု</div>
-            <div style="font-size:13px;font-weight:800;color:#f87171;">-{{ formatCurrency(recTotalOut) }}</div>
-          </div>
-          <div style="width:1px;background:rgba(255,255,255,0.08);height:28px;"></div>
-          <div style="text-align:center;">
-            <div style="font-size:9px;color:rgba(255,255,255,0.4);">ဆုပ်ပေါ်ဖြစ်</div>
-            <div :style="(recTotalIn-recTotalOut)>=0?'color:#4ade80':'color:#f87171'" style="font-size:13px;font-weight:800;">{{ (recTotalIn-recTotalOut)>=0?'+':'' }}{{ formatCurrency(recTotalIn-recTotalOut) }}</div>
-          </div>
-        </div>
+        </template>
 
       </div>
     </Transition>
@@ -438,6 +554,80 @@ const recordsTabs = [
   { id: 'report',  label: 'ကိုယ်ရေးကိုယ်တာထုတ်ပြန်ချက်' },
   { id: 'balance', label: 'လက်ကျန်' },
 ]
+
+// ── Bet Tab state ──
+const betLoading        = ref(false)
+const showBetDatePicker = ref(false)
+const showBetStatusDrop = ref(false)
+const showBetTypeDrop   = ref(false)
+const showBetPlatformDrop = ref(false)
+const betQuickDate      = ref('today')
+const betStatusFilter   = ref('all')
+const betTypeFilter     = ref('all')
+const betPlatformFilter = ref('all')
+
+const betNow = new Date()
+const betStartYear  = ref(betNow.getFullYear())
+const betStartMonth = ref(betNow.getMonth() + 1)
+const betStartDay   = ref(betNow.getDate())
+const betEndYear    = ref(betNow.getFullYear())
+const betEndMonth   = ref(betNow.getMonth() + 1)
+const betEndDay     = ref(betNow.getDate())
+const betYears  = Array.from({ length: 5 }, (_, i) => betNow.getFullYear() - 2 + i)
+const betMonths = Array.from({ length: 12 }, (_, i) => i + 1)
+const betDays   = Array.from({ length: 31 }, (_, i) => i + 1)
+const betDrumEls = {}
+
+const betStatusOptions = [
+  { value: 'all',       label: 'ဖောပြချက်အားလုံး' },
+  { value: 'confirmed', label: 'အတည်တကျ' },
+  { value: 'cancelled', label: 'အမြဲချသည်' },
+  { value: 'void',      label: 'အောင်ဒိုကို ပယ်ဖျက်ခဲ့သည်' },
+]
+const betTypeOptions = [
+  { value: 'all',        label: 'အမျိုးအစားအားလုံး' },
+  { value: 'electronic', label: 'အီလက်ထရောနစ်' },
+  { value: 'fish',       label: 'ငါးဖမ်း' },
+  { value: 'chess',      label: 'စမ်တုရင် နှင့်ကတ်များ' },
+  { value: 'live',       label: 'တကယ်လူ' },
+  { value: 'blockchain', label: 'Blockchain ဂိမ်းများ' },
+]
+const betPlatformOptions = [
+  { value: 'all',  label: 'ပလမ်ဖောင်အားလုံး' },
+  { value: 'pg',   label: 'PG Soft' },
+  { value: 'pp',   label: 'Pragmatic Play' },
+  { value: 'jdb',  label: 'JDB' },
+  { value: 'jili', label: 'JILI' },
+]
+
+const betDateLabel     = computed(() => {
+  if (betQuickDate.value === 'today')     return 'ဒီနေ့'
+  if (betQuickDate.value === 'yesterday') return 'မနေ့က'
+  return `${bdpPad(betStartMonth.value)}/${bdpPad(betStartDay.value)} ~ ${bdpPad(betEndMonth.value)}/${bdpPad(betEndDay.value)}`
+})
+const betStatusLabel   = computed(() => betStatusOptions.find(o => o.value === betStatusFilter.value)?.label || 'ဖောပြချက်အားလုံး')
+const betTypeLabel     = computed(() => betTypeOptions.find(o => o.value === betTypeFilter.value)?.label || 'အမျိုးအစားအားလုံး')
+const betPlatformLabel = computed(() => betPlatformOptions.find(o => o.value === betPlatformFilter.value)?.label || 'ပလမ်ဖောင်...')
+
+function bdpPad(n) { return String(n).padStart(2, '0') }
+
+function onBetDrumScroll(e, list, setter) {
+  const itemH = 40
+  const idx   = Math.round(e.target.scrollTop / itemH)
+  setter(list[Math.max(0, Math.min(idx, list.length - 1))])
+}
+
+function applyBetDate() {
+  betQuickDate.value = 'custom'
+  showBetDatePicker.value = false
+}
+
+function closeBetDrops() {
+  showBetDatePicker.value  = false
+  showBetStatusDrop.value  = false
+  showBetTypeDrop.value    = false
+  showBetPlatformDrop.value = false
+}
 
 const typeOptions = [
   { value: 'all',      label: 'အကောင့်အမျိုးအစားများ ပြောင်းလဲသည်။' },
@@ -947,4 +1137,159 @@ const comingSoon = () => {}
   background: rgba(15,18,56,0.98);
   border-top: 1px solid rgba(255,255,255,0.08);
 }
+
+/* ══════════════════════════════════════
+   BET TAB STYLES
+   ══════════════════════════════════════ */
+
+.bet-page {
+  flex: 1; display: flex; flex-direction: column; overflow: hidden;
+}
+
+/* 4-filter scrollable bar */
+.bet-filter-bar {
+  display: flex; align-items: center; gap: 6px;
+  padding: 10px 10px 6px;
+  overflow-x: auto; flex-shrink: 0;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none;
+}
+.bet-filter-bar::-webkit-scrollbar { display: none; }
+
+/* Each filter wrapper */
+.bet-drop-wrap { position: relative; flex-shrink: 0; }
+
+/* Filter button pill */
+.bet-filter-btn {
+  display: flex; align-items: center; gap: 5px;
+  padding: 7px 11px; border-radius: 8px;
+  background: rgba(255,255,255,0.07);
+  border: 1px solid rgba(255,255,255,0.14);
+  color: rgba(255,255,255,0.75); font-size: 10.5px; font-weight: 600;
+  cursor: pointer; white-space: nowrap;
+  -webkit-tap-highlight-color: transparent;
+  transition: border-color 0.15s, background 0.15s;
+}
+.bet-filter-btn--open {
+  background: rgba(245,200,66,0.12);
+  border-color: rgba(245,200,66,0.45);
+  color: #f5c842;
+}
+
+/* Bet dropdown list */
+.bet-drop-list {
+  position: absolute; top: calc(100% + 4px); left: 0; z-index: 80;
+  min-width: 200px; background: #181b4a;
+  border: 1px solid rgba(255,255,255,0.12); border-radius: 10px;
+  overflow: hidden; box-shadow: 0 10px 30px rgba(0,0,0,0.6);
+}
+.bet-drop-item {
+  display: flex; align-items: center; justify-content: space-between;
+  width: 100%; padding: 11px 14px; text-align: left;
+  background: none; border: none; border-bottom: 1px solid rgba(255,255,255,0.05);
+  color: rgba(255,255,255,0.7); font-size: 11.5px; cursor: pointer;
+  white-space: nowrap; -webkit-tap-highlight-color: transparent;
+  transition: background 0.12s;
+}
+.bet-drop-item:last-child { border-bottom: none; }
+.bet-drop-item:active { background: rgba(255,255,255,0.06); }
+.bet-drop-item--active { color: #f5c842; font-weight: 700; }
+
+/* ── Drum Date Picker ── */
+.bet-datepicker {
+  position: absolute; top: calc(100% + 6px); left: 0; z-index: 90;
+  width: 310px; background: #181b4a;
+  border: 1px solid rgba(255,255,255,0.12); border-radius: 12px;
+  box-shadow: 0 12px 40px rgba(0,0,0,0.7);
+  padding: 0;
+  overflow: hidden;
+}
+
+/* Today / Yesterday tab switcher */
+.bdp-tabs {
+  display: flex;
+  border-bottom: 1px solid rgba(255,255,255,0.08);
+}
+.bdp-tab {
+  flex: 1; padding: 10px 0; font-size: 12px; font-weight: 600;
+  background: none; border: none; cursor: pointer;
+  color: rgba(255,255,255,0.45);
+  -webkit-tap-highlight-color: transparent;
+  transition: color 0.15s, background 0.15s;
+}
+.bdp-tab--active {
+  color: #f5c842; background: rgba(245,200,66,0.08);
+  border-bottom: 2px solid #f5c842;
+}
+
+/* Custom date section label */
+.bdp-custom-label {
+  font-size: 9.5px; color: rgba(255,255,255,0.35); letter-spacing: 0.04em;
+  padding: 10px 14px 4px; text-transform: uppercase;
+}
+
+/* Start + End drum columns side by side */
+.bdp-drums-row {
+  display: flex; align-items: stretch;
+  padding: 0 10px 6px;
+  gap: 4px;
+}
+.bdp-date-group {
+  flex: 1; display: flex; flex-direction: column; gap: 4px;
+}
+.bdp-col-label {
+  font-size: 9px; color: rgba(255,255,255,0.35); text-align: center;
+  padding: 4px 0;
+}
+.bdp-drums {
+  display: flex; gap: 2px;
+}
+.bdp-col { flex: 1; }
+.bdp-divider {
+  width: 1px; background: rgba(255,255,255,0.07); flex-shrink: 0; margin: 10px 4px;
+}
+
+/* Drum track */
+.bdp-track {
+  height: 120px; overflow-y: scroll; scroll-snap-type: y mandatory;
+  scrollbar-width: none; -webkit-overflow-scrolling: touch;
+  position: relative;
+}
+.bdp-track::-webkit-scrollbar { display: none; }
+.bdp-spacer { height: 40px; flex-shrink: 0; }
+.bdp-item {
+  height: 40px; display: flex; align-items: center; justify-content: center;
+  font-size: 12px; font-weight: 600; color: rgba(255,255,255,0.3);
+  scroll-snap-align: start; cursor: default;
+  transition: color 0.1s;
+}
+.bdp-item--sel {
+  color: #f5c842; font-weight: 800;
+}
+
+/* Action buttons */
+.bdp-actions {
+  display: flex; gap: 8px; padding: 10px 14px 14px;
+}
+.bdp-cancel-btn {
+  flex: 1; padding: 9px 0; border-radius: 8px;
+  background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.12);
+  color: rgba(255,255,255,0.6); font-size: 12px; font-weight: 600;
+  cursor: pointer; -webkit-tap-highlight-color: transparent;
+}
+.bdp-confirm-btn {
+  flex: 1; padding: 9px 0; border-radius: 8px;
+  background: linear-gradient(135deg,#f5c842,#e5a800);
+  border: none; color: #1a1440; font-size: 12px; font-weight: 700;
+  cursor: pointer; -webkit-tap-highlight-color: transparent;
+}
+
+/* Records scroll area */
+.bet-scroll-area {
+  flex: 1; overflow-y: auto; -webkit-overflow-scrolling: touch;
+}
+
+/* Bet drop transition */
+.bet-drop-enter-active, .bet-drop-leave-active { transition: all 0.2s cubic-bezier(0.4,0,0.2,1); }
+.bet-drop-enter-from, .bet-drop-leave-to { opacity: 0; transform: translateY(-8px) scale(0.97); }
 </style>
