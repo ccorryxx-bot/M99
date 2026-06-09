@@ -315,16 +315,16 @@
           <!-- Age warning -->
           <p class="prf-age-warn">ငွေကြေးသုံးပြုလုပ်ရန် သင်သည် 18 နှင့်အထက်ကြီရန်လိုသည်။ ဆိုလိုသည်မှာ 10/06/2008 မတိုင်ခင်မွေးဖွားသည်ဖြစ်ရမည်။</p>
 
-        </div><!-- end prf-body -->
+          <!-- Buttons inline -->
+          <div class="prf-footer-inline">
+            <button @click="showProfile=false" class="prf-btn-back">နောက်သို့</button>
+            <button @click="saveProfile" :disabled="profileSaving" class="prf-btn-save">
+              {{ profileSaving ? 'သိမ်းနေ...' : 'အတည်ပြုရန်' }}
+            </button>
+          </div>
+          <div style="height:env(safe-area-inset-bottom,12px);min-height:12px;"></div>
 
-        <!-- Bottom buttons -->
-        <div class="prf-footer">
-          <button @click="showProfile=false" class="prf-btn-back">နောက်သို့</button>
-          <button @click="saveProfile" :disabled="profileSaving" class="prf-btn-save">
-            {{ profileSaving ? 'သိမ်းနေ...' : 'အတည်ပြုရန်' }}
-          </button>
-        </div>
-        <div style="height:env(safe-area-inset-bottom,10px);background:#07091b;min-height:10px;"></div>
+        </div><!-- end prf-body -->
       </div>
     </Transition>
 
@@ -1374,7 +1374,7 @@ const filteredProviders = computed(() => {
 .gi-lbl { font-size: 8.5px; color: rgba(255,255,255,0.7); line-height: 1.3; text-align: center; }
 
 /* ── Full-screen overlays ── */
-.fullpage { position: fixed; inset: 0; z-index: 100; display: flex; flex-direction: column; overflow: hidden; }
+.fullpage { position: fixed; inset: 0; z-index: 300; display: flex; flex-direction: column; overflow: hidden; }
 .fp-header { display: flex; align-items: center; justify-content: space-between; padding: 12px 14px; border-bottom: 1px solid rgba(255,255,255,0.06); }
 .fp-title { font-size: 13px; font-weight: 700; color: #fff; }
 .fp-body { flex: 1; overflow-y: auto; padding: 0 14px 20px; }
@@ -1932,7 +1932,7 @@ const filteredProviders = computed(() => {
 .prf-root { background: #07091b; display: flex; flex-direction: column; }
 
 .prf-body {
-  flex: 1; overflow-y: auto; padding: 10px 12px 4px;
+  flex: 1; overflow-y: auto; padding: 10px 12px 0;
   -webkit-overflow-scrolling: touch;
 }
 
@@ -2055,11 +2055,10 @@ const filteredProviders = computed(() => {
   line-height: 1.5; margin: 6px 0 8px; font-weight: 500;
 }
 
-/* Footer buttons */
-.prf-footer {
-  display: flex; gap: 8px; padding: 8px 12px;
-  border-top: 1px solid rgba(255,255,255,0.07);
-  background: #07091b; flex-shrink: 0;
+/* Footer buttons — inline below content */
+.prf-footer-inline {
+  display: flex; gap: 8px; padding: 8px 0;
+  margin-top: 6px;
 }
 .prf-btn-back {
   flex: 1; height: 40px; border-radius: 9px;
