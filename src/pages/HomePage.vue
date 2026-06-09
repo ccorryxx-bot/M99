@@ -656,8 +656,7 @@
                 <p v-if="regError" class="nova-auth-error">{{ regError }}</p>
                 <button @click="handleRegister" :disabled="regLoading" class="nova-auth-submit-btn" :class="!regFormFilled?'nova-auth-submit-btn--dim':''"><span>{{ regLoading ? 'Loading...' : 'မှတ်ပုံတင်' }}</span></button>
                 <div style="text-align:center;margin-top:14px;"><span style="font-size:11px;color:rgba(255,255,255,0.32);cursor:pointer;">ဘည်ဝန်ဆောင်မှု</span></div>
-                <div class="nova-auth-divider"><div style="flex:1;height:1px;background:rgba(255,255,255,0.08);"></div><span style="font-size:11px;color:rgba(255,255,255,0.22);">မှတ်ပုံတင်ခြင်း</span><div style="flex:1;height:1px;background:rgba(255,255,255,0.08);"></div></div>
-                <div style="display:flex;justify-content:center;"><button class="nova-fb-btn"><svg width="22" height="22" fill="white" viewBox="0 0 24 24"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg></button></div>
+
               </div>
 
               <!-- LOGIN FORM -->
@@ -690,8 +689,7 @@
                   <span style="font-size:11px;color:rgba(255,255,255,0.32);cursor:pointer;">ဘည်ဝန်ဆောင်မှု</span>
                   <span style="font-size:11px;color:rgba(255,255,255,0.5);cursor:pointer;">ကားဝှက်မေ့နေသည်</span>
                 </div>
-                <div class="nova-auth-divider"><div style="flex:1;height:1px;background:rgba(255,255,255,0.08);"></div><span style="font-size:11px;color:rgba(255,255,255,0.22);">အဂြန်ဝင်ရောက်မှု</span><div style="flex:1;height:1px;background:rgba(255,255,255,0.08);"></div></div>
-                <div style="display:flex;justify-content:center;"><button class="nova-fb-btn"><svg width="22" height="22" fill="white" viewBox="0 0 24 24"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg></button></div>
+
               </div>
 
             </div>
@@ -1162,7 +1160,7 @@
   /* ══ AUTH PANEL — Slide from right ══ */
   .nova-auth-panel {
     position: fixed; inset: 0; z-index: 1000;
-    background: linear-gradient(160deg, #06081a 0%, #0f1238 55%, #06081a 100%);
+    background: linear-gradient(160deg, #2a3299 0%, #3848d4 55%, #2a3299 100%);
     display: flex; flex-direction: column; overflow: hidden;
   }
 
@@ -1200,27 +1198,27 @@
 
   /* Form */
   .nova-auth-form-body { padding: 20px 20px 32px; }
-  .nova-auth-subtitle { font-size: 12px; color: rgba(255,255,255,0.4); margin-bottom: 18px; line-height: 1.5; }
+  .nova-auth-subtitle { font-size: 12px; color: rgba(255,255,255,0.72); margin-bottom: 18px; line-height: 1.5; }
   .nova-auth-error { color: #f87171; font-size: 11px; text-align: center; margin-bottom: 8px; }
   .nova-auth-divider { display: flex; align-items: center; gap: 10px; margin: 16px 0; }
 
   /* Input fields — soft card */
   .nova-auth-field {
     display: flex; align-items: center; gap: 8px;
-    background: rgba(255,255,255,0.07);
-    border: 1px solid rgba(245,200,66,0.18);
+    background: rgba(255,255,255,0.16);
+    border: 1px solid rgba(245,200,66,0.35);
     border-radius: 12px; padding: 12px 14px; margin-bottom: 11px;
     transition: border-color 0.2s, background 0.2s;
   }
   .nova-auth-field:focus-within {
-    border-color: rgba(245,200,66,0.5);
-    background: rgba(245,200,66,0.04);
-    box-shadow: 0 0 0 2px rgba(245,200,66,0.07);
+    border-color: rgba(245,200,66,0.85);
+    background: rgba(245,200,66,0.09);
+    box-shadow: 0 0 0 3px rgba(245,200,66,0.14);
   }
   /* Referral field — slightly more prominent */
   .nova-ref-field {
-    border-color: rgba(245,200,66,0.25);
-    background: rgba(245,200,66,0.03);
+    border-color: rgba(245,200,66,0.45);
+    background: rgba(245,200,66,0.08);
   }
   /* Referral badge */
   .nova-ref-badge {
@@ -1240,7 +1238,8 @@
   }
   .nova-auth-input {
     flex: 1; background: transparent; border: none; outline: none;
-    color: rgba(255,255,255,0.92); font-size: 13.5px; min-width: 0;
+    color: rgba(255,255,255,0.95); font-size: 13.5px; min-width: 0;
+    caret-color: #f5c842;
   }
   .nova-auth-input::placeholder { color: rgba(255,255,255,0.22); }
 
@@ -1273,13 +1272,6 @@
   }
   .nova-login-type-btn--active { background: rgba(255,255,255,0.1); border-color: rgba(255,255,255,0.25); color: rgba(255,255,255,0.9); }
 
-  /* Facebook button */
-  .nova-fb-btn {
-    width: 46px; height: 46px; border-radius: 50%;
-    background: linear-gradient(135deg, #1877f2, #0a5dc9); border: none; cursor: pointer;
-    display: flex; align-items: center; justify-content: center;
-    box-shadow: 0 4px 14px rgba(24,119,242,0.4); -webkit-tap-highlight-color: transparent;
-  }
 
   /* Slide transition */
   .nova-auth-slide-enter-active { transition: transform 0.3s cubic-bezier(0.32,0.72,0,1); }
