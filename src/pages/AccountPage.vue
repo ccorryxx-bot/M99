@@ -139,44 +139,44 @@
         <div class="l1-title">အခြားလုပ်ဆောင်ချက်များ</div>
         <div class="l1-grid4">
           <button class="gi-item" @click="openProfile">
-            <div class="gi-icon-wrap">
-              <svg width="26" height="26" fill="none" viewBox="0 0 24 24" stroke="rgba(96,165,250,0.9)" stroke-width="1.6"><path stroke-linecap="round" stroke-linejoin="round" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/></svg>
+            <div class="gi-icon-plain">
+              <svg width="22" height="22" fill="none" viewBox="0 0 24 24" stroke="rgba(255,255,255,0.80)" stroke-width="1.7"><path stroke-linecap="round" stroke-linejoin="round" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/></svg>
             </div>
             <span class="gi-lbl">ကိုယ်ရေး<br>အချက်... </span>
           </button>
           <button class="gi-item" @click="comingSoon">
-            <div class="gi-icon-wrap">
-              <svg width="26" height="26" fill="none" viewBox="0 0 24 24" stroke="rgba(167,139,250,0.9)" stroke-width="1.6"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/></svg>
+            <div class="gi-icon-plain">
+              <svg width="22" height="22" fill="none" viewBox="0 0 24 24" stroke="rgba(255,255,255,0.80)" stroke-width="1.7"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/></svg>
             </div>
             <span class="gi-lbl">လုံခြုံရေးစင်<br>တာ</span>
           </button>
           <button class="gi-item" @click="comingSoon">
-            <div class="gi-icon-wrap">
-              <svg width="26" height="26" fill="none" viewBox="0 0 24 24" stroke="rgba(52,211,153,0.9)" stroke-width="1.6"><path stroke-linecap="round" stroke-linejoin="round" d="M3 5h12M9 3v2m1.048 9.5A18.022 18.022 0 016.412 9m6.088 9h7M11 21l5-10 5 10M12.751 5C11.783 10.77 8.07 15.61 3 18.129"/></svg>
+            <div class="gi-icon-plain">
+              <svg width="22" height="22" fill="none" viewBox="0 0 24 24" stroke="rgba(255,255,255,0.80)" stroke-width="1.7"><path stroke-linecap="round" stroke-linejoin="round" d="M3 5h12M9 3v2m1.048 9.5A18.022 18.022 0 016.412 9m6.088 9h7M11 21l5-10 5 10M12.751 5C11.783 10.77 8.07 15.61 3 18.129"/></svg>
             </div>
             <span class="gi-lbl">ဘာသာစကား</span>
           </button>
           <button class="gi-item" @click="comingSoon">
-            <div class="gi-icon-wrap">
-              <svg width="26" height="26" fill="none" viewBox="0 0 24 24" stroke="rgba(251,191,36,0.9)" stroke-width="1.6"><path stroke-linecap="round" stroke-linejoin="round" d="M8.228 9c.549-1.165 2.03-2 3.772-2 2.21 0 4 1.343 4 3 0 1.4-1.278 2.575-3.006 2.907-.542.104-.994.54-.994 1.093m0 3h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+            <div class="gi-icon-plain">
+              <svg width="22" height="22" fill="none" viewBox="0 0 24 24" stroke="rgba(255,255,255,0.80)" stroke-width="1.7"><path stroke-linecap="round" stroke-linejoin="round" d="M8.228 9c.549-1.165 2.03-2 3.772-2 2.21 0 4 1.343 4 3 0 1.4-1.278 2.575-3.006 2.907-.542.104-.994.54-.994 1.093m0 3h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
             </div>
             <span class="gi-lbl">ပောက်သည်<br>ဝင်ဆောင်မှု</span>
           </button>
           <button class="gi-item" @click="comingSoon">
-            <div class="gi-icon-wrap">
-              <svg width="26" height="26" fill="none" viewBox="0 0 24 24" stroke="rgba(248,113,113,0.9)" stroke-width="1.6"><path stroke-linecap="round" stroke-linejoin="round" d="M11 5.882V19.24a1.76 1.76 0 01-3.417.592l-2.147-6.15M18 13a3 3 0 100-6M5.436 13.683A4.001 4.001 0 017 6h1.832c4.1 0 7.625-1.234 9.168-3v14c-1.543-1.766-5.067-3-9.168-3H7a3.988 3.988 0 01-1.564-.317z"/></svg>
+            <div class="gi-icon-plain">
+              <svg width="22" height="22" fill="none" viewBox="0 0 24 24" stroke="rgba(255,255,255,0.80)" stroke-width="1.7"><path stroke-linecap="round" stroke-linejoin="round" d="M11 5.882V19.24a1.76 1.76 0 01-3.417.592l-2.147-6.15M18 13a3 3 0 100-6M5.436 13.683A4.001 4.001 0 017 6h1.832c4.1 0 7.625-1.234 9.168-3v14c-1.543-1.766-5.067-3-9.168-3H7a3.988 3.988 0 01-1.564-.317z"/></svg>
             </div>
             <span class="gi-lbl">ကြေညာချက်<br>များ</span>
           </button>
           <button class="gi-item" @click="$router.push('/device-sessions')">
-            <div class="gi-icon-wrap">
-              <svg width="26" height="26" fill="none" viewBox="0 0 24 24" stroke="rgba(156,163,175,0.9)" stroke-width="1.6"><path stroke-linecap="round" stroke-linejoin="round" d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17H3a2 2 0 01-2-2V5a2 2 0 012-2h14a2 2 0 012 2v10a2 2 0 01-2 2h-2"/></svg>
+            <div class="gi-icon-plain">
+              <svg width="22" height="22" fill="none" viewBox="0 0 24 24" stroke="rgba(255,255,255,0.80)" stroke-width="1.7"><path stroke-linecap="round" stroke-linejoin="round" d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17H3a2 2 0 01-2-2V5a2 2 0 012-2h14a2 2 0 012 2v10a2 2 0 01-2 2h-2"/></svg>
             </div>
             <span class="gi-lbl">စက်ပစ္စည်းသို<br>ဝင်ရောက်ပါ</span>
           </button>
           <button class="gi-item" @click="logout">
-            <div class="gi-icon-wrap">
-              <svg width="26" height="26" fill="none" viewBox="0 0 24 24" stroke="rgba(239,68,68,0.9)" stroke-width="1.6"><path stroke-linecap="round" stroke-linejoin="round" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"/></svg>
+            <div class="gi-icon-plain">
+              <svg width="22" height="22" fill="none" viewBox="0 0 24 24" stroke="rgba(255,255,255,0.80)" stroke-width="1.7"><path stroke-linecap="round" stroke-linejoin="round" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"/></svg>
             </div>
             <span class="gi-lbl" style="color:rgba(239,100,100,0.9);">လောဂ်ထွက်ရန်</span>
           </button>
@@ -382,9 +382,9 @@ const comingSoon = () => {}
    ═══════════════════════════════ */
 .acc-root {
   min-height: 100vh;
-  background: linear-gradient(160deg, #16183a 0%, #252870 50%, #16183a 100%);
+  background: linear-gradient(160deg, #242880 0%, #3a41c8 45%, #2c3096 100%);
   display: flex; flex-direction: column;
-  color: rgba(255,255,255,0.92);
+  color: rgba(255,255,255,0.95);
   font-family: system-ui, sans-serif;
   padding-bottom: 80px;
 }
@@ -441,11 +441,11 @@ const comingSoon = () => {}
    LAYER 1 — HEAVY CARDS
    ═══════════════════════════════ */
 .l1-card {
-  background: rgba(48, 52, 140, 0.82);
+  background: rgba(72, 80, 190, 0.65);
   border-radius: 16px;
   padding: 14px;
-  border: 1px solid rgba(255,255,255,0.07);
-  box-shadow: 0 4px 24px rgba(0,0,0,0.35);
+  border: 1px solid rgba(255,255,255,0.14);
+  box-shadow: 0 4px 20px rgba(0,0,0,0.18);
 }
 .l1-title {
   font-size: 11px; font-weight: 700;
@@ -476,12 +476,12 @@ const comingSoon = () => {}
 }
 .yref-btn.refreshing .ref-svg { animation: spin 0.6s linear infinite; }
 @keyframes spin { to { transform: rotate(360deg); } }
-.ybal-btns { display: flex; gap: 7px; }
+.ybal-btns { display: flex; gap: 6px; }
 .ybal-btn {
-  padding: 7px 13px; border-radius: 8px;
+  padding: 5px 10px; border-radius: 7px;
   background: rgba(0,0,0,0.18);
   border: 1.5px solid rgba(255,255,255,0.35);
-  color: #fff; font-size: 10.5px; font-weight: 700;
+  color: #fff; font-size: 9.5px; font-weight: 700;
   cursor: pointer; -webkit-tap-highlight-color: transparent;
   white-space: nowrap;
   transition: opacity 0.15s;
@@ -497,11 +497,11 @@ const comingSoon = () => {}
   -webkit-tap-highlight-color: transparent;
 }
 .qi-icon-wrap {
-  width: 52px; height: 52px; border-radius: 14px;
+  width: 38px; height: 38px; border-radius: 10px;
   display: flex; align-items: center; justify-content: center;
 }
-.qi-img { width: 48px; height: 48px; object-fit: contain; }
-.qi-lbl { font-size: 10px; color: rgba(255,255,255,0.75); line-height: 1.4; text-align: center; font-weight: 500; }
+.qi-img { width: 34px; height: 34px; object-fit: contain; }
+.qi-lbl { font-size: 9.5px; color: rgba(255,255,255,0.75); line-height: 1.4; text-align: center; font-weight: 500; }
 
 /* ═══════════════════════════════
    LAYER 2 — YELLOW VIP SUB-CARD
@@ -551,12 +551,16 @@ const comingSoon = () => {}
   text-align: center;
 }
 .gi-icon-wrap {
-  width: 48px; height: 48px; border-radius: 14px;
-  background: rgba(255,255,255,0.06);
+  width: 36px; height: 36px; border-radius: 10px;
+  background: rgba(255,255,255,0.07);
   display: flex; align-items: center; justify-content: center;
 }
-.gi-img { width: 40px; height: 40px; object-fit: contain; }
-.gi-lbl { font-size: 9.5px; color: rgba(255,255,255,0.7); line-height: 1.35; text-align: center; }
+.gi-img { width: 30px; height: 30px; object-fit: contain; }
+.gi-icon-plain {
+  width: 36px; height: 36px;
+  display: flex; align-items: center; justify-content: center;
+}
+.gi-lbl { font-size: 9px; color: rgba(255,255,255,0.7); line-height: 1.35; text-align: center; }
 
 /* ── Full-screen overlays ── */
 .fullpage { position: fixed; inset: 0; z-index: 100; display: flex; flex-direction: column; overflow: hidden; }
