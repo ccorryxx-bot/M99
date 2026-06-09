@@ -282,6 +282,7 @@
               <div style="position:relative;aspect-ratio:3/4;overflow:hidden;background:#0e1030;">
                 <img :src="game.image_url" alt="" @error="e=>e.target.style.display='none'" style="width:100%;height:100%;object-fit:cover;display:block;" loading="lazy"/>
                 <div style="position:absolute;inset:0;background:linear-gradient(to top,rgba(6,8,18,0.85) 0%,rgba(6,8,18,0.2) 40%,transparent 100%);"></div>
+                <img src="https://ik.imagekit.io/rbok01qam/Custom%20icons%20img/ddca62d0-6422-11f1-aded-3d7319f38cf3.gif?tr=f-auto" style="position:absolute;top:4px;right:4px;width:20px;height:20px;object-fit:contain;z-index:10;pointer-events:none;" alt=""/>
                 <div v-if="idx%5<2" class="nova-badge nova-badge--hot">HOT</div>
                 <div class="nova-badge nova-badge--provider">{{ game.provider_code?.toUpperCase() }}</div>
                 <div style="position:absolute;bottom:0;left:0;right:0;padding:4px 5px 5px;">
@@ -371,6 +372,7 @@
               <img :src="game.image_url" alt="" @error="e=>e.target.style.display='none'"
                 style="width:100%;height:100%;object-fit:cover;display:block;" loading="lazy"/>
               <div style="position:absolute;inset:0;background:linear-gradient(to top,rgba(4,16,32,0.82) 0%,rgba(4,16,32,0.12) 40%,transparent 100%);"></div>
+              <img src="https://ik.imagekit.io/rbok01qam/Custom%20icons%20img/ddca62d0-6422-11f1-aded-3d7319f38cf3.gif?tr=f-auto" style="position:absolute;top:4px;right:4px;width:20px;height:20px;object-fit:contain;z-index:10;pointer-events:none;" alt=""/>
               <div class="nova-badge nova-badge--provider">{{ game.provider_code?.toUpperCase() }}</div>
               <div style="position:absolute;bottom:0;left:0;right:0;padding:4px 5px 5px;">
                 <div style="font-size:9px;font-weight:700;color:rgba(255,255,255,0.9);overflow:hidden;text-overflow:ellipsis;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;line-height:1.3;">{{ game.game_name }}</div>
@@ -403,6 +405,7 @@
               <img :src="game.image_url" alt="" @error="e=>e.target.style.display='none'"
                 style="width:100%;height:100%;object-fit:cover;display:block;" loading="lazy"/>
               <div style="position:absolute;inset:0;background:linear-gradient(to top,rgba(20,4,40,0.82) 0%,rgba(20,4,40,0.12) 40%,transparent 100%);"></div>
+              <img src="https://ik.imagekit.io/rbok01qam/Custom%20icons%20img/ddca62d0-6422-11f1-aded-3d7319f38cf3.gif?tr=f-auto" style="position:absolute;top:4px;right:4px;width:20px;height:20px;object-fit:contain;z-index:10;pointer-events:none;" alt=""/>
               <div class="nova-badge nova-badge--live">{{ game.category==='live'?'LIVE':'ARC' }}</div>
               <div class="nova-badge nova-badge--provider">{{ game.provider_code?.toUpperCase() }}</div>
               <div style="position:absolute;bottom:0;left:0;right:0;padding:4px 5px 5px;">
@@ -418,6 +421,7 @@
               <img :src="liveGames[6].image_url" alt="" @error="e=>e.target.style.display='none'"
                 style="width:100%;height:100%;object-fit:cover;display:block;" loading="lazy"/>
               <div style="position:absolute;inset:0;background:linear-gradient(to top,rgba(20,4,40,0.88) 0%,rgba(20,4,40,0.15) 45%,transparent 100%);"></div>
+              <img src="https://ik.imagekit.io/rbok01qam/Custom%20icons%20img/ddca62d0-6422-11f1-aded-3d7319f38cf3.gif?tr=f-auto" style="position:absolute;top:4px;right:4px;width:20px;height:20px;object-fit:contain;z-index:10;pointer-events:none;" alt=""/>
               <div class="nova-badge nova-badge--live">{{ liveGames[6].category==='live'?'LIVE':'ARC' }}</div>
               <div class="nova-badge nova-badge--provider">{{ liveGames[6].provider_code?.toUpperCase() }}</div>
               <div style="position:absolute;bottom:0;left:0;right:0;padding:6px 8px 8px;">
