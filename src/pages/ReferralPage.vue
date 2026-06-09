@@ -428,7 +428,7 @@ onMounted(loadData)
 /* ── Root ── */
 .net-root {
   min-height: 100vh;
-  background: #3d4187;
+  background: #07091b;
   display: flex; flex-direction: column;
 }
 
@@ -436,8 +436,8 @@ onMounted(loadData)
 .net-header {
   position: sticky; top: 0; z-index: 50;
   backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
-  background: rgba(45,49,115,0.95);
-  border-bottom: 1px solid rgba(255,255,255,0.15);
+  background: rgba(6,8,24,0.97);
+  border-bottom: 1px solid rgba(168,85,247,0.22);
   padding: 10px 14px;
   display: flex; align-items: center; gap: 10px;
 }
