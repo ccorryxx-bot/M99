@@ -189,49 +189,140 @@
          PROFILE FULL-SCREEN SLIDE-IN
          ══════════════════════════════════════════════ -->
     <Transition name="pg">
-      <div v-if="showProfile" class="fullpage" style="background:#07091b;">
+      <div v-if="showProfile" class="fullpage prf-root">
+        <!-- Header -->
         <div class="fp-header">
           <button @click="showProfile = false" class="icon-btn">
             <svg width="18" height="18" fill="none" stroke="rgba(255,255,255,0.85)" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7"/></svg>
           </button>
-          <span class="fp-title">ကိုယ်ရေးအကျဉ်း</span>
+          <span class="fp-title">ကိုယ်ရေးအချက်အလက်များ</span>
           <div style="width:34px;"></div>
         </div>
-        <div class="fp-body">
-          <div style="display:flex;align-items:center;gap:13px;padding:16px 0 20px;">
-            <div style="position:relative;cursor:pointer;" @click="openAvatarPicker">
-              <img :src="selectedAvatar" style="width:62px;height:62px;border-radius:14px;object-fit:cover;border:1.5px solid rgba(255,255,255,0.15);" alt="av" />
-              <div :style="vipBadgeBg" style="position:absolute;bottom:-5px;left:-4px;padding:1px 5px;border-radius:5px;font-size:8px;font-weight:900;color:#fff;line-height:1.5;">VIP{{ vipLevel }}</div>
-              <div style="position:absolute;inset:0;border-radius:12px;background:rgba(0,0,0,0.3);display:flex;align-items:center;justify-content:center;">
-                <svg width="17" height="17" fill="none" stroke="rgba(255,255,255,0.85)" stroke-width="1.8" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z"/><circle cx="12" cy="13" r="3"/></svg>
+
+        <!-- Scrollable body -->
+        <div class="prf-body">
+
+          <!-- Avatar + ID row -->
+          <div class="prf-av-row">
+            <div style="position:relative;cursor:pointer;flex-shrink:0;" @click="openAvatarPicker">
+              <img :src="selectedAvatar" class="prf-av-img" alt="av" />
+              <div :style="vipBadgeBg" class="prf-vip-badge">VIP{{ vipLevel }}</div>
+              <div class="prf-av-overlay">
+                <svg width="16" height="16" fill="none" stroke="rgba(255,255,255,0.9)" stroke-width="1.8" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z"/><circle cx="12" cy="13" r="3"/></svg>
               </div>
             </div>
-            <div>
-              <div style="font-size:10px;color:rgba(255,255,255,0.4);margin-bottom:3px;">ဂိမ်း ID</div>
-              <div style="display:flex;align-items:center;gap:5px;">
-                <span style="font-size:12px;font-weight:700;color:#4ade80;font-family:monospace;">ID:{{ gameId }}</span>
-                <button @click="copyText(gameId)" style="background:rgba(74,222,128,0.1);border:1px solid rgba(74,222,128,0.22);border-radius:4px;padding:2px 5px;color:#4ade80;cursor:pointer;display:flex;align-items:center;">
-                  <svg width="11" height="11" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg>
+            <div class="prf-id-col">
+              <div class="prf-id-row">
+                <span class="prf-id-text">ID:{{ gameId }}</span>
+                <button @click="copyText(gameId)" class="prf-copy-btn">
+                  <svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg>
                 </button>
               </div>
+              <div class="prf-name-row">
+                <span class="prf-name-text">{{ username }}</span>
+                <svg width="12" height="12" fill="none" stroke="rgba(255,255,255,0.45)" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z"/></svg>
+              </div>
             </div>
           </div>
-          <div style="font-size:10px;color:rgba(255,255,255,0.32);margin-bottom:10px;letter-spacing:0.05em;">ပုံမှန်တော်ပြုသင်္ကေတ အချက်အလက်</div>
-          <div>
-            <button @click="dropOpen = !dropOpen" style="width:100%;display:flex;align-items:center;gap:10px;padding:12px 12px;background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.1);border-radius:10px;cursor:pointer;text-align:left;transition:border-color 0.15s;" :style="dropOpen ? 'border-color:rgba(255,255,255,0.18);border-radius:10px 10px 0 0;' : ''">
-              <svg width="14" height="14" fill="none" stroke="#4ade80" stroke-width="2" viewBox="0 0 24 24" style="flex-shrink:0;"><path stroke-linecap="round" stroke-linejoin="round" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/></svg>
-              <span style="flex:1;font-size:13px;color:rgba(255,255,255,0.85);font-weight:500;">{{ username }}</span>
-              <svg width="14" height="14" fill="none" stroke="rgba(255,255,255,0.45)" stroke-width="2" viewBox="0 0 24 24" style="flex-shrink:0;transition:transform 0.2s;" :style="dropOpen ? 'transform:rotate(180deg);' : ''"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg>
-            </button>
-            <Transition name="drop">
-              <div v-if="dropOpen" style="background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.1);border-top:none;border-radius:0 0 10px 10px;overflow:hidden;">
-                <div style="display:flex;align-items:center;gap:10px;padding:11px 12px;border-bottom:1px solid rgba(255,255,255,0.06);">
-                  <svg width="14" height="14" fill="none" stroke="#4ade80" stroke-width="2" viewBox="0 0 24 24" style="flex-shrink:0;"><path stroke-linecap="round" stroke-linejoin="round" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/></svg>
-                  <span style="font-size:12.5px;color:rgba(255,255,255,0.8);">{{ username }}</span>
+
+          <!-- Section: Basic Info -->
+          <div class="prf-section-label">ပုံသေမြဲသျက်ကို အချက်အလက်</div>
+
+          <!-- Username field (readonly dropdown) -->
+          <div class="prf-field" @click="dropOpen=!dropOpen" :style="dropOpen?'border-radius:10px 10px 0 0;border-color:rgba(255,255,255,0.2);':''">
+            <svg width="16" height="16" fill="none" stroke="rgba(255,255,255,0.5)" stroke-width="2" viewBox="0 0 24 24" style="flex-shrink:0;"><path stroke-linecap="round" stroke-linejoin="round" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/></svg>
+            <span class="prf-field-val">{{ username }}</span>
+            <svg width="14" height="14" fill="none" stroke="rgba(255,255,255,0.35)" stroke-width="2" viewBox="0 0 24 24" style="flex-shrink:0;transition:transform 0.2s;" :style="dropOpen?'transform:rotate(180deg);':''"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg>
+          </div>
+          <Transition name="drop">
+            <div v-if="dropOpen" class="prf-drop-panel">
+              <div class="prf-drop-item">
+                <svg width="14" height="14" fill="none" stroke="#4ade80" stroke-width="2" viewBox="0 0 24 24" style="flex-shrink:0;"><path stroke-linecap="round" stroke-linejoin="round" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/></svg>
+                <span>{{ username }}</span>
+              </div>
+            </div>
+          </Transition>
+
+          <!-- Phone field (masked, readonly) -->
+          <div class="prf-section-label" style="margin-top:12px;">မိုဘိုင်းနံပါတ်ကို ချိတ်ပါ။</div>
+          <div class="prf-field prf-field--readonly">
+            <svg width="16" height="16" fill="none" stroke="rgba(255,255,255,0.5)" stroke-width="2" viewBox="0 0 24 24" style="flex-shrink:0;"><rect x="5" y="2" width="14" height="20" rx="2"/><circle cx="12" cy="17" r="1" fill="rgba(255,255,255,0.5)"/></svg>
+            <span class="prf-field-val">{{ maskedPhone }}</span>
+          </div>
+
+          <!-- Section: Social accounts -->
+          <div class="prf-section-label" style="margin-top:12px;">တချိုး အကောင့်များ ချိတ်ဆက်ပါ</div>
+
+          <!-- WhatsApp -->
+          <div class="prf-social-field">
+            <div class="prf-social-icon prf-social-icon--wa">
+              <svg width="17" height="17" fill="white" viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+            </div>
+            <input v-model="whatsappId" class="prf-social-input" placeholder="သင်၏ WhatsApp ID ကိုထည့်ပါ" />
+          </div>
+
+          <!-- Facebook -->
+          <div class="prf-social-field">
+            <div class="prf-social-icon prf-social-icon--fb">
+              <svg width="17" height="17" fill="white" viewBox="0 0 24 24"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>
+            </div>
+            <input v-model="facebookId" class="prf-social-input" placeholder="သင်၏ Facebook ID ကိုထည့်ပါ" />
+          </div>
+
+          <!-- Telegram -->
+          <div class="prf-social-field">
+            <div class="prf-social-icon prf-social-icon--tg">
+              <svg width="17" height="17" fill="white" viewBox="0 0 24 24"><path d="M11.944 0A12 12 0 0 0 0 12a12 12 0 0 0 12 12 12 12 0 0 0 12-12A12 12 0 0 0 12 0a12 12 0 0 0-.056 0zm4.962 7.224c.1-.002.321.023.465.14a.506.506 0 0 1 .171.325c.016.093.036.306.02.472-.18 1.898-.962 6.502-1.36 8.627-.168.9-.499 1.201-.82 1.23-.696.065-1.225-.46-1.9-.902-1.056-.693-1.653-1.124-2.678-1.8-1.185-.78-.417-1.21.258-1.91.177-.184 3.247-2.977 3.307-3.23.007-.032.014-.15-.056-.212s-.174-.041-.249-.024c-.106.024-1.793 1.14-5.061 3.345-.48.33-.913.49-1.302.48-.428-.008-1.252-.241-1.865-.44-.752-.245-1.349-.374-1.297-.789.027-.216.325-.437.893-.663 3.498-1.524 5.83-2.529 6.998-3.014 3.332-1.386 4.025-1.627 4.476-1.635z"/></svg>
+            </div>
+            <input v-model="telegramId" class="prf-social-input" placeholder="သင်၏ Telegram ID ကိုထည့်ပါ" />
+          </div>
+
+          <!-- Birthday -->
+          <div class="prf-section-label" style="margin-top:12px;">မွေးနေ့ (သတ်မှတ်ပြီးနောက် ပြင်မရ)</div>
+          <div class="prf-field prf-field--select" @click="showBirthPicker=!showBirthPicker" :style="showBirthPicker?'border-radius:10px 10px 0 0;border-color:rgba(255,255,255,0.2);':''">
+            <svg width="16" height="16" fill="none" stroke="rgba(255,255,255,0.5)" stroke-width="2" viewBox="0 0 24 24" style="flex-shrink:0;"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg>
+            <span class="prf-field-val" :style="birthDisplay?'':'color:rgba(255,255,255,0.3);'">{{ birthDisplay || 'ရက် လ နှစ်' }}</span>
+            <svg width="14" height="14" fill="none" stroke="rgba(255,255,255,0.35)" stroke-width="2" viewBox="0 0 24 24" style="flex-shrink:0;transition:transform 0.2s;" :style="showBirthPicker?'transform:rotate(180deg);':''"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg>
+          </div>
+          <Transition name="drop">
+            <div v-if="showBirthPicker" class="prf-birth-picker">
+              <div class="prf-birth-cols">
+                <div class="prf-birth-col">
+                  <div class="prf-birth-col-label">နှစ်</div>
+                  <select v-model="birthYear" class="prf-birth-select">
+                    <option value="">နှစ်</option>
+                    <option v-for="y in birthYears" :key="y" :value="y">{{ y }}</option>
+                  </select>
+                </div>
+                <div class="prf-birth-col">
+                  <div class="prf-birth-col-label">လ</div>
+                  <select v-model="birthMonth" class="prf-birth-select">
+                    <option value="">လ</option>
+                    <option v-for="m in 12" :key="m" :value="m">{{ String(m).padStart(2,'0') }}</option>
+                  </select>
+                </div>
+                <div class="prf-birth-col">
+                  <div class="prf-birth-col-label">ရက်</div>
+                  <select v-model="birthDay" class="prf-birth-select">
+                    <option value="">ရက်</option>
+                    <option v-for="d in 31" :key="d" :value="d">{{ String(d).padStart(2,'0') }}</option>
+                  </select>
                 </div>
               </div>
-            </Transition>
-          </div>
+            </div>
+          </Transition>
+
+          <!-- Age warning -->
+          <p class="prf-age-warn">ငွေကြေးသုံးပြုလုပ်ရန် သင်သည် 18 နှင့်အထက်ကြီရန်လိုသည်။ ဆိုလိုသည်မှာ 10/06/2008 မတိုင်ခင်မွေးဖွားသည်ဖြစ်ရမည်။</p>
+
+        </div><!-- end prf-body -->
+
+        <!-- Bottom buttons -->
+        <div class="prf-footer">
+          <button @click="showProfile=false" class="prf-btn-back">နောက်သို့</button>
+          <button @click="saveProfile" :disabled="profileSaving" class="prf-btn-save">
+            {{ profileSaving ? 'သိမ်းနေ...' : 'အတည်ပြုရန်' }}
+          </button>
         </div>
       </div>
     </Transition>
@@ -702,6 +793,31 @@ const refreshing   = ref(false)
 const showProfile = ref(false)
 const showPicker  = ref(false)
 const dropOpen    = ref(false)
+
+// ── Profile social data ──
+const userPhone       = ref('')
+const whatsappId      = ref('')
+const facebookId      = ref('')
+const telegramId      = ref('')
+const birthYear       = ref('')
+const birthMonth      = ref('')
+const birthDay        = ref('')
+const showBirthPicker = ref(false)
+const profileSaving   = ref(false)
+
+const birthYears = Array.from({ length: 60 }, (_, i) => new Date().getFullYear() - 17 - i)
+
+const maskedPhone = computed(() => {
+  if (!userPhone.value) return '+95 **---'
+  const p = String(userPhone.value).replace(/\D/g, '')
+  if (p.length < 4) return userPhone.value
+  return '+95 **' + p.slice(-3)
+})
+
+const birthDisplay = computed(() => {
+  if (!birthYear.value || !birthMonth.value || !birthDay.value) return ''
+  return `${birthYear.value}/${String(birthMonth.value).padStart(2,'0')}/${String(birthDay.value).padStart(2,'0')}`
+})
 const activeTab   = ref(0)
 const tabs = ['♂ မိတာ', '♀ ပေ']
 
@@ -934,7 +1050,52 @@ const selectedAvatar = ref(localStorage.getItem('sb_avatar_url') || TAB1[0])
 const pendingAvatar  = ref(selectedAvatar.value)
 const currentTabUrls = computed(() => activeTab.value === 0 ? TAB1 : TAB2)
 
-function openProfile() { dropOpen.value = false; showProfile.value = true }
+function openProfile() { dropOpen.value = false; showBirthPicker.value = false; showProfile.value = true; loadProfile() }
+
+async function loadProfile() {
+  try {
+    const { data: { user } } = await supabase.auth.getUser()
+    if (!user) return
+    userPhone.value = user.phone || user.user_metadata?.phone || ''
+    const { data: prof } = await supabase
+      .from('profiles')
+      .select('whatsapp_id,facebook_id,telegram_id,birth_year,birth_month,birth_day')
+      .eq('user_id', user.id)
+      .single()
+    if (prof) {
+      whatsappId.value  = prof.whatsapp_id  || ''
+      facebookId.value  = prof.facebook_id  || ''
+      telegramId.value  = prof.telegram_id  || ''
+      birthYear.value   = prof.birth_year   || ''
+      birthMonth.value  = prof.birth_month  || ''
+      birthDay.value    = prof.birth_day    || ''
+    }
+  } catch {}
+}
+
+async function saveProfile() {
+  profileSaving.value = true
+  try {
+    const { data: { user } } = await supabase.auth.getUser()
+    if (!user) { showToast('အကောင့်ဝင်ပါ'); profileSaving.value = false; return }
+    const { error } = await supabase.from('profiles').upsert({
+      user_id:     user.id,
+      whatsapp_id: whatsappId.value || null,
+      facebook_id: facebookId.value || null,
+      telegram_id: telegramId.value || null,
+      birth_year:  birthYear.value  || null,
+      birth_month: birthMonth.value || null,
+      birth_day:   birthDay.value   || null,
+    }, { onConflict: 'user_id' })
+    if (error) throw error
+    showToast('သိမ်းဆည်းပြီးပါပြီ ✓')
+    showProfile.value = false
+  } catch (e) {
+    showToast('မသိမ်းနိုင်ပါ: ' + (e?.message || 'Error'))
+  } finally {
+    profileSaving.value = false
+  }
+}
 function openAvatarPicker() { pendingAvatar.value = selectedAvatar.value; activeTab.value = 0; showPicker.value = true }
 function saveAvatar() { selectedAvatar.value = pendingAvatar.value; localStorage.setItem('sb_avatar_url', pendingAvatar.value); showPicker.value = false }
 
@@ -1763,4 +1924,160 @@ const filteredProviders = computed(() => {
 }
 .toast-enter-active, .toast-leave-active { transition: all 0.25s cubic-bezier(0.4,0,0.2,1); }
 .toast-enter-from, .toast-leave-to { opacity: 0; transform: translateX(-50%) translateY(12px); }
+
+/* ══════════════════════════════════════════════
+   PROFILE PAGE STYLES
+   ══════════════════════════════════════════════ */
+.prf-root { background: #07091b; display: flex; flex-direction: column; }
+
+.prf-body {
+  flex: 1; overflow-y: auto; padding: 16px 16px 8px;
+  -webkit-overflow-scrolling: touch;
+}
+
+/* Avatar row */
+.prf-av-row {
+  display: flex; align-items: center; gap: 14px;
+  padding-bottom: 18px;
+  border-bottom: 1px solid rgba(255,255,255,0.07);
+  margin-bottom: 16px;
+}
+.prf-av-img {
+  width: 72px; height: 72px; border-radius: 14px;
+  object-fit: cover; border: 1.5px solid rgba(255,255,255,0.18);
+}
+.prf-vip-badge {
+  position: absolute; bottom: -6px; left: -4px;
+  padding: 1px 6px; border-radius: 5px;
+  font-size: 8px; font-weight: 900; color: #fff; line-height: 1.6;
+}
+.prf-av-overlay {
+  position: absolute; inset: 0; border-radius: 12px;
+  background: rgba(0,0,0,0.28);
+  display: flex; align-items: center; justify-content: center;
+}
+.prf-id-col { flex: 1; min-width: 0; }
+.prf-id-row {
+  display: flex; align-items: center; gap: 7px; margin-bottom: 7px;
+}
+.prf-id-text {
+  font-size: 13px; font-weight: 800; color: #4ade80; font-family: monospace; letter-spacing: 0.02em;
+}
+.prf-copy-btn {
+  background: rgba(74,222,128,0.12); border: 1px solid rgba(74,222,128,0.28);
+  border-radius: 5px; padding: 3px 7px; color: #4ade80;
+  cursor: pointer; display: flex; align-items: center;
+  -webkit-tap-highlight-color: transparent;
+}
+.prf-name-row {
+  display: flex; align-items: center; gap: 5px;
+}
+.prf-name-text {
+  font-size: 12.5px; color: rgba(255,255,255,0.6);
+}
+
+/* Section label */
+.prf-section-label {
+  font-size: 10.5px; color: rgba(255,255,255,0.42);
+  margin-bottom: 7px; letter-spacing: 0.04em; font-weight: 600;
+}
+
+/* Standard field row */
+.prf-field {
+  display: flex; align-items: center; gap: 10px;
+  background: rgba(255,255,255,0.06);
+  border: 1px solid rgba(255,255,255,0.12);
+  border-radius: 10px; padding: 13px 14px;
+  margin-bottom: 6px; cursor: pointer;
+  transition: border-color 0.15s;
+  -webkit-tap-highlight-color: transparent;
+}
+.prf-field--readonly { cursor: default; }
+.prf-field-val {
+  flex: 1; font-size: 13px; color: rgba(255,255,255,0.85); font-weight: 500;
+}
+
+/* Username dropdown panel */
+.prf-drop-panel {
+  background: rgba(255,255,255,0.04);
+  border: 1px solid rgba(255,255,255,0.12);
+  border-top: none; border-radius: 0 0 10px 10px;
+  overflow: hidden; margin-bottom: 6px;
+}
+.prf-drop-item {
+  display: flex; align-items: center; gap: 10px;
+  padding: 12px 14px; font-size: 13px; color: rgba(255,255,255,0.82);
+}
+
+/* Social fields */
+.prf-social-field {
+  display: flex; align-items: center; gap: 0;
+  background: rgba(255,255,255,0.06);
+  border: 1px solid rgba(255,255,255,0.12);
+  border-radius: 10px; margin-bottom: 7px; overflow: hidden;
+}
+.prf-social-icon {
+  width: 46px; height: 46px; flex-shrink: 0;
+  display: flex; align-items: center; justify-content: center;
+}
+.prf-social-icon--wa { background: #25d366; }
+.prf-social-icon--fb { background: #1877f2; }
+.prf-social-icon--tg { background: #229ed9; }
+.prf-social-input {
+  flex: 1; background: transparent; border: none; outline: none;
+  padding: 13px 14px; font-size: 13px;
+  color: rgba(255,255,255,0.85); font-family: system-ui, sans-serif;
+}
+.prf-social-input::placeholder { color: rgba(255,255,255,0.28); }
+
+/* Birthday picker */
+.prf-birth-picker {
+  background: rgba(255,255,255,0.05);
+  border: 1px solid rgba(255,255,255,0.12);
+  border-top: none; border-radius: 0 0 10px 10px;
+  padding: 12px 14px; margin-bottom: 7px;
+}
+.prf-birth-cols { display: flex; gap: 10px; }
+.prf-birth-col { flex: 1; }
+.prf-birth-col-label {
+  font-size: 10px; color: rgba(255,255,255,0.38);
+  margin-bottom: 5px; text-align: center;
+}
+.prf-birth-select {
+  width: 100%; background: rgba(255,255,255,0.09);
+  border: 1px solid rgba(255,255,255,0.15); border-radius: 8px;
+  padding: 9px 4px; color: #fff; font-size: 13px;
+  outline: none; cursor: pointer; text-align: center;
+  -webkit-appearance: none; appearance: none;
+}
+
+/* Age warning */
+.prf-age-warn {
+  font-size: 10.5px; color: rgba(255,120,80,0.9);
+  line-height: 1.55; margin: 10px 0 24px; font-weight: 500;
+}
+
+/* Footer buttons */
+.prf-footer {
+  display: flex; gap: 10px; padding: 12px 16px;
+  border-top: 1px solid rgba(255,255,255,0.07);
+  background: #07091b; flex-shrink: 0;
+}
+.prf-btn-back {
+  flex: 1; height: 46px; border-radius: 10px;
+  background: rgba(255,255,255,0.07);
+  border: 1px solid rgba(255,255,255,0.14);
+  color: rgba(255,255,255,0.8); font-size: 13px; font-weight: 700;
+  cursor: pointer; -webkit-tap-highlight-color: transparent;
+}
+.prf-btn-save {
+  flex: 1.5; height: 46px; border-radius: 10px;
+  background: linear-gradient(135deg, #f0b429 0%, #d97706 100%);
+  border: none; color: #1a1440; font-size: 13px; font-weight: 800;
+  cursor: pointer; -webkit-tap-highlight-color: transparent;
+  box-shadow: 0 3px 14px rgba(240,180,41,0.32);
+  transition: opacity 0.15s;
+}
+.prf-btn-save:disabled { opacity: 0.55; cursor: not-allowed; }
+.prf-btn-save:active:not(:disabled) { opacity: 0.85; }
 </style>
