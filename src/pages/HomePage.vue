@@ -476,28 +476,16 @@
       <div style="padding:0 16px;border-top:1px solid rgba(255,255,255,0.07);margin-top:16px;">
         <div style="padding:20px 0 14px;text-align:center;">
           <p style="font-size:12px;color:rgba(255,255,255,0.5);margin-bottom:16px;font-weight:600;">ဆက်သွယ်မှုကို ဆက်သွယ်ရန်</p>
-          <div style="display:flex;justify-content:center;gap:22px;">
-            <div class="nova-contact-chip">
-              <img src="https://ik.imagekit.io/tdpebgueq/Agent_Tap_icons/89dc6e632241379c113adf1bb70ecdb3.jpg?tr=f-auto"
-                class="nova-contact-img" alt="Viber"
-                @error="e=>{e.target.style.display='none';e.target.nextSibling.style.display='flex'}"/>
-              <span class="nova-contact-svg-fb" style="display:none;background:rgba(114,0,212,0.18);">
-                <svg width="22" height="22" viewBox="0 0 40 40" fill="none"><path d="M20 8C13.4 8 8 13.4 8 20c0 2.7.9 5.2 2.4 7.2L8.3 32l5-2.1C15 31.2 17.4 32 20 32c6.6 0 12-5.4 12-12S26.6 8 20 8zm5.9 16.4c-.3.8-1.5 1.5-2.1 1.5-.6.1-1.1.3-3.7-.8-3.1-1.3-5.1-4.4-5.3-4.6-.2-.2-1.5-2-1.5-3.8s1-2.6 1.3-3c.3-.3.7-.4 1-.4h.7c.2 0 .5 0 .7.5.3.6 1 2.3 1.1 2.5.1.2.2.4.1.7-.1.2-.2.4-.4.6l-.5.6c-.2.2-.4.4-.2.8.2.4.9 1.5 2 2.4 1.3 1.1 2.5 1.5 2.8 1.6.3.1.6.1.8-.1l.5-.6c.3-.3.5-.2.8-.1l2.3 1.1c.3.1.5.2.5.5.1.5-.1 1.4-.4 2.2z" fill="rgba(130,80,230,0.9)"/></svg>
-              </span>
-              <span class="nova-contact-label">Viber</span>
-            </div>
-            <div class="nova-contact-chip">
-              <span class="nova-contact-svg-fb" style="background:rgba(41,182,246,0.18);">
-                <svg width="22" height="22" viewBox="0 0 40 40" fill="none"><path d="M28.3 12.5l-3.3 16.1c-.2 1.1-1 1.3-1.8.8l-5-3.8-2.4 2.3c-.3.3-.5.5-1 .5l.4-5.1 9.5-8.6c.4-.4-.1-.6-.6-.2L10.3 21.5l-4.9-1.5c-1.1-.3-1.1-1.1.2-1.6l22.3-8.6c.9-.3 1.7.2 1.4 1.7z" fill="rgba(41,182,246,0.95)"/></svg>
-              </span>
-              <span class="nova-contact-label">Telegram</span>
-            </div>
-            <div class="nova-contact-chip">
-              <span class="nova-contact-svg-fb" style="background:rgba(24,119,242,0.18);">
-                <svg width="22" height="22" viewBox="0 0 40 40" fill="none"><path d="M22.7 21h-2.7v9H17v-9h-2v-3h2v-1.9c0-1.6.8-4.1 4.1-4.1H24v3h-2.1c-.4 0-.8.1-.8.8V18H24l-.4 3h-.9z" fill="rgba(24,119,242,0.95)"/></svg>
-              </span>
-              <span class="nova-contact-label">Facebook</span>
-            </div>
+          <div style="display:flex;justify-content:center;gap:18px;align-items:center;">
+            <img src="https://ik.imagekit.io/tdpebgueq/Agent_Tap_icons/89dc6e632241379c113adf1bb70ecdb3.jpg?tr=f-auto"
+              class="nova-contact-img" alt="Viber"
+              @error="e=>e.target.style.display='none'"/>
+            <img src="https://ik.imagekit.io/tdpebgueq/icons/telegram_logo_QeWRW9-okP.png?tr=f-auto"
+              class="nova-contact-img" alt="Telegram"
+              @error="e=>e.target.style.display='none'"/>
+            <img src="https://ik.imagekit.io/tdpebgueq/Agent_Tap_icons/5bb0f73a7b3e0f976acad614a42e5040.jpg?tr=f-auto"
+              class="nova-contact-img" alt="Facebook"
+              @error="e=>e.target.style.display='none'"/>
           </div>
         </div>
         <div style="height:1px;background:rgba(255,255,255,0.06);margin:0 -16px;"></div>
@@ -543,9 +531,9 @@
           </div>
           <!-- Facebook -->
           <div class="nova-social-float">
-            <div class="nova-social-svg-fb" style="background:rgba(24,119,242,0.18);">
-              <svg width="28" height="28" viewBox="0 0 40 40" fill="none"><path d="M22.7 21h-2.7v9H17v-9h-2v-3h2v-1.9c0-1.6.8-4.1 4.1-4.1H24v3h-2.1c-.4 0-.8.1-.8.8V18H24l-.4 3h-.9z" fill="rgba(24,119,242,0.95)"/></svg>
-            </div>
+            <img src="https://ik.imagekit.io/tdpebgueq/Agent_Tap_icons/5bb0f73a7b3e0f976acad614a42e5040.jpg?tr=f-auto"
+              class="nova-social-img" alt="Facebook" loading="lazy"
+              @error="e=>e.target.style.display='none'"/>
           </div>
         </div>
         <div style="height:1px;background:rgba(255,255,255,0.06);margin:0 -16px;"></div>
