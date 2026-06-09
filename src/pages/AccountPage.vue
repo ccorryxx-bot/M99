@@ -260,7 +260,7 @@
 
         <!-- ══ ACCOUNT TAB content ══ -->
         <template v-if="recordsTab === 'account'">
-          <div style="flex:1;overflow-y:auto;-webkit-overflow-scrolling:touch;" @click="showTypeDrop=false;showStatusDrop=false;">
+          <div style="flex:1;display:flex;flex-direction:column;overflow:hidden;" @click="showTypeDrop=false;showStatusDrop=false;">
             <div class="rec-bal-card">
               <div style="display:flex;align-items:center;justify-content:space-between;">
                 <div>
@@ -282,7 +282,7 @@
                 <span>ဝင်ငွေထွက်ငွေ စစ်ဆေးရန် ဒိုနေ့ ရဲ့ မှတ်တမ်း filter ကိုသုံးပါ။ ငွေသွင်းမှု၊ ငွေထုတ်မှု အားလုံး ဤနေရာမှာ ကြည့်ရပါမည်။</span>
               </div>
             </div>
-            <div class="rec-filters" @click.stop>
+            <div class="rec-filters" @click.stop style="position:relative;z-index:100;flex-shrink:0;">
               <div class="rec-date-tabs">
                 <button :class="['rec-date-btn', recDateFilter==='today'?'active':'']" @click="recDateFilter='today';fetchRecords()">ဒိုနေ့</button>
                 <button :class="['rec-date-btn', recDateFilter==='yesterday'?'active':'']" @click="recDateFilter='yesterday';fetchRecords()">မနေ့က</button>
@@ -313,6 +313,7 @@
                 </Transition>
               </div>
             </div>
+            <div style="flex:1;overflow-y:auto;-webkit-overflow-scrolling:touch;">
             <div v-if="recLoading" style="display:flex;justify-content:center;padding:40px 0;"><div class="rec-spinner"></div></div>
             <div v-else-if="recTransactions.length===0" class="rec-empty">
               <svg width="64" height="64" viewBox="0 0 80 80" fill="none" style="opacity:0.22;"><rect x="10" y="30" width="60" height="42" rx="6" stroke="rgba(255,255,255,0.8)" stroke-width="3"/><path d="M10 46h60" stroke="rgba(255,255,255,0.6)" stroke-width="2"/><path d="M27 30c0-7.18 5.82-13 13-13s13 5.82 13 13" stroke="rgba(255,255,255,0.6)" stroke-width="3" stroke-linecap="round"/></svg>
@@ -335,6 +336,7 @@
               </div>
             </div>
             <div style="height:16px;"></div>
+            </div><!-- /inner scroll -->
           </div>
           <div class="rec-bottom-bar">
             <div style="text-align:center;">
@@ -494,7 +496,10 @@
                   <div v-for="p in filteredProviders" :key="p.id" class="bal-provider-card">
                     <div class="bal-card-top">
                       <div class="bal-card-logo" :style="'background:'+p.bg">
-                        <span class="bal-card-abbr" :style="'color:'+p.ac">{{ p.abbr }}</span>
+                        <img :src="p.img" :alt="p.abbr"
+                          style="width:100%;height:100%;object-fit:contain;border-radius:6px;"
+                          @error="e=>{e.target.style.display='none';e.target.nextElementSibling.style.display='flex'}" />
+                        <span class="bal-card-abbr" :style="'color:'+p.ac" style="display:none">{{ p.abbr }}</span>
                       </div>
                       <span class="bal-card-name">{{ p.name }}</span>
                     </div>
@@ -990,10 +995,10 @@ const balCategories = [
 ]
 
 const balProviders = [
-  { id: 'pp',   name: 'PP',   cat: ['all','slots','live'], bg: 'linear-gradient(135deg,#c87020,#f5a623)', abbr: 'PP',   ac: '#fff' },
-  { id: 'pg',   name: 'PG',   cat: ['all','slots'],        bg: 'linear-gradient(135deg,#0a6e3d,#16a34a)', abbr: 'PG',   ac: '#fff' },
-  { id: 'jili', name: 'JILI', cat: ['all','slots','fish'], bg: 'linear-gradient(135deg,#b8860b,#f5c842)', abbr: 'JILI', ac: '#1a1440' },
-  { id: 'jdb',  name: 'JDB',  cat: ['all','fish'],         bg: 'linear-gradient(135deg,#1a3a8f,#2563eb)', abbr: 'JDB',  ac: '#fff' },
+  { id: 'pp',   name: 'PP',   cat: ['all','slots','live'], bg: '#c87020', abbr: 'PP',   ac: '#fff', img: 'https://ik.imagekit.io/tdpebgueq/Home%20Page%20_icons_linces%20logo/a04d3bed-f475-42eb-9f35-4f9802068315.png?tr=f-auto' },
+  { id: 'pg',   name: 'PG',   cat: ['all','slots'],        bg: '#0a6e3d', abbr: 'PG',   ac: '#fff', img: 'https://ik.imagekit.io/tdpebgueq/Home%20Page%20_icons_linces%20logo/3b38cced-f446-4727-ab37-879557be37cb.png?tr=f-auto' },
+  { id: 'jili', name: 'JILI', cat: ['all','slots','fish'], bg: '#b8860b', abbr: 'JILI', ac: '#fff', img: 'https://ik.imagekit.io/tdpebgueq/Home%20Page%20_icons_linces%20logo/40_N_JILI_LOGO.avif' },
+  { id: 'jdb',  name: 'JDB',  cat: ['all','fish'],         bg: '#1a3a8f', abbr: 'JDB',  ac: '#fff', img: 'https://ik.imagekit.io/tdpebgueq/Home%20Page%20_icons_linces%20logo/f519ade7-dd80-4235-a650-3d8744d5795c.png?tr=f-auto' },
 ]
 
 const filteredProviders = computed(() => {
@@ -1437,6 +1442,7 @@ const filteredProviders = computed(() => {
 
 /* 4-filter scrollable bar */
 .bet-filter-bar {
+  position: relative; z-index: 100;
   display: flex; align-items: center; gap: 6px;
   padding: 10px 10px 6px;
   overflow-x: auto; flex-shrink: 0;
@@ -1646,7 +1652,7 @@ const filteredProviders = computed(() => {
 
 /* Left sidebar */
 .bal-sidebar {
-  width: 72px; flex-shrink: 0;
+  width: 60px; flex-shrink: 0;
   overflow-y: auto; overflow-x: hidden;
   -webkit-overflow-scrolling: touch;
   scrollbar-width: none;
@@ -1655,8 +1661,8 @@ const filteredProviders = computed(() => {
 }
 .bal-sidebar::-webkit-scrollbar { display: none; }
 .bal-cat-btn {
-  display: flex; flex-direction: column; align-items: center; gap: 3px;
-  padding: 10px 4px;
+  display: flex; flex-direction: column; align-items: center; gap: 2px;
+  padding: 8px 3px;
   background: none; border: none; cursor: pointer;
   -webkit-tap-highlight-color: transparent;
   border-left: 3px solid transparent;
@@ -1668,11 +1674,11 @@ const filteredProviders = computed(() => {
 }
 .bal-cat-icon {
   display: flex; align-items: center; justify-content: center;
-  color: rgba(255,255,255,0.45);
+  color: rgba(255,255,255,0.4);
 }
 .bal-cat-btn--active .bal-cat-icon { color: #f5c842; }
 .bal-cat-label {
-  font-size: 8.5px; color: rgba(255,255,255,0.4);
+  font-size: 7.5px; color: rgba(255,255,255,0.38);
   text-align: center; line-height: 1.2; word-break: break-all;
 }
 .bal-cat-btn--active .bal-cat-label { color: #f5c842; font-weight: 700; }
@@ -1684,52 +1690,52 @@ const filteredProviders = computed(() => {
 
 /* Search bar */
 .bal-search-wrap {
-  position: relative; margin: 8px 8px 6px; flex-shrink: 0;
+  position: relative; margin: 6px 6px 5px; flex-shrink: 0;
 }
 .bal-search-input {
-  width: 100%; padding: 8px 32px 8px 12px;
+  width: 100%; padding: 6px 28px 6px 10px;
   background: rgba(255,255,255,0.07);
-  border: 1px solid rgba(255,255,255,0.1); border-radius: 8px;
-  color: rgba(255,255,255,0.8); font-size: 11px;
+  border: 1px solid rgba(255,255,255,0.1); border-radius: 7px;
+  color: rgba(255,255,255,0.8); font-size: 10px;
   outline: none; box-sizing: border-box;
 }
 .bal-search-input::placeholder { color: rgba(255,255,255,0.3); }
 .bal-search-icon {
-  position: absolute; right: 10px; top: 50%; transform: translateY(-50%);
+  position: absolute; right: 8px; top: 50%; transform: translateY(-50%);
   pointer-events: none;
 }
 
 /* Provider cards grid */
 .bal-cards-grid {
   display: grid; grid-template-columns: 1fr 1fr;
-  gap: 8px; padding: 0 8px 12px;
+  gap: 6px; padding: 0 6px 10px;
   overflow-y: auto; -webkit-overflow-scrolling: touch;
   flex: 1;
 }
 .bal-provider-card {
   background: rgba(255,255,255,0.06);
-  border: 1px solid rgba(255,255,255,0.09);
-  border-radius: 10px; padding: 10px 10px 8px;
-  display: flex; flex-direction: column; gap: 6px;
+  border: 1px solid rgba(255,255,255,0.08);
+  border-radius: 9px; padding: 8px 8px 7px;
+  display: flex; flex-direction: column; gap: 4px;
 }
 .bal-card-top {
-  display: flex; align-items: center; gap: 7px;
+  display: flex; align-items: center; gap: 6px;
 }
 .bal-card-logo {
-  width: 36px; height: 36px; border-radius: 8px;
+  width: 28px; height: 28px; border-radius: 6px;
   display: flex; align-items: center; justify-content: center;
-  flex-shrink: 0;
+  flex-shrink: 0; overflow: hidden;
 }
 .bal-card-abbr {
-  font-size: 11px; font-weight: 900; font-family: Arial, sans-serif;
+  font-size: 9px; font-weight: 900; font-family: Arial, sans-serif;
   letter-spacing: -0.02em;
 }
 .bal-card-name {
-  font-size: 11.5px; font-weight: 700; color: rgba(255,255,255,0.85);
+  font-size: 10px; font-weight: 700; color: rgba(255,255,255,0.85);
 }
 .bal-card-balance {
-  font-size: 13px; font-weight: 800; color: rgba(255,255,255,0.55);
-  padding-left: 2px;
+  font-size: 11px; font-weight: 800; color: rgba(255,255,255,0.5);
+  padding-left: 1px;
 }
 
 /* ══ Toast ══ */
