@@ -62,7 +62,7 @@
 
         <!-- Quick icon row (2 items) -->
         <div class="qi-row">
-          <button class="qi-item" @click="comingSoon">
+          <button class="qi-item" @click="openRecords">
             <div class="qi-icon-wrap">
               <img src="https://ik.imagekit.io/rbok01qam/Custom%20icons%20img/style_6_icon_list_zdjl.avif?updatedAt=1780926787548&tr=f-auto" class="qi-img" alt="" @error="e=>e.target.style.display='none'"/>
             </div>
@@ -236,6 +236,152 @@
       </div>
     </Transition>
 
+    <!-- ══════════════════════════════════════════════
+         RECORDS PANEL — Slide from right
+         ══════════════════════════════════════════════ -->
+    <Transition name="pg">
+      <div v-if="showRecords" class="fullpage" style="background:#07091b;">
+
+        <!-- Header: back + scrollable tabs -->
+        <div style="background:linear-gradient(135deg,#2a3299,#3848d4);border-bottom:1px solid rgba(255,255,255,0.1);">
+          <div style="display:flex;align-items:center;gap:0;">
+            <button @click="showRecords=false" class="icon-btn" style="padding:12px 12px;">
+              <svg width="18" height="18" fill="none" stroke="rgba(255,255,255,0.85)" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7"/></svg>
+            </button>
+            <div class="rec-tabs-scroll">
+              <button v-for="t in recordsTabs" :key="t.id"
+                @click="recordsTab=t.id; fetchRecords()"
+                :class="['rec-tab', recordsTab===t.id?'rec-tab--active':'']">
+                {{ t.label }}
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Scrollable content area -->
+        <div style="flex:1;overflow-y:auto;-webkit-overflow-scrolling:touch;" @click="showTypeDrop=false;showStatusDrop=false;">
+
+          <!-- Balance summary card -->
+          <div class="rec-bal-card">
+            <div style="display:flex;align-items:center;justify-content:space-between;">
+              <div>
+                <div style="font-size:9.5px;color:rgba(255,255,255,0.45);margin-bottom:2px;">လက်ကျန်လက်ကျန်ကျန်ငွေ</div>
+                <div style="display:flex;align-items:center;gap:7px;">
+                  <span style="font-size:22px;font-weight:900;color:#f5c842;">{{ formatBalance(mainBalance) }}</span>
+                  <button @click.stop="fetchWallet" class="rec-ref-btn" :class="{refreshing}">
+                    <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" class="ref-svg"><path d="M12 5C8.13 5 5 8.13 5 12s3.13 7 7 7c2.76 0 5.16-1.59 6.34-3.93"/><path d="M17 7.5l1.5 3.5-3.5 0.5"/></svg>
+                  </button>
+                </div>
+              </div>
+              <div style="text-align:right;">
+                <div style="font-size:9px;color:rgba(255,255,255,0.35);">ငွေသွင်းပြီးမှ</div>
+                <div style="font-size:10px;color:#f5c842;font-weight:700;cursor:pointer;" @click.stop="$router.push('/home')">ဆုဲစဲ → သောဘူကျိုပ ရယူပါ &rsaquo;</div>
+              </div>
+            </div>
+            <div class="rec-note-box">
+              <svg width="13" height="13" fill="none" viewBox="0 0 24 24" style="flex-shrink:0;margin-top:1px;"><circle cx="12" cy="12" r="10" stroke="rgba(255,255,255,0.35)" stroke-width="1.5"/><path d="M12 8v4M12 16h.01" stroke="rgba(255,255,255,0.5)" stroke-width="1.8" stroke-linecap="round"/></svg>
+              <span>ဝင်ငွေထွက်ငွေ စစ်ဆေးရန် ဒိုနေ့ ရဲ့ မှတ်တမ်း filter ကိုသုံးပါ။ ငွေသွင်းမှု၊ ငွေထုတ်မှု အားလုံး ဤနေရာမှာ ကြည့်ရပါမည်။</span>
+            </div>
+          </div>
+
+          <!-- Filters row -->
+          <div class="rec-filters" @click.stop>
+
+            <!-- Date filter tabs -->
+            <div class="rec-date-tabs">
+              <button :class="['rec-date-btn', recDateFilter==='today'?'active':'']" @click="recDateFilter='today';fetchRecords()">ဒိုနေ့</button>
+              <button :class="['rec-date-btn', recDateFilter==='yesterday'?'active':'']" @click="recDateFilter='yesterday';fetchRecords()">မနေ့က</button>
+            </div>
+
+            <!-- Type dropdown -->
+            <div class="rec-drop-wrap">
+              <button class="rec-drop-btn" @click.stop="showTypeDrop=!showTypeDrop;showStatusDrop=false">
+                <span>{{ recTypeLabel }}</span>
+                <svg width="10" height="10" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24" :style="showTypeDrop?'transform:rotate(180deg);transition:0.2s':'transition:0.2s'"><path stroke-linecap="round" d="M19 9l-7 7-7-7"/></svg>
+              </button>
+              <Transition name="drop">
+                <div v-if="showTypeDrop" class="rec-drop-list" @click.stop>
+                  <button v-for="opt in typeOptions" :key="opt.value"
+                    :class="['rec-drop-item', recTypeFilter===opt.value?'active':'']"
+                    @click="recTypeFilter=opt.value;showTypeDrop=false;fetchRecords()">
+                    {{ opt.label }}
+                  </button>
+                </div>
+              </Transition>
+            </div>
+
+            <!-- Status dropdown -->
+            <div class="rec-drop-wrap">
+              <button class="rec-drop-btn" @click.stop="showStatusDrop=!showStatusDrop;showTypeDrop=false">
+                <span>{{ recStatusLabel }}</span>
+                <svg width="10" height="10" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24" :style="showStatusDrop?'transform:rotate(180deg);transition:0.2s':'transition:0.2s'"><path stroke-linecap="round" d="M19 9l-7 7-7-7"/></svg>
+              </button>
+              <Transition name="drop">
+                <div v-if="showStatusDrop" class="rec-drop-list" @click.stop>
+                  <button v-for="opt in statusOptions" :key="opt.value"
+                    :class="['rec-drop-item', recStatusFilter===opt.value?'active':'']"
+                    @click="recStatusFilter=opt.value;showStatusDrop=false;fetchRecords()">
+                    {{ opt.label }}
+                    <svg v-if="recStatusFilter===opt.value" width="13" height="13" fill="#f5c842" viewBox="0 0 24 24"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg>
+                  </button>
+                </div>
+              </Transition>
+            </div>
+          </div>
+
+          <!-- Loading -->
+          <div v-if="recLoading" style="display:flex;justify-content:center;padding:40px 0;">
+            <div class="rec-spinner"></div>
+          </div>
+
+          <!-- Empty state -->
+          <div v-else-if="recTransactions.length===0" class="rec-empty">
+            <svg width="64" height="64" viewBox="0 0 80 80" fill="none" style="opacity:0.22;"><rect x="10" y="30" width="60" height="42" rx="6" stroke="rgba(255,255,255,0.8)" stroke-width="3"/><path d="M10 46h60" stroke="rgba(255,255,255,0.6)" stroke-width="2"/><path d="M27 30c0-7.18 5.82-13 13-13s13 5.82 13 13" stroke="rgba(255,255,255,0.6)" stroke-width="3" stroke-linecap="round"/><path d="M33 55l7 7 14-14" stroke="rgba(255,255,255,0.5)" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" opacity="0"/></svg>
+            <div style="color:rgba(255,255,255,0.28);font-size:12px;margin-top:10px;">ဒိုနေ့ မှတ်တမ်းမရှိပါ</div>
+            <div style="color:#f5c842;font-size:10px;margin-top:3px;font-weight:600;">ပိုင်ကြည်</div>
+          </div>
+
+          <!-- Transaction list -->
+          <div v-else style="padding:0 10px 10px;">
+            <div v-for="tx in recTransactions" :key="tx.id" class="rec-tx-item">
+              <div style="display:flex;align-items:center;gap:8px;flex:1;min-width:0;">
+                <div :class="['rec-tx-dot', tx.type==='deposit'?'dot-green':'dot-red']"></div>
+                <div style="flex:1;min-width:0;">
+                  <div style="font-size:11px;font-weight:700;color:rgba(255,255,255,0.9);">{{ tx.type==='deposit'?'ငွေသွင်း':'ငွေထုတ်' }}</div>
+                  <div style="font-size:9px;color:rgba(255,255,255,0.35);margin-top:1px;">{{ formatTxDate(tx.created_at) }}</div>
+                </div>
+              </div>
+              <div style="text-align:right;flex-shrink:0;">
+                <div :style="tx.type==='deposit'?'color:#4ade80;':'color:#f87171;'" style="font-size:13px;font-weight:800;">{{ tx.type==='deposit'?'+':'-' }}{{ formatCurrency(tx.amount) }}</div>
+                <div :class="['rec-status-badge', tx.status==='confirmed'?'badge-ok':tx.status==='pending'?'badge-pending':'badge-fail']">{{ tx.status==='confirmed'?'အတည်ပြု':tx.status==='pending'?'စောင့်':'ပယ်ဖျက်' }}</div>
+              </div>
+            </div>
+          </div>
+
+          <div style="height:16px;"></div>
+        </div>
+
+        <!-- Bottom total bar -->
+        <div class="rec-bottom-bar">
+          <div style="text-align:center;">
+            <div style="font-size:9px;color:rgba(255,255,255,0.4);">အဘိုးဘျပ်သော ငွေ</div>
+            <div style="font-size:13px;font-weight:800;color:#4ade80;">+{{ formatCurrency(recTotalIn) }}</div>
+          </div>
+          <div style="width:1px;background:rgba(255,255,255,0.08);height:28px;"></div>
+          <div style="text-align:center;">
+            <div style="font-size:9px;color:rgba(255,255,255,0.4);">ဆုံးရှုံးမှု</div>
+            <div style="font-size:13px;font-weight:800;color:#f87171;">-{{ formatCurrency(recTotalOut) }}</div>
+          </div>
+          <div style="width:1px;background:rgba(255,255,255,0.08);height:28px;"></div>
+          <div style="text-align:center;">
+            <div style="font-size:9px;color:rgba(255,255,255,0.4);">ဆုပ်ပေါ်ဖြစ်</div>
+            <div :style="(recTotalIn-recTotalOut)>=0?'color:#4ade80':'color:#f87171'" style="font-size:13px;font-weight:800;">{{ (recTotalIn-recTotalOut)>=0?'+':'' }}{{ formatCurrency(recTotalIn-recTotalOut) }}</div>
+          </div>
+        </div>
+
+      </div>
+    </Transition>
+
     <!-- Avatar picker -->
     <Transition name="pg">
       <div v-if="showPicker" class="fullpage" style="background:#07091b;">
@@ -274,6 +420,82 @@ const showPicker  = ref(false)
 const dropOpen    = ref(false)
 const activeTab   = ref(0)
 const tabs = ['♂ မိတာ', '♀ ပေ']
+
+// ── Records panel ──
+const showRecords    = ref(false)
+const recordsTab     = ref('account')
+const recTransactions = ref([])
+const recLoading     = ref(false)
+const recDateFilter  = ref('today')
+const recTypeFilter  = ref('all')
+const recStatusFilter = ref('all')
+const showTypeDrop   = ref(false)
+const showStatusDrop = ref(false)
+
+const recordsTabs = [
+  { id: 'account', label: 'အကောင့်အသေးစိတ်' },
+  { id: 'bet',     label: 'လောင်းကစားမှတ်တမ်း' },
+  { id: 'report',  label: 'ကိုယ်ရေးကိုယ်တာထုတ်ပြန်ချက်' },
+  { id: 'balance', label: 'လက်ကျန်' },
+]
+
+const typeOptions = [
+  { value: 'all',      label: 'အကောင့်အမျိုးအစားများ ပြောင်းလဲသည်။' },
+  { value: 'deposit',  label: 'ရန်ပုံငွေဒေပ ပြောင်းခဲ' },
+  { value: 'withdraw', label: 'အဖွဲ့ ဘားရပ်လည်မြင်သည်' },
+  { value: 'bonus',    label: 'အဖွဲ့ ငွေထုတ်ခြင်း' },
+  { value: 'transfer', label: 'ဘက်ငွေပေးသေချမ်' },
+  { value: 'refund',   label: 'ရန်ပုံငွေပြင်ဆင်ခြင်း' },
+]
+
+const statusOptions = [
+  { value: 'all',       label: 'အမျိုးအစောဆုံးအသေးစိတ်' },
+  { value: 'confirmed', label: 'အတည်ပြုပြီး' },
+  { value: 'pending',   label: 'ဆောင်ရွက်ဆဲ' },
+  { value: 'rejected',  label: 'ပယ်ဖျက်ခဲ' },
+]
+
+const recTypeLabel   = computed(() => typeOptions.find(o => o.value === recTypeFilter.value)?.label || 'အကောင့်အမျိုးအစား...')
+const recStatusLabel = computed(() => statusOptions.find(o => o.value === recStatusFilter.value)?.label || 'အမျိုးအစော')
+const recTotalIn     = computed(() => recTransactions.value.filter(t => t.type==='deposit'||t.type==='bonus').reduce((s,t)=>s+Number(t.amount),0))
+const recTotalOut    = computed(() => recTransactions.value.filter(t => t.type==='withdraw').reduce((s,t)=>s+Number(t.amount),0))
+
+async function fetchRecords() {
+  recLoading.value = true
+  try {
+    const { data: { user } } = await supabase.auth.getUser()
+    if (!user) { recTransactions.value = []; return }
+    let query = supabase.from('transactions').select('*').eq('user_id', user.id).order('created_at', { ascending: false }).limit(100)
+    const now = new Date()
+    if (recDateFilter.value === 'today') {
+      const start = new Date(now); start.setHours(0,0,0,0)
+      query = query.gte('created_at', start.toISOString())
+    } else if (recDateFilter.value === 'yesterday') {
+      const start = new Date(now); start.setDate(start.getDate()-1); start.setHours(0,0,0,0)
+      const end = new Date(now); end.setHours(0,0,0,0)
+      query = query.gte('created_at', start.toISOString()).lt('created_at', end.toISOString())
+    }
+    if (recTypeFilter.value !== 'all') query = query.eq('type', recTypeFilter.value)
+    if (recStatusFilter.value !== 'all') query = query.eq('status', recStatusFilter.value)
+    const { data } = await query
+    recTransactions.value = data || []
+  } catch { recTransactions.value = [] } finally { recLoading.value = false }
+}
+
+function openRecords() {
+  showRecords.value = true
+  recDateFilter.value = 'today'
+  recTypeFilter.value = 'all'
+  recStatusFilter.value = 'all'
+  recordsTab.value = 'account'
+  fetchRecords()
+}
+
+function formatTxDate(iso) {
+  if (!iso) return ''
+  const d = new Date(iso)
+  return d.toLocaleDateString('en-GB') + ' ' + d.toLocaleTimeString('en-GB', { hour:'2-digit', minute:'2-digit' })
+}
 
 const TAB1 = [
   'https://ik.imagekit.io/rbok01qam/Avatar%20Img/b8a2f5c9-7574-412c-a057-172ac9d1e640.png?tr=f-auto',
@@ -580,4 +802,149 @@ const comingSoon = () => {}
 .pg-leave-to  { transform: translateX(100%); }
 .drop-enter-active, .drop-leave-active { transition: all 0.18s ease; }
 .drop-enter-from, .drop-leave-to { opacity: 0; transform: translateY(-6px); }
+
+/* ══════════════════════════════════════
+   RECORDS PANEL STYLES
+   ══════════════════════════════════════ */
+
+/* Scrollable tab bar */
+.rec-tabs-scroll {
+  flex: 1; display: flex; overflow-x: auto; gap: 0;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none;
+}
+.rec-tabs-scroll::-webkit-scrollbar { display: none; }
+
+.rec-tab {
+  flex-shrink: 0;
+  padding: 10px 13px;
+  font-size: 11px; font-weight: 600;
+  color: rgba(255,255,255,0.45);
+  background: none; border: none; cursor: pointer;
+  border-bottom: 2px solid transparent;
+  white-space: nowrap;
+  -webkit-tap-highlight-color: transparent;
+  transition: color 0.18s, border-color 0.18s;
+}
+.rec-tab--active {
+  color: #f5c842;
+  border-bottom-color: #f5c842;
+}
+
+/* Balance card */
+.rec-bal-card {
+  margin: 10px; padding: 12px 14px;
+  background: linear-gradient(135deg, rgba(72,80,190,0.85) 0%, rgba(56,72,212,0.7) 100%);
+  border-radius: 12px;
+  border: 1px solid rgba(255,255,255,0.12);
+}
+
+/* Refresh btn inside balance card */
+.rec-ref-btn {
+  background: rgba(255,255,255,0.08); border: none; border-radius: 5px;
+  padding: 3px 5px; cursor: pointer; color: rgba(255,255,255,0.55);
+  display: flex; align-items: center;
+  -webkit-tap-highlight-color: transparent;
+}
+.rec-ref-btn.refreshing .ref-svg { animation: spin 0.6s linear infinite; }
+
+/* Info note box */
+.rec-note-box {
+  display: flex; align-items: flex-start; gap: 6px;
+  margin-top: 10px; padding: 8px 10px;
+  background: rgba(0,0,0,0.2); border-radius: 7px;
+  font-size: 9.5px; color: rgba(255,255,255,0.45); line-height: 1.55;
+}
+
+/* Filters row */
+.rec-filters {
+  display: flex; align-items: center; gap: 6px;
+  padding: 0 10px 8px;
+  flex-wrap: nowrap; overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none;
+}
+.rec-filters::-webkit-scrollbar { display: none; }
+
+/* Date tabs */
+.rec-date-tabs { display: flex; border-radius: 8px; overflow: hidden; border: 1px solid rgba(255,255,255,0.12); flex-shrink: 0; }
+.rec-date-btn {
+  padding: 6px 12px; font-size: 10.5px; font-weight: 600;
+  background: rgba(255,255,255,0.04); color: rgba(255,255,255,0.45);
+  border: none; cursor: pointer; white-space: nowrap;
+  -webkit-tap-highlight-color: transparent;
+  transition: background 0.15s, color 0.15s;
+}
+.rec-date-btn.active { background: #f5c842; color: #1a1440; }
+
+/* Dropdown wrapper */
+.rec-drop-wrap { position: relative; flex-shrink: 0; }
+.rec-drop-btn {
+  display: flex; align-items: center; gap: 5px;
+  padding: 6px 10px; border-radius: 8px;
+  background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.12);
+  color: rgba(255,255,255,0.65); font-size: 10px; font-weight: 600;
+  cursor: pointer; white-space: nowrap;
+  -webkit-tap-highlight-color: transparent;
+}
+.rec-drop-list {
+  position: absolute; top: calc(100% + 4px); left: 0; z-index: 50;
+  min-width: 180px; background: #1e2060;
+  border: 1px solid rgba(255,255,255,0.12); border-radius: 8px;
+  overflow: hidden; box-shadow: 0 8px 24px rgba(0,0,0,0.5);
+}
+.rec-drop-item {
+  display: flex; align-items: center; justify-content: space-between;
+  width: 100%; padding: 10px 13px; text-align: left;
+  background: none; border: none; border-bottom: 1px solid rgba(255,255,255,0.05);
+  color: rgba(255,255,255,0.7); font-size: 11px; cursor: pointer;
+  white-space: nowrap; -webkit-tap-highlight-color: transparent;
+  transition: background 0.12s;
+}
+.rec-drop-item:last-child { border-bottom: none; }
+.rec-drop-item:active { background: rgba(255,255,255,0.06); }
+.rec-drop-item.active { color: #f5c842; font-weight: 700; }
+
+/* Spinner */
+.rec-spinner {
+  width: 28px; height: 28px; border-radius: 50%;
+  border: 3px solid rgba(255,255,255,0.1);
+  border-top-color: #f5c842;
+  animation: spin 0.7s linear infinite;
+}
+
+/* Empty state */
+.rec-empty {
+  display: flex; flex-direction: column; align-items: center;
+  padding: 50px 20px 30px; text-align: center;
+}
+
+/* Transaction item */
+.rec-tx-item {
+  display: flex; align-items: center; gap: 10px;
+  padding: 11px 12px;
+  background: rgba(255,255,255,0.04);
+  border-radius: 10px; margin-bottom: 6px;
+  border: 1px solid rgba(255,255,255,0.07);
+}
+.rec-tx-dot { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; }
+.dot-green { background: #4ade80; box-shadow: 0 0 6px rgba(74,222,128,0.5); }
+.dot-red   { background: #f87171; box-shadow: 0 0 6px rgba(248,113,113,0.5); }
+
+/* Status badge */
+.rec-status-badge {
+  font-size: 8px; font-weight: 700; padding: 2px 5px; border-radius: 4px;
+  margin-top: 2px; display: inline-block;
+}
+.badge-ok      { background: rgba(74,222,128,0.15); color: #4ade80; border: 1px solid rgba(74,222,128,0.25); }
+.badge-pending { background: rgba(251,191,36,0.15);  color: #fbbf24; border: 1px solid rgba(251,191,36,0.25); }
+.badge-fail    { background: rgba(248,113,113,0.15); color: #f87171; border: 1px solid rgba(248,113,113,0.25); }
+
+/* Bottom total bar */
+.rec-bottom-bar {
+  display: flex; align-items: center; justify-content: space-around;
+  padding: 10px 14px 12px;
+  background: rgba(15,18,56,0.98);
+  border-top: 1px solid rgba(255,255,255,0.08);
+}
 </style>
