@@ -412,6 +412,95 @@
 
           </div>
 
+          <!-- ── SUGGEST TAB ── -->
+          <div v-else-if="csTab==='suggest'">
+
+            <!-- Sub-tabs: Create / Mine -->
+            <div class="sg-sub-tabs">
+              <button :class="['sg-sub-tab', suggestSubTab==='create'?'sg-sub-tab--active':'']" @click="suggestSubTab='create'">ဖန်တီးပါ</button>
+              <button :class="['sg-sub-tab', suggestSubTab==='mine'?'sg-sub-tab--active':'']" @click="suggestSubTab='mine'">ကျွန်ုပ်တော်: ပြဿနာ</button>
+            </div>
+
+            <!-- CREATE form -->
+            <div v-if="suggestSubTab==='create'" class="sg-form">
+
+              <!-- Category -->
+              <div class="sg-group">
+                <div class="sg-label">တဲပြင်နဲ့မြင်အမျိုးအစား <span class="sg-required">*</span></div>
+                <div class="sg-select-wrap">
+                  <select v-model="suggestCat" class="sg-select">
+                    <option value="">ကောင်းမျဉ်ဆံသောကြာနောင်ကို ရွေးပါ...</option>
+                    <option value="gameplay">ဂိမ်းကစားခြင်း</option>
+                    <option value="payment">ငွေပေးချေမှု</option>
+                    <option value="deposit">ငွေသွင်းမှု</option>
+                    <option value="withdraw">ငွေထုတ်မှု</option>
+                    <option value="account">အကောင့်</option>
+                    <option value="bonus">ဘောနပ်စ်</option>
+                    <option value="other">အခြား</option>
+                  </select>
+                  <svg width="11" height="11" fill="none" stroke="rgba(255,255,255,0.35)" stroke-width="2.2" viewBox="0 0 24 24" class="sg-select-arrow"><path stroke-linecap="round" d="M19 9l-7 7-7-7"/></svg>
+                </div>
+              </div>
+
+              <!-- Content -->
+              <div class="sg-group">
+                <div class="sg-label">
+                  အကြောင်းအရာ
+                  <span class="sg-hint"> (သင်ကြုံသောနာများကို တင်ပြပြီး ကျွန်ုပ်တို့ ပြင်ဆင်ပေးနသည်/မိုကောင်းအောင်လုပ်ပေးသည်)</span>
+                  <span class="sg-required">*</span>
+                </div>
+                <textarea
+                  v-model="suggestContent"
+                  class="sg-textarea"
+                  maxlength="1000"
+                  rows="6"
+                  placeholder="သင်အကြံပြချင်သောအကြောင်းများသည် ကျွန်ုပ်တို့အတွက် အရေးပါသည်။ လက်ရှိရှိသော ဝန်ဆောင်မှုများကို ပိုကောင်းအောင် သုံးပြုသမျှ ငြိမ်းချမ်းသောနှုန်းများ ချိုးနှိုင်းမည်ဖြစ်ပြီး ဝင်ဆောင်ဆုပ်ကိုင်ထားသောမြ ပင်တေဝင်မိုတင်ပေမည်ဖြစ်ပါသည်။"
+                ></textarea>
+                <div class="sg-char-count">{{ suggestContent.length }}/1000</div>
+              </div>
+
+              <!-- Image upload -->
+              <div class="sg-group">
+                <div class="sg-label">
+                  တတ်ပုံများ မလိမ်မပေလို့
+                  <span class="sg-hint"> (ရွေးချယ်ရန် မကိုင်ကြ ဖိုင်ကွဲမပေဝ)</span>
+                </div>
+                <div class="sg-upload-area">
+                  <div
+                    v-for="(img, idx) in suggestImages" :key="idx"
+                    class="sg-upload-thumb"
+                  >
+                    <img :src="img.url" class="sg-thumb-img" />
+                    <button class="sg-thumb-remove" @click="suggestImages.splice(idx,1)">✕</button>
+                  </div>
+                  <label class="sg-upload-add" v-if="suggestImages.length < 5">
+                    <svg width="22" height="22" fill="none" stroke="rgba(255,255,255,0.3)" stroke-width="2" viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></svg>
+                    <input type="file" accept="image/*,video/*" multiple style="display:none" @change="onSuggestImg" />
+                  </label>
+                </div>
+                <div class="sg-upload-note">ပုံများနှင့် ဗိဒ်ယိုများ အပ်လုပ်တင်ခြင်းကို ပံ့ပိုးပေးသည်။ ပုံရွယ်အားသည် 10MB ထက်မပိုရမည်ဖြစ်ပြီး ဗိဒ်ယိုရွယ်အားများမှာ 20MB ထက်မပိုရပါ။</div>
+              </div>
+
+              <!-- Terms -->
+              <div class="sg-terms">သင်ကိုပေးကောင်းကဲ့အတွေ့ကို ပေးရမည်ဆိုသောအချက်ကို ရင်ဆိုင်နှင့် လုပ်ဆောင်ချက်ကို အကောင်ဆုံးကိုရှာ ကောင်းသောဝန်ဆောင်မှုနှုန်းကို ဆုကြဲကြပြုလုပ်သွားမည်ဖြစ်သည်။ လက်ကျင်ဆဲသားများ သတ်မှတ်ထားသော လမ်းညွှန်ချက်ကို လိုက်နာရမည်ဖြစ်ပြီး ဆုကို အကြမ်းဖျင်းပြင်ဆင်ခိုင်ကို ဝင်ရောက်မပေမည်ဖြစ်မည်ဆိုသည်ကို ဝမ်းမနည်းနဲ့ ဆင်ဆင်ကြည်ပြင်ဆင်မပေမည်ဖြစ်မည်။</div>
+
+              <!-- Submit -->
+              <button
+                class="sg-submit-btn"
+                :disabled="!suggestCat || !suggestContent.trim() || suggestSubmitting"
+                @click="submitSuggestion"
+              >{{ suggestSubmitting ? 'တင်ပြနေ...' : 'အကြံပြုချက် တင်ပြပါ' }}</button>
+              <div style="height:env(safe-area-inset-bottom,12px);min-height:12px;"></div>
+
+            </div><!-- end create form -->
+
+            <!-- MY SUGGESTIONS -->
+            <div v-else class="cs-empty">
+              <svg width="44" height="44" fill="none" stroke="rgba(255,255,255,0.18)" stroke-width="1.4" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"/></svg>
+              <p style="margin:8px 0 0;font-size:12px;color:rgba(255,255,255,0.28);">မှတ်တမ်းမရှိသေးပါ</p>
+            </div>
+          </div>
+
           <!-- ── OTHER TABS ── -->
           <div v-else class="cs-empty">
             <svg width="44" height="44" fill="none" stroke="rgba(255,255,255,0.18)" stroke-width="1.4" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"/></svg>
@@ -888,6 +977,11 @@ const refreshing   = ref(false)
 const showProfile = ref(false)
 const showCs      = ref(false)
 const csTab       = ref('service')
+const suggestSubTab    = ref('create')
+const suggestCat       = ref('')
+const suggestContent   = ref('')
+const suggestImages    = ref([])
+const suggestSubmitting = ref(false)
 const showPicker  = ref(false)
 const dropOpen    = ref(false)
 
@@ -1252,6 +1346,24 @@ function showToast(msg) {
   toastTimer = setTimeout(() => { toastVisible.value = false }, 2200)
 }
 const comingSoon  = () => showToast('လတ်တလောမရနိုင်သေးပါ')
+
+function onSuggestImg(e) {
+  const files = Array.from(e.target.files || [])
+  files.forEach(f => {
+    if (suggestImages.value.length >= 5) return
+    const url = URL.createObjectURL(f)
+    suggestImages.value.push({ file: f, url })
+  })
+  e.target.value = ''
+}
+async function submitSuggestion() {
+  if (!suggestCat.value || !suggestContent.value.trim()) return
+  suggestSubmitting.value = true
+  await new Promise(r => setTimeout(r, 900))
+  showToast('အကြံပြုချက် တင်သွင်းပြီးပါပြီ!')
+  suggestCat.value = ''; suggestContent.value = ''; suggestImages.value = []
+  suggestSubmitting.value = false
+}
 const showWithdrawModal = ref(false)
 const showComingSoon = () => showToast('လတ်တလောမရနိုင်သေးပါ')
 
@@ -2308,4 +2420,113 @@ const filteredProviders = computed(() => {
   display: flex; flex-direction: column; align-items: center;
   justify-content: center; padding: 60px 0;
 }
+
+/* ══════════════════════════════════════════════
+   SUGGESTION FORM STYLES
+   ══════════════════════════════════════════════ */
+
+/* Sub-tabs */
+.sg-sub-tabs {
+  display: flex; gap: 8px; padding: 10px 0 12px;
+}
+.sg-sub-tab {
+  padding: 6px 16px; border-radius: 20px; border: none; outline: none;
+  font-size: 12px; font-weight: 600; cursor: pointer;
+  background: rgba(255,255,255,0.07); color: rgba(255,255,255,0.45);
+  -webkit-tap-highlight-color: transparent; transition: all 0.15s;
+}
+.sg-sub-tab--active {
+  background: #f0b429; color: #1a1440;
+}
+
+/* Form */
+.sg-form { padding-bottom: 4px; }
+.sg-group { margin-bottom: 14px; }
+.sg-label {
+  font-size: 11px; font-weight: 700; color: rgba(255,255,255,0.75);
+  margin-bottom: 6px; line-height: 1.5;
+}
+.sg-hint { font-size: 10px; color: rgba(255,255,255,0.38); font-weight: 400; }
+.sg-required { color: #ef4444; margin-left: 2px; }
+
+/* Category select */
+.sg-select-wrap {
+  position: relative; display: flex; align-items: center;
+  background: rgba(255,255,255,0.06);
+  border: 1px solid rgba(255,255,255,0.11);
+  border-radius: 9px; overflow: hidden;
+}
+.sg-select {
+  flex: 1; appearance: none; -webkit-appearance: none;
+  background: transparent; border: none; outline: none;
+  padding: 11px 34px 11px 12px;
+  font-size: 12px; color: rgba(255,255,255,0.82); font-family: system-ui, sans-serif;
+  cursor: pointer;
+}
+.sg-select option { background: #111827; color: #fff; }
+.sg-select-arrow {
+  position: absolute; right: 11px; pointer-events: none; flex-shrink: 0;
+}
+
+/* Textarea */
+.sg-textarea {
+  width: 100%; box-sizing: border-box;
+  background: rgba(255,255,255,0.05);
+  border: 1px solid rgba(255,255,255,0.11);
+  border-radius: 9px; padding: 11px 12px;
+  font-size: 12px; color: rgba(255,255,255,0.82);
+  font-family: system-ui, sans-serif; resize: none; outline: none;
+  line-height: 1.6;
+}
+.sg-textarea::placeholder { color: rgba(255,255,255,0.2); font-size: 11px; }
+.sg-char-count {
+  text-align: right; font-size: 10px; color: rgba(255,255,255,0.3);
+  margin-top: 4px;
+}
+
+/* Image upload area */
+.sg-upload-area {
+  display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 7px;
+}
+.sg-upload-thumb {
+  width: 72px; height: 72px; border-radius: 8px; overflow: hidden;
+  position: relative; flex-shrink: 0;
+  border: 1px solid rgba(255,255,255,0.12);
+}
+.sg-thumb-img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.sg-thumb-remove {
+  position: absolute; top: 2px; right: 2px;
+  background: rgba(0,0,0,0.65); border: none; color: #fff;
+  font-size: 9px; width: 18px; height: 18px; border-radius: 50%;
+  cursor: pointer; display: flex; align-items: center; justify-content: center;
+  -webkit-tap-highlight-color: transparent;
+}
+.sg-upload-add {
+  width: 72px; height: 72px; border-radius: 8px; flex-shrink: 0;
+  border: 1.5px dashed rgba(255,255,255,0.2);
+  background: rgba(255,255,255,0.04);
+  display: flex; align-items: center; justify-content: center;
+  cursor: pointer; -webkit-tap-highlight-color: transparent;
+}
+.sg-upload-note {
+  font-size: 10px; color: rgba(255,255,255,0.32); line-height: 1.5;
+}
+
+/* Terms */
+.sg-terms {
+  font-size: 10px; color: rgba(255,255,255,0.35);
+  line-height: 1.55; margin: 6px 0 14px;
+}
+
+/* Submit button */
+.sg-submit-btn {
+  width: 100%; height: 44px; border-radius: 10px;
+  background: linear-gradient(135deg, #f0b429 0%, #d97706 100%);
+  border: none; color: #1a1440; font-size: 14px; font-weight: 800;
+  cursor: pointer; -webkit-tap-highlight-color: transparent;
+  box-shadow: 0 3px 12px rgba(240,180,41,0.3);
+  transition: opacity 0.15s;
+}
+.sg-submit-btn:disabled { opacity: 0.45; cursor: not-allowed; }
+.sg-submit-btn:active:not(:disabled) { opacity: 0.82; }
 </style>
