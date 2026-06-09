@@ -37,19 +37,45 @@
         <Transition name="pgp-picker-anim">
           <div v-if="showProvPicker" class="pgp-picker-overlay" @click.self="showProvPicker=false">
             <div class="pgp-picker-sheet">
-              <div class="pgp-picker-title">Provider ရွေးချယ်ပါ</div>
-              <div class="pgp-picker-grid">
+
+              <!-- Row 1: Providers (4 cards) -->
+              <div class="pgp-ps-section-label">Provider</div>
+              <div class="pgp-ps-grid4">
                 <button v-for="p in sidebarProvs" :key="p.key"
-                  :class="['pgp-picker-card', activeSideProv===p.key && 'pgp-picker-card--on']"
+                  :class="['pgp-ps-card', activeSideProv===p.key && 'pgp-ps-card--on']"
                   @click="pickProvider(p.key)">
-                  <div class="pgp-picker-logo-wrap">
-                    <img :src="p.logo" :alt="p.short" class="pgp-picker-logo"
-                      @error="e=>e.target.style.display='none'" loading="lazy"/>
-                  </div>
-                  <span class="pgp-picker-label">{{ p.short }}</span>
-                  <span class="pgp-picker-count">{{ games.filter(g=>g.provider_code===p.key).length }} ဂိမ်း</span>
+                  <img :src="p.logo" :alt="p.short" class="pgp-ps-prov-logo"
+                    @error="e=>e.target.style.display='none'" loading="lazy"/>
+                  <span class="pgp-ps-name">{{ p.short }}</span>
+                  <span class="pgp-ps-count">{{ games.filter(g=>g.provider_code===p.key).length }}</span>
                 </button>
               </div>
+
+              <div class="pgp-ps-divider"></div>
+
+              <!-- Row 2: Categories (4 cards) -->
+              <div class="pgp-ps-section-label">အမျိုးအစား</div>
+              <div class="pgp-ps-grid4">
+                <button v-for="c in pickerCats" :key="c.key"
+                  class="pgp-ps-card"
+                  @click="pickCategory(c.key)">
+                  <span class="pgp-ps-emoji">{{ c.emoji }}</span>
+                  <span class="pgp-ps-name">{{ c.label }}</span>
+                </button>
+              </div>
+
+              <div class="pgp-ps-divider"></div>
+
+              <!-- Row 3: Filters (2 cards) -->
+              <div class="pgp-ps-grid2">
+                <button v-for="f in pickerFilters" :key="f.id"
+                  :class="['pgp-ps-card', 'pgp-ps-card--wide', activeTab===f.id && 'pgp-ps-card--on']"
+                  @click="pickFilter(f.id)">
+                  <span class="pgp-ps-emoji pgp-ps-emoji--sm">{{ f.emoji }}</span>
+                  <span class="pgp-ps-name">{{ f.label }}</span>
+                </button>
+              </div>
+
             </div>
           </div>
         </Transition>
@@ -144,7 +170,7 @@ const props = defineProps({
   initialProvider: { type: String, default: 'jili' },
   games: { type: Array, default: () => [] }
 })
-const emit = defineEmits(['update:modelValue', 'open-game'])
+const emit = defineEmits(['update:modelValue', 'open-game', 'open-category'])
 
 const PER_PAGE = 36
 const FAV_KEY    = 'iw99_favs'
@@ -183,10 +209,24 @@ function getRecentIds() {
 const sidebarProvs = [
   { key:'pp',   logo:'https://ik.imagekit.io/tdpebgueq/Home%20Page%20_icons_linces%20logo/a04d3bed-f475-42eb-9f35-4f9802068315.png?tr=f-auto', short:'PP' },
   { key:'jili', logo:'https://ik.imagekit.io/tdpebgueq/Home%20Page%20_icons_linces%20logo/40_N_JILI_LOGO.avif', short:'JILI' },
-  { key:'pg',   logo:'https://ik.imagekit.io/tdpebgueq/Home%20Page%20_icons_linces%20logo/3b38cced-f446-4727-ab37-879557be37cb.png?tr=f-auto', short:'PG' },
   { key:'jdb',  logo:'https://ik.imagekit.io/tdpebgueq/Home%20Page%20_icons_linces%20logo/f519ade7-dd80-4235-a650-3d8744d5795c.png?tr=f-auto', short:'JDB' },
+  { key:'pg',   logo:'https://ik.imagekit.io/tdpebgueq/Home%20Page%20_icons_linces%20logo/3b38cced-f446-4727-ab37-879557be37cb.png?tr=f-auto', short:'PG' },
 ]
 const currentProv = computed(() => sidebarProvs.find(p => p.key === activeSideProv.value) || sidebarProvs[1])
+
+// ── Picker Categories ──
+const pickerCats = [
+  { key:'hot',     emoji:'🔥', label:'Hot' },
+  { key:'arcade',  emoji:'🕹️', label:'Arcade' },
+  { key:'live',    emoji:'🎰', label:'Live Casino' },
+  { key:'fishing', emoji:'🐟', label:'ငါးဖမ်း' },
+]
+
+// ── Picker Filters ──
+const pickerFilters = [
+  { id:'popular', emoji:'⭐', label:'လူကြိုက်များ' },
+  { id:'all',     emoji:'🎮', label:'အားလုံး' },
+]
 
 // ── Tabs ──
 const filterTabs = [
@@ -216,6 +256,8 @@ function close() { emit('update:modelValue', false) }
 function setTab(id) { activeTab.value = id; currentPage.value = 1; mainRef.value?.scrollTo(0, 0) }
 function setSideProv(key) { activeSideProv.value = key; activeTab.value = 'all'; searchQ.value = ''; currentPage.value = 1; mainRef.value?.scrollTo(0, 0) }
 function pickProvider(key) { setSideProv(key); showProvPicker.value = false }
+function pickCategory(key) { showProvPicker.value = false; emit('open-category', key) }
+function pickFilter(id) { setTab(id); showProvPicker.value = false }
 function goPage(p) {
   const t = totalPages.value
   currentPage.value = Math.max(1, Math.min(t, p))
@@ -330,50 +372,81 @@ const pageNums = computed(() => {
 /* ── Provider Picker Overlay ── */
 .pgp-picker-overlay {
   position: absolute; inset: 0; z-index: 50;
-  background: rgba(10,8,30,0.7);
+  background: rgba(10,8,30,0.72);
   display: flex; flex-direction: column; align-items: stretch;
 }
 .pgp-picker-sheet {
   background: #1e2060; border-bottom: 1px solid rgba(255,255,255,0.1);
-  padding: 14px 14px 18px;
+  padding: 14px 12px 16px;
   margin-top: calc(57px + env(safe-area-inset-top, 0px));
-  border-radius: 0 0 18px 18px;
-  box-shadow: 0 8px 32px rgba(0,0,0,0.5);
+  border-radius: 0 0 20px 20px;
+  box-shadow: 0 10px 40px rgba(0,0,0,0.55);
 }
-.pgp-picker-title {
-  font-size: 11px; font-weight: 800; color: rgba(255,255,255,0.5);
-  text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 12px;
-  text-align: center;
+
+/* Section label */
+.pgp-ps-section-label {
+  font-size: 9px; font-weight: 800; color: rgba(255,255,255,0.38);
+  text-transform: uppercase; letter-spacing: 0.1em;
+  margin-bottom: 7px;
 }
-.pgp-picker-grid {
-  display: grid; grid-template-columns: repeat(2,1fr); gap: 10px;
+
+/* 4-column grid */
+.pgp-ps-grid4 {
+  display: grid; grid-template-columns: repeat(4,1fr); gap: 6px;
+  margin-bottom: 4px;
 }
-.pgp-picker-card {
-  display: flex; flex-direction: column; align-items: center; gap: 6px;
-  padding: 12px 10px 10px; border-radius: 14px;
-  background: rgba(255,255,255,0.06); border: 1.5px solid rgba(255,255,255,0.1);
+
+/* 2-column grid */
+.pgp-ps-grid2 {
+  display: grid; grid-template-columns: repeat(2,1fr); gap: 6px;
+}
+
+/* Base card */
+.pgp-ps-card {
+  display: flex; flex-direction: column; align-items: center; justify-content: center;
+  gap: 4px; padding: 8px 4px 7px; border-radius: 11px;
+  background: rgba(255,255,255,0.06); border: 1.5px solid rgba(255,255,255,0.09);
   cursor: pointer; -webkit-tap-highlight-color: transparent;
-  transition: all 0.15s;
+  transition: all 0.15s; min-height: 58px;
 }
-.pgp-picker-card:active { transform: scale(0.96); }
-.pgp-picker-card--on {
-  background: rgba(245,200,66,0.14); border-color: rgba(245,200,66,0.65);
-  box-shadow: 0 0 0 1px rgba(245,200,66,0.3);
+.pgp-ps-card:active { transform: scale(0.94); opacity: 0.85; }
+.pgp-ps-card--on {
+  background: rgba(245,200,66,0.14); border-color: rgba(245,200,66,0.6);
+  box-shadow: 0 0 0 1px rgba(245,200,66,0.25);
 }
-.pgp-picker-logo-wrap {
-  width: 72px; height: 36px;
-  display: flex; align-items: center; justify-content: center;
+
+/* Wide card (2-col filter row) */
+.pgp-ps-card--wide {
+  flex-direction: row; gap: 7px; padding: 11px 10px; min-height: 42px;
 }
-.pgp-picker-logo { height: 32px; width: auto; max-width: 72px; object-fit: contain; }
-.pgp-picker-label {
-  font-size: 11px; font-weight: 800; color: rgba(255,255,255,0.8);
-  letter-spacing: 0.04em;
+
+/* Provider logo */
+.pgp-ps-prov-logo {
+  height: 20px; width: auto; max-width: 54px; object-fit: contain;
 }
-.pgp-picker-card--on .pgp-picker-label { color: #f5c842; }
-.pgp-picker-count {
-  font-size: 9px; font-weight: 600; color: rgba(255,255,255,0.4);
+
+/* Emoji */
+.pgp-ps-emoji { font-size: 20px; line-height: 1; }
+.pgp-ps-emoji--sm { font-size: 16px; }
+
+/* Card name */
+.pgp-ps-name {
+  font-size: 9.5px; font-weight: 800; color: rgba(255,255,255,0.78);
+  letter-spacing: 0.02em; text-align: center; line-height: 1.25;
 }
-.pgp-picker-card--on .pgp-picker-count { color: rgba(245,200,66,0.7); }
+.pgp-ps-card--on .pgp-ps-name { color: #f5c842; }
+
+/* Game count */
+.pgp-ps-count {
+  font-size: 8px; font-weight: 600; color: rgba(255,255,255,0.35);
+}
+.pgp-ps-card--on .pgp-ps-count { color: rgba(245,200,66,0.65); }
+
+/* Divider */
+.pgp-ps-divider {
+  height: 1px; background: rgba(255,255,255,0.07);
+  margin: 10px 0 9px;
+}
 
 /* ── Picker animation ── */
 .pgp-picker-anim-enter-active { transition: all 0.2s cubic-bezier(0.22,1,0.36,1); }
