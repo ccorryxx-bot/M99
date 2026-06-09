@@ -475,19 +475,28 @@
       <!-- ══ FOOTER ══ -->
       <div style="padding:0 16px;border-top:1px solid rgba(255,255,255,0.07);margin-top:16px;">
         <div style="padding:20px 0 14px;text-align:center;">
-          <p style="font-size:12px;color:rgba(255,255,255,0.5);margin-bottom:14px;font-weight:600;">ဆက်သွယ်မှုကို ဆက်သွယ်ရန်</p>
-          <div style="display:flex;justify-content:center;gap:14px;">
-            <div class="nova-contact-icon" style="background:rgba(114,0,212,0.1);border-color:rgba(114,0,212,0.2);">
-              <svg width="22" height="22" viewBox="0 0 40 40" fill="none"><path d="M20 8C13.4 8 8 13.4 8 20c0 2.7.9 5.2 2.4 7.2L8.3 32l5-2.1C15 31.2 17.4 32 20 32c6.6 0 12-5.4 12-12S26.6 8 20 8zm5.9 16.4c-.3.8-1.5 1.5-2.1 1.5-.6.1-1.1.3-3.7-.8-3.1-1.3-5.1-4.4-5.3-4.6-.2-.2-1.5-2-1.5-3.8s1-2.6 1.3-3c.3-.3.7-.4 1-.4h.7c.2 0 .5 0 .7.5.3.6 1 2.3 1.1 2.5.1.2.2.4.1.7-.1.2-.2.4-.4.6l-.5.6c-.2.2-.4.4-.2.8.2.4.9 1.5 2 2.4 1.3 1.1 2.5 1.5 2.8 1.6.3.1.6.1.8-.1l.5-.6c.3-.3.5-.2.8-.1l2.3 1.1c.3.1.5.2.5.5.1.5-.1 1.4-.4 2.2z" fill="rgba(130,80,230,0.9)"/></svg>
-              <span>Viber</span>
+          <p style="font-size:12px;color:rgba(255,255,255,0.5);margin-bottom:16px;font-weight:600;">ဆက်သွယ်မှုကို ဆက်သွယ်ရန်</p>
+          <div style="display:flex;justify-content:center;gap:22px;">
+            <div class="nova-contact-chip">
+              <img src="https://ik.imagekit.io/tdpebgueq/Agent_Tap_icons/89dc6e632241379c113adf1bb70ecdb3.jpg?tr=f-auto"
+                class="nova-contact-img" alt="Viber"
+                @error="e=>{e.target.style.display='none';e.target.nextSibling.style.display='flex'}"/>
+              <span class="nova-contact-svg-fb" style="display:none;background:rgba(114,0,212,0.18);">
+                <svg width="22" height="22" viewBox="0 0 40 40" fill="none"><path d="M20 8C13.4 8 8 13.4 8 20c0 2.7.9 5.2 2.4 7.2L8.3 32l5-2.1C15 31.2 17.4 32 20 32c6.6 0 12-5.4 12-12S26.6 8 20 8zm5.9 16.4c-.3.8-1.5 1.5-2.1 1.5-.6.1-1.1.3-3.7-.8-3.1-1.3-5.1-4.4-5.3-4.6-.2-.2-1.5-2-1.5-3.8s1-2.6 1.3-3c.3-.3.7-.4 1-.4h.7c.2 0 .5 0 .7.5.3.6 1 2.3 1.1 2.5.1.2.2.4.1.7-.1.2-.2.4-.4.6l-.5.6c-.2.2-.4.4-.2.8.2.4.9 1.5 2 2.4 1.3 1.1 2.5 1.5 2.8 1.6.3.1.6.1.8-.1l.5-.6c.3-.3.5-.2.8-.1l2.3 1.1c.3.1.5.2.5.5.1.5-.1 1.4-.4 2.2z" fill="rgba(130,80,230,0.9)"/></svg>
+              </span>
+              <span class="nova-contact-label">Viber</span>
             </div>
-            <div class="nova-contact-icon" style="background:rgba(41,182,246,0.08);border-color:rgba(41,182,246,0.2);">
-              <svg width="22" height="22" viewBox="0 0 40 40" fill="none"><path d="M28.3 12.5l-3.3 16.1c-.2 1.1-1 1.3-1.8.8l-5-3.8-2.4 2.3c-.3.3-.5.5-1 .5l.4-5.1 9.5-8.6c.4-.4-.1-.6-.6-.2L10.3 21.5l-4.9-1.5c-1.1-.3-1.1-1.1.2-1.6l22.3-8.6c.9-.3 1.7.2 1.4 1.7z" fill="rgba(41,182,246,0.9)"/></svg>
-              <span>Telegram</span>
+            <div class="nova-contact-chip">
+              <span class="nova-contact-svg-fb" style="background:rgba(41,182,246,0.18);">
+                <svg width="22" height="22" viewBox="0 0 40 40" fill="none"><path d="M28.3 12.5l-3.3 16.1c-.2 1.1-1 1.3-1.8.8l-5-3.8-2.4 2.3c-.3.3-.5.5-1 .5l.4-5.1 9.5-8.6c.4-.4-.1-.6-.6-.2L10.3 21.5l-4.9-1.5c-1.1-.3-1.1-1.1.2-1.6l22.3-8.6c.9-.3 1.7.2 1.4 1.7z" fill="rgba(41,182,246,0.95)"/></svg>
+              </span>
+              <span class="nova-contact-label">Telegram</span>
             </div>
-            <div class="nova-contact-icon" style="background:rgba(24,119,242,0.08);border-color:rgba(24,119,242,0.2);">
-              <svg width="22" height="22" viewBox="0 0 40 40" fill="none"><path d="M22.7 21h-2.7v9H17v-9h-2v-3h2v-1.9c0-1.6.8-4.1 4.1-4.1H24v3h-2.1c-.4 0-.8.1-.8.8V18H24l-.4 3h-.9z" fill="rgba(24,119,242,0.9)"/></svg>
-              <span>Facebook</span>
+            <div class="nova-contact-chip">
+              <span class="nova-contact-svg-fb" style="background:rgba(24,119,242,0.18);">
+                <svg width="22" height="22" viewBox="0 0 40 40" fill="none"><path d="M22.7 21h-2.7v9H17v-9h-2v-3h2v-1.9c0-1.6.8-4.1 4.1-4.1H24v3h-2.1c-.4 0-.8.1-.8.8V18H24l-.4 3h-.9z" fill="rgba(24,119,242,0.95)"/></svg>
+              </span>
+              <span class="nova-contact-label">Facebook</span>
             </div>
           </div>
         </div>
@@ -513,17 +522,40 @@
           </div>
         </div>
         <div style="height:1px;background:rgba(255,255,255,0.06);margin:0 -16px;"></div>
-        <div style="padding:18px 0;display:flex;justify-content:center;gap:14px;">
-          <div class="nova-social-icon" style="background:rgba(41,182,246,0.1);border-color:rgba(41,182,246,0.2);"><svg width="30" height="30" viewBox="0 0 40 40" fill="none"><path d="M32 10.9c-.7.3-1.5.5-2.3.6.8-.5 1.4-1.3 1.7-2.2-.8.5-1.6.8-2.5 1A4.2 4.2 0 0020.4 15c0 .3 0 .6.1.9C15.2 15.7 11 12.8 8.1 8.7c-.4.6-.6 1.3-.6 2.1 0 1.4.7 2.7 1.8 3.5-.7 0-1.3-.2-1.9-.5v.1c0 2 1.4 3.6 3.3 4a4.3 4.3 0 01-1.9.1c.5 1.7 2.1 2.9 3.9 3A8.4 8.4 0 018 22.8c1.8 1.2 4 1.8 6.3 1.8 7.5 0 11.6-6.2 11.6-11.6v-.5c.8-.6 1.5-1.3 2.1-2.2z" fill="rgba(41,182,246,0.9)"/></svg></div>
-          <div class="nova-social-icon" style="background:rgba(131,58,180,0.1);border-color:rgba(131,58,180,0.25);"><svg width="30" height="30" viewBox="0 0 40 40" fill="none"><rect x="10" y="10" width="20" height="20" rx="6" stroke="url(#igs2)" stroke-width="2.5" fill="none"/><circle cx="20" cy="20" r="5" stroke="url(#igs2)" stroke-width="2.5" fill="none"/><circle cx="27" cy="13" r="1.3" fill="#fcb045"/><defs><linearGradient id="igs2" x1="10" y1="10" x2="30" y2="30" gradientUnits="userSpaceOnUse"><stop stop-color="#833ab4"/><stop offset=".5" stop-color="#fd1d1d"/><stop offset="1" stop-color="#fcb045"/></linearGradient></defs></svg></div>
-          <div class="nova-social-icon" style="background:rgba(114,0,212,0.1);border-color:rgba(114,0,212,0.22);"><svg width="30" height="30" viewBox="0 0 40 40" fill="none"><path d="M20 8C13.4 8 8 13.4 8 20c0 2.7.9 5.2 2.4 7.2L8.3 32l5-2.1C15 31.2 17.4 32 20 32c6.6 0 12-5.4 12-12S26.6 8 20 8zm5.9 16.4c-.3.8-1.5 1.5-2.1 1.5-.6.1-1.1.3-3.7-.8-3.1-1.3-5.1-4.4-5.3-4.6-.2-.2-1.5-2-1.5-3.8s1-2.6 1.3-3c.3-.3.7-.4 1-.4h.7c.2 0 .5 0 .7.5.3.6 1 2.3 1.1 2.5.1.2.2.4.1.7-.1.2-.2.4-.4.6l-.5.6c-.2.2-.4.4-.2.8.2.4.9 1.5 2 2.4 1.3 1.1 2.5 1.5 2.8 1.6.3.1.6.1.8-.1l.5-.6c.3-.3.5-.2.8-.1l2.3 1.1c.3.1.5.2.5.5.1.5-.1 1.4-.4 2.2z" fill="rgba(130,80,230,0.9)"/></svg></div>
-          <div class="nova-social-icon" style="background:rgba(24,119,242,0.1);border-color:rgba(24,119,242,0.22);"><svg width="30" height="30" viewBox="0 0 40 40" fill="none"><path d="M22.7 21h-2.7v9H17v-9h-2v-3h2v-1.9c0-1.6.8-4.1 4.1-4.1H24v3h-2.1c-.4 0-.8.1-.8.8V18H24l-.4 3h-.9z" fill="rgba(24,119,242,0.9)"/></svg></div>
+        <div style="padding:18px 0;display:flex;justify-content:center;gap:18px;align-items:center;">
+          <!-- Twitter -->
+          <div class="nova-social-float">
+            <img src="https://ik.imagekit.io/tdpebgueq/Home%20Page%20_icons_linces%20logo/3fc3a900-77b6-4add-a07d-a0b8e0ba1ed0.png?tr=f-auto"
+              class="nova-social-img" alt="Twitter" loading="lazy"
+              @error="e=>e.target.parentElement.innerHTML='<div class=nova-social-svg-fb style=background:rgba(41,182,246,0.18)><svg width=28 height=28 viewBox=&quot;0 0 40 40&quot; fill=none><path d=&quot;M32 10.9c-.7.3-1.5.5-2.3.6.8-.5 1.4-1.3 1.7-2.2-.8.5-1.6.8-2.5 1A4.2 4.2 0 0020.4 15c0 .3 0 .6.1.9C15.2 15.7 11 12.8 8.1 8.7c-.4.6-.6 1.3-.6 2.1 0 1.4.7 2.7 1.8 3.5-.7 0-1.3-.2-1.9-.5v.1c0 2 1.4 3.6 3.3 4a4.3 4.3 0 01-1.9.1c.5 1.7 2.1 2.9 3.9 3A8.4 8.4 0 018 22.8c1.8 1.2 4 1.8 6.3 1.8 7.5 0 11.6-6.2 11.6-11.6v-.5c.8-.6 1.5-1.3 2.1-2.2z&quot; fill=&quot;rgba(41,182,246,0.9)&quot;/></svg></div>'"/>
+          </div>
+          <!-- Instagram -->
+          <div class="nova-social-float">
+            <img src="https://ik.imagekit.io/tdpebgueq/Home%20Page%20_icons_linces%20logo/bfc75684-3579-4552-a01e-2923af43a942.png?tr=f-auto"
+              class="nova-social-img" alt="Instagram" loading="lazy"
+              @error="e=>e.target.style.display='none'"/>
+          </div>
+          <!-- Viber -->
+          <div class="nova-social-float">
+            <img src="https://ik.imagekit.io/tdpebgueq/Agent_Tap_icons/89dc6e632241379c113adf1bb70ecdb3.jpg?tr=f-auto"
+              class="nova-social-img" alt="Viber" loading="lazy"
+              @error="e=>e.target.style.display='none'"/>
+          </div>
+          <!-- Facebook -->
+          <div class="nova-social-float">
+            <div class="nova-social-svg-fb" style="background:rgba(24,119,242,0.18);">
+              <svg width="28" height="28" viewBox="0 0 40 40" fill="none"><path d="M22.7 21h-2.7v9H17v-9h-2v-3h2v-1.9c0-1.6.8-4.1 4.1-4.1H24v3h-2.1c-.4 0-.8.1-.8.8V18H24l-.4 3h-.9z" fill="rgba(24,119,242,0.95)"/></svg>
+            </div>
+          </div>
         </div>
         <div style="height:1px;background:rgba(255,255,255,0.06);margin:0 -16px;"></div>
         <div style="padding:18px 0;">
           <p style="font-size:10px;color:rgba(255,255,255,0.4);text-align:center;margin-bottom:12px;letter-spacing:0.1em;font-weight:600;">LICENSED &amp; CERTIFIED</p>
-          <div style="display:grid;grid-template-columns:1fr 1fr;gap:9px;">
-            <div v-for="n in 8" :key="n" class="nova-license-slot"></div>
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;">
+            <div v-for="logo in licenseLogos" :key="logo" class="nova-license-slot">
+              <img :src="logo" class="nova-license-img" loading="lazy"
+                @error="e=>e.target.style.display='none'"/>
+            </div>
           </div>
         </div>
         <div style="height:1px;background:rgba(255,255,255,0.06);margin:0 -16px;"></div>
@@ -740,6 +772,16 @@
 
   // Banner
   const bannerImages = ref(['https://ik.imagekit.io/tdpebgueq/NOVABETT,%20BANNER%20/1780215182926.png?tr=f-auto','https://ik.imagekit.io/tdpebgueq/NOVABETT,%20BANNER%20/f9b69370-5cc9-11f1-b238-fb0c6456ca35%20(5).png?tr=f-auto','https://ik.imagekit.io/tdpebgueq/NOVABETT,%20BANNER%20/1780214089706.png?tr=f-auto'])
+
+  const licenseLogos = [
+    'https://ik.imagekit.io/tdpebgueq/Home%20Page%20_icons_linces%20logo/a1cf5bf7-e61c-4590-843e-5d5c4d3d90de.png?tr=f-auto',
+    'https://ik.imagekit.io/tdpebgueq/Home%20Page%20_icons_linces%20logo/40_N_JILI_LOGO.avif?tr=f-auto',
+    'https://ik.imagekit.io/tdpebgueq/Home%20Page%20_icons_linces%20logo/a04d3bed-f475-42eb-9f35-4f9802068315.png?tr=f-auto',
+    'https://ik.imagekit.io/tdpebgueq/Home%20Page%20_icons_linces%20logo/3b38cced-f446-4727-ab37-879557be37cb.png?tr=f-auto',
+    'https://ik.imagekit.io/tdpebgueq/Home%20Page%20_icons_linces%20logo/f519ade7-dd80-4235-a650-3d8744d5795c.png?tr=f-auto',
+    'https://ik.imagekit.io/rbok01qam/Cactheory%20imag/6852101165dd4643a1ec3adee41f5913.jpg?tr=f-auto',
+    'https://ik.imagekit.io/tdpebgueq/Provider%20label%20icons%20/Screenshot_2026-06-04-01-03-25-338_mark.via.gp_1780511848574edit.jpg?tr=f-auto',
+  ]
   const bannerIdx = ref(0); let bannerTimer = null; let touchStartX = 0
   function startBannerTimer() { clearInterval(bannerTimer); bannerTimer = setInterval(() => { bannerIdx.value = (bannerIdx.value+1)%bannerImages.value.length }, 4000) }
   function onBannerTouchStart(e) { touchStartX = e.touches[0].clientX; clearInterval(bannerTimer) }
@@ -1196,10 +1238,18 @@
   .nova-auth-slide-enter-from,.nova-auth-slide-leave-to { transform: translateX(100%); }
 
   /* ── FOOTER ── */
-  .nova-contact-icon { display:flex;flex-direction:column;align-items:center;gap:5px;padding:10px 14px;border-radius:14px;cursor:pointer;border:1px solid rgba(255,255,255,0.1);background:rgba(255,255,255,0.05);box-shadow:0 1px 6px rgba(0,0,0,0.25);-webkit-tap-highlight-color:transparent; }
-  .nova-contact-icon span { font-size:10px;color:rgba(255,255,255,0.45);font-weight:600; }
-  .nova-social-icon { width:62px;height:62px;border-radius:18px;display:flex;align-items:center;justify-content:center;cursor:pointer;border:1px solid rgba(255,255,255,0.1);background:rgba(255,255,255,0.06);box-shadow:0 1px 6px rgba(0,0,0,0.22); }
-  .nova-license-slot { height:50px;border-radius:10px;background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.1);display:flex;align-items:center;justify-content:center; }
+  .nova-contact-chip { display:flex;flex-direction:column;align-items:center;gap:6px;cursor:pointer;-webkit-tap-highlight-color:transparent; }
+  .nova-contact-img { width:56px;height:56px;border-radius:16px;object-fit:cover;display:block;box-shadow:0 4px 16px rgba(0,0,0,0.45); }
+  .nova-contact-svg-fb { width:56px;height:56px;border-radius:16px;display:flex;align-items:center;justify-content:center;box-shadow:0 4px 16px rgba(0,0,0,0.35); }
+  .nova-contact-label { font-size:10px;color:rgba(255,255,255,0.45);font-weight:600; }
+
+  .nova-social-float { cursor:pointer;-webkit-tap-highlight-color:transparent; }
+  .nova-social-float:active { opacity:0.7;transform:scale(0.92); }
+  .nova-social-img { width:58px;height:58px;border-radius:16px;object-fit:cover;display:block;box-shadow:0 4px 18px rgba(0,0,0,0.5); }
+  .nova-social-svg-fb { width:58px;height:58px;border-radius:16px;display:flex;align-items:center;justify-content:center;box-shadow:0 4px 18px rgba(0,0,0,0.4); }
+
+  .nova-license-slot { border-radius:12px;background:rgba(255,255,255,0.04);display:flex;align-items:center;justify-content:center;padding:10px 8px;min-height:54px; }
+  .nova-license-img { max-height:36px;max-width:100%;object-fit:contain;display:block;filter:drop-shadow(0 2px 8px rgba(0,0,0,0.5)); }
   .nova-footer-link { font-size:11px;color:rgba(255,255,255,0.45);cursor:pointer;line-height:1.5; }
 
   /* ── BOTTOM NAV ── */
