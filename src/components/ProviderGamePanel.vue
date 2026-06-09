@@ -15,6 +15,14 @@
               @error="e=>{e.target.style.display='none';e.target.nextSibling.style.display='flex'}"/>
             <span class="pgp-brand-fallback" style="display:none">{{ currentProv.short }}</span>
           </div>
+          <!-- ── Provider Picker Trigger ── -->
+          <button class="pgp-picker-btn" @click="showProvPicker=!showProvPicker">
+            <svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" style="margin-bottom:1px;">
+              <rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/>
+              <rect x="3" y="14" width="7" height="7" rx="1.5"/><rect x="14" y="14" width="7" height="7" rx="1.5"/>
+            </svg>
+            <span>ရွေးချယ်ပါ</span>
+          </button>
           <button class="pgp-srch-toggle" @click="toggleSearch">
             <svg v-if="!searchOpen" width="17" height="17" fill="none" stroke="currentColor" stroke-width="2.2" viewBox="0 0 24 24">
               <circle cx="11" cy="11" r="7"/><path stroke-linecap="round" d="m21 21-4.35-4.35"/>
@@ -24,6 +32,27 @@
             </svg>
           </button>
         </div>
+
+        <!-- ── Provider Picker Overlay ── -->
+        <Transition name="pgp-picker-anim">
+          <div v-if="showProvPicker" class="pgp-picker-overlay" @click.self="showProvPicker=false">
+            <div class="pgp-picker-sheet">
+              <div class="pgp-picker-title">Provider ရွေးချယ်ပါ</div>
+              <div class="pgp-picker-grid">
+                <button v-for="p in sidebarProvs" :key="p.key"
+                  :class="['pgp-picker-card', activeSideProv===p.key && 'pgp-picker-card--on']"
+                  @click="pickProvider(p.key)">
+                  <div class="pgp-picker-logo-wrap">
+                    <img :src="p.logo" :alt="p.short" class="pgp-picker-logo"
+                      @error="e=>e.target.style.display='none'" loading="lazy"/>
+                  </div>
+                  <span class="pgp-picker-label">{{ p.short }}</span>
+                  <span class="pgp-picker-count">{{ games.filter(g=>g.provider_code===p.key).length }} ဂိမ်း</span>
+                </button>
+              </div>
+            </div>
+          </div>
+        </Transition>
 
         <!-- ── Search ── -->
         <Transition name="pgp-srch-anim">
@@ -129,6 +158,7 @@ const activeTab      = ref('all')
 const activeSideProv = ref(props.initialProvider)
 const currentPage    = ref(1)
 const mainRef        = ref(null)
+const showProvPicker = ref(false)
 
 // ── Favourites ──
 const favs = ref(new Set(JSON.parse(localStorage.getItem(FAV_KEY) || '[]')))
@@ -185,6 +215,7 @@ watch(searchQ, () => { currentPage.value = 1 })
 function close() { emit('update:modelValue', false) }
 function setTab(id) { activeTab.value = id; currentPage.value = 1; mainRef.value?.scrollTo(0, 0) }
 function setSideProv(key) { activeSideProv.value = key; activeTab.value = 'all'; searchQ.value = ''; currentPage.value = 1; mainRef.value?.scrollTo(0, 0) }
+function pickProvider(key) { setSideProv(key); showProvPicker.value = false }
 function goPage(p) {
   const t = totalPages.value
   currentPage.value = Math.max(1, Math.min(t, p))
@@ -284,6 +315,70 @@ const pageNums = computed(() => {
   cursor: pointer; flex-shrink: 0; -webkit-tap-highlight-color: transparent;
 }
 .pgp-srch-toggle:active { opacity: 0.6; }
+
+/* ── Provider Picker Button ── */
+.pgp-picker-btn {
+  display: flex; flex-direction: column; align-items: center; justify-content: center;
+  gap: 2px; padding: 4px 8px; border-radius: 10px; border: 1px solid rgba(245,200,66,0.35);
+  background: rgba(245,200,66,0.1); color: rgba(245,200,66,0.9);
+  cursor: pointer; flex-shrink: 0; -webkit-tap-highlight-color: transparent;
+  font-size: 9px; font-weight: 800; letter-spacing: 0.02em; height: 34px;
+  min-width: 58px; transition: background 0.15s;
+}
+.pgp-picker-btn:active { background: rgba(245,200,66,0.2); }
+
+/* ── Provider Picker Overlay ── */
+.pgp-picker-overlay {
+  position: absolute; inset: 0; z-index: 50;
+  background: rgba(10,8,30,0.7);
+  display: flex; flex-direction: column; align-items: stretch;
+}
+.pgp-picker-sheet {
+  background: #1e2060; border-bottom: 1px solid rgba(255,255,255,0.1);
+  padding: 14px 14px 18px;
+  margin-top: calc(57px + env(safe-area-inset-top, 0px));
+  border-radius: 0 0 18px 18px;
+  box-shadow: 0 8px 32px rgba(0,0,0,0.5);
+}
+.pgp-picker-title {
+  font-size: 11px; font-weight: 800; color: rgba(255,255,255,0.5);
+  text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 12px;
+  text-align: center;
+}
+.pgp-picker-grid {
+  display: grid; grid-template-columns: repeat(2,1fr); gap: 10px;
+}
+.pgp-picker-card {
+  display: flex; flex-direction: column; align-items: center; gap: 6px;
+  padding: 12px 10px 10px; border-radius: 14px;
+  background: rgba(255,255,255,0.06); border: 1.5px solid rgba(255,255,255,0.1);
+  cursor: pointer; -webkit-tap-highlight-color: transparent;
+  transition: all 0.15s;
+}
+.pgp-picker-card:active { transform: scale(0.96); }
+.pgp-picker-card--on {
+  background: rgba(245,200,66,0.14); border-color: rgba(245,200,66,0.65);
+  box-shadow: 0 0 0 1px rgba(245,200,66,0.3);
+}
+.pgp-picker-logo-wrap {
+  width: 72px; height: 36px;
+  display: flex; align-items: center; justify-content: center;
+}
+.pgp-picker-logo { height: 32px; width: auto; max-width: 72px; object-fit: contain; }
+.pgp-picker-label {
+  font-size: 11px; font-weight: 800; color: rgba(255,255,255,0.8);
+  letter-spacing: 0.04em;
+}
+.pgp-picker-card--on .pgp-picker-label { color: #f5c842; }
+.pgp-picker-count {
+  font-size: 9px; font-weight: 600; color: rgba(255,255,255,0.4);
+}
+.pgp-picker-card--on .pgp-picker-count { color: rgba(245,200,66,0.7); }
+
+/* ── Picker animation ── */
+.pgp-picker-anim-enter-active { transition: all 0.2s cubic-bezier(0.22,1,0.36,1); }
+.pgp-picker-anim-leave-active { transition: all 0.15s ease; }
+.pgp-picker-anim-enter-from, .pgp-picker-anim-leave-to { opacity: 0; transform: translateY(-10px); }
 
 /* ── Search ── */
 .pgp-srch-wrap {
