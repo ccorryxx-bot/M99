@@ -123,7 +123,7 @@
             </div>
             <span class="gi-lbl">လုပ်ဆောင်ချ<br>ကိုကြိ အား..</span>
           </button>
-          <button class="gi-item" @click="comingSoon">
+          <button class="gi-item" @click="showDailySignIn=true">
             <div class="gi-icon-wrap">
               <img src="https://ik.imagekit.io/rbok01qam/Custom%20icons%20img/style_6_icon_list_mrqd.avif?updatedAt=1780926787645&tr=f-auto" class="gi-img" alt="" @error="e=>e.target.style.display='none'"/>
             </div>
@@ -960,12 +960,16 @@
   <!-- Withdraw Modal — opened via ငွေထုတ်စီမံခန့်ခွဲမှု button, lands on tab 1 -->
   <WithdrawModal v-model="showWithdrawModal" :balance="mainBalance" :initial-tab="1" @submit="() => {}" />
 
+  <!-- Daily Sign-In Modal -->
+  <DailySignInModal v-model="showDailySignIn" />
+
 </template>
 
 <script setup>
 import { ref, reactive, computed, onMounted } from 'vue'
 import { supabase } from '@/supabase'
 import WithdrawModal from '@/components/WithdrawModal.vue'
+import DailySignInModal from '@/components/DailySignInModal.vue'
 
 const isLoggedIn   = ref(false)
 const username     = ref(localStorage.getItem('sb_username') || 'PLAYER')
@@ -1365,6 +1369,7 @@ async function submitSuggestion() {
   suggestSubmitting.value = false
 }
 const showWithdrawModal = ref(false)
+const showDailySignIn  = ref(false)
 const showComingSoon = () => showToast('လတ်တလောမရနိုင်သေးပါ')
 
 // ── Balance Tab state ──
