@@ -293,6 +293,40 @@
         </div>
       </div>
 
+
+      <!-- ══ 777 SLOT PROVIDERS ══ -->
+      <div class="nova-prov-section">
+        <div class="nova-prov-header">
+          <svg width="22" height="22" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg" class="nova-prov-777-svg">
+            <rect x="1" y="5" width="10" height="22" rx="2.5" fill="#f5c842" opacity="0.9"/>
+            <rect x="11" y="5" width="10" height="22" rx="2.5" fill="#f5c842" opacity="0.9"/>
+            <rect x="21" y="5" width="10" height="22" rx="2.5" fill="#f5c842" opacity="0.9"/>
+            <text x="4" y="21" font-family="Arial Black,Arial" font-size="13" font-weight="900" fill="#1e1f5c">7</text>
+            <text x="14" y="21" font-family="Arial Black,Arial" font-size="13" font-weight="900" fill="#1e1f5c">7</text>
+            <text x="24" y="21" font-family="Arial Black,Arial" font-size="13" font-weight="900" fill="#1e1f5c">7</text>
+          </svg>
+          <span class="nova-prov-title">စလော့ ဂိမ်း</span>
+        </div>
+        <div class="nova-prov-grid">
+          <button class="nova-prov-card" :class="activeProvider==='pg'&&'nova-prov-card--active'"
+            @click="activeProvider=activeProvider==='pg'?null:'pg'; activeCategory='slot'">
+            <img src="https://ik.imagekit.io/tdpebgueq/Home%20Page%20_icons_linces%20logo/3b38cced-f446-4727-ab37-879557be37cb.png?tr=f-auto" class="nova-prov-logo" alt="PG"/>
+          </button>
+          <button class="nova-prov-card" :class="activeProvider==='pp'&&'nova-prov-card--active'"
+            @click="activeProvider=activeProvider==='pp'?null:'pp'; activeCategory='slot'">
+            <img src="https://ik.imagekit.io/tdpebgueq/Home%20Page%20_icons_linces%20logo/a04d3bed-f475-42eb-9f35-4f9802068315.png?tr=f-auto" class="nova-prov-logo" alt="PP"/>
+          </button>
+          <button class="nova-prov-card" :class="activeProvider==='jdb'&&'nova-prov-card--active'"
+            @click="activeProvider=activeProvider==='jdb'?null:'jdb'; activeCategory='slot'">
+            <img src="https://ik.imagekit.io/tdpebgueq/Home%20Page%20_icons_linces%20logo/f519ade7-dd80-4235-a650-3d8744d5795c.png?tr=f-auto" class="nova-prov-logo" alt="JDB"/>
+          </button>
+          <button class="nova-prov-card" :class="activeProvider==='jili'&&'nova-prov-card--active'"
+            @click="activeProvider=activeProvider==='jili'?null:'jili'; activeCategory='slot'">
+            <img src="https://ik.imagekit.io/tdpebgueq/Home%20Page%20_icons_linces%20logo/40_N_JILI_LOGO.avif" class="nova-prov-logo" alt="JILI"/>
+          </button>
+        </div>
+      </div>
+
       <!-- ══ FOOTER ══ -->
       <div style="padding:0 16px;border-top:1px solid rgba(255,255,255,0.07);margin-top:16px;">
         <div style="padding:20px 0 14px;text-align:center;">
@@ -560,6 +594,7 @@
     { id:'fav',     name:'အကြိုက်ဆုံး', emoji:'⭐', imageUrl:'https://ik.imagekit.io/tdpebgueq/Provider%20label%20icons%20/Screenshot_2026-06-04-01-04-03-664_mark.via.gp_1780514801506edit.jpg?tr=f-auto' },
   ])
     const activeCategory = ref('popular')
+  const activeProvider = ref(null)
   const glowCanvases = {}
   function registerGlowCanvas(el,catId) { if(!el)return; glowCanvases[catId]=el; nextTick(()=>drawGlow(el)) }
   function drawGlow(canvas) { if(!canvas)return; const ctx=canvas.getContext('2d'),w=canvas.width,h=canvas.height; ctx.clearRect(0,0,w,h); const g=ctx.createRadialGradient(w/2,h/2,2,w/2,h/2,w*.65); g.addColorStop(0,'rgba(34,197,94,0.28)'); g.addColorStop(.5,'rgba(34,197,94,0.10)'); g.addColorStop(1,'rgba(34,197,94,0)'); ctx.fillStyle=g; ctx.fillRect(0,0,w,h) }
@@ -583,9 +618,18 @@
   }
   const filteredGames = computed(() => {
     let l = games.value
+    // Provider filter (overrides category)
+    if (activeProvider.value) {
+      l = l.filter(g => g.provider_code === activeProvider.value)
+      if (searchQuery.value) {
+        const q = searchQuery.value.toLowerCase()
+        l = l.filter(g => g.game_name?.toLowerCase().includes(q))
+      }
+      return l
+    }
     // Category filter
     if (activeCategory.value === 'popular') {
-      l = [...l].sort((a,b) => (b.play_count||0) - (a.play_count||0)).slice(0,60)
+      l = [...l].sort((a,b) => (b.play_count||0) - (a.play_count||0)).slice(0,30)
     } else if (activeCategory.value === 'fav') {
       l = [...l].sort((a,b) => (b.play_count||0) - (a.play_count||0)).slice(0,30)
     } else {
@@ -1169,4 +1213,45 @@
     0%, 100% { opacity: 0.6;  transform: scale(0.8);  }
     50%       { opacity: 1;    transform: scale(1.3);  }
   }
+
+  /* ── Provider Section ── */
+  .nova-prov-section {
+    padding: 0 14px 18px;
+  }
+  .nova-prov-header {
+    display: flex; align-items: center; gap: 8px;
+    margin-bottom: 12px; padding-top: 4px;
+  }
+  .nova-prov-777-svg { flex-shrink: 0; }
+  .nova-prov-title {
+    font-size: 15px; font-weight: 800; color: rgba(255,255,255,0.9);
+    letter-spacing: 0.02em;
+  }
+  .nova-prov-grid {
+    display: grid; grid-template-columns: repeat(2,1fr); gap: 10px;
+  }
+  .nova-prov-card {
+    position: relative; display: flex; align-items: center; justify-content: center;
+    height: 68px; border-radius: 14px; border: 1.5px solid rgba(255,255,255,0.1);
+    background: linear-gradient(145deg, #2a2e7a 0%, #1e2260 100%);
+    box-shadow: 0 4px 16px rgba(0,0,0,0.35), inset 0 1px 0 rgba(255,255,255,0.07);
+    cursor: pointer; -webkit-tap-highlight-color: transparent;
+    overflow: hidden; transition: transform 0.15s ease, box-shadow 0.15s ease;
+  }
+  .nova-prov-card::before {
+    content: ''; position: absolute; inset: 0;
+    background: linear-gradient(135deg, rgba(255,255,255,0.04) 0%, transparent 60%);
+    border-radius: inherit; pointer-events: none;
+  }
+  .nova-prov-card:active { transform: scale(0.96); }
+  .nova-prov-card--active {
+    border-color: rgba(245,200,66,0.7);
+    background: linear-gradient(145deg, #35396e 0%, #2a2e6a 100%);
+    box-shadow: 0 0 0 1px rgba(245,200,66,0.3), 0 4px 20px rgba(245,200,66,0.15), inset 0 1px 0 rgba(255,255,255,0.1);
+  }
+  .nova-prov-logo {
+    width: 100%; height: 100%; object-fit: contain; padding: 10px 18px;
+    box-sizing: border-box; display: block;
+  }
+
 </style>
