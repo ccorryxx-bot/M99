@@ -434,12 +434,18 @@ import { ref, reactive, watch, computed, nextTick, onMounted } from 'vue'
 
 const props = defineProps({
   modelValue: Boolean,
-  balance: { type: Number, default: 0 }
+  balance: { type: Number, default: 0 },
+  initialTab: { type: Number, default: 0 }
 })
 const emit = defineEmits(['update:modelValue', 'submit', 'refresh'])
 
 const visible     = ref(props.modelValue)
-const activeTab   = ref(0)
+const activeTab   = ref(props.initialTab)
+
+watch(() => props.modelValue, (v) => {
+  visible.value = v
+  if (v) activeTab.value = props.initialTab
+})
 const amount      = ref(null)
 const error       = ref('')
 
