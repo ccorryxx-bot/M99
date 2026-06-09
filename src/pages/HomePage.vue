@@ -250,7 +250,7 @@
           <div class="nova-hcat-scroll">
             <div class="nova-hcat-bar">
               <button v-for="cat in categories.slice(1)" :key="cat.id"
-                @click="activeCategory=cat.id"
+                @click="handleCatTabClick(cat.id)"
                 :class="['nova-hcat-btn', activeCategory===cat.id?'nova-hcat-btn--active':'']">
                 <span class="nova-hcat-icon">
                   <img v-if="cat.imageUrl" :src="cat.imageUrl" class="nova-hcat-img"
@@ -295,7 +295,7 @@
 
 
       <!-- ══ 777 SLOT PROVIDERS ══ -->
-      <div class="nova-prov-section">
+      <div class="nova-prov-section" id="slot-section">
         <div class="nova-prov-header">
           <svg width="24" height="20" viewBox="0 0 48 20" fill="none" xmlns="http://www.w3.org/2000/svg">
             <rect width="14" height="20" rx="3" fill="url(#pg1)"/>
@@ -356,21 +356,11 @@
 
 
       <!-- ══ FISH GAMES ══ -->
-      <div class="nova-fish-section">
+      <div class="nova-fish-section" id="fish-section">
         <div class="nova-fish-header">
-          <svg width="26" height="26" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <ellipse cx="13" cy="16" rx="9" ry="6" fill="#22d3ee" opacity="0.85"/>
-            <ellipse cx="13" cy="16" rx="9" ry="6" fill="url(#fish-grad)"/>
-            <path d="M22 16 C26 10 30 8 30 16 C30 24 26 22 22 16Z" fill="#06b6d4" opacity="0.9"/>
-            <circle cx="7" cy="14.5" r="1.2" fill="#0e7490"/>
-            <path d="M10 12 Q13 9 16 12" stroke="#0891b2" stroke-width="1" stroke-linecap="round" fill="none" opacity="0.6"/>
-            <path d="M10 20 Q13 23 16 20" stroke="#0891b2" stroke-width="1" stroke-linecap="round" fill="none" opacity="0.6"/>
-            <defs>
-              <linearGradient id="fish-grad" x1="4" y1="10" x2="22" y2="22" gradientUnits="userSpaceOnUse">
-                <stop stop-color="#67e8f9"/><stop offset="1" stop-color="#0891b2"/>
-              </linearGradient>
-            </defs>
-          </svg>
+          <img src="https://ik.imagekit.io/tdpebgueq/Provider%20label%20icons%20/Screenshot_2026-06-04-01-02-57-533_mark.via.gp_1780511863896edit.jpg?tr=f-auto"
+            style="width:26px;height:26px;object-fit:cover;border-radius:6px;flex-shrink:0;"
+            @error="e=>e.target.style.display='none'" alt="ငါးဖမ်း" />
           <span class="nova-fish-title">ငါးဖမ်း ဂိမ်းများ</span>
           <span class="nova-fish-count">{{ fishGames.length }} ဂိမ်း</span>
         </div>
@@ -439,7 +429,7 @@
       </div>
 
       <!-- ══ LIVE CASINO + ARCADE BUTTONS ══ -->
-      <div class="nova-catbtn-section">
+      <div class="nova-catbtn-section" id="live-arcade-section">
         <!-- Live Casino button -->
         <button class="nova-catbtn nova-catbtn--live" @click="openCatPanel('live')">
           <div class="nova-catbtn-img-wrap">
@@ -794,6 +784,13 @@
   const showCategoryPanel = ref(false)
   const panelCategory = ref('live')
   function openCatPanel(cat) { panelCategory.value = cat; showCategoryPanel.value = true }
+  function scrollToSection(id) { const el = document.getElementById(id); if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' }) }
+  function handleCatTabClick(id) {
+    if (id === 'slot') { scrollToSection('slot-section'); return }
+    if (id === 'fish') { scrollToSection('fish-section'); return }
+    if (id === 'live' || id === 'arcade') { scrollToSection('live-arcade-section'); return }
+    activeCategory.value = id
+  }
   const glowCanvases = {}
   function registerGlowCanvas(el,catId) { if(!el)return; glowCanvases[catId]=el; nextTick(()=>drawGlow(el)) }
   function drawGlow(canvas) { if(!canvas)return; const ctx=canvas.getContext('2d'),w=canvas.width,h=canvas.height; ctx.clearRect(0,0,w,h); const g=ctx.createRadialGradient(w/2,h/2,2,w/2,h/2,w*.65); g.addColorStop(0,'rgba(34,197,94,0.28)'); g.addColorStop(.5,'rgba(34,197,94,0.10)'); g.addColorStop(1,'rgba(34,197,94,0)'); ctx.fillStyle=g; ctx.fillRect(0,0,w,h) }
