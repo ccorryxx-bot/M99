@@ -172,8 +172,8 @@
                       <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
                     </svg>
                   </button>
+                  <div class="pgp-card-name">{{ game.game_name }}</div>
                 </div>
-                <div class="pgp-card-name">{{ game.game_name }}</div>
               </div>
             </div>
 
@@ -348,7 +348,7 @@ const pageNums = computed(() => {
 /* ── Root ── */
 .pgp-root {
   position: fixed; inset: 0; z-index: 1200;
-  background: #1a1c52;
+  background: #07091b;
   display: flex; flex-direction: column;
   overflow: hidden;
 }
@@ -363,7 +363,7 @@ const pageNums = computed(() => {
   display: flex; align-items: center; justify-content: space-between;
   padding: 12px 14px 10px;
   border-bottom: 1px solid rgba(255,255,255,0.08);
-  flex-shrink: 0; background: #1e2060;
+  flex-shrink: 0; background: #0e1032;
   padding-top: calc(12px + env(safe-area-inset-top, 0px));
 }
 .pgp-back {
@@ -408,7 +408,7 @@ const pageNums = computed(() => {
   display: flex; flex-direction: column; align-items: stretch;
 }
 .pgp-picker-sheet {
-  background: #171a4e;
+  background: #0a0c22;
   border-bottom: 1px solid rgba(255,255,255,0.08);
   padding: 12px 10px 14px;
   margin-top: calc(57px + env(safe-area-inset-top, 0px));
@@ -518,7 +518,7 @@ const pageNums = computed(() => {
 /* ── Search ── */
 .pgp-srch-wrap {
   position: relative; padding: 8px 14px; flex-shrink: 0;
-  background: #1e2060; border-bottom: 1px solid rgba(255,255,255,0.07);
+  background: #0e1032; border-bottom: 1px solid rgba(255,255,255,0.07);
 }
 .pgp-srch-icon { position: absolute; left: 26px; top: 50%; transform: translateY(-50%); pointer-events: none; }
 .pgp-srch-input {
@@ -536,7 +536,7 @@ const pageNums = computed(() => {
 /* ── Tabs ── */
 .pgp-tabs-wrap {
   display: flex; gap: 7px; padding: 10px 14px 9px; flex-shrink: 0;
-  background: #1a1c52; border-bottom: 1px solid rgba(255,255,255,0.07);
+  background: #07091b; border-bottom: 1px solid rgba(255,255,255,0.07);
   overflow-x: auto; -webkit-overflow-scrolling: touch;
 }
 .pgp-tabs-wrap::-webkit-scrollbar { display: none; }
@@ -561,7 +561,7 @@ const pageNums = computed(() => {
 /* ── Sidebar ── */
 .pgp-sidebar {
   width: 64px; flex-shrink: 0;
-  background: #1e2060; border-right: 1px solid rgba(255,255,255,0.08);
+  background: #0e1032; border-right: 1px solid rgba(255,255,255,0.08);
   display: flex; flex-direction: column; gap: 6px;
   padding: 10px 6px; overflow-y: auto; -webkit-overflow-scrolling: touch;
 }
@@ -600,7 +600,7 @@ const pageNums = computed(() => {
 }
 .pgp-card:active { opacity: 0.82; transform: scale(0.97); }
 .pgp-card-img-wrap {
-  position: relative; aspect-ratio: 3/4; background: #262870;
+  position: relative; aspect-ratio: 3/4; background: #111327;
   border-radius: 10px; overflow: hidden;
 }
 .pgp-card-img { width: 100%; height: 100%; object-fit: cover; display: block; }
@@ -624,8 +624,9 @@ const pageNums = computed(() => {
 }
 .pgp-card-fav--on { color: #f43f5e; background: rgba(0,0,0,0.6); }
 .pgp-card-name {
-  font-size: 9px; font-weight: 700; color: rgba(255,255,255,0.8);
-  padding: 4px 3px 2px; text-align: center;
+  position: absolute; bottom: 0; left: 0; right: 0; z-index: 2;
+  font-size: 9px; font-weight: 700; color: rgba(255,255,255,0.92);
+  padding: 4px 5px 6px; text-align: center;
   overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
 }
 
@@ -651,7 +652,7 @@ const pageNums = computed(() => {
 .pgp-pg:disabled { opacity: 0.3; cursor: not-allowed; }
 .pgp-pg:active:not(:disabled) { opacity: 0.7; }
 .pgp-pg--on {
-  background: #f5c842; border-color: #f5c842; color: #1a1c52;
+  background: #f5c842; border-color: #f5c842; color: #07091b;
 }
 .pgp-pg-dot {
   color: rgba(255,255,255,0.35); font-size: 12px; padding: 0 2px;
