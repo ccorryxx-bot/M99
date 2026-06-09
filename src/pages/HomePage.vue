@@ -637,6 +637,16 @@
                   <input v-model="regPhone" type="tel" placeholder="*ဖုန်းနံပါတ်ထည့်ဆည်ပါ" class="nova-auth-input" style="padding-left:8px;"/>
                   <button v-if="regPhone" @click="regPhone=''" class="nova-clear-btn"><svg width="14" height="14" fill="none" stroke="rgba(255,255,255,0.4)" stroke-width="2.5" viewBox="0 0 24 24"><path d="M18 6L6 18M6 6l12 12"/></svg></button>
                 </div>
+                <!-- Referral Code Field -->
+                <div class="nova-auth-field nova-ref-field">
+                  <svg width="15" height="15" fill="rgba(245,200,66,0.55)" viewBox="0 0 24 24"><path d="M12.5 2a5.5 5.5 0 015.45 4.818l.05.363L20 7a3 3 0 012.995 2.824L23 10v2a3 3 0 01-2.824 2.995L20 15h-.55l-.05.363A5.5 5.5 0 0112.5 20H8.828l-4.12 1.76A1 1 0 013 20.839V18.5a5.5 5.5 0 01.32-9.347L3 9V7a3 3 0 012.824-2.995L6 4l.05-.363A5.5 5.5 0 0111.5 2h1zm0 2h-1a3.5 3.5 0 00-3.45 2.945L8 7.5V9H6a1 1 0 00-.993.883L5 10v2a1 1 0 00.883.993L6 13h1.5v1.5a3.5 3.5 0 003.268 3.495L11 18h1.5a3.5 3.5 0 003.495-3.268L16 14.5V13H17.5a1 1 0 00.993-.883L18.5 12v-2a1 1 0 00-.883-.993L17.5 9H16V7.5a3.5 3.5 0 00-3.268-3.495L12.5 4z"/></svg>
+                  <input v-model="regReferral" type="text" placeholder="ဖိတ်စာကုဒ် (optional)" class="nova-auth-input" style="font-size:13px;letter-spacing:0.05em;"/>
+                  <span v-if="refAgentInfo" class="nova-ref-badge">
+                    <span class="nova-ref-dot"></span>
+                    {{ refAgentInfo }}
+                  </span>
+                  <button v-if="regReferral" @click="regReferral='';refAgentInfo=''" class="nova-clear-btn"><svg width="14" height="14" fill="none" stroke="rgba(255,255,255,0.4)" stroke-width="2.5" viewBox="0 0 24 24"><path d="M18 6L6 18M6 6l12 12"/></svg></button>
+                </div>
                 <div style="display:flex;align-items:flex-start;gap:10px;margin-bottom:18px;">
                   <div @click="reg18Agreed=!reg18Agreed" :style="reg18Agreed?'background:#22c55e;border-color:#22c55e;':''" style="width:18px;height:18px;border-radius:4px;border:2px solid rgba(255,255,255,0.3);flex-shrink:0;display:flex;align-items:center;justify-content:center;cursor:pointer;transition:all 0.2s;margin-top:1px;">
                     <svg v-if="reg18Agreed" width="10" height="10" fill="white" viewBox="0 0 24 24"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg>
@@ -644,7 +654,7 @@
                   <p style="font-size:11px;color:rgba(255,255,255,0.45);line-height:1.6;margin:0;">ကျွန်ုပ်သည် အသက် 18 နှစ်ကျော်သည်။ <span style="color:#22c55e;font-weight:700;">«အသုံးပြုသူသဘောတူညီချက်»</span> ကို ဖတ်ပြီး သဘောတူသည်</p>
                 </div>
                 <p v-if="regError" class="nova-auth-error">{{ regError }}</p>
-                <button @click="handleRegister" :disabled="regLoading" class="nova-auth-submit-btn"><span>{{ regLoading ? 'Loading...' : 'မှတ်ပုံတင်' }}</span></button>
+                <button @click="handleRegister" :disabled="regLoading" class="nova-auth-submit-btn" :class="!regFormFilled?'nova-auth-submit-btn--dim':''"><span>{{ regLoading ? 'Loading...' : 'မှတ်ပုံတင်' }}</span></button>
                 <div style="text-align:center;margin-top:14px;"><span style="font-size:11px;color:rgba(255,255,255,0.32);cursor:pointer;">ဘည်ဝန်ဆောင်မှု</span></div>
                 <div class="nova-auth-divider"><div style="flex:1;height:1px;background:rgba(255,255,255,0.08);"></div><span style="font-size:11px;color:rgba(255,255,255,0.22);">မှတ်ပုံတင်ခြင်း</span><div style="flex:1;height:1px;background:rgba(255,255,255,0.08);"></div></div>
                 <div style="display:flex;justify-content:center;"><button class="nova-fb-btn"><svg width="22" height="22" fill="white" viewBox="0 0 24 24"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg></button></div>
@@ -675,7 +685,7 @@
                   <span style="font-size:11px;color:rgba(255,255,255,0.45);">အကောင့်ကားဝှက်ကို မှတ်ထားပါ</span>
                 </div>
                 <p v-if="loginError" class="nova-auth-error">{{ loginError }}</p>
-                <button @click="handleLogin" :disabled="loginLoading" class="nova-auth-submit-btn"><span>{{ loginLoading ? 'Loading...' : 'လောဂ်အင်' }}</span></button>
+                <button @click="handleLogin" :disabled="loginLoading" class="nova-auth-submit-btn" :class="!loginFormFilled?'nova-auth-submit-btn--dim':''"><span>{{ loginLoading ? 'Loading...' : 'လောဂ်အင်' }}</span></button>
                 <div style="display:flex;justify-content:space-between;margin-top:14px;">
                   <span style="font-size:11px;color:rgba(255,255,255,0.32);cursor:pointer;">ဘည်ဝန်ဆောင်မှု</span>
                   <span style="font-size:11px;color:rgba(255,255,255,0.5);cursor:pointer;">ကားဝှက်မေ့နေသည်</span>
@@ -729,7 +739,8 @@
   const isLoggedIn = ref(false); const username = ref(''); const mainBalance = ref(0); const currentLang = ref('en')
   const showAuthModal = ref(false); const authTab = ref('login')
   const loginUsername = ref(''); const loginPassword = ref(''); const loginShowPassword = ref(false); const loginLoading = ref(false); const loginError = ref(''); const loginType = ref('password'); const rememberMe = ref(false)
-  const regUsername = ref(''); const regPhone = ref(''); const regPassword = ref(''); const regShowPassword = ref(false); const regLoading = ref(false); const regError = ref(''); const reg18Agreed = ref(false)
+  const regUsername = ref(''); const regPhone = ref(''); const regPassword = ref(''); const regShowPassword = ref(false); const regLoading = ref(false); const regError = ref(''); const reg18Agreed = ref(true)
+  const regReferral = ref(''); const refAgentInfo = ref('')
   const searchVisible = ref(false); const searchQuery = ref('')
   const showDepositModal = ref(false); const showWithdrawModal = ref(false)
   const showInbox = ref(false)
@@ -749,8 +760,26 @@
     return s
   })
   const pwColor = computed(() => pwStrength.value <= 1 ? '#ef4444' : pwStrength.value <= 3 ? '#f59e0b' : '#22c55e')
+  const regFormFilled = computed(() => !!(regUsername.value && regPassword.value && regPhone.value))
+  const loginFormFilled = computed(() => !!(loginUsername.value && loginPassword.value))
 
-  function openAuth(tab) { authTab.value = tab; showAuthModal.value = true }
+  async function lookupRefAgent(code) {
+    if (!code) { refAgentInfo.value = ''; return }
+    try {
+      const { data } = await supabase.from('users').select('vip_level').ilike('username', code).single()
+      if (data) { refAgentInfo.value = (data.vip_level >= 3) ? 'Senior Agent' : 'Junior Agent' }
+      else refAgentInfo.value = ''
+    } catch { refAgentInfo.value = '' }
+  }
+
+  watch(regReferral, (v) => { lookupRefAgent(v) })
+
+  function openAuth(tab) {
+    authTab.value = tab
+    const urlRef = new URLSearchParams(window.location.search).get('ref') || new URLSearchParams(window.location.search).get('dl') || ''
+    if (urlRef && !regReferral.value) { regReferral.value = urlRef; lookupRefAgent(urlRef) }
+    showAuthModal.value = true
+  }
 
   // Banner
   const bannerImages = ref(['https://ik.imagekit.io/tdpebgueq/NOVABETT,%20BANNER%20/1780215182926.png?tr=f-auto','https://ik.imagekit.io/tdpebgueq/NOVABETT,%20BANNER%20/f9b69370-5cc9-11f1-b238-fb0c6456ca35%20(5).png?tr=f-auto','https://ik.imagekit.io/tdpebgueq/NOVABETT,%20BANNER%20/1780214089706.png?tr=f-auto'])
@@ -869,7 +898,7 @@
   async function handleRegister() {
     regError.value=''; if(!regUsername.value||!regPhone.value||!regPassword.value){regError.value='အချက်အလက်များ ဖြည့်ပါ';return}
     regLoading.value=true
-    try { const referral=route.query.dl||''; const res=await fetch('https://vuywhhmwrqykukcemifd.supabase.co/functions/v1/register3',{method:'POST',headers:{'Authorization':'Bearer sb_publishable_nQArOtFqTbi9ZtJCJC0STA_pE4ztXGb','apikey':'sb_publishable_nQArOtFqTbi9ZtJCJC0STA_pE4ztXGb','Content-Type':'application/json'},body:JSON.stringify({username:regUsername.value,phone:regPhone.value,password:regPassword.value,referral})}); const data=await res.json(); if(data.error)throw new Error(data.error); const email=regUsername.value.toUpperCase()+'@novabett.internal'; const {data:ld,error:le}=await supabase.auth.signInWithPassword({email,password:regPassword.value}); if(le)throw le; if(ld.session?.access_token)localStorage.setItem('sb_token',ld.session.access_token); await loadUserInfo(); showToast({type:'success',message:'အကောင့်ဖွင့် အောင်မြင်ပါသည်'}); showAuthModal.value=false; regUsername.value='';regPhone.value='';regPassword.value='' }
+    try { const referral=regReferral.value||route.query.ref||route.query.dl||''; const res=await fetch('https://vuywhhmwrqykukcemifd.supabase.co/functions/v1/register3',{method:'POST',headers:{'Authorization':'Bearer sb_publishable_nQArOtFqTbi9ZtJCJC0STA_pE4ztXGb','apikey':'sb_publishable_nQArOtFqTbi9ZtJCJC0STA_pE4ztXGb','Content-Type':'application/json'},body:JSON.stringify({username:regUsername.value,phone:regPhone.value,password:regPassword.value,referral})}); const data=await res.json(); if(data.error)throw new Error(data.error); const email=regUsername.value.toUpperCase()+'@novabett.internal'; const {data:ld,error:le}=await supabase.auth.signInWithPassword({email,password:regPassword.value}); if(le)throw le; if(ld.session?.access_token)localStorage.setItem('sb_token',ld.session.access_token); await loadUserInfo(); showToast({type:'success',message:'အကောင့်ဖွင့် အောင်မြင်ပါသည်'}); showAuthModal.value=false; regUsername.value='';regPhone.value='';regPassword.value='';regReferral.value='';refAgentInfo.value='' }
     catch(e) { regError.value=e.message } finally { regLoading.value=false }
   }
   async function openGame(game) {
@@ -926,6 +955,12 @@
     document.documentElement.style.setProperty('--perf-hint','auto')
     // 61 FPS smooth scroll on desktop wheel events
     window.addEventListener('wheel', onWheelSmooth, { passive: false })
+    // Auto-open auth panel from URL query (?auth=register|login) + auto-fill referral
+    const params = new URLSearchParams(window.location.search)
+    const authParam = params.get('auth')
+    const refParam = params.get('ref') || params.get('dl') || ''
+    if (refParam) { regReferral.value = refParam; lookupRefAgent(refParam) }
+    if (authParam === 'register' || authParam === 'login') { nextTick(() => openAuth(authParam)) }
   })
   onUnmounted(()=>{
     clearInterval(bannerTimer)
@@ -1148,14 +1183,15 @@
   }
   .nova-auth-tab-btn {
     flex: 1; max-width: 150px; padding: 10px 10px 12px; background: transparent; border: none; cursor: pointer;
-    font-size: 13.5px; font-weight: 700; color: rgba(255,255,255,0.28);
+    font-size: 13.5px; font-weight: 700; color: rgba(245,200,66,0.45);
     display: flex; align-items: center; justify-content: center; gap: 5px;
     position: relative; transition: color 0.2s; -webkit-tap-highlight-color: transparent; letter-spacing: 0.02em;
   }
-  .nova-auth-tab-btn--active { color: rgba(255,255,255,0.95); }
+  .nova-auth-tab-btn--active { color: #f5c842; text-shadow: 0 0 12px rgba(245,200,66,0.5); }
   .nova-auth-tab-btn--active::after {
     content: ''; position: absolute; bottom: 0; left: 18%; right: 18%; height: 2px;
-    background: rgba(255,255,255,0.75); border-radius: 2px;
+    background: linear-gradient(90deg, #f5c842, #f0b429); border-radius: 2px;
+    box-shadow: 0 0 8px rgba(245,200,66,0.6);
   }
 
   /* Scrollable body */
@@ -1172,13 +1208,35 @@
   .nova-auth-field {
     display: flex; align-items: center; gap: 8px;
     background: rgba(255,255,255,0.07);
-    border: 1px solid rgba(255,255,255,0.12);
+    border: 1px solid rgba(245,200,66,0.18);
     border-radius: 12px; padding: 12px 14px; margin-bottom: 11px;
     transition: border-color 0.2s, background 0.2s;
   }
   .nova-auth-field:focus-within {
-    border-color: rgba(255,255,255,0.3);
-    background: rgba(255,255,255,0.1);
+    border-color: rgba(245,200,66,0.5);
+    background: rgba(245,200,66,0.04);
+    box-shadow: 0 0 0 2px rgba(245,200,66,0.07);
+  }
+  /* Referral field — slightly more prominent */
+  .nova-ref-field {
+    border-color: rgba(245,200,66,0.25);
+    background: rgba(245,200,66,0.03);
+  }
+  /* Referral badge */
+  .nova-ref-badge {
+    display: inline-flex; align-items: center; gap: 4px; flex-shrink: 0;
+    background: rgba(34,197,94,0.12); border: 1px solid rgba(34,197,94,0.35);
+    border-radius: 20px; padding: 2px 8px; font-size: 10px; font-weight: 700;
+    color: #4ade80; white-space: nowrap; letter-spacing: 0.03em;
+  }
+  .nova-ref-dot {
+    width: 6px; height: 6px; border-radius: 50%; background: #22c55e; flex-shrink: 0;
+    box-shadow: 0 0 5px #22c55e;
+    animation: ref-pulse 1.4s ease-in-out infinite;
+  }
+  @keyframes ref-pulse {
+    0%,100% { opacity:1; transform:scale(1); }
+    50% { opacity:0.55; transform:scale(0.8); }
   }
   .nova-auth-input {
     flex: 1; background: transparent; border: none; outline: none;
@@ -1204,6 +1262,7 @@
   }
   .nova-auth-submit-btn:active { transform: scale(0.97); }
   .nova-auth-submit-btn:disabled { opacity: 0.45; }
+  .nova-auth-submit-btn--dim { opacity: 0.35; filter: brightness(0.6); pointer-events: none; }
 
   /* Login type pills */
   .nova-login-type-btn {
