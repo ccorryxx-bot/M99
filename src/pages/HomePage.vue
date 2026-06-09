@@ -1541,11 +1541,11 @@
     padding: 0 14px 20px;
   }
   .nova-catbtn {
-    position: relative; display: flex; align-items: center; gap: 0;
-    padding: 0; border-radius: 14px; border: 1.5px solid transparent;
+    position: relative; display: flex; align-items: center; gap: 10px;
+    padding: 0 14px; border-radius: 14px; border: 1.5px solid transparent;
     cursor: pointer; -webkit-tap-highlight-color: transparent;
     overflow: hidden; transition: transform 0.14s ease, box-shadow 0.14s ease;
-    flex-direction: column; justify-content: center; height: 88px;
+    flex-direction: row; justify-content: flex-start; height: 62px;
   }
   .nova-catbtn:active { transform: scale(0.95); }
   .nova-catbtn::after {
@@ -1564,21 +1564,21 @@
     border-color: rgba(34,211,238,0.35);
   }
   .nova-catbtn-img-wrap {
-    width: 52px; height: 52px; border-radius: 10px; overflow: hidden;
+    width: 40px; height: 40px; border-radius: 9px; overflow: hidden;
     display: flex; align-items: center; justify-content: center;
-    background: rgba(255,255,255,0.1); margin-bottom: 6px; flex-shrink: 0;
+    background: rgba(255,255,255,0.12); flex-shrink: 0;
   }
   .nova-catbtn-img { width: 100%; height: 100%; object-fit: cover; display: block; }
   .nova-catbtn-img-fallback {
-    display: none; font-size: 22px;
+    display: none; font-size: 20px;
     align-items: center; justify-content: center;
   }
   .nova-catbtn-info {
-    display: flex; flex-direction: column; align-items: center; gap: 2px;
+    display: flex; flex-direction: column; align-items: flex-start; gap: 2px;
   }
   .nova-catbtn-name {
-    font-size: 10px; font-weight: 800; color: rgba(255,255,255,0.95);
-    letter-spacing: 0.01em; text-align: center; line-height: 1.2;
+    font-size: 11px; font-weight: 800; color: rgba(255,255,255,0.95);
+    letter-spacing: 0.01em; line-height: 1.2;
   }
   .nova-catbtn-sub {
     font-size: 9px; font-weight: 600; color: rgba(255,255,255,0.6);
