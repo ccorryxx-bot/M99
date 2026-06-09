@@ -288,7 +288,7 @@
                 <button :class="['rec-date-btn', recDateFilter==='yesterday'?'active':'']" @click="recDateFilter='yesterday';fetchRecords()">မနေ့က</button>
               </div>
               <div class="rec-drop-wrap">
-                <button class="rec-drop-btn" ref="recTypeBtnRef" @click.stop="openDrop(recTypeBtnRef,'recType',showTypeDrop,showStatusDrop)">
+                <button class="rec-drop-btn" @click.stop="calcDropPos($event.currentTarget,'recType');showTypeDrop=!showTypeDrop;showStatusDrop=false">
                   <span>{{ recTypeLabel }}</span>
                   <svg width="10" height="10" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24" :style="showTypeDrop?'transform:rotate(180deg);transition:0.2s':'transition:0.2s'"><path stroke-linecap="round" d="M19 9l-7 7-7-7"/></svg>
                 </button>
@@ -299,7 +299,7 @@
                 </Transition>
               </div>
               <div class="rec-drop-wrap">
-                <button class="rec-drop-btn" ref="recStatusBtnRef" @click.stop="openDrop(recStatusBtnRef,'recStatus',showStatusDrop,showTypeDrop)">
+                <button class="rec-drop-btn" @click.stop="calcDropPos($event.currentTarget,'recStatus');showStatusDrop=!showStatusDrop;showTypeDrop=false">
                   <span>{{ recStatusLabel }}</span>
                   <svg width="10" height="10" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24" :style="showStatusDrop?'transform:rotate(180deg);transition:0.2s':'transition:0.2s'"><path stroke-linecap="round" d="M19 9l-7 7-7-7"/></svg>
                 </button>
@@ -383,7 +383,7 @@
             <!-- Filter row + sort label -->
             <div class="rpt-filter-row" @click.stop>
               <div class="rpt-drop-wrap">
-                <button class="rpt-date-btn" ref="rptDateBtnRef" :class="showRptDatePicker?'rpt-date-btn--open':''" @click.stop="openDrop(rptDateBtnRef,'rptDate',showRptDatePicker)">
+                <button class="rpt-date-btn" :class="showRptDatePicker?'rpt-date-btn--open':''" @click.stop="calcDropPos($event.currentTarget,'rptDate');showRptDatePicker=!showRptDatePicker">
                   <span>{{ rptDateLabel }}</span>
                   <svg width="10" height="10" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24" :style="showRptDatePicker?'transform:rotate(180deg);':''" style="transition:transform 0.2s;flex-shrink:0;"><path stroke-linecap="round" d="M19 9l-7 7-7-7"/></svg>
                 </button>
@@ -521,7 +521,7 @@
 
               <!-- Filter 1: Date -->
               <div class="bet-drop-wrap">
-                <button class="bet-filter-btn" :class="showBetDatePicker?'bet-filter-btn--open':''" ref="betDateBtnRef" @click.stop="openDrop(betDateBtnRef,'betDate',showBetDatePicker,showBetStatusDrop,showBetTypeDrop,showBetPlatformDrop)">
+                <button class="bet-filter-btn" :class="showBetDatePicker?'bet-filter-btn--open':''" @click.stop="calcDropPos($event.currentTarget,'betDate');showBetDatePicker=!showBetDatePicker;showBetStatusDrop=false;showBetTypeDrop=false;showBetPlatformDrop=false">
                   <span>{{ betDateLabel }}</span>
                   <svg width="9" height="9" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24" :style="showBetDatePicker?'transform:rotate(180deg);':''" style="transition:transform 0.2s;flex-shrink:0;"><path stroke-linecap="round" d="M19 9l-7 7-7-7"/></svg>
                 </button>
@@ -563,7 +563,7 @@
 
               <!-- Filter 2: Status (ဖောပြချက်) -->
               <div class="bet-drop-wrap">
-                <button class="bet-filter-btn" :class="showBetStatusDrop?'bet-filter-btn--open':''" ref="betStatusBtnRef" @click.stop="openDrop(betStatusBtnRef,'betStatus',showBetStatusDrop,showBetDatePicker,showBetTypeDrop,showBetPlatformDrop)">
+                <button class="bet-filter-btn" :class="showBetStatusDrop?'bet-filter-btn--open':''" @click.stop="calcDropPos($event.currentTarget,'betStatus');showBetStatusDrop=!showBetStatusDrop;showBetDatePicker=false;showBetTypeDrop=false;showBetPlatformDrop=false">
                   <span>{{ betStatusLabel }}</span>
                   <svg width="9" height="9" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24" :style="showBetStatusDrop?'transform:rotate(180deg);':''" style="transition:transform 0.2s;flex-shrink:0;"><path stroke-linecap="round" d="M19 9l-7 7-7-7"/></svg>
                 </button>
@@ -581,7 +581,7 @@
 
               <!-- Filter 3: Game Type (အမျိုးအစား) -->
               <div class="bet-drop-wrap">
-                <button class="bet-filter-btn" :class="showBetTypeDrop?'bet-filter-btn--open':''" ref="betTypeBtnRef" @click.stop="openDrop(betTypeBtnRef,'betType',showBetTypeDrop,showBetDatePicker,showBetStatusDrop,showBetPlatformDrop)">
+                <button class="bet-filter-btn" :class="showBetTypeDrop?'bet-filter-btn--open':''" @click.stop="calcDropPos($event.currentTarget,'betType');showBetTypeDrop=!showBetTypeDrop;showBetDatePicker=false;showBetStatusDrop=false;showBetPlatformDrop=false">
                   <span>{{ betTypeLabel }}</span>
                   <svg width="9" height="9" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24" :style="showBetTypeDrop?'transform:rotate(180deg);':''" style="transition:transform 0.2s;flex-shrink:0;"><path stroke-linecap="round" d="M19 9l-7 7-7-7"/></svg>
                 </button>
@@ -599,7 +599,7 @@
 
               <!-- Filter 4: Platform -->
               <div class="bet-drop-wrap">
-                <button class="bet-filter-btn" :class="showBetPlatformDrop?'bet-filter-btn--open':''" ref="betPlatformBtnRef" @click.stop="openDrop(betPlatformBtnRef,'betPlatform',showBetPlatformDrop,showBetDatePicker,showBetStatusDrop,showBetTypeDrop)">
+                <button class="bet-filter-btn" :class="showBetPlatformDrop?'bet-filter-btn--open':''" @click.stop="calcDropPos($event.currentTarget,'betPlatform');showBetPlatformDrop=!showBetPlatformDrop;showBetDatePicker=false;showBetStatusDrop=false;showBetTypeDrop=false">
                   <span>{{ betPlatformLabel }}</span>
                   <svg width="9" height="9" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24" :style="showBetPlatformDrop?'transform:rotate(180deg);':''" style="transition:transform 0.2s;flex-shrink:0;"><path stroke-linecap="round" d="M19 9l-7 7-7-7"/></svg>
                 </button>
@@ -712,23 +712,13 @@ const recStatusFilter = ref('all')
 const showTypeDrop   = ref(false)
 const showStatusDrop = ref(false)
 
-// ── Fixed dropdown positioning (fixes overflow:hidden clipping bug) ──
+// ── Fixed dropdown positioning (position:fixed to escape overflow:hidden) ──
 const dropPos = reactive({})
-const recTypeBtnRef     = ref(null)
-const recStatusBtnRef   = ref(null)
-const betStatusBtnRef   = ref(null)
-const betTypeBtnRef     = ref(null)
-const betPlatformBtnRef = ref(null)
-const betDateBtnRef     = ref(null)
-const rptDateBtnRef     = ref(null)
-function openDrop(btnEl, key, openRef, ...closeRefs) {
-  let el = btnEl && btnEl.$el ? btnEl.$el : btnEl
+function calcDropPos(el, key) {
   if (el && typeof el.getBoundingClientRect === 'function') {
     const r = el.getBoundingClientRect()
     dropPos[key] = { top: r.bottom + 4, left: r.left }
   }
-  closeRefs.forEach(r => { r.value = false })
-  openRef.value = !openRef.value
 }
 
 const recordsTabs = [
