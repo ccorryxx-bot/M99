@@ -390,6 +390,41 @@
         </div>
       </div>
 
+      <!-- ══ LIVE CASINO ══ -->
+      <div class="nova-live-section">
+        <div class="nova-live-header">
+          <div class="nova-live-icon-wrap">
+            <img
+              src="https://ik.imagekit.io/tdpebgueq/Provider%20label%20icons%20/Screenshot_2026-06-04-01-03-25-338_mark.via.gp_1780511848574edit.jpg?tr=f-auto"
+              class="nova-live-icon-img"
+              @error="e=>{e.target.style.display='none';e.target.nextElementSibling.style.display='flex'}"
+              alt="live casino"
+            />
+            <span class="nova-live-icon-fallback">🃏</span>
+          </div>
+          <span class="nova-live-title">တိုက်ရိုက် ကာစီနို</span>
+          <span class="nova-live-count">{{ games.filter(g=>g.category==='live').length }} ဂိမ်း</span>
+        </div>
+        <div class="nova-live-grid">
+          <div v-for="game in liveGames" :key="game.id"
+            class="nova-game-card" @click="openGame(game)">
+            <div style="position:relative;aspect-ratio:3/4;overflow:hidden;background:#1a0a2e;">
+              <img :src="game.image_url" alt="" @error="e=>e.target.style.display='none'"
+                style="width:100%;height:100%;object-fit:cover;display:block;" loading="lazy"/>
+              <div style="position:absolute;inset:0;background:linear-gradient(to top,rgba(20,4,40,0.92) 0%,rgba(20,4,40,0.2) 40%,transparent 100%);"></div>
+              <div class="nova-badge nova-badge--live">LIVE</div>
+              <div class="nova-badge nova-badge--provider">{{ game.provider_code?.toUpperCase() }}</div>
+              <div style="position:absolute;bottom:0;left:0;right:0;padding:4px 5px 5px;">
+                <div style="font-size:9px;font-weight:700;color:rgba(255,255,255,0.9);overflow:hidden;text-overflow:ellipsis;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;line-height:1.3;">{{ game.game_name }}</div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <button class="nova-live-see-all" @click="activeCategory='live';$el.closest('.nova-app').scrollTop=0;window.scrollTo({top:0,behavior:'smooth'})">
+          တိုက်ရိုက် ကာစီနို အားလုံးကြည့်ရန် →
+        </button>
+      </div>
+
       <!-- ══ FOOTER ══ -->
       <div style="padding:0 16px;border-top:1px solid rgba(255,255,255,0.07);margin-top:16px;">
         <div style="padding:20px 0 14px;text-align:center;">
@@ -719,6 +754,7 @@
   })
 
   const fishGames = computed(() => games.value.filter(g => g.category === 'fish'))
+  const liveGames = computed(() => games.value.filter(g => g.category === 'live').slice(0, 4))
 
   async function loadUserInfo() {
     try { const {data:{session}}=await supabase.auth.getSession(); if(!session){isLoggedIn.value=false;return}; isLoggedIn.value=true; username.value=(session.user.email||'').replace(/@novabett\.internal$/,'').toUpperCase(); await fetchBalance() }
@@ -1401,5 +1437,42 @@
   .nova-fish-grid {
     display: grid; grid-template-columns: repeat(3,1fr); gap: 8px;
   }
+
+  /* ── Live Casino Section ── */
+  .nova-live-section { padding: 0 14px 20px; }
+  .nova-live-header { display: flex; align-items: center; gap: 9px; margin-bottom: 14px; }
+  .nova-live-icon-wrap {
+    width: 28px; height: 28px; border-radius: 7px; overflow: hidden;
+    display: flex; align-items: center; justify-content: center;
+    background: rgba(168,85,247,0.15); border: 1px solid rgba(168,85,247,0.3);
+    flex-shrink: 0;
+  }
+  .nova-live-icon-img { width: 100%; height: 100%; object-fit: cover; display: block; }
+  .nova-live-icon-fallback { display: none; font-size: 14px; align-items: center; justify-content: center; }
+  .nova-live-title {
+    font-size: 15px; font-weight: 800; color: rgba(255,255,255,0.95);
+    letter-spacing: 0.02em; flex: 1;
+  }
+  .nova-live-count {
+    font-size: 11px; font-weight: 700;
+    color: #e879f9; background: rgba(168,85,247,0.15);
+    border: 1px solid rgba(168,85,247,0.3);
+    padding: 2px 9px; border-radius: 20px;
+  }
+  .nova-live-grid { display: grid; grid-template-columns: repeat(2,1fr); gap: 10px; margin-bottom: 12px; }
+  .nova-badge--live {
+    position: absolute; top: 5px; right: 5px;
+    background: rgba(168,85,247,0.88); color: #fff;
+    font-size: 8px; font-weight: 800; padding: 2px 6px;
+    border-radius: 4px; letter-spacing: 0.05em; z-index: 2;
+  }
+  .nova-live-see-all {
+    width: 100%; padding: 11px; border-radius: 10px;
+    background: rgba(168,85,247,0.12); border: 1px solid rgba(168,85,247,0.3);
+    color: rgba(232,121,249,0.9); font-size: 12px; font-weight: 700;
+    cursor: pointer; letter-spacing: 0.03em;
+    transition: background 0.15s; -webkit-tap-highlight-color: transparent;
+  }
+  .nova-live-see-all:active { background: rgba(168,85,247,0.24); }
 
 </style>
