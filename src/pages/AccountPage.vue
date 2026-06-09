@@ -156,11 +156,11 @@
             </div>
             <span class="gi-lbl">ဘာသာစကား</span>
           </button>
-          <button class="gi-item" @click="comingSoon">
+          <button class="gi-item" @click="showCs=true">
             <div class="gi-icon-plain">
               <svg width="22" height="22" fill="none" viewBox="0 0 24 24" stroke="rgba(255,255,255,0.80)" stroke-width="1.7"><path stroke-linecap="round" stroke-linejoin="round" d="M8.228 9c.549-1.165 2.03-2 3.772-2 2.21 0 4 1.343 4 3 0 1.4-1.278 2.575-3.006 2.907-.542.104-.994.54-.994 1.093m0 3h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
             </div>
-            <span class="gi-lbl">ပောက်သည်<br>ဝင်ဆောင်မှု</span>
+            <span class="gi-lbl">ဖောက်သည်<br>ဝန်ဆောင်မှု</span>
           </button>
           <button class="gi-item" @click="comingSoon">
             <div class="gi-icon-plain">
@@ -325,6 +325,100 @@
           <div style="height:env(safe-area-inset-bottom,12px);min-height:12px;"></div>
 
         </div><!-- end prf-body -->
+      </div>
+    </Transition>
+
+    <!-- ══════════════════════════════════════════════
+         CUSTOMER SERVICE PANEL — Slide from right
+         ══════════════════════════════════════════════ -->
+    <Transition name="pg">
+      <div v-if="showCs" class="fullpage cs-root">
+
+        <!-- Header -->
+        <div class="cs-header">
+          <button @click="showCs=false" class="icon-btn">
+            <svg width="18" height="18" fill="none" stroke="rgba(255,255,255,0.85)" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7"/></svg>
+          </button>
+          <span class="fp-title">မက်ဆေ့ချ်စင်တာ</span>
+          <div style="width:34px;"></div>
+        </div>
+
+        <!-- Tabs -->
+        <div class="cs-tabs-wrap">
+          <div class="cs-tabs">
+            <button :class="['cs-tab', csTab==='service'?'cs-tab--active':'']" @click="csTab='service'">ဆောင်မှု</button>
+            <button :class="['cs-tab', csTab==='announce'?'cs-tab--active':'']" @click="csTab='announce'">
+              ကြော်ငြာချက်<span class="cs-badge">1</span>
+            </button>
+            <button :class="['cs-tab', csTab==='notify'?'cs-tab--active':'']" @click="csTab='notify'">
+              အသိပေးချက်<span class="cs-badge cs-badge--red">66</span>
+            </button>
+            <button :class="['cs-tab', csTab==='marquee'?'cs-tab--active':'']" @click="csTab='marquee'">Marquee</button>
+            <button :class="['cs-tab', csTab==='suggest'?'cs-tab--active':'']" @click="csTab='suggest'">အကြံပြုချက်</button>
+          </div>
+        </div>
+
+        <!-- Body -->
+        <div class="cs-body">
+
+          <!-- ── SERVICE TAB ── -->
+          <div v-if="csTab==='service'">
+
+            <!-- Main support card -->
+            <div class="cs-card">
+              <div class="cs-card-title">24/7 အဝန်လိုင်းအကူအညီ</div>
+              <div class="cs-card-desc">သင်ကြုံနေသောမည်သည့် ပြဿနာကိုမဆိုကျွန်ုပ်တို့ ဝန်ဆောင်မှုဆိုဒ် ဝင်ပြီး ဆက်သွယ်ဆောင်ရွက်ပါ</div>
+
+              <!-- 24/7 button -->
+              <div class="cs-247-row">
+                <div class="cs-247-btn" @click="comingSoon">
+                  <div class="cs-247-av">
+                    <svg width="18" height="18" fill="none" viewBox="0 0 24 24" stroke="rgba(255,255,255,0.9)" stroke-width="1.8"><circle cx="12" cy="8" r="4"/><path stroke-linecap="round" d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/></svg>
+                  </div>
+                  <span class="cs-247-label">24/7<br>ဝန်ဆောင်မှု</span>
+                </div>
+              </div>
+
+              <!-- Live chat + Telegram -->
+              <div class="cs-link-row">
+                <button class="cs-link-btn cs-link-btn--chat" @click="comingSoon">
+                  <svg width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"/></svg>
+                  <span>ထောင်မပ</span>
+                </button>
+                <button class="cs-link-btn cs-link-btn--tg" @click="comingSoon">
+                  <img src="https://ik.imagekit.io/tdpebgueq/icons/telegram_logo_QeWRW9-okP.png?tr=f-auto" style="width:16px;height:16px;object-fit:contain;border-radius:50%;" alt="TG" />
+                  <span>Telegram ဝန်ဆောင်မှု</span>
+                </button>
+              </div>
+            </div>
+
+            <!-- Agent card -->
+            <div class="cs-agent-card">
+              <div class="cs-agent-av">
+                <svg width="22" height="22" fill="none" viewBox="0 0 24 24" stroke="rgba(255,200,50,0.9)" stroke-width="1.8"><circle cx="12" cy="8" r="4"/><path stroke-linecap="round" d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/></svg>
+              </div>
+              <div class="cs-agent-info">
+                <div class="cs-agent-title">အမည်ပြောင်: အဝန်လိုင်း တိုက်ရိုက်ဝင်...</div>
+                <div class="cs-agent-name-row">
+                  <span class="cs-agent-name">Customer1</span>
+                  <button @click="copyText('Customer1')" class="cs-copy-btn">
+                    <svg width="11" height="11" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg>
+                  </button>
+                </div>
+                <div class="cs-agent-time">ဝန်ဆောင်းအချိန်: 00:00 - 23:59</div>
+              </div>
+              <button class="cs-contact-btn" @click="comingSoon">ဆောင်ရွက်ပါ</button>
+            </div>
+
+          </div>
+
+          <!-- ── OTHER TABS ── -->
+          <div v-else class="cs-empty">
+            <svg width="44" height="44" fill="none" stroke="rgba(255,255,255,0.18)" stroke-width="1.4" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"/></svg>
+            <p style="margin:8px 0 0;font-size:12px;color:rgba(255,255,255,0.28);">မှတ်တမ်းမရှိသေးပါ</p>
+          </div>
+
+        </div><!-- end cs-body -->
       </div>
     </Transition>
 
@@ -792,6 +886,8 @@ const deposited    = ref(0)
 const refreshing   = ref(false)
 
 const showProfile = ref(false)
+const showCs      = ref(false)
+const csTab       = ref('service')
 const showPicker  = ref(false)
 const dropOpen    = ref(false)
 
@@ -2077,4 +2173,139 @@ const filteredProviders = computed(() => {
 }
 .prf-btn-save:disabled { opacity: 0.55; cursor: not-allowed; }
 .prf-btn-save:active:not(:disabled) { opacity: 0.82; }
+
+/* ══════════════════════════════════════════════
+   CUSTOMER SERVICE PANEL STYLES
+   ══════════════════════════════════════════════ */
+.cs-root { background: #07091b; display: flex; flex-direction: column; }
+
+.cs-header {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 11px 14px; border-bottom: 1px solid rgba(255,255,255,0.07);
+  flex-shrink: 0;
+}
+
+/* Tabs */
+.cs-tabs-wrap {
+  border-bottom: 1px solid rgba(255,255,255,0.08);
+  overflow-x: auto; flex-shrink: 0;
+  -webkit-overflow-scrolling: touch;
+}
+.cs-tabs-wrap::-webkit-scrollbar { display: none; }
+.cs-tabs { display: flex; padding: 0 10px; min-width: max-content; }
+.cs-tab {
+  position: relative; background: none; border: none; outline: none;
+  padding: 10px 10px 9px; font-size: 11.5px; font-weight: 600;
+  color: rgba(255,255,255,0.45); cursor: pointer; white-space: nowrap;
+  display: flex; align-items: center; gap: 3px;
+  -webkit-tap-highlight-color: transparent; transition: color 0.15s;
+}
+.cs-tab--active { color: #f0b429; }
+.cs-tab--active::after {
+  content: ''; position: absolute; bottom: 0; left: 8px; right: 8px;
+  height: 2px; background: #f0b429; border-radius: 2px 2px 0 0;
+}
+.cs-badge {
+  background: rgba(240,180,41,0.85); color: #1a1440;
+  font-size: 8px; font-weight: 800; padding: 1px 4px;
+  border-radius: 8px; line-height: 1.4;
+}
+.cs-badge--red { background: #ef4444; color: #fff; }
+
+/* Body */
+.cs-body {
+  flex: 1; overflow-y: auto; padding: 12px;
+  -webkit-overflow-scrolling: touch;
+}
+
+/* Main support card */
+.cs-card {
+  background: rgba(255,255,255,0.05);
+  border: 1px solid rgba(255,255,255,0.09);
+  border-radius: 12px; padding: 14px; margin-bottom: 10px;
+}
+.cs-card-title {
+  font-size: 13px; font-weight: 800; color: #fff; margin-bottom: 6px;
+}
+.cs-card-desc {
+  font-size: 11px; color: rgba(255,255,255,0.5);
+  line-height: 1.55; margin-bottom: 12px;
+}
+
+/* 24/7 clickable button */
+.cs-247-row { margin-bottom: 12px; }
+.cs-247-btn {
+  display: inline-flex; align-items: center; gap: 8px;
+  background: rgba(74,222,128,0.12);
+  border: 1px solid rgba(74,222,128,0.3);
+  border-radius: 9px; padding: 7px 14px; cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+}
+.cs-247-av {
+  width: 28px; height: 28px; border-radius: 50%;
+  background: rgba(74,222,128,0.18);
+  display: flex; align-items: center; justify-content: center; flex-shrink: 0;
+}
+.cs-247-label {
+  font-size: 11px; font-weight: 700; color: #4ade80; line-height: 1.3;
+}
+
+/* Link buttons row */
+.cs-link-row { display: flex; gap: 8px; }
+.cs-link-btn {
+  flex: 1; display: flex; align-items: center; justify-content: center;
+  gap: 6px; padding: 9px 8px; border-radius: 8px; border: none;
+  font-size: 11.5px; font-weight: 700; cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+}
+.cs-link-btn--chat {
+  background: rgba(34,158,217,0.18); color: #38bdf8;
+  border: 1px solid rgba(56,189,248,0.25);
+}
+.cs-link-btn--tg {
+  background: rgba(34,158,217,0.12); color: #38bdf8;
+  border: 1px solid rgba(56,189,248,0.2);
+}
+
+/* Agent card */
+.cs-agent-card {
+  display: flex; align-items: center; gap: 10px;
+  background: rgba(255,255,255,0.05);
+  border: 1px solid rgba(255,255,255,0.09);
+  border-radius: 12px; padding: 12px;
+}
+.cs-agent-av {
+  width: 42px; height: 42px; border-radius: 50%; flex-shrink: 0;
+  background: rgba(240,180,41,0.12);
+  border: 1.5px solid rgba(240,180,41,0.3);
+  display: flex; align-items: center; justify-content: center;
+}
+.cs-agent-info { flex: 1; min-width: 0; }
+.cs-agent-title {
+  font-size: 10px; color: rgba(255,255,255,0.45);
+  margin-bottom: 3px; line-height: 1.4;
+  overflow: hidden; white-space: nowrap; text-overflow: ellipsis;
+}
+.cs-agent-name-row { display: flex; align-items: center; gap: 5px; margin-bottom: 2px; }
+.cs-agent-name { font-size: 12px; font-weight: 700; color: rgba(255,255,255,0.88); }
+.cs-copy-btn {
+  background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.15);
+  border-radius: 4px; padding: 2px 5px; color: rgba(255,255,255,0.55);
+  cursor: pointer; display: flex; align-items: center;
+  -webkit-tap-highlight-color: transparent;
+}
+.cs-agent-time { font-size: 10px; color: rgba(255,255,255,0.38); }
+.cs-contact-btn {
+  flex-shrink: 0; padding: 8px 13px; border-radius: 8px;
+  background: linear-gradient(135deg, #f0b429, #d97706);
+  border: none; color: #1a1440; font-size: 11.5px; font-weight: 800;
+  cursor: pointer; -webkit-tap-highlight-color: transparent;
+  box-shadow: 0 2px 8px rgba(240,180,41,0.28);
+}
+
+/* Empty state */
+.cs-empty {
+  display: flex; flex-direction: column; align-items: center;
+  justify-content: center; padding: 60px 0;
+}
 </style>
