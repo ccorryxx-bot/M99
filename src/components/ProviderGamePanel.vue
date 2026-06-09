@@ -38,11 +38,11 @@
           <div v-if="showProvPicker" class="pgp-picker-overlay" @click.self="showProvPicker=false">
             <div class="pgp-picker-sheet">
 
-              <!-- Row 1: Providers (4 cards) -->
-              <div class="pgp-ps-section-label">Provider</div>
+              <!-- Row 1: Providers (4 cards) — vertical -->
+              <div class="pgp-ps-section-label">PROVIDER</div>
               <div class="pgp-ps-grid4">
                 <button v-for="p in sidebarProvs" :key="p.key"
-                  :class="['pgp-ps-card', activeSideProv===p.key && 'pgp-ps-card--on']"
+                  :class="['pgp-ps-card', 'pgp-ps-card--prov', activeSideProv===p.key && 'pgp-ps-card--on']"
                   @click="pickProvider(p.key)">
                   <img :src="p.logo" :alt="p.short" class="pgp-ps-prov-logo"
                     @error="e=>e.target.style.display='none'" loading="lazy"/>
@@ -53,26 +53,58 @@
 
               <div class="pgp-ps-divider"></div>
 
-              <!-- Row 2: Categories (4 cards) -->
+              <!-- Row 2: Categories (4 cards) — horizontal icon+label -->
               <div class="pgp-ps-section-label">အမျိုးအစား</div>
               <div class="pgp-ps-grid4">
                 <button v-for="c in pickerCats" :key="c.key"
-                  class="pgp-ps-card"
+                  class="pgp-ps-card pgp-ps-card--cat"
                   @click="pickCategory(c.key)">
-                  <span class="pgp-ps-emoji">{{ c.emoji }}</span>
-                  <span class="pgp-ps-name">{{ c.label }}</span>
+                  <!-- Hot: fire SVG -->
+                  <template v-if="c.key==='hot'">
+                    <svg class="pgp-ps-cat-icon" viewBox="0 0 20 22" fill="none" xmlns="http://www.w3.org/2000/svg">
+                      <defs>
+                        <linearGradient id="fg1" x1="10" y1="22" x2="10" y2="0" gradientUnits="userSpaceOnUse">
+                          <stop offset="0%" stop-color="#ef4444"/>
+                          <stop offset="55%" stop-color="#f97316"/>
+                          <stop offset="100%" stop-color="#fbbf24"/>
+                        </linearGradient>
+                      </defs>
+                      <path d="M10 0.5C10 0.5 7.5 5 7.5 9C7.5 9 5.5 7 5.5 5C5.5 5 2.5 8.5 2.5 12.5C2.5 17 6 21 10 21C14 21 17.5 17 17.5 12.5C17.5 9.5 15.5 7 13.5 5C13.5 7 12.5 9 10.5 10C10.5 10 11 5.5 10 0.5Z" fill="url(#fg1)"/>
+                      <path d="M10 13C10 13 8.5 12.2 8.5 10.5C8.5 10.5 7.5 11.5 7.5 13C7.5 14.4 8.6 15.5 10 15.5C11.4 15.5 12.5 14.4 12.5 13C12.5 11.5 11 10.5 11 10.5C11 12 10 13 10 13Z" fill="#fef08a"/>
+                    </svg>
+                  </template>
+                  <!-- Others: image with fallback -->
+                  <template v-else>
+                    <div class="pgp-ps-cat-icon pgp-ps-cat-icon--img">
+                      <img :src="c.img" :alt="c.label" class="pgp-ps-cat-img"
+                        @error="e=>e.target.style.display='none'" loading="lazy"/>
+                    </div>
+                  </template>
+                  <span class="pgp-ps-cat-label">{{ c.label }}</span>
                 </button>
               </div>
 
               <div class="pgp-ps-divider"></div>
 
-              <!-- Row 3: Filters (2 cards) -->
+              <!-- Row 3: Filters (2 wide cards) — horizontal icon+label -->
               <div class="pgp-ps-grid2">
                 <button v-for="f in pickerFilters" :key="f.id"
-                  :class="['pgp-ps-card', 'pgp-ps-card--wide', activeTab===f.id && 'pgp-ps-card--on']"
+                  :class="['pgp-ps-card', 'pgp-ps-card--filter', activeTab===f.id && 'pgp-ps-card--on']"
                   @click="pickFilter(f.id)">
-                  <span class="pgp-ps-emoji pgp-ps-emoji--sm">{{ f.emoji }}</span>
-                  <span class="pgp-ps-name">{{ f.label }}</span>
+                  <!-- Star SVG for popular -->
+                  <template v-if="f.id==='popular'">
+                    <svg class="pgp-ps-filter-icon" viewBox="0 0 20 20" fill="none">
+                      <path d="M10 2l2.39 4.84L18 7.64l-4 3.9.94 5.5L10 14.4l-4.94 2.64.94-5.5-4-3.9 5.61-.8L10 2z" fill="#f5c842" stroke="#f5c842" stroke-width="0.5" stroke-linejoin="round"/>
+                    </svg>
+                  </template>
+                  <!-- Grid SVG for all -->
+                  <template v-else>
+                    <svg class="pgp-ps-filter-icon" viewBox="0 0 20 20" fill="none" stroke="rgba(255,255,255,0.75)" stroke-width="1.6">
+                      <rect x="2" y="2" width="7" height="7" rx="1.5"/><rect x="11" y="2" width="7" height="7" rx="1.5"/>
+                      <rect x="2" y="11" width="7" height="7" rx="1.5"/><rect x="11" y="11" width="7" height="7" rx="1.5"/>
+                    </svg>
+                  </template>
+                  <span class="pgp-ps-filter-label">{{ f.label }}</span>
                 </button>
               </div>
 
@@ -216,16 +248,16 @@ const currentProv = computed(() => sidebarProvs.find(p => p.key === activeSidePr
 
 // ── Picker Categories ──
 const pickerCats = [
-  { key:'hot',     emoji:'🔥', label:'Hot' },
-  { key:'arcade',  emoji:'🕹️', label:'Arcade' },
-  { key:'live',    emoji:'🎰', label:'Live Casino' },
-  { key:'fishing', emoji:'🐟', label:'ငါးဖမ်း' },
+  { key:'hot',     img: null, label:'Hot' },
+  { key:'arcade',  img: 'https://ik.imagekit.io/rbok01qam/Cactheory%20imag/6852101165dd4643a1ec3adee41f5913.jpg?tr=f-auto', label:'Arcade' },
+  { key:'live',    img: 'https://ik.imagekit.io/tdpebgueq/Provider%20label%20icons%20/Screenshot_2026-06-04-01-03-25-338_mark.via.gp_1780511848574edit.jpg?tr=f-auto', label:'Live Casino' },
+  { key:'fishing', img: 'https://ik.imagekit.io/tdpebgueq/Provider%20label%20icons%20/Screenshot_2026-06-04-01-02-57-533_mark.via.gp_1780511863896edit.jpg?tr=f-auto', label:'ငါးဖမ်း' },
 ]
 
 // ── Picker Filters ──
 const pickerFilters = [
-  { id:'popular', emoji:'⭐', label:'လူကြိုက်များ' },
-  { id:'all',     emoji:'🎮', label:'အားလုံး' },
+  { id:'popular', label:'လူကြိုက်များ' },
+  { id:'all',     label:'အားလုံး' },
 ]
 
 // ── Tabs ──
@@ -372,80 +404,110 @@ const pageNums = computed(() => {
 /* ── Provider Picker Overlay ── */
 .pgp-picker-overlay {
   position: absolute; inset: 0; z-index: 50;
-  background: rgba(10,8,30,0.72);
+  background: rgba(8,6,26,0.78);
   display: flex; flex-direction: column; align-items: stretch;
 }
 .pgp-picker-sheet {
-  background: #1e2060; border-bottom: 1px solid rgba(255,255,255,0.1);
-  padding: 14px 12px 16px;
+  background: #171a4e;
+  border-bottom: 1px solid rgba(255,255,255,0.08);
+  padding: 12px 10px 14px;
   margin-top: calc(57px + env(safe-area-inset-top, 0px));
-  border-radius: 0 0 20px 20px;
-  box-shadow: 0 10px 40px rgba(0,0,0,0.55);
+  border-radius: 0 0 18px 18px;
+  box-shadow: 0 6px 28px rgba(0,0,0,0.6);
 }
 
 /* Section label */
 .pgp-ps-section-label {
-  font-size: 9px; font-weight: 800; color: rgba(255,255,255,0.38);
-  text-transform: uppercase; letter-spacing: 0.1em;
-  margin-bottom: 7px;
+  font-size: 8.5px; font-weight: 800; color: rgba(255,255,255,0.32);
+  text-transform: uppercase; letter-spacing: 0.12em; margin-bottom: 6px;
 }
 
 /* 4-column grid */
 .pgp-ps-grid4 {
-  display: grid; grid-template-columns: repeat(4,1fr); gap: 6px;
-  margin-bottom: 4px;
+  display: grid; grid-template-columns: repeat(4,1fr); gap: 5px;
+  margin-bottom: 2px;
 }
 
 /* 2-column grid */
 .pgp-ps-grid2 {
-  display: grid; grid-template-columns: repeat(2,1fr); gap: 6px;
+  display: grid; grid-template-columns: repeat(2,1fr); gap: 5px;
 }
 
-/* Base card */
+/* Base card — solid layered, NO glass */
 .pgp-ps-card {
-  display: flex; flex-direction: column; align-items: center; justify-content: center;
-  gap: 4px; padding: 8px 4px 7px; border-radius: 11px;
-  background: rgba(255,255,255,0.06); border: 1.5px solid rgba(255,255,255,0.09);
+  display: flex; align-items: center; justify-content: center;
+  border-radius: 10px;
+  background: #1c2060;
+  border: 1.5px solid rgba(255,255,255,0.09);
   cursor: pointer; -webkit-tap-highlight-color: transparent;
-  transition: all 0.15s; min-height: 58px;
+  transition: all 0.14s;
 }
-.pgp-ps-card:active { transform: scale(0.94); opacity: 0.85; }
+.pgp-ps-card:active { transform: scale(0.93); }
+
+/* Active state */
 .pgp-ps-card--on {
-  background: rgba(245,200,66,0.14); border-color: rgba(245,200,66,0.6);
-  box-shadow: 0 0 0 1px rgba(245,200,66,0.25);
+  background: rgba(245,200,66,0.14);
+  border-color: rgba(245,200,66,0.7);
+  box-shadow: inset 0 0 0 1px rgba(245,200,66,0.2);
 }
 
-/* Wide card (2-col filter row) */
-.pgp-ps-card--wide {
-  flex-direction: row; gap: 7px; padding: 11px 10px; min-height: 42px;
+/* ── Provider card (vertical) ── */
+.pgp-ps-card--prov {
+  flex-direction: column; gap: 3px;
+  padding: 7px 3px 6px; min-height: 54px;
 }
-
-/* Provider logo */
 .pgp-ps-prov-logo {
-  height: 20px; width: auto; max-width: 54px; object-fit: contain;
+  height: 18px; width: auto; max-width: 52px; object-fit: contain;
 }
-
-/* Emoji */
-.pgp-ps-emoji { font-size: 20px; line-height: 1; }
-.pgp-ps-emoji--sm { font-size: 16px; }
-
-/* Card name */
 .pgp-ps-name {
-  font-size: 9.5px; font-weight: 800; color: rgba(255,255,255,0.78);
-  letter-spacing: 0.02em; text-align: center; line-height: 1.25;
+  font-size: 9px; font-weight: 800; color: rgba(255,255,255,0.8);
+  letter-spacing: 0.03em; text-align: center; line-height: 1;
 }
 .pgp-ps-card--on .pgp-ps-name { color: #f5c842; }
-
-/* Game count */
 .pgp-ps-count {
-  font-size: 8px; font-weight: 600; color: rgba(255,255,255,0.35);
+  font-size: 7.5px; font-weight: 600; color: rgba(255,255,255,0.32);
 }
-.pgp-ps-card--on .pgp-ps-count { color: rgba(245,200,66,0.65); }
+.pgp-ps-card--on .pgp-ps-count { color: rgba(245,200,66,0.6); }
+
+/* ── Category card (vertical with larger icon) ── */
+.pgp-ps-card--cat {
+  flex-direction: column; gap: 4px;
+  padding: 7px 3px 6px; min-height: 58px;
+}
+.pgp-ps-cat-icon {
+  width: 26px; height: 26px; flex-shrink: 0;
+}
+.pgp-ps-cat-icon--img {
+  border-radius: 6px; overflow: hidden;
+}
+.pgp-ps-cat-img {
+  width: 100%; height: 100%; object-fit: cover; display: block;
+}
+.pgp-ps-cat-label {
+  font-size: 8px; font-weight: 800; color: rgba(255,255,255,0.78);
+  text-align: center; line-height: 1.2; letter-spacing: 0.02em;
+}
+.pgp-ps-card--cat.pgp-ps-card--on .pgp-ps-cat-label { color: #f5c842; }
+
+/* ── Filter card (horizontal) ── */
+.pgp-ps-card--filter {
+  flex-direction: row; gap: 6px;
+  padding: 10px 10px; min-height: 38px;
+}
+.pgp-ps-filter-icon {
+  width: 16px; height: 16px; flex-shrink: 0;
+}
+.pgp-ps-filter-label {
+  font-size: 10px; font-weight: 800; color: rgba(255,255,255,0.78);
+  letter-spacing: 0.02em;
+}
+.pgp-ps-card--filter.pgp-ps-card--on .pgp-ps-filter-label { color: #f5c842; }
+.pgp-ps-card--filter.pgp-ps-card--on .pgp-ps-filter-icon path { fill: #f5c842; }
 
 /* Divider */
 .pgp-ps-divider {
-  height: 1px; background: rgba(255,255,255,0.07);
-  margin: 10px 0 9px;
+  height: 1px; background: rgba(255,255,255,0.06);
+  margin: 9px 0 8px;
 }
 
 /* ── Picker animation ── */
