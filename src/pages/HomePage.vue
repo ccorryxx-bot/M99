@@ -1094,7 +1094,7 @@
 
   /* ── GAME CARDS ── */
   .nova-game-card { border-radius:14px; overflow:hidden; cursor:pointer; background:transparent; border:none; box-shadow:none; will-change:transform; transform:translateZ(0); transition:transform 0.15s ease; -webkit-tap-highlight-color:transparent; contain:layout style; }
-  .nova-game-card img { filter: saturate(1.18) contrast(1.05); }
+  .nova-game-card img { filter: saturate(1.42) contrast(1.06); }
 .nova-game-card:active { transform:translateZ(0); }
 .nova-game-card:hover { transform:translateY(-2px) scale(1.02) translateZ(0); }
   .nova-badge { position:absolute; font-size:7px; font-weight:900; border-radius:5px; padding:2px 4px; }
