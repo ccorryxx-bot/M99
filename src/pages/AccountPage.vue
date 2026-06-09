@@ -228,61 +228,61 @@
           <!-- Section: Basic Info -->
           <div class="prf-section-label">ပုံသေမြဲသျက်ကို အချက်အလက်</div>
 
-          <!-- Username field (readonly dropdown) -->
-          <div class="prf-field" @click="dropOpen=!dropOpen" :style="dropOpen?'border-radius:10px 10px 0 0;border-color:rgba(255,255,255,0.2);':''">
-            <svg width="16" height="16" fill="none" stroke="rgba(255,255,255,0.5)" stroke-width="2" viewBox="0 0 24 24" style="flex-shrink:0;"><path stroke-linecap="round" stroke-linejoin="round" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/></svg>
+          <!-- Username field -->
+          <div class="prf-field" @click="dropOpen=!dropOpen" :style="dropOpen?'border-radius:8px 8px 0 0;border-color:rgba(255,255,255,0.2);':''">
+            <svg width="13" height="13" fill="none" stroke="rgba(255,255,255,0.5)" stroke-width="2" viewBox="0 0 24 24" style="flex-shrink:0;"><path stroke-linecap="round" stroke-linejoin="round" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/></svg>
             <span class="prf-field-val">{{ username }}</span>
-            <svg width="14" height="14" fill="none" stroke="rgba(255,255,255,0.35)" stroke-width="2" viewBox="0 0 24 24" style="flex-shrink:0;transition:transform 0.2s;" :style="dropOpen?'transform:rotate(180deg);':''"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg>
+            <svg width="12" height="12" fill="none" stroke="rgba(255,255,255,0.35)" stroke-width="2" viewBox="0 0 24 24" style="flex-shrink:0;transition:transform 0.2s;" :style="dropOpen?'transform:rotate(180deg);':''"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg>
           </div>
           <Transition name="drop">
             <div v-if="dropOpen" class="prf-drop-panel">
               <div class="prf-drop-item">
-                <svg width="14" height="14" fill="none" stroke="#4ade80" stroke-width="2" viewBox="0 0 24 24" style="flex-shrink:0;"><path stroke-linecap="round" stroke-linejoin="round" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/></svg>
+                <svg width="13" height="13" fill="none" stroke="#4ade80" stroke-width="2" viewBox="0 0 24 24" style="flex-shrink:0;"><path stroke-linecap="round" stroke-linejoin="round" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/></svg>
                 <span>{{ username }}</span>
               </div>
             </div>
           </Transition>
 
-          <!-- Phone field (masked, readonly) -->
-          <div class="prf-section-label" style="margin-top:12px;">မိုဘိုင်းနံပါတ်ကို ချိတ်ပါ။</div>
+          <!-- Phone -->
+          <div class="prf-section-label" style="margin-top:7px;">မိုဘိုင်းနံပါတ်ကို ချိတ်ပါ။</div>
           <div class="prf-field prf-field--readonly">
-            <svg width="16" height="16" fill="none" stroke="rgba(255,255,255,0.5)" stroke-width="2" viewBox="0 0 24 24" style="flex-shrink:0;"><rect x="5" y="2" width="14" height="20" rx="2"/><circle cx="12" cy="17" r="1" fill="rgba(255,255,255,0.5)"/></svg>
+            <svg width="13" height="13" fill="none" stroke="rgba(255,255,255,0.5)" stroke-width="2" viewBox="0 0 24 24" style="flex-shrink:0;"><rect x="5" y="2" width="14" height="20" rx="2"/><circle cx="12" cy="17" r="1" fill="rgba(255,255,255,0.5)"/></svg>
             <span class="prf-field-val">{{ maskedPhone }}</span>
           </div>
 
-          <!-- Section: Social accounts -->
-          <div class="prf-section-label" style="margin-top:12px;">တချိုး အကောင့်များ ချိတ်ဆက်ပါ</div>
+          <!-- Social accounts -->
+          <div class="prf-section-label" style="margin-top:7px;">တချိုး အကောင့်များ ချိတ်ဆက်ပါ</div>
 
           <!-- WhatsApp -->
           <div class="prf-social-field">
-            <div class="prf-social-icon prf-social-icon--wa">
-              <svg width="17" height="17" fill="white" viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+            <div class="prf-social-icon">
+              <img src="https://ik.imagekit.io/tdpebgueq/Agent_Tap_icons/89dc6e632241379c113adf1bb70ecdb3.jpg?tr=f-auto" class="prf-social-img" alt="WA" @error="e=>e.target.style.display='none'" />
             </div>
             <input v-model="whatsappId" class="prf-social-input" placeholder="သင်၏ WhatsApp ID ကိုထည့်ပါ" />
           </div>
 
           <!-- Facebook -->
           <div class="prf-social-field">
-            <div class="prf-social-icon prf-social-icon--fb">
-              <svg width="17" height="17" fill="white" viewBox="0 0 24 24"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>
+            <div class="prf-social-icon">
+              <img src="https://ik.imagekit.io/tdpebgueq/Agent_Tap_icons/5bb0f73a7b3e0f976acad614a42e5040.jpg?tr=f-auto" class="prf-social-img" alt="FB" @error="e=>e.target.style.display='none'" />
             </div>
             <input v-model="facebookId" class="prf-social-input" placeholder="သင်၏ Facebook ID ကိုထည့်ပါ" />
           </div>
 
           <!-- Telegram -->
           <div class="prf-social-field">
-            <div class="prf-social-icon prf-social-icon--tg">
-              <svg width="17" height="17" fill="white" viewBox="0 0 24 24"><path d="M11.944 0A12 12 0 0 0 0 12a12 12 0 0 0 12 12 12 12 0 0 0 12-12A12 12 0 0 0 12 0a12 12 0 0 0-.056 0zm4.962 7.224c.1-.002.321.023.465.14a.506.506 0 0 1 .171.325c.016.093.036.306.02.472-.18 1.898-.962 6.502-1.36 8.627-.168.9-.499 1.201-.82 1.23-.696.065-1.225-.46-1.9-.902-1.056-.693-1.653-1.124-2.678-1.8-1.185-.78-.417-1.21.258-1.91.177-.184 3.247-2.977 3.307-3.23.007-.032.014-.15-.056-.212s-.174-.041-.249-.024c-.106.024-1.793 1.14-5.061 3.345-.48.33-.913.49-1.302.48-.428-.008-1.252-.241-1.865-.44-.752-.245-1.349-.374-1.297-.789.027-.216.325-.437.893-.663 3.498-1.524 5.83-2.529 6.998-3.014 3.332-1.386 4.025-1.627 4.476-1.635z"/></svg>
+            <div class="prf-social-icon">
+              <img src="https://ik.imagekit.io/tdpebgueq/icons/telegram_logo_QeWRW9-okP.png?tr=f-auto" class="prf-social-img" alt="TG" @error="e=>e.target.style.display='none'" />
             </div>
             <input v-model="telegramId" class="prf-social-input" placeholder="သင်၏ Telegram ID ကိုထည့်ပါ" />
           </div>
 
           <!-- Birthday -->
-          <div class="prf-section-label" style="margin-top:12px;">မွေးနေ့ (သတ်မှတ်ပြီးနောက် ပြင်မရ)</div>
-          <div class="prf-field prf-field--select" @click="showBirthPicker=!showBirthPicker" :style="showBirthPicker?'border-radius:10px 10px 0 0;border-color:rgba(255,255,255,0.2);':''">
-            <svg width="16" height="16" fill="none" stroke="rgba(255,255,255,0.5)" stroke-width="2" viewBox="0 0 24 24" style="flex-shrink:0;"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg>
+          <div class="prf-section-label" style="margin-top:7px;">မွေးနေ့ (သတ်မှတ်ပြီးနောက် ပြင်မရ)</div>
+          <div class="prf-field prf-field--select" @click="showBirthPicker=!showBirthPicker" :style="showBirthPicker?'border-radius:8px 8px 0 0;border-color:rgba(255,255,255,0.2);':''">
+            <svg width="13" height="13" fill="none" stroke="rgba(255,255,255,0.5)" stroke-width="2" viewBox="0 0 24 24" style="flex-shrink:0;"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg>
             <span class="prf-field-val" :style="birthDisplay?'':'color:rgba(255,255,255,0.3);'">{{ birthDisplay || 'ရက် လ နှစ်' }}</span>
-            <svg width="14" height="14" fill="none" stroke="rgba(255,255,255,0.35)" stroke-width="2" viewBox="0 0 24 24" style="flex-shrink:0;transition:transform 0.2s;" :style="showBirthPicker?'transform:rotate(180deg);':''"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg>
+            <svg width="12" height="12" fill="none" stroke="rgba(255,255,255,0.35)" stroke-width="2" viewBox="0 0 24 24" style="flex-shrink:0;transition:transform 0.2s;" :style="showBirthPicker?'transform:rotate(180deg);':''"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg>
           </div>
           <Transition name="drop">
             <div v-if="showBirthPicker" class="prf-birth-picker">
@@ -324,6 +324,7 @@
             {{ profileSaving ? 'သိမ်းနေ...' : 'အတည်ပြုရန်' }}
           </button>
         </div>
+        <div style="height:env(safe-area-inset-bottom,10px);background:#07091b;min-height:10px;"></div>
       </div>
     </Transition>
 
@@ -1926,158 +1927,155 @@ const filteredProviders = computed(() => {
 .toast-enter-from, .toast-leave-to { opacity: 0; transform: translateX(-50%) translateY(12px); }
 
 /* ══════════════════════════════════════════════
-   PROFILE PAGE STYLES
+   PROFILE PAGE STYLES — compact
    ══════════════════════════════════════════════ */
 .prf-root { background: #07091b; display: flex; flex-direction: column; }
 
 .prf-body {
-  flex: 1; overflow-y: auto; padding: 16px 16px 8px;
+  flex: 1; overflow-y: auto; padding: 10px 12px 4px;
   -webkit-overflow-scrolling: touch;
 }
 
 /* Avatar row */
 .prf-av-row {
-  display: flex; align-items: center; gap: 14px;
-  padding-bottom: 18px;
+  display: flex; align-items: center; gap: 10px;
+  padding-bottom: 10px;
   border-bottom: 1px solid rgba(255,255,255,0.07);
-  margin-bottom: 16px;
+  margin-bottom: 9px;
 }
 .prf-av-img {
-  width: 72px; height: 72px; border-radius: 14px;
-  object-fit: cover; border: 1.5px solid rgba(255,255,255,0.18);
+  width: 58px; height: 58px; border-radius: 11px;
+  object-fit: cover; border: 1.5px solid rgba(255,255,255,0.15);
 }
 .prf-vip-badge {
-  position: absolute; bottom: -6px; left: -4px;
-  padding: 1px 6px; border-radius: 5px;
-  font-size: 8px; font-weight: 900; color: #fff; line-height: 1.6;
+  position: absolute; bottom: -5px; left: -3px;
+  padding: 1px 5px; border-radius: 4px;
+  font-size: 7.5px; font-weight: 900; color: #fff; line-height: 1.5;
 }
 .prf-av-overlay {
-  position: absolute; inset: 0; border-radius: 12px;
+  position: absolute; inset: 0; border-radius: 10px;
   background: rgba(0,0,0,0.28);
   display: flex; align-items: center; justify-content: center;
 }
 .prf-id-col { flex: 1; min-width: 0; }
 .prf-id-row {
-  display: flex; align-items: center; gap: 7px; margin-bottom: 7px;
+  display: flex; align-items: center; gap: 5px; margin-bottom: 4px;
 }
 .prf-id-text {
-  font-size: 13px; font-weight: 800; color: #4ade80; font-family: monospace; letter-spacing: 0.02em;
+  font-size: 12px; font-weight: 800; color: #4ade80; font-family: monospace;
 }
 .prf-copy-btn {
-  background: rgba(74,222,128,0.12); border: 1px solid rgba(74,222,128,0.28);
-  border-radius: 5px; padding: 3px 7px; color: #4ade80;
+  background: rgba(74,222,128,0.1); border: 1px solid rgba(74,222,128,0.25);
+  border-radius: 4px; padding: 2px 6px; color: #4ade80;
   cursor: pointer; display: flex; align-items: center;
   -webkit-tap-highlight-color: transparent;
 }
-.prf-name-row {
-  display: flex; align-items: center; gap: 5px;
-}
-.prf-name-text {
-  font-size: 12.5px; color: rgba(255,255,255,0.6);
-}
+.prf-name-row { display: flex; align-items: center; gap: 4px; }
+.prf-name-text { font-size: 11.5px; color: rgba(255,255,255,0.58); }
 
 /* Section label */
 .prf-section-label {
-  font-size: 10.5px; color: rgba(255,255,255,0.42);
-  margin-bottom: 7px; letter-spacing: 0.04em; font-weight: 600;
+  font-size: 9.5px; color: rgba(255,255,255,0.4);
+  margin-bottom: 4px; letter-spacing: 0.04em; font-weight: 600;
 }
 
 /* Standard field row */
 .prf-field {
-  display: flex; align-items: center; gap: 10px;
+  display: flex; align-items: center; gap: 8px;
   background: rgba(255,255,255,0.06);
-  border: 1px solid rgba(255,255,255,0.12);
-  border-radius: 10px; padding: 13px 14px;
-  margin-bottom: 6px; cursor: pointer;
+  border: 1px solid rgba(255,255,255,0.11);
+  border-radius: 8px; padding: 9px 11px;
+  margin-bottom: 4px; cursor: pointer;
   transition: border-color 0.15s;
   -webkit-tap-highlight-color: transparent;
 }
 .prf-field--readonly { cursor: default; }
 .prf-field-val {
-  flex: 1; font-size: 13px; color: rgba(255,255,255,0.85); font-weight: 500;
+  flex: 1; font-size: 12px; color: rgba(255,255,255,0.85); font-weight: 500;
 }
 
-/* Username dropdown panel */
+/* Dropdown panel */
 .prf-drop-panel {
   background: rgba(255,255,255,0.04);
-  border: 1px solid rgba(255,255,255,0.12);
-  border-top: none; border-radius: 0 0 10px 10px;
-  overflow: hidden; margin-bottom: 6px;
+  border: 1px solid rgba(255,255,255,0.11);
+  border-top: none; border-radius: 0 0 8px 8px;
+  overflow: hidden; margin-bottom: 4px;
 }
 .prf-drop-item {
-  display: flex; align-items: center; gap: 10px;
-  padding: 12px 14px; font-size: 13px; color: rgba(255,255,255,0.82);
+  display: flex; align-items: center; gap: 8px;
+  padding: 9px 11px; font-size: 12px; color: rgba(255,255,255,0.8);
 }
 
 /* Social fields */
 .prf-social-field {
-  display: flex; align-items: center; gap: 0;
+  display: flex; align-items: center;
   background: rgba(255,255,255,0.06);
-  border: 1px solid rgba(255,255,255,0.12);
-  border-radius: 10px; margin-bottom: 7px; overflow: hidden;
+  border: 1px solid rgba(255,255,255,0.11);
+  border-radius: 8px; margin-bottom: 4px; overflow: hidden;
 }
 .prf-social-icon {
-  width: 46px; height: 46px; flex-shrink: 0;
+  width: 38px; height: 38px; flex-shrink: 0;
   display: flex; align-items: center; justify-content: center;
+  overflow: hidden;
 }
-.prf-social-icon--wa { background: #25d366; }
-.prf-social-icon--fb { background: #1877f2; }
-.prf-social-icon--tg { background: #229ed9; }
+.prf-social-img {
+  width: 38px; height: 38px; object-fit: cover; display: block;
+}
 .prf-social-input {
   flex: 1; background: transparent; border: none; outline: none;
-  padding: 13px 14px; font-size: 13px;
+  padding: 9px 11px; font-size: 12px;
   color: rgba(255,255,255,0.85); font-family: system-ui, sans-serif;
 }
-.prf-social-input::placeholder { color: rgba(255,255,255,0.28); }
+.prf-social-input::placeholder { color: rgba(255,255,255,0.28); font-size: 11.5px; }
 
 /* Birthday picker */
 .prf-birth-picker {
   background: rgba(255,255,255,0.05);
-  border: 1px solid rgba(255,255,255,0.12);
-  border-top: none; border-radius: 0 0 10px 10px;
-  padding: 12px 14px; margin-bottom: 7px;
+  border: 1px solid rgba(255,255,255,0.11);
+  border-top: none; border-radius: 0 0 8px 8px;
+  padding: 8px 10px; margin-bottom: 4px;
 }
-.prf-birth-cols { display: flex; gap: 10px; }
+.prf-birth-cols { display: flex; gap: 7px; }
 .prf-birth-col { flex: 1; }
 .prf-birth-col-label {
-  font-size: 10px; color: rgba(255,255,255,0.38);
-  margin-bottom: 5px; text-align: center;
+  font-size: 9px; color: rgba(255,255,255,0.36);
+  margin-bottom: 3px; text-align: center;
 }
 .prf-birth-select {
-  width: 100%; background: rgba(255,255,255,0.09);
-  border: 1px solid rgba(255,255,255,0.15); border-radius: 8px;
-  padding: 9px 4px; color: #fff; font-size: 13px;
+  width: 100%; background: rgba(255,255,255,0.08);
+  border: 1px solid rgba(255,255,255,0.13); border-radius: 7px;
+  padding: 7px 3px; color: #fff; font-size: 12px;
   outline: none; cursor: pointer; text-align: center;
   -webkit-appearance: none; appearance: none;
 }
 
 /* Age warning */
 .prf-age-warn {
-  font-size: 10.5px; color: rgba(255,120,80,0.9);
-  line-height: 1.55; margin: 10px 0 24px; font-weight: 500;
+  font-size: 9.5px; color: rgba(255,100,70,0.88);
+  line-height: 1.5; margin: 6px 0 8px; font-weight: 500;
 }
 
 /* Footer buttons */
 .prf-footer {
-  display: flex; gap: 10px; padding: 12px 16px;
+  display: flex; gap: 8px; padding: 8px 12px;
   border-top: 1px solid rgba(255,255,255,0.07);
   background: #07091b; flex-shrink: 0;
 }
 .prf-btn-back {
-  flex: 1; height: 46px; border-radius: 10px;
+  flex: 1; height: 40px; border-radius: 9px;
   background: rgba(255,255,255,0.07);
-  border: 1px solid rgba(255,255,255,0.14);
-  color: rgba(255,255,255,0.8); font-size: 13px; font-weight: 700;
+  border: 1px solid rgba(255,255,255,0.13);
+  color: rgba(255,255,255,0.78); font-size: 12.5px; font-weight: 700;
   cursor: pointer; -webkit-tap-highlight-color: transparent;
 }
 .prf-btn-save {
-  flex: 1.5; height: 46px; border-radius: 10px;
+  flex: 1.5; height: 40px; border-radius: 9px;
   background: linear-gradient(135deg, #f0b429 0%, #d97706 100%);
-  border: none; color: #1a1440; font-size: 13px; font-weight: 800;
+  border: none; color: #1a1440; font-size: 12.5px; font-weight: 800;
   cursor: pointer; -webkit-tap-highlight-color: transparent;
-  box-shadow: 0 3px 14px rgba(240,180,41,0.32);
+  box-shadow: 0 2px 10px rgba(240,180,41,0.28);
   transition: opacity 0.15s;
 }
 .prf-btn-save:disabled { opacity: 0.55; cursor: not-allowed; }
-.prf-btn-save:active:not(:disabled) { opacity: 0.85; }
+.prf-btn-save:active:not(:disabled) { opacity: 0.82; }
 </style>
