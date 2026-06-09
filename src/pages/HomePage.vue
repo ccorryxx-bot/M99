@@ -1233,7 +1233,7 @@
 
   .nova-social-float { cursor:pointer;-webkit-tap-highlight-color:transparent; }
   .nova-social-float:active { opacity:0.7;transform:scale(0.92); }
-  .nova-social-img { width:58px;height:58px;border-radius:16px;object-fit:cover;display:block;box-shadow:0 4px 18px rgba(0,0,0,0.5); }
+  .nova-social-img { width:58px;height:58px;border-radius:16px;object-fit:cover;display:block; }
   .nova-social-svg-fb { width:58px;height:58px;border-radius:16px;display:flex;align-items:center;justify-content:center;box-shadow:0 4px 18px rgba(0,0,0,0.4); }
 
   .nova-license-slot { border-radius:12px;background:rgba(255,255,255,0.04);display:flex;align-items:center;justify-content:center;padding:10px 8px;min-height:54px; }
