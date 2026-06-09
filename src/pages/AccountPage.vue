@@ -189,7 +189,7 @@
          PROFILE FULL-SCREEN SLIDE-IN
          ══════════════════════════════════════════════ -->
     <Transition name="pg">
-      <div v-if="showProfile" class="fullpage" style="background:#13152c;">
+      <div v-if="showProfile" class="fullpage" style="background:#07091b;">
         <div class="fp-header">
           <button @click="showProfile = false" class="icon-btn">
             <svg width="18" height="18" fill="none" stroke="rgba(255,255,255,0.85)" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7"/></svg>
@@ -238,7 +238,7 @@
 
     <!-- Avatar picker -->
     <Transition name="pg">
-      <div v-if="showPicker" class="fullpage" style="background:#0f1128;">
+      <div v-if="showPicker" class="fullpage" style="background:#07091b;">
         <div class="fp-header">
           <button @click="showPicker = false" class="icon-btn"><svg width="18" height="18" fill="none" stroke="rgba(255,255,255,0.85)" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7"/></svg></button>
           <span class="fp-title">Avatar ရွေးချယ်ရန်</span>
@@ -382,7 +382,7 @@ const comingSoon = () => {}
    ═══════════════════════════════ */
 .acc-root {
   min-height: 100vh;
-  background: linear-gradient(160deg, #242880 0%, #3a41c8 45%, #2c3096 100%);
+  background: #07091b;
   display: flex; flex-direction: column;
   color: rgba(255,255,255,0.95);
   font-family: system-ui, sans-serif;
