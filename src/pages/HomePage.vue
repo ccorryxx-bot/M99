@@ -21,7 +21,7 @@
       </div>
 
       <!-- ══ BANNER ══ -->
-      <div style="position:relative;overflow:hidden;aspect-ratio:2.2/1;background:#252870;">
+      <div style="position:relative;overflow:hidden;aspect-ratio:2.2/1;background:#0c0e2a;">
         <div style="display:flex;transition:transform 0.42s cubic-bezier(0.25,0.46,0.45,0.94);will-change:transform;"
           :style="{ transform: 'translateX(-' + (bannerIdx*100) + '%)' }"
           @touchstart="onBannerTouchStart" @touchmove.prevent="onBannerTouchMove" @touchend="onBannerTouchEnd">
@@ -38,7 +38,7 @@
       </div>
 
       <!-- ══ MARQUEE ══ -->
-      <div class="nova-marquee-bar" style="display:flex;align-items:center;background:rgba(45,51,117,0.92);border-top:1px solid rgba(34,197,94,0.1);border-bottom:1px solid rgba(34,197,94,0.1);padding:7px 12px;gap:8px;overflow:hidden;">
+      <div class="nova-marquee-bar" style="display:flex;align-items:center;background:rgba(6,8,24,0.96);border-top:1px solid rgba(34,197,94,0.25);border-bottom:1px solid rgba(34,197,94,0.25);padding:7px 12px;gap:8px;overflow:hidden;">
         <!-- Modern animated bell -->
         <div class="nova-bell-wrap" style="flex-shrink:0;">
           <svg class="nova-bell-svg" width="19" height="19" viewBox="0 0 24 24" fill="none">
@@ -279,9 +279,9 @@
           <div v-else style="display:grid;grid-template-columns:repeat(3,1fr);gap:10px;">
             <div v-for="(game,idx) in filteredGames" :key="game.id"
               class="nova-game-card" @click="openGame(game)">
-              <div style="position:relative;aspect-ratio:3/4;overflow:hidden;background:#2e3375;">
+              <div style="position:relative;aspect-ratio:3/4;overflow:hidden;background:#0e1030;">
                 <img :src="game.image_url" alt="" @error="e=>e.target.style.display='none'" style="width:100%;height:100%;object-fit:cover;display:block;" loading="lazy"/>
-                <div style="position:absolute;inset:0;background:linear-gradient(to top,rgba(6,8,18,0.95) 0%,rgba(6,8,18,0.3) 40%,transparent 100%);"></div>
+                <div style="position:absolute;inset:0;background:linear-gradient(to top,rgba(6,8,18,0.85) 0%,rgba(6,8,18,0.2) 40%,transparent 100%);"></div>
                 <div v-if="idx%5<2" class="nova-badge nova-badge--hot">HOT</div>
                 <div class="nova-badge nova-badge--provider">{{ game.provider_code?.toUpperCase() }}</div>
                 <div style="position:absolute;bottom:0;left:0;right:0;padding:4px 5px 5px;">
@@ -370,7 +370,7 @@
             <div style="position:relative;aspect-ratio:3/4;overflow:hidden;background:#0c2a3a;">
               <img :src="game.image_url" alt="" @error="e=>e.target.style.display='none'"
                 style="width:100%;height:100%;object-fit:cover;display:block;" loading="lazy"/>
-              <div style="position:absolute;inset:0;background:linear-gradient(to top,rgba(4,16,32,0.92) 0%,rgba(4,16,32,0.2) 40%,transparent 100%);"></div>
+              <div style="position:absolute;inset:0;background:linear-gradient(to top,rgba(4,16,32,0.82) 0%,rgba(4,16,32,0.12) 40%,transparent 100%);"></div>
               <div class="nova-badge nova-badge--provider">{{ game.provider_code?.toUpperCase() }}</div>
               <div style="position:absolute;bottom:0;left:0;right:0;padding:4px 5px 5px;">
                 <div style="font-size:9px;font-weight:700;color:rgba(255,255,255,0.9);overflow:hidden;text-overflow:ellipsis;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;line-height:1.3;">{{ game.game_name }}</div>
@@ -402,7 +402,7 @@
             <div style="position:relative;aspect-ratio:3/4;overflow:hidden;background:#1a0a2e;">
               <img :src="game.image_url" alt="" @error="e=>e.target.style.display='none'"
                 style="width:100%;height:100%;object-fit:cover;display:block;" loading="lazy"/>
-              <div style="position:absolute;inset:0;background:linear-gradient(to top,rgba(20,4,40,0.92) 0%,rgba(20,4,40,0.2) 40%,transparent 100%);"></div>
+              <div style="position:absolute;inset:0;background:linear-gradient(to top,rgba(20,4,40,0.82) 0%,rgba(20,4,40,0.12) 40%,transparent 100%);"></div>
               <div class="nova-badge nova-badge--live">{{ game.category==='live'?'LIVE':'ARC' }}</div>
               <div class="nova-badge nova-badge--provider">{{ game.provider_code?.toUpperCase() }}</div>
               <div style="position:absolute;bottom:0;left:0;right:0;padding:4px 5px 5px;">
@@ -935,11 +935,11 @@
   <style scoped>
   @import url('https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@300;600&display=swap');
   /* ── BASE ── */
-  .nova-app { background: #3d4187; min-height:100vh; color:#fff; -webkit-tap-highlight-color:rgba(0,0,0,0); overscroll-behavior:contain; -webkit-overflow-scrolling:touch; scroll-behavior:smooth; }
+  .nova-app { background: #07091b; min-height:100vh; color:#fff; -webkit-tap-highlight-color:rgba(0,0,0,0); overscroll-behavior:contain; -webkit-overflow-scrolling:touch; scroll-behavior:smooth; }
 .nova-bg-orb { position:fixed; border-radius:50%; pointer-events:none; z-index:0; }
-.nova-bg-orb--1 { width:300px; height:300px; top:-80px; left:-80px; background:radial-gradient(circle,rgba(34,197,94,0.13) 0%,rgba(34,197,94,0.04) 50%,transparent 70%); animation:orb-drift1 12s ease-in-out infinite; }
-.nova-bg-orb--2 { width:340px; height:340px; top:38%; right:-110px; background:radial-gradient(circle,rgba(99,102,241,0.12) 0%,rgba(56,189,248,0.06) 45%,transparent 70%); animation:orb-drift2 16s ease-in-out infinite; }
-.nova-bg-orb--3 { width:240px; height:240px; bottom:70px; left:-20px; background:radial-gradient(circle,rgba(168,85,247,0.1) 0%,rgba(236,72,153,0.05) 50%,transparent 70%); animation:orb-drift3 14s ease-in-out infinite; }
+.nova-bg-orb--1 { width:300px; height:300px; top:-80px; left:-80px; background:radial-gradient(circle,rgba(34,197,94,0.32) 0%,rgba(34,197,94,0.10) 50%,transparent 70%); animation:orb-drift1 12s ease-in-out infinite; }
+.nova-bg-orb--2 { width:340px; height:340px; top:38%; right:-110px; background:radial-gradient(circle,rgba(99,102,241,0.28) 0%,rgba(56,189,248,0.14) 45%,transparent 70%); animation:orb-drift2 16s ease-in-out infinite; }
+.nova-bg-orb--3 { width:240px; height:240px; bottom:70px; left:-20px; background:radial-gradient(circle,rgba(168,85,247,0.26) 0%,rgba(236,72,153,0.13) 50%,transparent 70%); animation:orb-drift3 14s ease-in-out infinite; }
 
   /* ══ BRAND LOGO ══ */
   .nova-brand-wrap { position:relative; z-index:1; display:flex; align-items:center; gap:8px; }
@@ -1020,7 +1020,7 @@
 
   /* ── INBOX MODAL ── */
   .nova-inbox-overlay { position:fixed; inset:0; z-index:500; background:rgba(0,0,0,0.72); display:flex; flex-direction:column; justify-content:flex-end; }
-  .nova-inbox-sheet { background:#2e3375; border-radius:20px 20px 0 0; border-top:1px solid rgba(34,197,94,0.2); max-height:70vh; overflow-y:auto; padding:0 0 80px; }
+  .nova-inbox-sheet { background:#0e1032; border-radius:20px 20px 0 0; border-top:1px solid rgba(34,197,94,0.3); max-height:70vh; overflow-y:auto; padding:0 0 80px; }
   .nova-inbox-handle { width:36px; height:4px; background:rgba(255,255,255,0.15); border-radius:2px; margin:12px auto 0; }
   .nova-inbox-header { display:flex; justify-content:space-between; align-items:center; padding:14px 18px 12px; border-bottom:1px solid rgba(255,255,255,0.06); }
   .nova-inbox-empty { display:flex; flex-direction:column; align-items:center; justify-content:center; padding:48px 20px; }
@@ -1051,8 +1051,8 @@
   /* Pinned first tab — outside scroll, opaque bg so scroll content hides behind */
   .nova-hcat-pin {
     flex-shrink:0;
-    background:#3d4187;
-    border-right:1.5px solid rgba(255,255,255,0.12);
+    background:#07091b;
+    border-right:1.5px solid rgba(255,255,255,0.16);
     z-index:2;
   }
   /* Scroll container: only remaining tabs */
@@ -1077,7 +1077,7 @@
   .nova-hcat-btn::after {
     content:''; position:absolute; bottom:0; left:50%;
     transform:translateX(-50%) scaleX(0); width:70%; height:2.5px;
-    background:linear-gradient(90deg,#818cf8,#c7d2fe);
+    background:linear-gradient(90deg,#a855f7,#38bdf8);
     border-radius:2px 2px 0 0;
     transition:transform 0.28s cubic-bezier(0.34,1.56,0.64,1);
   }
@@ -1089,11 +1089,12 @@
   .nova-hcat-emoji { font-size:26px; line-height:1; display:inline-flex; align-items:center; }
   .nova-hcat-svg { width:28px; height:28px; }
   /* Label */
-  .nova-hcat-label { font-size:13px; font-weight:700; color:rgba(255,255,255,0.45); letter-spacing:0.01em; transition:color 0.2s; }
-  .nova-hcat-btn--active .nova-hcat-label { color:rgba(255,255,255,0.96); text-shadow:0 0 14px rgba(200,210,255,0.6); }
+  .nova-hcat-label { font-size:13px; font-weight:700; color:rgba(255,255,255,0.62); letter-spacing:0.01em; transition:color 0.2s; }
+  .nova-hcat-btn--active .nova-hcat-label { color:#fff; text-shadow:0 0 14px rgba(168,100,250,0.9), 0 0 28px rgba(56,189,248,0.45); }
 
   /* ── GAME CARDS ── */
   .nova-game-card { border-radius:14px; overflow:hidden; cursor:pointer; background:transparent; border:none; box-shadow:none; will-change:transform; transform:translateZ(0); transition:transform 0.15s ease; -webkit-tap-highlight-color:transparent; contain:layout style; }
+  .nova-game-card img { filter: saturate(1.18) contrast(1.05); }
 .nova-game-card:active { transform:translateZ(0); }
 .nova-game-card:hover { transform:translateY(-2px) scale(1.02) translateZ(0); }
   .nova-badge { position:absolute; font-size:7px; font-weight:900; border-radius:5px; padding:2px 4px; }
@@ -1122,7 +1123,7 @@
   /* ══ AUTH PANEL — Slide from right ══ */
   .nova-auth-panel {
     position: fixed; inset: 0; z-index: 1000;
-    background: linear-gradient(160deg, #16183a 0%, #252870 55%, #16183a 100%);
+    background: linear-gradient(160deg, #06081a 0%, #0f1238 55%, #06081a 100%);
     display: flex; flex-direction: column; overflow: hidden;
   }
 
@@ -1238,7 +1239,7 @@
   .nova-footer-link { font-size:11px;color:rgba(255,255,255,0.45);cursor:pointer;line-height:1.5; }
 
   /* ── BOTTOM NAV ── */
-  .nova-bottom-nav { position:fixed;bottom:0;left:0;right:0;z-index:200;background:rgba(45,51,117,0.92);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);border-top:1px solid rgba(255,255,255,0.1);padding-bottom:env(safe-area-inset-bottom,0);box-shadow:0 -4px 28px rgba(0,0,0,0.45), 0 -1px 0 rgba(255,255,255,0.05) inset; }
+  .nova-bottom-nav { position:fixed;bottom:0;left:0;right:0;z-index:200;background:rgba(6,8,24,0.97);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);border-top:1px solid rgba(168,85,247,0.22);padding-bottom:env(safe-area-inset-bottom,0);box-shadow:0 -4px 28px rgba(0,0,0,0.6), 0 -1px 0 rgba(168,85,247,0.12) inset; }
   .nova-nav-item { flex:1;min-width:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;color:rgba(255,255,255,0.28);font-size:9px;font-weight:700;padding:6px 4px;border-radius:10px;transition:color 0.2s,opacity 0.15s;-webkit-tap-highlight-color:transparent;user-select:none;letter-spacing:0.03em;contain:layout style; }
   .nova-nav-item svg { flex-shrink:0;width:24px;height:24px;display:block; }
   .nova-nav-item span { display:block;white-space:nowrap;line-height:1; }
@@ -1336,7 +1337,7 @@
   /* ── GLASS SECTIONS ── */
   .glass-section { background:rgba(255,255,255,0.03); border-top:1px solid rgba(255,255,255,0.06); border-bottom:1px solid rgba(255,255,255,0.06); }
   .glass-user-row { background:rgba(255,255,255,0.03); border-bottom:1px solid rgba(255,255,255,0.06); }
-  .glass-marquee { background:rgba(45,51,117,0.92) !important; }
+  .glass-marquee { background:rgba(6,8,24,0.96) !important; }
   /* Smooth mobile scroll on game grid */
   .nova-game-scroll { -webkit-overflow-scrolling:touch; overflow-y:auto; scroll-behavior:smooth; }
   /* Floating card feel on QSC icons */
@@ -1376,7 +1377,7 @@
   .nova-logo { animation:logo-pulse 4s ease-in-out infinite; }
   @keyframes logo-pulse { 0%,100%{box-shadow:0 0 18px rgba(34,197,94,0.45);}50%{box-shadow:0 0 28px rgba(34,197,94,0.7), 0 0 48px rgba(34,197,94,0.2);} }
   /* Marquee bar color accent */
-  .nova-marquee-bar { background:rgba(45,51,117,0.92) !important; border-top:1px solid rgba(34,197,94,0.1) !important; border-bottom:1px solid rgba(34,197,94,0.1) !important; }
+  .nova-marquee-bar { background:rgba(6,8,24,0.96) !important; border-top:1px solid rgba(34,197,94,0.25) !important; border-bottom:1px solid rgba(34,197,94,0.25) !important; }
 
   /* ══ AI BRAIN AGENT BUTTON — elevated floating ══ */
   .nova-agent-inactive { color: rgba(255,255,255,0.45); }
