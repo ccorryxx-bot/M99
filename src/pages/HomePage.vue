@@ -354,6 +354,42 @@
         </div>
       </div>
 
+
+      <!-- ══ FISH GAMES ══ -->
+      <div class="nova-fish-section">
+        <div class="nova-fish-header">
+          <svg width="26" height="26" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <ellipse cx="13" cy="16" rx="9" ry="6" fill="#22d3ee" opacity="0.85"/>
+            <ellipse cx="13" cy="16" rx="9" ry="6" fill="url(#fish-grad)"/>
+            <path d="M22 16 C26 10 30 8 30 16 C30 24 26 22 22 16Z" fill="#06b6d4" opacity="0.9"/>
+            <circle cx="7" cy="14.5" r="1.2" fill="#0e7490"/>
+            <path d="M10 12 Q13 9 16 12" stroke="#0891b2" stroke-width="1" stroke-linecap="round" fill="none" opacity="0.6"/>
+            <path d="M10 20 Q13 23 16 20" stroke="#0891b2" stroke-width="1" stroke-linecap="round" fill="none" opacity="0.6"/>
+            <defs>
+              <linearGradient id="fish-grad" x1="4" y1="10" x2="22" y2="22" gradientUnits="userSpaceOnUse">
+                <stop stop-color="#67e8f9"/><stop offset="1" stop-color="#0891b2"/>
+              </linearGradient>
+            </defs>
+          </svg>
+          <span class="nova-fish-title">ငါးဖမ်း ဂိမ်းများ</span>
+          <span class="nova-fish-count">{{ fishGames.length }} ဂိမ်း</span>
+        </div>
+        <div class="nova-fish-grid">
+          <div v-for="game in fishGames" :key="game.id"
+            class="nova-game-card" @click="openGame(game)">
+            <div style="position:relative;aspect-ratio:3/4;overflow:hidden;background:#0c2a3a;">
+              <img :src="game.image_url" alt="" @error="e=>e.target.style.display='none'"
+                style="width:100%;height:100%;object-fit:cover;display:block;" loading="lazy"/>
+              <div style="position:absolute;inset:0;background:linear-gradient(to top,rgba(4,16,32,0.92) 0%,rgba(4,16,32,0.2) 40%,transparent 100%);"></div>
+              <div class="nova-badge nova-badge--provider">{{ game.provider_code?.toUpperCase() }}</div>
+              <div style="position:absolute;bottom:0;left:0;right:0;padding:4px 5px 5px;">
+                <div style="font-size:9px;font-weight:700;color:rgba(255,255,255,0.9);overflow:hidden;text-overflow:ellipsis;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;line-height:1.3;">{{ game.game_name }}</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
       <!-- ══ FOOTER ══ -->
       <div style="padding:0 16px;border-top:1px solid rgba(255,255,255,0.07);margin-top:16px;">
         <div style="padding:20px 0 14px;text-align:center;">
@@ -681,6 +717,8 @@
     }
     return l
   })
+
+  const fishGames = computed(() => games.value.filter(g => g.category === 'fish'))
 
   async function loadUserInfo() {
     try { const {data:{session}}=await supabase.auth.getSession(); if(!session){isLoggedIn.value=false;return}; isLoggedIn.value=true; username.value=(session.user.email||'').replace(/@novabett\.internal$/,'').toUpperCase(); await fetchBalance() }
@@ -1342,6 +1380,26 @@
   .nova-prov-sub {
     font-size: 10px; font-weight: 600; color: rgba(255,255,255,0.72);
     text-shadow: 0 1px 3px rgba(0,0,0,0.4);
+  }
+
+
+  /* ── Fish Section ── */
+  .nova-fish-section { padding: 0 14px 20px; }
+  .nova-fish-header {
+    display: flex; align-items: center; gap: 8px; margin-bottom: 12px;
+  }
+  .nova-fish-title {
+    font-size: 15px; font-weight: 800; color: rgba(255,255,255,0.95);
+    flex: 1;
+  }
+  .nova-fish-count {
+    font-size: 11px; font-weight: 700;
+    color: #22d3ee; background: rgba(6,182,212,0.15);
+    border: 1px solid rgba(6,182,212,0.3);
+    padding: 2px 9px; border-radius: 20px;
+  }
+  .nova-fish-grid {
+    display: grid; grid-template-columns: repeat(3,1fr); gap: 8px;
   }
 
 </style>
