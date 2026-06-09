@@ -259,7 +259,7 @@
         </div>
 
         <!-- ══ ACCOUNT TAB content ══ -->
-        <template v-if="recordsTab !== 'bet' && recordsTab !== 'report'">
+        <template v-if="recordsTab === 'account'">
           <div style="flex:1;overflow-y:auto;-webkit-overflow-scrolling:touch;" @click="showTypeDrop=false;showStatusDrop=false;">
             <div class="rec-bal-card">
               <div style="display:flex;align-items:center;justify-content:space-between;">
@@ -447,6 +447,66 @@
           </div>
         </template>
 
+        <!-- ══ BALANCE TAB content ══ -->
+        <template v-else-if="recordsTab === 'balance'">
+          <div class="bal-page">
+
+            <!-- Top balance card -->
+            <div class="bal-top-card">
+              <div class="bal-top-row">
+                <div>
+                  <div class="bal-top-label">လက်ဆိုင်လက်ကျန်ငွေ</div>
+                  <div class="bal-top-amount-row">
+                    <span class="bal-top-amount">{{ formatBalance(mainBalance) }}</span>
+                    <button @click="fetchWallet" :class="['refresh-toggle', refreshing?'refresh-toggle--spin':'']" style="margin-left:4px;">
+                      <svg class="refresh-icon" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#4ade80" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="23 4 23 10 17 10"/><path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10"/></svg>
+                    </button>
+                  </div>
+                </div>
+                <button class="bal-yellow-btn" @click="showComingSoon">ရိုနင်ကိုတွေ ရနော?</button>
+              </div>
+              <div class="bal-info-text">
+                လက်ကျန်စီ ကိုနံပြည်သူ-ပြန်ပြောင်းနိုင်သည်မှာများကို ထုတ်ယူနိုင်သည် (ဆုံးရှုံးသည်မှာ ဒသပ်ဒသမ မပါဝင်)။ လက်ကျန်ငွေကို သင်ကိုယ်တိုင် မည်ဝင်ဆောင်ငွေ သင်ကောင်မြဲနိုင်သော ဘဏ်ကစားပါ။
+                <span class="bal-info-link" @click="$router.push('/home')">မည်ဝင်ဆောင်ငွေ &rsaquo;</span>
+              </div>
+            </div>
+
+            <!-- Split layout: sidebar + cards -->
+            <div class="bal-split">
+
+              <!-- Left category sidebar -->
+              <div class="bal-sidebar">
+                <button v-for="cat in balCategories" :key="cat.id"
+                  :class="['bal-cat-btn', balCat===cat.id?'bal-cat-btn--active':'']"
+                  @click="balCat=cat.id">
+                  <span class="bal-cat-icon" v-html="cat.icon"></span>
+                  <span class="bal-cat-label">{{ cat.label }}</span>
+                </button>
+              </div>
+
+              <!-- Right: search + cards -->
+              <div class="bal-right">
+                <div class="bal-search-wrap">
+                  <input v-model="balSearch" class="bal-search-input" :placeholder="'ပလမ်ဖောင်း ရှာဖွေမှ'" />
+                  <svg width="14" height="14" fill="none" stroke="rgba(255,255,255,0.35)" stroke-width="2" viewBox="0 0 24 24" class="bal-search-icon"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.35-4.35" stroke-linecap="round"/></svg>
+                </div>
+                <div class="bal-cards-grid">
+                  <div v-for="p in filteredProviders" :key="p.id" class="bal-provider-card">
+                    <div class="bal-card-top">
+                      <div class="bal-card-logo" :style="'background:'+p.bg">
+                        <span class="bal-card-abbr" :style="'color:'+p.ac">{{ p.abbr }}</span>
+                      </div>
+                      <span class="bal-card-name">{{ p.name }}</span>
+                    </div>
+                    <div class="bal-card-balance">0.00</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+          </div>
+        </template>
+
         <!-- ══ BET TAB content ══ -->
         <template v-else>
           <div class="bet-page" @click="closeBetDrops">
@@ -611,6 +671,12 @@
     </Transition>
 
   </div>
+
+  <!-- ── Toast ── -->
+  <Transition name="toast">
+    <div v-if="toastVisible" class="app-toast">{{ toastMsg }}</div>
+  </Transition>
+
 </template>
 
 <script setup>
@@ -899,7 +965,45 @@ const formatCurrency = n => new Intl.NumberFormat('en-US').format(n||0)
 const formatBalance  = n => { const v=Number(n)||0; if(v>=1000000) return (v/1000000).toFixed(1)+'M'; if(v>=1000) return (v/1000).toFixed(1)+'K'; return v.toFixed(2) }
 const copyText = async t => { try { await navigator.clipboard.writeText(t) } catch {} }
 const logout = async () => { await supabase.auth.signOut(); ['sb_token','sb_refresh','sb_username','sb_avatar_url'].forEach(k=>localStorage.removeItem(k)); window.location.href='/home' }
-const comingSoon = () => {}
+// ── Toast ──
+const toastMsg     = ref('')
+const toastVisible = ref(false)
+let toastTimer = null
+function showToast(msg) {
+  toastMsg.value = msg
+  toastVisible.value = true
+  if (toastTimer) clearTimeout(toastTimer)
+  toastTimer = setTimeout(() => { toastVisible.value = false }, 2200)
+}
+const comingSoon  = () => showToast('လတ်တလောမရနိုင်သေးပါ')
+const showComingSoon = () => showToast('လတ်တလောမရနိုင်သေးပါ')
+
+// ── Balance Tab state ──
+const balCat    = ref('all')
+const balSearch = ref('')
+
+const balCategories = [
+  { id: 'all',   icon: '<svg width="18" height="18" viewBox="0 0 24 24" fill="none"><rect x="3" y="3" width="8" height="8" rx="2" fill="#f5c842"/><rect x="13" y="3" width="8" height="8" rx="2" fill="#f5c842" opacity=".7"/><rect x="3" y="13" width="8" height="8" rx="2" fill="#f5c842" opacity=".7"/><rect x="13" y="13" width="8" height="8" rx="2" fill="#f5c842" opacity=".5"/></svg>', label: 'အားလုံး' },
+  { id: 'slots', icon: '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="2" y="6" width="20" height="14" rx="3"/><circle cx="8" cy="13" r="2"/><circle cx="12" cy="13" r="2"/><circle cx="16" cy="13" r="2"/><path d="M8 6V4a1 1 0 0 1 1-1h6a1 1 0 0 1 1 1v2"/></svg>', label: 'စလော' },
+  { id: 'fish',  icon: '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M2 12s4-7 10-7 10 7 10 7-4 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="2.5" fill="currentColor"/><path d="M20 12c1.5 0 2.5-.8 2.5-2" stroke-linecap="round"/></svg>', label: 'ငါးဖမ်း' },
+  { id: 'live',  icon: '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/></svg>', label: 'Live Casino' },
+]
+
+const balProviders = [
+  { id: 'pp',   name: 'PP',   cat: ['all','slots','live'], bg: 'linear-gradient(135deg,#c87020,#f5a623)', abbr: 'PP',   ac: '#fff' },
+  { id: 'pg',   name: 'PG',   cat: ['all','slots'],        bg: 'linear-gradient(135deg,#0a6e3d,#16a34a)', abbr: 'PG',   ac: '#fff' },
+  { id: 'jili', name: 'JILI', cat: ['all','slots','fish'], bg: 'linear-gradient(135deg,#b8860b,#f5c842)', abbr: 'JILI', ac: '#1a1440' },
+  { id: 'jdb',  name: 'JDB',  cat: ['all','fish'],         bg: 'linear-gradient(135deg,#1a3a8f,#2563eb)', abbr: 'JDB',  ac: '#fff' },
+]
+
+const filteredProviders = computed(() => {
+  const q = balSearch.value.trim().toLowerCase()
+  return balProviders.filter(p => {
+    const catOk = p.cat.includes(balCat.value)
+    const qOk   = !q || p.name.toLowerCase().includes(q)
+    return catOk && qOk
+  })
+})
 </script>
 
 <style scoped>
@@ -1477,4 +1581,166 @@ const comingSoon = () => {}
 /* Bet drop transition */
 .bet-drop-enter-active, .bet-drop-leave-active { transition: all 0.2s cubic-bezier(0.4,0,0.2,1); }
 .bet-drop-enter-from, .bet-drop-leave-to { opacity: 0; transform: translateY(-8px) scale(0.97); }
+
+/* ══════════════════════════════════════
+   BALANCE TAB STYLES
+   ══════════════════════════════════════ */
+
+.bal-page {
+  flex: 1; display: flex; flex-direction: column; overflow: hidden;
+}
+
+/* Top card */
+.bal-top-card {
+  margin: 10px 10px 6px;
+  padding: 12px 14px 10px;
+  background: rgba(255,255,255,0.06);
+  border: 1px solid rgba(255,255,255,0.1);
+  border-radius: 12px; flex-shrink: 0;
+}
+.bal-top-row {
+  display: flex; align-items: flex-start; justify-content: space-between; gap: 8px;
+}
+.bal-top-label {
+  font-size: 9.5px; color: rgba(255,255,255,0.45); margin-bottom: 3px;
+}
+.bal-top-amount-row {
+  display: flex; align-items: center; gap: 2px;
+}
+.bal-top-amount {
+  font-size: 20px; font-weight: 900; color: #f5c842;
+}
+.bal-yellow-btn {
+  flex-shrink: 0;
+  background: linear-gradient(135deg,#f5c842,#e5a800);
+  border: none; border-radius: 7px;
+  padding: 6px 10px; font-size: 10px; font-weight: 700;
+  color: #1a1440; cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+  white-space: nowrap;
+}
+.bal-info-text {
+  margin-top: 8px; font-size: 9.5px; color: rgba(255,255,255,0.35);
+  line-height: 1.6;
+}
+.bal-info-link {
+  color: #f5c842; font-weight: 700; cursor: pointer; margin-left: 3px;
+}
+
+/* Refresh toggle (same as HomePage) */
+.refresh-toggle {
+  background: transparent; border: none; padding: 3px;
+  cursor: pointer; display: flex; align-items: center; justify-content: center;
+  opacity: 0.85; transition: opacity 0.2s;
+}
+.refresh-toggle .refresh-icon { display: block; transition: opacity 0.2s; }
+.refresh-toggle--spin .refresh-icon {
+  animation: refresh-spin 0.65s linear infinite; opacity: 0.55;
+}
+@keyframes refresh-spin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+
+/* Split layout */
+.bal-split {
+  flex: 1; display: flex; overflow: hidden;
+}
+
+/* Left sidebar */
+.bal-sidebar {
+  width: 72px; flex-shrink: 0;
+  overflow-y: auto; overflow-x: hidden;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none;
+  border-right: 1px solid rgba(255,255,255,0.06);
+  display: flex; flex-direction: column; gap: 0;
+}
+.bal-sidebar::-webkit-scrollbar { display: none; }
+.bal-cat-btn {
+  display: flex; flex-direction: column; align-items: center; gap: 3px;
+  padding: 10px 4px;
+  background: none; border: none; cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+  border-left: 3px solid transparent;
+  transition: background 0.15s, border-color 0.15s;
+}
+.bal-cat-btn--active {
+  background: rgba(245,200,66,0.1);
+  border-left-color: #f5c842;
+}
+.bal-cat-icon {
+  display: flex; align-items: center; justify-content: center;
+  color: rgba(255,255,255,0.45);
+}
+.bal-cat-btn--active .bal-cat-icon { color: #f5c842; }
+.bal-cat-label {
+  font-size: 8.5px; color: rgba(255,255,255,0.4);
+  text-align: center; line-height: 1.2; word-break: break-all;
+}
+.bal-cat-btn--active .bal-cat-label { color: #f5c842; font-weight: 700; }
+
+/* Right side */
+.bal-right {
+  flex: 1; display: flex; flex-direction: column; overflow: hidden;
+}
+
+/* Search bar */
+.bal-search-wrap {
+  position: relative; margin: 8px 8px 6px; flex-shrink: 0;
+}
+.bal-search-input {
+  width: 100%; padding: 8px 32px 8px 12px;
+  background: rgba(255,255,255,0.07);
+  border: 1px solid rgba(255,255,255,0.1); border-radius: 8px;
+  color: rgba(255,255,255,0.8); font-size: 11px;
+  outline: none; box-sizing: border-box;
+}
+.bal-search-input::placeholder { color: rgba(255,255,255,0.3); }
+.bal-search-icon {
+  position: absolute; right: 10px; top: 50%; transform: translateY(-50%);
+  pointer-events: none;
+}
+
+/* Provider cards grid */
+.bal-cards-grid {
+  display: grid; grid-template-columns: 1fr 1fr;
+  gap: 8px; padding: 0 8px 12px;
+  overflow-y: auto; -webkit-overflow-scrolling: touch;
+  flex: 1;
+}
+.bal-provider-card {
+  background: rgba(255,255,255,0.06);
+  border: 1px solid rgba(255,255,255,0.09);
+  border-radius: 10px; padding: 10px 10px 8px;
+  display: flex; flex-direction: column; gap: 6px;
+}
+.bal-card-top {
+  display: flex; align-items: center; gap: 7px;
+}
+.bal-card-logo {
+  width: 36px; height: 36px; border-radius: 8px;
+  display: flex; align-items: center; justify-content: center;
+  flex-shrink: 0;
+}
+.bal-card-abbr {
+  font-size: 11px; font-weight: 900; font-family: Arial, sans-serif;
+  letter-spacing: -0.02em;
+}
+.bal-card-name {
+  font-size: 11.5px; font-weight: 700; color: rgba(255,255,255,0.85);
+}
+.bal-card-balance {
+  font-size: 13px; font-weight: 800; color: rgba(255,255,255,0.55);
+  padding-left: 2px;
+}
+
+/* ══ Toast ══ */
+.app-toast {
+  position: fixed; bottom: 80px; left: 50%; transform: translateX(-50%);
+  background: rgba(30,32,70,0.96); border: 1px solid rgba(255,255,255,0.14);
+  color: rgba(255,255,255,0.9); font-size: 12px; font-weight: 600;
+  padding: 10px 22px; border-radius: 22px;
+  box-shadow: 0 8px 28px rgba(0,0,0,0.5);
+  z-index: 9999; white-space: nowrap; pointer-events: none;
+}
+.toast-enter-active, .toast-leave-active { transition: all 0.25s cubic-bezier(0.4,0,0.2,1); }
+.toast-enter-from, .toast-leave-to { opacity: 0; transform: translateX(-50%) translateY(12px); }
 </style>
