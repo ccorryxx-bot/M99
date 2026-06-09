@@ -315,24 +315,24 @@
 
         <!-- Row 1: 3 cards -->
         <div class="nova-prov-row3">
-          <button class="nova-prov-card nova-prov-card--pg" :class="activeProvider==='pg'&&'nova-prov-card--on'"
-            @click="activeProvider=activeProvider==='pg'?null:'pg'; activeCategory='slot'">
+          <button class="nova-prov-card nova-prov-card--pg" 
+            @click="openProvPanel('pg')">
             <img src="https://ik.imagekit.io/tdpebgueq/Home%20Page%20_icons_linces%20logo/3b38cced-f446-4727-ab37-879557be37cb.png?tr=f-auto" class="nova-prov-img" alt="PG"/>
             <div class="nova-prov-info">
               <span class="nova-prov-name">PG Soft</span>
               <span class="nova-prov-sub">{{ games.filter(g=>g.provider_code==='pg').length }} ဂိမ်း</span>
             </div>
           </button>
-          <button class="nova-prov-card nova-prov-card--pp" :class="activeProvider==='pp'&&'nova-prov-card--on'"
-            @click="activeProvider=activeProvider==='pp'?null:'pp'; activeCategory='slot'">
+          <button class="nova-prov-card nova-prov-card--pp" 
+            @click="openProvPanel('pp')">
             <img src="https://ik.imagekit.io/tdpebgueq/Home%20Page%20_icons_linces%20logo/a04d3bed-f475-42eb-9f35-4f9802068315.png?tr=f-auto" class="nova-prov-img" alt="PP"/>
             <div class="nova-prov-info">
               <span class="nova-prov-name">Pragmatic</span>
               <span class="nova-prov-sub">{{ games.filter(g=>g.provider_code==='pp').length }} ဂိမ်း</span>
             </div>
           </button>
-          <button class="nova-prov-card nova-prov-card--jdb" :class="activeProvider==='jdb'&&'nova-prov-card--on'"
-            @click="activeProvider=activeProvider==='jdb'?null:'jdb'; activeCategory='slot'">
+          <button class="nova-prov-card nova-prov-card--jdb" 
+            @click="openProvPanel('jdb')">
             <img src="https://ik.imagekit.io/tdpebgueq/Home%20Page%20_icons_linces%20logo/f519ade7-dd80-4235-a650-3d8744d5795c.png?tr=f-auto" class="nova-prov-img" alt="JDB"/>
             <div class="nova-prov-info">
               <span class="nova-prov-name">JDB</span>
@@ -343,8 +343,8 @@
 
         <!-- Row 2: 1 full-width card -->
         <div class="nova-prov-row1" style="margin-top:10px;">
-          <button class="nova-prov-card nova-prov-card--jili nova-prov-card--wide" :class="activeProvider==='jili'&&'nova-prov-card--on'"
-            @click="activeProvider=activeProvider==='jili'?null:'jili'; activeCategory='slot'">
+          <button class="nova-prov-card nova-prov-card--jili nova-prov-card--wide" 
+            @click="openProvPanel('jili')">
             <img src="https://ik.imagekit.io/tdpebgueq/Home%20Page%20_icons_linces%20logo/40_N_JILI_LOGO.avif" class="nova-prov-img nova-prov-img--wide" alt="JILI"/>
             <div class="nova-prov-info">
               <span class="nova-prov-name">JILI Gaming</span>
@@ -557,6 +557,14 @@
         </Transition>
       </Teleport>
     </div>
+
+  <!-- ── Provider Game Panel ── -->
+  <ProviderGamePanel
+    v-model="showProviderPanel"
+    :initial-provider="panelProvider"
+    :games="games"
+    @open-game="openGame"
+  />
   </template>
 
   <script setup>
@@ -566,6 +574,7 @@
   import { supabase } from '@/supabase'
   import DepositModal from '@/components/DepositModal.vue'
   import WithdrawModal from '@/components/WithdrawModal.vue'
+  import ProviderGamePanel from '@/components/ProviderGamePanel.vue'
   import NftAvatar from '@/components/NftAvatar.vue'
 
   const route = useRoute()
@@ -622,6 +631,9 @@
   ])
     const activeCategory = ref('popular')
   const activeProvider = ref(null)
+  const showProviderPanel = ref(false)
+  const panelProvider = ref('jili')
+  function openProvPanel(key) { panelProvider.value = key; showProviderPanel.value = true }
   const glowCanvases = {}
   function registerGlowCanvas(el,catId) { if(!el)return; glowCanvases[catId]=el; nextTick(()=>drawGlow(el)) }
   function drawGlow(canvas) { if(!canvas)return; const ctx=canvas.getContext('2d'),w=canvas.width,h=canvas.height; ctx.clearRect(0,0,w,h); const g=ctx.createRadialGradient(w/2,h/2,2,w/2,h/2,w*.65); g.addColorStop(0,'rgba(34,197,94,0.28)'); g.addColorStop(.5,'rgba(34,197,94,0.10)'); g.addColorStop(1,'rgba(34,197,94,0)'); ctx.fillStyle=g; ctx.fillRect(0,0,w,h) }
