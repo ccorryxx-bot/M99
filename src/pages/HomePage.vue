@@ -682,6 +682,7 @@
     :initial-provider="panelProvider"
     :games="games"
     @open-game="openGame"
+    @open-category="openCatPanel"
   />
   <CategoryGamePanel
     v-model="showCategoryPanel"
