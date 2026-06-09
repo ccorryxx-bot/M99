@@ -68,7 +68,7 @@
             </div>
             <span class="qi-lbl">ငါ့မှတ်တမ်း</span>
           </button>
-          <button class="qi-item" @click="comingSoon">
+          <button class="qi-item" @click="showWithdrawModal=true">
             <div class="qi-icon-wrap">
               <img src="https://ik.imagekit.io/rbok01qam/Custom%20icons%20img/style_6_icon_list_txgl.avif?updatedAt=1780926787637&tr=f-auto" class="qi-img" alt="" @error="e=>e.target.style.display='none'"/>
             </div>
@@ -682,11 +682,15 @@
     <div v-if="toastVisible" class="app-toast">{{ toastMsg }}</div>
   </Transition>
 
+  <!-- Withdraw Modal — opened via ငွေထုတ်စီမံခန့်ခွဲမှု button, lands on tab 1 -->
+  <WithdrawModal v-model="showWithdrawModal" :balance="mainBalance" :initial-tab="1" @submit="() => {}" />
+
 </template>
 
 <script setup>
 import { ref, reactive, computed, onMounted } from 'vue'
 import { supabase } from '@/supabase'
+import WithdrawModal from '@/components/WithdrawModal.vue'
 
 const isLoggedIn   = ref(false)
 const username     = ref(localStorage.getItem('sb_username') || 'PLAYER')
@@ -990,6 +994,7 @@ function showToast(msg) {
   toastTimer = setTimeout(() => { toastVisible.value = false }, 2200)
 }
 const comingSoon  = () => showToast('လတ်တလောမရနိုင်သေးပါ')
+const showWithdrawModal = ref(false)
 const showComingSoon = () => showToast('လတ်တလောမရနိုင်သေးပါ')
 
 // ── Balance Tab state ──
