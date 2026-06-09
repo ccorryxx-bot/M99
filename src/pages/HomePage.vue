@@ -438,6 +438,40 @@
         </div>
       </div>
 
+      <!-- ══ LIVE CASINO + ARCADE BUTTONS ══ -->
+      <div class="nova-catbtn-section">
+        <!-- Live Casino button -->
+        <button class="nova-catbtn nova-catbtn--live" @click="openCatPanel('live')">
+          <div class="nova-catbtn-img-wrap">
+            <img
+              src="https://ik.imagekit.io/tdpebgueq/Provider%20label%20icons%20/Screenshot_2026-06-04-01-03-25-338_mark.via.gp_1780511848574edit.jpg?tr=f-auto"
+              class="nova-catbtn-img" alt="Live Casino"
+              @error="e=>{e.target.style.display='none';e.target.nextElementSibling.style.display='flex'}"
+            />
+            <span class="nova-catbtn-img-fallback">🃏</span>
+          </div>
+          <div class="nova-catbtn-info">
+            <span class="nova-catbtn-name">တိုက်ရိုက် ကာစီနို</span>
+            <span class="nova-catbtn-sub">{{ games.filter(g=>g.category==='live').length }} ဂိမ်း</span>
+          </div>
+        </button>
+        <!-- Arcade button -->
+        <button class="nova-catbtn nova-catbtn--arcade" @click="openCatPanel('arcade')">
+          <div class="nova-catbtn-img-wrap">
+            <img
+              src="https://ik.imagekit.io/rbok01qam/Cactheory%20imag/6852101165dd4643a1ec3adee41f5913.jpg?tr=f-auto"
+              class="nova-catbtn-img" alt="Arcade"
+              @error="e=>{e.target.style.display='none';e.target.nextElementSibling.style.display='flex'}"
+            />
+            <span class="nova-catbtn-img-fallback">🕹️</span>
+          </div>
+          <div class="nova-catbtn-info">
+            <span class="nova-catbtn-name">Arcade ဂိမ်းများ</span>
+            <span class="nova-catbtn-sub">{{ games.filter(g=>g.category==='arcade').length }} ဂိမ်း</span>
+          </div>
+        </button>
+      </div>
+
       <!-- ══ FOOTER ══ -->
       <div style="padding:0 16px;border-top:1px solid rgba(255,255,255,0.07);margin-top:16px;">
         <div style="padding:20px 0 14px;text-align:center;">
@@ -649,6 +683,12 @@
     :games="games"
     @open-game="openGame"
   />
+  <CategoryGamePanel
+    v-model="showCategoryPanel"
+    :initial-category="panelCategory"
+    :games="games"
+    @open-game="openGame"
+  />
   </template>
 
   <script setup>
@@ -659,6 +699,7 @@
   import DepositModal from '@/components/DepositModal.vue'
   import WithdrawModal from '@/components/WithdrawModal.vue'
   import ProviderGamePanel from '@/components/ProviderGamePanel.vue'
+  import CategoryGamePanel from '@/components/CategoryGamePanel.vue'
   import NftAvatar from '@/components/NftAvatar.vue'
 
   const route = useRoute()
@@ -718,6 +759,10 @@
   const showProviderPanel = ref(false)
   const panelProvider = ref('jili')
   function openProvPanel(key) { panelProvider.value = key; showProviderPanel.value = true }
+
+  const showCategoryPanel = ref(false)
+  const panelCategory = ref('live')
+  function openCatPanel(cat) { panelCategory.value = cat; showCategoryPanel.value = true }
   const glowCanvases = {}
   function registerGlowCanvas(el,catId) { if(!el)return; glowCanvases[catId]=el; nextTick(()=>drawGlow(el)) }
   function drawGlow(canvas) { if(!canvas)return; const ctx=canvas.getContext('2d'),w=canvas.width,h=canvas.height; ctx.clearRect(0,0,w,h); const g=ctx.createRadialGradient(w/2,h/2,2,w/2,h/2,w*.65); g.addColorStop(0,'rgba(34,197,94,0.28)'); g.addColorStop(.5,'rgba(34,197,94,0.10)'); g.addColorStop(1,'rgba(34,197,94,0)'); ctx.fillStyle=g; ctx.fillRect(0,0,w,h) }
@@ -1489,5 +1534,54 @@
     transition: background 0.15s; -webkit-tap-highlight-color: transparent;
   }
   .nova-live-see-all:active { background: rgba(168,85,247,0.24); }
+
+  /* ── Live Casino + Arcade Buttons ── */
+  .nova-catbtn-section {
+    display: grid; grid-template-columns: 1fr 1fr; gap: 10px;
+    padding: 0 14px 20px;
+  }
+  .nova-catbtn {
+    position: relative; display: flex; align-items: center; gap: 0;
+    padding: 0; border-radius: 14px; border: 1.5px solid transparent;
+    cursor: pointer; -webkit-tap-highlight-color: transparent;
+    overflow: hidden; transition: transform 0.14s ease, box-shadow 0.14s ease;
+    flex-direction: column; justify-content: center; height: 88px;
+  }
+  .nova-catbtn:active { transform: scale(0.95); }
+  .nova-catbtn::after {
+    content: ''; position: absolute; inset: 0;
+    background: linear-gradient(135deg, rgba(255,255,255,0.13) 0%, transparent 60%);
+    pointer-events: none;
+  }
+  .nova-catbtn--live {
+    background: linear-gradient(145deg, #4a1472 0%, #7c3aed 55%, #a855f7 100%);
+    box-shadow: 0 6px 20px rgba(168,85,247,0.5), inset 0 1px 0 rgba(255,255,255,0.18);
+    border-color: rgba(216,180,254,0.35);
+  }
+  .nova-catbtn--arcade {
+    background: linear-gradient(145deg, #065f46 0%, #0891b2 55%, #06b6d4 100%);
+    box-shadow: 0 6px 20px rgba(6,182,212,0.45), inset 0 1px 0 rgba(255,255,255,0.18);
+    border-color: rgba(34,211,238,0.35);
+  }
+  .nova-catbtn-img-wrap {
+    width: 52px; height: 52px; border-radius: 10px; overflow: hidden;
+    display: flex; align-items: center; justify-content: center;
+    background: rgba(255,255,255,0.1); margin-bottom: 6px; flex-shrink: 0;
+  }
+  .nova-catbtn-img { width: 100%; height: 100%; object-fit: cover; display: block; }
+  .nova-catbtn-img-fallback {
+    display: none; font-size: 22px;
+    align-items: center; justify-content: center;
+  }
+  .nova-catbtn-info {
+    display: flex; flex-direction: column; align-items: center; gap: 2px;
+  }
+  .nova-catbtn-name {
+    font-size: 10px; font-weight: 800; color: rgba(255,255,255,0.95);
+    letter-spacing: 0.01em; text-align: center; line-height: 1.2;
+  }
+  .nova-catbtn-sub {
+    font-size: 9px; font-weight: 600; color: rgba(255,255,255,0.6);
+  }
 
 </style>
