@@ -2,20 +2,38 @@
   <div class="a-tab-content">
     <div class="a-filter-bar">
       <input v-model="userQ" class="a-input a-srch" placeholder="Search username / phone..." />
+      <select v-model="userRiskFilter" class="a-select">
+        <option value="all">All Users</option>
+        <option value="active">Active Only</option>
+        <option value="banned">Banned</option>
+        <option value="vip">VIP 3+</option>
+        <option value="high_bal">High Balance</option>
+        <option value="new">New (7d)</option>
+      </select>
     </div>
 
     <div v-if="usersLoading" class="a-loading"><span class="a-spinner"></span></div>
     <div v-else>
       <div v-for="u in filteredUsers" :key="u.id" class="a-user-row">
-        <div class="a-uav">{{ (u.username||'?')[0].toUpperCase() }}</div>
+        <div class="a-uav" :style="u.is_banned ? 'background:linear-gradient(135deg,#dc2626,#f87171)' : ''">
+          {{ (u.username || '?')[0].toUpperCase() }}
+        </div>
         <div class="a-uinfo">
-          <span class="a-uname">{{ u.username }}</span>
-          <span class="a-umeta">{{ u.phone || '—' }} · VIP {{ u.vip_level||0 }}</span>
+          <span class="a-uname">
+            {{ u.username }}
+            <span v-if="(u.vip_level||0) >= 3" class="a-vip-pill">VIP {{ u.vip_level }}</span>
+          </span>
+          <span class="a-umeta">{{ u.phone || '—' }} · VIP {{ u.vip_level || 0 }}</span>
         </div>
         <div class="a-uright">
-          <span :class="u.is_banned?'a-badge-danger':'a-badge-success'">{{ u.is_banned?'BANNED':'ACTIVE' }}</span>
+          <span :class="u.is_banned ? 'a-badge-danger' : 'a-badge-success'">
+            {{ u.is_banned ? 'BANNED' : 'ACTIVE' }}
+          </span>
           <span class="a-ubal">{{ fmtNum(u.balance) }} Ks</span>
         </div>
+        <!-- Risk flag -->
+        <span v-if="(Number(u.balance)||0) >= 500000" class="a-risk-flag a-risk-flag--high" title="High Balance">⚠</span>
+        <span v-else-if="(u.vip_level||0) >= 4" class="a-risk-flag a-risk-flag--med" title="VIP Player">★</span>
         <button class="a-eye-btn" @click="openPlayer(u)" title="View Details">
           <svg width="16" height="16" fill="none" stroke="#4f46e5" stroke-width="2" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/>
@@ -30,5 +48,5 @@
 
 <script setup>
 import { useAdmin } from '@/composables/useAdmin'
-const { usersLoading, userQ, filteredUsers, fmtNum, openPlayer } = useAdmin()
+const { usersLoading, userQ, userRiskFilter, filteredUsers, fmtNum, openPlayer } = useAdmin()
 </script>
