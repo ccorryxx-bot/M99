@@ -186,6 +186,7 @@
 
 <script setup>
 import { useAdmin } from '@/composables/useAdmin'
+import { telegramTesting, telegramMsg, telegramOk, testTelegram } from '@/composables/useAdmin'
 const { sett, settLoading, settSaving, settMsg, settOk, saveSett } = useAdmin()
 
 const vipColors = ['#f59e0b','#6366f1','#0891b2','#d97706','#dc2626']
