@@ -265,7 +265,7 @@
         </div>
 
         <!-- GAME GRID (full width) -->
-        <div style="flex:1;min-width:0;padding:8px;">
+        <div style="flex:1;min-width:0;padding:8px;overflow:hidden;">
           <div v-if="loadingGames" style="display:grid;grid-template-columns:repeat(3,1fr);gap:10px;">
             <div v-for="n in 9" :key="n" style="border-radius:12px;aspect-ratio:3/4;background:rgba(255,255,255,0.04);animation:nova-pulse 1.5s ease-in-out infinite;"></div>
           </div>
@@ -1720,7 +1720,8 @@
     border-radius: 50%;
     background: rgba(255,255,255,0.2);
     border: none; padding: 0; cursor: pointer;
-    transition: all 0.25s ease;
+    transition: width 0.25s ease, background-color 0.2s ease, border-radius 0.2s ease;
+    will-change: width;
     -webkit-tap-highlight-color: transparent;
   }
   .nova-carousel-dot--active {
@@ -1746,8 +1747,8 @@
 
 
   /* ── Carousel page slide animation ── */
-  .nova-pg-anim[data-dir="right"] { animation: pgFromRight 0.28s cubic-bezier(0.22,1,0.36,1); }
-  .nova-pg-anim[data-dir="left"]  { animation: pgFromLeft  0.28s cubic-bezier(0.22,1,0.36,1); }
+  .nova-pg-anim[data-dir="right"] { animation: pgFromRight 0.28s cubic-bezier(0.22,1,0.36,1); will-change: transform, opacity; }
+  .nova-pg-anim[data-dir="left"]  { animation: pgFromLeft  0.28s cubic-bezier(0.22,1,0.36,1); will-change: transform, opacity; }
   @keyframes pgFromRight { from { transform: translateX(28px); opacity: 0; } to { transform: translateX(0); opacity: 1; } }
   @keyframes pgFromLeft  { from { transform: translateX(-28px); opacity: 0; } to { transform: translateX(0); opacity: 1; } }
 </style>
