@@ -83,6 +83,67 @@ export const playerWinWdCount = computed(() =>
 )
 export const playerWinAmt = computed(() => playerTotalWd.value)
 
+// Payment method breakdowns
+export const playerDepositMethods = computed(() => {
+  const confirmed = playerTxList.value.filter(t => t.type === 'deposit' && t.status === 'confirmed')
+  const map = {}
+  confirmed.forEach(t => {
+    const m = t.method || 'Unknown'
+    if (!map[m]) map[m] = { method: m, count: 0, total: 0 }
+    map[m].count++; map[m].total += Number(t.amount) || 0
+  })
+  return Object.values(map).sort((a, b) => b.total - a.total)
+})
+export const playerWithdrawMethods = computed(() => {
+  const confirmed = playerTxList.value.filter(t => t.type !== 'deposit' && t.status === 'confirmed')
+  const map = {}
+  confirmed.forEach(t => {
+    const m = t.method || 'Unknown'
+    if (!map[m]) map[m] = { method: m, count: 0, total: 0 }
+    map[m].count++; map[m].total += Number(t.amount) || 0
+  })
+  return Object.values(map).sort((a, b) => b.total - a.total)
+})
+
+// TX stats
+export const playerDepositCount = computed(() =>
+  playerTxList.value.filter(t => t.type === 'deposit' && t.status === 'confirmed').length
+)
+export const playerWithdrawCount = computed(() =>
+  playerTxList.value.filter(t => t.type !== 'deposit' && t.status === 'confirmed').length
+)
+export const playerPendingCount = computed(() =>
+  playerTxList.value.filter(t => t.status === 'pending').length
+)
+export const playerAvgDeposit = computed(() => {
+  const deps = playerTxList.value.filter(t => t.type === 'deposit' && t.status === 'confirmed')
+  if (!deps.length) return 0
+  return deps.reduce((s, t) => s + (Number(t.amount) || 0), 0) / deps.length
+})
+export const playerFirstDeposit = computed(() => {
+  const deps = playerTxList.value.filter(t => t.type === 'deposit' && t.status === 'confirmed')
+  if (!deps.length) return null
+  return deps[deps.length - 1]?.created_at || null
+})
+export const playerLastDeposit = computed(() => {
+  const deps = playerTxList.value.filter(t => t.type === 'deposit' && t.status === 'confirmed')
+  if (!deps.length) return null
+  return deps[0]?.created_at || null
+})
+export const playerTurnover = computed(() =>
+  playerTxList.value
+    .filter(t => t.type === 'deposit' && t.status === 'confirmed')
+    .reduce((s, t) => s + (Number(t.amount) || 0), 0)
+)
+export const playerRiskScore = computed(() => {
+  const dep = playerTurnover.value, wd = playerTotalWd.value
+  if (!dep) return { label: 'No Data', color: '#94a3b8', pct: 0 }
+  const ratio = wd / dep
+  if (ratio >= 0.9) return { label: 'High Risk', color: '#dc2626', pct: Math.min(100, Math.round(ratio * 100)) }
+  if (ratio >= 0.5) return { label: 'Medium', color: '#d97706', pct: Math.round(ratio * 100) }
+  return { label: 'Low Risk', color: '#16a34a', pct: Math.round(ratio * 100) }
+})
+
 export const games       = ref([])
 export const gamesLoading = ref(false)
 export const gameQ       = ref('')
@@ -279,6 +340,34 @@ export const doAdjustBalance = async () => {
     adjAmt.value = 0; showToast('Balance updated', 'success')
   } catch (e) { showToast(e.message, 'error') } finally { panelLoading.value = false }
 }
+export const doAddBalance = async () => {
+  const amt = Math.abs(Number(adjAmt.value) || 0)
+  if (!amt || !selectedPlayer.value) { showToast('Enter amount', 'error'); return }
+  panelLoading.value = true
+  try {
+    const { error } = await supabase.rpc('admin_adjust_balance', {
+      p_key: adminKey.value, p_user_id: selectedPlayer.value.id, p_amount: amt
+    })
+    if (error) throw error
+    selectedPlayer.value.balance = (Number(selectedPlayer.value.balance) || 0) + amt
+    panelMsg.value = `+${fmtNum(amt)} Ks added`
+    adjAmt.value = 0; showToast('Balance added ✓', 'success')
+  } catch (e) { showToast(e.message, 'error') } finally { panelLoading.value = false }
+}
+export const doDeductBalance = async () => {
+  const amt = Math.abs(Number(adjAmt.value) || 0)
+  if (!amt || !selectedPlayer.value) { showToast('Enter amount', 'error'); return }
+  panelLoading.value = true
+  try {
+    const { error } = await supabase.rpc('admin_adjust_balance', {
+      p_key: adminKey.value, p_user_id: selectedPlayer.value.id, p_amount: -amt
+    })
+    if (error) throw error
+    selectedPlayer.value.balance = Math.max(0, (Number(selectedPlayer.value.balance) || 0) - amt)
+    panelMsg.value = `-${fmtNum(amt)} Ks deducted`
+    adjAmt.value = 0; showToast('Balance deducted ✓', 'success')
+  } catch (e) { showToast(e.message, 'error') } finally { panelLoading.value = false }
+}
 export const doToggleBan = async () => {
   if (!selectedPlayer.value) return; panelLoading.value = true
   try {
@@ -377,6 +466,10 @@ export function useAdmin() {
     playerSessions, playerSessLoading, panelLoading, panelMsg,
     panelActionMsg, panelActionOk, adjAmt, newPassword, genPassword,
     playerTotalWd, playerWinWdCount, playerWinAmt,
+    playerDepositMethods, playerWithdrawMethods,
+    playerDepositCount, playerWithdrawCount, playerPendingCount,
+    playerAvgDeposit, playerFirstDeposit, playerLastDeposit,
+    playerTurnover, playerRiskScore,
     games, gamesLoading, gameQ, gameCat, gameCats, filteredGames,
     msgs, msgsLoading, newMsg, msgSending, msgResult, msgOk,
     toast,
@@ -387,7 +480,7 @@ export function useAdmin() {
     fetchTx, doApprove,
     fetchSett, saveSett,
     fetchUsers, openPlayer, loadPlayerTx, loadPlayerSessions,
-    doAdjustBalance, doToggleBan, doResetPassword,
+    doAdjustBalance, doAddBalance, doDeductBalance, doToggleBan, doResetPassword,
     saveDrawerSettings,
     fetchGames, doToggleGame,
     fetchMsgs, sendMsg, deleteMsg,
