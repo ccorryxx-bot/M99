@@ -25,6 +25,11 @@
             <span class="a-brand-sub">Admin</span>
           </div>
         </div>
+        <!-- Pending TX Badge (real-time) -->
+        <div v-if="loggedIn && stats.pending_tx > 0" class="a-pending-badge" @click="switchTab(1)">
+          <svg width="11" height="11" fill="none" stroke="currentColor" stroke-width="2.2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+          {{ stats.pending_tx }} Pending
+        </div>
         <button v-if="loggedIn" @click="logout" class="a-logout">
           <svg width="14" height="14" fill="none" stroke="#64748b" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"/></svg>
         </button>
@@ -35,6 +40,7 @@
           class="a-tab" :class="activeTab===i?'a-tab--on':''">
           <svg width="11" height="11" fill="none" stroke="currentColor" stroke-width="2.2" viewBox="0 0 24 24" v-html="tab.icon"></svg>
           {{ tab.label }}
+          <span v-if="i===1 && stats.pending_tx > 0" class="a-tab-dot"></span>
         </button>
       </div>
     </header>
@@ -59,12 +65,16 @@
 
       <!-- DASHBOARD TABS -->
       <div v-else>
-        <AdminOverview   v-if="activeTab===0" @switch-tab="switchTab" />
-        <AdminTransactions v-if="activeTab===1" />
-        <AdminSettings   v-if="activeTab===2" />
-        <AdminUsers      v-if="activeTab===3" />
-        <AdminGames      v-if="activeTab===4" />
-        <AdminMessages   v-if="activeTab===5" />
+        <AdminOverview      v-if="activeTab===0" @switch-tab="switchTab" />
+        <AdminTransactions  v-if="activeTab===1" />
+        <AdminSettings      v-if="activeTab===2" />
+        <AdminUsers         v-if="activeTab===3" />
+        <AdminGames         v-if="activeTab===4" />
+        <AdminMessages      v-if="activeTab===5" />
+        <AdminPromos        v-if="activeTab===6" />
+        <AdminAgents        v-if="activeTab===7" />
+        <AdminReports       v-if="activeTab===8" />
+        <AdminAudit         v-if="activeTab===9" />
       </div>
     </div>
 
@@ -86,21 +96,30 @@ import AdminSettings    from '@/components/admin/AdminSettings.vue'
 import AdminUsers       from '@/components/admin/AdminUsers.vue'
 import AdminGames       from '@/components/admin/AdminGames.vue'
 import AdminMessages    from '@/components/admin/AdminMessages.vue'
+import AdminPromos      from '@/components/admin/AdminPromos.vue'
+import AdminAgents      from '@/components/admin/AdminAgents.vue'
+import AdminReports     from '@/components/admin/AdminReports.vue'
+import AdminAudit       from '@/components/admin/AdminAudit.vue'
 
 const {
   adminKey, loggedIn, loginLoading, loginErr,
-  activeTab, leftDrawer, playerPanel, toast,
+  activeTab, leftDrawer, playerPanel, toast, stats,
   login, logout,
   fetchTx, fetchSett, fetchUsers, fetchGames, fetchMsgs, loadOverview,
+  fetchPromos, fetchAgents, fetchCommTx, fetchAuditLog, fetchIpList,
 } = useAdmin()
 
 const tabs = [
   { label: 'Overview',     icon: '<path stroke-linecap="round" stroke-linejoin="round" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"/>' },
-  { label: 'Transactions', icon: '<path stroke-linecap="round" stroke-linejoin="round" d="M8 7h12m0 0l-4-4m4 4l-4 4m0 6H4m0 0l4 4m-4-4l4-4"/>' },
+  { label: 'TX',           icon: '<path stroke-linecap="round" stroke-linejoin="round" d="M8 7h12m0 0l-4-4m4 4l-4 4m0 6H4m0 0l4 4m-4-4l4-4"/>' },
   { label: 'Settings',     icon: '<path stroke-linecap="round" stroke-linejoin="round" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"/><circle cx="12" cy="12" r="3"/>' },
   { label: 'Users',        icon: '<path stroke-linecap="round" stroke-linejoin="round" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197"/>' },
   { label: 'Games',        icon: '<path stroke-linecap="round" stroke-linejoin="round" d="M11 4a2 2 0 114 0v1a1 1 0 001 1h3a1 1 0 011 1v3a1 1 0 01-1 1h-1a2 2 0 100 4h1a1 1 0 011 1v3a1 1 0 01-1 1h-3a1 1 0 01-1-1v-1a2 2 0 10-4 0v1a1 1 0 01-1 1H7a1 1 0 01-1-1v-3a1 1 0 00-1-1H4a2 2 0 110-4h1a1 1 0 001-1V7a1 1 0 011-1h3a1 1 0 001-1V4z"/>' },
   { label: 'Messages',     icon: '<path stroke-linecap="round" stroke-linejoin="round" d="M11 5.882V19.24a1.76 1.76 0 01-3.417.592l-2.147-6.15M18 13a3 3 0 100-6M5.436 13.683A4.001 4.001 0 017 6h1.832c4.1 0 7.625-1.234 9.168-3v14c-1.543-1.766-5.067-3-9.168-3H7a3.988 3.988 0 01-1.564-.317z"/>' },
+  { label: 'Promos',       icon: '<path stroke-linecap="round" stroke-linejoin="round" d="M7 7h.01M7 3h5c.512 0 1.024.195 1.414.586l7 7a2 2 0 010 2.828l-7 7a2 2 0 01-2.828 0l-7-7A1.994 1.994 0 013 12V7a4 4 0 014-4z"/>' },
+  { label: 'Agents',       icon: '<path stroke-linecap="round" stroke-linejoin="round" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0"/>' },
+  { label: 'Reports',      icon: '<path stroke-linecap="round" stroke-linejoin="round" d="M9 17v-2m3 2v-4m3 4v-6m2 10H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>' },
+  { label: 'Audit',        icon: '<path stroke-linecap="round" stroke-linejoin="round" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>' },
 ]
 
 const switchTab = async (i) => {
@@ -111,6 +130,9 @@ const switchTab = async (i) => {
   if (i === 3) fetchUsers()
   if (i === 4) fetchGames()
   if (i === 5) fetchMsgs()
+  if (i === 6) fetchPromos()
+  if (i === 7) { fetchAgents(); fetchCommTx() }
+  if (i === 9) { fetchAuditLog(); fetchIpList() }
 }
 </script>
 
@@ -163,7 +185,6 @@ const switchTab = async (i) => {
 }
 .a-full-body::-webkit-scrollbar { width: 3px; }
 .a-full-body::-webkit-scrollbar-thumb { background: #e2e8f0; border-radius: 3px; }
-/* Slide up transition for full panel */
 .slide-up-full-enter-active { transition: transform 0.3s cubic-bezier(0.32,0.72,0,1); }
 .slide-up-full-leave-active  { transition: transform 0.25s cubic-bezier(0.32,0.72,0,1); }
 .slide-up-full-enter-from, .slide-up-full-leave-to { transform: translateY(100%); }
@@ -232,8 +253,6 @@ const switchTab = async (i) => {
 .a-method-badge--out { background: #fee2e2; color: #dc2626; }
 .a-method-stats { flex: 1; display: flex; justify-content: flex-end; align-items: center; gap: 10px; }
 .a-method-count { font-size: 9px; color: #94a3b8; font-weight: 600; }
-
-/* ═══ TX ROW DATE ═════════════════════════════════════════════════ */
 .a-ptx-date { font-size: 9px; color: #94a3b8; flex: 1; text-align: right; }
 
 /* ═══ ROWS ════════════════════════════════════════════════════════ */
@@ -286,14 +305,27 @@ const switchTab = async (i) => {
 }
 .a-tabs-scroll::-webkit-scrollbar { display: none; }
 .a-tab {
-  flex-shrink: 0; display: flex; align-items: center; gap: 4px;
+  flex-shrink: 0; display: flex; align-items: center; gap: 4px; position: relative;
   padding: 10px 12px; font-size: 10px; font-weight: 600; white-space: nowrap;
   background: none; border: none; border-bottom: 2px solid transparent;
   color: #94a3b8; cursor: pointer; transition: color 0.15s, border-color 0.15s;
 }
 .a-tab--on { color: #4f46e5; border-bottom-color: #4f46e5; }
+.a-tab-dot { position: absolute; top: 6px; right: 6px; width: 6px; height: 6px; border-radius: 50%; background: #dc2626; }
 .a-logout { flex-shrink: 0; background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 7px; padding: 6px 8px; cursor: pointer; display: flex; align-items: center; }
 .a-logout:active { background: #f1f5f9; }
+
+/* ═══ PENDING BADGE ════════════════════════════════════════════════ */
+.a-pending-badge {
+  flex: 1; display: flex; align-items: center; justify-content: center; gap: 4px;
+  background: #fef9c3; color: #854d0e; font-size: 10px; font-weight: 800;
+  padding: 5px 10px; border-radius: 99px; cursor: pointer; border: 1px solid #fde68a;
+  animation: pulse-warn 2s infinite;
+}
+@keyframes pulse-warn {
+  0%,100% { opacity: 1; }
+  50%      { opacity: 0.7; }
+}
 
 /* ═══ BODY ════════════════════════════════════════════════════════ */
 .a-body { padding: 12px 10px 28px; width: 100%; box-sizing: border-box; }
@@ -366,6 +398,14 @@ const switchTab = async (i) => {
 .a-sett-block { background: #ffffff; border-radius: 12px; padding: 14px 14px 12px; margin-bottom: 8px; }
 .a-sett-ttl { font-size: 12px; font-weight: 800; color: #0f172a; margin-bottom: 10px; }
 .a-textarea { resize: vertical; min-height: 60px; line-height: 1.5; }
+.a-tog-danger { background: #fee2e2; color: #dc2626; }
+.a-form-row { display: flex; gap: 8px; }
+.a-form-col { flex: 1; }
+
+/* ═══ VIP CONFIG ══════════════════════════════════════════════════ */
+.a-vip-grid { display: flex; flex-direction: column; gap: 8px; }
+.a-vip-row { display: flex; align-items: flex-end; gap: 8px; }
+.a-vip-badge { font-size: 9px; font-weight: 800; color: #fff; padding: 3px 8px; border-radius: 6px; letter-spacing: 0.04em; flex-shrink: 0; width: 38px; text-align: center; }
 
 /* ═══ USERS ═══════════════════════════════════════════════════════ */
 .a-user-row { display: flex; align-items: center; gap: 10px; background: #ffffff; border-radius: 10px; padding: 10px 12px; margin-bottom: 6px; transition: background 0.12s; }
@@ -384,6 +424,10 @@ const switchTab = async (i) => {
 .a-uright { display: flex; flex-direction: column; align-items: flex-end; gap: 3px; }
 .a-ubal { font-size: 11px; font-weight: 700; color: #4f46e5; }
 .a-srch { flex: 1; min-width: 0; }
+.a-vip-pill { font-size: 8px; font-weight: 800; background: #fef9c3; color: #854d0e; padding: 1px 5px; border-radius: 4px; margin-left: 4px; }
+.a-risk-flag { font-size: 12px; flex-shrink: 0; }
+.a-risk-flag--high { color: #dc2626; }
+.a-risk-flag--med  { color: #d97706; }
 
 /* ═══ GAMES ═══════════════════════════════════════════════════════ */
 .a-game-row { display: flex; align-items: center; gap: 10px; background: #ffffff; border-radius: 10px; padding: 8px 12px; margin-bottom: 6px; }
@@ -418,6 +462,34 @@ const switchTab = async (i) => {
 .a-sess-bot { font-size: 9px; color: #94a3b8; }
 .a-adj-row { display: flex; gap: 6px; margin-top: 10px; }
 
+/* ═══ PROMO ROWS ══════════════════════════════════════════════════ */
+.a-promo-form { background: #f8fafc; border-radius: 10px; padding: 10px; }
+.a-promo-row { display: flex; align-items: center; gap: 8px; background: #ffffff; border-radius: 10px; padding: 10px 12px; margin-bottom: 6px; border: 1px solid #f1f5f9; }
+.a-promo-left { flex: 1; min-width: 0; }
+.a-promo-code { display: block; font-size: 13px; font-weight: 900; color: #4f46e5; letter-spacing: 0.1em; font-family: monospace; }
+.a-promo-meta { display: block; font-size: 9px; color: #94a3b8; margin-top: 2px; }
+.a-promo-right { display: flex; align-items: center; gap: 6px; }
+
+/* ═══ AGENT ROW ═══════════════════════════════════════════════════ */
+.a-agent-row { display: flex; align-items: center; gap: 10px; background: #ffffff; border-radius: 10px; padding: 10px 12px; margin-bottom: 6px; }
+.a-agent-right { display: flex; flex-direction: column; align-items: flex-end; gap: 2px; }
+.a-agent-comm { font-size: 12px; font-weight: 800; color: #d97706; }
+
+/* ═══ IP / AUDIT ══════════════════════════════════════════════════ */
+.a-ip-row { display: flex; align-items: center; gap: 6px; padding: 6px 0; border-bottom: 1px solid #f1f5f9; }
+.a-ip-row:last-child { border-bottom: none; }
+.a-audit-row { display: flex; align-items: flex-start; gap: 8px; padding: 7px 0; border-bottom: 1px solid #f1f5f9; }
+.a-audit-row:last-child { border-bottom: none; }
+.a-audit-action-badge { font-size: 8px; font-weight: 800; padding: 2px 6px; border-radius: 4px; white-space: nowrap; flex-shrink: 0; letter-spacing: 0.04em; }
+.a-audit-badge--danger  { background: #fee2e2; color: #dc2626; }
+.a-audit-badge--success { background: #dcfce7; color: #15803d; }
+.a-audit-badge--warn    { background: #fef9c3; color: #854d0e; }
+.a-audit-badge--info    { background: #ede9fe; color: #4f46e5; }
+.a-audit-info { flex: 1; min-width: 0; }
+.a-audit-target { display: block; font-size: 10px; font-weight: 700; color: #0f172a; }
+.a-audit-detail { display: block; font-size: 9px; color: #94a3b8; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.a-audit-time { font-size: 9px; color: #94a3b8; flex-shrink: 0; }
+
 /* ═══ BUTTONS ═════════════════════════════════════════════════════ */
 .a-btn-primary {
   display: inline-flex; align-items: center; justify-content: center; gap: 5px;
@@ -431,7 +503,7 @@ const switchTab = async (i) => {
 .a-btn-success { background: #dcfce7; color: #15803d; }
 .a-btn-danger  { background: #fee2e2; color: #dc2626; }
 .a-btn-warn    { background: #fef9c3; color: #92400e; }
-.a-btn-ghost   { background: #f1f5f9; color: #64748b; }
+.a-btn-ghost   { background: #f1f5f9; color: #64748b; border: 1px solid #e2e8f0; }
 .a-btn-sm-p    { padding: 7px 14px; border: none; border-radius: 8px; font-size: 11px; font-weight: 700; background: #4f46e5; color: #fff; cursor: pointer; }
 .a-icon-btn { background: none; border: none; cursor: pointer; display: flex; align-items: center; padding: 4px; border-radius: 6px; }
 .a-icon-btn:hover { background: #f1f5f9; }
