@@ -276,7 +276,7 @@
           <div v-else-if="displayedGames.length===0" style="text-align:center;padding:30px 0;">
             <p style="color:rgba(255,255,255,0.22);font-size:12px;">ဂိမ်းမတွေ့ပါ</p>
           </div>
-          <div v-else style="display:grid;grid-template-columns:repeat(3,1fr);gap:10px;" @touchstart="onCarouselTouchStart" @touchend="onCarouselTouchEnd">
+          <div v-else :key="'pg-' + carouselPage" :data-dir="carouselDir" class="nova-pg-anim" style="display:grid;grid-template-columns:repeat(3,1fr);gap:10px;" @touchstart="onCarouselTouchStart" @touchend="onCarouselTouchEnd">
             <div v-for="(game,idx) in displayedGames" :key="game.id"
               class="nova-game-card" @click="openGame(game)">
               <div style="position:relative;aspect-ratio:3/4;overflow:hidden;background:#0e1030;">
@@ -297,7 +297,7 @@
               <button v-for="(_, di) in carouselPages" :key="di"
                 class="nova-carousel-dot"
                 :class="di === carouselPage ? 'nova-carousel-dot--active' : ''"
-                @click="carouselPage = di">
+                @click="setCarouselPage(di)">
               </button>
             </div>
             <button class="nova-carousel-all-btn" @click="openCatPanel('hot')">
@@ -392,6 +392,7 @@
             </div>
           </div>
         </div>
+        <div style="display:flex;justify-content:flex-end;padding:8px 0 2px;"><button class="nova-carousel-all-btn" @click="openCatPanel('fishing')">အားလုံး <span style="font-size:13px;">»</span></button></div>
       </div>
 
       <!-- ══ LIVE CASINO + ARCADE ══ -->
@@ -442,6 +443,7 @@
             </div>
           </div>
         </div>
+        <div style="display:flex;justify-content:flex-end;padding:8px 0 2px;"><button class="nova-carousel-all-btn" @click="openCatPanel('live')">အားလုံး <span style="font-size:13px;">»</span></button></div>
       </div>
 
       <!-- ══ LIVE CASINO + ARCADE BUTTONS ══ -->
@@ -896,14 +898,22 @@
     }
     return pages
   })
+  const carouselDir = ref('right')
   let carouselTouchStartX = 0
   function onCarouselTouchStart(e) { carouselTouchStartX = e.touches[0].clientX }
   function onCarouselTouchEnd(e) {
     const dx = carouselTouchStartX - e.changedTouches[0].clientX
     if (Math.abs(dx) > 40) {
-      if (dx > 0 && carouselPage.value < carouselPages.value.length - 1) carouselPage.value++
-      else if (dx < 0 && carouselPage.value > 0) carouselPage.value--
+      if (dx > 0 && carouselPage.value < carouselPages.value.length - 1) {
+        carouselDir.value = 'right'; carouselPage.value++
+      } else if (dx < 0 && carouselPage.value > 0) {
+        carouselDir.value = 'left'; carouselPage.value--
+      }
     }
+  }
+  function setCarouselPage(di) {
+    carouselDir.value = di > carouselPage.value ? 'right' : 'left'
+    carouselPage.value = di
   }
   const displayedGames = computed(() =>
     activeCategory.value === 'popular' ? (carouselPages.value[carouselPage.value] || []) : filteredGames.value
@@ -1762,4 +1772,10 @@
   }
   .nova-carousel-all-btn:active { background: rgba(255,193,7,0.24); }
 
+
+  /* ── Carousel page slide animation ── */
+  .nova-pg-anim[data-dir="right"] { animation: pgFromRight 0.28s cubic-bezier(0.22,1,0.36,1); }
+  .nova-pg-anim[data-dir="left"]  { animation: pgFromLeft  0.28s cubic-bezier(0.22,1,0.36,1); }
+  @keyframes pgFromRight { from { transform: translateX(28px); opacity: 0; } to { transform: translateX(0); opacity: 1; } }
+  @keyframes pgFromLeft  { from { transform: translateX(-28px); opacity: 0; } to { transform: translateX(0); opacity: 1; } }
 </style>
