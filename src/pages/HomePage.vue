@@ -975,8 +975,18 @@
   async function handleWithdrawSubmit(data) { try { const token=(await supabase.auth.getSession()).data.session?.access_token; if(!token){showToast({type:'fail',message:'ဝင်ရောက်ပါ'});return}; const res=await fetch('https://vuywhhmwrqykukcemifd.supabase.co/functions/v1/withdraw',{method:'POST',headers:{'Authorization':'Bearer '+token,'Content-Type':'application/json'},body:JSON.stringify({method:data.method,phone:data.phone,accountName:data.accountName,amount:data.amount})}); const result=await res.json(); if(result.error)throw new Error(result.error); showToast({type:'success',message:'ငွေထုတ်မှု အောင်မြင်ပါသည်'}); setTimeout(()=>fetchBalance(),2000) } catch(e){showToast({type:'fail',message:e.message})} }
 
 
+  async function fetchAdminMessages() {
+    try {
+      const { data } = await supabase.from('admin_messages').select('*').eq('is_active', true).order('created_at', { ascending: false })
+      adminMessages.value = (data || []).map(m => ({
+        ...m,
+        time: m.created_at ? new Date(m.created_at).toLocaleDateString('en-GB', { day:'numeric', month:'short', year:'numeric' }) : '—'
+      }))
+    } catch {}
+  }
+
   onMounted(()=>{
-    loadUserInfo(); fetchGames(); startBannerTimer()
+    loadUserInfo(); fetchGames(); startBannerTimer(); fetchAdminMessages()
     // Auto-open auth panel from URL query (?auth=register|login) + auto-fill referral
     const params = new URLSearchParams(window.location.search)
     const authParam = params.get('auth')
