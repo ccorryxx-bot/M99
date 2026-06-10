@@ -146,7 +146,29 @@ const switchTab = async (i) => {
 .slide-left-enter-active,.slide-left-leave-active { transition: transform 0.25s cubic-bezier(0.4,0,0.2,1) }
 .slide-left-enter-from,.slide-left-leave-to { transform: translateX(-100%) }
 
-/* ═══ RIGHT PLAYER PANEL ══════════════════════════════════════════ */
+/* ═══ FULL SCREEN PLAYER PANEL ═══════════════════════════════════ */
+.a-full-panel {
+  position: fixed; inset: 0; z-index: 200;
+  background: #f0f2f5; display: flex; flex-direction: column; overflow: hidden;
+}
+.a-full-hdr {
+  display: flex; align-items: center; gap: 10px;
+  padding: 14px 16px; border-bottom: 1px solid #e2e8f0;
+  flex-shrink: 0; background: #ffffff; min-height: 50px;
+}
+.a-full-hdr-title { flex: 1; font-size: 14px; font-weight: 800; color: #0f172a; }
+.a-full-body {
+  flex: 1; overflow-y: auto; padding: 10px 12px 40px;
+  scrollbar-width: thin; scrollbar-color: #e2e8f0 transparent;
+}
+.a-full-body::-webkit-scrollbar { width: 3px; }
+.a-full-body::-webkit-scrollbar-thumb { background: #e2e8f0; border-radius: 3px; }
+/* Slide up transition for full panel */
+.slide-up-full-enter-active { transition: transform 0.3s cubic-bezier(0.32,0.72,0,1); }
+.slide-up-full-leave-active  { transition: transform 0.25s cubic-bezier(0.32,0.72,0,1); }
+.slide-up-full-enter-from, .slide-up-full-leave-to { transform: translateY(100%); }
+
+/* Legacy right panel kept for compat */
 .a-right-panel {
   position: fixed; top: 0; right: 0; bottom: 0; z-index: 200;
   width: 340px; max-width: 100vw; background: #ffffff;
@@ -158,10 +180,61 @@ const switchTab = async (i) => {
 .a-panel-body { flex: 1; overflow-y: auto; padding: 0; scrollbar-width: thin; scrollbar-color: #e2e8f0 transparent; display: flex; flex-direction: column; }
 .a-panel-body::-webkit-scrollbar { width: 3px; }
 .a-panel-body::-webkit-scrollbar-thumb { background: #e2e8f0; border-radius: 3px; }
-.a-section-block { padding: 14px 16px; border-bottom: 1px solid #f1f5f9; }
+.a-section-block { background: #ffffff; border-radius: 12px; padding: 14px 14px 12px; margin-bottom: 8px; }
 .a-section-hdr { display: flex; align-items: center; gap: 6px; font-size: 10px; font-weight: 800; color: #4f46e5; text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 10px; }
 .slide-right-enter-active,.slide-right-leave-active { transition: transform 0.25s cubic-bezier(0.4,0,0.2,1) }
 .slide-right-enter-from,.slide-right-leave-to { transform: translateX(100%) }
+
+/* ═══ BALANCE CARD ════════════════════════════════════════════════ */
+.a-bal-card { background: linear-gradient(135deg,#4f46e5,#0891b2); border-radius: 12px; padding: 14px 16px; margin-bottom: 12px; text-align: center; }
+.a-bal-label { font-size: 10px; font-weight: 700; color: rgba(255,255,255,0.7); letter-spacing: 0.08em; text-transform: uppercase; margin-bottom: 4px; }
+.a-bal-value { font-size: 26px; font-weight: 900; color: #ffffff; line-height: 1.1; }
+.a-bal-unit { font-size: 14px; font-weight: 700; opacity: 0.8; }
+
+/* ═══ RISK SCORE ══════════════════════════════════════════════════ */
+.a-risk-row { display: flex; align-items: center; padding: 7px 0; border-bottom: 1px solid #f1f5f9; gap: 10px; }
+.a-risk-right { flex: 1; display: flex; flex-direction: column; align-items: flex-end; gap: 3px; }
+.a-risk-label { font-size: 10px; font-weight: 700; }
+.a-risk-bar { width: 80px; height: 4px; background: #f1f5f9; border-radius: 2px; }
+.a-risk-fill { height: 100%; border-radius: 2px; transition: width 0.5s; }
+
+/* ═══ BALANCE ADJUST ══════════════════════════════════════════════ */
+.a-adj-section { margin-top: 12px; background: #f8fafc; border-radius: 10px; padding: 10px; }
+.a-adj-input-row { margin-bottom: 8px; }
+.a-adj-btn-row { display: flex; gap: 8px; }
+.a-adj-btn {
+  flex: 1; display: inline-flex; align-items: center; justify-content: center; gap: 5px;
+  padding: 9px 12px; border: none; border-radius: 9px; font-size: 11px; font-weight: 800;
+  cursor: pointer; transition: opacity 0.15s; letter-spacing: 0.02em;
+}
+.a-adj-btn:disabled { opacity: 0.45; cursor: not-allowed; }
+.a-adj-btn--add    { background: #dcfce7; color: #15803d; border: 1px solid #bbf7d0; }
+.a-adj-btn--add:hover:not(:disabled) { background: #bbf7d0; }
+.a-adj-btn--deduct { background: #fee2e2; color: #dc2626; border: 1px solid #fecaca; }
+.a-adj-btn--deduct:hover:not(:disabled) { background: #fecaca; }
+.a-adj-msg { font-size: 10px; font-weight: 700; color: #4f46e5; margin-top: 6px; text-align: center; }
+
+/* ═══ TX STAT GRID ════════════════════════════════════════════════ */
+.a-stat-grid { display: grid; grid-template-columns: repeat(4,1fr); gap: 6px; margin-bottom: 10px; }
+.a-stat-tile { background: #f8fafc; border-radius: 8px; padding: 8px 6px; text-align: center; }
+.a-stat-val { font-size: 15px; font-weight: 900; color: #0f172a; line-height: 1.1; }
+.a-stat-lbl { font-size: 8px; color: #94a3b8; margin-top: 2px; font-weight: 600; }
+.a-stat-tile--in     .a-stat-val { color: #0891b2; }
+.a-stat-tile--out    .a-stat-val { color: #dc2626; }
+.a-stat-tile--warn   .a-stat-val { color: #d97706; }
+.a-stat-tile--purple .a-stat-val { color: #4f46e5; }
+
+/* ═══ PAYMENT METHOD ROW ══════════════════════════════════════════ */
+.a-method-row { display: flex; align-items: center; gap: 10px; padding: 7px 0; border-bottom: 1px solid #f1f5f9; }
+.a-method-row:last-child { border-bottom: none; }
+.a-method-badge { font-size: 9px; font-weight: 800; padding: 3px 8px; border-radius: 6px; letter-spacing: 0.04em; flex-shrink: 0; }
+.a-method-badge--in  { background: #e0f2fe; color: #0891b2; }
+.a-method-badge--out { background: #fee2e2; color: #dc2626; }
+.a-method-stats { flex: 1; display: flex; justify-content: flex-end; align-items: center; gap: 10px; }
+.a-method-count { font-size: 9px; color: #94a3b8; font-weight: 600; }
+
+/* ═══ TX ROW DATE ═════════════════════════════════════════════════ */
+.a-ptx-date { font-size: 9px; color: #94a3b8; flex: 1; text-align: right; }
 
 /* ═══ ROWS ════════════════════════════════════════════════════════ */
 .a-row { display: flex; justify-content: space-between; align-items: center; padding: 7px 0; border-bottom: 1px solid #f1f5f9; }
