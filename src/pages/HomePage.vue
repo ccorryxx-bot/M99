@@ -975,34 +975,8 @@
   async function handleWithdrawSubmit(data) { try { const token=(await supabase.auth.getSession()).data.session?.access_token; if(!token){showToast({type:'fail',message:'ဝင်ရောက်ပါ'});return}; const res=await fetch('https://vuywhhmwrqykukcemifd.supabase.co/functions/v1/withdraw',{method:'POST',headers:{'Authorization':'Bearer '+token,'Content-Type':'application/json'},body:JSON.stringify({method:data.method,phone:data.phone,accountName:data.accountName,amount:data.amount})}); const result=await res.json(); if(result.error)throw new Error(result.error); showToast({type:'success',message:'ငွေထုတ်မှု အောင်မြင်ပါသည်'}); setTimeout(()=>fetchBalance(),2000) } catch(e){showToast({type:'fail',message:e.message})} }
 
 
-  // ── HIGH FPS SMOOTH SCROLL BOOSTER ──
-  let rafId = null
-  let lastScrollY = 0
-  let currentScrollY = 0
-  const EASE = 0.12   // smoothing factor (lower = smoother/slower)
-
-  function smoothScrollTick() {
-    const diff = lastScrollY - currentScrollY
-    if (Math.abs(diff) > 0.5) {
-      currentScrollY += diff * EASE
-      window.scrollTo(0, currentScrollY)
-    } else {
-      currentScrollY = lastScrollY
-    }
-    rafId = requestAnimationFrame(smoothScrollTick)
-  }
-
-  function onWheelSmooth(e) {
-    e.preventDefault()
-    lastScrollY = Math.max(0, Math.min(lastScrollY + e.deltaY * 0.85, document.body.scrollHeight - window.innerHeight))
-    if (!rafId) rafId = requestAnimationFrame(smoothScrollTick)
-  }
   onMounted(()=>{
     loadUserInfo(); fetchGames(); startBannerTimer()
-    // GPU layer hints
-    document.documentElement.style.setProperty('--perf-hint','auto')
-    // 61 FPS smooth scroll on desktop wheel events
-    window.addEventListener('wheel', onWheelSmooth, { passive: false })
     // Auto-open auth panel from URL query (?auth=register|login) + auto-fill referral
     const params = new URLSearchParams(window.location.search)
     const authParam = params.get('auth')
@@ -1014,8 +988,6 @@
     clearInterval(bannerTimer)
     document.body.style.overflow=''
     document.body.style.touchAction=''
-    window.removeEventListener('wheel', onWheelSmooth)
-    if (rafId) { cancelAnimationFrame(rafId); rafId = null }
   })
   </script>
 
@@ -1023,7 +995,7 @@
   @import url('https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@300;600&display=swap');
   /* ── BASE ── */
   .nova-app { background: #07091b; min-height:100vh; color:#fff; -webkit-tap-highlight-color:rgba(0,0,0,0); overscroll-behavior:contain; -webkit-overflow-scrolling:touch; scroll-behavior:smooth; }
-.nova-bg-orb { position:fixed; border-radius:50%; pointer-events:none; z-index:0; }
+.nova-bg-orb { position:fixed; border-radius:50%; pointer-events:none; z-index:0; will-change:transform; transform:translateZ(0); }
 .nova-bg-orb--1 { width:300px; height:300px; top:-80px; left:-80px; background:radial-gradient(circle,rgba(34,197,94,0.32) 0%,rgba(34,197,94,0.10) 50%,transparent 70%); animation:orb-drift1 12s ease-in-out infinite; }
 .nova-bg-orb--2 { width:340px; height:340px; top:38%; right:-110px; background:radial-gradient(circle,rgba(99,102,241,0.28) 0%,rgba(56,189,248,0.14) 45%,transparent 70%); animation:orb-drift2 16s ease-in-out infinite; }
 .nova-bg-orb--3 { width:240px; height:240px; bottom:70px; left:-20px; background:radial-gradient(circle,rgba(168,85,247,0.26) 0%,rgba(236,72,153,0.13) 50%,transparent 70%); animation:orb-drift3 14s ease-in-out infinite; }
