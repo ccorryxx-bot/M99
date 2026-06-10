@@ -153,13 +153,22 @@
           <!-- Main Content -->
           <div class="cgp-main" ref="mainRef">
 
-            <!-- Empty -->
+            <!-- Empty / Fallback -->
             <div v-if="pagedGames.length===0" class="cgp-empty">
-              <svg width="48" height="48" fill="none" viewBox="0 0 48 48" style="opacity:0.25;margin-bottom:10px;">
-                <rect x="6" y="10" width="36" height="30" rx="5" stroke="white" stroke-width="2"/>
-                <path d="M16 20h16M16 27h10" stroke="white" stroke-width="2" stroke-linecap="round"/>
-              </svg>
-              <p>ဂိမ်းမတွေ့ပါ</p>
+              <div class="cgp-empty-icon">
+                <svg width="52" height="52" fill="none" viewBox="0 0 48 48">
+                  <rect x="6" y="10" width="36" height="30" rx="5" stroke="rgba(255,255,255,0.3)" stroke-width="2"/>
+                  <path d="M16 20h16M16 27h10" stroke="rgba(255,255,255,0.3)" stroke-width="2" stroke-linecap="round"/>
+                </svg>
+              </div>
+              <p class="cgp-empty-title">ဂိမ်းမတွေ့ပါ</p>
+              <p class="cgp-empty-sub">{{ searchQ ? 'ရှာဖွေမှု ကိုက်ညီသော ဂိမ်း မတွေ့ပါ' : 'ဤ အမျိုးအစားတွင် ဂိမ်းများ မရှိသေးပါ' }}</p>
+              <button v-if="activeCategory!=='hot'" class="cgp-empty-cta" @click="pickCat('hot')">
+                <svg width="13" height="14" viewBox="0 0 20 22" fill="none" style="margin-right:5px;">
+                  <path d="M10 0.5C10 0.5 7.5 5 7.5 9C7.5 9 5.5 7 5.5 5C5.5 5 2.5 8.5 2.5 12.5C2.5 17 6 21 10 21C14 21 17.5 17 17.5 12.5C17.5 9.5 15.5 7 13.5 5C13.5 7 12.5 9 10.5 10C10.5 10 11 5.5 10 0.5Z" fill="#f97316"/>
+                </svg>
+                နာမည်ကြီး ဂိမ်းများ ကြည့်ရန်
+              </button>
             </div>
 
             <!-- Grid -->
@@ -170,7 +179,9 @@
                   <img :src="game.image_url" class="cgp-card-img" :alt="game.game_name"
                     @error="e=>e.target.style.display='none'" loading="lazy"/>
                   <div class="cgp-card-grad"></div>
-                  <span class="cgp-card-cat-badge">{{ game.category==='live'?'LIVE':'ARC' }}</span>
+                  <span v-if="game.category==='live'" class="cgp-card-cat-badge cgp-card-cat-badge--live">LIVE</span>
+                  <span v-else-if="game.category==='arcade'" class="cgp-card-cat-badge cgp-card-cat-badge--arc">ARC</span>
+                  <span v-else-if="game.category==='fishing'" class="cgp-card-cat-badge cgp-card-cat-badge--fish">FISH</span>
                   <span class="cgp-card-badge">{{ game.provider_code?.toUpperCase() }}</span>
                   <button class="cgp-card-fav" :class="favs.has(game.id)&&'cgp-card-fav--on'"
                     @click.stop="toggleFav(game.id)">
@@ -431,7 +442,11 @@ const pageNums = computed(() => {
 <style scoped>
 .cgp-root {
   position: fixed; inset: 0; z-index: 1200;
-  background: #07091b;
+  background:
+    radial-gradient(ellipse 70% 40% at 20% 10%, rgba(88,28,220,0.22) 0%, transparent 60%),
+    radial-gradient(ellipse 60% 40% at 80% 75%, rgba(15,80,160,0.2) 0%, transparent 60%),
+    radial-gradient(ellipse 50% 30% at 55% 45%, rgba(200,60,20,0.09) 0%, transparent 60%),
+    #07091b;
   display: flex; flex-direction: column;
   overflow: hidden;
 }
@@ -630,36 +645,43 @@ const pageNums = computed(() => {
 /* ── Grid ── */
 .cgp-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 7px; }
 .cgp-card {
-  cursor: pointer; -webkit-tap-highlight-color: transparent; border-radius: 10px; overflow: hidden;
+  cursor: pointer; -webkit-tap-highlight-color: transparent; border-radius: 12px; overflow: hidden;
+  will-change: transform; transform: translateZ(0); contain: layout style;
+  transition: transform 0.13s ease, opacity 0.13s ease;
 }
-.cgp-card:active { opacity: 0.82; transform: scale(0.97); }
+.cgp-card:active { opacity: 0.8; transform: scale(0.96) translateZ(0); }
 .cgp-card-img-wrap {
   position: relative; aspect-ratio: 3/4; background: #111327;
-  border-radius: 10px; overflow: hidden;
+  border-radius: 12px; overflow: hidden;
+  box-shadow: 0 3px 14px rgba(0,0,0,0.7), 0 0 0 1px rgba(255,255,255,0.05);
 }
 .cgp-card-img { width: 100%; height: 100%; object-fit: cover; display: block; }
 .cgp-card-grad {
   position: absolute; inset: 0;
-  background: linear-gradient(to top, rgba(6,8,24,0.92) 0%, rgba(6,8,24,0.25) 40%, transparent 100%);
+  background: linear-gradient(to top, rgba(5,7,22,0.95) 0%, rgba(5,7,22,0.3) 45%, transparent 100%);
 }
 .cgp-card-cat-badge {
   position: absolute; top: 4px; right: 4px;
   font-size: 7px; font-weight: 800; color: #fff;
-  background: rgba(168,85,247,0.82); padding: 2px 5px; border-radius: 4px; letter-spacing: 0.04em;
+  background: rgba(168,85,247,0.85); padding: 2px 5px; border-radius: 4px; letter-spacing: 0.04em;
 }
+.cgp-card-cat-badge--live { background: rgba(239,68,68,0.88); }
+.cgp-card-cat-badge--arc  { background: rgba(139,92,246,0.88); }
+.cgp-card-cat-badge--fish { background: rgba(6,182,212,0.88); }
 .cgp-card-badge {
   position: absolute; top: 4px; left: 4px;
-  font-size: 7px; font-weight: 800; color: #fff;
-  background: rgba(0,0,0,0.55); padding: 2px 5px; border-radius: 4px; letter-spacing: 0.04em;
+  font-size: 7px; font-weight: 800; color: rgba(255,255,255,0.9);
+  background: rgba(0,0,0,0.6); padding: 2px 5px; border-radius: 4px; letter-spacing: 0.04em;
+  backdrop-filter: blur(4px);
 }
 .cgp-card-fav {
   position: absolute; top: 4px; right: 26px;
   width: 20px; height: 20px; border-radius: 5px; border: none;
-  background: rgba(0,0,0,0.4); color: rgba(255,255,255,0.45);
+  background: rgba(0,0,0,0.45); color: rgba(255,255,255,0.45);
   display: flex; align-items: center; justify-content: center;
   cursor: pointer; padding: 0; -webkit-tap-highlight-color: transparent;
 }
-.cgp-card-fav--on { color: #f43f5e; background: rgba(0,0,0,0.6); }
+.cgp-card-fav--on { color: #f43f5e; background: rgba(0,0,0,0.65); }
 .cgp-card-name {
   position: absolute; bottom: 0; left: 0; right: 0; z-index: 2;
   font-size: 9px; font-weight: 700; color: rgba(255,255,255,0.92);
@@ -667,12 +689,26 @@ const pageNums = computed(() => {
   overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
 }
 
-/* ── Empty ── */
+/* ── Empty / Fallback ── */
 .cgp-empty {
   display: flex; flex-direction: column; align-items: center;
-  justify-content: center; padding: 60px 20px;
-  color: rgba(255,255,255,0.3); font-size: 12px;
+  justify-content: center; padding: 60px 20px; gap: 6px;
 }
+.cgp-empty-icon {
+  width: 72px; height: 72px; border-radius: 20px;
+  background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.08);
+  display: flex; align-items: center; justify-content: center; margin-bottom: 6px;
+}
+.cgp-empty-title { font-size: 14px; font-weight: 800; color: rgba(255,255,255,0.55); margin: 0; }
+.cgp-empty-sub   { font-size: 11px; color: rgba(255,255,255,0.28); margin: 0 0 12px; text-align: center; }
+.cgp-empty-cta {
+  display: flex; align-items: center; gap: 0; padding: 9px 18px; border-radius: 20px;
+  background: linear-gradient(135deg, rgba(249,115,22,0.25), rgba(251,191,36,0.2));
+  border: 1px solid rgba(251,191,36,0.4); color: #fbbf24;
+  font-size: 12px; font-weight: 800; cursor: pointer; letter-spacing: 0.02em;
+  -webkit-tap-highlight-color: transparent; transition: background 0.15s;
+}
+.cgp-empty-cta:active { background: linear-gradient(135deg, rgba(249,115,22,0.4), rgba(251,191,36,0.35)); }
 
 /* ── Pagination ── */
 .cgp-pager {
