@@ -91,6 +91,9 @@ onMounted(async () => {
   border-top: 1px solid rgba(59,130,246,0.15);
   padding-bottom: env(safe-area-inset-bottom, 0);
   box-shadow: 0 -2px 16px rgba(0,0,0,0.4);
+  will-change: transform;
+  transform: translateZ(0);
+  backface-visibility: hidden;
 }
 .gnav-inner {
   display: flex; justify-content: space-around; align-items: center;
