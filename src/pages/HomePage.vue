@@ -297,10 +297,10 @@
               <button v-for="(_, di) in carouselPages" :key="di"
                 class="nova-carousel-dot"
                 :class="di===0 ? 'nova-carousel-dot--active' : ''"
-                @click="openCatPanel('popular')">
+                @click="openCatPanel('hot')">
               </button>
             </div>
-            <button class="nova-carousel-all-btn" @click="openCatPanel('popular')">
+            <button class="nova-carousel-all-btn" @click="openCatPanel('hot')">
               အားလုံး <span style="font-size:13px;">»</span>
             </button>
           </div>
@@ -1722,8 +1722,15 @@
   }
   .nova-carousel-dots {
     display: flex; align-items: center; gap: 6px;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+    flex: 1;
+    padding-bottom: 2px;
   }
+  .nova-carousel-dots::-webkit-scrollbar { display: none; }
   .nova-carousel-dot {
+    flex-shrink: 0;
     width: 8px; height: 8px;
     border-radius: 50%;
     background: rgba(255,255,255,0.2);
