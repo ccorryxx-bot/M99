@@ -255,7 +255,19 @@
                 <!-- Slip Image Upload -->
                 <div class="s2-slip-section">
                   <div class="s2-ref-label">ငွေလွှဲပြေစာ (Slip Image) — Optional</div>
+                  <!-- Camera / Gallery choice buttons -->
+                  <div v-if="!slipPreview" class="s2-slip-choice-row">
+                    <button class="s2-slip-choice-btn" @click="$refs.slipCameraInput.click()">
+                      <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z"/><circle cx="12" cy="13" r="3"/></svg>
+                      ကင်မရာ ရိုက်မည်
+                    </button>
+                    <button class="s2-slip-choice-btn" @click="$refs.slipFileInput.click()">
+                      <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>
+                      Gallery မှ ရွေး
+                    </button>
+                  </div>
                   <div class="s2-slip-upload-area" @click="$refs.slipFileInput.click()" @dragover.prevent @drop.prevent="onSlipDrop">
+                    <input ref="slipCameraInput" type="file" accept="image/*" capture="environment" @change="onSlipSelect" style="display:none;" />
                     <input ref="slipFileInput" type="file" accept="image/*" @change="onSlipSelect" style="display:none;" />
                     <div v-if="!slipPreview" class="s2-slip-placeholder">
                       <svg width="20" height="20" fill="none" stroke="#94a3b8" stroke-width="1.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>
@@ -780,6 +792,11 @@ const submitDeposit = async () => {
 .toast-leave-to     { opacity:0; }
 
 .s2-slip-section { margin-bottom:12px; }
+.s2-slip-choice-row { display:flex;gap:8px;margin-bottom:8px; }
+.s2-slip-choice-btn { flex:1;display:flex;align-items:center;justify-content:center;gap:6px;padding:10px 8px;border-radius:10px;border:1.5px solid #d1d5db;background:#f9fafb;color:#374151;font-size:11px;font-weight:600;cursor:pointer;transition:all 0.15s; }
+.s2-slip-choice-btn:first-child { border-color:#3b82f6;color:#3b82f6;background:#eff6ff; }
+.s2-slip-choice-btn:first-child:active { background:#dbeafe; }
+.s2-slip-choice-btn:last-child:active { background:#f3f4f6; }
 .s2-slip-upload-area { border:2px dashed #e2e8f0;border-radius:10px;cursor:pointer;min-height:80px;display:flex;align-items:center;justify-content:center;transition:border-color .2s;overflow:hidden;position:relative; }
 .s2-slip-upload-area:hover { border-color:#4f46e5; }
 .s2-slip-placeholder { display:flex;flex-direction:column;align-items:center;gap:6px;padding:16px;color:#94a3b8;font-size:11px; }

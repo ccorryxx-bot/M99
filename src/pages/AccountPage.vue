@@ -117,11 +117,11 @@
             </div>
             <span class="gi-lbl">ကံစမ်းမဲ</span>
           </button>
-          <button class="gi-item" @click="comingSoon">
-            <div class="gi-icon-wrap">
-              <img src="https://ik.imagekit.io/rbok01qam/Custom%20icons%20img/style_6_icon_list_czhd.avif?updatedAt=1780926787610&tr=f-auto" class="gi-img" alt="" @error="e=>e.target.style.display='none'"/>
+          <button class="gi-item" @click="showKycModal=true">
+            <div class="gi-icon-wrap" style="background:linear-gradient(135deg,rgba(168,85,247,0.2),rgba(124,58,237,0.12));border-color:rgba(168,85,247,0.45);">
+              <svg width="22" height="22" fill="none" viewBox="0 0 24 24" stroke="rgba(168,85,247,0.9)" stroke-width="1.6"><rect x="3" y="4" width="18" height="16" rx="3"/><path stroke-linecap="round" d="M7 9h10M7 13h7"/><circle cx="17" cy="16" r="2.5" fill="rgba(168,85,247,0.2)" stroke="rgba(168,85,247,0.9)" stroke-width="1.2"/><path d="M16 15.5l.7.7 1.3-1" stroke="rgba(168,85,247,0.9)" stroke-width="1" stroke-linecap="round"/></svg>
             </div>
-            <span class="gi-lbl">လုပ်ဆောင်ချ<br>ကိုကြိ အား..</span>
+            <span class="gi-lbl" style="color:#a855f7;">KYC<br>စစ်ဆေးမည်</span>
           </button>
           <button class="gi-item" @click="showDailySignIn=true">
             <div class="gi-icon-wrap">
@@ -144,11 +144,11 @@
             </div>
             <span class="gi-lbl">ကိုယ်ရေး<br>အချက်... </span>
           </button>
-          <button class="gi-item" @click="comingSoon">
-            <div class="gi-icon-plain">
-              <svg width="22" height="22" fill="none" viewBox="0 0 24 24" stroke="rgba(255,255,255,0.80)" stroke-width="1.7"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/></svg>
+          <button class="gi-item" @click="showStatsModal=true">
+            <div class="gi-icon-plain" style="background:rgba(34,211,238,0.08);border:1px solid rgba(34,211,238,0.3);border-radius:10px;">
+              <svg width="22" height="22" fill="none" viewBox="0 0 24 24" stroke="rgba(34,211,238,0.9)" stroke-width="1.7"><path stroke-linecap="round" stroke-linejoin="round" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"/></svg>
             </div>
-            <span class="gi-lbl">လုံခြုံရေးစင်<br>တာ</span>
+            <span class="gi-lbl" style="color:#22d3ee;">ကိုယ်ရေး<br>စာရင်း</span>
           </button>
           <button class="gi-item" @click="comingSoon">
             <div class="gi-icon-plain">
@@ -740,7 +740,10 @@
                     </button>
                   </div>
                 </div>
-                <button class="bal-yellow-btn" @click="showComingSoon">ရိုနင်ကိုတွေ ရနော?</button>
+                <div style="text-align:right;">
+                  <button class="bal-yellow-btn" @click="showComingSoon">ရိုနင်ကိုတွေ ရနော?</button>
+                  <div style="margin-top:6px;font-size:10px;color:rgba(255,255,255,0.45);">သွင်းငွေ: <span style="color:#4ade80;font-weight:700;">{{ formatCurrency(deposited) }}</span></div>
+                </div>
               </div>
               <div class="bal-info-text">
                 လက်ကျန်စီ ကိုနံပြည်သူ-ပြန်ပြောင်းနိုင်သည်မှာများကို ထုတ်ယူနိုင်သည် (ဆုံးရှုံးသည်မှာ ဒသပ်ဒသမ မပါဝင်)။ လက်ကျန်ငွေကို သင်ကိုယ်တိုင် မည်ဝင်ဆောင်ငွေ သင်ကောင်မြဲနိုင်သော ဘဏ်ကစားပါ။
@@ -966,6 +969,12 @@
   <!-- Spin Wheel Modal -->
   <SpinWheelModal v-model="showSpinWheel" />
 
+  <!-- KYC Modal -->
+  <KYCModal v-model="showKycModal" />
+
+  <!-- Personal Stats Modal -->
+  <PersonalStatsModal v-model="showStatsModal" />
+
 </template>
 
 <script setup>
@@ -974,6 +983,11 @@ import { supabase } from '@/supabase'
 import WithdrawModal from '@/components/WithdrawModal.vue'
 import DailySignInModal from '@/components/DailySignInModal.vue'
 import SpinWheelModal from '@/components/SpinWheelModal.vue'
+import KYCModal from '@/components/KYCModal.vue'
+import PersonalStatsModal from '@/components/PersonalStatsModal.vue'
+
+const showKycModal   = ref(false)
+const showStatsModal = ref(false)
 
 const isLoggedIn   = ref(false)
 const username     = ref(localStorage.getItem('sb_username') || 'PLAYER')

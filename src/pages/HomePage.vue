@@ -164,7 +164,11 @@
           <div>
             <div style="font-size:11px;font-weight:700;color:#4ade80;margin-bottom:3px;letter-spacing:0.04em;text-shadow:0 0 8px rgba(74,222,128,0.6);">{{ username }}</div>
             <div style="display:flex;align-items:center;gap:6px;">
-              <div style="font-size:17px;font-weight:900;color:#4ade80;">{{ formatCurrency(mainBalance) }} <span style="font-size:10px;color:rgba(255,255,255,0.3);">MMK</span></div>
+              <div style="font-size:17px;font-weight:900;color:#4ade80;">{{ balanceHidden ? '••••••' : formatCurrency(mainBalance) }} <span style="font-size:10px;color:rgba(255,255,255,0.3);">MMK</span></div>
+              <button @click="toggleBalanceHide" style="background:none;border:none;cursor:pointer;padding:2px 3px;display:flex;align-items:center;color:rgba(255,255,255,0.4);">
+                <svg v-if="!balanceHidden" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+                <svg v-else width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M17.94 17.94A10.07 10.07 0 0112 20c-7 0-11-8-11-8a18.45 18.45 0 015.06-5.94M9.9 4.24A9.12 9.12 0 0112 4c7 0 11 8 11 8a18.5 18.5 0 01-2.16 3.19m-6.72-1.07a3 3 0 11-4.24-4.24"/><line x1="1" y1="1" x2="23" y2="23"/></svg>
+              </button>
               <button @click="refreshBalance" :class="['refresh-toggle', { 'refresh-toggle--spin': balanceRefreshing }]">
                 <svg class="refresh-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#4ade80" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="23 4 23 10 17 10"/><path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10"/></svg>
               </button>
@@ -285,6 +289,10 @@
                 <img src="https://ik.imagekit.io/rbok01qam/Custom%20icons%20img/ddca62d0-6422-11f1-aded-3d7319f38cf3.gif?tr=f-auto" style="position:absolute;top:4px;right:4px;width:20px;height:20px;object-fit:contain;z-index:10;pointer-events:none;" alt=""/>
                 <div v-if="idx%5<2" class="nova-badge nova-badge--hot">HOT</div>
                 <div class="nova-badge nova-badge--provider">{{ game.provider_code?.toUpperCase() }}</div>
+                <!-- Fav heart button -->
+                <button @click.stop="toggleFav(game.game_code)" :class="['nova-fav-btn', isFav(game.game_code)?'nova-fav-btn--on':'']">
+                  <svg width="11" height="11" viewBox="0 0 24 24" fill="none"><path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z" :fill="isFav(game.game_code)?'#f87171':'none'" :stroke="isFav(game.game_code)?'#f87171':'rgba(255,255,255,0.7)'" stroke-width="2"/></svg>
+                </button>
                 <div style="position:absolute;bottom:0;left:0;right:0;padding:4px 5px 5px;">
                   <div style="font-size:9px;font-weight:700;color:rgba(255,255,255,0.9);overflow:hidden;text-overflow:ellipsis;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;line-height:1.3;">{{ game.game_name }}</div>
                 </div>
@@ -564,6 +572,19 @@
       <!-- ══ MODALS ══ -->
       <DepositModal v-model="showDepositModal" @submit="handleDepositSubmit"/>
       <WithdrawModal v-model="showWithdrawModal" :balance="mainBalance" @submit="handleWithdrawSubmit"/>
+      <TxStatusTracker v-if="isLoggedIn" />
+      <!-- PWA Install Banner -->
+      <Transition name="pwa-slide">
+        <div v-if="showPwaBanner" style="position:fixed;bottom:80px;left:14px;right:14px;z-index:800;background:linear-gradient(135deg,#0e1338,#131a4a);border:1px solid rgba(74,222,128,0.3);border-radius:16px;padding:12px 14px;display:flex;align-items:center;gap:12px;box-shadow:0 8px 32px rgba(0,0,0,0.5);">
+          <div style="width:40px;height:40px;border-radius:10px;background:rgba(74,222,128,0.1);border:1.5px solid rgba(74,222,128,0.3);display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:20px;">📲</div>
+          <div style="flex:1;min-width:0;">
+            <div style="font-size:12px;font-weight:800;color:#fff;margin-bottom:2px;">App တပ်ဆင်မည်</div>
+            <div style="font-size:10px;color:rgba(255,255,255,0.5);">iW99 ကို Home Screen တွင် ထည့်ရန်</div>
+          </div>
+          <button @click="installPwa" style="background:linear-gradient(135deg,#22c55e,#16a34a);border:none;border-radius:10px;color:#fff;font-size:11px;font-weight:700;padding:8px 14px;cursor:pointer;flex-shrink:0;">Install</button>
+          <button @click="showPwaBanner=false" style="background:rgba(255,255,255,0.07);border:1px solid rgba(255,255,255,0.1);border-radius:50%;width:24px;height:24px;color:rgba(255,255,255,0.4);font-size:12px;display:flex;align-items:center;justify-content:center;cursor:pointer;flex-shrink:0;">✕</button>
+        </div>
+      </Transition>
 
       <!-- ══ INBOX MODAL ══ -->
       <Transition name="inbox-slide">
@@ -738,6 +759,8 @@
   import ProviderGamePanel from '@/components/ProviderGamePanel.vue'
   import CategoryGamePanel from '@/components/CategoryGamePanel.vue'
   import NftAvatar from '@/components/NftAvatar.vue'
+  import TxStatusTracker from '@/components/TxStatusTracker.vue'
+  import { useFavorites } from '@/composables/useFavorites'
 
   const route = useRoute()
 
@@ -749,6 +772,24 @@
   function goUrl(url) { if (url) window.open(url, '_blank') }
 
   const isLoggedIn = ref(false); const username = ref(''); const mainBalance = ref(0); const currentLang = ref('en')
+  const balanceHidden = ref(localStorage.getItem('iw99_bal_hidden') === '1')
+  function toggleBalanceHide() { balanceHidden.value = !balanceHidden.value; localStorage.setItem('iw99_bal_hidden', balanceHidden.value ? '1' : '0') }
+  const { isFav, toggleFav, favCount, filterFavGames } = useFavorites()
+  // PWA install prompt
+  const pwaPrompt = ref(null)
+  const showPwaBanner = ref(false)
+  window.addEventListener('beforeinstallprompt', (e) => { e.preventDefault(); pwaPrompt.value = e; showPwaBanner.value = true })
+  async function installPwa() { if (!pwaPrompt.value) return; pwaPrompt.value.prompt(); showPwaBanner.value = false }
+  // Success confetti
+  function spawnConfetti() {
+    const colors = ['#4ade80','#fbbf24','#a855f7','#38bdf8','#f87171']
+    for (let i = 0; i < 28; i++) {
+      const d = document.createElement('div')
+      d.style.cssText = `position:fixed;top:${20+Math.random()*30}%;left:${Math.random()*100}%;width:${6+Math.random()*8}px;height:${6+Math.random()*8}px;background:${colors[i%colors.length]};border-radius:${Math.random()>0.5?'50%':'2px'};z-index:9999;pointer-events:none;animation:confettiFall ${0.8+Math.random()*1}s ease-in forwards;`
+      document.body.appendChild(d)
+      setTimeout(() => d.remove(), 2000)
+    }
+  }
   const showAuthModal = ref(false); const authTab = ref('login')
   const loginUsername = ref(''); const loginPassword = ref(''); const loginShowPassword = ref(false); const loginLoading = ref(false); const loginError = ref(''); const loginType = ref('password'); const rememberMe = ref(false)
   const regUsername = ref(''); const regPhone = ref(''); const regPassword = ref(''); const regShowPassword = ref(false); const regLoading = ref(false); const regError = ref(''); const reg18Agreed = ref(true)
@@ -872,7 +913,7 @@
     if (activeCategory.value === 'popular') {
       l = [...l].sort((a,b) => (b.play_count||0) - (a.play_count||0)).slice(0,18)
     } else if (activeCategory.value === 'fav') {
-      l = [...l].sort((a,b) => (b.play_count||0) - (a.play_count||0)).slice(0,18)
+      l = filterFavGames(l)
     } else {
       l = l.filter(g => g.category === activeCategory.value)
     }
@@ -971,8 +1012,8 @@
   }
   function toggleLanguage() { currentLang.value=currentLang.value==='en'?'mm':'en' }
   const formatCurrency = n => new Intl.NumberFormat('en-US').format(n)
-  async function handleDepositSubmit(data) { try { const token=(await supabase.auth.getSession()).data.session?.access_token; if(!token){showToast({type:'fail',message:'ဝင်ရောက်ပါ'});return}; const res=await fetch('https://vuywhhmwrqykukcemifd.supabase.co/functions/v1/deposit',{method:'POST',headers:{'Authorization':'Bearer '+token,'Content-Type':'application/json'},body:JSON.stringify({method:data.method,amount:data.amount,slip:data.slip})}); const result=await res.json(); if(result.error)throw new Error(result.error); showToast({type:'success',message:'ငွေသွင်းမှု အောင်မြင်ပါသည်'}); setTimeout(()=>fetchBalance(),2000) } catch(e){showToast({type:'fail',message:e.message})} }
-  async function handleWithdrawSubmit(data) { try { const token=(await supabase.auth.getSession()).data.session?.access_token; if(!token){showToast({type:'fail',message:'ဝင်ရောက်ပါ'});return}; const res=await fetch('https://vuywhhmwrqykukcemifd.supabase.co/functions/v1/withdraw',{method:'POST',headers:{'Authorization':'Bearer '+token,'Content-Type':'application/json'},body:JSON.stringify({method:data.method,phone:data.phone,accountName:data.accountName,amount:data.amount})}); const result=await res.json(); if(result.error)throw new Error(result.error); showToast({type:'success',message:'ငွေထုတ်မှု အောင်မြင်ပါသည်'}); setTimeout(()=>fetchBalance(),2000) } catch(e){showToast({type:'fail',message:e.message})} }
+  async function handleDepositSubmit(data) { try { const token=(await supabase.auth.getSession()).data.session?.access_token; if(!token){showToast({type:'fail',message:'ဝင်ရောက်ပါ'});return}; const res=await fetch('https://vuywhhmwrqykukcemifd.supabase.co/functions/v1/deposit',{method:'POST',headers:{'Authorization':'Bearer '+token,'Content-Type':'application/json'},body:JSON.stringify({method:data.method,amount:data.amount,slip:data.slip})}); const result=await res.json(); if(result.error)throw new Error(result.error); showToast({type:'success',message:'ငွေသွင်းမှု အောင်မြင်ပါသည်'}); spawnConfetti(); setTimeout(()=>fetchBalance(),2000) } catch(e){showToast({type:'fail',message:e.message})} }
+  async function handleWithdrawSubmit(data) { try { const token=(await supabase.auth.getSession()).data.session?.access_token; if(!token){showToast({type:'fail',message:'ဝင်ရောက်ပါ'});return}; const res=await fetch('https://vuywhhmwrqykukcemifd.supabase.co/functions/v1/withdraw',{method:'POST',headers:{'Authorization':'Bearer '+token,'Content-Type':'application/json'},body:JSON.stringify({method:data.method,phone:data.phone,accountName:data.accountName,amount:data.amount})}); const result=await res.json(); if(result.error)throw new Error(result.error); showToast({type:'success',message:'ငွေထုတ်မှု အောင်မြင်ပါသည်'}); spawnConfetti(); setTimeout(()=>fetchBalance(),2000) } catch(e){showToast({type:'fail',message:e.message})} }
 
 
   async function fetchAdminMessages() {
@@ -1169,6 +1210,9 @@
   .nova-badge { position:absolute; font-size:7px; font-weight:900; border-radius:5px; padding:2px 4px; }
   .nova-badge--hot { top:5px; right:5px; background:linear-gradient(135deg,#ef4444,#dc2626); color:#fff; box-shadow:0 2px 6px rgba(239,68,68,0.4); }
   .nova-badge--provider { top:5px; left:5px; background:rgba(0,0,0,0.72); color:rgba(255,255,255,0.65); }
+  .nova-fav-btn { position:absolute; top:26px; right:5px; background:rgba(0,0,0,0.55); border:none; border-radius:50%; width:20px; height:20px; display:flex; align-items:center; justify-content:center; cursor:pointer; z-index:9; transition:transform 0.15s; -webkit-tap-highlight-color:transparent; }
+  .nova-fav-btn:active { transform:scale(1.3); }
+  .nova-fav-btn--on { background:rgba(248,113,113,0.2); }
 
   /* ── QUICK ICONS ── */
   .nova-quick-icon { display:flex;flex-direction:column;align-items:center;gap:3px;cursor:pointer;-webkit-tap-highlight-color:transparent; }
@@ -1335,6 +1379,10 @@
 
   /* ── SKELETON ── */
   @keyframes nova-pulse { 0%,100%{opacity:.35;}50%{opacity:.65;} }
+  @keyframes confettiFall { 0%{transform:translateY(0) rotate(0deg);opacity:1;} 100%{transform:translateY(40px) rotate(180deg);opacity:0;} }
+  .pwa-slide-enter-active { animation:slideUp 0.3s cubic-bezier(0.22,1,0.36,1); }
+  .pwa-slide-leave-active { animation:slideUp 0.2s ease-in reverse; }
+  @keyframes slideUp { from{transform:translateY(20px);opacity:0;} to{transform:translateY(0);opacity:1;} }
 
   /* ── VANT ── */
   :deep(.van-overlay) { background:rgba(0,0,0,0.7) !important; }
