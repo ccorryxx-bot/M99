@@ -10,15 +10,13 @@
         <div class="a-drawer-hdr">
           <span class="a-drawer-title">Site Management</span>
           <button @click="leftDrawer=false" class="a-icon-btn">
-            <svg width="14" height="14" fill="none" stroke="#818cf8" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"/></svg>
+            <svg width="14" height="14" fill="none" stroke="#4f46e5" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"/></svg>
           </button>
         </div>
         <div class="a-drawer-body">
-
-          <!-- Banners -->
           <div class="a-drawer-section">
             <div class="a-section-label">
-              <svg width="13" height="13" fill="none" stroke="#818cf8" stroke-width="2" viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M9 21V9"/></svg>
+              <svg width="13" height="13" fill="none" stroke="#4f46e5" stroke-width="2" viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M9 21V9"/></svg>
               Homepage Banners
             </div>
             <div v-for="i in 4" :key="i" class="a-banner-row">
@@ -26,11 +24,9 @@
               <input v-model="drawerSettings['banner_'+i+'_url']" class="a-input a-input-sm" :placeholder="'Banner '+i+' Image URL'" />
             </div>
           </div>
-
-          <!-- CS Support -->
           <div class="a-drawer-section">
             <div class="a-section-label">
-              <svg width="13" height="13" fill="none" stroke="#818cf8" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M18.364 5.636l-3.536 3.536m0 5.656l3.536 3.536M9.172 9.172L5.636 5.636m3.536 9.192l-3.536 3.536M21 12a9 9 0 11-18 0 9 9 0 0118 0zm-5 0a4 4 0 11-8 0 4 4 0 018 0z"/></svg>
+              <svg width="13" height="13" fill="none" stroke="#4f46e5" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M18.364 5.636l-3.536 3.536m0 5.656l3.536 3.536M9.172 9.172L5.636 5.636m3.536 9.192l-3.536 3.536M21 12a9 9 0 11-18 0 9 9 0 0118 0zm-5 0a4 4 0 11-8 0 4 4 0 018 0z"/></svg>
               CS Support
             </div>
             <label class="a-mini-label">Telegram Username</label>
@@ -40,7 +36,6 @@
             <label class="a-mini-label" style="margin-top:8px;">Control+ Number</label>
             <input v-model="drawerSettings.cs_control_plus" class="a-input a-input-sm" placeholder="09XXXXXXXXX" />
           </div>
-
           <button @click="saveDrawerSettings" :disabled="drawerSaving" class="a-btn-primary" style="width:100%;margin-top:4px;">
             <svg v-if="!drawerSaving" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg>
             <span class="a-spinner-sm" v-else></span>
@@ -56,60 +51,53 @@
       <aside v-if="playerPanel && selectedPlayer" class="a-right-panel">
         <div class="a-panel-hdr">
           <button @click="playerPanel=false" class="a-icon-btn">
-            <svg width="14" height="14" fill="none" stroke="#818cf8" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7"/></svg>
+            <svg width="14" height="14" fill="none" stroke="#4f46e5" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7"/></svg>
           </button>
           <div class="a-panel-title">Player Detail</div>
           <div class="a-panel-av">{{ (selectedPlayer.username||'?')[0].toUpperCase() }}</div>
         </div>
 
         <div class="a-panel-body">
-          <!-- Identity Card -->
-          <div class="a-panel-card">
-            <div class="a-panel-section-lbl">
-              <svg width="12" height="12" fill="none" stroke="#818cf8" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M10 6H5a2 2 0 00-2 2v9a2 2 0 002 2h14a2 2 0 002-2V8a2 2 0 00-2-2h-5m-4 0V5a2 2 0 114 0v1m-4 0a2 2 0 104 0m-5 8a2 2 0 100-4 2 2 0 000 4zm0 0c1.306 0 2.417.835 2.83 2"/></svg>
-              Identity
+
+          <!-- IDENTITY -->
+          <div class="a-section-block">
+            <div class="a-section-hdr">
+              <svg width="11" height="11" fill="none" stroke="#4f46e5" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M10 6H5a2 2 0 00-2 2v9a2 2 0 002 2h14a2 2 0 002-2V8a2 2 0 00-2-2h-5m-4 0V5a2 2 0 114 0v1m-4 0a2 2 0 104 0m-5 8a2 2 0 100-4 2 2 0 000 4zm0 0c1.306 0 2.417.835 2.83 2"/></svg>
+              IDENTITY
             </div>
-            <div class="a-info-row"><span>Username</span><span class="a-val">{{ selectedPlayer.username }}</span></div>
-            <div class="a-info-row"><span>Player ID</span><span class="a-mono a-val">{{ selectedPlayer.id?.slice(0,16) }}...</span></div>
-            <div class="a-info-row"><span>Phone</span><span class="a-val">{{ selectedPlayer.phone || '—' }}</span></div>
-            <div class="a-info-row"><span>Registered</span><span class="a-val">{{ fmtDate(selectedPlayer.created_at) }}</span></div>
-            <div class="a-info-row"><span>Referral Code</span><span class="a-val">{{ selectedPlayer.referral_code || '—' }}</span></div>
-            <div class="a-info-row"><span>VIP Level</span><span class="a-val a-accent">VIP {{ selectedPlayer.vip_level || 0 }}</span></div>
-            <div class="a-info-row"><span>Status</span>
-              <span :class="selectedPlayer.is_banned ? 'a-danger' : 'a-success'">{{ selectedPlayer.is_banned ? 'BANNED' : 'ACTIVE' }}</span>
+            <div class="a-row"><span class="a-lbl">Username</span><span class="a-val-dark">{{ selectedPlayer.username }}</span></div>
+            <div class="a-row"><span class="a-lbl">Player ID</span><span class="a-val-dark a-mono-val">{{ (selectedPlayer.referral_code || selectedPlayer.id?.slice(0,8) || '—').toUpperCase() }}</span></div>
+            <div class="a-row"><span class="a-lbl">Phone</span><span class="a-val-dark">{{ selectedPlayer.phone || '—' }}</span></div>
+            <div class="a-row"><span class="a-lbl">Registered</span><span class="a-val-dark">{{ fmtDate(selectedPlayer.created_at) }}</span></div>
+            <div class="a-row"><span class="a-lbl">Referral Code</span><span class="a-val-dark a-mono-val">{{ (selectedPlayer.referral_code || '—').toUpperCase() }}</span></div>
+            <div class="a-row"><span class="a-lbl">VIP Level</span><span class="a-val-accent">VIP {{ selectedPlayer.vip_level || 0 }}</span></div>
+            <div class="a-row a-row-last"><span class="a-lbl">Status</span>
+              <span :class="selectedPlayer.is_banned ? 'a-badge-danger' : 'a-badge-success'">{{ selectedPlayer.is_banned ? 'BANNED' : 'ACTIVE' }}</span>
             </div>
           </div>
 
-          <!-- Financial Summary -->
-          <div class="a-panel-card">
-            <div class="a-panel-section-lbl">
-              <svg width="12" height="12" fill="none" stroke="#818cf8" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
-              Financials
+          <!-- FINANCIALS -->
+          <div class="a-section-block">
+            <div class="a-section-hdr">
+              <svg width="11" height="11" fill="none" stroke="#4f46e5" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+              FINANCIALS
             </div>
-            <div class="a-fin-row a-fin-row--dep">
-              <svg width="11" height="11" fill="none" stroke="#22d3ee" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M19 14l-7 7m0 0l-7-7m7 7V3"/></svg>
-              <span>Total Deposited</span>
-              <span class="a-cyan">{{ fmtNum(selectedPlayer.total_deposit) }} Ks</span>
+            <div class="a-row">
+              <span class="a-lbl-icon"><svg width="10" height="10" fill="none" stroke="#0891b2" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M19 14l-7 7m0 0l-7-7m7 7V3"/></svg>Total Deposited</span>
+              <span class="a-val-in">{{ fmtNum(selectedPlayer.total_deposit) }} Ks</span>
             </div>
-            <div class="a-fin-row a-fin-row--wd">
-              <svg width="11" height="11" fill="none" stroke="#f87171" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M5 10l7-7m0 0l7 7m-7-7v18"/></svg>
-              <span>Total Withdrawn</span>
-              <span class="a-red">{{ fmtNum(playerTotalWd) }} Ks</span>
+            <div class="a-row">
+              <span class="a-lbl-icon"><svg width="10" height="10" fill="none" stroke="#dc2626" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M5 10l7-7m0 0l7 7m-7-7v18"/></svg>Total Withdrawn</span>
+              <span class="a-val-out">{{ fmtNum(playerTotalWd) }} Ks</span>
             </div>
-            <div class="a-fin-row">
-              <svg width="11" height="11" fill="none" stroke="#818cf8" stroke-width="2" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path stroke-linecap="round" d="M12 6v6l4 2"/></svg>
-              <span>Current Balance</span>
-              <span class="a-accent">{{ fmtNum(selectedPlayer.balance) }} Ks</span>
+            <div class="a-row">
+              <span class="a-lbl-icon"><svg width="10" height="10" fill="none" stroke="#4f46e5" stroke-width="2" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path stroke-linecap="round" d="M12 6v6l4 2"/></svg>Current Balance</span>
+              <span class="a-val-accent">{{ fmtNum(selectedPlayer.balance) }} Ks</span>
             </div>
-            <div class="a-fin-row">
-              <svg width="11" height="11" fill="none" stroke="#4ade80" stroke-width="2" viewBox="0 0 24 24"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
-              <span>Net Profit (House)</span>
-              <span :class="(selectedPlayer.total_deposit - playerTotalWd) >= 0 ? 'a-success' : 'a-danger'">
-                {{ fmtNum((selectedPlayer.total_deposit||0) - playerTotalWd) }} Ks
-              </span>
+            <div class="a-row a-row-last">
+              <span class="a-lbl-icon"><svg width="10" height="10" fill="none" stroke="#16a34a" stroke-width="2" viewBox="0 0 24 24"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>Net Profit (House)</span>
+              <span :class="(selectedPlayer.total_deposit - playerTotalWd) >= 0 ? 'a-val-success' : 'a-val-danger'">{{ fmtNum((selectedPlayer.total_deposit||0) - playerTotalWd) }} Ks</span>
             </div>
-
-            <!-- Adjust Balance -->
             <div class="a-adj-row">
               <input v-model.number="adjAmt" type="number" class="a-input a-input-sm" placeholder="Amount (+ or -)" />
               <button @click="doAdjustBalance" :disabled="panelLoading" class="a-btn-sm a-btn-primary-sm">Apply</button>
@@ -117,77 +105,70 @@
             <p v-if="panelMsg" class="a-ok" style="font-size:10px;margin-top:4px;">{{ panelMsg }}</p>
           </div>
 
-          <!-- Transaction History -->
-          <div class="a-panel-card">
-            <div class="a-panel-section-lbl">
-              <svg width="12" height="12" fill="none" stroke="#818cf8" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M8 7h12m0 0l-4-4m4 4l-4 4m0 6H4m0 0l4 4m-4-4l4-4"/></svg>
-              Transaction History
+          <!-- TRANSACTION HISTORY -->
+          <div class="a-section-block">
+            <div class="a-section-hdr">
+              <svg width="11" height="11" fill="none" stroke="#4f46e5" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M8 7h12m0 0l-4-4m4 4l-4 4m0 6H4m0 0l4 4m-4-4l4-4"/></svg>
+              TRANSACTION HISTORY
             </div>
             <div v-if="playerTxLoading" class="a-mini-load"><span class="a-spinner-sm"></span></div>
             <div v-else>
               <div v-for="tx in playerTxList.slice(0,10)" :key="tx.id" class="a-ptx-row">
-                <span class="a-ptx-badge" :class="tx.type==='deposit'?'badge-dep':'badge-wd'">{{ tx.type==='deposit'?'DEP':'WD' }}</span>
+                <span class="a-io-badge" :class="tx.type==='deposit'?'badge-in':'badge-out'">{{ tx.type==='deposit'?'IN':'OUT' }}</span>
                 <span class="a-ptx-method">{{ tx.method }}</span>
-                <span class="a-ptx-amt" :class="tx.type==='deposit'?'a-cyan':'a-red'">{{ fmtNum(tx.amount) }} Ks</span>
+                <span class="a-ptx-amt" :class="tx.type==='deposit'?'a-val-in':'a-val-out'">{{ fmtNum(tx.amount) }} Ks</span>
                 <span class="a-ptx-status" :class="`sdot-${tx.status}`">{{ tx.status }}</span>
               </div>
               <div v-if="!playerTxList.length" class="a-empty-sm">No transactions</div>
             </div>
           </div>
 
-          <!-- Login / IP Sessions -->
-          <div class="a-panel-card">
-            <div class="a-panel-section-lbl">
-              <svg width="12" height="12" fill="none" stroke="#818cf8" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 3H5a2 2 0 00-2 2v4m6-6h10a2 2 0 012 2v4M9 3v18m0 0h10a2 2 0 002-2V9M9 21H5a2 2 0 01-2-2V9m0 0h18"/></svg>
-              Login Sessions &amp; IP
+          <!-- LOGIN SESSIONS & IP -->
+          <div class="a-section-block">
+            <div class="a-section-hdr">
+              <svg width="11" height="11" fill="none" stroke="#4f46e5" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 3H5a2 2 0 00-2 2v4m6-6h10a2 2 0 012 2v4M9 3v18m0 0h10a2 2 0 002-2V9M9 21H5a2 2 0 01-2-2V9m0 0h18"/></svg>
+              LOGIN SESSIONS &amp; IP
             </div>
             <div v-if="playerSessLoading" class="a-mini-load"><span class="a-spinner-sm"></span></div>
             <div v-else>
               <div v-for="s in playerSessions.slice(0,5)" :key="s.id" class="a-sess-row">
                 <div class="a-sess-top">
-                  <span class="a-mono" style="font-size:9px;color:#818cf8;">{{ s.ip_address || '—' }}</span>
-                  <span style="font-size:9px;color:rgba(241,245,249,0.4);">{{ fmtDate(s.login_at) }}</span>
+                  <span class="a-mono-val" style="font-size:9px;color:#4f46e5;font-weight:700;">{{ s.ip_address || '—' }}</span>
+                  <span style="font-size:9px;color:#94a3b8;">{{ fmtDate(s.login_at) }}</span>
                 </div>
-                <div class="a-sess-bot">
-                  <span>{{ s.device_type }} · {{ s.browser }} · {{ s.os }}</span>
-                </div>
+                <div class="a-sess-bot">{{ s.device_type }} · {{ s.browser }} · {{ s.os }}</div>
               </div>
               <div v-if="!playerSessions.length" class="a-empty-sm">No sessions found</div>
             </div>
           </div>
 
-          <!-- Game Activity -->
-          <div class="a-panel-card">
-            <div class="a-panel-section-lbl">
-              <svg width="12" height="12" fill="none" stroke="#818cf8" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M11 4a2 2 0 114 0v1a1 1 0 001 1h3a1 1 0 011 1v3a1 1 0 01-1 1h-1a2 2 0 100 4h1a1 1 0 011 1v3a1 1 0 01-1 1h-3a1 1 0 01-1-1v-1a2 2 0 10-4 0v1a1 1 0 01-1 1H7a1 1 0 01-1-1v-3a1 1 0 00-1-1H4a2 2 0 110-4h1a1 1 0 001-1V7a1 1 0 011-1h3a1 1 0 001-1V4z"/></svg>
-              Game Activity
+          <!-- GAME ACTIVITY -->
+          <div class="a-section-block">
+            <div class="a-section-hdr">
+              <svg width="11" height="11" fill="none" stroke="#4f46e5" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M11 4a2 2 0 114 0v1a1 1 0 001 1h3a1 1 0 011 1v3a1 1 0 01-1 1h-1a2 2 0 100 4h1a1 1 0 011 1v3a1 1 0 01-1 1h-3a1 1 0 01-1-1v-1a2 2 0 10-4 0v1a1 1 0 01-1 1H7a1 1 0 01-1-1v-3a1 1 0 00-1-1H4a2 2 0 110-4h1a1 1 0 001-1V7a1 1 0 011-1h3a1 1 0 001-1V4z"/></svg>
+              GAME ACTIVITY
             </div>
-            <div class="a-info-row"><span>Win Withdrawals</span><span class="a-val a-success">{{ playerWinWdCount }} TXs</span></div>
-            <div class="a-info-row"><span>Total Win Amount</span><span class="a-val a-success">{{ fmtNum(playerWinAmt) }} Ks</span></div>
-            <div class="a-info-row"><span>Last Active</span><span class="a-val">{{ playerSessions[0] ? fmtDate(playerSessions[0].login_at) : '—' }}</span></div>
+            <div class="a-row"><span class="a-lbl">Win Withdrawals</span><span class="a-val-success">{{ playerWinWdCount }} TXs</span></div>
+            <div class="a-row"><span class="a-lbl">Total Win Amount</span><span class="a-val-success">{{ fmtNum(playerWinAmt) }} Ks</span></div>
+            <div class="a-row a-row-last"><span class="a-lbl">Last Active</span><span class="a-val-dark">{{ playerSessions[0] ? fmtDate(playerSessions[0].login_at) : '—' }}</span></div>
           </div>
 
-          <!-- Actions -->
-          <div class="a-panel-card">
-            <div class="a-panel-section-lbl">
-              <svg width="12" height="12" fill="none" stroke="#818cf8" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"/><circle cx="12" cy="12" r="3"/></svg>
-              Actions
+          <!-- ACTIONS -->
+          <div class="a-section-block">
+            <div class="a-section-hdr">
+              <svg width="11" height="11" fill="none" stroke="#4f46e5" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"/><circle cx="12" cy="12" r="3"/></svg>
+              ACTIONS
             </div>
-
-            <!-- Reset Password -->
-            <div class="a-mini-label" style="margin-bottom:4px;">Reset Password</div>
+            <div class="a-mini-label" style="margin-bottom:5px;">Reset Password</div>
             <div class="a-adj-row">
               <input v-model="newPassword" type="text" class="a-input a-input-sm" :placeholder="genPassword" readonly />
               <button @click="newPassword=genPassword" class="a-btn-sm a-btn-ghost">Gen</button>
             </div>
-            <button @click="doResetPassword" :disabled="panelLoading||!newPassword" class="a-btn-sm a-btn-warn" style="width:100%;margin-top:6px;">
+            <button @click="doResetPassword" :disabled="panelLoading||!newPassword" class="a-btn-sm a-btn-warn" style="width:100%;margin-top:7px;">
               <svg width="11" height="11" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M15 7a2 2 0 012 2m4 0a6 6 0 01-7.743 5.743L11 17H9v2H7v2H4a1 1 0 01-1-1v-2.586a1 1 0 01.293-.707l5.964-5.964A6 6 0 1121 9z"/></svg>
               Set New Password
             </button>
-
-            <div style="height:1px;background:rgba(129,140,248,0.1);margin:10px 0;"></div>
-
-            <!-- Ban/Unban -->
+            <div style="height:1px;background:#e2e8f0;margin:12px 0;"></div>
             <button @click="doToggleBan" :disabled="panelLoading"
               :class="selectedPlayer.is_banned ? 'a-btn-sm a-btn-success' : 'a-btn-sm a-btn-danger'"
               style="width:100%;">
@@ -199,6 +180,7 @@
             </button>
             <p v-if="panelActionMsg" :class="panelActionOk?'a-ok':'a-err'" style="margin-top:6px;text-align:center;font-size:10px;">{{ panelActionMsg }}</p>
           </div>
+
         </div>
       </aside>
     </Transition>
@@ -207,11 +189,11 @@
     <header class="a-header">
       <div class="a-hdr-left">
         <button v-if="loggedIn" @click="leftDrawer=!leftDrawer" class="a-hamburger">
-          <svg width="16" height="16" fill="none" stroke="#818cf8" stroke-width="2.5" viewBox="0 0 24 24"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+          <svg width="16" height="16" fill="none" stroke="#4f46e5" stroke-width="2.5" viewBox="0 0 24 24"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
         </button>
         <div class="a-brand-block">
           <span class="a-brand">iW99</span>
-          <span class="a-brand-sub">Hirzinal</span>
+          <span class="a-brand-sub">Admin</span>
         </div>
       </div>
       <div v-if="loggedIn" class="a-tabs-scroll">
@@ -222,7 +204,7 @@
         </button>
       </div>
       <button v-if="loggedIn" @click="logout" class="a-logout">
-        <svg width="14" height="14" fill="none" stroke="#818cf8" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"/></svg>
+        <svg width="14" height="14" fill="none" stroke="#64748b" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"/></svg>
       </button>
     </header>
 
@@ -232,8 +214,7 @@
       <!-- LOGIN -->
       <div v-if="!loggedIn" class="a-login-wrap">
         <div class="a-login-card">
-          <div class="a-login-glow"></div>
-          <svg class="a-login-icon" width="36" height="36" fill="none" stroke="#818cf8" stroke-width="1.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/></svg>
+          <svg class="a-login-icon" width="36" height="36" fill="none" stroke="#4f46e5" stroke-width="1.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/></svg>
           <h2 class="a-login-title">iW99 Admin</h2>
           <p class="a-login-sub">Enter your admin credentials</p>
           <input v-model="adminKey" type="password" placeholder="Admin Password" class="a-input" @keyup.enter="login" />
@@ -252,7 +233,7 @@
         <div v-if="activeTab===0" class="a-tab-content">
           <div class="a-metrics-grid">
             <div class="a-mcard" v-for="m in metricCards" :key="m.key">
-              <div class="a-mcard-icon"><svg width="15" height="15" fill="none" stroke="#818cf8" stroke-width="2" viewBox="0 0 24 24" v-html="m.svg"></svg></div>
+              <div class="a-mcard-icon"><svg width="15" height="15" fill="none" stroke="#4f46e5" stroke-width="2" viewBox="0 0 24 24" v-html="m.svg"></svg></div>
               <div class="a-mcard-val" :class="m.cls">{{ fmtNum(m.val) }}</div>
               <div class="a-mcard-lbl">{{ m.label }}</div>
               <div class="a-mbar"><div class="a-mbar-fill" :style="{width:m.pct+'%',background:m.color}"></div></div>
@@ -260,58 +241,55 @@
           </div>
 
           <div class="a-row-2col">
-            <!-- Bar Chart -->
-            <div class="a-card a-chart-card">
-              <div class="a-card-hdr">
-                <span class="a-card-ttl">7-Day Flow</span>
+            <div class="a-chart-area">
+              <div class="a-area-hdr">
+                <span class="a-area-ttl">7-Day Flow</span>
                 <button @click="loadChart" class="a-icon-btn" :class="{spinning:chartLoading}">
-                  <svg width="12" height="12" fill="none" stroke="#818cf8" stroke-width="2.5" viewBox="0 0 24 24"><polyline points="23 4 23 10 17 10"/><path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10"/></svg>
+                  <svg width="12" height="12" fill="none" stroke="#4f46e5" stroke-width="2.5" viewBox="0 0 24 24"><polyline points="23 4 23 10 17 10"/><path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10"/></svg>
                 </button>
               </div>
               <svg viewBox="0 0 252 72" class="a-barchart">
-                <line v-for="y in [18,36,54]" :key="y" :x1="0" :y1="y" :x2="252" :y2="y" stroke="rgba(129,140,248,0.07)" stroke-width="1"/>
+                <line v-for="y in [18,36,54]" :key="y" :x1="0" :y1="y" :x2="252" :y2="y" stroke="#e2e8f0" stroke-width="1"/>
                 <g v-for="(d,i) in chartData" :key="i">
                   <rect :x="i*36+2" :y="72-d.dH" width="14" :height="d.dH" fill="url(#dg)" rx="2"/>
                   <rect :x="i*36+18" :y="72-d.wH" width="14" :height="d.wH" fill="url(#wg)" rx="2"/>
-                  <text :x="i*36+18" y="71" font-size="5" fill="rgba(241,245,249,0.3)" text-anchor="middle">{{ d.l }}</text>
+                  <text :x="i*36+18" y="71" font-size="5" fill="#94a3b8" text-anchor="middle">{{ d.l }}</text>
                 </g>
                 <defs>
-                  <linearGradient id="dg" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#818cf8"/><stop offset="100%" stop-color="rgba(129,140,248,0.2)"/></linearGradient>
-                  <linearGradient id="wg" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#f87171"/><stop offset="100%" stop-color="rgba(248,113,113,0.2)"/></linearGradient>
+                  <linearGradient id="dg" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#4f46e5"/><stop offset="100%" stop-color="rgba(79,70,229,0.15)"/></linearGradient>
+                  <linearGradient id="wg" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#dc2626"/><stop offset="100%" stop-color="rgba(220,38,38,0.15)"/></linearGradient>
                 </defs>
               </svg>
               <div class="a-legend">
-                <span class="a-leg-dot" style="background:#818cf8"></span><span>Deposits</span>
-                <span class="a-leg-dot" style="background:#f87171;margin-left:10px;"></span><span>Withdrawals</span>
+                <span class="a-leg-dot" style="background:#4f46e5"></span><span>Deposits</span>
+                <span class="a-leg-dot" style="background:#dc2626;margin-left:10px;"></span><span>Withdrawals</span>
               </div>
             </div>
 
-            <!-- Gauge -->
             <div class="a-gauges">
-              <div class="a-card a-g-card">
-                <div class="a-card-ttl" style="margin-bottom:6px;">Net Flow</div>
+              <div class="a-g-area">
+                <div class="a-area-ttl" style="margin-bottom:6px;">Net Flow</div>
                 <svg viewBox="0 0 80 48" class="a-gauge-svg">
-                  <path d="M10 42 A30 30 0 0 1 70 42" fill="none" stroke="rgba(129,140,248,0.12)" stroke-width="9" stroke-linecap="round"/>
-                  <path d="M10 42 A30 30 0 0 1 70 42" fill="none" stroke="url(#gg)" stroke-width="9" stroke-linecap="round"
-                    :stroke-dasharray="`${gaugeArc} 95`"/>
-                  <text x="40" y="40" font-size="10" font-weight="800" fill="#f1f5f9" text-anchor="middle">{{ netPct }}%</text>
-                  <defs><linearGradient id="gg" x1="0" y1="0" x2="1" y2="0"><stop offset="0%" stop-color="#818cf8"/><stop offset="100%" stop-color="#22d3ee"/></linearGradient></defs>
+                  <path d="M10 42 A30 30 0 0 1 70 42" fill="none" stroke="#e2e8f0" stroke-width="9" stroke-linecap="round"/>
+                  <path d="M10 42 A30 30 0 0 1 70 42" fill="none" stroke="url(#gg)" stroke-width="9" stroke-linecap="round" :stroke-dasharray="`${gaugeArc} 95`"/>
+                  <text x="40" y="40" font-size="10" font-weight="800" fill="#0f172a" text-anchor="middle">{{ netPct }}%</text>
+                  <defs><linearGradient id="gg" x1="0" y1="0" x2="1" y2="0"><stop offset="0%" stop-color="#4f46e5"/><stop offset="100%" stop-color="#0891b2"/></linearGradient></defs>
                 </svg>
-                <div style="font-size:9px;color:rgba(241,245,249,0.4);text-align:center;">{{ fmtNum(netFlow) }} Ks net</div>
+                <div style="font-size:9px;color:#64748b;text-align:center;">{{ fmtNum(netFlow) }} Ks net</div>
               </div>
-              <div class="a-card a-g-card">
-                <div class="a-card-ttl" style="margin-bottom:4px;">Platform</div>
+              <div class="a-g-area">
+                <div class="a-area-ttl" style="margin-bottom:4px;">Platform</div>
                 <div class="a-big-n">{{ fmtNum(stats.total_balance) }}</div>
-                <div style="font-size:8px;color:rgba(241,245,249,0.3);">Kyat</div>
+                <div style="font-size:8px;color:#94a3b8;">Kyat</div>
                 <div class="a-pbar"><div class="a-pbar-fill" :style="{width:Math.min(100,(stats.total_balance||0)/10000000*100)+'%'}"></div></div>
-                <div style="font-size:8px;color:rgba(241,245,249,0.3);margin-top:2px;">of 10M cap</div>
+                <div style="font-size:8px;color:#94a3b8;margin-top:2px;">of 10M cap</div>
               </div>
             </div>
           </div>
 
           <!-- Health -->
-          <div class="a-card" style="margin-bottom:8px;">
-            <div class="a-card-hdr"><span class="a-card-ttl">System Health</span><span class="a-live">LIVE</span></div>
+          <div class="a-area-block" style="margin-bottom:8px;">
+            <div class="a-area-hdr"><span class="a-area-ttl">System Health</span><span class="a-live">LIVE</span></div>
             <div v-for="h in healthBars" :key="h.label" class="a-health">
               <span class="a-health-l">{{ h.label }}</span>
               <div class="a-health-t"><div class="a-health-f" :style="{width:h.pct+'%',background:h.c}"></div></div>
@@ -320,16 +298,16 @@
           </div>
 
           <!-- Recent TX -->
-          <div class="a-card">
-            <div class="a-card-hdr"><span class="a-card-ttl">Recent Transactions</span><button @click="switchTab(1)" class="a-lnk">View All</button></div>
+          <div class="a-area-block">
+            <div class="a-area-hdr"><span class="a-area-ttl">Recent Transactions</span><button @click="switchTab(1)" class="a-lnk">View All</button></div>
             <div v-if="recentLoading" class="a-mini-load"><span class="a-spinner-sm"></span></div>
             <div v-else>
               <div v-for="tx in recentTx" :key="tx.id" class="a-rtx">
-                <div class="a-rtx-dot" :class="tx.type==='deposit'?'dot-dep':'dot-wd'"></div>
-                <span class="a-ptx-badge" :class="tx.type==='deposit'?'badge-dep':'badge-wd'">{{ tx.type==='deposit'?'DEP':'WD' }}</span>
+                <div class="a-rtx-dot" :class="tx.type==='deposit'?'dot-in':'dot-out'"></div>
+                <span class="a-io-badge" :class="tx.type==='deposit'?'badge-in':'badge-out'">{{ tx.type==='deposit'?'IN':'OUT' }}</span>
                 <span class="a-rtx-user">{{ tx.user_id?.slice(0,8) }}...</span>
                 <span class="a-rtx-method">{{ tx.method }}</span>
-                <span class="a-rtx-amt" :class="tx.type==='deposit'?'a-cyan':'a-red'">{{ fmtNum(tx.amount) }}</span>
+                <span class="a-rtx-amt" :class="tx.type==='deposit'?'a-val-in':'a-val-out'">{{ fmtNum(tx.amount) }}</span>
               </div>
               <div v-if="!recentTx.length" class="a-empty-sm">No recent transactions</div>
             </div>
@@ -338,19 +316,17 @@
 
         <!-- TAB 1: TRANSACTIONS -->
         <div v-if="activeTab===1" class="a-tab-content">
-          <div class="a-card" style="margin-bottom:8px;">
-            <div class="a-filter-row">
-              <select v-model="txFilter.status" class="a-select"><option value="">All Status</option><option value="pending">Pending</option><option value="confirmed">Confirmed</option><option value="rejected">Rejected</option></select>
-              <select v-model="txFilter.type" class="a-select"><option value="">All Types</option><option value="deposit">Deposit</option><option value="withdraw">Withdraw</option></select>
-              <button @click="fetchTx" class="a-btn-primary a-btn-sm-p">Search</button>
-            </div>
+          <div class="a-filter-bar">
+            <select v-model="txFilter.status" class="a-select"><option value="">All Status</option><option value="pending">Pending</option><option value="confirmed">Confirmed</option><option value="rejected">Rejected</option></select>
+            <select v-model="txFilter.type" class="a-select"><option value="">All Types</option><option value="deposit">Deposit</option><option value="withdraw">Withdraw</option></select>
+            <button @click="fetchTx" class="a-btn-primary a-btn-sm-p">Search</button>
           </div>
           <div v-if="txLoading" class="a-loading"><span class="a-spinner"></span></div>
           <div v-else-if="txErr" class="a-err">{{ txErr }}</div>
           <div v-else>
-            <div v-for="tx in txList" :key="tx.id" class="a-tx-card">
+            <div v-for="tx in txList" :key="tx.id" class="a-tx-row">
               <div class="a-tx-top">
-                <span class="a-ptx-badge" :class="tx.type==='deposit'?'badge-dep':'badge-wd'">{{ tx.type?.toUpperCase() }}</span>
+                <span class="a-io-badge" :class="tx.type==='deposit'?'badge-in':'badge-out'">{{ tx.type==='deposit'?'IN':'OUT' }}</span>
                 <span class="a-tx-amt">{{ Number(tx.amount).toLocaleString() }} Ks</span>
                 <span class="a-sbadge" :class="`sb-${tx.status}`">{{ tx.status }}</span>
               </div>
@@ -373,18 +349,18 @@
         <div v-if="activeTab===2" class="a-tab-content">
           <div v-if="settLoading" class="a-loading"><span class="a-spinner"></span></div>
           <div v-else>
-            <div class="a-card" style="margin-bottom:8px;">
-              <div class="a-card-ttl" style="margin-bottom:10px;">KBZ Pay</div>
+            <div class="a-sett-block">
+              <div class="a-sett-ttl">KBZ Pay</div>
               <label class="a-mini-label">Recipient Name</label><input v-model="sett.kpay_recipient_name" class="a-input" placeholder="Name" />
               <label class="a-mini-label" style="margin-top:7px;">Account Number</label><input v-model="sett.kpay_recipient_account" class="a-input" placeholder="09XXXXXXXXX" />
             </div>
-            <div class="a-card" style="margin-bottom:8px;">
-              <div class="a-card-ttl" style="margin-bottom:10px;">Wave Pay</div>
+            <div class="a-sett-block">
+              <div class="a-sett-ttl">Wave Pay</div>
               <label class="a-mini-label">Recipient Name</label><input v-model="sett.wave_recipient_name" class="a-input" placeholder="Name" />
               <label class="a-mini-label" style="margin-top:7px;">Account Number</label><input v-model="sett.wave_recipient_account" class="a-input" placeholder="09XXXXXXXXX" />
             </div>
-            <div class="a-card" style="margin-bottom:8px;">
-              <div class="a-card-ttl" style="margin-bottom:10px;">Commission &amp; Wagering</div>
+            <div class="a-sett-block">
+              <div class="a-sett-ttl">Commission &amp; Wagering</div>
               <label class="a-mini-label">Direct Commission (%)</label><input v-model.number="sett.commission_direct_rate" type="number" step="0.1" class="a-input" />
               <label class="a-mini-label" style="margin-top:7px;">Override Commission (%)</label><input v-model.number="sett.commission_override_rate" type="number" step="0.1" class="a-input" />
               <label class="a-mini-label" style="margin-top:7px;">Wagering Multiplier (x)</label><input v-model.number="sett.wagering_multiplier" type="number" step="1" class="a-input" />
@@ -402,11 +378,9 @@
 
         <!-- TAB 3: USERS -->
         <div v-if="activeTab===3" class="a-tab-content">
-          <div class="a-card" style="margin-bottom:8px;">
-            <div class="a-filter-row">
-              <input v-model="userQ" class="a-input" placeholder="Search username / phone..." style="flex:1;" />
-              <button @click="fetchUsers" class="a-btn-primary a-btn-sm-p">Search</button>
-            </div>
+          <div class="a-filter-bar">
+            <input v-model="userQ" class="a-input" placeholder="Search username / phone..." style="flex:1;" />
+            <button @click="fetchUsers" class="a-btn-primary a-btn-sm-p">Search</button>
           </div>
           <div v-if="usersLoading" class="a-loading"><span class="a-spinner"></span></div>
           <div v-else>
@@ -419,7 +393,7 @@
               </div>
               <span class="a-sbadge" :class="u.is_banned?'sb-rejected':'sb-confirmed'">{{ u.is_banned?'Banned':'Active' }}</span>
               <button @click="openPlayer(u)" class="a-eye-btn" title="View Details">
-                <svg width="15" height="15" fill="none" stroke="#818cf8" stroke-width="2" viewBox="0 0 24 24">
+                <svg width="15" height="15" fill="none" stroke="#4f46e5" stroke-width="2" viewBox="0 0 24 24">
                   <path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/>
                   <path stroke-linecap="round" stroke-linejoin="round" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"/>
                 </svg>
@@ -431,24 +405,22 @@
 
         <!-- TAB 4: GAMES -->
         <div v-if="activeTab===4" class="a-tab-content">
-          <div class="a-card" style="margin-bottom:8px;">
-            <div class="a-filter-row">
-              <input v-model="gameQ" class="a-input" placeholder="Search game..." style="flex:1;" />
-              <select v-model="gameCat" class="a-select"><option value="">All</option><option v-for="c in gameCats" :key="c" :value="c">{{ c }}</option></select>
-            </div>
+          <div class="a-filter-bar">
+            <input v-model="gameQ" class="a-input" placeholder="Search game..." style="flex:1;" />
+            <select v-model="gameCat" class="a-select"><option value="">All</option><option v-for="c in gameCats" :key="c" :value="c">{{ c }}</option></select>
           </div>
           <div class="a-games-summary">
-            <span class="a-success">{{ games.filter(g=>g.is_active).length }} Active</span>
+            <span class="a-val-success">{{ games.filter(g=>g.is_active).length }} Active</span>
             <span class="a-sep">|</span>
-            <span class="a-danger">{{ games.filter(g=>!g.is_active).length }} Off</span>
+            <span class="a-val-danger">{{ games.filter(g=>!g.is_active).length }} Off</span>
             <span class="a-sep">|</span>
-            <span style="color:rgba(241,245,249,0.4);">{{ filteredGames.length }} Shown</span>
+            <span style="color:#64748b;">{{ filteredGames.length }} Shown</span>
           </div>
           <div v-if="gamesLoading" class="a-loading"><span class="a-spinner"></span></div>
           <div v-else>
             <div v-for="g in filteredGames.slice(0,100)" :key="g.id" class="a-grow">
               <img v-if="g.image_url" :src="g.image_url" class="a-gimg" @error="e=>e.target.style.display='none'" />
-              <div v-else class="a-gimg a-gimg-ph"><svg width="14" height="14" fill="none" stroke="#818cf8" stroke-width="1.5" viewBox="0 0 24 24"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8m-4-4v4"/></svg></div>
+              <div v-else class="a-gimg a-gimg-ph"><svg width="14" height="14" fill="none" stroke="#4f46e5" stroke-width="1.5" viewBox="0 0 24 24"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8m-4-4v4"/></svg></div>
               <div class="a-ginfo"><div class="a-gname">{{ g.name }}</div><div class="a-gmeta">{{ g.provider }} · {{ g.category }}</div></div>
               <button @click="doToggleGame(g)" class="a-toggle" :class="g.is_active?'tog-on':'tog-off'">{{ g.is_active?'ON':'OFF' }}</button>
             </div>
@@ -458,8 +430,8 @@
 
         <!-- TAB 5: MESSAGES -->
         <div v-if="activeTab===5" class="a-tab-content">
-          <div class="a-card" style="margin-bottom:8px;">
-            <div class="a-card-ttl" style="margin-bottom:10px;">Broadcast</div>
+          <div class="a-sett-block">
+            <div class="a-sett-ttl">Broadcast Message</div>
             <label class="a-mini-label">Title</label><input v-model="newMsg.title" class="a-input" placeholder="Title..." />
             <label class="a-mini-label" style="margin-top:7px;">Body</label>
             <textarea v-model="newMsg.body" class="a-textarea" rows="3" placeholder="Message body..."></textarea>
@@ -472,7 +444,7 @@
           <div v-else>
             <div v-for="m in msgs" :key="m.id" class="a-mrow">
               <div class="a-minfo"><div class="a-mtitle">{{ m.title }}</div><div class="a-mbody">{{ m.body }}</div><div class="a-mdate">{{ fmtDate(m.created_at) }}</div></div>
-              <button @click="deleteMsg(m.id)" class="a-icon-btn a-del-btn"><svg width="12" height="12" fill="none" stroke="#f87171" stroke-width="2" viewBox="0 0 24 24"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14a2 2 0 01-2 2H8a2 2 0 01-2-2L5 6m5 0V4h4v2"/></svg></button>
+              <button @click="deleteMsg(m.id)" class="a-icon-btn a-del-btn"><svg width="12" height="12" fill="none" stroke="#dc2626" stroke-width="2" viewBox="0 0 24 24"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14a2 2 0 01-2 2H8a2 2 0 01-2-2L5 6m5 0V4h4v2"/></svg></button>
             </div>
             <div v-if="!msgs.length" class="a-empty">No messages</div>
           </div>
@@ -495,7 +467,6 @@ import { supabase } from '@/supabase'
 
 const SUPA_URL = 'https://vuywhhmwrqykukcemifd.supabase.co'
 
-// Auth
 const adminKey    = ref('')
 const loggedIn    = ref(false)
 const loginLoading= ref(false)
@@ -511,17 +482,16 @@ const tabs = [
   { label: 'Msgs',         icon: '<path stroke-linecap="round" stroke-linejoin="round" d="M8 10h.01M12 10h.01M16 10h.01M9 16H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-5l-5 5v-5z"/>' },
 ]
 
-// Stats
 const stats = ref({ total_users:0, total_deposits:0, total_withdrawals:0, pending_tx:0, total_balance:0 })
 const metricCards = computed(() => {
   const dep = stats.value.total_deposits||0
   const wd  = stats.value.total_withdrawals||0
   const tot = dep+wd||1
   return [
-    { key:'u', val:stats.value.total_users, label:'Total Users',  pct:100, color:'#818cf8', cls:'', svg:'<path stroke-linecap="round" stroke-linejoin="round" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0z"/>' },
-    { key:'d', val:dep, label:'Deposits',    pct:Math.round(dep/tot*100), color:'#22d3ee', cls:'a-cyan', svg:'<path stroke-linecap="round" stroke-linejoin="round" d="M19 14l-7 7m0 0l-7-7m7 7V3"/>' },
-    { key:'w', val:wd,  label:'Withdrawals', pct:Math.round(wd/tot*100),  color:'#f87171', cls:'a-red',  svg:'<path stroke-linecap="round" stroke-linejoin="round" d="M5 10l7-7m0 0l7 7m-7-7v18"/>' },
-    { key:'p', val:stats.value.pending_tx||0, label:'Pending', pct:Math.min(100,(stats.value.pending_tx||0)/20*100), color:'#fbbf24', cls:'a-warn', svg:'<circle cx="12" cy="12" r="10"/><path stroke-linecap="round" d="M12 8v4l3 3"/>' },
+    { key:'u', val:stats.value.total_users, label:'Total Users',  pct:100, color:'#4f46e5', cls:'', svg:'<path stroke-linecap="round" stroke-linejoin="round" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0z"/>' },
+    { key:'d', val:dep, label:'Deposits',    pct:Math.round(dep/tot*100), color:'#0891b2', cls:'a-val-in', svg:'<path stroke-linecap="round" stroke-linejoin="round" d="M19 14l-7 7m0 0l-7-7m7 7V3"/>' },
+    { key:'w', val:wd,  label:'Withdrawals', pct:Math.round(wd/tot*100),  color:'#dc2626', cls:'a-val-out',  svg:'<path stroke-linecap="round" stroke-linejoin="round" d="M5 10l7-7m0 0l7 7m-7-7v18"/>' },
+    { key:'p', val:stats.value.pending_tx||0, label:'Pending', pct:Math.min(100,(stats.value.pending_tx||0)/20*100), color:'#d97706', cls:'a-val-warn', svg:'<circle cx="12" cy="12" r="10"/><path stroke-linecap="round" d="M12 8v4l3 3"/>' },
   ]
 })
 const netFlow = computed(() => (stats.value.total_deposits||0)-(stats.value.total_withdrawals||0))
@@ -530,36 +500,31 @@ const gaugeArc= computed(() => netPct.value/100*95)
 const healthBars = computed(() => {
   const dep=stats.value.total_deposits||0, wd=stats.value.total_withdrawals||0, tot=dep+wd||1
   return [
-    { label:'Deposit Rate',   pct:Math.round(dep/tot*100), c:'#818cf8' },
-    { label:'Withdrawal Rate',pct:Math.round(wd/tot*100),  c:'#f87171' },
-    { label:'Pending Load',   pct:Math.min(100,(stats.value.pending_tx||0)/20*100|0), c:'#fbbf24' },
-    { label:'Active Games',   pct:gameActiveRate.value, c:'#22d3ee' },
+    { label:'Deposit Rate',   pct:Math.round(dep/tot*100), c:'#4f46e5' },
+    { label:'Withdrawal Rate',pct:Math.round(wd/tot*100),  c:'#dc2626' },
+    { label:'Pending Load',   pct:Math.min(100,(stats.value.pending_tx||0)/20*100|0), c:'#d97706' },
+    { label:'Active Games',   pct:gameActiveRate.value, c:'#0891b2' },
   ]
 })
 const gameActiveRate = ref(0)
 
-// Chart
 const chartLoading = ref(false)
 const chartData    = ref(Array.from({length:7},(_,i)=>{ const d=new Date(); d.setDate(d.getDate()-6+i); return {l:d.toLocaleDateString('en-US',{weekday:'short'}),dH:4,wH:4}; }))
 
-// Recent TX
 const recentLoading = ref(false)
 const recentTx      = ref([])
 
-// TX Tab
 const txFilter = ref({ status:'', type:'' })
 const txList   = ref([])
 const txLoading= ref(false)
 const txErr    = ref('')
 
-// Settings
 const sett      = ref({})
 const settLoading=ref(false)
 const settSaving= ref(false)
 const settMsg   = ref('')
 const settOk    = ref(false)
 
-// Users
 const users      = ref([])
 const usersLoading=ref(false)
 const userQ      = ref('')
@@ -568,14 +533,12 @@ const filteredUsers = computed(() => {
   return q ? users.value.filter(u=>(u.username||'').toLowerCase().includes(q)||(u.phone||'').includes(q)) : users.value
 })
 
-// Left Drawer
 const leftDrawer = ref(false)
 const drawerSettings = ref({ banner_1_url:'', banner_2_url:'', banner_3_url:'', banner_4_url:'', cs_telegram:'', cs_livechat_url:'', cs_control_plus:'' })
 const drawerSaving = ref(false)
 const drawerMsg  = ref('')
 const drawerOk   = ref(false)
 
-// Right Player Panel
 const playerPanel   = ref(false)
 const selectedPlayer= ref(null)
 const playerTxList  = ref([])
@@ -596,7 +559,6 @@ const playerTotalWd = computed(() => playerTxList.value.filter(t=>t.type!=='depo
 const playerWinWdCount = computed(() => playerTxList.value.filter(t=>t.type!=='deposit'&&t.status==='confirmed').length)
 const playerWinAmt    = computed(() => playerTotalWd.value)
 
-// Games
 const games      = ref([])
 const gamesLoading=ref(false)
 const gameQ      = ref('')
@@ -609,7 +571,6 @@ const filteredGames= computed(() => {
   return l
 })
 
-// Messages
 const msgs     = ref([])
 const msgsLoading=ref(false)
 const newMsg   = ref({ title:'', body:'' })
@@ -617,11 +578,9 @@ const msgSending=ref(false)
 const msgResult= ref('')
 const msgOk    = ref(false)
 
-// Toast
 const toast = ref({ show:false, msg:'', type:'info' })
 const showToast = (msg, type='info') => { toast.value={show:true,msg,type}; setTimeout(()=>{toast.value.show=false},2600) }
 
-// ── AUTH ──────────────────────────────────────────
 const login = async () => {
   if (!adminKey.value) { loginErr.value='Enter password'; return }
   loginLoading.value=true; loginErr.value=''
@@ -645,10 +604,7 @@ const switchTab = async (i) => {
   if (i===5) fetchMsgs()
 }
 
-// ── OVERVIEW ──────────────────────────────────────
-const loadOverview = async () => {
-  await Promise.all([loadStats(), loadRecentTx(), loadChart()])
-}
+const loadOverview = async () => { await Promise.all([loadStats(), loadRecentTx(), loadChart()]) }
 const loadStats = async () => {
   try { const {data}=await supabase.rpc('admin_get_stats',{p_key:adminKey.value}); if(data)stats.value=data } catch(e){}
 }
@@ -672,7 +628,6 @@ const loadChart = async () => {
   } catch(e){} finally {chartLoading.value=false}
 }
 
-// ── TRANSACTIONS ──────────────────────────────────
 const fetchTx = async () => {
   txLoading.value=true; txErr.value=''
   try {
@@ -690,7 +645,6 @@ const doApprove = async (id, action) => {
   } catch(e){showToast(e.message,'error')}
 }
 
-// ── SETTINGS ──────────────────────────────────────
 const fetchSett = async () => {
   settLoading.value=true
   try { const {data}=await supabase.rpc('admin_get_settings',{p_key:adminKey.value}); if(data)sett.value={...data} } catch(e){}
@@ -703,7 +657,6 @@ const saveSett = async () => {
   finally{settSaving.value=false; setTimeout(()=>{settMsg.value=''},3000)}
 }
 
-// ── USERS ─────────────────────────────────────────
 const fetchUsers = async () => {
   usersLoading.value=true
   try { const {data}=await supabase.rpc('admin_list_users',{p_key:adminKey.value}); users.value=data||[] } catch(e){}
@@ -757,7 +710,6 @@ const doResetPassword = async () => {
   } catch(e){panelActionOk.value=false;panelActionMsg.value='Reset requires service role key'; showToast('Need service role for reset','error')} finally{panelLoading.value=false}
 }
 
-// ── LEFT DRAWER ───────────────────────────────────
 const saveDrawerSettings = async () => {
   drawerSaving.value=true; drawerMsg.value=''
   try {
@@ -769,7 +721,6 @@ const saveDrawerSettings = async () => {
   finally{drawerSaving.value=false; setTimeout(()=>{drawerMsg.value=''},3000)}
 }
 
-// ── GAMES ─────────────────────────────────────────
 const fetchGames = async () => {
   gamesLoading.value=true
   try {
@@ -786,7 +737,6 @@ const doToggleGame = async (g) => {
   } catch(e){showToast(e.message,'error')}
 }
 
-// ── MESSAGES ──────────────────────────────────────
 const fetchMsgs = async () => {
   msgsLoading.value=true
   try { const {data}=await supabase.rpc('admin_list_messages',{p_key:adminKey.value}); msgs.value=data||[] } catch(e){} finally{msgsLoading.value=false}
@@ -806,7 +756,6 @@ const deleteMsg = async (id) => {
   } catch(e){showToast(e.message,'error')}
 }
 
-// ── HELPERS ───────────────────────────────────────
 const fmtNum=(n,dec=0)=>{const v=Number(n)||0;if(v>=1000000)return(v/1000000).toFixed(2)+'M';if(v>=1000)return new Intl.NumberFormat().format(Math.round(v));return v.toFixed(dec)}
 const fmtDate=d=>d?new Date(d).toLocaleDateString('en-GB',{year:'numeric',month:'short',day:'numeric'}):'—'
 const copyTxt=t=>navigator.clipboard.writeText(t).then(()=>showToast('Copied','info')).catch(()=>{})
@@ -815,279 +764,426 @@ const copyTxt=t=>navigator.clipboard.writeText(t).then(()=>showToast('Copied','i
 <style scoped>
 /* ═══ ROOT ═══════════════════════════════════════════════════════ */
 .a-root {
-  min-height:100vh;
-  background:#0b0f1e;
-  color:#f1f5f9;
-  font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;
-  font-size:12px;
-  -webkit-tap-highlight-color:transparent;
-  position:relative;
-  overflow-x:hidden;
+  min-height: 100vh;
+  width: 100%;
+  background: #f0f2f5;
+  color: #0f172a;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  font-size: 12px;
+  -webkit-tap-highlight-color: transparent;
+  position: relative;
+  overflow-x: hidden;
 }
 
-/* ═══ OVERLAY ═══════════════════════════════════════════════════ */
+/* ═══ OVERLAY ════════════════════════════════════════════════════ */
 .a-overlay {
-  position:fixed;inset:0;z-index:100;
-  background:rgba(0,0,0,0.65);
-  backdrop-filter:blur(2px);
+  position: fixed; inset: 0; z-index: 100;
+  background: rgba(15,23,42,0.35);
+  backdrop-filter: blur(2px);
 }
-.fade-enter-active,.fade-leave-active{transition:opacity 0.22s}
-.fade-enter-from,.fade-leave-to{opacity:0}
+.fade-enter-active,.fade-leave-active { transition: opacity 0.22s }
+.fade-enter-from,.fade-leave-to { opacity: 0 }
 
 /* ═══ LEFT DRAWER ════════════════════════════════════════════════ */
 .a-left-drawer {
-  position:fixed;top:0;left:0;bottom:0;z-index:200;
-  width:260px;max-width:80vw;
-  background:#0f1428;
-  border-right:1px solid rgba(129,140,248,0.18);
-  display:flex;flex-direction:column;
-  overflow:hidden;
+  position: fixed; top: 0; left: 0; bottom: 0; z-index: 200;
+  width: 260px; max-width: 80vw;
+  background: #ffffff;
+  border-right: 1px solid #e2e8f0;
+  display: flex; flex-direction: column;
+  overflow: hidden;
 }
 .a-drawer-hdr {
-  display:flex;align-items:center;justify-content:space-between;
-  padding:14px 14px 12px;
-  border-bottom:1px solid rgba(129,140,248,0.1);
-  flex-shrink:0;
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 14px 14px 12px;
+  border-bottom: 1px solid #e2e8f0;
+  flex-shrink: 0;
 }
-.a-drawer-title {font-size:12px;font-weight:800;color:#818cf8;letter-spacing:0.06em;text-transform:uppercase;}
-.a-drawer-body {flex:1;overflow-y:auto;padding:14px;scrollbar-width:thin;scrollbar-color:rgba(129,140,248,0.2) transparent;}
-.a-drawer-section {margin-bottom:18px;}
-.a-section-label {display:flex;align-items:center;gap:6px;font-size:10px;font-weight:700;color:#818cf8;text-transform:uppercase;letter-spacing:0.06em;margin-bottom:10px;}
-.a-banner-row {display:flex;align-items:center;gap:7px;margin-bottom:6px;}
-.a-banner-num {width:16px;height:16px;border-radius:4px;background:rgba(129,140,248,0.15);color:#818cf8;font-size:9px;font-weight:800;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
-.a-mini-label {display:block;font-size:9px;color:rgba(241,245,249,0.4);margin-bottom:3px;}
-.slide-left-enter-active,.slide-left-leave-active{transition:transform 0.25s cubic-bezier(0.4,0,0.2,1)}
-.slide-left-enter-from,.slide-left-leave-to{transform:translateX(-100%)}
+.a-drawer-title { font-size: 12px; font-weight: 800; color: #4f46e5; letter-spacing: 0.06em; text-transform: uppercase; }
+.a-drawer-body { flex: 1; overflow-y: auto; padding: 14px; scrollbar-width: thin; scrollbar-color: #e2e8f0 transparent; }
+.a-drawer-section { margin-bottom: 18px; }
+.a-section-label { display: flex; align-items: center; gap: 6px; font-size: 10px; font-weight: 700; color: #4f46e5; text-transform: uppercase; letter-spacing: 0.06em; margin-bottom: 10px; }
+.a-banner-row { display: flex; align-items: center; gap: 7px; margin-bottom: 6px; }
+.a-banner-num { width: 16px; height: 16px; border-radius: 4px; background: #ede9fe; color: #4f46e5; font-size: 9px; font-weight: 800; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+.a-mini-label { display: block; font-size: 9px; color: #94a3b8; margin-bottom: 3px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.04em; }
+.slide-left-enter-active,.slide-left-leave-active { transition: transform 0.25s cubic-bezier(0.4,0,0.2,1) }
+.slide-left-enter-from,.slide-left-leave-to { transform: translateX(-100%) }
 
 /* ═══ RIGHT PLAYER PANEL ══════════════════════════════════════════ */
 .a-right-panel {
-  position:fixed;top:0;right:0;bottom:0;z-index:200;
-  width:320px;max-width:92vw;
-  background:#0f1428;
-  border-left:1px solid rgba(129,140,248,0.18);
-  display:flex;flex-direction:column;
-  overflow:hidden;
+  position: fixed; top: 0; right: 0; bottom: 0; z-index: 200;
+  width: 340px; max-width: 100vw;
+  background: #ffffff;
+  border-left: 1px solid #e2e8f0;
+  display: flex; flex-direction: column;
+  overflow: hidden;
 }
 .a-panel-hdr {
-  display:flex;align-items:center;gap:10px;
-  padding:12px 14px;
-  border-bottom:1px solid rgba(129,140,248,0.1);
-  flex-shrink:0;
+  display: flex; align-items: center; gap: 10px;
+  padding: 14px 16px;
+  border-bottom: 1px solid #e2e8f0;
+  flex-shrink: 0;
+  background: #ffffff;
 }
-.a-panel-title {flex:1;font-size:13px;font-weight:800;color:#818cf8;}
-.a-panel-av {width:30px;height:30px;border-radius:50%;background:linear-gradient(135deg,#818cf8,#22d3ee);display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:800;color:#0b0f1e;flex-shrink:0;}
-.a-panel-body {flex:1;overflow-y:auto;padding:10px 14px 24px;scrollbar-width:thin;scrollbar-color:rgba(129,140,248,0.2) transparent;display:flex;flex-direction:column;gap:8px;}
-.a-panel-card {background:rgba(129,140,248,0.06);border:1px solid rgba(129,140,248,0.12);border-radius:10px;padding:10px 12px;}
-.a-panel-section-lbl {display:flex;align-items:center;gap:6px;font-size:10px;font-weight:700;color:#818cf8;text-transform:uppercase;letter-spacing:0.05em;margin-bottom:8px;}
-.a-info-row {display:flex;justify-content:space-between;align-items:center;padding:5px 0;border-bottom:1px solid rgba(129,140,248,0.07);font-size:11px;}
-.a-info-row:last-child{border-bottom:none;padding-bottom:0;}
-.a-info-row span:first-child{color:rgba(241,245,249,0.4);}
-.a-val{color:#f1f5f9;font-weight:600;text-align:right;}
-.a-mono{font-family:monospace;font-size:10px;}
-.a-fin-row {display:flex;align-items:center;gap:7px;padding:6px 0;border-bottom:1px solid rgba(129,140,248,0.07);font-size:11px;}
-.a-fin-row:last-child{border-bottom:none;}
-.a-fin-row span:nth-child(2){flex:1;color:rgba(241,245,249,0.5);}
-.a-fin-row span:last-child{font-weight:700;}
-.a-adj-row{display:flex;gap:6px;margin-top:8px;}
-.a-ptx-row{display:flex;align-items:center;gap:6px;padding:5px 0;border-bottom:1px solid rgba(129,140,248,0.06);font-size:10px;}
-.a-ptx-row:last-child{border-bottom:none;}
-.a-ptx-method{flex:1;color:rgba(241,245,249,0.45);}
-.a-ptx-amt{font-weight:700;}
-.a-ptx-status{font-size:8px;font-weight:600;text-transform:uppercase;padding:1px 5px;border-radius:3px;}
-.sdot-confirmed{background:rgba(34,211,238,0.12);color:#22d3ee;}
-.sdot-pending{background:rgba(251,191,36,0.12);color:#fbbf24;}
-.sdot-rejected{background:rgba(248,113,113,0.12);color:#f87171;}
-.a-sess-row{padding:6px 0;border-bottom:1px solid rgba(129,140,248,0.06);}
-.a-sess-row:last-child{border-bottom:none;}
-.a-sess-top{display:flex;justify-content:space-between;align-items:center;margin-bottom:2px;}
-.a-sess-bot{font-size:9px;color:rgba(241,245,249,0.3);}
-.slide-right-enter-active,.slide-right-leave-active{transition:transform 0.25s cubic-bezier(0.4,0,0.2,1)}
-.slide-right-enter-from,.slide-right-leave-to{transform:translateX(100%)}
+.a-panel-title { flex: 1; font-size: 14px; font-weight: 800; color: #0f172a; }
+.a-panel-av {
+  width: 32px; height: 32px; border-radius: 50%;
+  background: linear-gradient(135deg, #4f46e5, #0891b2);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 13px; font-weight: 800; color: #fff; flex-shrink: 0;
+}
+.a-panel-body {
+  flex: 1; overflow-y: auto; padding: 0;
+  scrollbar-width: thin; scrollbar-color: #e2e8f0 transparent;
+  display: flex; flex-direction: column;
+}
+.a-panel-body::-webkit-scrollbar { width: 3px; }
+.a-panel-body::-webkit-scrollbar-thumb { background: #e2e8f0; border-radius: 3px; }
+
+/* Section blocks — no card, content on bg */
+.a-section-block {
+  padding: 14px 16px;
+  border-bottom: 1px solid #f1f5f9;
+}
+.a-section-hdr {
+  display: flex; align-items: center; gap: 6px;
+  font-size: 10px; font-weight: 800; color: #4f46e5;
+  text-transform: uppercase; letter-spacing: 0.08em;
+  margin-bottom: 10px;
+}
+
+/* Rows */
+.a-row {
+  display: flex; justify-content: space-between; align-items: center;
+  padding: 7px 0;
+  border-bottom: 1px solid #f1f5f9;
+}
+.a-row-last { border-bottom: none; padding-bottom: 0; }
+.a-lbl { font-size: 11px; color: #64748b; }
+.a-lbl-icon { display: flex; align-items: center; gap: 5px; font-size: 11px; color: #64748b; }
+.a-val-dark { font-size: 11px; font-weight: 700; color: #0f172a; text-align: right; }
+.a-mono-val { font-family: monospace; font-size: 11px; font-weight: 800; letter-spacing: 0.06em; }
+.a-val-accent { font-size: 11px; font-weight: 700; color: #4f46e5; }
+.a-val-in { font-size: 11px; font-weight: 700; color: #0891b2; }
+.a-val-out { font-size: 11px; font-weight: 700; color: #dc2626; }
+.a-val-success { font-size: 11px; font-weight: 700; color: #16a34a; }
+.a-val-danger { font-size: 11px; font-weight: 700; color: #dc2626; }
+.a-val-warn { font-size: 11px; font-weight: 700; color: #d97706; }
+
+/* Badges */
+.a-badge-success { font-size: 10px; font-weight: 800; color: #16a34a; background: #dcfce7; padding: 2px 8px; border-radius: 99px; letter-spacing: 0.05em; }
+.a-badge-danger  { font-size: 10px; font-weight: 800; color: #dc2626; background: #fee2e2; padding: 2px 8px; border-radius: 99px; letter-spacing: 0.05em; }
+
+/* IN / OUT badges */
+.a-io-badge {
+  font-size: 9px; font-weight: 800; padding: 2px 6px; border-radius: 4px;
+  letter-spacing: 0.06em; flex-shrink: 0;
+}
+.badge-in  { background: #e0f2fe; color: #0891b2; }
+.badge-out { background: #fee2e2; color: #dc2626; }
+
+/* TX rows */
+.a-ptx-row { display: flex; align-items: center; gap: 6px; padding: 6px 0; border-bottom: 1px solid #f1f5f9; font-size: 10px; }
+.a-ptx-row:last-child { border-bottom: none; }
+.a-ptx-method { flex: 1; color: #64748b; }
+.a-ptx-amt { font-weight: 700; }
+.a-ptx-status { font-size: 8px; font-weight: 700; text-transform: uppercase; padding: 1px 5px; border-radius: 3px; flex-shrink: 0; }
+.sdot-confirmed { background: #dcfce7; color: #16a34a; }
+.sdot-pending   { background: #fef9c3; color: #854d0e; }
+.sdot-rejected  { background: #fee2e2; color: #dc2626; }
+
+/* Sessions */
+.a-sess-row { padding: 7px 0; border-bottom: 1px solid #f1f5f9; }
+.a-sess-row:last-child { border-bottom: none; }
+.a-sess-top { display: flex; justify-content: space-between; align-items: center; margin-bottom: 2px; }
+.a-sess-bot { font-size: 9px; color: #94a3b8; }
+
+/* Adj row */
+.a-adj-row { display: flex; gap: 6px; margin-top: 10px; }
+
+.slide-right-enter-active,.slide-right-leave-active { transition: transform 0.25s cubic-bezier(0.4,0,0.2,1) }
+.slide-right-enter-from,.slide-right-leave-to { transform: translateX(100%) }
 
 /* ═══ HEADER ══════════════════════════════════════════════════════ */
 .a-header {
-  position:sticky;top:0;z-index:50;
-  background:rgba(11,15,30,0.96);
-  border-bottom:1px solid rgba(129,140,248,0.18);
-  backdrop-filter:blur(14px);
-  display:flex;align-items:center;gap:8px;
-  padding:0 10px;min-height:46px;
+  position: sticky; top: 0; z-index: 50;
+  background: #ffffff;
+  border-bottom: 1px solid #e2e8f0;
+  display: flex; align-items: center; gap: 8px;
+  padding: 0 10px; min-height: 48px;
+  width: 100%;
+  box-sizing: border-box;
 }
-.a-hdr-left{display:flex;align-items:center;gap:8px;flex-shrink:0;}
+.a-hdr-left { display: flex; align-items: center; gap: 8px; flex-shrink: 0; }
 .a-hamburger {
-  background:rgba(129,140,248,0.1);border:1px solid rgba(129,140,248,0.2);
-  border-radius:7px;padding:6px;cursor:pointer;display:flex;align-items:center;
-  transition:background 0.15s;
+  background: #ede9fe; border: none;
+  border-radius: 8px; padding: 7px; cursor: pointer; display: flex; align-items: center;
+  transition: background 0.15s;
 }
-.a-hamburger:active{background:rgba(129,140,248,0.2);}
-.a-brand-block{display:flex;flex-direction:column;line-height:1;}
-.a-brand{font-size:14px;font-weight:900;color:#818cf8;letter-spacing:0.05em;}
-.a-brand-sub{font-size:8px;color:rgba(241,245,249,0.35);font-weight:500;letter-spacing:0.08em;margin-top:1px;}
-.a-tabs-scroll{flex:1;display:flex;overflow-x:auto;gap:0;scrollbar-width:none;min-width:0;}
-.a-tabs-scroll::-webkit-scrollbar{display:none;}
-.a-tab{flex-shrink:0;display:flex;align-items:center;gap:4px;padding:10px 9px;font-size:10px;font-weight:600;white-space:nowrap;background:none;border:none;border-bottom:2px solid transparent;color:rgba(241,245,249,0.4);cursor:pointer;transition:color 0.15s,border-color 0.15s;}
-.a-tab--on{color:#818cf8;border-bottom-color:#818cf8;}
-.a-logout{flex-shrink:0;background:rgba(248,113,113,0.1);border:1px solid rgba(248,113,113,0.2);border-radius:7px;padding:6px 8px;cursor:pointer;display:flex;align-items:center;color:#f87171;}
+.a-hamburger:active { background: #ddd6fe; }
+.a-brand-block { display: flex; flex-direction: column; line-height: 1; }
+.a-brand { font-size: 15px; font-weight: 900; color: #4f46e5; letter-spacing: 0.04em; }
+.a-brand-sub { font-size: 8px; color: #94a3b8; font-weight: 600; letter-spacing: 0.08em; margin-top: 1px; text-transform: uppercase; }
+.a-tabs-scroll { flex: 1; display: flex; overflow-x: auto; scrollbar-width: none; min-width: 0; }
+.a-tabs-scroll::-webkit-scrollbar { display: none; }
+.a-tab {
+  flex-shrink: 0; display: flex; align-items: center; gap: 4px;
+  padding: 12px 9px; font-size: 10px; font-weight: 600; white-space: nowrap;
+  background: none; border: none; border-bottom: 2px solid transparent;
+  color: #94a3b8; cursor: pointer; transition: color 0.15s, border-color 0.15s;
+}
+.a-tab--on { color: #4f46e5; border-bottom-color: #4f46e5; }
+.a-logout {
+  flex-shrink: 0; background: #f8fafc; border: 1px solid #e2e8f0;
+  border-radius: 7px; padding: 6px 8px; cursor: pointer; display: flex; align-items: center;
+}
+.a-logout:active { background: #f1f5f9; }
 
 /* ═══ BODY ════════════════════════════════════════════════════════ */
-.a-body{padding:10px 10px 28px;}
-.a-tab-content{display:flex;flex-direction:column;gap:0;}
+.a-body { padding: 12px 10px 28px; width: 100%; box-sizing: border-box; }
+.a-tab-content { display: flex; flex-direction: column; gap: 0; }
 
 /* ═══ LOGIN ═══════════════════════════════════════════════════════ */
-.a-login-wrap{display:flex;justify-content:center;padding-top:70px;}
-.a-login-card{background:rgba(129,140,248,0.06);border:1px solid rgba(129,140,248,0.2);border-radius:18px;padding:30px 22px;width:100%;max-width:310px;text-align:center;position:relative;overflow:hidden;}
-.a-login-glow{position:absolute;top:-60px;left:50%;transform:translateX(-50%);width:120px;height:120px;background:rgba(129,140,248,0.12);border-radius:50%;filter:blur(40px);pointer-events:none;}
-.a-login-icon{display:block;margin:0 auto 14px;}
-.a-login-title{font-size:17px;font-weight:900;color:#818cf8;margin-bottom:4px;}
-.a-login-sub{font-size:11px;color:rgba(241,245,249,0.4);margin-bottom:18px;}
-.a-login-btn{width:100%;padding:12px;margin-top:10px;}
+.a-login-wrap { display: flex; justify-content: center; padding-top: 70px; }
+.a-login-card {
+  background: #ffffff;
+  border: 1px solid #e2e8f0;
+  border-radius: 18px; padding: 32px 24px;
+  width: 100%; max-width: 320px; text-align: center;
+}
+.a-login-icon { display: block; margin: 0 auto 14px; }
+.a-login-title { font-size: 18px; font-weight: 900; color: #4f46e5; margin-bottom: 4px; }
+.a-login-sub { font-size: 11px; color: #94a3b8; margin-bottom: 18px; }
+.a-login-btn { width: 100%; padding: 12px; margin-top: 10px; }
 
-/* ═══ CARD ════════════════════════════════════════════════════════ */
-.a-card{background:rgba(129,140,248,0.05);border:1px solid rgba(129,140,248,0.12);border-radius:10px;padding:10px 12px;margin-bottom:8px;}
-.a-card-hdr{display:flex;align-items:center;justify-content:space-between;margin-bottom:8px;}
-.a-card-ttl{font-size:10px;font-weight:800;color:rgba(241,245,249,0.6);text-transform:uppercase;letter-spacing:0.06em;}
-.a-live{font-size:8px;font-weight:800;padding:2px 6px;border-radius:4px;background:rgba(129,140,248,0.15);color:#818cf8;border:1px solid rgba(129,140,248,0.3);letter-spacing:0.06em;}
+/* ═══ METRICS GRID ════════════════════════════════════════════════ */
+.a-metrics-grid { display: grid; grid-template-columns: repeat(4,1fr); gap: 8px; margin-bottom: 10px; }
+@media(max-width:400px) { .a-metrics-grid { grid-template-columns: repeat(2,1fr); } }
+.a-mcard {
+  background: #ffffff;
+  border-radius: 12px; padding: 10px 10px 8px;
+}
+.a-mcard-icon { width: 26px; height: 26px; border-radius: 7px; background: #ede9fe; display: flex; align-items: center; justify-content: center; margin-bottom: 6px; }
+.a-mcard-val { font-size: 15px; font-weight: 900; color: #0f172a; line-height: 1.1; }
+.a-mcard-lbl { font-size: 9px; color: #94a3b8; margin: 2px 0 6px; }
+.a-mbar { height: 3px; background: #f1f5f9; border-radius: 2px; }
+.a-mbar-fill { height: 100%; border-radius: 2px; transition: width 0.6s; }
 
-/* ═══ METRICS ════════════════════════════════════════════════════ */
-.a-metrics-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:6px;margin-bottom:8px;}
-@media(max-width:400px){.a-metrics-grid{grid-template-columns:repeat(2,1fr);}}
-.a-mcard{background:rgba(129,140,248,0.05);border:1px solid rgba(129,140,248,0.1);border-radius:10px;padding:8px 9px;}
-.a-mcard-icon{width:24px;height:24px;border-radius:6px;background:rgba(129,140,248,0.12);display:flex;align-items:center;justify-content:center;margin-bottom:5px;}
-.a-mcard-val{font-size:15px;font-weight:900;color:#f1f5f9;line-height:1.1;}
-.a-mcard-lbl{font-size:9px;color:rgba(241,245,249,0.35);margin:2px 0 5px;}
-.a-mbar{height:2px;background:rgba(129,140,248,0.1);border-radius:1px;}
-.a-mbar-fill{height:100%;border-radius:1px;transition:width 0.6s;}
+/* ═══ CHART + GAUGE ══════════════════════════════════════════════ */
+.a-row-2col { display: flex; gap: 8px; margin-bottom: 10px; align-items: stretch; }
+.a-chart-area { flex: 1; min-width: 0; background: #ffffff; border-radius: 12px; padding: 10px 12px; }
+.a-area-hdr { display: flex; align-items: center; justify-content: space-between; margin-bottom: 6px; }
+.a-area-ttl { font-size: 10px; font-weight: 800; color: #334155; text-transform: uppercase; letter-spacing: 0.05em; }
+.a-barchart { width: 100%; height: 72px; display: block; margin: 4px 0; }
+.a-legend { display: flex; align-items: center; font-size: 9px; color: #94a3b8; }
+.a-leg-dot { display: inline-block; width: 7px; height: 7px; border-radius: 2px; margin-right: 4px; }
 
-/* ═══ CHART ══════════════════════════════════════════════════════ */
-.a-row-2col{display:flex;gap:8px;margin-bottom:8px;align-items:stretch;}
-.a-chart-card{flex:1;min-width:0;}
-.a-barchart{width:100%;height:72px;display:block;margin:6px 0 4px;}
-.a-legend{display:flex;align-items:center;font-size:9px;color:rgba(241,245,249,0.4);}
-.a-leg-dot{display:inline-block;width:7px;height:7px;border-radius:2px;margin-right:4px;}
+.a-gauges { display: flex; flex-direction: column; gap: 8px; width: 108px; flex-shrink: 0; }
+.a-g-area { background: #ffffff; border-radius: 12px; padding: 8px 10px; display: flex; flex-direction: column; align-items: center; }
+.a-gauge-svg { width: 80px; height: 48px; }
+.a-big-n { font-size: 13px; font-weight: 900; color: #4f46e5; margin-top: 4px; }
+.a-pbar { height: 3px; background: #f1f5f9; border-radius: 2px; width: 100%; margin-top: 5px; }
+.a-pbar-fill { height: 100%; background: linear-gradient(90deg,#4f46e5,#0891b2); border-radius: 2px; transition: width 0.6s; }
 
-.a-gauges{display:flex;flex-direction:column;gap:8px;width:108px;flex-shrink:0;}
-.a-g-card{padding:8px 10px;display:flex;flex-direction:column;align-items:center;}
-.a-gauge-svg{width:80px;height:48px;}
-.a-big-n{font-size:13px;font-weight:900;color:#818cf8;margin-top:4px;}
-.a-pbar{height:3px;background:rgba(129,140,248,0.1);border-radius:2px;width:100%;margin-top:5px;}
-.a-pbar-fill{height:100%;background:linear-gradient(90deg,#818cf8,#22d3ee);border-radius:2px;transition:width 0.6s;}
+/* ═══ AREA BLOCK (Health, Recent TX) ════════════════════════════ */
+.a-area-block { background: #ffffff; border-radius: 12px; padding: 10px 12px; margin-bottom: 10px; }
 
-/* ═══ HEALTH ═════════════════════════════════════════════════════ */
-.a-health{display:flex;align-items:center;gap:8px;margin-bottom:7px;}
-.a-health:last-child{margin-bottom:0;}
-.a-health-l{font-size:9px;color:rgba(241,245,249,0.4);width:88px;flex-shrink:0;}
-.a-health-t{flex:1;height:4px;background:rgba(129,140,248,0.08);border-radius:2px;overflow:hidden;}
-.a-health-f{height:100%;border-radius:2px;transition:width 0.6s;}
-.a-health-v{font-size:9px;color:rgba(241,245,249,0.5);width:26px;text-align:right;flex-shrink:0;}
+/* Health */
+.a-health { display: flex; align-items: center; gap: 8px; margin-bottom: 7px; }
+.a-health:last-child { margin-bottom: 0; }
+.a-health-l { font-size: 9px; color: #64748b; width: 96px; flex-shrink: 0; }
+.a-health-t { flex: 1; height: 4px; background: #f1f5f9; border-radius: 2px; overflow: hidden; }
+.a-health-f { height: 100%; border-radius: 2px; transition: width 0.6s; }
+.a-health-v { font-size: 9px; color: #64748b; width: 28px; text-align: right; flex-shrink: 0; }
+.a-live { font-size: 8px; font-weight: 800; padding: 2px 7px; border-radius: 5px; background: #dcfce7; color: #16a34a; letter-spacing: 0.06em; }
 
-/* ═══ RECENT TX ══════════════════════════════════════════════════ */
-.a-rtx{display:flex;align-items:center;gap:6px;padding:6px 0;border-bottom:1px solid rgba(129,140,248,0.07);font-size:10px;}
-.a-rtx:last-child{border-bottom:none;}
-.a-rtx-dot{width:5px;height:5px;border-radius:50%;flex-shrink:0;}
-.dot-dep{background:#818cf8;box-shadow:0 0 5px rgba(129,140,248,0.7);}
-.dot-wd{background:#f87171;box-shadow:0 0 5px rgba(248,113,113,0.7);}
-.a-rtx-user{flex:1;font-family:monospace;font-size:9px;color:rgba(241,245,249,0.45);}
-.a-rtx-method{font-size:9px;color:rgba(241,245,249,0.3);}
-.a-rtx-amt{font-weight:700;}
+/* Recent TX */
+.a-rtx { display: flex; align-items: center; gap: 6px; padding: 6px 0; border-bottom: 1px solid #f1f5f9; font-size: 10px; }
+.a-rtx:last-child { border-bottom: none; }
+.a-rtx-dot { width: 5px; height: 5px; border-radius: 50%; flex-shrink: 0; }
+.dot-in  { background: #0891b2; }
+.dot-out { background: #dc2626; }
+.a-rtx-user { flex: 1; font-family: monospace; font-size: 9px; color: #94a3b8; }
+.a-rtx-method { color: #64748b; }
+.a-rtx-amt { font-weight: 700; }
+.a-lnk { font-size: 9px; font-weight: 700; color: #4f46e5; background: none; border: none; cursor: pointer; padding: 0; }
 
-/* ═══ TX CARD ════════════════════════════════════════════════════ */
-.a-tx-card{background:rgba(129,140,248,0.04);border:1px solid rgba(129,140,248,0.1);border-radius:9px;padding:9px 10px;margin-bottom:6px;}
-.a-tx-top{display:flex;align-items:center;gap:7px;margin-bottom:5px;}
-.a-tx-amt{flex:1;font-size:13px;font-weight:900;color:#f1f5f9;}
-.a-tx-meta{font-size:10px;color:rgba(241,245,249,0.38);display:flex;flex-wrap:wrap;gap:8px;margin-bottom:6px;}
-.a-tx-actions{display:flex;gap:7px;}
+/* ═══ FILTER BAR ══════════════════════════════════════════════════ */
+.a-filter-bar {
+  display: flex; gap: 6px; align-items: center;
+  margin-bottom: 10px;
+  background: #ffffff; border-radius: 10px; padding: 8px 10px;
+}
 
-/* ═══ BADGES ═════════════════════════════════════════════════════ */
-.a-ptx-badge{font-size:8px;font-weight:800;padding:2px 5px;border-radius:3px;flex-shrink:0;}
-.badge-dep{background:rgba(34,211,238,0.15);color:#22d3ee;}
-.badge-wd{background:rgba(248,113,113,0.15);color:#f87171;}
-.a-sbadge{font-size:8px;font-weight:700;padding:2px 7px;border-radius:20px;text-transform:uppercase;}
-.sb-pending{background:rgba(251,191,36,0.12);color:#fbbf24;border:1px solid rgba(251,191,36,0.2);}
-.sb-confirmed{background:rgba(34,211,238,0.12);color:#22d3ee;border:1px solid rgba(34,211,238,0.2);}
-.sb-rejected{background:rgba(248,113,113,0.12);color:#f87171;border:1px solid rgba(248,113,113,0.2);}
+/* ═══ TX ROWS ════════════════════════════════════════════════════ */
+.a-tx-row {
+  background: #ffffff; border-radius: 10px;
+  padding: 9px 10px; margin-bottom: 6px;
+}
+.a-tx-top { display: flex; align-items: center; gap: 7px; margin-bottom: 5px; }
+.a-tx-amt { flex: 1; font-size: 12px; font-weight: 800; color: #0f172a; }
+.a-tx-meta { display: flex; gap: 8px; font-size: 9px; color: #94a3b8; flex-wrap: wrap; margin-bottom: 5px; }
+.a-tx-actions { display: flex; gap: 6px; }
 
-/* ═══ USERS ══════════════════════════════════════════════════════ */
-.a-users-count{font-size:9px;font-weight:800;color:rgba(241,245,249,0.3);letter-spacing:0.08em;text-transform:uppercase;margin-bottom:6px;padding:0 2px;}
-.a-urow{display:flex;align-items:center;gap:8px;padding:8px 10px;border-radius:9px;margin-bottom:4px;background:rgba(129,140,248,0.04);border:1px solid rgba(129,140,248,0.09);cursor:default;}
-.a-uav{width:30px;height:30px;border-radius:50%;flex-shrink:0;background:linear-gradient(135deg,#818cf8,#22d3ee);display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:900;color:#0b0f1e;}
-.a-uinfo{flex:1;min-width:0;}
-.a-uname{font-size:11px;font-weight:700;color:#f1f5f9;}
-.a-umeta{font-size:9px;color:rgba(241,245,249,0.35);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
-.a-eye-btn{background:rgba(129,140,248,0.12);border:1px solid rgba(129,140,248,0.25);border-radius:7px;padding:5px 7px;cursor:pointer;display:flex;align-items:center;transition:background 0.15s;flex-shrink:0;}
-.a-eye-btn:active{background:rgba(129,140,248,0.25);}
+/* Status badges */
+.a-sbadge { font-size: 9px; font-weight: 700; padding: 2px 7px; border-radius: 5px; text-transform: uppercase; }
+.sb-confirmed { background: #dcfce7; color: #16a34a; }
+.sb-pending   { background: #fef9c3; color: #854d0e; }
+.sb-rejected  { background: #fee2e2; color: #dc2626; }
+
+/* ═══ SETTINGS BLOCKS ═════════════════════════════════════════════ */
+.a-sett-block { background: #ffffff; border-radius: 12px; padding: 12px 12px; margin-bottom: 8px; }
+.a-sett-ttl { font-size: 11px; font-weight: 800; color: #0f172a; margin-bottom: 10px; text-transform: uppercase; letter-spacing: 0.05em; }
+
+/* ═══ USERS LIST ═════════════════════════════════════════════════ */
+.a-users-count { font-size: 9px; font-weight: 800; color: #94a3b8; text-transform: uppercase; letter-spacing: 0.06em; margin-bottom: 6px; padding: 0 2px; }
+.a-urow {
+  display: flex; align-items: center; gap: 9px;
+  padding: 9px 10px; margin-bottom: 4px;
+  background: #ffffff; border-radius: 10px;
+}
+.a-uav {
+  width: 30px; height: 30px; border-radius: 50%;
+  background: linear-gradient(135deg,#4f46e5,#0891b2);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 12px; font-weight: 800; color: #fff; flex-shrink: 0;
+}
+.a-uinfo { flex: 1; min-width: 0; }
+.a-uname { font-size: 12px; font-weight: 700; color: #0f172a; }
+.a-umeta { font-size: 9px; color: #94a3b8; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.a-eye-btn { background: #ede9fe; border: none; border-radius: 7px; padding: 6px; cursor: pointer; display: flex; align-items: center; flex-shrink: 0; }
+.a-eye-btn:active { background: #ddd6fe; }
 
 /* ═══ GAMES ══════════════════════════════════════════════════════ */
-.a-games-summary{font-size:10px;margin-bottom:8px;padding:0 2px;}
-.a-sep{margin:0 8px;color:rgba(241,245,249,0.15);}
-.a-grow{display:flex;align-items:center;gap:9px;padding:7px 0;border-bottom:1px solid rgba(129,140,248,0.07);}
-.a-gimg{width:34px;height:34px;object-fit:cover;border-radius:7px;flex-shrink:0;}
-.a-gimg-ph{background:rgba(129,140,248,0.08);display:flex;align-items:center;justify-content:center;color:#818cf8;}
-.a-ginfo{flex:1;min-width:0;}
-.a-gname{font-size:11px;font-weight:600;color:#f1f5f9;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
-.a-gmeta{font-size:9px;color:rgba(241,245,249,0.35);margin-top:1px;}
-.a-toggle{flex-shrink:0;padding:4px 10px;border-radius:20px;font-size:9px;font-weight:800;border:none;cursor:pointer;transition:all 0.15s;}
-.tog-on{background:rgba(129,140,248,0.15);color:#818cf8;border:1px solid rgba(129,140,248,0.3);}
-.tog-off{background:rgba(241,245,249,0.05);color:rgba(241,245,249,0.3);border:1px solid rgba(241,245,249,0.1);}
+.a-games-summary { font-size: 10px; font-weight: 600; padding: 4px 2px 8px; display: flex; gap: 8px; align-items: center; }
+.a-sep { color: #cbd5e1; }
+.a-grow {
+  display: flex; align-items: center; gap: 8px;
+  padding: 7px 10px; margin-bottom: 4px;
+  background: #ffffff; border-radius: 10px;
+}
+.a-gimg { width: 32px; height: 32px; border-radius: 7px; object-fit: cover; flex-shrink: 0; }
+.a-gimg-ph { background: #ede9fe; display: flex; align-items: center; justify-content: center; }
+.a-ginfo { flex: 1; min-width: 0; }
+.a-gname { font-size: 11px; font-weight: 700; color: #0f172a; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.a-gmeta { font-size: 9px; color: #94a3b8; }
+.a-toggle {
+  font-size: 9px; font-weight: 800; padding: 3px 9px; border-radius: 6px;
+  border: none; cursor: pointer; flex-shrink: 0; letter-spacing: 0.04em;
+  transition: background 0.15s;
+}
+.tog-on  { background: #dcfce7; color: #16a34a; }
+.tog-off { background: #f1f5f9; color: #94a3b8; }
 
-/* ═══ MESSAGES ═══════════════════════════════════════════════════ */
-.a-mrow{display:flex;align-items:flex-start;gap:8px;padding:9px 0;border-bottom:1px solid rgba(129,140,248,0.07);}
-.a-minfo{flex:1;}
-.a-mtitle{font-size:11px;font-weight:700;color:#f1f5f9;margin-bottom:2px;}
-.a-mbody{font-size:10px;color:rgba(241,245,249,0.45);margin-bottom:3px;line-height:1.4;}
-.a-mdate{font-size:9px;color:rgba(241,245,249,0.25);}
+/* ═══ MESSAGES ════════════════════════════════════════════════════ */
+.a-mrow {
+  display: flex; align-items: flex-start; gap: 8px;
+  padding: 10px 10px; margin-bottom: 4px;
+  background: #ffffff; border-radius: 10px;
+}
+.a-minfo { flex: 1; min-width: 0; }
+.a-mtitle { font-size: 11px; font-weight: 700; color: #0f172a; margin-bottom: 2px; }
+.a-mbody  { font-size: 10px; color: #64748b; margin-bottom: 3px; line-height: 1.4; }
+.a-mdate  { font-size: 9px; color: #94a3b8; }
+.a-del-btn { background: #fee2e2; border-radius: 6px; flex-shrink: 0; }
+.a-del-btn:active { background: #fecaca; }
 
-/* ═══ INPUTS ═════════════════════════════════════════════════════ */
-.a-input{width:100%;box-sizing:border-box;background:rgba(0,0,0,0.25);border:1px solid rgba(129,140,248,0.15);border-radius:8px;padding:8px 10px;color:#f1f5f9;font-size:12px;outline:none;transition:border-color 0.2s;}
-.a-input:focus{border-color:#818cf8;}
-.a-input-sm{padding:6px 9px;font-size:11px;}
-.a-textarea{width:100%;box-sizing:border-box;background:rgba(0,0,0,0.25);border:1px solid rgba(129,140,248,0.15);border-radius:8px;padding:8px 10px;color:#f1f5f9;font-size:12px;outline:none;resize:vertical;}
-.a-textarea:focus{border-color:#818cf8;}
-.a-select{background:rgba(0,0,0,0.25);border:1px solid rgba(129,140,248,0.15);border-radius:8px;padding:7px 8px;color:#f1f5f9;font-size:11px;outline:none;}
-.a-filter-row{display:flex;gap:6px;align-items:center;}
+/* ═══ FORM ELEMENTS ══════════════════════════════════════════════ */
+.a-input {
+  width: 100%; padding: 9px 11px; border-radius: 9px;
+  border: 1.5px solid #e2e8f0; outline: none;
+  font-size: 12px; font-weight: 500; box-sizing: border-box;
+  background: #f8fafc; color: #0f172a;
+  transition: border-color 0.15s;
+}
+.a-input:focus { border-color: #4f46e5; background: #fff; }
+.a-input::placeholder { color: #cbd5e1; }
+.a-input-sm { padding: 7px 9px; font-size: 11px; }
+.a-select {
+  padding: 7px 9px; border-radius: 8px;
+  border: 1.5px solid #e2e8f0; background: #f8fafc;
+  color: #0f172a; font-size: 11px; outline: none; cursor: pointer;
+  transition: border-color 0.15s;
+}
+.a-select:focus { border-color: #4f46e5; }
+.a-textarea {
+  width: 100%; padding: 9px 11px; border-radius: 9px;
+  border: 1.5px solid #e2e8f0; outline: none;
+  font-size: 12px; font-weight: 500; box-sizing: border-box;
+  background: #f8fafc; color: #0f172a;
+  resize: vertical; font-family: inherit;
+  transition: border-color 0.15s;
+}
+.a-textarea:focus { border-color: #4f46e5; background: #fff; }
 
 /* ═══ BUTTONS ════════════════════════════════════════════════════ */
-.a-btn-primary{display:inline-flex;align-items:center;justify-content:center;gap:6px;background:linear-gradient(135deg,#818cf8,#6366f1);color:#fff;font-weight:800;border:none;border-radius:8px;padding:9px 14px;cursor:pointer;font-size:11px;transition:opacity 0.15s;}
-.a-btn-primary:disabled{opacity:0.5;cursor:not-allowed;}
-.a-btn-primary:active:not(:disabled){opacity:0.8;}
-.a-btn-sm-p{flex-shrink:0;padding:8px 12px;font-size:11px;}
-.a-btn-sm{display:inline-flex;align-items:center;justify-content:center;gap:5px;border-radius:7px;padding:6px 12px;font-size:11px;font-weight:700;cursor:pointer;border:none;}
-.a-btn-primary-sm{background:rgba(129,140,248,0.15);color:#818cf8;border:1px solid rgba(129,140,248,0.3);}
-.a-btn-primary-sm:disabled{opacity:0.5;}
-.a-btn-success{background:rgba(34,211,238,0.12);color:#22d3ee;border:1px solid rgba(34,211,238,0.25);}
-.a-btn-danger{background:rgba(248,113,113,0.12);color:#f87171;border:1px solid rgba(248,113,113,0.25);}
-.a-btn-warn{background:rgba(251,191,36,0.12);color:#fbbf24;border:1px solid rgba(251,191,36,0.25);}
-.a-btn-ghost{background:rgba(241,245,249,0.06);color:rgba(241,245,249,0.6);border:1px solid rgba(241,245,249,0.1);}
-.a-icon-btn{background:rgba(129,140,248,0.08);border:1px solid rgba(129,140,248,0.15);border-radius:6px;padding:4px 6px;cursor:pointer;color:rgba(241,245,249,0.5);display:flex;align-items:center;transition:opacity 0.15s;}
-.a-icon-btn.spinning svg{animation:spin 0.7s linear infinite;}
-.a-del-btn{background:rgba(248,113,113,0.07) !important;border-color:rgba(248,113,113,0.2) !important;}
-.a-lnk{background:none;border:none;color:#818cf8;font-size:10px;font-weight:700;cursor:pointer;}
-.a-hamburger svg,.a-logout svg{display:block;}
+.a-btn-primary {
+  display: inline-flex; align-items: center; justify-content: center; gap: 5px;
+  padding: 9px 14px; border-radius: 8px; border: none; cursor: pointer;
+  font-size: 12px; font-weight: 700;
+  background: #4f46e5; color: #fff;
+  transition: background 0.15s, opacity 0.15s;
+}
+.a-btn-primary:active { background: #4338ca; }
+.a-btn-primary:disabled { opacity: 0.4; cursor: not-allowed; }
 
-/* ═══ MISC ═══════════════════════════════════════════════════════ */
-.a-loading{display:flex;justify-content:center;padding:28px 0;}
-.a-mini-load{display:flex;justify-content:center;padding:12px 0;}
-.a-spinner{width:24px;height:24px;border-radius:50%;border:2px solid rgba(129,140,248,0.1);border-top-color:#818cf8;animation:spin 0.7s linear infinite;}
-.a-spinner-sm{display:inline-block;width:12px;height:12px;border-radius:50%;border:2px solid rgba(255,255,255,0.15);border-top-color:#fff;animation:spin 0.6s linear infinite;}
-.a-empty{text-align:center;padding:22px;color:rgba(241,245,249,0.2);font-size:11px;}
-.a-empty-sm{text-align:center;padding:10px 0;color:rgba(241,245,249,0.2);font-size:10px;}
-.a-err{color:#f87171;font-size:11px;}
-.a-ok{color:#4ade80;font-size:11px;}
-.a-accent{color:#818cf8;font-weight:700;}
-.a-success{color:#22d3ee;font-weight:600;}
-.a-danger{color:#f87171;font-weight:600;}
-.a-cyan{color:#22d3ee;font-weight:700;}
-.a-red{color:#f87171;font-weight:700;}
-.a-warn{color:#fbbf24;font-weight:700;}
+.a-btn-sm { display: inline-flex; align-items: center; justify-content: center; gap: 4px; padding: 7px 12px; border-radius: 7px; border: none; cursor: pointer; font-size: 10px; font-weight: 700; transition: opacity 0.15s; }
+.a-btn-sm-p { padding: 7px 12px; }
+.a-btn-primary-sm { background: #4f46e5; color: #fff; }
+.a-btn-primary-sm:active { background: #4338ca; }
+.a-btn-success { background: #dcfce7; color: #16a34a; }
+.a-btn-success:active { background: #bbf7d0; }
+.a-btn-danger  { background: #fee2e2; color: #dc2626; }
+.a-btn-danger:active  { background: #fecaca; }
+.a-btn-warn    { background: #fef9c3; color: #854d0e; }
+.a-btn-warn:active    { background: #fef08a; }
+.a-btn-ghost   { background: #f1f5f9; color: #334155; border: 1px solid #e2e8f0; }
+.a-btn-ghost:active   { background: #e2e8f0; }
+.a-btn-sm:disabled { opacity: 0.4; cursor: not-allowed; }
+
+.a-icon-btn {
+  background: #f1f5f9; border: none; border-radius: 7px;
+  padding: 5px; cursor: pointer; display: flex; align-items: center;
+  transition: background 0.15s;
+}
+.a-icon-btn:active { background: #e2e8f0; }
+
+/* ═══ FEEDBACK ════════════════════════════════════════════════════ */
+.a-ok  { color: #16a34a; font-size: 11px; font-weight: 600; }
+.a-err { color: #dc2626; font-size: 11px; font-weight: 600; }
+.a-empty { text-align: center; padding: 24px; color: #94a3b8; font-size: 11px; }
+.a-empty-sm { text-align: center; padding: 12px 0 4px; color: #94a3b8; font-size: 10px; }
+.a-loading { display: flex; justify-content: center; padding: 28px; }
+.a-mini-load { display: flex; justify-content: center; padding: 10px; }
+
+/* Spinners */
+.a-spinner {
+  width: 22px; height: 22px; border-radius: 50%;
+  border: 2.5px solid #e2e8f0;
+  border-top-color: #4f46e5;
+  animation: spin 0.7s linear infinite;
+}
+.a-spinner-sm {
+  display: inline-block; width: 12px; height: 12px; border-radius: 50%;
+  border: 2px solid rgba(255,255,255,0.3);
+  border-top-color: #fff;
+  animation: spin 0.7s linear infinite;
+}
+@keyframes spin { to { transform: rotate(360deg); } }
+.spinning svg { animation: spin 0.6s linear infinite; }
 
 /* ═══ TOAST ══════════════════════════════════════════════════════ */
-.a-toast{position:fixed;bottom:22px;left:50%;transform:translateX(-50%);border-radius:10px;padding:8px 18px;font-size:11px;font-weight:700;z-index:500;box-shadow:0 6px 24px rgba(0,0,0,0.5);pointer-events:none;white-space:nowrap;}
-.toast-success{background:#0e2d1a;color:#4ade80;border:1px solid rgba(74,222,128,0.3);}
-.toast-error{background:#2d0e0e;color:#fca5a5;border:1px solid rgba(252,165,165,0.3);}
-.toast-info{background:#0e1a2d;color:#818cf8;border:1px solid rgba(129,140,248,0.3);}
-.toast-anim-enter-active{transition:opacity 0.2s,transform 0.2s;}
-.toast-anim-leave-active{transition:opacity 0.25s,transform 0.25s;}
-.toast-anim-enter-from{opacity:0;transform:translateX(-50%) translateY(10px);}
-.toast-anim-leave-to{opacity:0;transform:translateX(-50%) translateY(10px);}
-
-@keyframes spin{to{transform:rotate(360deg);}}
+.a-toast {
+  position: fixed; bottom: 24px; left: 50%; transform: translateX(-50%);
+  padding: 9px 18px; border-radius: 99px;
+  font-size: 12px; font-weight: 700; z-index: 9999;
+  white-space: nowrap; pointer-events: none;
+}
+.toast-success { background: #0f172a; color: #4ade80; }
+.toast-error   { background: #0f172a; color: #f87171; }
+.toast-info    { background: #0f172a; color: #e2e8f0; }
+.toast-anim-enter-active { transition: all 0.2s ease; }
+.toast-anim-leave-active { transition: all 0.15s ease; }
+.toast-anim-enter-from   { opacity: 0; transform: translateX(-50%) translateY(8px); }
+.toast-anim-leave-to     { opacity: 0; }
 </style>
