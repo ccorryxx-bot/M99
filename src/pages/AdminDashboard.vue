@@ -14,15 +14,22 @@
 
     <!-- HEADER -->
     <header class="a-header">
-      <div class="a-hdr-left">
-        <button v-if="loggedIn" @click="leftDrawer=!leftDrawer" class="a-hamburger">
-          <svg width="16" height="16" fill="none" stroke="#4f46e5" stroke-width="2.5" viewBox="0 0 24 24"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
-        </button>
-        <div class="a-brand-block">
-          <span class="a-brand">iW99</span>
-          <span class="a-brand-sub">Admin</span>
+      <!-- Row 1: Brand + Logout -->
+      <div class="a-hdr-top">
+        <div class="a-hdr-left">
+          <button v-if="loggedIn" @click="leftDrawer=!leftDrawer" class="a-hamburger">
+            <svg width="16" height="16" fill="none" stroke="#4f46e5" stroke-width="2.5" viewBox="0 0 24 24"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+          </button>
+          <div class="a-brand-block">
+            <span class="a-brand">iW99</span>
+            <span class="a-brand-sub">Admin</span>
+          </div>
         </div>
+        <button v-if="loggedIn" @click="logout" class="a-logout">
+          <svg width="14" height="14" fill="none" stroke="#64748b" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"/></svg>
+        </button>
       </div>
+      <!-- Row 2: Tabs (full width scrollable) -->
       <div v-if="loggedIn" class="a-tabs-scroll">
         <button v-for="(tab, i) in tabs" :key="i" @click="switchTab(i)"
           class="a-tab" :class="activeTab===i?'a-tab--on':''">
@@ -30,9 +37,6 @@
           {{ tab.label }}
         </button>
       </div>
-      <button v-if="loggedIn" @click="logout" class="a-logout">
-        <svg width="14" height="14" fill="none" stroke="#64748b" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"/></svg>
-      </button>
     </header>
 
     <!-- BODY -->
@@ -188,16 +192,32 @@ const switchTab = async (i) => {
 .sdot-rejected  { background: #fee2e2; color: #dc2626; }
 
 /* ═══ HEADER ══════════════════════════════════════════════════════ */
-.a-header { position: sticky; top: 0; z-index: 50; background: #ffffff; border-bottom: 1px solid #e2e8f0; display: flex; align-items: center; gap: 8px; padding: 0 10px; min-height: 48px; width: 100%; box-sizing: border-box; }
+.a-header {
+  position: sticky; top: 0; z-index: 50; background: #ffffff;
+  border-bottom: 1px solid #e2e8f0; width: 100%; box-sizing: border-box;
+  display: flex; flex-direction: column;
+}
+.a-hdr-top {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 8px 10px; min-height: 44px; gap: 8px;
+}
 .a-hdr-left { display: flex; align-items: center; gap: 8px; flex-shrink: 0; }
 .a-hamburger { background: #ede9fe; border: none; border-radius: 8px; padding: 7px; cursor: pointer; display: flex; align-items: center; transition: background 0.15s; }
 .a-hamburger:active { background: #ddd6fe; }
 .a-brand-block { display: flex; flex-direction: column; line-height: 1; }
 .a-brand { font-size: 15px; font-weight: 900; color: #4f46e5; letter-spacing: 0.04em; }
 .a-brand-sub { font-size: 8px; color: #94a3b8; font-weight: 600; letter-spacing: 0.08em; margin-top: 1px; text-transform: uppercase; }
-.a-tabs-scroll { flex: 1; display: flex; overflow-x: auto; scrollbar-width: none; min-width: 0; }
+.a-tabs-scroll {
+  display: flex; overflow-x: auto; scrollbar-width: none;
+  width: 100%; border-top: 1px solid #f1f5f9;
+}
 .a-tabs-scroll::-webkit-scrollbar { display: none; }
-.a-tab { flex-shrink: 0; display: flex; align-items: center; gap: 4px; padding: 12px 9px; font-size: 10px; font-weight: 600; white-space: nowrap; background: none; border: none; border-bottom: 2px solid transparent; color: #94a3b8; cursor: pointer; transition: color 0.15s, border-color 0.15s; }
+.a-tab {
+  flex-shrink: 0; display: flex; align-items: center; gap: 4px;
+  padding: 10px 12px; font-size: 10px; font-weight: 600; white-space: nowrap;
+  background: none; border: none; border-bottom: 2px solid transparent;
+  color: #94a3b8; cursor: pointer; transition: color 0.15s, border-color 0.15s;
+}
 .a-tab--on { color: #4f46e5; border-bottom-color: #4f46e5; }
 .a-logout { flex-shrink: 0; background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 7px; padding: 6px 8px; cursor: pointer; display: flex; align-items: center; }
 .a-logout:active { background: #f1f5f9; }
@@ -275,8 +295,15 @@ const switchTab = async (i) => {
 .a-textarea { resize: vertical; min-height: 60px; line-height: 1.5; }
 
 /* ═══ USERS ═══════════════════════════════════════════════════════ */
-.a-user-row { display: flex; align-items: center; gap: 10px; background: #ffffff; border-radius: 10px; padding: 10px 12px; margin-bottom: 6px; cursor: pointer; transition: background 0.12s; }
+.a-user-row { display: flex; align-items: center; gap: 10px; background: #ffffff; border-radius: 10px; padding: 10px 12px; margin-bottom: 6px; transition: background 0.12s; }
 .a-user-row:active { background: #f8fafc; }
+.a-eye-btn {
+  flex-shrink: 0; background: #ede9fe; border: none; border-radius: 8px;
+  padding: 7px; cursor: pointer; display: flex; align-items: center; justify-content: center;
+  transition: background 0.15s;
+}
+.a-eye-btn:hover { background: #ddd6fe; }
+.a-eye-btn:active { background: #c7d2fe; }
 .a-uav { width: 34px; height: 34px; border-radius: 50%; background: linear-gradient(135deg,#4f46e5,#0891b2); display: flex; align-items: center; justify-content: center; font-size: 14px; font-weight: 900; color: #fff; flex-shrink: 0; }
 .a-uinfo { flex: 1; min-width: 0; }
 .a-uname { display: block; font-size: 12px; font-weight: 700; color: #0f172a; }
