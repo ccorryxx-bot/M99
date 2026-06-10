@@ -98,6 +98,10 @@
 
 <script setup>
 import { useAdmin } from '@/composables/useAdmin'
+import {
+  setupRealtimeNotifications, teardownRealtimeNotifications,
+  requestNotifPermission
+} from '@/composables/useAdmin'
 import SiteDrawer        from '@/components/admin/SiteDrawer.vue'
 import PlayerDetailPanel from '@/components/admin/PlayerDetailPanel.vue'
 import AdminOverview     from '@/components/admin/AdminOverview.vue'
@@ -167,6 +171,15 @@ const switchTab = async (i) => {
   if (i === 14) fetchUsers()
   if (i === 19) fetchAgents()
 }
+
+import { onMounted, onUnmounted } from 'vue'
+onMounted(async () => {
+  loadOverview()
+  fetchSett()
+  try { await requestNotifPermission() } catch(e) {}
+  setupRealtimeNotifications()
+})
+onUnmounted(() => { teardownRealtimeNotifications() })
 </script>
 
 <style>

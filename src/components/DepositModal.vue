@@ -252,7 +252,25 @@
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M15 19l-7-7 7-7"/>
                   </svg>
                 </button>
-                <button @click="submitDeposit" class="s2-confirm-btn">
+                <!-- Slip Image Upload -->
+                <div class="s2-slip-section">
+                  <div class="s2-ref-label">ငွေလွှဲပြေစာ (Slip Image) — Optional</div>
+                  <div class="s2-slip-upload-area" @click="$refs.slipFileInput.click()" @dragover.prevent @drop.prevent="onSlipDrop">
+                    <input ref="slipFileInput" type="file" accept="image/*" @change="onSlipSelect" style="display:none;" />
+                    <div v-if="!slipPreview" class="s2-slip-placeholder">
+                      <svg width="20" height="20" fill="none" stroke="#94a3b8" stroke-width="1.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>
+                      <span>Slip ပုံ ရွေးချယ်ရန် နှိပ်ပါ</span>
+                    </div>
+                    <div v-else class="s2-slip-preview">
+                      <img :src="slipPreview" class="s2-slip-img" />
+                      <button @click.stop="clearSlip" class="s2-slip-clear">✕</button>
+                    </div>
+                  </div>
+                  <div v-if="slipUploading" class="s2-slip-progress">
+                    <div class="s2-slip-prog-bar" :style="{width:slipProgress+'%'}"></div>
+                  </div>
+                </div>
+                <button @click="submitDeposit" :disabled="slipUploading" class="s2-confirm-btn">
                   အတည်ပြုမည် ✓
                 </button>
               </div>
@@ -443,8 +461,44 @@ const copyText = async (text) => {
   try { await navigator.clipboard.writeText(text); copied.value=true; setTimeout(()=>{ copied.value=false },1500) }
   catch { prompt('Copy manually:', text) }
 }
-const submitDeposit = () => {
-  emit('submit', { method:method.value, amount:amount.value, bonus:bonusOption.value, ref:transactionRef.value })
+const slipPreview  = ref(null)
+const slipFile     = ref(null)
+const slipUploading = ref(false)
+const slipProgress  = ref(0)
+
+function onSlipSelect(e) {
+  const file = e.target.files?.[0]
+  if (!file) return
+  slipFile.value = file
+  const reader = new FileReader()
+  reader.onload = (ev) => { slipPreview.value = ev.target.result }
+  reader.readAsDataURL(file)
+}
+function onSlipDrop(e) {
+  const file = e.dataTransfer.files?.[0]
+  if (!file || !file.type.startsWith('image/')) return
+  slipFile.value = file
+  const reader = new FileReader()
+  reader.onload = (ev) => { slipPreview.value = ev.target.result }
+  reader.readAsDataURL(file)
+}
+function clearSlip() { slipPreview.value = null; slipFile.value = null; slipProgress.value = 0 }
+
+const submitDeposit = async () => {
+  let slipUrl = null
+  if (slipFile.value) {
+    try {
+      slipUploading.value = true; slipProgress.value = 30
+      const { supabase } = await import('@/supabase')
+      const ext  = slipFile.value.name.split('.').pop() || 'jpg'
+      const path = `slips/${Date.now()}_${Math.random().toString(36).slice(2)}.${ext}`
+      const { error } = await supabase.storage.from('slip-uploads').upload(path, slipFile.value, { upsert: false })
+      slipProgress.value = 80
+      if (!error) slipUrl = path
+      slipProgress.value = 100
+    } catch(e) {} finally { slipUploading.value = false }
+  }
+  emit('submit', { method:method.value, amount:amount.value, bonus:bonusOption.value, ref:transactionRef.value, slip_url: slipUrl })
   close()
 }
 </script>
@@ -724,4 +778,14 @@ const submitDeposit = () => {
 .toast-leave-active { transition:all 0.12s ease; }
 .toast-enter-from   { opacity:0;transform:translateY(4px); }
 .toast-leave-to     { opacity:0; }
+
+.s2-slip-section { margin-bottom:12px; }
+.s2-slip-upload-area { border:2px dashed #e2e8f0;border-radius:10px;cursor:pointer;min-height:80px;display:flex;align-items:center;justify-content:center;transition:border-color .2s;overflow:hidden;position:relative; }
+.s2-slip-upload-area:hover { border-color:#4f46e5; }
+.s2-slip-placeholder { display:flex;flex-direction:column;align-items:center;gap:6px;padding:16px;color:#94a3b8;font-size:11px; }
+.s2-slip-preview { width:100%;position:relative; }
+.s2-slip-img { width:100%;max-height:140px;object-fit:cover;display:block; }
+.s2-slip-clear { position:absolute;top:6px;right:6px;background:rgba(0,0,0,.6);border:none;color:#fff;border-radius:50%;width:24px;height:24px;cursor:pointer;font-size:12px; }
+.s2-slip-progress { height:3px;background:#e2e8f0;border-radius:2px;overflow:hidden;margin-top:4px; }
+.s2-slip-prog-bar { height:100%;background:#4f46e5;transition:width .3s; }
 </style>

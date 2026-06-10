@@ -56,6 +56,62 @@
       </div>
     </div>
 
+    <!-- GGR Section -->
+    <div class="a-area-block" style="margin-bottom:8px;">
+      <div class="a-area-hdr">
+        <span class="a-area-ttl">GGR — Gross Gaming Revenue</span>
+        <div style="display:flex;align-items:center;gap:6px;">
+          <input v-model="ggrFrom" type="date" style="font-size:9px;border:1px solid #e2e8f0;border-radius:5px;padding:2px 5px;width:90px;outline:none;" />
+          <input v-model="ggrTo" type="date" style="font-size:9px;border:1px solid #e2e8f0;border-radius:5px;padding:2px 5px;width:90px;outline:none;" />
+          <button @click="loadGGR" :disabled="ggrLoading" class="a-icon-btn">
+            <svg width="11" height="11" fill="none" stroke="#4f46e5" stroke-width="2.5" viewBox="0 0 24 24"><polyline points="23 4 23 10 17 10"/><path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10"/></svg>
+          </button>
+        </div>
+      </div>
+      <div v-if="ggrLoading" class="a-mini-load"><span class="a-spinner-sm"></span></div>
+      <div v-else>
+        <!-- GGR Summary Cards -->
+        <div class="ggr-cards" style="display:grid;grid-template-columns:repeat(3,1fr);gap:6px;margin-bottom:8px;">
+          <div class="ggr-card">
+            <div class="ggr-card-val" style="color:#4f46e5;">{{ fmtNum(ggrData.totalBet) }}</div>
+            <div class="ggr-card-lbl">Total Bets (Ks)</div>
+          </div>
+          <div class="ggr-card">
+            <div class="ggr-card-val" style="color:#dc2626;">{{ fmtNum(ggrData.totalWin) }}</div>
+            <div class="ggr-card-lbl">Total Wins (Ks)</div>
+          </div>
+          <div class="ggr-card" :style="`border-color:${ggrData.ggr>=0?'#16a34a':'#dc2626'}`">
+            <div class="ggr-card-val" :style="`color:${ggrData.ggr>=0?'#16a34a':'#dc2626'}`">{{ fmtNum(Math.abs(ggrData.ggr)) }}</div>
+            <div class="ggr-card-lbl">GGR ({{ ggrData.ggrPct }}%)</div>
+          </div>
+        </div>
+
+        <!-- No data state -->
+        <div v-if="!ggrData.ready || !ggrData.byGame.length" class="ggr-empty">
+          <svg width="28" height="28" fill="none" stroke="#e2e8f0" stroke-width="1.5" viewBox="0 0 24 24"><path stroke-linecap="round" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"/></svg>
+          <p style="font-size:10px;color:#94a3b8;margin:6px 0 0;">No betting data yet.<br>Games will appear here when players start betting.</p>
+          <button @click="loadGGR" class="a-btn-sm a-btn-ghost" style="margin-top:8px;">Load Now</button>
+        </div>
+
+        <!-- By Game Breakdown -->
+        <div v-else>
+          <div style="font-size:9px;font-weight:700;color:#94a3b8;margin-bottom:4px;text-transform:uppercase;">By Game</div>
+          <div v-for="g in ggrData.byGame.slice(0,8)" :key="g.name" class="ggr-game-row">
+            <div class="ggr-game-info">
+              <span class="ggr-game-name">{{ g.name }}</span>
+              <span class="ggr-game-prov">{{ g.provider }}</span>
+              <span class="ggr-rounds">{{ g.rounds }} rounds</span>
+            </div>
+            <div class="ggr-game-nums">
+              <span style="color:#4f46e5;font-size:9px;">{{ fmtNum(g.bet) }}</span>
+              <span style="color:#94a3b8;font-size:8px;">→</span>
+              <span :style="`color:${g.ggr>=0?'#16a34a':'#dc2626'};font-size:10px;font-weight:800;`">{{ fmtNum(g.ggr) }}</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
     <div class="a-area-block" style="margin-bottom:8px;">
       <div class="a-area-hdr"><span class="a-area-ttl">System Health</span><span class="a-live">LIVE</span></div>
       <div v-for="h in healthBars" :key="h.label" class="a-health">
@@ -86,12 +142,28 @@
 </template>
 
 <script setup>
+import { onMounted } from 'vue'
 import { useAdmin } from '@/composables/useAdmin'
 const {
   stats, chartLoading, chartData, recentLoading, recentTx,
   netFlow, netPct, gaugeArc, healthBars, metricCards,
-  fmtNum, loadChart,
+  ggrData, ggrLoading, ggrFrom, ggrTo,
+  fmtNum, loadChart, loadGGR,
 } = useAdmin()
 
 defineEmits(['switch-tab'])
+onMounted(() => loadGGR())
 </script>
+
+<style scoped>
+.ggr-cards .ggr-card { background:#f8fafc;border-radius:8px;padding:8px;text-align:center;border:1px solid #e2e8f0; }
+.ggr-card-val { font-size:16px;font-weight:900;line-height:1;margin-bottom:3px; }
+.ggr-card-lbl { font-size:8px;color:#94a3b8;font-weight:600;text-transform:uppercase; }
+.ggr-game-row { display:flex;align-items:center;justify-content:space-between;padding:5px 0;border-bottom:1px solid #f1f5f9; }
+.ggr-game-info { display:flex;flex-direction:column;gap:1px;flex:1;min-width:0; }
+.ggr-game-name { font-size:11px;font-weight:700;color:#0f172a;white-space:nowrap;overflow:hidden;text-overflow:ellipsis; }
+.ggr-game-prov { font-size:9px;color:#94a3b8; }
+.ggr-rounds { font-size:9px;color:#64748b; }
+.ggr-game-nums { display:flex;align-items:center;gap:4px;flex-shrink:0; }
+.ggr-empty { display:flex;flex-direction:column;align-items:center;padding:16px;text-align:center; }
+</style>

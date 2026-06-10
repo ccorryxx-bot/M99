@@ -74,6 +74,48 @@
         </div>
       </div>
 
+      <!-- Telegram Bot Notifications -->
+      <div class="a-sett-block" style="border-left:3px solid #0891b2;">
+        <div class="a-sett-ttl" style="color:#0891b2;">
+          <svg width="13" height="13" fill="none" stroke="#0891b2" stroke-width="2" viewBox="0 0 24 24" style="vertical-align:middle;margin-right:5px;"><path stroke-linecap="round" stroke-linejoin="round" d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8"/></svg>
+          Telegram Notifications
+        </div>
+        <label class="a-mini-label">Bot Token</label>
+        <input v-model="sett.telegram_bot_token" class="a-input" type="password" placeholder="1234567890:AAF..." />
+        <label class="a-mini-label" style="margin-top:7px;">Chat ID (Group or User)</label>
+        <input v-model="sett.telegram_chat_id" class="a-input" placeholder="-100123456789" />
+        <div class="a-form-row" style="margin-top:8px;gap:6px;">
+          <div style="flex:1;">
+            <label class="a-mini-label">Alert on Deposit</label>
+            <button @click="sett.alert_on_deposit = !sett.alert_on_deposit" class="a-tog" :class="sett.alert_on_deposit?'a-tog-on':'a-tog-off'">
+              {{ sett.alert_on_deposit ? 'ON' : 'OFF' }}
+            </button>
+          </div>
+          <div style="flex:1;">
+            <label class="a-mini-label">Alert on Withdraw</label>
+            <button @click="sett.alert_on_withdraw = !sett.alert_on_withdraw" class="a-tog" :class="sett.alert_on_withdraw?'a-tog-on':'a-tog-off'">
+              {{ sett.alert_on_withdraw ? 'ON' : 'OFF' }}
+            </button>
+          </div>
+        </div>
+        <button @click="testTelegram" :disabled="telegramTesting || !sett.telegram_bot_token" class="a-btn-primary" style="width:100%;margin-top:10px;background:#0891b2;">
+          <span v-if="telegramTesting" class="a-spinner-sm"></span>
+          {{ telegramTesting ? 'Sending...' : '📨 Test Telegram Alert' }}
+        </button>
+        <p v-if="telegramMsg" :class="telegramOk?'a-ok':'a-err'" style="text-align:center;margin-top:5px;font-size:10px;">{{ telegramMsg }}</p>
+        <p class="a-mini-label" style="margin-top:6px;line-height:1.6;">Setup: 1) Create bot via @BotFather → get token<br>2) Add bot to group → get chat ID via @userinfobot<br>3) Paste above and test</p>
+      </div>
+
+      <!-- Withdrawal Limits -->
+      <div class="a-sett-block">
+        <div class="a-sett-ttl">Withdrawal Limits</div>
+        <label class="a-mini-label">Daily Withdrawal Limit per User (Ks)</label>
+        <input v-model.number="sett.daily_withdrawal_limit" type="number" class="a-input" placeholder="5000000" />
+        <label class="a-mini-label" style="margin-top:7px;">Auto-Flag Threshold (Ks)</label>
+        <input v-model.number="sett.auto_flag_threshold" type="number" class="a-input" placeholder="500000" />
+        <p class="a-mini-label" style="margin-top:4px;">Transactions above this amount are auto-flagged for review</p>
+      </div>
+
       <!-- Commission -->
       <div class="a-sett-block">
         <div class="a-sett-ttl">Commission</div>

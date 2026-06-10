@@ -712,5 +712,224 @@ export function useAdmin() {
     fetchAuditLog, writeAudit,
     fetchAgents, fetchCommTx,
     loadReport, exportTxCsv,
+    SUPA_URL, adminKey,
   }
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// ── GGR State ─────────────────────────────────────────────────────────────────
+// ─────────────────────────────────────────────────────────────────────────────
+export const ggrData    = ref({ ready: false, totalBet: 0, totalWin: 0, ggr: 0, ggrPct: 0, byGame: [], byDate: [] })
+export const ggrLoading = ref(false)
+export const ggrFrom    = ref(new Date(Date.now() - 7 * 86400000).toISOString().split('T')[0])
+export const ggrTo      = ref(new Date().toISOString().split('T')[0])
+
+// ── Notification / Realtime State ─────────────────────────────────────────────
+export const notifPermission = ref('default')
+export const notifSub        = ref(null)
+export const lastPendingCount = ref(0)
+
+// ── Telegram State ────────────────────────────────────────────────────────────
+export const telegramTesting = ref(false)
+export const telegramMsg     = ref('')
+export const telegramOk      = ref(false)
+
+// ── GGR Load ──────────────────────────────────────────────────────────────────
+export const loadGGR = async () => {
+  ggrLoading.value = true
+  try {
+    const from = ggrFrom.value + 'T00:00:00Z'
+    const to   = ggrTo.value   + 'T23:59:59Z'
+    const { data: bets } = await supabase
+      .from('game_bets')
+      .select('game_name, provider, bet_amount, win_amount, ggr, created_at')
+      .gte('created_at', from).lte('created_at', to)
+
+    const rows = bets || []
+    const totalBet = rows.reduce((s, r) => s + Number(r.bet_amount || 0), 0)
+    const totalWin = rows.reduce((s, r) => s + Number(r.win_amount || 0), 0)
+    const ggr = totalBet - totalWin
+    const ggrPct = totalBet ? Math.round(ggr / totalBet * 100) : 0
+
+    // Group by game
+    const gameMap = {}
+    rows.forEach(r => {
+      const key = r.game_name || r.provider || 'Unknown'
+      if (!gameMap[key]) gameMap[key] = { name: key, provider: r.provider, bet: 0, win: 0, ggr: 0, rounds: 0 }
+      gameMap[key].bet     += Number(r.bet_amount || 0)
+      gameMap[key].win     += Number(r.win_amount || 0)
+      gameMap[key].ggr     += Number(r.ggr || 0)
+      gameMap[key].rounds  += 1
+    })
+    const byGame = Object.values(gameMap).sort((a, b) => b.ggr - a.ggr)
+
+    // Group by date
+    const dateMap = {}
+    rows.forEach(r => {
+      const d = r.created_at?.split('T')[0] || ''
+      if (!dateMap[d]) dateMap[d] = { date: d, bet: 0, win: 0, ggr: 0 }
+      dateMap[d].bet  += Number(r.bet_amount || 0)
+      dateMap[d].win  += Number(r.win_amount || 0)
+      dateMap[d].ggr  += Number(r.ggr || 0)
+    })
+    const byDate = Object.values(dateMap).sort((a, b) => a.date.localeCompare(b.date))
+
+    ggrData.value = { ready: true, totalBet, totalWin, ggr, ggrPct, byGame, byDate }
+  } catch (e) { showToast(e.message, 'error') }
+  finally { ggrLoading.value = false }
+}
+
+// ── Real-time Notifications (Browser + Sound) ─────────────────────────────────
+export const requestNotifPermission = async () => {
+  if (!('Notification' in window)) return
+  const perm = await Notification.requestPermission()
+  notifPermission.value = perm
+}
+
+export const playNotifSound = () => {
+  try {
+    const ctx  = new (window.AudioContext || window.webkitAudioContext)()
+    const osc  = ctx.createOscillator()
+    const gain = ctx.createGain()
+    osc.connect(gain); gain.connect(ctx.destination)
+    osc.type = 'sine'; osc.frequency.value = 880
+    gain.gain.setValueAtTime(0, ctx.currentTime)
+    gain.gain.linearRampToValueAtTime(0.4, ctx.currentTime + 0.05)
+    gain.gain.linearRampToValueAtTime(0, ctx.currentTime + 0.4)
+    osc.start(ctx.currentTime); osc.stop(ctx.currentTime + 0.5)
+    setTimeout(() => {
+      const o2 = ctx.createOscillator(); const g2 = ctx.createGain()
+      o2.connect(g2); g2.connect(ctx.destination)
+      o2.type = 'sine'; o2.frequency.value = 1100
+      g2.gain.setValueAtTime(0, ctx.currentTime)
+      g2.gain.linearRampToValueAtTime(0.3, ctx.currentTime + 0.05)
+      g2.gain.linearRampToValueAtTime(0, ctx.currentTime + 0.35)
+      o2.start(ctx.currentTime); o2.stop(ctx.currentTime + 0.5)
+    }, 200)
+  } catch (e) {}
+}
+
+export const showBrowserNotif = (title, body) => {
+  if (Notification.permission !== 'granted') return
+  try {
+    const n = new Notification(title, { body, icon: '/favicon.ico', badge: '/favicon.ico' })
+    setTimeout(() => n.close(), 5000)
+  } catch (e) {}
+}
+
+export const setupRealtimeNotifications = () => {
+  if (notifSub.value) return
+  notifSub.value = supabase.channel('admin-notif-channel')
+    .on('postgres_changes', { event: 'INSERT', schema: 'public', table: 'transactions' }, (payload) => {
+      const tx = payload.new
+      if (tx.status === 'pending') {
+        stats.value.pending_tx = (stats.value.pending_tx || 0) + 1
+        playNotifSound()
+        const type = tx.type === 'deposit' ? '💰 New Deposit' : '💸 New Withdrawal'
+        const amt  = Number(tx.amount || 0).toLocaleString()
+        showBrowserNotif(`iW99 Admin — ${type}`, `${amt} Ks • ${tx.method || ''}`)
+        showToast(`🔔 ${type}: ${amt} Ks`, 'info')
+      }
+    })
+    .subscribe()
+}
+
+export const teardownRealtimeNotifications = () => {
+  if (notifSub.value) {
+    supabase.removeChannel(notifSub.value)
+    notifSub.value = null
+  }
+}
+
+// ── Telegram Alert ─────────────────────────────────────────────────────────────
+export const testTelegram = async () => {
+  telegramTesting.value = true; telegramMsg.value = ''
+  try {
+    const now = new Date().toLocaleString('en-GB', { timeZone: 'Asia/Yangon' })
+    const msg = `🔔 <b>iW99 Admin Alert Test</b>\n\n✅ Telegram notifications are working!\n\n📊 Current Stats:\n💰 Deposits: ${fmtNum(stats.value.total_deposits)} Ks\n💸 Withdrawals: ${fmtNum(stats.value.total_withdrawals)} Ks\n⏳ Pending: ${stats.value.pending_tx}\n\n🕐 ${now} (MMT)`
+    const res = await fetch(`${SUPA_URL}/functions/v1/send_telegram_alert`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${adminKey.value}` },
+      body: JSON.stringify({ message: msg, bot_token: sett.value.telegram_bot_token, chat_id: sett.value.telegram_chat_id })
+    })
+    const d = await res.json()
+    if (d.error) throw new Error(d.error)
+    telegramOk.value = true; telegramMsg.value = '✓ Test message sent!'
+    showToast('Telegram test sent!', 'success')
+  } catch (e) {
+    telegramOk.value = false; telegramMsg.value = e.message
+    showToast(e.message, 'error')
+  } finally {
+    telegramTesting.value = false
+    setTimeout(() => { telegramMsg.value = '' }, 4000)
+  }
+}
+
+export const sendTelegramDailySummary = async () => {
+  try {
+    const now  = new Date().toLocaleString('en-GB', { timeZone: 'Asia/Yangon' })
+    const dep  = fmtNum(stats.value.total_deposits)
+    const wd   = fmtNum(stats.value.total_withdrawals)
+    const net  = fmtNum(netFlow.value)
+    const msg  = `📊 <b>iW99 Daily Summary</b>\n\n💰 Total Deposits: <b>${dep} Ks</b>\n💸 Total Withdrawals: <b>${wd} Ks</b>\n📈 Net Flow: <b>${net} Ks</b>\n👥 Active Users: <b>${stats.value.active_users}</b>\n⏳ Pending TX: <b>${stats.value.pending_tx}</b>\n\n🕐 ${now} (MMT)`
+    await fetch(`${SUPA_URL}/functions/v1/send_telegram_alert`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${adminKey.value}` },
+      body: JSON.stringify({ message: msg, bot_token: sett.value.telegram_bot_token, chat_id: sett.value.telegram_chat_id })
+    })
+    showToast('Daily summary sent to Telegram!', 'success')
+  } catch (e) { showToast(e.message, 'error') }
+}
+
+// ── XLSX Export ───────────────────────────────────────────────────────────────
+export const exportXlsx = async (rows, filename) => {
+  try {
+    // Dynamic import SheetJS from CDN
+    const XLSX = await import('https://cdn.sheetjs.com/xlsx-0.20.2/package/xlsx.mjs')
+    const ws = XLSX.utils.json_to_sheet(rows)
+    const wb = XLSX.utils.book_new()
+    XLSX.utils.book_append_sheet(wb, ws, 'Report')
+    XLSX.writeFile(wb, filename || 'iw99-export.xlsx')
+    showToast('XLSX exported!', 'success')
+  } catch (e) {
+    showToast('XLSX export failed: ' + e.message, 'error')
+  }
+}
+
+export const exportReportXlsx = () => {
+  const rows = reportData.value.txList.map(t => ({
+    'ID': t.id,
+    'Type': t.type,
+    'User': t.username || t.user_id?.slice(0, 8) || '',
+    'Method': t.method,
+    'Amount (Ks)': t.amount,
+    'Status': t.status,
+    'Date': new Date(t.created_at).toLocaleString()
+  }))
+  const from = reportFrom.value, to = reportTo.value
+  exportXlsx(rows, `iw99-report-${from}-${to}.xlsx`)
+}
+
+// ── Risk Auto-Flag ─────────────────────────────────────────────────────────────
+export const computeRiskScore = (u) => {
+  const dep = Number(u.total_deposit || 0)
+  const wd  = Number(u.balance || 0)
+  const ratio = dep > 0 ? wd / dep : 0
+  let score = 0
+  const flags = []
+  if (ratio >= 0.9)   { score += 40; flags.push('high_wd_ratio') }
+  if (dep >= 5000000) { score += 20; flags.push('large_deposits') }
+  if (u.is_banned)    { score += 30; flags.push('banned') }
+  if ((u.vip_level||0) === 0 && dep >= 500000) { score += 10; flags.push('new_high_dep') }
+  return { score: Math.min(100, score), flags }
+}
+
+// Enhance fetchUsers to auto-compute risk scores
+const _origFetchUsers = fetchUsers
+export const fetchUsersWithRisk = async () => {
+  await fetchUsers()
+  users.value = users.value.map(u => {
+    const { score, flags } = computeRiskScore(u)
+    return { ...u, _riskScore: score, _riskFlags: flags }
+  })
 }

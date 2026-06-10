@@ -147,6 +147,20 @@
             <div class="detail-row"><span class="dl">Date</span><span class="dv">{{ fmtDate(detail.tx?.created_at) }}</span></div>
             <div v-if="detail.tx?.reject_reason" class="detail-row"><span class="dl">Reject</span><span class="dv" style="color:#dc2626;">{{ detail.tx.reject_reason }}</span></div>
           </div>
+          <!-- Slip Image Viewer -->
+          <div v-if="detail.tx?.slip_url || detail.tx?.screenshot_url" class="slip-img-section">
+            <div class="slip-img-label">📎 Slip Image</div>
+            <div class="slip-img-grid">
+              <div v-if="detail.tx?.slip_url" class="slip-img-wrap" @click="slipLightbox.url=getSlipSignedUrl(detail.tx.slip_url);slipLightbox.open=true">
+                <img :src="detail.tx.slip_url" alt="Slip" class="slip-doc-img" @error="e=>e.target.style.display='none'" />
+                <span class="slip-img-tag">Slip</span>
+              </div>
+              <div v-if="detail.tx?.screenshot_url" class="slip-img-wrap" @click="slipLightbox.url=detail.tx.screenshot_url;slipLightbox.open=true">
+                <img :src="detail.tx.screenshot_url" alt="Screenshot" class="slip-doc-img" @error="e=>e.target.style.display='none'" />
+                <span class="slip-img-tag">Screenshot</span>
+              </div>
+            </div>
+          </div>
           <div v-if="detail.tx?.status==='pending'" style="display:flex;gap:8px;margin-top:12px;">
             <button @click="quickApprove(detail.tx.id);detail.open=false" class="a-btn-sm a-btn-success" style="flex:1;">✓ Approve</button>
             <button @click="openRejectModal(detail.tx);detail.open=false" class="a-btn-sm a-btn-danger" style="flex:1;">✗ Reject</button>
@@ -154,6 +168,17 @@
         </div>
       </div>
     </Teleport>
+
+
+  <!-- Slip Lightbox -->
+  <Teleport to="body">
+    <Transition name="bulk-slide">
+      <div v-if="slipLightbox.open" class="slip-lightbox" @click="slipLightbox.open=false">
+        <img :src="slipLightbox.url" class="slip-lightbox-img" @click.stop />
+        <button @click="slipLightbox.open=false" class="slip-lightbox-close">✕</button>
+      </div>
+    </Transition>
+  </Teleport>
 
   </div>
 </template>
@@ -230,6 +255,16 @@ async function confirmReject() {
 }
 
 const detail = reactive({ open: false, tx: null })
+const slipLightbox = reactive({ open: false, url: '' })
+
+async function getSlipSignedUrl(path) {
+  if (!path) return ''
+  if (path.startsWith('http')) return path
+  try {
+    const { data } = await supabase.storage.from('slip-uploads').createSignedUrl(path, 3600)
+    return data?.signedUrl || path
+  } catch { return path }
+}
 function openDetail(tx) { Object.assign(detail, { open: true, tx }) }
 
 function setupRealtime() {
@@ -273,4 +308,14 @@ onUnmounted(() => { if (rtSub) supabase.removeChannel(rtSub) })
 .dl { font-size:10px;color:#94a3b8;font-weight:600; }
 .dv { font-size:11px;color:#0f172a;font-weight:600; }
 .mono { font-family:monospace; }
+.slip-img-section { margin-top:10px;padding-top:10px;border-top:1px solid #f1f5f9; }
+.slip-img-label { font-size:9px;font-weight:700;color:#94a3b8;text-transform:uppercase;margin-bottom:6px; }
+.slip-img-grid { display:flex;gap:8px; }
+.slip-img-wrap { position:relative;cursor:pointer;border-radius:8px;overflow:hidden;border:1px solid #e2e8f0;flex:1;aspect-ratio:4/3;max-width:120px; }
+.slip-doc-img { width:100%;height:100%;object-fit:cover; }
+.slip-img-tag { position:absolute;bottom:0;left:0;right:0;background:rgba(0,0,0,.5);color:#fff;font-size:9px;font-weight:700;text-align:center;padding:2px; }
+.slip-lightbox { position:fixed;inset:0;z-index:9999;background:rgba(0,0,0,.92);display:flex;align-items:center;justify-content:center; }
+.slip-lightbox-img { max-width:90vw;max-height:88vh;object-fit:contain;border-radius:8px; }
+.slip-lightbox-close { position:absolute;top:16px;right:16px;background:rgba(255,255,255,.15);border:none;border-radius:50%;width:36px;height:36px;color:#fff;font-size:16px;cursor:pointer; }
+
 </style>
