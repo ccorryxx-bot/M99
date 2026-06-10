@@ -3,7 +3,7 @@ import { supabase } from '@/supabase'
 
 export const SUPA_URL = 'https://vuywhhmwrqykukcemifd.supabase.co'
 
-// ── Singleton state (shared across all components) ──────────────────────────
+// ── Singleton state ──────────────────────────────────────────────────────────
 export const adminKey     = ref('')
 export const loggedIn     = ref(false)
 export const loginLoading = ref(false)
@@ -40,12 +40,20 @@ export const settOk      = ref(false)
 export const users        = ref([])
 export const usersLoading = ref(false)
 export const userQ        = ref('')
+export const userRiskFilter = ref('all')
 export const filteredUsers = computed(() => {
+  let list = users.value
   const q = userQ.value.toLowerCase()
-  return q
-    ? users.value.filter(u =>
-        (u.username || '').toLowerCase().includes(q) || (u.phone || '').includes(q))
-    : users.value
+  if (q) list = list.filter(u => (u.username || '').toLowerCase().includes(q) || (u.phone || '').includes(q))
+  if (userRiskFilter.value === 'banned')   list = list.filter(u => u.is_banned)
+  if (userRiskFilter.value === 'active')   list = list.filter(u => !u.is_banned)
+  if (userRiskFilter.value === 'vip')      list = list.filter(u => (u.vip_level || 0) >= 3)
+  if (userRiskFilter.value === 'high_bal') list = list.filter(u => (Number(u.balance) || 0) >= 100000)
+  if (userRiskFilter.value === 'new')      list = list.filter(u => {
+    const d = new Date(u.created_at); const now = new Date()
+    return (now - d) < 7 * 86400 * 1000
+  })
+  return list
 })
 
 export const leftDrawer      = ref(false)
@@ -74,20 +82,16 @@ export const genPassword       = computed(() => {
   return 'iW99@' + Math.random().toString(36).slice(2, 8).toUpperCase()
 })
 export const playerTotalWd = computed(() =>
-  playerTxList.value
-    .filter(t => t.type !== 'deposit' && t.status === 'confirmed')
+  playerTxList.value.filter(t => t.type !== 'deposit' && t.status === 'confirmed')
     .reduce((s, t) => s + (Number(t.amount) || 0), 0)
 )
 export const playerWinWdCount = computed(() =>
   playerTxList.value.filter(t => t.type !== 'deposit' && t.status === 'confirmed').length
 )
 export const playerWinAmt = computed(() => playerTotalWd.value)
-
-// Payment method breakdowns
 export const playerDepositMethods = computed(() => {
-  const confirmed = playerTxList.value.filter(t => t.type === 'deposit' && t.status === 'confirmed')
   const map = {}
-  confirmed.forEach(t => {
+  playerTxList.value.filter(t => t.type === 'deposit' && t.status === 'confirmed').forEach(t => {
     const m = t.method || 'Unknown'
     if (!map[m]) map[m] = { method: m, count: 0, total: 0 }
     map[m].count++; map[m].total += Number(t.amount) || 0
@@ -95,44 +99,31 @@ export const playerDepositMethods = computed(() => {
   return Object.values(map).sort((a, b) => b.total - a.total)
 })
 export const playerWithdrawMethods = computed(() => {
-  const confirmed = playerTxList.value.filter(t => t.type !== 'deposit' && t.status === 'confirmed')
   const map = {}
-  confirmed.forEach(t => {
+  playerTxList.value.filter(t => t.type !== 'deposit' && t.status === 'confirmed').forEach(t => {
     const m = t.method || 'Unknown'
     if (!map[m]) map[m] = { method: m, count: 0, total: 0 }
     map[m].count++; map[m].total += Number(t.amount) || 0
   })
   return Object.values(map).sort((a, b) => b.total - a.total)
 })
-
-// TX stats
-export const playerDepositCount = computed(() =>
-  playerTxList.value.filter(t => t.type === 'deposit' && t.status === 'confirmed').length
-)
-export const playerWithdrawCount = computed(() =>
-  playerTxList.value.filter(t => t.type !== 'deposit' && t.status === 'confirmed').length
-)
-export const playerPendingCount = computed(() =>
-  playerTxList.value.filter(t => t.status === 'pending').length
-)
-export const playerAvgDeposit = computed(() => {
+export const playerDepositCount  = computed(() => playerTxList.value.filter(t => t.type === 'deposit' && t.status === 'confirmed').length)
+export const playerWithdrawCount = computed(() => playerTxList.value.filter(t => t.type !== 'deposit' && t.status === 'confirmed').length)
+export const playerPendingCount  = computed(() => playerTxList.value.filter(t => t.status === 'pending').length)
+export const playerAvgDeposit    = computed(() => {
   const deps = playerTxList.value.filter(t => t.type === 'deposit' && t.status === 'confirmed')
-  if (!deps.length) return 0
-  return deps.reduce((s, t) => s + (Number(t.amount) || 0), 0) / deps.length
+  return deps.length ? deps.reduce((s, t) => s + (Number(t.amount) || 0), 0) / deps.length : 0
 })
-export const playerFirstDeposit = computed(() => {
+export const playerFirstDeposit  = computed(() => {
   const deps = playerTxList.value.filter(t => t.type === 'deposit' && t.status === 'confirmed')
-  if (!deps.length) return null
-  return deps[deps.length - 1]?.created_at || null
+  return deps.length ? deps[deps.length - 1]?.created_at || null : null
 })
-export const playerLastDeposit = computed(() => {
+export const playerLastDeposit   = computed(() => {
   const deps = playerTxList.value.filter(t => t.type === 'deposit' && t.status === 'confirmed')
-  if (!deps.length) return null
-  return deps[0]?.created_at || null
+  return deps.length ? deps[0]?.created_at || null : null
 })
 export const playerTurnover = computed(() =>
-  playerTxList.value
-    .filter(t => t.type === 'deposit' && t.status === 'confirmed')
+  playerTxList.value.filter(t => t.type === 'deposit' && t.status === 'confirmed')
     .reduce((s, t) => s + (Number(t.amount) || 0), 0)
 )
 export const playerRiskScore = computed(() => {
@@ -140,22 +131,63 @@ export const playerRiskScore = computed(() => {
   if (!dep) return { label: 'No Data', color: '#94a3b8', pct: 0 }
   const ratio = wd / dep
   if (ratio >= 0.9) return { label: 'High Risk', color: '#dc2626', pct: Math.min(100, Math.round(ratio * 100)) }
-  if (ratio >= 0.5) return { label: 'Medium', color: '#d97706', pct: Math.round(ratio * 100) }
+  if (ratio >= 0.5) return { label: 'Medium',    color: '#d97706', pct: Math.round(ratio * 100) }
   return { label: 'Low Risk', color: '#16a34a', pct: Math.round(ratio * 100) }
 })
 
-export const games       = ref([])
+// ── Promo state ───────────────────────────────────────────────────────────────
+export const promos        = ref([])
+export const promosLoading = ref(false)
+export const newPromo      = ref({ code: '', bonus_amount: 5000, max_uses: 100, expiry_date: '' })
+export const promoSaving   = ref(false)
+export const promoMsg      = ref('')
+export const promoOk       = ref(false)
+
+// ── IP Blacklist state ────────────────────────────────────────────────────────
+export const ipList   = ref([])
+export const ipLoading = ref(false)
+export const newIp    = ref({ ip_address: '', reason: '' })
+
+// ── Audit Log state ───────────────────────────────────────────────────────────
+export const auditLog     = ref([])
+export const auditLoading = ref(false)
+
+// ── Agents state ──────────────────────────────────────────────────────────────
+export const agents        = ref([])
+export const agentsLoading = ref(false)
+export const agentQ        = ref('')
+export const agentFilter   = ref('all')
+export const agentStats    = ref({ total_agents: 0, pending_commission: 0, total_paid: 0, total_commission: 0 })
+export const commTxList    = ref([])
+export const commTxLoading = ref(false)
+export const filteredAgents = computed(() => {
+  let list = agents.value
+  if (agentQ.value) list = list.filter(a => (a.username || '').toLowerCase().includes(agentQ.value.toLowerCase()))
+  if (agentFilter.value === 'pending') list = list.filter(a => (a.available_commission || 0) > 0)
+  if (agentFilter.value === 'high')    list = list.filter(a => (a.direct_count || 0) >= 5)
+  return list
+})
+
+// ── Reports state ─────────────────────────────────────────────────────────────
+export const reportFrom    = ref(new Date(Date.now() - 30 * 86400000).toISOString().split('T')[0])
+export const reportTo      = ref(new Date().toISOString().split('T')[0])
+export const reportLoading = ref(false)
+export const reportData    = ref({ ready: false, totalDeposit: 0, totalWithdraw: 0, newUsers: 0, txList: [], byMethod: [] })
+
+// ── Games ─────────────────────────────────────────────────────────────────────
+export const games        = ref([])
 export const gamesLoading = ref(false)
-export const gameQ       = ref('')
-export const gameCat     = ref('')
-export const gameCats    = computed(() => [...new Set(games.value.map(g => g.category).filter(Boolean))])
+export const gameQ        = ref('')
+export const gameCat      = ref('')
+export const gameCats     = computed(() => [...new Set(games.value.map(g => g.category).filter(Boolean))])
 export const filteredGames = computed(() => {
   let l = games.value
-  if (gameQ.value) l = l.filter(g => g.name?.toLowerCase().includes(gameQ.value.toLowerCase()))
+  if (gameQ.value)   l = l.filter(g => g.name?.toLowerCase().includes(gameQ.value.toLowerCase()))
   if (gameCat.value) l = l.filter(g => g.category === gameCat.value)
   return l
 })
 
+// ── Messages ──────────────────────────────────────────────────────────────────
 export const msgs        = ref([])
 export const msgsLoading = ref(false)
 export const newMsg      = ref({ title: '', body: '' })
@@ -165,7 +197,7 @@ export const msgOk       = ref(false)
 
 export const toast = ref({ show: false, msg: '', type: 'info' })
 
-// ── Helpers ─────────────────────────────────────────────────────────────────
+// ── Helpers ───────────────────────────────────────────────────────────────────
 export const fmtNum = (n, dec = 0) => {
   const v = Number(n) || 0
   if (v >= 1000000) return (v / 1000000).toFixed(2) + 'M'
@@ -182,7 +214,7 @@ export const showToast = (msg, type = 'info') => {
 export const copyTxt = t =>
   navigator.clipboard.writeText(t).then(() => showToast('Copied', 'info')).catch(() => {})
 
-// ── Computed helpers ─────────────────────────────────────────────────────────
+// ── Computed helpers ──────────────────────────────────────────────────────────
 export const netFlow = computed(() =>
   (stats.value.total_deposits || 0) - (stats.value.total_withdrawals || 0)
 )
@@ -201,20 +233,33 @@ export const healthBars = computed(() => {
   ]
 })
 export const metricCards = computed(() => [
-  { key: 'dep', label: 'Total Deposits',    val: stats.value.total_deposits,    cls: 'a-val-in',      color: '#4f46e5', pct: 100, svg: '<path stroke-linecap="round" stroke-linejoin="round" d="M19 14l-7 7m0 0l-7-7m7 7V3"/>' },
-  { key: 'wd',  label: 'Total Withdrawals', val: stats.value.total_withdrawals, cls: 'a-val-out',     color: '#dc2626', pct: Math.round((stats.value.total_withdrawals||0)/(stats.value.total_deposits||1)*100), svg: '<path stroke-linecap="round" stroke-linejoin="round" d="M5 10l7-7m0 0l7 7m-7-7v18"/>' },
-  { key: 'usr', label: 'Active Users',      val: stats.value.active_users,      cls: 'a-val-accent',  color: '#0891b2', pct: Math.round((stats.value.active_users||0)/(stats.value.total_users||1)*100), svg: '<path stroke-linecap="round" stroke-linejoin="round" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197"/>' },
-  { key: 'ptx', label: 'Pending TX',        val: stats.value.pending_tx,        cls: 'a-val-warn',    color: '#d97706', pct: Math.min(100,(stats.value.pending_tx||0)/20*100), svg: '<path stroke-linecap="round" stroke-linejoin="round" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/>' },
+  { key: 'dep', label: 'Total Deposits',    val: stats.value.total_deposits,    cls: 'a-val-in',     color: '#4f46e5', pct: 100, svg: '<path stroke-linecap="round" stroke-linejoin="round" d="M19 14l-7 7m0 0l-7-7m7 7V3"/>' },
+  { key: 'wd',  label: 'Total Withdrawals', val: stats.value.total_withdrawals, cls: 'a-val-out',    color: '#dc2626', pct: Math.round((stats.value.total_withdrawals||0)/(stats.value.total_deposits||1)*100), svg: '<path stroke-linecap="round" stroke-linejoin="round" d="M5 10l7-7m0 0l7 7m-7-7v18"/>' },
+  { key: 'usr', label: 'Active Users',      val: stats.value.active_users,      cls: 'a-val-accent', color: '#0891b2', pct: Math.round((stats.value.active_users||0)/(stats.value.total_users||1)*100), svg: '<path stroke-linecap="round" stroke-linejoin="round" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197"/>' },
+  { key: 'ptx', label: 'Pending TX',        val: stats.value.pending_tx,        cls: 'a-val-warn',   color: '#d97706', pct: Math.min(100,(stats.value.pending_tx||0)/20*100), svg: '<path stroke-linecap="round" stroke-linejoin="round" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/>' },
 ])
 
-// ── API Actions ───────────────────────────────────────────────────────────────
+// ── Auto-refresh pending count every 30s ─────────────────────────────────────
+let _pendingTimer = null
+export const startPendingRefresh = () => {
+  if (_pendingTimer) return
+  _pendingTimer = setInterval(async () => {
+    if (!loggedIn.value) return
+    try {
+      const { data } = await supabase.rpc('admin_get_stats', { p_key: adminKey.value })
+      if (data) stats.value = { ...stats.value, ...data }
+    } catch (e) {}
+  }, 30000)
+}
+
+// ── Auth ──────────────────────────────────────────────────────────────────────
 export const login = async () => {
   if (!adminKey.value) { loginErr.value = 'Enter password'; return }
   loginLoading.value = true; loginErr.value = ''
   try {
     const { data, error } = await supabase.rpc('validate_admin', { p_key: adminKey.value })
     if (error) throw error
-    if (data) { loggedIn.value = true; await loadOverview() }
+    if (data) { loggedIn.value = true; startPendingRefresh(); await loadOverview() }
     else loginErr.value = 'Invalid credentials'
   } catch (e) { loginErr.value = e.message }
   finally { loginLoading.value = false }
@@ -224,6 +269,7 @@ export const logout = () => {
   leftDrawer.value = false; playerPanel.value = false
 }
 
+// ── Overview ──────────────────────────────────────────────────────────────────
 export const loadOverview  = async () => { await Promise.all([loadStats(), loadRecentTx(), loadChart()]) }
 export const loadStats     = async () => {
   try { const { data } = await supabase.rpc('admin_get_stats', { p_key: adminKey.value }); if (data) stats.value = data } catch (e) {}
@@ -259,6 +305,7 @@ export const loadChart = async () => {
   } catch (e) {} finally { chartLoading.value = false }
 }
 
+// ── Transactions ──────────────────────────────────────────────────────────────
 export const fetchTx = async () => {
   txLoading.value = true; txErr.value = ''
   try {
@@ -280,10 +327,14 @@ export const doApprove = async (id, action) => {
       body: JSON.stringify({ transaction_id: id, action })
     })
     const d = await res.json(); if (d.error) throw new Error(d.error)
-    showToast(action === 'approve' ? 'Approved' : 'Rejected', 'success'); fetchTx()
+    showToast(action === 'approve' ? 'Approved' : 'Rejected', 'success')
+    fetchTx()
+    writeAudit(action.toUpperCase() + '_TX', id, '')
+    loadStats()
   } catch (e) { showToast(e.message, 'error') }
 }
 
+// ── Settings ──────────────────────────────────────────────────────────────────
 export const fetchSett = async () => {
   settLoading.value = true
   try { const { data } = await supabase.rpc('admin_get_settings', { p_key: adminKey.value }); if (data) sett.value = { ...data } }
@@ -293,11 +344,14 @@ export const saveSett = async () => {
   settSaving.value = true; settMsg.value = ''
   try {
     const { error } = await supabase.rpc('admin_save_settings', { p_key: adminKey.value, p_settings: sett.value })
-    if (error) throw error; settOk.value = true; settMsg.value = 'Saved'; showToast('Settings saved', 'success')
+    if (error) throw error; settOk.value = true; settMsg.value = 'Saved'
+    showToast('Settings saved', 'success')
+    writeAudit('SAVE_SETTINGS', '', '')
   } catch (e) { settOk.value = false; settMsg.value = e.message }
   finally { settSaving.value = false; setTimeout(() => { settMsg.value = '' }, 3000) }
 }
 
+// ── Users ─────────────────────────────────────────────────────────────────────
 export const fetchUsers = async () => {
   usersLoading.value = true
   try { const { data } = await supabase.rpc('admin_list_users', { p_key: adminKey.value }); users.value = data || [] }
@@ -352,6 +406,7 @@ export const doAddBalance = async () => {
     selectedPlayer.value.balance = (Number(selectedPlayer.value.balance) || 0) + amt
     panelMsg.value = `+${fmtNum(amt)} Ks added`
     adjAmt.value = 0; showToast('Balance added ✓', 'success')
+    writeAudit('ADD_BALANCE', selectedPlayer.value.username, `+${amt} Ks`)
   } catch (e) { showToast(e.message, 'error') } finally { panelLoading.value = false }
 }
 export const doDeductBalance = async () => {
@@ -366,6 +421,7 @@ export const doDeductBalance = async () => {
     selectedPlayer.value.balance = Math.max(0, (Number(selectedPlayer.value.balance) || 0) - amt)
     panelMsg.value = `-${fmtNum(amt)} Ks deducted`
     adjAmt.value = 0; showToast('Balance deducted ✓', 'success')
+    writeAudit('DEDUCT_BALANCE', selectedPlayer.value.username, `-${amt} Ks`)
   } catch (e) { showToast(e.message, 'error') } finally { panelLoading.value = false }
 }
 export const doToggleBan = async () => {
@@ -380,6 +436,7 @@ export const doToggleBan = async () => {
     if (idx !== -1) users.value[idx].is_banned = nb
     panelActionOk.value = true; panelActionMsg.value = nb ? 'User banned' : 'User unbanned'
     showToast(panelActionMsg.value, 'success')
+    writeAudit(nb ? 'BAN_USER' : 'UNBAN_USER', selectedPlayer.value.username, '')
   } catch (e) { panelActionOk.value = false; panelActionMsg.value = e.message; showToast(e.message, 'error') }
   finally { panelLoading.value = false }
 }
@@ -395,12 +452,14 @@ export const doResetPassword = async () => {
     if (d.error || d.msg) throw new Error(d.error || d.msg)
     panelActionOk.value = true; panelActionMsg.value = 'Password updated'
     showToast('Password reset', 'success'); newPassword.value = ''
+    writeAudit('RESET_PASSWORD', selectedPlayer.value.username, '')
   } catch (e) {
     panelActionOk.value = false; panelActionMsg.value = 'Reset requires service role key'
     showToast('Need service role for reset', 'error')
   } finally { panelLoading.value = false }
 }
 
+// ── Drawer ────────────────────────────────────────────────────────────────────
 export const saveDrawerSettings = async () => {
   drawerSaving.value = true; drawerMsg.value = ''
   try {
@@ -412,6 +471,7 @@ export const saveDrawerSettings = async () => {
   finally { drawerSaving.value = false; setTimeout(() => { drawerMsg.value = '' }, 3000) }
 }
 
+// ── Games ─────────────────────────────────────────────────────────────────────
 export const fetchGames = async () => {
   gamesLoading.value = true
   try {
@@ -429,6 +489,7 @@ export const doToggleGame = async (g) => {
   } catch (e) { showToast(e.message, 'error') }
 }
 
+// ── Messages ──────────────────────────────────────────────────────────────────
 export const fetchMsgs = async () => {
   msgsLoading.value = true
   try { const { data } = await supabase.rpc('admin_list_messages', { p_key: adminKey.value }); msgs.value = data || [] }
@@ -454,13 +515,169 @@ export const deleteMsg = async (id) => {
   } catch (e) { showToast(e.message, 'error') }
 }
 
+// ── Promos ────────────────────────────────────────────────────────────────────
+export const fetchPromos = async () => {
+  promosLoading.value = true
+  try { const { data } = await supabase.rpc('admin_list_promos', { p_key: adminKey.value }); promos.value = data || [] }
+  catch (e) {} finally { promosLoading.value = false }
+}
+export const createPromo = async () => {
+  if (!newPromo.value.code) return
+  promoSaving.value = true; promoMsg.value = ''
+  try {
+    const { error } = await supabase.rpc('admin_create_promo', {
+      p_key: adminKey.value,
+      p_code: newPromo.value.code.toUpperCase(),
+      p_bonus: newPromo.value.bonus_amount,
+      p_max_uses: newPromo.value.max_uses,
+      p_expiry: newPromo.value.expiry_date || null
+    })
+    if (error) throw error
+    promoOk.value = true; promoMsg.value = 'Code created!'
+    const created = newPromo.value.code.toUpperCase()
+    newPromo.value = { code: '', bonus_amount: 5000, max_uses: 100, expiry_date: '' }
+    await fetchPromos(); showToast('Promo created', 'success')
+    writeAudit('CREATE_PROMO', created, '')
+  } catch (e) { promoOk.value = false; promoMsg.value = e.message }
+  finally { promoSaving.value = false; setTimeout(() => { promoMsg.value = '' }, 3000) }
+}
+export const deletePromo = async (id) => {
+  try {
+    const { error } = await supabase.rpc('admin_delete_promo', { p_key: adminKey.value, p_id: id })
+    if (error) throw error
+    promos.value = promos.value.filter(p => p.id !== id); showToast('Deleted', 'success')
+    writeAudit('DELETE_PROMO', id, '')
+  } catch (e) { showToast(e.message, 'error') }
+}
+export const togglePromo = async (p) => {
+  try {
+    const { error } = await supabase.rpc('admin_toggle_promo', { p_key: adminKey.value, p_id: p.id, p_active: !p.is_active })
+    if (error) throw error
+    const idx = promos.value.findIndex(x => x.id === p.id)
+    if (idx !== -1) promos.value[idx].is_active = !p.is_active
+  } catch (e) { showToast(e.message, 'error') }
+}
+
+// ── IP Blacklist ──────────────────────────────────────────────────────────────
+export const fetchIpList = async () => {
+  ipLoading.value = true
+  try { const { data } = await supabase.rpc('admin_list_ip_blacklist', { p_key: adminKey.value }); ipList.value = data || [] }
+  catch (e) {} finally { ipLoading.value = false }
+}
+export const addIp = async () => {
+  if (!newIp.value.ip_address) return
+  const ip = newIp.value.ip_address; const reason = newIp.value.reason
+  try {
+    const { error } = await supabase.rpc('admin_add_ip_blacklist', { p_key: adminKey.value, p_ip: ip, p_reason: reason })
+    if (error) throw error
+    newIp.value = { ip_address: '', reason: '' }; await fetchIpList(); showToast('IP blocked', 'success')
+    writeAudit('BLOCK_IP', ip, reason)
+  } catch (e) { showToast(e.message, 'error') }
+}
+export const removeIp = async (id) => {
+  try {
+    const { error } = await supabase.rpc('admin_remove_ip_blacklist', { p_key: adminKey.value, p_id: id })
+    if (error) throw error
+    ipList.value = ipList.value.filter(i => i.id !== id); showToast('Unblocked', 'success')
+    writeAudit('UNBLOCK_IP', id, '')
+  } catch (e) { showToast(e.message, 'error') }
+}
+
+// ── Audit Log ─────────────────────────────────────────────────────────────────
+export const fetchAuditLog = async () => {
+  auditLoading.value = true
+  try { const { data } = await supabase.rpc('admin_list_audit_log', { p_key: adminKey.value }); auditLog.value = data || [] }
+  catch (e) {} finally { auditLoading.value = false }
+}
+export const writeAudit = async (action, target, details) => {
+  try { await supabase.rpc('admin_write_audit', { p_action: action, p_target: target || '', p_details: details || '' }) }
+  catch (e) {}
+}
+
+// ── Agents ────────────────────────────────────────────────────────────────────
+export const fetchAgents = async () => {
+  agentsLoading.value = true
+  try {
+    const { data } = await supabase.rpc('admin_list_users', { p_key: adminKey.value })
+    const all = data || []
+    agents.value = all.filter(u => (u.direct_count || 0) > 0 || u.agent_level)
+    agentStats.value = {
+      total_agents:       agents.value.length,
+      pending_commission: agents.value.filter(a => (a.available_commission || 0) > 0).length,
+      total_paid:         agents.value.reduce((s, a) => s + (Number(a.total_commission_paid) || 0), 0),
+      total_commission:   agents.value.reduce((s, a) => s + (Number(a.available_commission)  || 0), 0)
+    }
+  } catch (e) {} finally { agentsLoading.value = false }
+}
+export const fetchCommTx = async () => {
+  commTxLoading.value = true
+  try {
+    const res = await fetch(`${SUPA_URL}/functions/v1/admin_get_transactions`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${adminKey.value}` },
+      body: JSON.stringify({ type: 'withdraw', status: 'pending', limit: 50 })
+    })
+    const d = await res.json()
+    commTxList.value = Array.isArray(d) ? d : (d.transactions || [])
+  } catch (e) {} finally { commTxLoading.value = false }
+}
+
+// ── Reports ───────────────────────────────────────────────────────────────────
+export const loadReport = async () => {
+  reportLoading.value = true
+  try {
+    const from = reportFrom.value + 'T00:00:00Z'
+    const to   = reportTo.value   + 'T23:59:59Z'
+    const { data: txs } = await supabase.from('transactions')
+      .select('id,type,amount,method,status,user_id,created_at')
+      .gte('created_at', from).lte('created_at', to)
+      .order('created_at', { ascending: false })
+    const txList_ = txs || []
+    const { data: uData } = await supabase.from('profiles').select('id,username')
+    const uMap = {}; (uData || []).forEach(u => uMap[u.id] = u.username)
+    const enriched = txList_.map(t => ({ ...t, username: uMap[t.user_id] || null }))
+    const confirmed = enriched.filter(t => t.status === 'confirmed')
+    const totalDeposit  = confirmed.filter(t => t.type === 'deposit').reduce((s, t) => s + Number(t.amount || 0), 0)
+    const totalWithdraw = confirmed.filter(t => t.type !== 'deposit').reduce((s, t) => s + Number(t.amount || 0), 0)
+    const methodMap = {}
+    confirmed.forEach(t => {
+      const m = t.method || 'Unknown'
+      if (!methodMap[m]) methodMap[m] = { method: m, depCount: 0, depTotal: 0, wdCount: 0, wdTotal: 0 }
+      if (t.type === 'deposit') { methodMap[m].depCount++; methodMap[m].depTotal += Number(t.amount || 0) }
+      else { methodMap[m].wdCount++; methodMap[m].wdTotal += Number(t.amount || 0) }
+    })
+    const { count: newUsers } = await supabase.from('profiles')
+      .select('*', { count: 'exact', head: true }).gte('created_at', from).lte('created_at', to)
+    reportData.value = {
+      ready: true, totalDeposit, totalWithdraw,
+      newUsers: newUsers || 0, txList: enriched,
+      byMethod: Object.values(methodMap).sort((a, b) => (b.depTotal + b.wdTotal) - (a.depTotal + a.wdTotal))
+    }
+  } catch (e) { showToast(e.message, 'error') } finally { reportLoading.value = false }
+}
+export const exportTxCsv = () => {
+  const rows = reportData.value.txList
+  if (!rows.length) return
+  const hdr  = 'ID,Type,User,Method,Amount,Status,Date'
+  const body = rows.map(t => [
+    t.id, t.type, t.username || t.user_id?.slice(0, 8) || '', t.method, t.amount, t.status,
+    new Date(t.created_at).toLocaleString()
+  ].join(','))
+  const csv = [hdr, ...body].join('\n')
+  const a = document.createElement('a')
+  a.href = URL.createObjectURL(new Blob([csv], { type: 'text/csv' }))
+  a.download = `iw99-report-${reportFrom.value}-${reportTo.value}.csv`
+  a.click(); URL.revokeObjectURL(a.href)
+}
+
+// ── Export ────────────────────────────────────────────────────────────────────
 export function useAdmin() {
   return {
     adminKey, loggedIn, loginLoading, loginErr, activeTab,
     stats, chartLoading, chartData, recentLoading, recentTx, gameActiveRate,
     txFilter, txList, txLoading, txErr,
     sett, settLoading, settSaving, settMsg, settOk,
-    users, usersLoading, userQ, filteredUsers,
+    users, usersLoading, userQ, userRiskFilter, filteredUsers,
     leftDrawer, drawerSettings, drawerSaving, drawerMsg, drawerOk,
     playerPanel, selectedPlayer, playerTxList, playerTxLoading,
     playerSessions, playerSessLoading, panelLoading, panelMsg,
@@ -472,6 +689,12 @@ export function useAdmin() {
     playerTurnover, playerRiskScore,
     games, gamesLoading, gameQ, gameCat, gameCats, filteredGames,
     msgs, msgsLoading, newMsg, msgSending, msgResult, msgOk,
+    promos, promosLoading, newPromo, promoSaving, promoMsg, promoOk,
+    ipList, ipLoading, newIp,
+    auditLog, auditLoading,
+    agents, agentsLoading, agentQ, agentFilter, agentStats, filteredAgents,
+    commTxList, commTxLoading,
+    reportFrom, reportTo, reportData, reportLoading,
     toast,
     netFlow, netPct, gaugeArc, healthBars, metricCards,
     fmtNum, fmtDate, showToast, copyTxt,
@@ -484,5 +707,10 @@ export function useAdmin() {
     saveDrawerSettings,
     fetchGames, doToggleGame,
     fetchMsgs, sendMsg, deleteMsg,
+    fetchPromos, createPromo, deletePromo, togglePromo,
+    fetchIpList, addIp, removeIp,
+    fetchAuditLog, writeAudit,
+    fetchAgents, fetchCommTx,
+    loadReport, exportTxCsv,
   }
 }
