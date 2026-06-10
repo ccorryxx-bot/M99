@@ -291,57 +291,17 @@
               </div>
             </div>
           </div>
-        </div>
-      </div>
-
-      <!-- ══ POPULAR CAROUSEL SLIDER ══ -->
-      <div v-if="activeCategory==='popular' && !loadingGames && carouselPages.length > 0" class="nova-carousel-section">
-        <!-- Header -->
-        <div class="nova-carousel-header">
-          <div style="display:flex;align-items:center;gap:6px;">
-            <img src="https://ik.imagekit.io/rbok01qam/Custom%20icons%20img/ddca62d0-6422-11f1-aded-3d7319f38cf3.gif?tr=f-auto"
-              style="width:18px;height:18px;object-fit:contain;" alt=""/>
-            <span class="nova-carousel-title">နာမည်ကြီး ဂိမ်းများ</span>
-          </div>
-          <button class="nova-carousel-all-btn" @click="openCatPanel('popular')">
-            အားလုံး <span style="font-size:13px;">»</span>
-          </button>
-        </div>
-
-        <!-- Swipeable Pages -->
-        <div class="nova-carousel-viewport"
-          @touchstart.passive="onCarouselTouchStart"
-          @touchend.passive="onCarouselTouchEnd">
-          <div class="nova-carousel-track"
-            :style="`transform:translateX(${-carouselPage * 100}%);transition:transform 0.35s cubic-bezier(0.4,0,0.2,1);`">
-            <div v-for="(page, pi) in carouselPages" :key="pi" class="nova-carousel-page">
-              <div class="nova-carousel-grid">
-                <div v-for="game in page" :key="game.id"
-                  class="nova-game-card" @click="openGame(game)">
-                  <div style="position:relative;aspect-ratio:3/4;overflow:hidden;background:#0e1030;">
-                    <img :src="game.image_url" alt="" @error="e=>e.target.style.display='none'"
-                      style="width:100%;height:100%;object-fit:cover;display:block;" loading="lazy"/>
-                    <div style="position:absolute;inset:0;background:linear-gradient(to top,rgba(6,8,18,0.85) 0%,rgba(6,8,18,0.2) 40%,transparent 100%);"></div>
-                    <img src="https://ik.imagekit.io/rbok01qam/Custom%20icons%20img/ddca62d0-6422-11f1-aded-3d7319f38cf3.gif?tr=f-auto"
-                      style="position:absolute;top:4px;right:4px;width:18px;height:18px;object-fit:contain;z-index:10;pointer-events:none;" alt=""/>
-                    <div class="nova-badge nova-badge--provider">{{ game.provider_code?.toUpperCase() }}</div>
-                    <div style="position:absolute;bottom:0;left:0;right:0;padding:4px 5px 5px;">
-                      <div style="font-size:9px;font-weight:700;color:rgba(255,255,255,0.9);overflow:hidden;text-overflow:ellipsis;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;line-height:1.3;">{{ game.game_name }}</div>
-                    </div>
-                  </div>
-                </div>
-              </div>
+          <!-- Dots + အားလုံး row — shown below the 18-card popular grid -->
+          <div v-if="activeCategory==='popular' && !loadingGames && carouselPages.length > 0" class="nova-carousel-footer">
+            <div class="nova-carousel-dots">
+              <button v-for="(_, di) in carouselPages" :key="di"
+                class="nova-carousel-dot"
+                :class="di===0 ? 'nova-carousel-dot--active' : ''"
+                @click="openCatPanel('popular')">
+              </button>
             </div>
-          </div>
-        </div>
-
-        <!-- Dots + All link row -->
-        <div class="nova-carousel-footer">
-          <div class="nova-carousel-dots">
-            <button v-for="(_, di) in carouselPages" :key="di"
-              class="nova-carousel-dot"
-              :class="di===carouselPage ? 'nova-carousel-dot--active' : ''"
-              @click="carouselPage=di">
+            <button class="nova-carousel-all-btn" @click="openCatPanel('popular')">
+              အားလုံး <span style="font-size:13px;">»</span>
             </button>
           </div>
         </div>
@@ -1753,59 +1713,12 @@
     font-size: 9px; font-weight: 600; color: rgba(255,255,255,0.6);
   }
 
-  /* ══ POPULAR CAROUSEL SLIDER ══ */
-  .nova-carousel-section {
-    padding: 0 0 20px;
-    position: relative;
-  }
-  .nova-carousel-header {
-    display: flex; align-items: center; justify-content: space-between;
-    padding: 12px 14px 10px;
-  }
-  .nova-carousel-title {
-    font-size: 14px; font-weight: 800;
-    color: rgba(255,255,255,0.95);
-    letter-spacing: 0.02em;
-  }
-  .nova-carousel-all-btn {
-    display: flex; align-items: center; gap: 3px;
-    background: rgba(255,193,7,0.12);
-    border: 1px solid rgba(255,193,7,0.35);
-    border-radius: 20px;
-    color: #fbbf24;
-    font-size: 11px; font-weight: 800;
-    padding: 4px 12px;
-    cursor: pointer;
-    -webkit-tap-highlight-color: transparent;
-    letter-spacing: 0.03em;
-    transition: background 0.15s;
-  }
-  .nova-carousel-all-btn:active { background: rgba(255,193,7,0.24); }
-  .nova-carousel-viewport {
-    width: 100%;
-    overflow: hidden;
-    padding: 0 14px;
-    box-sizing: border-box;
-  }
-  .nova-carousel-track {
-    display: flex;
-    will-change: transform;
-  }
-  .nova-carousel-page {
-    flex: 0 0 100%;
-    width: 100%;
-    min-width: 0;
-  }
-  .nova-carousel-grid {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 8px;
-  }
+  /* ══ POPULAR DOTS + ALL BUTTON ROW ══ */
   .nova-carousel-footer {
     display: flex;
     align-items: center;
-    justify-content: center;
-    padding: 12px 14px 0;
+    justify-content: space-between;
+    padding: 12px 6px 4px;
   }
   .nova-carousel-dots {
     display: flex; align-items: center; gap: 6px;
@@ -1824,5 +1737,19 @@
     border-radius: 4px;
     box-shadow: 0 0 8px rgba(251,191,36,0.7);
   }
+  .nova-carousel-all-btn {
+    display: flex; align-items: center; gap: 3px;
+    background: rgba(255,193,7,0.12);
+    border: 1px solid rgba(255,193,7,0.35);
+    border-radius: 20px;
+    color: #fbbf24;
+    font-size: 11px; font-weight: 800;
+    padding: 4px 12px;
+    cursor: pointer;
+    -webkit-tap-highlight-color: transparent;
+    letter-spacing: 0.03em;
+    transition: background 0.15s;
+  }
+  .nova-carousel-all-btn:active { background: rgba(255,193,7,0.24); }
 
 </style>
