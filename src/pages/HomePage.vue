@@ -273,11 +273,11 @@
             <p style="color:rgba(255,100,100,0.8);font-size:12px;margin-bottom:10px;">{{ fetchError }}</p>
             <button @click="fetchGames" class="glass-btn-sm" style="color:#4ade80;padding:6px 14px;">Retry</button>
           </div>
-          <div v-else-if="filteredGames.length===0" style="text-align:center;padding:30px 0;">
+          <div v-else-if="displayedGames.length===0" style="text-align:center;padding:30px 0;">
             <p style="color:rgba(255,255,255,0.22);font-size:12px;">ဂိမ်းမတွေ့ပါ</p>
           </div>
-          <div v-else style="display:grid;grid-template-columns:repeat(3,1fr);gap:10px;">
-            <div v-for="(game,idx) in filteredGames" :key="game.id"
+          <div v-else style="display:grid;grid-template-columns:repeat(3,1fr);gap:10px;" @touchstart="onCarouselTouchStart" @touchend="onCarouselTouchEnd">
+            <div v-for="(game,idx) in displayedGames" :key="game.id"
               class="nova-game-card" @click="openGame(game)">
               <div style="position:relative;aspect-ratio:3/4;overflow:hidden;background:#0e1030;">
                 <img :src="game.image_url" alt="" @error="e=>e.target.style.display='none'" style="width:100%;height:100%;object-fit:cover;display:block;" loading="lazy"/>
@@ -296,8 +296,8 @@
             <div class="nova-carousel-dots">
               <button v-for="(_, di) in carouselPages" :key="di"
                 class="nova-carousel-dot"
-                :class="di===0 ? 'nova-carousel-dot--active' : ''"
-                @click="openCatPanel('hot')">
+                :class="di === carouselPage ? 'nova-carousel-dot--active' : ''"
+                @click="carouselPage = di">
               </button>
             </div>
             <button class="nova-carousel-all-btn" @click="openCatPanel('hot')">
@@ -887,7 +887,7 @@
   const CAROUSEL_PER_PAGE = 9
   const carouselAllGames = computed(() => {
     if (activeCategory.value !== 'popular' && activeCategory.value !== 'fav') return []
-    return [...games.value].sort((a,b) => (b.play_count||0) - (a.play_count||0)).slice(18, 18 + 54)
+    return [...games.value].sort((a,b) => (b.play_count||0) - (a.play_count||0)).slice(0, 54)
   })
   const carouselPages = computed(() => {
     const pages = []
@@ -905,6 +905,9 @@
       else if (dx < 0 && carouselPage.value > 0) carouselPage.value--
     }
   }
+  const displayedGames = computed(() =>
+    activeCategory.value === 'popular' ? (carouselPages.value[carouselPage.value] || []) : filteredGames.value
+  )
   watch(activeCategory, () => { carouselPage.value = 0 })
 
   const fishGames = computed(() => games.value.filter(g => g.category === 'fish'))
