@@ -279,7 +279,7 @@ export const loadRecentTx  = async () => {
   try {
     const res = await fetch(`${SUPA_URL}/functions/v1/admin_get_transactions`, {
       method: 'POST',
-      headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${import.meta.env.VITE_SUPABASE_ANON_KEY}`, 'apikey': import.meta.env.VITE_SUPABASE_ANON_KEY },
+      headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${import.meta.env.VITE_SUPABASE_ANON_KEY}`, 'apikey': import.meta.env.VITE_SUPABASE_ANON_KEY, 'x-admin-key': adminKey.value },
       body: JSON.stringify({ p_key: adminKey.value, limit: 5, offset: 0 })
     })
     const d = await res.json()
@@ -311,7 +311,7 @@ export const fetchTx = async () => {
   try {
     const res = await fetch(`${SUPA_URL}/functions/v1/admin_get_transactions`, {
       method: 'POST',
-      headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${import.meta.env.VITE_SUPABASE_ANON_KEY}`, 'apikey': import.meta.env.VITE_SUPABASE_ANON_KEY },
+      headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${import.meta.env.VITE_SUPABASE_ANON_KEY}`, 'apikey': import.meta.env.VITE_SUPABASE_ANON_KEY, 'x-admin-key': adminKey.value },
       body: JSON.stringify({ p_key: adminKey.value, status: txFilter.value.status || undefined, type: txFilter.value.type || undefined, limit: 50 })
     })
     const d = await res.json()
@@ -323,7 +323,7 @@ export const doApprove = async (id, action) => {
   try {
     const res = await fetch(`${SUPA_URL}/functions/v1/admin_approve_reject_v4`, {
       method: 'POST',
-      headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${import.meta.env.VITE_SUPABASE_ANON_KEY}`, 'apikey': import.meta.env.VITE_SUPABASE_ANON_KEY },
+      headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${import.meta.env.VITE_SUPABASE_ANON_KEY}`, 'apikey': import.meta.env.VITE_SUPABASE_ANON_KEY, 'x-admin-key': adminKey.value },
       body: JSON.stringify({ p_key: adminKey.value, transaction_id: id, action })
     })
     const d = await res.json(); if (d.error) throw new Error(d.error)
@@ -367,7 +367,7 @@ export const loadPlayerTx = async (uid) => {
   try {
     const res = await fetch(`${SUPA_URL}/functions/v1/admin_get_transactions`, {
       method: 'POST',
-      headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${import.meta.env.VITE_SUPABASE_ANON_KEY}`, 'apikey': import.meta.env.VITE_SUPABASE_ANON_KEY },
+      headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${import.meta.env.VITE_SUPABASE_ANON_KEY}`, 'apikey': import.meta.env.VITE_SUPABASE_ANON_KEY, 'x-admin-key': adminKey.value },
       body: JSON.stringify({ p_key: adminKey.value, user_id: uid, limit: 20 })
     })
     const d = await res.json()
@@ -614,7 +614,7 @@ export const fetchCommTx = async () => {
   try {
     const res = await fetch(`${SUPA_URL}/functions/v1/admin_get_transactions`, {
       method: 'POST',
-      headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${import.meta.env.VITE_SUPABASE_ANON_KEY}`, 'apikey': import.meta.env.VITE_SUPABASE_ANON_KEY },
+      headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${import.meta.env.VITE_SUPABASE_ANON_KEY}`, 'apikey': import.meta.env.VITE_SUPABASE_ANON_KEY, 'x-admin-key': adminKey.value },
       body: JSON.stringify({ p_key: adminKey.value, type: 'withdraw', status: 'pending', limit: 50 })
     })
     const d = await res.json()
@@ -856,7 +856,7 @@ export const testTelegram = async () => {
     const msg = `🔔 <b>iW99 Admin Alert Test</b>\n\n✅ Telegram notifications are working!\n\n📊 Current Stats:\n💰 Deposits: ${fmtNum(stats.value.total_deposits)} Ks\n💸 Withdrawals: ${fmtNum(stats.value.total_withdrawals)} Ks\n⏳ Pending: ${stats.value.pending_tx}\n\n🕐 ${now} (MMT)`
     const res = await fetch(`${SUPA_URL}/functions/v1/send_telegram_alert`, {
       method: 'POST',
-      headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${import.meta.env.VITE_SUPABASE_ANON_KEY}`, 'apikey': import.meta.env.VITE_SUPABASE_ANON_KEY },
+      headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${import.meta.env.VITE_SUPABASE_ANON_KEY}`, 'apikey': import.meta.env.VITE_SUPABASE_ANON_KEY, 'x-admin-key': adminKey.value },
       body: JSON.stringify({ p_key: adminKey.value, message: msg, bot_token: sett.value.telegram_bot_token, chat_id: sett.value.telegram_chat_id })
     })
     const d = await res.json()
@@ -881,7 +881,7 @@ export const sendTelegramDailySummary = async () => {
     const msg  = `📊 <b>iW99 Daily Summary</b>\n\n💰 Total Deposits: <b>${dep} Ks</b>\n💸 Total Withdrawals: <b>${wd} Ks</b>\n📈 Net Flow: <b>${net} Ks</b>\n👥 Active Users: <b>${stats.value.active_users}</b>\n⏳ Pending TX: <b>${stats.value.pending_tx}</b>\n\n🕐 ${now} (MMT)`
     await fetch(`${SUPA_URL}/functions/v1/send_telegram_alert`, {
       method: 'POST',
-      headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${import.meta.env.VITE_SUPABASE_ANON_KEY}`, 'apikey': import.meta.env.VITE_SUPABASE_ANON_KEY },
+      headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${import.meta.env.VITE_SUPABASE_ANON_KEY}`, 'apikey': import.meta.env.VITE_SUPABASE_ANON_KEY, 'x-admin-key': adminKey.value },
       body: JSON.stringify({ p_key: adminKey.value, message: msg, bot_token: sett.value.telegram_bot_token, chat_id: sett.value.telegram_chat_id })
     })
     showToast('Daily summary sent to Telegram!', 'success')
