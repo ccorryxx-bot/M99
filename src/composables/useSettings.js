@@ -5,7 +5,7 @@ const _cache = ref({})
 const _loaded = ref(false)
 const _loading = ref(false)
 
-const DEFAULTS = {
+export const DEFAULTS = {
   kpay_img_url:    'https://ik.imagekit.io/tdpebgueq/Payment%20Method%20/Screenshot_2026-06-04-00-35-27-327_mark.via.gp_1780510112167edit.jpg?tr=f-auto',
   wave_img_url:    'https://ik.imagekit.io/tdpebgueq/Payment%20Method%20/Screenshot_2026-06-04-00-35-34-166_mark.via.gp_1780510124725edit.jpg?tr=f-auto',
   usdt_img_url:    'https://ik.imagekit.io/tdpebgueq/Payment%20Method%20/61e20ad43bafe0ca2b7ada87f1792a4c.jpg?tr=f-auto',
