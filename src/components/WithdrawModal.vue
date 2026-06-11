@@ -226,7 +226,7 @@
           <button class="wd-method-row wd-method-row--soon" @click="showUabNotice">
             <div class="wd-method-left">
               <div class="wd-method-logo">
-                <img src="https://ik.imagekit.io/0xfxtkccz/Uab/1781043612091.png?tr=f-auto" style="width:36px;height:36px;object-fit:cover;border-radius:7px;" alt="UAB" @error="e=>{e.target.style.display='none';e.target.nextSibling.style.display='flex'}"/>
+                <img src="https://ik.imagekit.io/0xfxtkccz/Uab/1781076796857.png?tr=f-auto" style="width:36px;height:36px;object-fit:cover;border-radius:7px;" alt="UAB" @error="e=>{e.target.style.display='none';e.target.nextSibling.style.display='flex'}"/>
                 <div style="display:none;background:#c0392b;width:36px;height:36px;border-radius:7px;align-items:center;justify-content:center;"><span style="color:#fff;font-size:9px;font-weight:900;">UAB</span></div>
               </div>
               <div class="wd-method-info">
