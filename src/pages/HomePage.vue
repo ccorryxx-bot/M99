@@ -620,6 +620,53 @@
         </div>
       </Transition>
 
+      <!-- ══ Android Install Guide Modal ══ -->
+      <Transition name="nova-modal">
+        <div v-if="showAndroidInstallModal" class="nova-overlay" @click.self="showAndroidInstallModal=false">
+          <div style="background:linear-gradient(160deg,#0e1338,#131a4a);border:1px solid rgba(34,211,238,0.25);border-radius:20px;padding:24px 20px 20px;margin:0 16px;max-width:360px;width:100%;box-shadow:0 20px 60px rgba(0,0,0,0.7);">
+            <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:18px;">
+              <div style="display:flex;align-items:center;gap:10px;">
+                <div style="width:38px;height:38px;border-radius:10px;background:rgba(34,211,238,0.12);border:1.5px solid rgba(34,211,238,0.4);display:flex;align-items:center;justify-content:center;">
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none"><rect x="3" y="3" width="18" height="18" rx="4" fill="#061828" stroke="#22d3ee" stroke-width="1.4"/><path d="M12 7v7" stroke="#22d3ee" stroke-width="2" stroke-linecap="round"/><path d="M8.5 11l3.5 4 3.5-4" stroke="#22d3ee" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/><line x1="7" y1="18" x2="17" y2="18" stroke="#22d3ee" stroke-width="1.6" stroke-linecap="round"/></svg>
+                </div>
+                <div>
+                  <div style="font-size:13px;font-weight:800;color:#fff;">iW99 တပ်ဆင်ရန်</div>
+                  <div style="font-size:10px;color:rgba(255,255,255,0.45);">Android / Chrome</div>
+                </div>
+              </div>
+              <button @click="showAndroidInstallModal=false" style="background:rgba(255,255,255,0.07);border:1px solid rgba(255,255,255,0.1);border-radius:50%;width:28px;height:28px;color:rgba(255,255,255,0.5);font-size:14px;display:flex;align-items:center;justify-content:center;cursor:pointer;">✕</button>
+            </div>
+            <div style="display:flex;flex-direction:column;gap:12px;">
+              <div style="display:flex;align-items:flex-start;gap:12px;background:rgba(255,255,255,0.04);border-radius:12px;padding:12px;">
+                <div style="width:26px;height:26px;border-radius:50%;background:rgba(34,211,238,0.15);border:1.5px solid rgba(34,211,238,0.4);display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:11px;font-weight:800;color:#22d3ee;">1</div>
+                <div>
+                  <div style="font-size:11px;font-weight:700;color:#fff;margin-bottom:3px;">Browser <span style="color:#22d3ee;">⋮ Menu</span> ကိုနှိပ်ပါ</div>
+                  <div style="font-size:10px;color:rgba(255,255,255,0.45);">Chrome အပေါ်ညာဘက် ၃ ချက်</div>
+                  <div style="margin-top:6px;display:inline-flex;align-items:center;gap:3px;background:rgba(34,211,238,0.08);border:1px solid rgba(34,211,238,0.2);border-radius:7px;padding:4px 10px;">
+                    <span style="font-size:16px;letter-spacing:1px;color:#22d3ee;line-height:1;">⋮</span>
+                  </div>
+                </div>
+              </div>
+              <div style="display:flex;align-items:flex-start;gap:12px;background:rgba(255,255,255,0.04);border-radius:12px;padding:12px;">
+                <div style="width:26px;height:26px;border-radius:50%;background:rgba(34,211,238,0.15);border:1.5px solid rgba(34,211,238,0.4);display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:11px;font-weight:800;color:#22d3ee;">2</div>
+                <div>
+                  <div style="font-size:11px;font-weight:700;color:#fff;margin-bottom:3px;"><span style="color:#22d3ee;">"Add to Home screen"</span> ကိုနှိပ်ပါ</div>
+                  <div style="font-size:10px;color:rgba(255,255,255,0.45);">သို့မဟုတ် "Install app"</div>
+                </div>
+              </div>
+              <div style="display:flex;align-items:flex-start;gap:12px;background:rgba(255,255,255,0.04);border-radius:12px;padding:12px;">
+                <div style="width:26px;height:26px;border-radius:50%;background:rgba(74,222,128,0.15);border:1.5px solid rgba(74,222,128,0.4);display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:11px;font-weight:800;color:#4ade80;">3</div>
+                <div>
+                  <div style="font-size:11px;font-weight:700;color:#fff;margin-bottom:3px;"><span style="color:#4ade80;">"Install" / "Add"</span> ကိုနှိပ်ပါ</div>
+                  <div style="font-size:10px;color:rgba(255,255,255,0.45);">iW99 Home Screen တွင် ပေါ်လာမည်!</div>
+                </div>
+              </div>
+            </div>
+            <button @click="showAndroidInstallModal=false" style="width:100%;margin-top:16px;background:linear-gradient(135deg,#22d3ee,#0891b2);border:none;border-radius:12px;color:#fff;font-size:12px;font-weight:800;padding:12px;cursor:pointer;letter-spacing:0.03em;">နားလည်ပြီ ✓</button>
+          </div>
+        </div>
+      </Transition>
+
       <!-- ══ iOS Install Guide Modal ══ -->
       <Transition name="nova-modal">
         <div v-if="showIosInstallModal" class="nova-overlay" @click.self="showIosInstallModal=false">
@@ -875,29 +922,27 @@
   const pwaPrompt = ref(null)
   const showPwaBanner = ref(false)
   const showIosInstallModal = ref(false)
+  const showAndroidInstallModal = ref(false)
   const isIos = /iphone|ipad|ipod/i.test(navigator.userAgent)
-  const isInStandaloneMode = () => window.matchMedia('(display-mode: standalone)').matches || window.navigator.standalone
+  const isInStandaloneMode = () => window.matchMedia('(display-mode: standalone)').matches || !!window.navigator.standalone
 
-  window.addEventListener('beforeinstallprompt', (e) => { e.preventDefault(); pwaPrompt.value = e; showPwaBanner.value = true })
+  window.addEventListener('beforeinstallprompt', (e) => { e.preventDefault(); pwaPrompt.value = e })
 
   async function installPwa() {
     if (!pwaPrompt.value) return
-    pwaPrompt.value.prompt()
+    await pwaPrompt.value.prompt()
     const { outcome } = await pwaPrompt.value.userChoice
-    if (outcome === 'accepted') { showPwaBanner.value = false; spawnConfetti() }
+    if (outcome === 'accepted') { pwaPrompt.value = null; spawnConfetti() }
   }
 
   function handleInstallClick() {
-    if (isInStandaloneMode()) {
-      // already installed
-      return
-    }
+    if (isInStandaloneMode()) return
     if (pwaPrompt.value) {
       installPwa()
     } else if (isIos) {
       showIosInstallModal.value = true
     } else {
-      showPwaBanner.value = true
+      showAndroidInstallModal.value = true
     }
   }
   // Success confetti
