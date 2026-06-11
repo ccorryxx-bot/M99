@@ -231,7 +231,7 @@
 </template>
 
 <script setup>
-import { ref, computed, onMounted } from 'vue'
+import { ref, computed, onMounted, onUnmounted } from 'vue'
 import { supabase } from '@/supabase'
 
 // ── State ──────────────────────────────────────
@@ -421,7 +421,37 @@ function shareVia(platform) {
   if (map[platform]) window.open(map[platform], '_blank')
 }
 
-onMounted(loadData)
+// ── Real-time subscriptions ─────────────────────
+let realtimeChannel = null
+
+function setupRealtime(uid) {
+  if (realtimeChannel) supabase.removeChannel(realtimeChannel)
+
+  realtimeChannel = supabase
+    .channel(`referral-rt-${uid}`)
+    .on('postgres_changes', {
+      event: '*',
+      schema: 'public',
+      table: 'affiliate_commissions',
+      filter: `agent_id=eq.${uid}`,
+    }, () => { loadData() })
+    .on('postgres_changes', {
+      event: 'INSERT',
+      schema: 'public',
+      table: 'affiliate_tree',
+      filter: `ancestor_id=eq.${uid}`,
+    }, () => { loadData() })
+    .subscribe()
+}
+
+onMounted(async () => {
+  await loadData()
+  if (userId.value) setupRealtime(userId.value)
+})
+
+onUnmounted(() => {
+  if (realtimeChannel) supabase.removeChannel(realtimeChannel)
+})
 </script>
 
 <style scoped>
