@@ -9,7 +9,7 @@ export const DEFAULTS = {
   kpay_img_url:    'https://ik.imagekit.io/tdpebgueq/Payment%20Method%20/Screenshot_2026-06-04-00-35-27-327_mark.via.gp_1780510112167edit.jpg?tr=f-auto',
   wave_img_url:    'https://ik.imagekit.io/tdpebgueq/Payment%20Method%20/Screenshot_2026-06-04-00-35-34-166_mark.via.gp_1780510124725edit.jpg?tr=f-auto',
   usdt_img_url:    'https://ik.imagekit.io/tdpebgueq/Payment%20Method%20/61e20ad43bafe0ca2b7ada87f1792a4c.jpg?tr=f-auto',
-  uabpay_img_url:  'https://ik.imagekit.io/0xfxtkccz/Uab/1781043612091.png?tr=f-auto',
+  uabpay_img_url:  'https://ik.imagekit.io/0xfxtkccz/Uab/1781076796857.png?tr=f-auto',
   brand_logo_url:  'https://ik.imagekit.io/rbok01qam/Brand%20Logo%20/IMG_20260605_215459.png?tr=f-auto',
   provider_logo_1: 'https://vuywhhmwrqykukcemifd.supabase.co/storage/v1/object/public/images/providers/logo1.jpg',
   provider_logo_2: 'https://vuywhhmwrqykukcemifd.supabase.co/storage/v1/object/public/images/providers/logo2.jpg',
