@@ -29,7 +29,7 @@
         <div class="av-guest"><svg width="30" height="30" fill="none" viewBox="0 0 24 24"><circle cx="12" cy="8" r="4.5" stroke="rgba(255,255,255,0.4)" stroke-width="1.6"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7" stroke="rgba(255,255,255,0.4)" stroke-width="1.6" stroke-linecap="round"/></svg></div>
       </div>
       <div class="ph-info">
-        <p style="font-size:13px;font-weight:700;color:rgba(255,255,255,0.85);margin:0 0 8px;">ဦးစွာ လော့ဂ်အင် သို့မဟုတ် မတ်ပုံတင်</p>
+        <p style="font-size:13px;font-weight:700;color:rgba(255,255,255,0.85);margin:0 0 8px;">ဦးစွာ လော့ဂ်အင် သို့မဟုတ် မှတ်ပုံတင်</p>
         <div style="display:flex;gap:7px;">
           <button @click="$router.push('/home?auth=login')" class="g-btn">လောဂ်အင်</button>
           <button @click="$router.push('/home?auth=register')" class="g-btn g-btn--primary">မှတ်ပုံတင်</button>
@@ -55,7 +55,7 @@
             </button>
           </div>
           <div class="ybal-btns">
-            <button class="ybal-btn" @click="$router.push('/home')">ငွေသွင်းနန်</button>
+            <button class="ybal-btn" @click="$router.push('/home')">ငွေသွင်းရန်</button>
             <button class="ybal-btn" @click="$router.push('/home')">ငွေထုတ်ရန်</button>
           </div>
         </div>
@@ -426,10 +426,10 @@
 
               <!-- Category -->
               <div class="sg-group">
-                <div class="sg-label">တဲပြင်နဲ့မြင်အမျိုးအစား <span class="sg-required">*</span></div>
+                <div class="sg-label">အမျိုးအစားများ <span class="sg-required">*</span></div>
                 <div class="sg-select-wrap">
                   <select v-model="suggestCat" class="sg-select">
-                    <option value="">ကောင်းမျဉ်ဆံသောကြာနောင်ကို ရွေးပါ...</option>
+                    <option value="">ပြောလိုသောအကြောင်းအရာကို ရွေးပါ...</option>
                     <option value="gameplay">ဂိမ်းကစားခြင်း</option>
                     <option value="payment">ငွေပေးချေမှု</option>
                     <option value="deposit">ငွေသွင်းမှု</option>
@@ -462,8 +462,8 @@
               <!-- Image upload -->
               <div class="sg-group">
                 <div class="sg-label">
-                  တတ်ပုံများ မလိမ်မပေလို့
-                  <span class="sg-hint"> (ရွေးချယ်ရန် မကိုင်ကြ ဖိုင်ကွဲမပေဝ)</span>
+                  ဓာတ်ပုံများ မလိမ်မပေးရန်
+                  <span class="sg-hint"> (ရွေးချယ်ရန် ပိုမိုလွယ်ကူစေသည်)</span>
                 </div>
                 <div class="sg-upload-area">
                   <div
@@ -482,7 +482,7 @@
               </div>
 
               <!-- Terms -->
-              <div class="sg-terms">သင်ကိုပေးကောင်းကဲ့အတွေ့ကို ပေးရမည်ဆိုသောအချက်ကို ရင်ဆိုင်နှင့် လုပ်ဆောင်ချက်ကို အကောင်ဆုံးကိုရှာ ကောင်းသောဝန်ဆောင်မှုနှုန်းကို ဆုကြဲကြပြုလုပ်သွားမည်ဖြစ်သည်။ လက်ကျင်ဆဲသားများ သတ်မှတ်ထားသော လမ်းညွှန်ချက်ကို လိုက်နာရမည်ဖြစ်ပြီး ဆုကို အကြမ်းဖျင်းပြင်ဆင်ခိုင်ကို ဝင်ရောက်မပေမည်ဖြစ်မည်ဆိုသည်ကို ဝမ်းမနည်းနဲ့ ဆင်ဆင်ကြည်ပြင်ဆင်မပေမည်ဖြစ်မည်။</div>
+              <div class="sg-terms">သင်ကိုပိုကောင်းတဲ့ အတွေ့အကြုံပေးစွးနိုင်ဘို့ စနစ်နဲ့လုပ်ဆောင်ချက်ကို အကောင်းဆုံးလုပ်ရန်ထင်မြင်ချက်ရယူဘို့ ဆုကြီးကိုသတ်မှတ်ထားသည်။ လက်ခံကျင့်သုံးငည်နှင့် ဆုကိုစည်ဆေးကြည့်မည်ဖြစ်သည်။</div>
 
               <!-- Submit -->
               <button
@@ -554,7 +554,7 @@
               </div>
               <div class="rec-note-box">
                 <svg width="13" height="13" fill="none" viewBox="0 0 24 24" style="flex-shrink:0;margin-top:1px;"><circle cx="12" cy="12" r="10" stroke="rgba(255,255,255,0.35)" stroke-width="1.5"/><path d="M12 8v4M12 16h.01" stroke="rgba(255,255,255,0.5)" stroke-width="1.8" stroke-linecap="round"/></svg>
-                <span>ဝင်ငွေထွက်ငွေ စစ်ဆေးရန် ဒိုနေ့ ရဲ့ မှတ်တမ်း filter ကိုသုံးပါ။ ငွေသွင်းမှု၊ ငွေထုတ်မှု အားလုံး ဤနေရာမှာ ကြည့်ရပါမည်။</span>
+                <span>ဝင်ငွေထွက်ငွေ စစ်ဆေးရန် ဒိနေ့ ရဲ့ မှတ်တမ်း filter ကိုသုံးပါ။ ငွေသွင်းမှု၊ ငွေထုတ်မှု အားလုံး ဤနေရာမှာ ကြည့်ရပါမည်။</span>
               </div>
             </div>
             <div class="rec-filters" @click.stop style="position:relative;z-index:100;flex-shrink:0;">
@@ -592,7 +592,7 @@
             <div v-if="recLoading" style="display:flex;justify-content:center;padding:40px 0;"><div class="rec-spinner"></div></div>
             <div v-else-if="recTransactions.length===0" class="rec-empty">
               <svg width="64" height="64" viewBox="0 0 80 80" fill="none" style="opacity:0.22;"><rect x="10" y="30" width="60" height="42" rx="6" stroke="rgba(255,255,255,0.8)" stroke-width="3"/><path d="M10 46h60" stroke="rgba(255,255,255,0.6)" stroke-width="2"/><path d="M27 30c0-7.18 5.82-13 13-13s13 5.82 13 13" stroke="rgba(255,255,255,0.6)" stroke-width="3" stroke-linecap="round"/></svg>
-              <div style="color:rgba(255,255,255,0.28);font-size:12px;margin-top:10px;">ဒိုနေ့ မှတ်တမ်းမရှိပါ</div>
+              <div style="color:rgba(255,255,255,0.28);font-size:12px;margin-top:10px;">ဒိနေ့ မှတ်တမ်းမရှိပါ</div>
               <div style="color:#f5c842;font-size:10px;margin-top:3px;font-weight:600;">ပိုင်ကြည်</div>
             </div>
             <div v-else style="padding:0 10px 10px;">
@@ -615,7 +615,7 @@
           </div>
           <div class="rec-bottom-bar">
             <div style="text-align:center;">
-              <div style="font-size:9px;color:rgba(255,255,255,0.4);">အဘိုးဘျပ်သော ငွေ</div>
+              <div style="font-size:9px;color:rgba(255,255,255,0.4);">အပ်ငွေထည့်ပါ</div>
               <div style="font-size:13px;font-weight:800;color:#4ade80;">+{{ formatCurrency(recTotalIn) }}</div>
             </div>
             <div style="width:1px;background:rgba(255,255,255,0.08);height:28px;"></div>
@@ -625,7 +625,7 @@
             </div>
             <div style="width:1px;background:rgba(255,255,255,0.08);height:28px;"></div>
             <div style="text-align:center;">
-              <div style="font-size:9px;color:rgba(255,255,255,0.4);">ဆုပ်ပေါ်ဖြစ်</div>
+              <div style="font-size:9px;color:rgba(255,255,255,0.4);">စုစုပေါင်း</div>
               <div :style="(recTotalIn-recTotalOut)>=0?'color:#4ade80':'color:#f87171'" style="font-size:13px;font-weight:800;">{{ (recTotalIn-recTotalOut)>=0?'+':'' }}{{ formatCurrency(recTotalIn-recTotalOut) }}</div>
             </div>
           </div>
@@ -642,7 +642,7 @@
                 <div class="rpt-stat-value rpt-val-red">{{ formatCurrency(0) }}</div>
               </div>
               <div class="rpt-stat-cell rpt-cell-right">
-                <div class="rpt-stat-label">စုသောင်းဇဲပမာ</div>
+                <div class="rpt-stat-label">စုဆောင်းဆဲပမာ</div>
                 <div class="rpt-stat-value">{{ formatCurrency(0) }}</div>
               </div>
               <div class="rpt-stat-cell">
@@ -670,7 +670,7 @@
                       <button :class="['bdp-tab', rptQuickDate==='today'?'bdp-tab--active':'']" @click="rptQuickDate='today'">ဒီနေ့</button>
                       <button :class="['bdp-tab', rptQuickDate==='yesterday'?'bdp-tab--active':'']" @click="rptQuickDate='yesterday'">မနေကာ</button>
                     </div>
-                    <div class="bdp-custom-label">စီတင်ကြိုက်လပ်ပါ</div>
+                    <div class="bdp-custom-label">စိတ်ကြိုက်ရွေးချယ်ပါ</div>
                     <div class="bdp-drums-row">
                       <div class="bdp-date-group">
                         <div class="bdp-col-label">စတင်ရက်</div>
@@ -691,8 +691,8 @@
                       </div>
                     </div>
                     <div class="bdp-actions">
-                      <button class="bdp-cancel-btn" @click="showRptDatePicker=false">မလပ်တော?</button>
-                      <button class="bdp-confirm-btn" @click="applyRptDate">အတည်ပြ</button>
+                      <button class="bdp-cancel-btn" @click="showRptDatePicker=false">မလုပ်တော?</button>
+                      <button class="bdp-confirm-btn" @click="applyRptDate">အတည်ပြု</button>
                     </div>
                   </div>
                 </Transition>
