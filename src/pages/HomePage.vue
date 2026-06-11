@@ -167,16 +167,18 @@
           </div>
           <div>
             <div style="font-size:11px;font-weight:700;color:#4ade80;margin-bottom:3px;letter-spacing:0.04em;text-shadow:0 0 8px rgba(74,222,128,0.6);">{{ username }}</div>
-            <div style="display:flex;align-items:center;gap:6px;">
-              <div style="font-size:17px;font-weight:900;color:#4ade80;">{{ balanceHidden ? '••••••' : formatCurrency(mainBalance) }} <span style="font-size:10px;color:rgba(255,255,255,0.3);">MMK</span></div>
-              <!-- Eye + Refresh stacked vertically -->
-              <div style="display:flex;flex-direction:column;align-items:center;gap:4px;">
-                <!-- Eye toggle -->
+            <!-- Balance row: fixed-width container stops layout shift on hide/show -->
+            <div style="display:flex;align-items:center;gap:4px;">
+              <div class="nova-balance-val">
+                <span style="font-size:17px;font-weight:900;color:#4ade80;font-variant-numeric:tabular-nums;">{{ balanceHidden ? '••••••' : formatCurrency(mainBalance) }}</span>
+                <span style="font-size:10px;color:rgba(255,255,255,0.3);margin-left:3px;">MMK</span>
+              </div>
+              <!-- Eye + Refresh stacked vertically, flush against balance -->
+              <div style="display:flex;flex-direction:column;align-items:center;gap:3px;flex-shrink:0;">
                 <button @click="toggleBalanceHide" class="nova-eye-btn">
                   <svg v-if="!balanceHidden" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
                   <svg v-else width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M17.94 17.94A10.07 10.07 0 0112 20c-7 0-11-8-11-8a18.45 18.45 0 015.06-5.94M9.9 4.24A9.12 9.12 0 0112 4c7 0 11 8 11 8a18.5 18.5 0 01-2.16 3.19m-6.72-1.07a3 3 0 11-4.24-4.24"/><line x1="1" y1="1" x2="23" y2="23"/></svg>
                 </button>
-                <!-- Cool Refresh toggle -->
                 <button @click="refreshBalance" :class="['nova-refresh-btn', { 'nova-refresh-btn--spinning': balanceRefreshing }]" :disabled="balanceRefreshing">
                   <span class="nova-refresh-ring"></span>
                   <svg class="nova-refresh-arrow" width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round"><polyline points="23 4 23 10 17 10"/><path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10"/></svg>
@@ -1557,6 +1559,13 @@
     to   { transform: rotate(360deg); }
   }
 /* ── Eye button ── */
+/* ── Balance value: fixed width prevents layout shift on hide/show ── */
+.nova-balance-val {
+  display: inline-flex; align-items: baseline; gap: 0;
+  min-width: 80px;          /* wide enough for "••••••" and "99,999" alike */
+  white-space: nowrap;
+}
+
 .nova-eye-btn {
   background: rgba(255,255,255,0.06);
   border: 1px solid rgba(255,255,255,0.12);
