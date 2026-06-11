@@ -305,7 +305,7 @@ const emit  = defineEmits(['update:modelValue', 'submit'])
 
 const visible       = ref(props.modelValue)
 const step          = ref(1)
-const method        = ref('kpay')
+const method        = ref(localStorage.getItem('iw99_last_dep_method') || 'kpay')
 const amount        = ref(5000)
 const copied        = ref(false)
 const bonusOption   = ref('none')
@@ -413,7 +413,10 @@ async function fetchPaymentSettings() {
   recipientAccount.value = s[`${m}_recipient_account`] || '09443913532'
 }
 
-watch(method, fetchPaymentSettings)
+watch(method, (val) => {
+  localStorage.setItem('iw99_last_dep_method', val)
+  fetchPaymentSettings()
+})
 watch(step, (val) => {
   if (val === 2) startStep2Timer()
   else stopStep2Timer()

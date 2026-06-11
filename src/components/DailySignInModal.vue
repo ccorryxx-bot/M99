@@ -35,6 +35,7 @@
               <span class="dsi-stats-left">
                 <span class="dsi-stats-num">{{ streakDays }}</span>
                 <span class="dsi-stats-txt"> ရက်အတွင်း ဝင်ရောက်ခဲ့သည်။</span>
+                <span v-if="streakDays >= 2" class="dsi-streak-badge">🔥 {{ streakDays }}</span>
               </span>
               <span class="dsi-stats-right">
                 <span style="font-size:10px;color:rgba(255,255,255,0.7);">ရရှိသည်: </span>
@@ -200,9 +201,22 @@ function todayStr() {
 
 function loadState() {
   try {
-    const streak  = parseInt(localStorage.getItem(STREAK_KEY) || '0')
-    const claimed = JSON.parse(localStorage.getItem(CLAIMED_KEY) || '[]')
     const lastDate = localStorage.getItem(LAST_DATE_KEY) || ''
+    const today    = todayStr()
+    const yesterday = new Date(); yesterday.setDate(yesterday.getDate() - 1)
+    const yesterdayStr = yesterday.toISOString().slice(0, 10)
+
+    let streak  = parseInt(localStorage.getItem(STREAK_KEY) || '0')
+    let claimed = JSON.parse(localStorage.getItem(CLAIMED_KEY) || '[]')
+
+    // If the last sign-in was before yesterday, reset streak and claimed list
+    if (lastDate && lastDate !== today && lastDate !== yesterdayStr) {
+      streak  = 0
+      claimed = []
+      localStorage.setItem(STREAK_KEY,  '0')
+      localStorage.setItem(CLAIMED_KEY, '[]')
+    }
+
     streakDays.value  = streak
     claimedDays.value = claimed
     earnedTotal.value = claimed.reduce((s, idx) => s + (rewards[idx]?.amount || 0), 0)
@@ -369,6 +383,15 @@ onMounted(() => { loadState() })
 .dsi-stats-left { color: rgba(26,10,0,0.8); font-weight: 600; }
 .dsi-stats-num  { font-size: 14px; font-weight: 900; color: #1a0a00; }
 .dsi-stats-txt  { color: rgba(26,10,0,0.75); }
+.dsi-streak-badge {
+  display: inline-flex; align-items: center;
+  background: rgba(220,38,38,0.85); color: #fff;
+  font-size: 10px; font-weight: 800; padding: 2px 7px;
+  border-radius: 99px; margin-left: 5px;
+  box-shadow: 0 2px 6px rgba(220,38,38,0.4);
+  animation: streak-pop 0.4s cubic-bezier(0.34,1.56,0.64,1);
+}
+@keyframes streak-pop { from { transform: scale(0.6); opacity: 0; } to { transform: scale(1); opacity: 1; } }
 .dsi-stats-right { display: flex; align-items: center; gap: 4px; }
 .dsi-stats-earn { font-size: 13px; font-weight: 900; color: #1a0a00; }
 .dsi-refresh-btn {

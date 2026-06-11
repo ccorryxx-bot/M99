@@ -169,8 +169,14 @@
             <button class="sw-spin-btn" :disabled="isSpinning||spinCount<=0" @click="doSpin">
               <span v-if="isSpinning">🎰 လှည့်နေသည်...</span>
               <span v-else-if="spinCount>0">🎯 လှည့်ပါ ({{ spinCount }} ကြိမ် ကျန်)</span>
-              <span v-else>ကြိုးများပြည့်သောအခါ</span>
+              <span v-else>🔒 ကြိုးများပြည့်ပြီ</span>
             </button>
+            <!-- Cooldown countdown -->
+            <div v-if="!isSpinning && spinCount <= 0 && nextSpinCountdown" class="sw-cooldown-wrap">
+              <svg width="13" height="13" fill="none" stroke="rgba(255,200,50,0.8)" stroke-width="2" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path stroke-linecap="round" d="M12 7v5l3 3"/></svg>
+              <span class="sw-cooldown-label">နောက်တစ်ကြိမ် spin ရနိုင်သည် ─</span>
+              <span class="sw-cooldown-time">{{ nextSpinCountdown }}</span>
+            </div>
 
             <!-- HISTORY -->
             <div class="sw-sec-hd">→ ငါ်မှတ်တမ်း ←</div>
@@ -194,7 +200,7 @@
 </template>
 
 <script setup>
-import { ref, computed, onMounted } from 'vue'
+import { ref, computed, onMounted, onUnmounted } from 'vue'
 import { supabase } from '@/supabase.js'
 
 const props = defineProps({ modelValue: Boolean })
@@ -230,6 +236,32 @@ const balance     = ref(0)
 const requirement = ref(3035)
 const voucherCode = ref('2C328BF09')
 
+// ── Cooldown Countdown ─────────────────────────────────────────────────────────
+const nextSpinCountdown = ref('')
+let countdownTimer = null
+function startCountdown() {
+  clearInterval(countdownTimer)
+  countdownTimer = setInterval(() => {
+    const now = new Date()
+    const midnight = new Date()
+    midnight.setHours(24, 0, 0, 0)
+    const diff = midnight - now
+    if (diff <= 0) {
+      clearInterval(countdownTimer)
+      // New day — give 1 free spin
+      localStorage.setItem(LS_CNT, '1')
+      localStorage.setItem(LS_DATE, new Date().toLocaleDateString('en-CA'))
+      spinCount.value = 1
+      nextSpinCountdown.value = ''
+      return
+    }
+    const h = String(Math.floor(diff / 3600000)).padStart(2,'0')
+    const m = String(Math.floor((diff % 3600000) / 60000)).padStart(2,'0')
+    const s = String(Math.floor((diff % 60000) / 1000)).padStart(2,'0')
+    nextSpinCountdown.value = `${h}:${m}:${s}`
+  }, 1000)
+}
+
 // ── Computed ───────────────────────────────────────────────────────────────────
 const displayBalance = computed(() => balance.value.toLocaleString('en',{minimumFractionDigits:2}))
 const balancePct     = computed(() => Math.min((balance.value/10000)*100,100))
@@ -261,8 +293,11 @@ function initState() {
     localStorage.setItem(LS_DATE, today)
     localStorage.setItem(LS_CNT, '1')
     spinCount.value = 1
+    nextSpinCountdown.value = ''
+    clearInterval(countdownTimer)
   } else {
     spinCount.value = parseInt(localStorage.getItem(LS_CNT)||'0')
+    if (spinCount.value <= 0) startCountdown()
   }
   try { spinHistory.value = JSON.parse(localStorage.getItem(LS_HIST)||'[]') } catch { spinHistory.value=[] }
 }
@@ -294,6 +329,7 @@ function doSpin() {
   wheelRot.value  = wheelRot.value + extra + (delta||360)
   spinCount.value--
   localStorage.setItem(LS_CNT, String(spinCount.value))
+  if (spinCount.value <= 0) startCountdown()
 
   setTimeout(() => {
     isSpinning.value = false
@@ -317,6 +353,7 @@ async function copyCode() {
 }
 
 onMounted(() => { initState(); fetchBalance() })
+onUnmounted(() => { clearInterval(countdownTimer) })
 </script>
 
 <style scoped>
@@ -522,6 +559,16 @@ onMounted(() => { initState(); fetchBalance() })
 }
 .sw-hist-dt{font-size:11px;color:rgba(255,255,255,.5);flex-shrink:0;white-space:nowrap}
 .sw-hist-txt{font-size:11px;color:rgba(255,255,255,.65)}
+
+/* ══ COOLDOWN ════════════════════════════════════════════════════════ */
+.sw-cooldown-wrap{
+  display:flex;align-items:center;justify-content:center;gap:5px;
+  padding:6px 10px;margin:0 0 6px;
+  background:rgba(255,200,50,0.07);border-radius:8px;
+  border:1px solid rgba(255,200,50,0.2);
+}
+.sw-cooldown-label{font-size:11px;color:rgba(255,200,50,0.75)}
+.sw-cooldown-time{font-size:13px;font-weight:800;color:#FFD700;font-variant-numeric:tabular-nums;letter-spacing:0.5px}
 
 /* ══ CLOSE BUTTON ═════════════════════════════════════════════════════ */
 .sw-close-btn{

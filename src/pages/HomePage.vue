@@ -234,6 +234,28 @@
           </div>
         </div>
       </div>
+      <!-- ══ RECENTLY PLAYED (logged-in users only) ══ -->
+      <div v-if="isLoggedIn && recentGames.length > 0" class="nova-recent-section">
+        <div class="nova-recent-header">
+          <span class="nova-recent-title">
+            <svg width="13" height="13" fill="none" stroke="rgba(251,191,36,0.9)" stroke-width="2.2" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path stroke-linecap="round" d="M12 7v5l3 3"/></svg>
+            မကြာမီ ကစားခဲ့သော
+          </span>
+          <button @click="activeCategory='recent'" class="nova-recent-more">အားလုံး »</button>
+        </div>
+        <div class="nova-recent-scroll">
+          <div v-for="game in recentGames" :key="'r-' + game.id"
+               class="nova-recent-card" @click="openGame(game)">
+            <div class="nova-recent-img-wrap">
+              <img :src="game.image_url" alt="" loading="lazy"
+                   @error="e=>e.target.style.display='none'"
+                   class="nova-recent-img"/>
+              <div class="nova-recent-overlay"></div>
+            </div>
+            <div class="nova-recent-name">{{ game.game_name }}</div>
+          </div>
+        </div>
+      </div>
       <!-- ══ CATEGORY BAR + GAME GRID ══ -->
       <div style="display:flex;flex-direction:column;" class="nova-game-area">
 
@@ -760,7 +782,9 @@
   import CategoryGamePanel from '@/components/CategoryGamePanel.vue'
   import NftAvatar from '@/components/NftAvatar.vue'
   import TxStatusTracker from '@/components/TxStatusTracker.vue'
-  import { useFavorites } from '@/composables/useFavorites'
+  import { useFavorites, loadFavoritesFromCloud } from '@/composables/useFavorites'
+  import { useRecentlyPlayed, loadRecentFromCloud } from '@/composables/useRecentlyPlayed'
+  import { setLocale } from '@/i18n'
 
   const route = useRoute()
 
@@ -795,6 +819,13 @@
   const regUsername = ref(''); const regPhone = ref(''); const regPassword = ref(''); const regShowPassword = ref(false); const regLoading = ref(false); const regError = ref(''); const reg18Agreed = ref(true)
   const regReferral = ref(''); const refAgentInfo = ref('')
   const searchVisible = ref(false); const searchQuery = ref('')
+  // Debounced search — 300ms delay to avoid re-render on every keystroke
+  const debouncedSearch = ref('')
+  let searchDebounceTimer = null
+  watch(searchQuery, (val) => {
+    clearTimeout(searchDebounceTimer)
+    searchDebounceTimer = setTimeout(() => { debouncedSearch.value = val }, 300)
+  })
   const showDepositModal = ref(false); const showWithdrawModal = ref(false)
   const showInbox = ref(false)
   const adminMessages = ref([])
@@ -854,6 +885,7 @@
 
   // Categories
   const categories = ref([
+    { id: 'recent', name: 'ထပ်ကစားမည်', emoji: '🕐', imageUrl: '' },
     { id:'popular', name:'နာမည်ကြီး', emoji:'🔥', imageUrl:'https://ik.imagekit.io/tdpebgueq/Provider%20label%20icons%20/Screenshot_2026-06-04-01-02-41-326_mark.via.gp_1780514832069edit.jpg?tr=f-auto' },
     { id:'slot',    name:'စလော့',     emoji:'🎰', imageUrl:'https://ik.imagekit.io/tdpebgueq/Provider%20label%20icons%20/Screenshot_2026-06-04-01-02-48-594_mark.via.gp_1780511877479edit.jpg?tr=f-auto' },
     { id:'fish',    name:'ငါးဖမ်း',   emoji:'🐬', imageUrl:'https://ik.imagekit.io/tdpebgueq/Provider%20label%20icons%20/Screenshot_2026-06-04-01-02-57-533_mark.via.gp_1780511863896edit.jpg?tr=f-auto' },
@@ -900,30 +932,31 @@
   }
   const filteredGames = computed(() => {
     let l = games.value
+    const q = debouncedSearch.value.toLowerCase()
     // Provider filter (overrides category)
     if (activeProvider.value) {
       l = l.filter(g => g.provider_code === activeProvider.value)
-      if (searchQuery.value) {
-        const q = searchQuery.value.toLowerCase()
-        l = l.filter(g => g.game_name?.toLowerCase().includes(q))
-      }
+      if (q) l = l.filter(g => g.game_name?.toLowerCase().includes(q) || g.provider_code?.toLowerCase().includes(q))
       return l
     }
-    // Category filter
+    // Category + Search combined filter
+    if (q) {
+      // When searching: ignore category, search all games
+      return l.filter(g => g.game_name?.toLowerCase().includes(q) || g.provider_code?.toLowerCase().includes(q) || g.category?.toLowerCase().includes(q))
+    }
     if (activeCategory.value === 'popular') {
       l = [...l].sort((a,b) => (b.play_count||0) - (a.play_count||0)).slice(0,18)
     } else if (activeCategory.value === 'fav') {
       l = filterFavGames(l)
+    } else if (activeCategory.value === 'recent') {
+      l = filterRecentGames(l)
     } else {
       l = l.filter(g => g.category === activeCategory.value)
     }
-    // Search filter
-    if (searchQuery.value) {
-      const q = searchQuery.value.toLowerCase()
-      l = l.filter(g => g.game_name?.toLowerCase().includes(q))
-    }
     return l
   })
+  // Recently played games for the quick-access row
+  const recentGames = computed(() => filterRecentGames(games.value).slice(0, 6))
 
   // Carousel: popular games ranked 19–72 (next pages after the 18-grid)
   const carouselPage = ref(0)
@@ -965,7 +998,7 @@
   const liveGames = computed(() => games.value.filter(g => g.category === 'live' || g.category === 'arcade').slice(0, 7))
 
   async function loadUserInfo() {
-    try { const {data:{session}}=await supabase.auth.getSession(); if(!session){isLoggedIn.value=false;return}; isLoggedIn.value=true; username.value=(session.user.email||'').replace(/@novabett\.internal$/,'').toUpperCase(); await fetchBalance() }
+    try { const {data:{session}}=await supabase.auth.getSession(); if(!session){isLoggedIn.value=false;return}; isLoggedIn.value=true; username.value=(session.user.email||'').replace(/@novabett\.internal$/,'').toUpperCase(); await fetchBalance(); loadFavoritesFromCloud(); loadRecentFromCloud() }
     catch { isLoggedIn.value=false }
   }
   async function fetchBalance() {
@@ -992,6 +1025,7 @@
   }
   async function openGame(game) {
     if(!isLoggedIn.value){showAuthModal.value=true;authTab.value='login';return}
+    addRecent(game.game_code)
     showToast({type:'loading',message:'ဂိမ်း ဖွင့်နေသည်...',duration:8000})
     try {
       const {data:{session}}=await supabase.auth.getSession()
@@ -1010,7 +1044,11 @@
       showToast({type:'fail',message:e.message==='session_expired'?'ပြန်လော့ဂ်အင်ဝင်ပါ':e.message||'ဂိမ်း ဖွင့်မရပါ'})
     }
   }
-  function toggleLanguage() { currentLang.value=currentLang.value==='en'?'mm':'en' }
+  function toggleLanguage() {
+    const next = currentLang.value === 'en' ? 'mm' : 'en'
+    currentLang.value = next
+    setLocale(next)
+  }
   const formatCurrency = n => new Intl.NumberFormat('en-US').format(n)
   async function handleDepositSubmit(data) { try { const token=(await supabase.auth.getSession()).data.session?.access_token; if(!token){showToast({type:'fail',message:'ဝင်ရောက်ပါ'});return}; const res=await fetch('https://vuywhhmwrqykukcemifd.supabase.co/functions/v1/deposit',{method:'POST',headers:{'Authorization':'Bearer '+token,'Content-Type':'application/json'},body:JSON.stringify({method:data.method,amount:data.amount,slip:data.slip})}); const result=await res.json(); if(result.error)throw new Error(result.error); showToast({type:'success',message:'ငွေသွင်းမှု အောင်မြင်ပါသည်'}); spawnConfetti(); setTimeout(()=>fetchBalance(),2000) } catch(e){showToast({type:'fail',message:e.message})} }
   async function handleWithdrawSubmit(data) { try { const token=(await supabase.auth.getSession()).data.session?.access_token; if(!token){showToast({type:'fail',message:'ဝင်ရောက်ပါ'});return}; const res=await fetch('https://vuywhhmwrqykukcemifd.supabase.co/functions/v1/withdraw',{method:'POST',headers:{'Authorization':'Bearer '+token,'Content-Type':'application/json'},body:JSON.stringify({method:data.method,phone:data.phone,accountName:data.accountName,amount:data.amount})}); const result=await res.json(); if(result.error)throw new Error(result.error); showToast({type:'success',message:'ငွေထုတ်မှု အောင်မြင်ပါသည်'}); spawnConfetti(); setTimeout(()=>fetchBalance(),2000) } catch(e){showToast({type:'fail',message:e.message})} }
@@ -1044,6 +1082,54 @@
 
   <style scoped>
   @import url('https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@300;600&display=swap');
+
+/* ══ RECENTLY PLAYED ══════════════════════════════════════════════════════ */
+.nova-recent-section {
+  padding: 8px 14px 4px;
+  border-bottom: 1px solid rgba(255,255,255,0.05);
+}
+.nova-recent-header {
+  display: flex; align-items: center; justify-content: space-between;
+  margin-bottom: 8px;
+}
+.nova-recent-title {
+  display: flex; align-items: center; gap: 5px;
+  font-size: 12px; font-weight: 700; color: rgba(255,255,255,0.75);
+}
+.nova-recent-more {
+  background: none; border: none; cursor: pointer;
+  font-size: 11px; font-weight: 600; color: rgba(34,197,94,0.8);
+  -webkit-tap-highlight-color: transparent;
+}
+.nova-recent-scroll {
+  display: flex; gap: 8px; overflow-x: auto; padding-bottom: 4px;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none;
+}
+.nova-recent-scroll::-webkit-scrollbar { display: none; }
+.nova-recent-card {
+  flex-shrink: 0; width: 68px; cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+}
+.nova-recent-img-wrap {
+  position: relative; width: 68px; height: 90px;
+  border-radius: 9px; overflow: hidden;
+  background: rgba(255,255,255,0.05);
+  border: 1px solid rgba(255,255,255,0.08);
+}
+.nova-recent-img {
+  width: 100%; height: 100%; object-fit: cover; display: block;
+}
+.nova-recent-overlay {
+  position: absolute; inset: 0;
+  background: linear-gradient(to top, rgba(6,8,18,0.75) 0%, transparent 55%);
+}
+.nova-recent-name {
+  margin-top: 4px; font-size: 9.5px; color: rgba(255,255,255,0.65);
+  overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+  text-align: center;
+}
+
   /* ── BASE ── */
   .nova-app { background: #07091b; min-height:100vh; color:#fff; -webkit-tap-highlight-color:rgba(0,0,0,0); overscroll-behavior:contain; -webkit-overflow-scrolling:touch; scroll-behavior:smooth; }
 .nova-bg-orb { position:fixed; border-radius:50%; pointer-events:none; z-index:0; will-change:transform; transform:translateZ(0); }

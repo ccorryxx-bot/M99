@@ -165,11 +165,17 @@ const messages = {
   }
 }
 
+const savedLocale = localStorage.getItem('iw99_locale') || 'en'
 const i18n = createI18n({
   legacy: false,
   locale: localStorage.getItem('lang') || 'mm',
   fallbackLocale: 'en',
   messages
 })
+
+export function setLocale(lang) {
+  i18n.global.locale.value = lang
+  localStorage.setItem('iw99_locale', lang)
+}
 
 export default i18n
