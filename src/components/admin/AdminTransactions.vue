@@ -84,7 +84,7 @@
         <!-- Actions -->
         <div class="a-tx-actions">
           <template v-if="tx.status==='pending'">
-            <button @click="quickApprove(tx.id)" :disabled="!!actionBusy[tx.id]" class="a-btn-sm a-btn-success">
+            <button @click="openApproveModal(tx)" :disabled="!!actionBusy[tx.id]" class="a-btn-sm a-btn-success">
               <span v-if="actionBusy[tx.id]==='approve'" class="a-spinner-sm"></span>
               <template v-else>✓</template>
             </button>
@@ -98,6 +98,70 @@
 
       <div v-if="!filteredList.length" class="a-empty">No transactions found</div>
     </div>
+
+    <!-- ── Approve with Actual Amount Modal ── -->
+    <Teleport to="body">
+      <div v-if="approveModal.open" class="tx-overlay" @click.self="approveModal.open=false">
+        <div class="tx-card">
+          <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:10px;">
+            <h3 class="tx-card-title" style="margin:0;">Approve Transaction</h3>
+            <button @click="approveModal.open=false" class="a-btn-sm a-btn-ghost" style="padding:2px 7px;">✕</button>
+          </div>
+
+          <!-- Requested amount banner -->
+          <div class="approve-req-banner">
+            <div class="approve-req-label">Request Amount</div>
+            <div class="approve-req-amt">{{ Number(approveModal.tx?.amount).toLocaleString() }} Ks</div>
+            <div class="approve-req-meta">
+              <span class="tx-method" style="font-size:9px;">{{ approveModal.tx?.method }}</span>
+              <span style="font-size:10px;color:#64748b;">{{ approveModal.tx?.username }}</span>
+            </div>
+          </div>
+
+          <!-- Actual amount input -->
+          <div class="approve-actual-section">
+            <label class="approve-actual-label">
+              <svg width="12" height="12" fill="none" stroke="#f59e0b" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 9v2m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+              Actual Received Amount (Ks)
+            </label>
+            <div class="approve-amt-wrap">
+              <span class="approve-k-prefix">K</span>
+              <input
+                v-model.number="approveModal.actualAmount"
+                type="number"
+                inputmode="numeric"
+                class="approve-amt-input"
+                placeholder="Enter actual amount..."
+                min="1"
+                ref="approveAmtRef"
+              />
+            </div>
+            <div v-if="approveModal.actualAmount && approveModal.actualAmount !== Number(approveModal.tx?.amount)" class="approve-diff-note">
+              <svg width="11" height="11" fill="none" stroke="#f59e0b" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M13 16h-1v-4h-1m1-4h.01"/><path stroke-linecap="round" stroke-linejoin="round" d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+              Requested {{ Number(approveModal.tx?.amount).toLocaleString() }} Ks → Will approve
+              <strong style="color:#0891b2;">{{ Number(approveModal.actualAmount).toLocaleString() }} Ks</strong>
+            </div>
+            <div v-else-if="approveModal.actualAmount && approveModal.actualAmount === Number(approveModal.tx?.amount)" class="approve-match-note">
+              <svg width="11" height="11" fill="none" stroke="#16a34a" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg>
+              Matches requested amount
+            </div>
+          </div>
+
+          <div style="display:flex;gap:8px;margin-top:12px;">
+            <button @click="approveModal.open=false" class="a-btn-sm a-btn-ghost" style="flex:1;">Cancel</button>
+            <button
+              @click="confirmApprove"
+              :disabled="approveModal.busy || !approveModal.actualAmount || approveModal.actualAmount < 1"
+              class="a-btn-sm a-btn-success"
+              style="flex:2;"
+            >
+              <span v-if="approveModal.busy" class="a-spinner-sm"></span>
+              <template v-else>✓ Approve {{ Number(approveModal.actualAmount || 0).toLocaleString() }} Ks</template>
+            </button>
+          </div>
+        </div>
+      </div>
+    </Teleport>
 
     <!-- Reject Modal -->
     <Teleport to="body">
@@ -137,7 +201,10 @@
           <div class="detail-grid">
             <div class="detail-row"><span class="dl">ID</span><span class="dv mono">{{ detail.tx?.id?.slice(0,20) }}...</span></div>
             <div class="detail-row"><span class="dl">Type</span><span class="dv">{{ detail.tx?.type }}</span></div>
-            <div class="detail-row"><span class="dl">Amount</span><span class="dv" style="color:#0891b2;font-size:15px;font-weight:900;">{{ Number(detail.tx?.amount).toLocaleString() }} Ks</span></div>
+            <div class="detail-row">
+              <span class="dl">Amount</span>
+              <span class="dv" style="color:#0891b2;font-size:15px;font-weight:900;">{{ Number(detail.tx?.amount).toLocaleString() }} Ks</span>
+            </div>
             <div class="detail-row"><span class="dl">Status</span><span class="a-sbadge" :class="`sb-${detail.tx?.status}`">{{ detail.tx?.status }}</span></div>
             <div class="detail-row"><span class="dl">Method</span><span class="dv">{{ detail.tx?.method }}</span></div>
             <div class="detail-row"><span class="dl">User</span><span class="dv">{{ detail.tx?.username || detail.tx?.user_id?.slice(0,14) }}</span></div>
@@ -147,6 +214,7 @@
             <div class="detail-row"><span class="dl">Date</span><span class="dv">{{ fmtDate(detail.tx?.created_at) }}</span></div>
             <div v-if="detail.tx?.reject_reason" class="detail-row"><span class="dl">Reject</span><span class="dv" style="color:#dc2626;">{{ detail.tx.reject_reason }}</span></div>
           </div>
+
           <!-- Slip Image Viewer -->
           <div v-if="detail.tx?.slip_url || detail.tx?.screenshot_url" class="slip-img-section">
             <div class="slip-img-label">📎 Slip Image</div>
@@ -161,40 +229,79 @@
               </div>
             </div>
           </div>
-          <div v-if="detail.tx?.status==='pending'" style="display:flex;gap:8px;margin-top:12px;">
-            <button @click="quickApprove(detail.tx.id);detail.open=false" class="a-btn-sm a-btn-success" style="flex:1;">✓ Approve</button>
-            <button @click="openRejectModal(detail.tx);detail.open=false" class="a-btn-sm a-btn-danger" style="flex:1;">✗ Reject</button>
+
+          <!-- Pending: Actual Amount Override Section -->
+          <div v-if="detail.tx?.status==='pending'" class="detail-approve-section">
+            <div class="detail-approve-title">
+              <svg width="13" height="13" fill="none" stroke="#f59e0b" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 9v2m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+              Actual Received Amount
+            </div>
+            <div class="approve-amt-wrap" style="margin-top:6px;">
+              <span class="approve-k-prefix">K</span>
+              <input
+                v-model.number="detail.actualAmount"
+                type="number"
+                inputmode="numeric"
+                class="approve-amt-input"
+                :placeholder="`Default: ${Number(detail.tx?.amount).toLocaleString()}`"
+                min="1"
+              />
+            </div>
+            <div v-if="detail.actualAmount && detail.actualAmount !== Number(detail.tx?.amount)" class="approve-diff-note" style="margin-top:5px;">
+              <svg width="11" height="11" fill="none" stroke="#f59e0b" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M13 16h-1v-4h-1m1-4h.01"/><path stroke-linecap="round" stroke-linejoin="round" d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+              Will approve <strong style="color:#0891b2;">{{ Number(detail.actualAmount).toLocaleString() }} Ks</strong>
+              instead of {{ Number(detail.tx?.amount).toLocaleString() }} Ks
+            </div>
+            <div style="display:flex;gap:8px;margin-top:10px;">
+              <button
+                @click="detailApprove"
+                :disabled="detailBusy"
+                class="a-btn-sm a-btn-success"
+                style="flex:1;"
+              >
+                <span v-if="detailBusy === 'approve'" class="a-spinner-sm"></span>
+                <template v-else>
+                  ✓ Approve {{ Number(detail.actualAmount || detail.tx?.amount).toLocaleString() }} Ks
+                </template>
+              </button>
+              <button
+                @click="openRejectModal(detail.tx);detail.open=false"
+                :disabled="!!detailBusy"
+                class="a-btn-sm a-btn-danger"
+                style="flex:1;"
+              >✗ Reject</button>
+            </div>
           </div>
         </div>
       </div>
     </Teleport>
 
-
-  <!-- Slip Lightbox -->
-  <Teleport to="body">
-    <Transition name="bulk-slide">
-      <div v-if="slipLightbox.open" class="slip-lightbox" @click="slipLightbox.open=false">
-        <img :src="slipLightbox.url" class="slip-lightbox-img" @click.stop />
-        <button @click="slipLightbox.open=false" class="slip-lightbox-close">✕</button>
-      </div>
-    </Transition>
-  </Teleport>
+    <!-- Slip Lightbox -->
+    <Teleport to="body">
+      <Transition name="bulk-slide">
+        <div v-if="slipLightbox.open" class="slip-lightbox" @click="slipLightbox.open=false">
+          <img :src="slipLightbox.url" class="slip-lightbox-img" @click.stop />
+          <button @click="slipLightbox.open=false" class="slip-lightbox-close">✕</button>
+        </div>
+      </Transition>
+    </Teleport>
 
   </div>
 </template>
 
 <script setup>
-import { ref, computed, onMounted, onUnmounted, reactive } from 'vue'
+import { ref, computed, onMounted, onUnmounted, reactive, nextTick } from 'vue'
 import { useAdmin } from '@/composables/useAdmin'
 import { supabase } from '@/supabase'
 
 const { txFilter, txList, txLoading, txErr, fmtDate, fetchTx, doApprove, writeAudit, showToast } = useAdmin()
 
-const txSearch   = ref('')
+const txSearch    = ref('')
 const bulkLoading = ref('')
-const rtLive     = ref(false)
-const actionBusy = reactive({})
+const rtLive      = ref(false)
+const actionBusy  = reactive({})
 const selectedIds = ref(new Set())
+const approveAmtRef = ref(null)
 let rtSub = null
 
 const pendingList = computed(() => txList.value.filter(t => t.status === 'pending'))
@@ -226,10 +333,30 @@ function toggleOne(id) {
 }
 function clearSelection() { selectedIds.value = new Set() }
 
-async function quickApprove(id) {
-  actionBusy[id] = 'approve'
-  try { await doApprove(id, 'approve') }
-  finally { delete actionBusy[id] }
+// ── Approve Modal (with actual amount override) ────────────────────────────────
+const approveModal = reactive({ open: false, tx: null, actualAmount: 0, busy: false })
+
+function openApproveModal(tx) {
+  Object.assign(approveModal, {
+    open: true,
+    tx,
+    actualAmount: Number(tx.amount) || 0,
+    busy: false
+  })
+  nextTick(() => approveAmtRef.value?.focus())
+}
+
+async function confirmApprove() {
+  if (!approveModal.actualAmount || approveModal.actualAmount < 1) return
+  approveModal.busy = true
+  actionBusy[approveModal.tx.id] = 'approve'
+  try {
+    await doApprove(approveModal.tx.id, 'approve', approveModal.actualAmount)
+    approveModal.open = false
+  } finally {
+    approveModal.busy = false
+    delete actionBusy[approveModal.tx.id]
+  }
 }
 
 async function bulkAction(action) {
@@ -243,6 +370,7 @@ async function bulkAction(action) {
   } finally { bulkLoading.value = '' }
 }
 
+// ── Reject Modal ────────────────────────────────────────────────────────────────
 const rejectModal = reactive({ open: false, tx: null, reason: '', note: '', busy: false })
 function openRejectModal(tx) { Object.assign(rejectModal, { open: true, tx, reason: '', note: '', busy: false }) }
 async function confirmReject() {
@@ -254,7 +382,9 @@ async function confirmReject() {
   } finally { rejectModal.busy = false }
 }
 
-const detail = reactive({ open: false, tx: null })
+// ── Detail Modal ────────────────────────────────────────────────────────────────
+const detail = reactive({ open: false, tx: null, actualAmount: null })
+const detailBusy = ref('')
 const slipLightbox = reactive({ open: false, url: '' })
 
 async function getSlipSignedUrl(path) {
@@ -265,7 +395,22 @@ async function getSlipSignedUrl(path) {
     return data?.signedUrl || path
   } catch { return path }
 }
-function openDetail(tx) { Object.assign(detail, { open: true, tx }) }
+
+function openDetail(tx) {
+  Object.assign(detail, { open: true, tx, actualAmount: Number(tx.amount) || 0 })
+}
+
+async function detailApprove() {
+  if (!detail.tx) return
+  detailBusy.value = 'approve'
+  const amt = detail.actualAmount && detail.actualAmount > 0
+    ? detail.actualAmount
+    : Number(detail.tx.amount)
+  try {
+    await doApprove(detail.tx.id, 'approve', amt)
+    detail.open = false
+  } finally { detailBusy.value = '' }
+}
 
 function setupRealtime() {
   rtSub = supabase.channel('admin-tx')
@@ -318,4 +463,58 @@ onUnmounted(() => { if (rtSub) supabase.removeChannel(rtSub) })
 .slip-lightbox-img { max-width:90vw;max-height:88vh;object-fit:contain;border-radius:8px; }
 .slip-lightbox-close { position:absolute;top:16px;right:16px;background:rgba(255,255,255,.15);border:none;border-radius:50%;width:36px;height:36px;color:#fff;font-size:16px;cursor:pointer; }
 
+/* ── Approve Modal ── */
+.approve-req-banner {
+  background:linear-gradient(135deg,rgba(8,145,178,.08),rgba(8,145,178,.04));
+  border:1px solid rgba(8,145,178,.2);
+  border-radius:8px;
+  padding:10px 12px;
+  margin-bottom:12px;
+}
+.approve-req-label { font-size:9px;font-weight:700;color:#94a3b8;text-transform:uppercase;margin-bottom:2px; }
+.approve-req-amt { font-size:18px;font-weight:900;color:#0891b2;margin-bottom:4px; }
+.approve-req-meta { display:flex;align-items:center;gap:6px; }
+.approve-actual-section { background:#fffbeb;border:1px solid #fde68a;border-radius:8px;padding:10px 12px; }
+.approve-actual-label {
+  display:flex;align-items:center;gap:5px;
+  font-size:10px;font-weight:700;color:#92400e;margin-bottom:6px;
+}
+.approve-amt-wrap {
+  display:flex;align-items:center;
+  background:#fff;border:1.5px solid #fbbf24;border-radius:7px;
+  overflow:hidden;
+}
+.approve-k-prefix {
+  padding:0 8px;font-size:13px;font-weight:800;
+  color:#d97706;background:#fef3c7;
+  border-right:1px solid #fde68a;
+  align-self:stretch;display:flex;align-items:center;
+}
+.approve-amt-input {
+  flex:1;padding:9px 10px;border:none;outline:none;
+  font-size:15px;font-weight:700;color:#0f172a;
+  background:transparent;
+}
+.approve-amt-input::placeholder { color:#cbd5e1;font-weight:400; }
+.approve-diff-note {
+  display:flex;align-items:center;gap:4px;margin-top:6px;
+  font-size:10px;color:#92400e;background:#fef9c3;
+  padding:5px 8px;border-radius:5px;flex-wrap:wrap;
+}
+.approve-match-note {
+  display:flex;align-items:center;gap:4px;margin-top:6px;
+  font-size:10px;color:#166534;background:#dcfce7;
+  padding:5px 8px;border-radius:5px;
+}
+
+/* ── Detail Approve Section ── */
+.detail-approve-section {
+  margin-top:12px;padding-top:12px;
+  border-top:2px dashed #fde68a;
+}
+.detail-approve-title {
+  display:flex;align-items:center;gap:5px;
+  font-size:10px;font-weight:700;color:#92400e;
+  text-transform:uppercase;margin-bottom:0;
+}
 </style>
