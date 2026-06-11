@@ -1,5 +1,5 @@
 <template>
-  <nav class="gnav" v-show="route.path !== '/agent'">
+  <nav class="gnav" v-show="route.path !== '/agent' && route.path !== '/network'">
     <div class="gnav-inner">
 
       <!-- HOME -->
