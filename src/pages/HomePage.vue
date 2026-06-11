@@ -203,7 +203,7 @@
             </div>
             <!-- UAB -->
             <div style="display:flex;flex-direction:column;align-items:center;gap:1px;cursor:pointer;" @click="showDepositModal=true">
-              <div class="qsc-icon" style="width:30px;height:30px;border-radius:7px;border:1.5px solid rgba(74,222,128,0.55);background:rgba(74,222,128,0.06);box-shadow:0 0 6px rgba(74,222,128,0.15);animation-delay:0.6s;overflow:hidden;display:flex;align-items:center;justify-content:center;"><img src="https://ik.imagekit.io/0xfxtkccz/Uab/1781043612091.png?tr=f-auto" style="width:100%;height:100%;object-fit:cover;" @error="e=>e.target.style.display='none'"/></div>
+              <div class="qsc-icon" style="width:30px;height:30px;border-radius:7px;border:1.5px solid rgba(74,222,128,0.55);background:rgba(74,222,128,0.06);box-shadow:0 0 6px rgba(74,222,128,0.15);animation-delay:0.6s;overflow:hidden;display:flex;align-items:center;justify-content:center;"><img src="https://ik.imagekit.io/0xfxtkccz/Uab/1781076796857.png?tr=f-auto" style="width:100%;height:100%;object-fit:cover;" @error="e=>e.target.style.display='none'"/></div>
               <span style="font-size:8px;color:rgba(255,255,255,0.6);font-weight:600;">UAB</span>
             </div>
             <!-- VIP -->
@@ -879,7 +879,13 @@
   }
 
   // Banner
-  const bannerImages = ref(['https://ik.imagekit.io/tdpebgueq/NOVABETT,%20BANNER%20/1780215182926.png?tr=f-auto','https://ik.imagekit.io/tdpebgueq/NOVABETT,%20BANNER%20/f9b69370-5cc9-11f1-b238-fb0c6456ca35%20(5).png?tr=f-auto','https://ik.imagekit.io/tdpebgueq/NOVABETT,%20BANNER%20/1780214089706.png?tr=f-auto'])
+  const bannerImages = ref([
+    'https://ik.imagekit.io/0xfxtkccz/Uab/1781087771311.png?tr=f-webp',
+    'https://ik.imagekit.io/0xfxtkccz/Uab/1781161577511.png?tr=f-webp',
+    'https://ik.imagekit.io/0xfxtkccz/Uab/1781161712719.png?tr=f-webp',
+    'https://ik.imagekit.io/0xfxtkccz/Uab/1781161412813.png?tr=f-webp',
+    'https://ik.imagekit.io/0xfxtkccz/Uab/1781161952144.png?tr=f-webp',
+  ])
 
   const licenseLogos = [
     'https://ik.imagekit.io/tdpebgueq/Home%20Page%20_icons_linces%20logo/a1cf5bf7-e61c-4590-843e-5d5c4d3d90de.png?tr=f-auto',
