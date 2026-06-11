@@ -9,7 +9,6 @@ const routes = [
   { path: '/daily-bonus',   component: () => import('@/pages/DailyBonusPage.vue'),   meta: { requiresAuth: true } },
   { path: '/network',       component: () => import('@/pages/ReferralPage.vue'),      meta: { requiresAuth: true } },
   { path: '/agent',         component: () => import('@/pages/AgentDashboard.vue'),    meta: { requiresAuth: true } },
-  { path: '/service',       component: () => import('@/pages/ServicePage.vue'),       meta: { requiresAuth: true } },
   { path: '/account',       component: () => import('@/pages/AccountPage.vue') },
   { path: '/device-sessions', component: () => import('@/pages/DeviceSessionsPage.vue'), meta: { requiresAuth: true } },
   { path: '/admin',         component: () => import('@/pages/AdminDashboard.vue') },
