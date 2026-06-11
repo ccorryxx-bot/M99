@@ -979,6 +979,7 @@
 
 <script setup>
 import { ref, reactive, computed, onMounted } from 'vue'
+import { useRoute } from 'vue-router'
 import { supabase } from '@/supabase'
 import WithdrawModal from '@/components/WithdrawModal.vue'
 import DailySignInModal from '@/components/DailySignInModal.vue'
@@ -1325,6 +1326,8 @@ async function fetchWallet() {
   } catch {} finally { setTimeout(() => { refreshing.value = false }, 500) }
 }
 
+const route = useRoute()
+
 onMounted(async () => {
   const { data: { session } } = await supabase.auth.getSession()
   isLoggedIn.value = !!session
@@ -1332,6 +1335,11 @@ onMounted(async () => {
     fetchWallet()
     loadVip()
     setInterval(fetchWallet, 5000)
+  }
+  // Auto-open CS panel when navigated with ?cs=open query param
+  if (route.query.cs === 'open') {
+    showCs.value = true
+    csTab.value = 'service'
   }
 })
 
