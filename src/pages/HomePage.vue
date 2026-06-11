@@ -799,6 +799,7 @@
   const balanceHidden = ref(localStorage.getItem('iw99_bal_hidden') === '1')
   function toggleBalanceHide() { balanceHidden.value = !balanceHidden.value; localStorage.setItem('iw99_bal_hidden', balanceHidden.value ? '1' : '0') }
   const { isFav, toggleFav, favCount, filterFavGames } = useFavorites()
+  const { recentIds, addRecent, filterRecentGames } = useRecentlyPlayed()
   // PWA install prompt
   const pwaPrompt = ref(null)
   const showPwaBanner = ref(false)
