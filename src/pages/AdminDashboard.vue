@@ -85,6 +85,7 @@
         <AdminProviders     v-if="activeTab===17" />
         <AdminBanners       v-if="activeTab===18" />
         <AdminReferralTree  v-if="activeTab===19" />
+        <AdminURLs          v-if="activeTab===20" />
       </div>
     </div>
 
@@ -124,6 +125,7 @@ import AdminSessions     from '@/components/admin/AdminSessions.vue'
 import AdminProviders    from '@/components/admin/AdminProviders.vue'
 import AdminBanners      from '@/components/admin/AdminBanners.vue'
 import AdminReferralTree from '@/components/admin/AdminReferralTree.vue'
+import AdminURLs        from '@/components/admin/AdminURLs.vue'
 
 const {
   adminKey, loggedIn, loginLoading, loginErr,
@@ -154,6 +156,7 @@ const tabs = [
   { label: 'Providers',  icon: '<path stroke-linecap="round" stroke-linejoin="round" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"/>' },
   { label: 'Banners',    icon: '<path stroke-linecap="round" stroke-linejoin="round" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"/>' },
   { label: 'Referral',   icon: '<path stroke-linecap="round" stroke-linejoin="round" d="M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.102-1.101m-.758-4.899a4 4 0 005.656 0l4-4a4 4 0 00-5.656-5.656l-1.1 1.1"/>' },
+  { label: 'URLs',       icon: '<path stroke-linecap="round" stroke-linejoin="round" d="M13.19 8.688a4.5 4.5 0 011.242 7.244l-4.5 4.5a4.5 4.5 0 01-6.364-6.364l1.757-1.757m13.35-.622l1.757-1.757a4.5 4.5 0 00-6.364-6.364l-4.5 4.5a4.5 4.5 0 001.242 7.244"/>' },
 ]
 
 const switchTab = async (i) => {
