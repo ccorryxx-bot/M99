@@ -1254,10 +1254,10 @@
     // TODO: connect action here
   }
 
-  // ── FAB: CS — navigate directly to Customer Service page ────────────────
+  // ── FAB: CS — open the CS panel inside Account page ─────────────────────
   const { getSetting } = useSettings()
   function openCsPage() {
-    router.push('/service')
+    router.push('/account?cs=open')
   }
 
   onMounted(()=>{
