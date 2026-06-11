@@ -871,6 +871,43 @@
           </div>
         </Transition>
       </Teleport>
+
+      <!-- ══ FLOATING ACTION BUTTONS (FAB) ══ -->
+      <Teleport to="body">
+        <div class="nova-fab-stack">
+          <!-- CS / Live Chat -->
+          <button class="nova-fab nova-fab--cs" @click="openCsChat" title="Customer Service">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
+              <path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+              <circle cx="9" cy="10" r="1" fill="#fff"/>
+              <circle cx="12" cy="10" r="1" fill="#fff"/>
+              <circle cx="15" cy="10" r="1" fill="#fff"/>
+            </svg>
+            <span class="nova-fab-label">CS</span>
+          </button>
+
+          <!-- Deposit -->
+          <button class="nova-fab nova-fab--deposit" @click="showDepositModal=true" title="ငွေသွင်း">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
+              <rect x="2" y="7" width="20" height="13" rx="2.5" stroke="#fff" stroke-width="1.8"/>
+              <path d="M2 11h20" stroke="#fff" stroke-width="1.8"/>
+              <path d="M12 2v5M10 4l2-2 2 2" stroke="#fff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+            <span class="nova-fab-label">သွင်း</span>
+          </button>
+
+          <!-- Withdraw -->
+          <button class="nova-fab nova-fab--withdraw" @click="showWithdrawModal=true" title="ငွေထုတ်">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
+              <rect x="2" y="7" width="20" height="13" rx="2.5" stroke="#fff" stroke-width="1.8"/>
+              <path d="M2 11h20" stroke="#fff" stroke-width="1.8"/>
+              <path d="M12 22v-5M10 20l2 2 2-2" stroke="#fff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+            <span class="nova-fab-label">ထုတ်</span>
+          </button>
+        </div>
+      </Teleport>
+
     </div>
 
   <!-- ── Provider Game Panel ── -->
@@ -903,6 +940,7 @@
   import { useFavorites, loadFavoritesFromCloud } from '@/composables/useFavorites'
   import { useRecentlyPlayed, loadRecentFromCloud } from '@/composables/useRecentlyPlayed'
   import { setLocale } from '@/i18n'
+  import { useSettings, loadSettings } from '@/composables/useSettings'
 
   const route = useRoute()
 
@@ -1211,7 +1249,18 @@
     } catch {}
   }
 
+  // ── FAB: CS chat link from system_settings ──────────────────────────────
+  const { getSetting } = useSettings()
+  function openCsChat() {
+    const livechat = getSetting('cs_livechat_url')
+    const telegram  = getSetting('cs_telegram')
+    const url = livechat || telegram
+    if (url) { window.open(url, '_blank') }
+    else { window.open('/service', '_self') }
+  }
+
   onMounted(()=>{
+    loadSettings()
     loadUserInfo(); fetchGames(); startBannerTimer(); fetchAdminMessages()
     // Auto-open auth panel from URL query (?auth=register|login) + auto-fill referral
     const params = new URLSearchParams(window.location.search)
@@ -2098,4 +2147,85 @@
   .nova-pg-anim[data-dir="left"]  { animation: pgFromLeft  0.28s cubic-bezier(0.22,1,0.36,1); will-change: transform, opacity; }
   @keyframes pgFromRight { from { transform: translateX(28px); opacity: 0; } to { transform: translateX(0); opacity: 1; } }
   @keyframes pgFromLeft  { from { transform: translateX(-28px); opacity: 0; } to { transform: translateX(0); opacity: 1; } }
+</style>
+
+<style>
+/* ══ FLOATING ACTION BUTTONS — global (Teleport to body) ══════════════════ */
+.nova-fab-stack {
+  position: fixed;
+  right: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 8888;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  pointer-events: none;
+}
+
+.nova-fab {
+  pointer-events: all;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 3px;
+  width: 48px;
+  height: 54px;
+  border: none;
+  border-radius: 14px;
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+  box-shadow: 0 4px 18px rgba(0,0,0,0.45), 0 1px 4px rgba(0,0,0,0.3);
+  transition: transform 0.18s cubic-bezier(0.34,1.56,0.64,1), box-shadow 0.18s ease;
+  animation: fabSlideIn 0.4s cubic-bezier(0.34,1.56,0.64,1) both;
+}
+.nova-fab:active {
+  transform: scale(0.91);
+  box-shadow: 0 2px 8px rgba(0,0,0,0.4);
+}
+
+/* CS button — blue/indigo */
+.nova-fab--cs {
+  background: linear-gradient(145deg, #4f46e5, #6366f1);
+  border: 1.5px solid rgba(99,102,241,0.6);
+  animation-delay: 0s;
+}
+.nova-fab--cs:hover { box-shadow: 0 6px 24px rgba(99,102,241,0.55); }
+
+/* Deposit button — green */
+.nova-fab--deposit {
+  background: linear-gradient(145deg, #16a34a, #22c55e);
+  border: 1.5px solid rgba(34,197,94,0.55);
+  animation-delay: 0.08s;
+}
+.nova-fab--deposit:hover { box-shadow: 0 6px 24px rgba(34,197,94,0.5); }
+
+/* Withdraw button — amber/gold */
+.nova-fab--withdraw {
+  background: linear-gradient(145deg, #b45309, #f59e0b);
+  border: 1.5px solid rgba(245,158,11,0.55);
+  animation-delay: 0.16s;
+}
+.nova-fab--withdraw:hover { box-shadow: 0 6px 24px rgba(245,158,11,0.5); }
+
+.nova-fab-label {
+  font-size: 9px;
+  font-weight: 800;
+  color: rgba(255,255,255,0.92);
+  letter-spacing: 0.03em;
+  line-height: 1;
+}
+
+@keyframes fabSlideIn {
+  from { opacity: 0; transform: translateX(24px) scale(0.8); }
+  to   { opacity: 1; transform: translateX(0)    scale(1); }
+}
+
+/* ── On very small screens, shrink slightly ── */
+@media (max-width: 360px) {
+  .nova-fab { width: 42px; height: 48px; border-radius: 12px; }
+  .nova-fab svg { width: 17px; height: 17px; }
+}
 </style>
