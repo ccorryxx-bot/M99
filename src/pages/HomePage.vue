@@ -606,6 +606,7 @@
       <!-- ══ MODALS ══ -->
       <DepositModal v-model="showDepositModal" @submit="handleDepositSubmit"/>
       <WithdrawModal v-model="showWithdrawModal" :balance="mainBalance" @submit="handleWithdrawSubmit"/>
+      <SpinWheelModal v-model="showSpinWheel" />
       <TxStatusTracker v-if="isLoggedIn" />
       <!-- PWA Install Banner -->
       <Transition name="pwa-slide">
@@ -884,19 +885,23 @@
       <!-- ══ FLOATING ACTION BUTTONS (FAB) ══ -->
       <Teleport to="body">
         <div class="nova-fab-stack">
-          <!-- CS / Live Chat -->
-          <button class="nova-fab nova-fab--cs" @click="openCsChat" title="Customer Service">
-            <img src="https://ik.imagekit.io/0xfxtkccz/Uab/marketing_medium_dx_2_15.avif?tr=f-auto" class="nova-fab-img" alt="CS" />
+          <!-- Wheel / Lucky Spin -->
+          <button class="nova-fab nova-fab--wheel" @click="showSpinWheel=true" title="Lucky Wheel">
+            <img src="https://ik.imagekit.io/0xfxtkccz/Uab/marketing_medium_dx_2_15.avif?tr=f-auto" class="nova-fab-img" alt="Wheel"
+              @error="e=>e.target.style.display='none'" />
+            <svg v-if="false" width="26" height="26" viewBox="0 0 24 24" fill="none" style="display:none"></svg>
           </button>
 
-          <!-- Deposit -->
-          <button class="nova-fab nova-fab--deposit" @click="showDepositModal=true" title="ငွေသွင်း">
-            <img src="https://ik.imagekit.io/0xfxtkccz/Uab/marketing_medium_dx_1_09.avif?tr=f-auto" class="nova-fab-img" alt="ငွေသွင်း" />
+          <!-- CS / Customer Service -->
+          <button class="nova-fab nova-fab--cs" @click="openCsPage" title="Customer Service">
+            <img src="https://ik.imagekit.io/0xfxtkccz/Uab/marketing_medium_dx_1_09.avif?tr=f-auto" class="nova-fab-img" alt="CS"
+              @error="e=>e.target.style.display='none'" />
           </button>
 
-          <!-- Withdraw -->
-          <button class="nova-fab nova-fab--withdraw" @click="showWithdrawModal=true" title="ငွေထုတ်">
-            <img src="https://ik.imagekit.io/0xfxtkccz/Uab/2028706161105256449.avif?tr=f-auto" class="nova-fab-img" alt="ငွေထုတ်" />
+          <!-- Payment / Deposit -->
+          <button class="nova-fab nova-fab--payment" @click="showDepositModal=true" title="ငွေသွင်း">
+            <img src="https://ik.imagekit.io/0xfxtkccz/Uab/2028706161105256449.avif?tr=f-auto" class="nova-fab-img" alt="ငွေသွင်း"
+              @error="e=>e.target.style.display='none'" />
           </button>
         </div>
       </Teleport>
@@ -921,11 +926,12 @@
 
   <script setup>
   import { ref, computed, onMounted, onUnmounted, nextTick, watch } from 'vue'
-  import { useRoute } from 'vue-router'
+  import { useRoute, useRouter } from 'vue-router'
   import { showToast } from 'vant'
   import { supabase } from '@/supabase'
   import DepositModal from '@/components/DepositModal.vue'
   import WithdrawModal from '@/components/WithdrawModal.vue'
+  import SpinWheelModal from '@/components/SpinWheelModal.vue'
   import ProviderGamePanel from '@/components/ProviderGamePanel.vue'
   import CategoryGamePanel from '@/components/CategoryGamePanel.vue'
   import NftAvatar from '@/components/NftAvatar.vue'
@@ -936,6 +942,7 @@
   import { useSettings, loadSettings } from '@/composables/useSettings'
 
   const route = useRoute()
+  const router = useRouter()
 
   // ── Blank URL slots — fill these with real links ──
   const depositUrl  = ref('')   // TODO: add deposit page URL
@@ -998,7 +1005,7 @@
     clearTimeout(searchDebounceTimer)
     searchDebounceTimer = setTimeout(() => { debouncedSearch.value = val }, 300)
   })
-  const showDepositModal = ref(false); const showWithdrawModal = ref(false)
+  const showDepositModal = ref(false); const showWithdrawModal = ref(false); const showSpinWheel = ref(false)
   const showInbox = ref(false)
   const adminMessages = ref([])
   const balanceRefreshing = ref(false)
@@ -1247,14 +1254,10 @@
     // TODO: connect action here
   }
 
-  // ── FAB: CS chat link from system_settings ──────────────────────────────
+  // ── FAB: CS — navigate directly to Customer Service page ────────────────
   const { getSetting } = useSettings()
-  function openCsChat() {
-    const livechat = getSetting('cs_livechat_url')
-    const telegram  = getSetting('cs_telegram')
-    const url = livechat || telegram
-    if (url) { window.open(url, '_blank') }
-    else { window.open('/service', '_self') }
+  function openCsPage() {
+    router.push('/service')
   }
 
   onMounted(()=>{
@@ -2180,9 +2183,9 @@
 }
 .nova-fab:active { transform: scale(0.88); }
 
-.nova-fab--cs      { animation-delay: 0s; }
-.nova-fab--deposit { animation-delay: 0.08s; }
-.nova-fab--withdraw{ animation-delay: 0.16s; }
+.nova-fab--wheel   { animation-delay: 0s; }
+.nova-fab--cs      { animation-delay: 0.08s; }
+.nova-fab--payment { animation-delay: 0.16s; }
 
 .nova-fab-img {
   width: 100%;
