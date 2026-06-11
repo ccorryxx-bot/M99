@@ -160,18 +160,28 @@
       <div v-if="isLoggedIn" style="padding:10px 14px;display:flex;align-items:center;justify-content:space-between;background:rgba(34,197,94,0.04);border-bottom:1px solid rgba(34,197,94,0.08);">
         <!-- LEFT: Avatar + info -->
         <div style="display:flex;align-items:center;gap:10px;">
-          <NftAvatar :username="username" :size="38" />
+          <!-- Avatar with Myanmar flag above -->
+          <div style="display:flex;flex-direction:column;align-items:center;gap:2px;">
+            <span style="font-size:15px;line-height:1;filter:drop-shadow(0 1px 4px rgba(0,0,0,0.6));">🇲🇲</span>
+            <NftAvatar :username="username" :size="38" />
+          </div>
           <div>
             <div style="font-size:11px;font-weight:700;color:#4ade80;margin-bottom:3px;letter-spacing:0.04em;text-shadow:0 0 8px rgba(74,222,128,0.6);">{{ username }}</div>
             <div style="display:flex;align-items:center;gap:6px;">
               <div style="font-size:17px;font-weight:900;color:#4ade80;">{{ balanceHidden ? '••••••' : formatCurrency(mainBalance) }} <span style="font-size:10px;color:rgba(255,255,255,0.3);">MMK</span></div>
-              <button @click="toggleBalanceHide" style="background:none;border:none;cursor:pointer;padding:2px 3px;display:flex;align-items:center;color:rgba(255,255,255,0.4);">
-                <svg v-if="!balanceHidden" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
-                <svg v-else width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M17.94 17.94A10.07 10.07 0 0112 20c-7 0-11-8-11-8a18.45 18.45 0 015.06-5.94M9.9 4.24A9.12 9.12 0 0112 4c7 0 11 8 11 8a18.5 18.5 0 01-2.16 3.19m-6.72-1.07a3 3 0 11-4.24-4.24"/><line x1="1" y1="1" x2="23" y2="23"/></svg>
-              </button>
-              <button @click="refreshBalance" :class="['refresh-toggle', { 'refresh-toggle--spin': balanceRefreshing }]">
-                <svg class="refresh-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#4ade80" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="23 4 23 10 17 10"/><path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10"/></svg>
-              </button>
+              <!-- Eye + Refresh stacked vertically -->
+              <div style="display:flex;flex-direction:column;align-items:center;gap:4px;">
+                <!-- Eye toggle -->
+                <button @click="toggleBalanceHide" class="nova-eye-btn">
+                  <svg v-if="!balanceHidden" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+                  <svg v-else width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M17.94 17.94A10.07 10.07 0 0112 20c-7 0-11-8-11-8a18.45 18.45 0 015.06-5.94M9.9 4.24A9.12 9.12 0 0112 4c7 0 11 8 11 8a18.5 18.5 0 01-2.16 3.19m-6.72-1.07a3 3 0 11-4.24-4.24"/><line x1="1" y1="1" x2="23" y2="23"/></svg>
+                </button>
+                <!-- Cool Refresh toggle -->
+                <button @click="refreshBalance" :class="['nova-refresh-btn', { 'nova-refresh-btn--spinning': balanceRefreshing }]" :disabled="balanceRefreshing">
+                  <span class="nova-refresh-ring"></span>
+                  <svg class="nova-refresh-arrow" width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round"><polyline points="23 4 23 10 17 10"/><path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10"/></svg>
+                </button>
+              </div>
             </div>
           </div>
         </div>
@@ -1546,7 +1556,56 @@
     from { transform: rotate(0deg); }
     to   { transform: rotate(360deg); }
   }
-.refresh-toggle {  background: transparent;  border: none;  padding: 3px;  cursor: pointer;  display: flex;  align-items: center;  justify-content: center;  opacity: 0.85;  transition: opacity 0.2s;}.refresh-toggle .refresh-icon {  display: block;  transition: opacity 0.2s;}.refresh-toggle--spin .refresh-icon {  animation: refresh-spin 0.65s linear infinite;  opacity: 0.55;}@keyframes refresh-spin {  from { transform: rotate(0deg); }  to   { transform: rotate(360deg); }}
+/* ── Eye button ── */
+.nova-eye-btn {
+  background: rgba(255,255,255,0.06);
+  border: 1px solid rgba(255,255,255,0.12);
+  border-radius: 6px;
+  padding: 3px 4px;
+  cursor: pointer;
+  display: flex; align-items: center; justify-content: center;
+  color: rgba(255,255,255,0.5);
+  transition: all 0.2s;
+  -webkit-tap-highlight-color: transparent;
+}
+.nova-eye-btn:active { transform: scale(0.9); }
+
+/* ── Cool Refresh button ── */
+.nova-refresh-btn {
+  position: relative;
+  width: 24px; height: 24px;
+  background: linear-gradient(135deg, rgba(74,222,128,0.15), rgba(16,185,129,0.08));
+  border: 1.5px solid rgba(74,222,128,0.5);
+  border-radius: 8px;
+  cursor: pointer;
+  display: flex; align-items: center; justify-content: center;
+  color: #4ade80;
+  overflow: hidden;
+  transition: all 0.25s;
+  box-shadow: 0 0 8px rgba(74,222,128,0.2), inset 0 0 6px rgba(74,222,128,0.05);
+  -webkit-tap-highlight-color: transparent;
+}
+.nova-refresh-btn:not(:disabled):active {
+  transform: scale(0.88);
+  box-shadow: 0 0 14px rgba(74,222,128,0.45);
+}
+.nova-refresh-btn:disabled { opacity: 0.5; cursor: default; }
+
+/* Animated ring sweep on idle */
+.nova-refresh-ring {
+  position: absolute; inset: -1px;
+  border-radius: 8px;
+  background: conic-gradient(rgba(74,222,128,0.55) 0deg, transparent 90deg, transparent 360deg);
+  animation: nova-ring-spin 2.5s linear infinite;
+  opacity: 0.6;
+}
+@keyframes nova-ring-spin { to { transform: rotate(360deg); } }
+
+/* Arrow spins fast when refreshing */
+.nova-refresh-arrow { position: relative; z-index: 1; transition: transform 0.3s; }
+.nova-refresh-btn--spinning .nova-refresh-arrow { animation: nova-arr-spin 0.5s linear infinite; }
+.nova-refresh-btn--spinning .nova-refresh-ring { animation: nova-ring-spin 0.4s linear infinite; opacity: 1; }
+@keyframes nova-arr-spin { from { transform: rotate(0deg); } to { transform: rotate(-360deg); } }
 .qrow { display:flex; align-items:center; justify-content:space-around; padding:0 10px 10px; gap:4px; }.qrow--compact { padding:0; gap:3px; }.qbtn { display:flex; flex-direction:column; align-items:center; gap:3px; cursor:pointer; -webkit-tap-highlight-color:transparent; user-select:none; flex:1; }.qbtn-frame { width:42px; height:42px; border-radius:10px; border:1.5px solid rgba(74,222,128,0.55); background:rgba(74,222,128,0.06); display:flex; align-items:center; justify-content:center; box-shadow:0 0 8px rgba(74,222,128,0.18); overflow:hidden; position:relative; }.qbtn-img-blank { width:100%; height:100%; background:rgba(74,222,128,0.04); }.qbtn-frame--sm { width:32px; height:32px; border-radius:8px; }.qbtn-icon-wrap--sm { width:32px; height:32px; border-radius:8px; }.qbtn-frame::after { content:''; position:absolute; inset:0; border-radius:9px; border:1px solid rgba(74,222,128,0.25); pointer-events:none; }.qbtn-icon-wrap { width:42px; height:42px; border-radius:10px; display:flex; align-items:center; justify-content:center; }.qbtn-icon-wrap--vip { background:linear-gradient(135deg,rgba(245,158,11,0.22),rgba(217,119,6,0.12)); border:1.5px solid rgba(251,191,36,0.6); box-shadow:0 0 10px rgba(251,191,36,0.28); }.qbtn-icon-wrap--bot { background:linear-gradient(135deg,rgba(74,222,128,0.15),rgba(16,185,129,0.08)); border:1.5px solid rgba(74,222,128,0.55); box-shadow:0 0 10px rgba(74,222,128,0.22); }.qbtn-icon-wrap--dl { background:linear-gradient(135deg,rgba(34,211,238,0.15),rgba(6,182,212,0.08)); border:1.5px solid rgba(34,211,238,0.55); box-shadow:0 0 10px rgba(34,211,238,0.22); }.qbtn-lbl { font-size:9px; font-weight:600; color:rgba(255,255,255,0.65); letter-spacing:0.02em; text-align:center; }.qbtn-lbl--vip { color:#fbbf24; text-shadow:0 0 6px rgba(251,191,36,0.5); }.qbtn-lbl--bot { color:#4ade80; text-shadow:0 0 6px rgba(74,222,128,0.4); }.qbtn-lbl--dl { color:#22d3ee; text-shadow:0 0 6px rgba(34,211,238,0.4); }.qbtn:active .qbtn-frame,.qbtn:active .qbtn-icon-wrap { transform:scale(0.93); opacity:0.8; }
 
 .qsc-icon { animation: qsc-bounce 1.8s ease-in-out infinite; }
