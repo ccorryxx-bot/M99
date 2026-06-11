@@ -872,6 +872,15 @@
         </Transition>
       </Teleport>
 
+      <!-- ══ LEFT FLOATING ACTION BUTTON ══ -->
+      <Teleport to="body">
+        <div class="nova-fab-stack-left">
+          <button class="nova-fab nova-fab--left" @click="onLeftFabClick" title="Action">
+            <img src="https://ik.imagekit.io/0xfxtkccz/Uab/2062000831807586305.avif?tr=f-auto" class="nova-fab-img" alt="Action" />
+          </button>
+        </div>
+      </Teleport>
+
       <!-- ══ FLOATING ACTION BUTTONS (FAB) ══ -->
       <Teleport to="body">
         <div class="nova-fab-stack">
@@ -1231,6 +1240,11 @@
         time: m.created_at ? new Date(m.created_at).toLocaleDateString('en-GB', { day:'numeric', month:'short', year:'numeric' }) : '—'
       }))
     } catch {}
+  }
+
+  // ── Left FAB — logic to be connected later ──────────────────────────────
+  function onLeftFabClick() {
+    // TODO: connect action here
   }
 
   // ── FAB: CS chat link from system_settings ──────────────────────────────
@@ -2183,8 +2197,24 @@
   to   { opacity: 1; transform: translateX(0)     scale(1); }
 }
 
+/* ── Left side FAB ── */
+.nova-fab-stack-left {
+  position: fixed;
+  left: 8px;
+  bottom: 80px;
+  z-index: 8888;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  pointer-events: none;
+}
+.nova-fab--left {
+  animation-delay: 0s;
+}
+
 @media (max-width: 360px) {
   .nova-fab { width: 50px; height: 50px; }
   .nova-fab-stack { bottom: 75px; right: 6px; }
+  .nova-fab-stack-left { bottom: 75px; left: 6px; }
 }
 </style>
