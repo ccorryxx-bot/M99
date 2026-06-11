@@ -16,7 +16,7 @@ export default async function handler(req, res) {
   if (!SR_KEY)   return res.status(500).json({ error: 'Server misconfigured: SUPABASE_SERVICE_ROLE not set' })
   if (!ANON_KEY) return res.status(500).json({ error: 'Server misconfigured: VITE_SUPABASE_ANON_KEY not set' })
 
-  const { adminKey, txId, action } = req.body || {}
+  const { adminKey, txId, action, overrideAmount } = req.body || {}
   if (!adminKey || !txId || !action)        return res.status(400).json({ error: 'Missing required fields' })
   if (!['approve', 'reject'].includes(action)) return res.status(400).json({ error: 'Invalid action' })
 
@@ -39,7 +39,32 @@ export default async function handler(req, res) {
     if (txErr || !tx) return res.status(404).json({ error: 'Transaction not found' })
     if (tx.status !== 'pending') return res.status(409).json({ error: `Already ${tx.status}` })
 
-    // 4. Update transaction status
+    // 4. Determine final amount — use overrideAmount if provided and valid
+    const requestedAmt = Number(tx.amount) || 0
+    const parsedOverride = overrideAmount !== undefined && overrideAmount !== null
+      ? Number(overrideAmount)
+      : null
+    const finalAmt = (action === 'approve' && parsedOverride !== null && parsedOverride > 0)
+      ? parsedOverride
+      : requestedAmt
+
+    // 5. If amount was overridden, update the transaction record first
+    if (action === 'approve' && parsedOverride !== null && parsedOverride !== requestedAmt) {
+      const { error: amtErr } = await admin
+        .from('transactions')
+        .update({ amount: finalAmt, override_note: `Admin adjusted: ${requestedAmt} → ${finalAmt}` })
+        .eq('id', txId)
+      if (amtErr) {
+        // override_note column may not exist — try without it
+        const { error: amtErr2 } = await admin
+          .from('transactions')
+          .update({ amount: finalAmt })
+          .eq('id', txId)
+        if (amtErr2) return res.status(500).json({ error: 'Amount update failed: ' + amtErr2.message })
+      }
+    }
+
+    // 6. Update transaction status
     const newStatus = action === 'approve' ? 'confirmed' : 'rejected'
     const { error: statusErr } = await admin
       .from('transactions')
@@ -47,7 +72,7 @@ export default async function handler(req, res) {
       .eq('id', txId)
     if (statusErr) return res.status(500).json({ error: 'Status update failed: ' + statusErr.message })
 
-    // 5. Adjust wallet balance on approval
+    // 7. Adjust wallet balance on approval
     if (action === 'approve') {
       const { data: wallet, error: wErr } = await admin
         .from('wallets')
@@ -57,8 +82,7 @@ export default async function handler(req, res) {
       if (wErr || !wallet) return res.status(500).json({ error: 'Wallet not found' })
 
       const curr   = Number(wallet.main_balance) || 0
-      const amt    = Number(tx.amount) || 0
-      const newBal = tx.type === 'deposit' ? curr + amt : Math.max(0, curr - amt)
+      const newBal = tx.type === 'deposit' ? curr + finalAmt : Math.max(0, curr - finalAmt)
 
       const { error: balErr } = await admin
         .from('wallets')
@@ -67,7 +91,12 @@ export default async function handler(req, res) {
       if (balErr) return res.status(500).json({ error: 'Balance update failed: ' + balErr.message })
     }
 
-    return res.status(200).json({ ok: true, status: newStatus })
+    return res.status(200).json({
+      ok: true,
+      status: newStatus,
+      finalAmount: finalAmt,
+      wasOverridden: parsedOverride !== null && parsedOverride !== requestedAmt
+    })
   } catch (e) {
     return res.status(500).json({ error: e.message || 'Unexpected error' })
   }
