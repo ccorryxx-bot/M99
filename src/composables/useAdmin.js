@@ -318,32 +318,40 @@ export const fetchTx = async () => {
     txList.value = data || []
   } catch (e) { txErr.value = e.message } finally { txLoading.value = false }
 }
-const _doApproveDirect = async (id, action) => {
+const _doApproveDirect = async (id, action, overrideAmount = null) => {
+  const body = { adminKey: adminKey.value, txId: id, action }
+  if (overrideAmount !== null && overrideAmount > 0) body.overrideAmount = overrideAmount
   const res = await fetch('/api/admin/process-tx', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ adminKey: adminKey.value, txId: id, action })
+    body: JSON.stringify(body)
   })
   const data = await res.json()
   if (!res.ok) throw new Error(data.error || `Server error ${res.status}`)
 }
 
-export const doApprove = async (id, action) => {
+export const doApprove = async (id, action, overrideAmount = null) => {
   try {
-    const { data, error } = await supabase.rpc('admin_process_transaction', {
-      p_key: adminKey.value, p_tx_id: id, p_action: action
-    })
-    if (error) {
-      const msg = error.message || ''
-      if (msg.includes('balance') || msg.includes('DEFAULT') || msg.includes('generated') || error.code === '428C9') {
-        await _doApproveDirect(id, action)
-      } else {
-        throw error
+    // If a custom amount is provided, skip the RPC (which doesn't support overrides)
+    // and go directly to the serverless API that handles amount adjustments
+    if (overrideAmount !== null && overrideAmount > 0) {
+      await _doApproveDirect(id, action, overrideAmount)
+    } else {
+      const { data, error } = await supabase.rpc('admin_process_transaction', {
+        p_key: adminKey.value, p_tx_id: id, p_action: action
+      })
+      if (error) {
+        const msg = error.message || ''
+        if (msg.includes('balance') || msg.includes('DEFAULT') || msg.includes('generated') || error.code === '428C9') {
+          await _doApproveDirect(id, action)
+        } else {
+          throw error
+        }
       }
     }
     showToast(action === 'approve' ? 'Approved ✓' : 'Rejected', 'success')
     fetchTx()
-    writeAudit(action.toUpperCase() + '_TX', id, '')
+    writeAudit(action.toUpperCase() + '_TX', id, overrideAmount ? `override:${overrideAmount}` : '')
     loadStats()
   } catch (e) { showToast(e.message, 'error') }
 }
