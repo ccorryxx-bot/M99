@@ -264,14 +264,36 @@ export const login = async () => {
   try {
     const { data, error } = await supabase.rpc('validate_admin', { p_key: adminKey.value })
     if (error) throw error
-    if (data) { loggedIn.value = true; startPendingRefresh(); await loadOverview() }
+    if (data) {
+      loggedIn.value = true
+      try { sessionStorage.setItem('iw99_admin_key', adminKey.value) } catch(e) {}
+      startPendingRefresh()
+      await loadOverview()
+    }
     else loginErr.value = 'Invalid credentials'
   } catch (e) { loginErr.value = e.message }
   finally { loginLoading.value = false }
 }
 export const logout = () => {
   loggedIn.value = false; adminKey.value = ''; activeTab.value = 0
+  try { sessionStorage.removeItem('iw99_admin_key') } catch(e) {}
   leftDrawer.value = false; playerPanel.value = false
+}
+export const tryAutoLogin = async () => {
+  let saved = ''
+  try { saved = sessionStorage.getItem('iw99_admin_key') || '' } catch(e) {}
+  if (!saved) return false
+  try {
+    const { data } = await supabase.rpc('validate_admin', { p_key: saved })
+    if (data) {
+      adminKey.value = saved
+      loggedIn.value = true
+      startPendingRefresh()
+      return true
+    }
+  } catch(e) {}
+  try { sessionStorage.removeItem('iw99_admin_key') } catch(e) {}
+  return false
 }
 
 // ── Overview ──────────────────────────────────────────────────────────────────
@@ -737,9 +759,11 @@ export function useAdmin() {
     loadReport, exportTxCsv, exportReportXlsx,
     ggrData, ggrLoading, ggrFrom, ggrTo, loadGGR,
     notifPermission, notifSub, lastPendingCount,
+    syncEnabled, syncConnected, newPendingCount,
     telegramTesting, telegramMsg, telegramOk,
     requestNotifPermission, playNotifSound, showBrowserNotif,
     setupRealtimeNotifications, teardownRealtimeNotifications,
+    tryAutoLogin,
     testTelegram, sendTelegramDailySummary,
     exportXlsx, computeRiskScore, fetchUsersWithRisk,
     SUPA_URL,
@@ -755,9 +779,12 @@ export const ggrFrom    = ref(new Date(Date.now() - 7 * 86400000).toISOString().
 export const ggrTo      = ref(new Date().toISOString().split('T')[0])
 
 // ── Notification / Realtime State ─────────────────────────────────────────────
-export const notifPermission = ref('default')
-export const notifSub        = ref(null)
+export const notifPermission  = ref('default')
+export const notifSub         = ref(null)
 export const lastPendingCount = ref(0)
+export const syncEnabled      = ref(true)
+export const syncConnected    = ref(false)
+export const newPendingCount  = ref(0)
 
 // ── Telegram State ────────────────────────────────────────────────────────────
 export const telegramTesting = ref(false)
@@ -849,11 +876,13 @@ export const showBrowserNotif = (title, body) => {
 
 export const setupRealtimeNotifications = () => {
   if (notifSub.value) return
+  syncConnected.value = false
   notifSub.value = supabase.channel('admin-notif-channel')
     .on('postgres_changes', { event: 'INSERT', schema: 'public', table: 'transactions' }, (payload) => {
       const tx = payload.new
       if (tx.status === 'pending') {
         stats.value.pending_tx = (stats.value.pending_tx || 0) + 1
+        newPendingCount.value = (newPendingCount.value || 0) + 1
         playNotifSound()
         const type = tx.type === 'deposit' ? '💰 New Deposit' : '💸 New Withdrawal'
         const amt  = Number(tx.amount || 0).toLocaleString()
@@ -861,7 +890,9 @@ export const setupRealtimeNotifications = () => {
         showToast(`🔔 ${type}: ${amt} Ks`, 'info')
       }
     })
-    .subscribe()
+    .subscribe((status) => {
+      syncConnected.value = (status === 'SUBSCRIBED')
+    })
 }
 
 export const teardownRealtimeNotifications = () => {
@@ -869,6 +900,7 @@ export const teardownRealtimeNotifications = () => {
     supabase.removeChannel(notifSub.value)
     notifSub.value = null
   }
+  syncConnected.value = false
 }
 
 // ── Telegram Alert ─────────────────────────────────────────────────────────────
