@@ -259,35 +259,13 @@
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M15 19l-7-7 7-7"/>
                   </svg>
                 </button>
-                <!-- Slip Image Upload -->
-                <div class="s2-slip-section">
-                  <div class="s2-ref-label">ငွေလွှဲပြေစာ (Slip Image) — Optional</div>
-                  <input ref="slipFileInput" type="file" accept="image/*" @change="onSlipSelect" style="display:none;" />
-                  <!-- No file: single upload tap area -->
-                  <div v-if="!slipFile" class="s2-slip-upload-area" @click="$refs.slipFileInput.click()" @dragover.prevent @drop.prevent="onSlipDrop">
-                    <div class="s2-slip-placeholder">
-                      <svg width="20" height="20" fill="none" stroke="#94a3b8" stroke-width="1.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>
-                      <span>Slip ပုံ ရွေးချယ်ရန် နှိပ်ပါ</span>
-                    </div>
-                  </div>
-                  <!-- File selected: compact chip -->
-                  <div v-else class="s2-slip-chip" @click="$refs.slipFileInput.click()">
-                    <img v-if="slipPreview" :src="slipPreview" class="s2-slip-chip-thumb" alt="slip" />
-                    <svg v-else width="22" height="22" fill="none" stroke="#6b7280" stroke-width="1.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>
-                    <span class="s2-slip-chip-name">{{ slipFile.name }}</span>
-                    <button @click.stop="clearSlip" class="s2-slip-chip-clear">✕</button>
-                  </div>
-                  <div v-if="slipUploading" class="s2-slip-progress">
-                    <div class="s2-slip-prog-bar" :style="{width:slipProgress+'%'}"></div>
-                  </div>
-                </div>
-                <div class="s2-confirm-wrap">
+                  <div class="s2-confirm-wrap">
                   <Transition name="s2-sttoast">
                     <div v-if="submitToast.visible" class="s2-submit-toast" :class="submitToast.type==='success'?'s2-submit-toast--ok':'s2-submit-toast--err'">
                       {{ submitToast.msg }}
                     </div>
                   </Transition>
-                  <button @click="submitDeposit" :disabled="slipUploading||submitting" class="s2-confirm-btn" :class="submitting&&'s2-confirm-btn--busy'">
+                  <button @click="submitDeposit" :disabled="submitting" class="s2-confirm-btn" :class="submitting&&'s2-confirm-btn--busy'">
                     {{ submitting ? 'တင်နေသည်...' : 'အတည်ပြုမည် ✓' }}
                   </button>
                 </div>
@@ -482,10 +460,6 @@ const copyText = async (text) => {
   try { await navigator.clipboard.writeText(text); copied.value=true; setTimeout(()=>{ copied.value=false },1500) }
   catch { prompt('Copy manually:', text) }
 }
-const slipPreview   = ref(null)
-const slipFile      = ref(null)
-const slipUploading = ref(false)
-const slipProgress  = ref(0)
 const submitting    = ref(false)
 
 const submitToast = ref({ visible: false, type: '', msg: '' })
@@ -496,47 +470,11 @@ function showSubmitToast(type, msg) {
   _stTimer = setTimeout(() => { submitToast.value.visible = false }, 3500)
 }
 
-function onSlipSelect(e) {
-  const file = e.target.files?.[0]
-  if (!file) return
-  slipFile.value = file
-  const reader = new FileReader()
-  reader.onload = (ev) => { slipPreview.value = ev.target.result }
-  reader.readAsDataURL(file)
-}
-function onSlipDrop(e) {
-  const file = e.dataTransfer.files?.[0]
-  if (!file || !file.type.startsWith('image/')) return
-  slipFile.value = file
-  const reader = new FileReader()
-  reader.onload = (ev) => { slipPreview.value = ev.target.result }
-  reader.readAsDataURL(file)
-}
-function clearSlip() { slipPreview.value = null; slipFile.value = null; slipProgress.value = 0 }
-
 const submitDeposit = async () => {
-  if (submitting.value || slipUploading.value) return
+  if (submitting.value) return
   submitting.value = true
 
-  // 1. Upload slip image (optional)
-  let slipUrl = null
-  if (slipFile.value) {
-    try {
-      slipUploading.value = true
-      slipProgress.value  = 30
-      const ext  = slipFile.value.name.split('.').pop() || 'jpg'
-      const path = `slips/${Date.now()}_${Math.random().toString(36).slice(2)}.${ext}`
-      const { error: upErr } = await supabase.storage.from('slip-uploads').upload(path, slipFile.value, { upsert: false })
-      slipProgress.value = 80
-      if (!upErr) {
-        const { data: urlData } = supabase.storage.from('slip-uploads').getPublicUrl(path)
-        slipUrl = urlData?.publicUrl || path
-      }
-      slipProgress.value = 100
-    } catch(e) { /* non-fatal */ } finally { slipUploading.value = false }
-  }
-
-  // 2. Check auth
+  // 1. Check auth
   const { data: { user } } = await supabase.auth.getUser()
   if (!user) {
     showSubmitToast('fail', '❌ အကောင့်ဝင်ရောက်ပါ')
@@ -552,7 +490,6 @@ const submitDeposit = async () => {
     amount:       amount.value,
     status:       'pending',
     slip_last5:   transactionRef.value || null,
-    slip_url:     slipUrl,
     bonus_option: bonusOption.value,
   })
 
@@ -872,38 +809,4 @@ const submitDeposit = async () => {
 .toast-enter-from   { opacity:0;transform:translateY(4px); }
 .toast-leave-to     { opacity:0; }
 
-.s2-slip-section { margin-bottom:12px; }
-.s2-slip-upload-area { border:2px dashed #e2e8f0;border-radius:10px;cursor:pointer;min-height:72px;display:flex;align-items:center;justify-content:center;transition:border-color .2s;overflow:hidden;position:relative; }
-.s2-slip-upload-area:active { border-color:#4f46e5; }
-.s2-slip-placeholder { display:flex;flex-direction:column;align-items:center;gap:6px;padding:16px;color:#94a3b8;font-size:11px; }
-/* Compact chip after file selected */
-.s2-slip-chip {
-  display:flex;align-items:center;gap:8px;
-  padding:7px 10px;
-  border:1.5px solid #d1d5db;border-radius:10px;
-  background:#f9fafb;cursor:pointer;
-  transition:border-color .15s;
-  overflow:hidden;
-}
-.s2-slip-chip:active { border-color:#4f46e5;background:#f5f3ff; }
-.s2-slip-chip-thumb {
-  width:36px;height:36px;border-radius:6px;
-  object-fit:cover;flex-shrink:0;
-  border:1px solid #e5e7eb;
-}
-.s2-slip-chip-name {
-  flex:1;font-size:11px;font-weight:600;color:#374151;
-  white-space:nowrap;overflow:hidden;text-overflow:ellipsis;
-  min-width:0;
-}
-.s2-slip-chip-clear {
-  flex-shrink:0;width:22px;height:22px;border-radius:50%;
-  border:none;outline:none;cursor:pointer;
-  background:#e5e7eb;color:#6b7280;
-  font-size:11px;display:flex;align-items:center;justify-content:center;
-  transition:background .15s;
-}
-.s2-slip-chip-clear:active { background:#fecaca;color:#dc2626; }
-.s2-slip-progress { height:3px;background:#e2e8f0;border-radius:2px;overflow:hidden;margin-top:4px; }
-.s2-slip-prog-bar { height:100%;background:#4f46e5;transition:width .3s; }
 </style>
