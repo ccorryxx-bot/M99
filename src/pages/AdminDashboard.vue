@@ -30,6 +30,11 @@
           <svg width="11" height="11" fill="none" stroke="currentColor" stroke-width="2.2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
           {{ stats.pending_tx }} Pending
         </div>
+        <!-- Sync Toggle -->
+        <button v-if="loggedIn" @click="toggleSync" class="a-sync-toggle" :class="syncConnected ? 'a-sync--live' : syncEnabled ? 'a-sync--connecting' : 'a-sync--off'" :title="syncConnected ? 'Live sync ON — click to disable' : syncEnabled ? 'Connecting...' : 'Sync OFF — click to enable'">
+          <span class="a-sync-dot"></span>
+          <span class="a-sync-lbl">{{ syncConnected ? 'Live' : syncEnabled ? '···' : 'Off' }}</span>
+        </button>
         <button v-if="loggedIn" @click="logout" class="a-logout">
           <svg width="14" height="14" fill="none" stroke="#64748b" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"/></svg>
         </button>
@@ -40,7 +45,7 @@
           class="a-tab" :class="activeTab===i?'a-tab--on':''">
           <svg width="11" height="11" fill="none" stroke="currentColor" stroke-width="2.2" viewBox="0 0 24 24" v-html="tab.icon"></svg>
           {{ tab.label }}
-          <span v-if="i===1 && stats.pending_tx > 0" class="a-tab-badge">{{ stats.pending_tx }}</span>
+          <span v-if="i===1 && (newPendingCount > 0 || stats.pending_tx > 0)" class="a-tab-badge">{{ newPendingCount > 0 ? newPendingCount : stats.pending_tx }}</span>
         </button>
       </div>
     </header>
@@ -130,8 +135,9 @@ import AdminURLs        from '@/components/admin/AdminURLs.vue'
 const {
   adminKey, loggedIn, loginLoading, loginErr,
   activeTab, leftDrawer, playerPanel, toast, stats,
-  login, logout,
-  fetchTx, fetchSett, fetchUsers, fetchGames, fetchMsgs, loadOverview,
+  login, logout, tryAutoLogin,
+  syncEnabled, syncConnected, newPendingCount,
+  fetchTx, fetchSett, fetchUsers, fetchGames, fetchMsgs, loadOverview, loadStats,
   fetchPromos, fetchAgents, fetchCommTx, fetchAuditLog, fetchIpList,
 } = useAdmin()
 
@@ -161,7 +167,7 @@ const tabs = [
 
 const switchTab = async (i) => {
   activeTab.value = i; leftDrawer.value = false
-  if (i === 1) { stats.value.pending_tx = 0; fetchTx() }
+  if (i === 1) { newPendingCount.value = 0; fetchTx(); loadStats() }
   if (i === 2)  fetchSett()
   if (i === 3)  fetchUsers()
   if (i === 4)  fetchGames()
@@ -174,12 +180,25 @@ const switchTab = async (i) => {
   if (i === 19) fetchAgents()
 }
 
+const toggleSync = () => {
+  if (syncEnabled.value) {
+    syncEnabled.value = false
+    teardownRealtimeNotifications()
+  } else {
+    syncEnabled.value = true
+    setupRealtimeNotifications()
+  }
+}
+
 import { onMounted, onUnmounted } from 'vue'
 onMounted(async () => {
-  loadOverview()
-  fetchSett()
   try { await requestNotifPermission() } catch(e) {}
   setupRealtimeNotifications()
+  const restored = await tryAutoLogin()
+  if (restored) {
+    await loadOverview()
+    fetchSett()
+  }
 })
 onUnmounted(() => { teardownRealtimeNotifications() })
 </script>
@@ -370,6 +389,26 @@ onUnmounted(() => { teardownRealtimeNotifications() })
 @keyframes tab-badge-pop { from { transform: scale(0.4); opacity: 0; } to { transform: scale(1); opacity: 1; } }
 .a-logout { flex-shrink: 0; background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 7px; padding: 6px 8px; cursor: pointer; display: flex; align-items: center; }
 .a-logout:active { background: #f1f5f9; }
+
+/* ═══ SYNC TOGGLE ════════════════════════════════════════════════ */
+.a-sync-toggle {
+  flex-shrink: 0; display: flex; align-items: center; gap: 4px;
+  border: none; border-radius: 99px; padding: 5px 9px;
+  font-size: 9px; font-weight: 800; cursor: pointer;
+  transition: background 0.2s, color 0.2s; letter-spacing: 0.04em;
+}
+.a-sync-dot {
+  width: 7px; height: 7px; border-radius: 50%; flex-shrink: 0;
+  transition: background 0.3s;
+}
+.a-sync-lbl { line-height: 1; }
+.a-sync--live   { background: #dcfce7; color: #15803d; }
+.a-sync--live   .a-sync-dot { background: #16a34a; animation: sync-pulse 2s infinite; }
+.a-sync--connecting { background: #fef9c3; color: #854d0e; }
+.a-sync--connecting .a-sync-dot { background: #f59e0b; animation: sync-pulse 0.8s infinite; }
+.a-sync--off    { background: #f1f5f9; color: #94a3b8; }
+.a-sync--off    .a-sync-dot { background: #cbd5e1; }
+@keyframes sync-pulse { 0%,100%{opacity:1;transform:scale(1)} 50%{opacity:0.5;transform:scale(0.8)} }
 
 /* ═══ PENDING BADGE ════════════════════════════════════════════════ */
 .a-pending-badge {
