@@ -208,7 +208,7 @@ export const fmtDate = d => {
   if (!d) return '—'
   const dt = new Date(d)
   const date = dt.toLocaleDateString('en-GB', { year: 'numeric', month: 'short', day: 'numeric' })
-  const time = dt.toLocaleTimeString('en-GB', { hour: '2-digit', minute: '2-digit', second: '2-digit', hour12: false })
+  const time = dt.toLocaleTimeString('en-GB', { hour: '2-digit', minute: '2-digit', second: '2-digit', hour12: true })
   return `${date} ${time}`
 }
 
