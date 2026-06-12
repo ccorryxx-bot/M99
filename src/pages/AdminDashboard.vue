@@ -45,7 +45,7 @@
           class="a-tab" :class="activeTab===i?'a-tab--on':''">
           <svg width="11" height="11" fill="none" stroke="currentColor" stroke-width="2.2" viewBox="0 0 24 24" v-html="tab.icon"></svg>
           {{ tab.label }}
-          <span v-if="i===1 && (newPendingCount > 0 || stats.pending_tx > 0)" class="a-tab-badge">{{ newPendingCount > 0 ? newPendingCount : stats.pending_tx }}</span>
+          <span v-if="i===1 && stats.pending_tx > 0" class="a-tab-badge">{{ stats.pending_tx }}</span>
         </button>
       </div>
     </header>
@@ -167,7 +167,7 @@ const tabs = [
 
 const switchTab = async (i) => {
   activeTab.value = i; leftDrawer.value = false
-  if (i === 1) { newPendingCount.value = 0; fetchTx(); loadStats() }
+  if (i === 1) { fetchTx(); loadStats() }
   if (i === 2)  fetchSett()
   if (i === 3)  fetchUsers()
   if (i === 4)  fetchGames()
