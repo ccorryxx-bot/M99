@@ -1192,7 +1192,13 @@
       try {
         const {data:ud}=await supabase.from('users').select('phone,member_account').eq('id',session.user.id).single()
         if(ud?.phone) userPhone.value=ud.phone
-        if(ud?.member_account) memberAccount.value=ud.member_account
+        if(ud?.member_account) {
+          memberAccount.value=ud.member_account
+        } else {
+          // Fallback: generate member_account from user UUID (Diamond pattern: hdf801 + first 10 hex chars of UUID)
+          const uuidNoDash=session.user.id.replace(/-/g,'')
+          memberAccount.value='hdf801'+uuidNoDash.substring(0,10)
+        }
       } catch {}
       await fetchBalance(); loadFavoritesFromCloud(); loadRecentFromCloud()
     } catch { isLoggedIn.value=false }
