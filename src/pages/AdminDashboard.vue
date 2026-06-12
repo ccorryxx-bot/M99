@@ -40,7 +40,7 @@
           class="a-tab" :class="activeTab===i?'a-tab--on':''">
           <svg width="11" height="11" fill="none" stroke="currentColor" stroke-width="2.2" viewBox="0 0 24 24" v-html="tab.icon"></svg>
           {{ tab.label }}
-          <span v-if="i===1 && stats.pending_tx > 0" class="a-tab-dot"></span>
+          <span v-if="i===1 && stats.pending_tx > 0" class="a-tab-badge">{{ stats.pending_tx }}</span>
         </button>
       </div>
     </header>
@@ -161,8 +161,7 @@ const tabs = [
 
 const switchTab = async (i) => {
   activeTab.value = i; leftDrawer.value = false
-  if (i === 0)  loadOverview()
-  if (i === 1)  fetchTx()
+  if (i === 1) { stats.value.pending_tx = 0; fetchTx() }
   if (i === 2)  fetchSett()
   if (i === 3)  fetchUsers()
   if (i === 4)  fetchGames()
@@ -360,7 +359,15 @@ onUnmounted(() => { teardownRealtimeNotifications() })
   color: #94a3b8; cursor: pointer; transition: color 0.15s, border-color 0.15s;
 }
 .a-tab--on { color: #4f46e5; border-bottom-color: #4f46e5; }
-.a-tab-dot { position: absolute; top: 6px; right: 6px; width: 6px; height: 6px; border-radius: 50%; background: #dc2626; }
+.a-tab-badge {
+  position: absolute; top: 3px; right: 2px;
+  min-width: 16px; height: 16px; padding: 0 4px;
+  border-radius: 99px; background: #dc2626; color: #fff;
+  font-size: 9px; font-weight: 800; line-height: 16px;
+  text-align: center; pointer-events: none;
+  animation: tab-badge-pop 0.25s cubic-bezier(.36,.07,.19,.97) both;
+}
+@keyframes tab-badge-pop { from { transform: scale(0.4); opacity: 0; } to { transform: scale(1); opacity: 1; } }
 .a-logout { flex-shrink: 0; background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 7px; padding: 6px 8px; cursor: pointer; display: flex; align-items: center; }
 .a-logout:active { background: #f1f5f9; }
 
