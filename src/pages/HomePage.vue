@@ -604,7 +604,7 @@
       </div>
 
       <!-- ══ MODALS ══ -->
-      <DepositModal v-model="showDepositModal" @submit="handleDepositSubmit"/>
+      <DepositModal v-model="showDepositModal" @deposited="handleDepositSubmit"/>
       <WithdrawModal v-model="showWithdrawModal" :balance="mainBalance" @submit="handleWithdrawSubmit"/>
       <SpinWheelModal v-model="showSpinWheel" />
       <TxStatusTracker v-if="isLoggedIn" />
@@ -1235,7 +1235,7 @@
     setLocale(next)
   }
   const formatCurrency = n => new Intl.NumberFormat('en-US').format(n)
-  async function handleDepositSubmit(data) { try { const token=(await supabase.auth.getSession()).data.session?.access_token; if(!token){showToast({type:'fail',message:'ဝင်ရောက်ပါ'});return}; const res=await fetch('https://vuywhhmwrqykukcemifd.supabase.co/functions/v1/deposit',{method:'POST',headers:{'Authorization':'Bearer '+token,'Content-Type':'application/json'},body:JSON.stringify({method:data.method,amount:data.amount,slip:data.slip})}); const result=await res.json(); if(result.error)throw new Error(result.error); showToast({type:'success',message:'ငွေသွင်းမှု အောင်မြင်ပါသည်'}); spawnConfetti(); setTimeout(()=>fetchBalance(),2000) } catch(e){showToast({type:'fail',message:e.message})} }
+  function handleDepositSubmit(data) { spawnConfetti(); setTimeout(() => fetchBalance(), 1500) }
   async function handleWithdrawSubmit(data) { try { const token=(await supabase.auth.getSession()).data.session?.access_token; if(!token){showToast({type:'fail',message:'ဝင်ရောက်ပါ'});return}; const res=await fetch('https://vuywhhmwrqykukcemifd.supabase.co/functions/v1/withdraw',{method:'POST',headers:{'Authorization':'Bearer '+token,'Content-Type':'application/json'},body:JSON.stringify({method:data.method,phone:data.phone,accountName:data.accountName,amount:data.amount})}); const result=await res.json(); if(result.error)throw new Error(result.error); showToast({type:'success',message:'ငွေထုတ်မှု အောင်မြင်ပါသည်'}); spawnConfetti(); setTimeout(()=>fetchBalance(),2000) } catch(e){showToast({type:'fail',message:e.message})} }
 
 
