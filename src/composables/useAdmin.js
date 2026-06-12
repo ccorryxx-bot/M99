@@ -254,7 +254,9 @@ export const startPendingRefresh = () => {
       const { data } = await supabase.rpc('admin_get_stats', { p_key: adminKey.value })
       if (data) stats.value = { ...stats.value, ...data }
     } catch (e) {}
-  }, 30000)
+    // Always do a direct count to keep badge accurate
+    await fetchPendingCount()
+  }, 15000)
 }
 
 // ── Auth ──────────────────────────────────────────────────────────────────────
@@ -297,9 +299,19 @@ export const tryAutoLogin = async () => {
 }
 
 // ── Overview ──────────────────────────────────────────────────────────────────
-export const loadOverview  = async () => { await Promise.all([loadStats(), loadRecentTx(), loadChart()]) }
+export const loadOverview  = async () => { await Promise.all([loadStats(), loadRecentTx(), loadChart(), fetchPendingCount()]) }
 export const loadStats     = async () => {
-  try { const { data } = await supabase.rpc('admin_get_stats', { p_key: adminKey.value }); if (data) stats.value = data } catch (e) {}
+  try { const { data } = await supabase.rpc('admin_get_stats', { p_key: adminKey.value }); if (data) stats.value = { ...stats.value, ...data } } catch (e) {}
+}
+// Direct pending count — bypasses admin_get_stats which may mis-count
+export const fetchPendingCount = async () => {
+  try {
+    const { count, error } = await supabase
+      .from('transactions')
+      .select('id', { count: 'exact', head: true })
+      .eq('status', 'pending')
+    if (!error && count !== null) stats.value.pending_tx = count
+  } catch (e) {}
 }
 export const loadRecentTx  = async () => {
   recentLoading.value = true
@@ -380,6 +392,7 @@ export const doApprove = async (id, action, overrideAmount = null) => {
     fetchTx()
     writeAudit(action.toUpperCase() + '_TX', id, overrideAmount ? `override:${overrideAmount}` : '')
     loadStats()
+    fetchPendingCount()
   } catch (e) { showToast(e.message, 'error') }
 }
 
@@ -744,7 +757,7 @@ export function useAdmin() {
     netFlow, netPct, gaugeArc, healthBars, metricCards,
     fmtNum, fmtDate, showToast, copyTxt,
     login, logout,
-    loadOverview, loadStats, loadRecentTx, loadChart,
+    loadOverview, loadStats, loadRecentTx, loadChart, fetchPendingCount,
     fetchTx, doApprove,
     fetchSett, saveSett,
     fetchUsers, openPlayer, loadPlayerTx, loadPlayerSessions,
