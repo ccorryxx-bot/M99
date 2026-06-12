@@ -127,22 +127,6 @@
               </div>
             </div>
 
-            <!-- Slip Image Preview -->
-            <div class="approve-slip-section">
-              <div class="approve-slip-label">📎 Slip Image</div>
-              <div v-if="approveModal.slipLoading" class="approve-slip-loading">
-                <span class="a-spinner-sm" style="border-color:#4f46e5;border-top-color:transparent;"></span>
-                <span style="font-size:10px;color:#94a3b8;">Loading slip...</span>
-              </div>
-              <div v-else-if="approveModal.slipUrl" class="approve-slip-img-wrap"
-                @click="slipLightbox.url=approveModal.slipUrl;slipLightbox.open=true">
-                <img :src="approveModal.slipUrl" alt="Slip" class="approve-slip-img"
-                  @error="e=>e.target.style.display='none'" />
-                <span class="approve-slip-zoom">🔍 ကြည့်ရန်</span>
-              </div>
-              <div v-else class="approve-slip-none">— Slip ပုံ မပါပါ —</div>
-            </div>
-
             <!-- Actual amount input -->
             <div class="approve-actual-section">
               <label class="approve-actual-label">
@@ -319,21 +303,6 @@
             <div v-if="detail.tx?.reject_reason" class="detail-row"><span class="dl">Reject</span><span class="dv" style="color:#dc2626;">{{ detail.tx.reject_reason }}</span></div>
           </div>
 
-          <!-- Slip Image (Deposit only) -->
-          <div v-if="detail.tx?.type==='deposit' && (detail.tx?.slip_url || detail.tx?.screenshot_url)" class="slip-img-section">
-            <div class="slip-img-label">📎 Slip Image</div>
-            <div class="slip-img-grid">
-              <div v-if="detail.tx?.slip_url" class="slip-img-wrap" @click="slipLightbox.url=detail.tx.slip_url;slipLightbox.open=true">
-                <img :src="detail.tx.slip_url" alt="Slip" class="slip-doc-img" @error="e=>e.target.style.display='none'" />
-                <span class="slip-img-tag">Slip</span>
-              </div>
-              <div v-if="detail.tx?.screenshot_url" class="slip-img-wrap" @click="slipLightbox.url=detail.tx.screenshot_url;slipLightbox.open=true">
-                <img :src="detail.tx.screenshot_url" alt="Screenshot" class="slip-doc-img" @error="e=>e.target.style.display='none'" />
-                <span class="slip-img-tag">Screenshot</span>
-              </div>
-            </div>
-          </div>
-
           <!-- ── PENDING ACTION SECTION ── -->
           <div v-if="detail.tx?.status==='pending'" class="detail-approve-section">
 
@@ -442,16 +411,6 @@
       </div>
     </Teleport>
 
-    <!-- Slip Lightbox -->
-    <Teleport to="body">
-      <Transition name="bulk-slide">
-        <div v-if="slipLightbox.open" class="slip-lightbox" @click="slipLightbox.open=false">
-          <img :src="slipLightbox.url" class="slip-lightbox-img" @click.stop />
-          <button @click="slipLightbox.open=false" class="slip-lightbox-close">✕</button>
-        </div>
-      </Transition>
-    </Teleport>
-
   </div>
 </template>
 
@@ -516,7 +475,6 @@ async function fetchUserBalance(userId) {
 const approveModal = reactive({
   open: false, tx: null, actualAmount: 0, busy: false,
   userBalance: 0, balanceLoading: false,
-  slipUrl: null, slipLoading: false,
   get afterBalance() { return this.userBalance - (this.actualAmount || Number(this.tx?.amount) || 0) }
 })
 
@@ -525,27 +483,12 @@ async function openApproveModal(tx) {
     open: true, tx,
     actualAmount: Number(tx.amount) || 0,
     busy: false, userBalance: 0, balanceLoading: tx.type === 'withdraw',
-    slipUrl: null, slipLoading: tx.type === 'deposit'
   })
   nextTick(() => approveAmtRef.value?.focus())
 
   if (tx.type === 'withdraw' && tx.user_id) {
     approveModal.userBalance = await fetchUserBalance(tx.user_id)
     approveModal.balanceLoading = false
-  }
-
-  if (tx.type === 'deposit') {
-    try {
-      const r = await fetch('/api/admin/tx-detail', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ adminKey: adminKey.value, txId: tx.id })
-      })
-      if (r.ok) {
-        const d = await r.json()
-        approveModal.slipUrl = d.slip_url || d.screenshot_url || null
-      }
-    } catch { /* non-fatal */ } finally { approveModal.slipLoading = false }
   }
 }
 
@@ -591,13 +534,10 @@ const detail = reactive({
   userBalance: 0, balanceLoading: false
 })
 const detailBusy   = ref('')
-const slipLightbox = reactive({ open: false, url: '' })
 
 async function openDetail(tx) {
-  // Spread tx so we can add slip_url reactively
-  const txCopy = { ...tx, slip_url: null, screenshot_url: null }
   Object.assign(detail, {
-    open: true, tx: txCopy,
+    open: true, tx: { ...tx },
     actualAmount: Number(tx.amount) || 0,
     userBalance: 0,
     balanceLoading: tx.type === 'withdraw' && tx.status === 'pending'
@@ -606,22 +546,6 @@ async function openDetail(tx) {
   if (tx.type === 'withdraw' && tx.status === 'pending' && tx.user_id) {
     detail.userBalance = await fetchUserBalance(tx.user_id)
     detail.balanceLoading = false
-  }
-
-  // Fetch slip image URLs from server (not in RPC result)
-  if (tx.type === 'deposit') {
-    try {
-      const r = await fetch('/api/admin/tx-detail', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ adminKey: adminKey.value, txId: tx.id })
-      })
-      if (r.ok) {
-        const d = await r.json()
-        detail.tx.slip_url       = d.slip_url       || null
-        detail.tx.screenshot_url = d.screenshot_url || null
-      }
-    } catch { /* non-fatal */ }
   }
 }
 
@@ -678,15 +602,6 @@ onUnmounted(() => { if (rtSub) supabase.removeChannel(rtSub) })
 .dl { font-size:10px;color:#94a3b8;font-weight:600; }
 .dv { font-size:11px;color:#0f172a;font-weight:600; }
 .mono { font-family:monospace; }
-.slip-img-section { margin-top:10px;padding-top:10px;border-top:1px solid #f1f5f9; }
-.slip-img-label { font-size:9px;font-weight:700;color:#94a3b8;text-transform:uppercase;margin-bottom:6px; }
-.slip-img-grid { display:flex;gap:8px; }
-.slip-img-wrap { position:relative;cursor:pointer;border-radius:8px;overflow:hidden;border:1px solid #e2e8f0;flex:1;aspect-ratio:4/3;max-width:120px; }
-.slip-doc-img { width:100%;height:100%;object-fit:cover; }
-.slip-img-tag { position:absolute;bottom:0;left:0;right:0;background:rgba(0,0,0,.5);color:#fff;font-size:9px;font-weight:700;text-align:center;padding:2px; }
-.slip-lightbox { position:fixed;inset:0;z-index:9999;background:rgba(0,0,0,.92);display:flex;align-items:center;justify-content:center; }
-.slip-lightbox-img { max-width:90vw;max-height:88vh;object-fit:contain;border-radius:8px; }
-.slip-lightbox-close { position:absolute;top:16px;right:16px;background:rgba(255,255,255,.15);border:none;border-radius:50%;width:36px;height:36px;color:#fff;font-size:16px;cursor:pointer; }
 
 /* ── Approve Modal ── */
 .approve-req-banner {
@@ -707,16 +622,6 @@ onUnmounted(() => { if (rtSub) supabase.removeChannel(rtSub) })
 .approve-amt-input::placeholder { color:#cbd5e1;font-weight:400; }
 .approve-diff-note { display:flex;align-items:center;gap:4px;margin-top:6px;font-size:10px;color:#92400e;background:#fef9c3;padding:5px 8px;border-radius:5px;flex-wrap:wrap; }
 .approve-match-note { display:flex;align-items:center;gap:4px;margin-top:6px;font-size:10px;color:#166534;background:#dcfce7;padding:5px 8px;border-radius:5px; }
-
-/* ── Slip preview in Approve Modal ── */
-.approve-slip-section { margin-bottom:10px;padding:8px 10px;background:#f8fafc;border:1px solid #e2e8f0;border-radius:8px; }
-.approve-slip-label { font-size:9px;font-weight:700;color:#94a3b8;text-transform:uppercase;margin-bottom:6px; }
-.approve-slip-loading { display:flex;align-items:center;gap:6px;padding:6px 0; }
-.approve-slip-img-wrap { position:relative;cursor:pointer;border-radius:8px;overflow:hidden;border:1px solid #e2e8f0;aspect-ratio:16/9;max-height:140px; }
-.approve-slip-img { width:100%;height:100%;object-fit:contain;background:#f1f5f9; }
-.approve-slip-zoom { position:absolute;inset:0;display:flex;align-items:center;justify-content:center;background:rgba(0,0,0,0);transition:background 0.2s;font-size:13px;color:transparent; }
-.approve-slip-img-wrap:hover .approve-slip-zoom { background:rgba(0,0,0,0.35);color:#fff; }
-.approve-slip-none { font-size:10px;color:#cbd5e1;text-align:center;padding:4px 0; }
 
 /* ── Withdraw preview card ── */
 .wd-preview-card {
