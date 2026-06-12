@@ -951,7 +951,7 @@
   const installUrl  = ref('')   // TODO: add app install URL
   function goUrl(url) { if (url) window.open(url, '_blank') }
 
-  const isLoggedIn = ref(false); const username = ref(''); const userPhone = ref(''); const mainBalance = ref(0); const currentLang = ref('en')
+  const isLoggedIn = ref(false); const username = ref(''); const userPhone = ref(''); const memberAccount = ref(''); const mainBalance = ref(0); const currentLang = ref('en')
   const balanceHidden = ref(localStorage.getItem('iw99_bal_hidden') === '1')
   function toggleBalanceHide() { balanceHidden.value = !balanceHidden.value; localStorage.setItem('iw99_bal_hidden', balanceHidden.value ? '1' : '0') }
   const { isFav, toggleFav, favCount, filterFavGames } = useFavorites()
@@ -1188,10 +1188,11 @@
       if(!session){isLoggedIn.value=false;return}
       isLoggedIn.value=true
       username.value=(session.user.email||'').replace(/@novabett\.internal$/,'').toUpperCase()
-      // Fetch phone for game launch identification
+      // Fetch phone + member_account for game launch identification
       try {
-        const {data:ud}=await supabase.from('users').select('phone').eq('id',session.user.id).single()
+        const {data:ud}=await supabase.from('users').select('phone,member_account').eq('id',session.user.id).single()
         if(ud?.phone) userPhone.value=ud.phone
+        if(ud?.member_account) memberAccount.value=ud.member_account
       } catch {}
       await fetchBalance(); loadFavoritesFromCloud(); loadRecentFromCloud()
     } catch { isLoggedIn.value=false }
@@ -1228,7 +1229,7 @@
       const res=await fetch('https://vuywhhmwrqykukcemifd.supabase.co/functions/v1/api/games/launch',{
         method:'POST',
         headers:{'Authorization':'Bearer '+session.access_token,'Content-Type':'application/json','apikey':'sb_publishable_nQArOtFqTbi9ZtJCJC0STA_pE4ztXGb'},
-        body:JSON.stringify({user_id:session.user.id,game_uid:game.game_code,platform:2,lang:'my',username:username.value,phone:userPhone.value})
+        body:JSON.stringify({user_id:session.user.id,game_uid:game.game_code,platform:2,lang:'my',username:username.value,phone:userPhone.value,member_id:memberAccount.value})
       })
       const data=await res.json()
       if(data.error) throw new Error(data.error)
