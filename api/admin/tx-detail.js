@@ -25,19 +25,7 @@ export default async function handler(req, res) {
     if (authErr) return res.status(500).json({ error: 'Auth check failed: ' + authErr.message })
     if (!isValid) return res.status(401).json({ error: 'Invalid admin credentials' })
 
-    const admin = createClient(SUPA_URL, SR_KEY, { auth: { persistSession: false } })
-    const { data: tx, error: txErr } = await admin
-      .from('transactions')
-      .select('id, slip_url, screenshot_url')
-      .eq('id', txId)
-      .single()
-
-    if (txErr || !tx) return res.status(404).json({ error: 'Transaction not found' })
-
-    return res.status(200).json({
-      slip_url:        tx.slip_url        || null,
-      screenshot_url:  tx.screenshot_url  || null,
-    })
+    return res.status(200).json({ ok: true })
   } catch (err) {
     return res.status(500).json({ error: err.message || 'Unexpected error' })
   }
