@@ -127,6 +127,22 @@
               </div>
             </div>
 
+            <!-- Slip Image Preview -->
+            <div class="approve-slip-section">
+              <div class="approve-slip-label">📎 Slip Image</div>
+              <div v-if="approveModal.slipLoading" class="approve-slip-loading">
+                <span class="a-spinner-sm" style="border-color:#4f46e5;border-top-color:transparent;"></span>
+                <span style="font-size:10px;color:#94a3b8;">Loading slip...</span>
+              </div>
+              <div v-else-if="approveModal.slipUrl" class="approve-slip-img-wrap"
+                @click="slipLightbox.url=approveModal.slipUrl;slipLightbox.open=true">
+                <img :src="approveModal.slipUrl" alt="Slip" class="approve-slip-img"
+                  @error="e=>e.target.style.display='none'" />
+                <span class="approve-slip-zoom">🔍 ကြည့်ရန်</span>
+              </div>
+              <div v-else class="approve-slip-none">— Slip ပုံ မပါပါ —</div>
+            </div>
+
             <!-- Actual amount input -->
             <div class="approve-actual-section">
               <label class="approve-actual-label">
@@ -444,7 +460,7 @@ import { ref, computed, onMounted, onUnmounted, reactive, nextTick } from 'vue'
 import { useAdmin } from '@/composables/useAdmin'
 import { supabase } from '@/supabase'
 
-const { txFilter, txList, txLoading, txErr, fmtDate, fetchTx, doApprove, writeAudit, showToast } = useAdmin()
+const { adminKey, txFilter, txList, txLoading, txErr, fmtDate, fetchTx, doApprove, writeAudit, showToast } = useAdmin()
 
 const txSearch     = ref('')
 const bulkLoading  = ref('')
@@ -500,6 +516,7 @@ async function fetchUserBalance(userId) {
 const approveModal = reactive({
   open: false, tx: null, actualAmount: 0, busy: false,
   userBalance: 0, balanceLoading: false,
+  slipUrl: null, slipLoading: false,
   get afterBalance() { return this.userBalance - (this.actualAmount || Number(this.tx?.amount) || 0) }
 })
 
@@ -507,13 +524,28 @@ async function openApproveModal(tx) {
   Object.assign(approveModal, {
     open: true, tx,
     actualAmount: Number(tx.amount) || 0,
-    busy: false, userBalance: 0, balanceLoading: tx.type === 'withdraw'
+    busy: false, userBalance: 0, balanceLoading: tx.type === 'withdraw',
+    slipUrl: null, slipLoading: tx.type === 'deposit'
   })
   nextTick(() => approveAmtRef.value?.focus())
 
   if (tx.type === 'withdraw' && tx.user_id) {
     approveModal.userBalance = await fetchUserBalance(tx.user_id)
     approveModal.balanceLoading = false
+  }
+
+  if (tx.type === 'deposit') {
+    try {
+      const r = await fetch('/api/admin/tx-detail', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ adminKey: adminKey.value, txId: tx.id })
+      })
+      if (r.ok) {
+        const d = await r.json()
+        approveModal.slipUrl = d.slip_url || d.screenshot_url || null
+      }
+    } catch { /* non-fatal */ } finally { approveModal.slipLoading = false }
   }
 }
 
@@ -675,6 +707,16 @@ onUnmounted(() => { if (rtSub) supabase.removeChannel(rtSub) })
 .approve-amt-input::placeholder { color:#cbd5e1;font-weight:400; }
 .approve-diff-note { display:flex;align-items:center;gap:4px;margin-top:6px;font-size:10px;color:#92400e;background:#fef9c3;padding:5px 8px;border-radius:5px;flex-wrap:wrap; }
 .approve-match-note { display:flex;align-items:center;gap:4px;margin-top:6px;font-size:10px;color:#166534;background:#dcfce7;padding:5px 8px;border-radius:5px; }
+
+/* ── Slip preview in Approve Modal ── */
+.approve-slip-section { margin-bottom:10px;padding:8px 10px;background:#f8fafc;border:1px solid #e2e8f0;border-radius:8px; }
+.approve-slip-label { font-size:9px;font-weight:700;color:#94a3b8;text-transform:uppercase;margin-bottom:6px; }
+.approve-slip-loading { display:flex;align-items:center;gap:6px;padding:6px 0; }
+.approve-slip-img-wrap { position:relative;cursor:pointer;border-radius:8px;overflow:hidden;border:1px solid #e2e8f0;aspect-ratio:16/9;max-height:140px; }
+.approve-slip-img { width:100%;height:100%;object-fit:contain;background:#f1f5f9; }
+.approve-slip-zoom { position:absolute;inset:0;display:flex;align-items:center;justify-content:center;background:rgba(0,0,0,0);transition:background 0.2s;font-size:13px;color:transparent; }
+.approve-slip-img-wrap:hover .approve-slip-zoom { background:rgba(0,0,0,0.35);color:#fff; }
+.approve-slip-none { font-size:10px;color:#cbd5e1;text-align:center;padding:4px 0; }
 
 /* ── Withdraw preview card ── */
 .wd-preview-card {
