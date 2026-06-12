@@ -212,19 +212,26 @@
                   <!-- ပြေစာ နံပါတ် -->
                   <div class="s2-ref-section">
                     <label class="s2-ref-label">ပြေစာ နံပါတ် (နောက်ဆုံး ၅ လုံး)</label>
-                    <div class="s2-ref-boxes">
-                      <input
+                    <div class="s2-ref-boxes" @click="focusHiddenRef">
+                      <div
                         v-for="(_, i) in 5"
                         :key="i"
-                        :ref="el => refInputs[i] = el"
                         class="s2-ref-box"
+                        :class="refFocused && refDigits.join('').length === i ? 's2-ref-box--cursor' : ''"
+                      >{{ refDigits[i] || '' }}</div>
+                      <input
+                        ref="hiddenRefInput"
+                        class="s2-ref-hidden"
                         type="text"
                         inputmode="numeric"
-                        maxlength="1"
-                        :value="refDigits[i]"
-                        @input="onRefInput(i, $event)"
-                        @keydown="onRefKeydown(i, $event)"
-                        @paste="onRefPaste($event)"
+                        maxlength="5"
+                        autocomplete="one-time-code"
+                        pattern="[0-9]*"
+                        :value="refDigits.join('')"
+                        @input="onRef5Input"
+                        @focus="refFocused = true"
+                        @blur="refFocused = false"
+                        @paste="onRefPaste"
                       />
                     </div>
                   </div>
@@ -266,7 +273,7 @@
                       Gallery မှ ရွေး
                     </button>
                   </div>
-                  <div class="s2-slip-upload-area" @click="$refs.slipFileInput.click()" @dragover.prevent @drop.prevent="onSlipDrop">
+                  <div class="s2-slip-upload-area" @click="slipPreview ? $refs.slipFileInput.click() : null" @dragover.prevent @drop.prevent="onSlipDrop">
                     <input ref="slipCameraInput" type="file" accept="image/*" capture="environment" @change="onSlipSelect" style="display:none;" />
                     <input ref="slipFileInput" type="file" accept="image/*" @change="onSlipSelect" style="display:none;" />
                     <div v-if="!slipPreview" class="s2-slip-placeholder">
@@ -282,9 +289,16 @@
                     <div class="s2-slip-prog-bar" :style="{width:slipProgress+'%'}"></div>
                   </div>
                 </div>
-                <button @click="submitDeposit" :disabled="slipUploading" class="s2-confirm-btn">
-                  အတည်ပြုမည် ✓
-                </button>
+                <div class="s2-confirm-wrap">
+                  <Transition name="s2-sttoast">
+                    <div v-if="submitToast.visible" class="s2-submit-toast" :class="submitToast.type==='success'?'s2-submit-toast--ok':'s2-submit-toast--err'">
+                      {{ submitToast.msg }}
+                    </div>
+                  </Transition>
+                  <button @click="submitDeposit" :disabled="slipUploading||submitting" class="s2-confirm-btn" :class="submitting&&'s2-confirm-btn--busy'">
+                    {{ submitting ? 'တင်နေသည်...' : 'အတည်ပြုမည် ✓' }}
+                  </button>
+                </div>
               </div>
 
             </div>
@@ -301,7 +315,7 @@ import { ref, watch, computed, onMounted, onUnmounted, nextTick } from 'vue'
 import { supabase } from '@/supabase'
 
 const props = defineProps({ modelValue: Boolean })
-const emit  = defineEmits(['update:modelValue', 'submit'])
+const emit  = defineEmits(['update:modelValue', 'submit', 'deposited'])
 
 const visible       = ref(props.modelValue)
 const step          = ref(1)
@@ -446,27 +460,20 @@ function onAmountFocus(e)  {
 function onAmountBlur()   { focusMode.value = false; if (amtInput.value) amtInput.value.value = amount.value ? amount.value.toLocaleString() : '' }
 function formatAmt(n)     { return n.toLocaleString() }
 
-const refDigits  = ref(['','','','',''])
-const refInputs  = ref([])
-function onRefInput(i, e) {
-  const v = e.target.value.replace(/\D/g,'').slice(-1)
-  refDigits.value[i] = v
-  e.target.value = v
-  if (v && i < 4) nextTick(() => refInputs.value[i+1]?.focus())
-}
-function onRefKeydown(i, e) {
-  if (e.key === 'Backspace' && !refDigits.value[i] && i > 0) {
-    nextTick(() => { refInputs.value[i-1]?.focus() })
-  }
+const refDigits      = ref(['','','','',''])
+const hiddenRefInput = ref(null)
+const refFocused     = ref(false)
+function focusHiddenRef() { hiddenRefInput.value?.focus() }
+function onRef5Input(e) {
+  const digits = e.target.value.replace(/\D/g,'').slice(0,5)
+  e.target.value = digits
+  for (let i = 0; i < 5; i++) refDigits.value[i] = digits[i] || ''
 }
 function onRefPaste(e) {
   e.preventDefault()
   const digits = (e.clipboardData.getData('text') || '').replace(/\D/g,'').slice(0,5)
-  digits.split('').forEach((d, i) => { refDigits.value[i] = d })
-  nextTick(() => {
-    const last = Math.min(digits.length, 4)
-    refInputs.value[last]?.focus()
-  })
+  for (let i = 0; i < 5; i++) refDigits.value[i] = digits[i] || ''
+  if (hiddenRefInput.value) { hiddenRefInput.value.value = digits; hiddenRefInput.value.focus() }
 }
 const transactionRef = computed(() => refDigits.value.join(''))
 
@@ -476,10 +483,19 @@ const copyText = async (text) => {
   try { await navigator.clipboard.writeText(text); copied.value=true; setTimeout(()=>{ copied.value=false },1500) }
   catch { prompt('Copy manually:', text) }
 }
-const slipPreview  = ref(null)
-const slipFile     = ref(null)
+const slipPreview   = ref(null)
+const slipFile      = ref(null)
 const slipUploading = ref(false)
 const slipProgress  = ref(0)
+const submitting    = ref(false)
+
+const submitToast = ref({ visible: false, type: '', msg: '' })
+let _stTimer = null
+function showSubmitToast(type, msg) {
+  submitToast.value = { visible: true, type, msg }
+  clearTimeout(_stTimer)
+  _stTimer = setTimeout(() => { submitToast.value.visible = false }, 3500)
+}
 
 function onSlipSelect(e) {
   const file = e.target.files?.[0]
@@ -500,21 +516,60 @@ function onSlipDrop(e) {
 function clearSlip() { slipPreview.value = null; slipFile.value = null; slipProgress.value = 0 }
 
 const submitDeposit = async () => {
+  if (submitting.value || slipUploading.value) return
+  submitting.value = true
+
+  // 1. Upload slip image (optional)
   let slipUrl = null
   if (slipFile.value) {
     try {
-      slipUploading.value = true; slipProgress.value = 30
-      const { supabase } = await import('@/supabase')
+      slipUploading.value = true
+      slipProgress.value  = 30
       const ext  = slipFile.value.name.split('.').pop() || 'jpg'
       const path = `slips/${Date.now()}_${Math.random().toString(36).slice(2)}.${ext}`
-      const { error } = await supabase.storage.from('slip-uploads').upload(path, slipFile.value, { upsert: false })
+      const { error: upErr } = await supabase.storage.from('slip-uploads').upload(path, slipFile.value, { upsert: false })
       slipProgress.value = 80
-      if (!error) slipUrl = path
+      if (!upErr) {
+        const { data: urlData } = supabase.storage.from('slip-uploads').getPublicUrl(path)
+        slipUrl = urlData?.publicUrl || path
+      }
       slipProgress.value = 100
-    } catch(e) {} finally { slipUploading.value = false }
+    } catch(e) { /* non-fatal */ } finally { slipUploading.value = false }
   }
-  emit('submit', { method:method.value, amount:amount.value, bonus:bonusOption.value, ref:transactionRef.value, slip_url: slipUrl })
-  close()
+
+  // 2. Check auth
+  const { data: { user } } = await supabase.auth.getUser()
+  if (!user) {
+    showSubmitToast('fail', '❌ အကောင့်ဝင်ရောက်ပါ')
+    submitting.value = false
+    return
+  }
+
+  // 3. Insert deposit transaction → admin dashboard မှာ ချက်ချင်းပြမည်
+  const { error: insertErr } = await supabase.from('transactions').insert({
+    user_id:      user.id,
+    type:         'deposit',
+    method:       method.value,
+    amount:       amount.value,
+    status:       'pending',
+    slip_last5:   transactionRef.value || null,
+    slip_url:     slipUrl,
+    bonus_option: bonusOption.value,
+  })
+
+  if (insertErr) {
+    let reason = insertErr.message || 'Server Error'
+    if (reason.includes('row-level security')) reason = 'ခွင့်ပြုချက်မရှိပါ'
+    else if (reason.includes('foreign key'))   reason = 'User session ပြဿနာ'
+    showSubmitToast('fail', '❌ မတင်နိုင်ပါ — ' + reason)
+    submitting.value = false
+    return
+  }
+
+  // 4. Success — toast ပြပြီး modal ပိတ်မည်
+  showSubmitToast('success', '✅ Admin Dashboard သို့ ရောက်ပြီးပါပြီ')
+  emit('deposited', { amount: amount.value, bonus: bonusOption.value })
+  setTimeout(() => { close(); submitting.value = false }, 2000)
 }
 </script>
 
@@ -726,10 +781,12 @@ const submitDeposit = async () => {
   margin-bottom:12px;letter-spacing:0.04em;text-transform:uppercase;
 }
 .s2-ref-boxes {
+  position:relative;
   display:flex;gap:0;justify-content:center;
   border-bottom:2px solid #111827;
   padding-bottom:4px;
   transition:border-color 0.15s;
+  cursor:text;
 }
 .s2-ref-boxes:focus-within {
   border-bottom-color:#2563eb;
@@ -740,10 +797,17 @@ const submitDeposit = async () => {
   background:transparent;
   font-size:22px;font-weight:800;color:#111827;
   text-align:center;
-  outline:none;
+  line-height:40px;
   border-radius:0;
-  -webkit-appearance:none;
-  caret-color:transparent;
+  user-select:none;
+}
+.s2-ref-box--cursor {
+  border-bottom:2px solid #2563eb;
+}
+.s2-ref-hidden {
+  position:absolute;top:0;left:0;width:100%;height:100%;
+  opacity:0;cursor:text;font-size:16px;border:none;outline:none;
+  background:transparent;z-index:5;
 }
 
 /* Tips — plain text */
@@ -763,7 +827,7 @@ const submitDeposit = async () => {
 /* Footer — anchored to bottom, never rises with keyboard */
 .s2-footer {
   position:absolute;left:0;right:0;bottom:0;
-  display:flex;align-items:center;gap:10px;
+  display:flex;align-items:flex-end;gap:10px;
   padding:10px 16px calc(12px + env(safe-area-inset-bottom, 0px));
   border-top:1px solid #f0f0f0;
   background:#ffffff;
@@ -774,16 +838,31 @@ const submitDeposit = async () => {
   border:1px solid #e5e7eb;background:#f9fafb;
   display:flex;align-items:center;justify-content:center;
   color:#374151;cursor:pointer;flex-shrink:0;
+  align-self:flex-end;
 }
 .s2-back-btn:active { opacity:0.7; }
+.s2-confirm-wrap {
+  flex:1;display:flex;flex-direction:column;gap:6px;
+}
+.s2-submit-toast {
+  text-align:center;padding:8px 12px;border-radius:8px;
+  font-size:11px;font-weight:700;line-height:1.4;
+}
+.s2-submit-toast--ok { background:#dcfce7;color:#15803d; }
+.s2-submit-toast--err { background:#fee2e2;color:#b91c1c; }
+.s2-sttoast-enter-active { transition:all 0.2s ease; }
+.s2-sttoast-leave-active { transition:all 0.15s ease; }
+.s2-sttoast-enter-from,.s2-sttoast-leave-to { opacity:0;transform:translateY(4px); }
 .s2-confirm-btn {
-  flex:1;padding:13px;border-radius:10px;
+  width:100%;padding:13px;border-radius:10px;
   border:none;outline:none;cursor:pointer;
   background:#111827;
   color:#fff;font-size:14px;font-weight:700;
   transition:opacity 0.15s;
 }
 .s2-confirm-btn:active { opacity:0.8; }
+.s2-confirm-btn:disabled { opacity:0.45;cursor:not-allowed; }
+.s2-confirm-btn--busy { opacity:0.65;cursor:wait; }
 
 /* ── Transitions ── */
 .nova-modal-enter-active { animation:sheetUp 0.28s cubic-bezier(0.22,1,0.36,1); }
