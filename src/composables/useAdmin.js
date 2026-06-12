@@ -204,8 +204,13 @@ export const fmtNum = (n, dec = 0) => {
   if (v >= 1000) return new Intl.NumberFormat().format(Math.round(v))
   return v.toFixed(dec)
 }
-export const fmtDate = d =>
-  d ? new Date(d).toLocaleDateString('en-GB', { year: 'numeric', month: 'short', day: 'numeric' }) : '—'
+export const fmtDate = d => {
+  if (!d) return '—'
+  const dt = new Date(d)
+  const date = dt.toLocaleDateString('en-GB', { year: 'numeric', month: 'short', day: 'numeric' })
+  const time = dt.toLocaleTimeString('en-GB', { hour: '2-digit', minute: '2-digit', second: '2-digit', hour12: false })
+  return `${date} ${time}`
+}
 
 export const showToast = (msg, type = 'info') => {
   toast.value = { show: true, msg, type }
