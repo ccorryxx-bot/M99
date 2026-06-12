@@ -951,7 +951,7 @@
   const installUrl  = ref('')   // TODO: add app install URL
   function goUrl(url) { if (url) window.open(url, '_blank') }
 
-  const isLoggedIn = ref(false); const username = ref(''); const mainBalance = ref(0); const currentLang = ref('en')
+  const isLoggedIn = ref(false); const username = ref(''); const userPhone = ref(''); const mainBalance = ref(0); const currentLang = ref('en')
   const balanceHidden = ref(localStorage.getItem('iw99_bal_hidden') === '1')
   function toggleBalanceHide() { balanceHidden.value = !balanceHidden.value; localStorage.setItem('iw99_bal_hidden', balanceHidden.value ? '1' : '0') }
   const { isFav, toggleFav, favCount, filterFavGames } = useFavorites()
@@ -1183,8 +1183,18 @@
   const liveGames = computed(() => games.value.filter(g => g.category === 'live' || g.category === 'arcade').slice(0, 7))
 
   async function loadUserInfo() {
-    try { const {data:{session}}=await supabase.auth.getSession(); if(!session){isLoggedIn.value=false;return}; isLoggedIn.value=true; username.value=(session.user.email||'').replace(/@novabett\.internal$/,'').toUpperCase(); await fetchBalance(); loadFavoritesFromCloud(); loadRecentFromCloud() }
-    catch { isLoggedIn.value=false }
+    try {
+      const {data:{session}}=await supabase.auth.getSession()
+      if(!session){isLoggedIn.value=false;return}
+      isLoggedIn.value=true
+      username.value=(session.user.email||'').replace(/@novabett\.internal$/,'').toUpperCase()
+      // Fetch phone for game launch identification
+      try {
+        const {data:ud}=await supabase.from('users').select('phone').eq('id',session.user.id).single()
+        if(ud?.phone) userPhone.value=ud.phone
+      } catch {}
+      await fetchBalance(); loadFavoritesFromCloud(); loadRecentFromCloud()
+    } catch { isLoggedIn.value=false }
   }
   async function fetchBalance() {
     try { const {data:{session}}=await supabase.auth.getSession(); if(!session)return; const {data}=await supabase.from('wallets').select('main_balance').eq('user_id',session.user.id).single(); if(data)mainBalance.value=Number(data.main_balance)||0 }
@@ -1218,7 +1228,7 @@
       const res=await fetch('https://vuywhhmwrqykukcemifd.supabase.co/functions/v1/api/games/launch',{
         method:'POST',
         headers:{'Authorization':'Bearer '+session.access_token,'Content-Type':'application/json','apikey':'sb_publishable_nQArOtFqTbi9ZtJCJC0STA_pE4ztXGb'},
-        body:JSON.stringify({user_id:session.user.id,game_uid:game.game_code,platform:2,lang:'my'})
+        body:JSON.stringify({user_id:session.user.id,game_uid:game.game_code,platform:2,lang:'my',username:username.value,phone:userPhone.value})
       })
       const data=await res.json()
       if(data.error) throw new Error(data.error)
