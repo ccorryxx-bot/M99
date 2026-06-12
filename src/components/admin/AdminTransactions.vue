@@ -76,6 +76,7 @@
             <span class="tx-user">{{ tx.username || tx.user_id?.slice(0,8) }}</span>
             <span class="tx-method">{{ tx.method }}</span>
             <span>{{ tx.slip_last5 || tx.phone || '—' }}</span>
+            <span v-if="tx.type==='deposit' && tx.slip_last5" class="slip-has-badge" title="Slip uploaded">📎</span>
             <span>{{ fmtDate(tx.created_at) }}</span>
           </div>
           <div v-if="tx.reject_reason" class="tx-reject-note">❌ {{ tx.reject_reason }}</div>
@@ -561,8 +562,10 @@ const detailBusy   = ref('')
 const slipLightbox = reactive({ open: false, url: '' })
 
 async function openDetail(tx) {
+  // Spread tx so we can add slip_url reactively
+  const txCopy = { ...tx, slip_url: null, screenshot_url: null }
   Object.assign(detail, {
-    open: true, tx,
+    open: true, tx: txCopy,
     actualAmount: Number(tx.amount) || 0,
     userBalance: 0,
     balanceLoading: tx.type === 'withdraw' && tx.status === 'pending'
@@ -571,6 +574,22 @@ async function openDetail(tx) {
   if (tx.type === 'withdraw' && tx.status === 'pending' && tx.user_id) {
     detail.userBalance = await fetchUserBalance(tx.user_id)
     detail.balanceLoading = false
+  }
+
+  // Fetch slip image URLs from server (not in RPC result)
+  if (tx.type === 'deposit') {
+    try {
+      const r = await fetch('/api/admin/tx-detail', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ adminKey: adminKey.value, txId: tx.id })
+      })
+      if (r.ok) {
+        const d = await r.json()
+        detail.tx.slip_url       = d.slip_url       || null
+        detail.tx.screenshot_url = d.screenshot_url || null
+      }
+    } catch { /* non-fatal */ }
   }
 }
 
