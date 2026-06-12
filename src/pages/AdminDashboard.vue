@@ -137,7 +137,7 @@ const {
   activeTab, leftDrawer, playerPanel, toast, stats,
   login, logout, tryAutoLogin,
   syncEnabled, syncConnected, newPendingCount,
-  fetchTx, fetchSett, fetchUsers, fetchGames, fetchMsgs, loadOverview, loadStats,
+  fetchTx, fetchSett, fetchUsers, fetchGames, fetchMsgs, loadOverview, loadStats, fetchPendingCount,
   fetchPromos, fetchAgents, fetchCommTx, fetchAuditLog, fetchIpList,
 } = useAdmin()
 
@@ -167,7 +167,7 @@ const tabs = [
 
 const switchTab = async (i) => {
   activeTab.value = i; leftDrawer.value = false
-  if (i === 1) { fetchTx(); loadStats() }
+  if (i === 1) { fetchTx(); fetchPendingCount() }
   if (i === 2)  fetchSett()
   if (i === 3)  fetchUsers()
   if (i === 4)  fetchGames()
