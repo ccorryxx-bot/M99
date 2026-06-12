@@ -212,7 +212,7 @@
                   <!-- ပြေစာ နံပါတ် -->
                   <div class="s2-ref-section">
                     <label class="s2-ref-label">ပြေစာ နံပါတ် (နောက်ဆုံး ၅ လုံး)</label>
-                    <div class="s2-ref-boxes" @click="focusHiddenRef">
+                    <div ref="refBoxesEl" class="s2-ref-boxes" @click="focusHiddenRef">
                       <div
                         v-for="(_, i) in 5"
                         :key="i"
@@ -229,7 +229,7 @@
                         pattern="[0-9]*"
                         :value="refDigits.join('')"
                         @input="onRef5Input"
-                        @focus="refFocused = true"
+                        @focus="onRefFocus"
                         @blur="refFocused = false"
                         @paste="onRefPaste"
                       />
@@ -454,8 +454,15 @@ function formatAmt(n)     { return n.toLocaleString() }
 
 const refDigits      = ref(['','','','',''])
 const hiddenRefInput = ref(null)
+const refBoxesEl     = ref(null)
 const refFocused     = ref(false)
 function focusHiddenRef() { hiddenRefInput.value?.focus() }
+function onRefFocus() {
+  refFocused.value = true
+  setTimeout(() => {
+    refBoxesEl.value?.scrollIntoView({ behavior: 'smooth', block: 'center' })
+  }, 320)
+}
 function onRef5Input(e) {
   const digits = e.target.value.replace(/\D/g,'').slice(0,5)
   e.target.value = digits
