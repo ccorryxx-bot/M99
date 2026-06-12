@@ -89,6 +89,13 @@ export default async function handler(req, res) {
         .update({ main_balance: newBal })
         .eq('user_id', tx.user_id)
       if (balErr) return res.status(500).json({ error: 'Balance update failed: ' + balErr.message })
+
+      // Sync users.balance so the game edge function can read the correct balance
+      // (The JILI seamless wallet edge function reads users.balance for credit_amount)
+      await admin
+        .from('users')
+        .update({ balance: newBal })
+        .eq('id', tx.user_id)
     }
 
     return res.status(200).json({
