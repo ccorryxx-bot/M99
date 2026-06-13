@@ -170,8 +170,8 @@
             <!-- Balance row: fixed-width container stops layout shift on hide/show -->
             <div style="display:flex;align-items:center;gap:4px;">
               <div class="nova-balance-val">
-                <span style="font-size:17px;font-weight:900;color:#4ade80;font-variant-numeric:tabular-nums;">{{ balanceHidden ? '••••••' : formatCurrency(mainBalance) }}</span>
-                <span style="font-size:10px;color:rgba(255,255,255,0.3);margin-left:3px;">MMK</span>
+                <span :style="{fontSize:balanceFontSize,fontWeight:900,color:'#4ade80',fontVariantNumeric:'tabular-nums',transition:'font-size 0.2s',lineHeight:1.1}">{{ balanceHidden ? '••••••' : formatCurrency(mainBalance) }}</span>
+                <span style="font-size:10px;color:rgba(255,255,255,0.3);margin-left:3px;flex-shrink:0;">MMK</span>
               </div>
               <!-- Eye + Refresh stacked vertically, flush against balance -->
               <div style="display:flex;flex-direction:column;align-items:center;gap:3px;flex-shrink:0;">
@@ -1251,7 +1251,23 @@
     currentLang.value = next
     setLocale(next)
   }
-  const formatCurrency = n => new Intl.NumberFormat('en-US').format(n)
+  const formatCurrency = (n) => {
+    const abs = Math.abs(n)
+    const sign = n < 0 ? '-' : ''
+    if (abs >= 1_000_000_000) return sign + (abs / 1_000_000_000).toFixed(1) + 'B'
+    if (abs >= 1_000_000)     return sign + (abs / 1_000_000).toFixed(1) + 'M'
+    if (abs >= 100_000)       return sign + (abs / 1_000).toFixed(0) + 'K'
+    return sign + new Intl.NumberFormat('en-US').format(abs)
+  }
+  const balanceFontSize = computed(() => {
+    if (balanceHidden.value) return '17px'
+    const str = formatCurrency(mainBalance.value)
+    const len = str.length
+    if (len <= 8)  return '17px'
+    if (len <= 10) return '14px'
+    if (len <= 13) return '12px'
+    return '10px'
+  })
   function handleDepositSubmit(data) { spawnConfetti(); setTimeout(() => fetchBalance(), 1500) }
   async function handleWithdrawSubmit(data) { try { const token=(await supabase.auth.getSession()).data.session?.access_token; if(!token){showToast({type:'fail',message:'ဝင်ရောက်ပါ'});return}; const res=await fetch('https://vuywhhmwrqykukcemifd.supabase.co/functions/v1/withdraw',{method:'POST',headers:{'Authorization':'Bearer '+token,'Content-Type':'application/json'},body:JSON.stringify({method:data.method,phone:data.phone,accountName:data.accountName,amount:data.amount})}); const result=await res.json(); if(result.error)throw new Error(result.error); showToast({type:'success',message:'ငွေထုတ်မှု အောင်မြင်ပါသည်'}); spawnConfetti(); setTimeout(()=>fetchBalance(),2000) } catch(e){showToast({type:'fail',message:e.message})} }
 
@@ -1763,8 +1779,10 @@
 /* ── Balance value: fixed width prevents layout shift on hide/show ── */
 .nova-balance-val {
   display: inline-flex; align-items: baseline; gap: 0;
-  min-width: 80px;          /* wide enough for "••••••" and "99,999" alike */
+  min-width: 60px;
+  max-width: 130px;
   white-space: nowrap;
+  overflow: hidden;
 }
 
 .nova-eye-btn {
