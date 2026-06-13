@@ -1251,22 +1251,15 @@
     currentLang.value = next
     setLocale(next)
   }
-  const formatCurrency = (n) => {
-    const abs = Math.abs(n)
-    const sign = n < 0 ? '-' : ''
-    if (abs >= 1_000_000_000) return sign + (abs / 1_000_000_000).toFixed(1) + 'B'
-    if (abs >= 1_000_000)     return sign + (abs / 1_000_000).toFixed(1) + 'M'
-    if (abs >= 100_000)       return sign + (abs / 1_000).toFixed(0) + 'K'
-    return sign + new Intl.NumberFormat('en-US').format(abs)
-  }
+  const formatCurrency = n => new Intl.NumberFormat('en-US').format(n)
   const balanceFontSize = computed(() => {
     if (balanceHidden.value) return '17px'
-    const str = formatCurrency(mainBalance.value)
-    const len = str.length
-    if (len <= 8)  return '17px'
-    if (len <= 10) return '14px'
-    if (len <= 13) return '12px'
-    return '10px'
+    const len = new Intl.NumberFormat('en-US').format(mainBalance.value).length
+    if (len <= 7)  return '17px'
+    if (len <= 9)  return '15px'
+    if (len <= 11) return '13px'
+    if (len <= 13) return '11px'
+    return '9px'
   })
   function handleDepositSubmit(data) { spawnConfetti(); setTimeout(() => fetchBalance(), 1500) }
   async function handleWithdrawSubmit(data) { try { const token=(await supabase.auth.getSession()).data.session?.access_token; if(!token){showToast({type:'fail',message:'ဝင်ရောက်ပါ'});return}; const res=await fetch('https://vuywhhmwrqykukcemifd.supabase.co/functions/v1/withdraw',{method:'POST',headers:{'Authorization':'Bearer '+token,'Content-Type':'application/json'},body:JSON.stringify({method:data.method,phone:data.phone,accountName:data.accountName,amount:data.amount})}); const result=await res.json(); if(result.error)throw new Error(result.error); showToast({type:'success',message:'ငွေထုတ်မှု အောင်မြင်ပါသည်'}); spawnConfetti(); setTimeout(()=>fetchBalance(),2000) } catch(e){showToast({type:'fail',message:e.message})} }
