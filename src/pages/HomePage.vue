@@ -1,23 +1,34 @@
 <template>
     <div class="nova-app">
 
+      <!-- ══ BACKGROUND ORBS ══ -->
+      <div class="nova-bg-orb nova-bg-orb--1"></div>
+      <div class="nova-bg-orb nova-bg-orb--2"></div>
+      <div class="nova-bg-orb nova-bg-orb--3"></div>
+
       <!-- ══ HEADER ══ -->
       <header class="nova-header">
         <div class="nova-brand-wrap">
           <div class="nova-brand"><img src="https://ik.imagekit.io/rbok01qam/Brand%20Logo%20/IMG_20260605_215459.png?tr=f-auto" alt="NovaBett" style="height:34px;width:auto;object-fit:contain;display:block;" /></div>
         </div>
-        <div style="display:flex;align-items:center;gap:8px;">
-          <button @click="toggleLanguage" class="glass-btn-sm" style="color:rgba(34,197,94,0.9);font-size:11px;font-weight:700;padding:5px 10px;">{{ currentLang === 'en' ? '🇲🇲 မြန်မာ' : '🇬🇧 EN' }}</button>
-          <button @click="searchVisible = !searchVisible" class="glass-btn-icon">
-            <svg width="15" height="15" fill="none" stroke="rgba(255,255,255,0.7)" stroke-width="2" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
-          </button>
+        <div style="display:flex;align-items:center;gap:6px;">
+          <template v-if="!isLoggedIn">
+            <button @click="openAuth('login')" class="glass-btn-auth" style="height:32px;padding:0 12px;font-size:11px;">လောဂ်အင်</button>
+            <button @click="openAuth('register')" class="glass-btn-auth glass-btn-auth--primary" style="height:32px;padding:0 12px;font-size:11px;">မှတ်ပုံတင်ပါ</button>
+          </template>
+          <template v-else>
+            <button @click="toggleLanguage" class="glass-btn-sm" style="color:rgba(34,197,94,0.9);font-size:11px;font-weight:700;padding:5px 10px;">{{ currentLang === 'en' ? '🇲🇲 မြန်မာ' : '🇬🇧 EN' }}</button>
+          </template>
         </div>
       </header>
 
       <!-- Search -->
-      <div v-if="searchVisible" class="nova-search-bar">
+      <div class="nova-search-bar">
         <input v-model="searchQuery" type="text" placeholder="ဂိမ်းရှာပါ..." class="nova-input" style="padding-left:36px;" />
         <svg style="position:absolute;left:26px;top:50%;transform:translateY(-50%);" width="15" height="15" fill="none" stroke="rgba(255,255,255,0.3)" stroke-width="2" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+        <button @click="activeCategory='fav'" style="position:absolute;right:26px;top:50%;transform:translateY(-50%);background:none;border:none;cursor:pointer;padding:2px;-webkit-tap-highlight-color:transparent;">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none"><polygon points="12,2 15.09,8.26 22,9.27 17,14.14 18.18,21.02 12,17.77 5.82,21.02 7,14.14 2,9.27 8.91,8.26" :fill="activeCategory==='fav'?'#fbbf24':'none'" :stroke="activeCategory==='fav'?'#fbbf24':'rgba(255,255,255,0.45)'" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </button>
       </div>
 
       <!-- ══ BANNER ══ -->
@@ -32,19 +43,18 @@
         </div>
         <div style="position:absolute;bottom:8px;left:50%;transform:translateX(-50%);display:flex;gap:5px;z-index:2;">
           <div v-for="(_,i) in bannerImages" :key="i" @click="bannerIdx=i"
-            :style="i===bannerIdx?'width:20px;height:4px;background:#22c55e;border-radius:2px;':'width:4px;height:4px;background:rgba(255,255,255,0.28);border-radius:50%;'"
+            :style="i===bannerIdx?'width:20px;height:4px;background:#14b8a6;border-radius:2px;':'width:4px;height:4px;background:rgba(255,255,255,0.28);border-radius:50%;'"
             style="transition:all 0.3s;cursor:pointer;"></div>
         </div>
       </div>
 
       <!-- ══ MARQUEE ══ -->
-      <div class="nova-marquee-bar" style="display:flex;align-items:center;background:rgba(6,8,24,0.96);border-top:1px solid rgba(34,197,94,0.25);border-bottom:1px solid rgba(34,197,94,0.25);padding:7px 12px;gap:8px;overflow:hidden;">
-        <!-- Modern animated bell -->
-        <div class="nova-bell-wrap" style="flex-shrink:0;">
-          <svg class="nova-bell-svg" width="19" height="19" viewBox="0 0 24 24" fill="none">
-            <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9" stroke="rgba(34,197,94,0.95)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-            <path d="M13.73 21a2 2 0 0 1-3.46 0" stroke="rgba(34,197,94,0.95)" stroke-width="2" stroke-linecap="round"/>
-            <circle cx="18" cy="6" r="3" fill="#ef4444" stroke="#2e3375" stroke-width="1.5"/>
+      <div class="nova-marquee-bar" style="display:flex;align-items:center;background:rgba(6,8,24,0.96);border-top:1px solid rgba(20,184,166,0.2);border-bottom:1px solid rgba(20,184,166,0.2);padding:7px 12px;gap:8px;overflow:hidden;">
+        <!-- Volume icon -->
+        <div style="flex-shrink:0;cursor:pointer;">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="rgba(20,184,166,0.85)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/>
+            <path d="M19.07 4.93a10 10 0 010 14.14M15.54 8.46a5 5 0 010 7.07"/>
           </svg>
         </div>
         <div style="flex:1;overflow:hidden;"><span class="nova-marquee">iW99 မှ ကြိုဆိုပါသည်&nbsp;&nbsp;&nbsp;ငွေသွင်းငွေထုတ် 24/7&nbsp;&nbsp;&nbsp;JILI, PP, PG ဂိမ်းများ&nbsp;&nbsp;&nbsp;VIP အဖွဲ့ဝင်များ အထူးဆုများ&nbsp;&nbsp;&nbsp;Customer Support 24/7&nbsp;&nbsp;&nbsp;</span></div>
@@ -58,22 +68,17 @@
         </button>
       </div>
 
-      <!-- ══ ACTION ROW ══ -->
-      <div v-if="!isLoggedIn" style="padding:10px 14px;display:flex;align-items:center;justify-content:space-between;gap:8px;">
-        <div style="display:flex;align-items:center;gap:7px;flex-shrink:0;">
-          <button @click="openAuth('login')" class="glass-btn-auth">လောဂ်အင်</button>
-          <button @click="openAuth('register')" class="glass-btn-auth glass-btn-auth--primary">မှတ်ပုံတင်</button>
-        </div>
-        <div style="display:flex;align-items:center;gap:10px;">
-          <!-- Deposit icon — green frame -->
+      <!-- ══ ACTION ROW (pre-login) ══ -->
+      <div v-if="!isLoggedIn" style="padding:8px 14px;display:flex;align-items:center;justify-content:flex-end;gap:8px;">
+        <div style="flex:0;">
+          <!-- Deposit icon -->
           <div @click="goUrl(depositUrl)" class="nova-quick-icon nova-quick-icon--framed">
             <div class="nova-quick-frame">
               <svg width="17" height="17" fill="none" viewBox="0 0 24 24">
-                <rect x="2" y="6" width="20" height="13" rx="2.5" fill="rgba(34,197,94,0.12)" stroke="rgba(34,197,94,0.7)" stroke-width="1.4"/>
-                <path d="M2 10h20" stroke="rgba(34,197,94,0.7)" stroke-width="1.4"/>
+                <rect x="2" y="6" width="20" height="13" rx="2.5" fill="rgba(20,184,166,0.12)" stroke="rgba(20,184,166,0.7)" stroke-width="1.4"/>
+                <path d="M2 10h20" stroke="rgba(20,184,166,0.7)" stroke-width="1.4"/>
                 <path d="M6 14h4" stroke="rgba(255,255,255,0.6)" stroke-width="1.5" stroke-linecap="round"/>
-                <!-- animated coin drop -->
-                <circle cx="18" cy="4" r="2.2" fill="rgba(34,197,94,0.9)">
+                <circle cx="18" cy="4" r="2.2" fill="rgba(20,184,166,0.9)">
                   <animate attributeName="cy" values="2;6;6;2" dur="1.6s" repeatCount="indefinite"/>
                   <animate attributeName="opacity" values="1;1;0;1" dur="1.6s" repeatCount="indefinite"/>
                 </circle>
@@ -81,99 +86,82 @@
             </div>
             <span>ငွေသွင်းရန်</span>
           </div>
-          <!-- Withdraw icon — green frame -->
+        </div>
+        <div style="display:flex;align-items:center;gap:10px;">
+          <!-- Withdraw icon -->
           <div @click="goUrl(withdrawUrl)" class="nova-quick-icon nova-quick-icon--framed">
             <div class="nova-quick-frame">
               <svg width="17" height="17" fill="none" viewBox="0 0 24 24">
-                <rect x="2" y="6" width="20" height="13" rx="2.5" fill="rgba(34,197,94,0.08)" stroke="rgba(34,197,94,0.6)" stroke-width="1.4"/>
-                <path d="M2 10h20" stroke="rgba(34,197,94,0.6)" stroke-width="1.4"/>
-                <!-- animated up arrow -->
-                <path d="M12 19v-6" stroke="rgba(34,197,94,0.85)" stroke-width="1.6" stroke-linecap="round">
+                <rect x="2" y="6" width="20" height="13" rx="2.5" fill="rgba(20,184,166,0.08)" stroke="rgba(20,184,166,0.6)" stroke-width="1.4"/>
+                <path d="M2 10h20" stroke="rgba(20,184,166,0.6)" stroke-width="1.4"/>
+                <path d="M12 19v-6" stroke="rgba(20,184,166,0.85)" stroke-width="1.6" stroke-linecap="round">
                   <animate attributeName="opacity" values="1;0.3;1" dur="1.2s" repeatCount="indefinite"/>
                 </path>
-                <path d="M9.5 15.5l2.5-2.5 2.5 2.5" stroke="rgba(34,197,94,0.85)" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M9.5 15.5l2.5-2.5 2.5 2.5" stroke="rgba(20,184,166,0.85)" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
                   <animate attributeName="opacity" values="1;0.3;1" dur="1.2s" repeatCount="indefinite"/>
                 </path>
               </svg>
             </div>
             <span>ငွေထုတ်ရန်</span>
           </div>
-          <!-- VIP — AI Bot Head Logo -->
+          <!-- VIP -->
           <div class="nova-quick-icon" @click="goUrl(vipUrl)">
             <svg width="22" height="22" viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg">
-              <!-- antenna -->
-              <line x1="16" y1="2" x2="16" y2="7" stroke="rgba(34,197,94,0.8)" stroke-width="1.4" stroke-linecap="round"/>
-              <circle cx="16" cy="2" r="1.5" fill="rgba(34,197,94,0.9)">
+              <line x1="16" y1="2" x2="16" y2="7" stroke="rgba(20,184,166,0.8)" stroke-width="1.4" stroke-linecap="round"/>
+              <circle cx="16" cy="2" r="1.5" fill="rgba(20,184,166,0.9)">
                 <animate attributeName="opacity" values="1;0.4;1" dur="1.2s" repeatCount="indefinite"/>
               </circle>
-              <!-- ear left -->
-              <rect x="3" y="12" width="3.5" height="6" rx="1.5" fill="rgba(34,197,94,0.5)" stroke="rgba(34,197,94,0.7)" stroke-width="0.8"/>
-              <!-- ear right -->
-              <rect x="25.5" y="12" width="3.5" height="6" rx="1.5" fill="rgba(34,197,94,0.5)" stroke="rgba(34,197,94,0.7)" stroke-width="0.8"/>
-              <!-- head body -->
-              <rect x="6.5" y="7" width="19" height="18" rx="4" fill="rgba(15,30,20,0.95)" stroke="rgba(34,197,94,0.75)" stroke-width="1.2"/>
-              <!-- visor / face plate -->
-              <rect x="8.5" y="9.5" width="15" height="9" rx="2.5" fill="rgba(34,197,94,0.08)" stroke="rgba(34,197,94,0.35)" stroke-width="0.7"/>
-              <!-- left eye -->
-              <rect x="10" y="11.5" width="5" height="5" rx="1.5" fill="rgba(34,197,94,0.15)" stroke="rgba(34,197,94,0.8)" stroke-width="0.8"/>
-              <rect x="11.2" y="12.7" width="2.6" height="2.6" rx="0.8" fill="rgba(34,197,94,0.95)">
+              <rect x="3" y="12" width="3.5" height="6" rx="1.5" fill="rgba(20,184,166,0.5)" stroke="rgba(20,184,166,0.7)" stroke-width="0.8"/>
+              <rect x="25.5" y="12" width="3.5" height="6" rx="1.5" fill="rgba(20,184,166,0.5)" stroke="rgba(20,184,166,0.7)" stroke-width="0.8"/>
+              <rect x="6.5" y="7" width="19" height="18" rx="4" fill="rgba(15,30,20,0.95)" stroke="rgba(20,184,166,0.75)" stroke-width="1.2"/>
+              <rect x="8.5" y="9.5" width="15" height="9" rx="2.5" fill="rgba(20,184,166,0.08)" stroke="rgba(20,184,166,0.35)" stroke-width="0.7"/>
+              <rect x="10" y="11.5" width="5" height="5" rx="1.5" fill="rgba(20,184,166,0.15)" stroke="rgba(20,184,166,0.8)" stroke-width="0.8"/>
+              <rect x="11.2" y="12.7" width="2.6" height="2.6" rx="0.8" fill="rgba(20,184,166,0.95)">
                 <animate attributeName="fill-opacity" values="1;0.5;1" dur="1.5s" repeatCount="indefinite"/>
               </rect>
-              <!-- right eye -->
-              <rect x="17" y="11.5" width="5" height="5" rx="1.5" fill="rgba(34,197,94,0.15)" stroke="rgba(34,197,94,0.8)" stroke-width="0.8"/>
-              <rect x="18.2" y="12.7" width="2.6" height="2.6" rx="0.8" fill="rgba(34,197,94,0.95)">
+              <rect x="17" y="11.5" width="5" height="5" rx="1.5" fill="rgba(20,184,166,0.15)" stroke="rgba(20,184,166,0.8)" stroke-width="0.8"/>
+              <rect x="18.2" y="12.7" width="2.6" height="2.6" rx="0.8" fill="rgba(20,184,166,0.95)">
                 <animate attributeName="fill-opacity" values="1;0.5;1" dur="1.5s" begin="0.4s" repeatCount="indefinite"/>
               </rect>
-              <!-- scan line across visor -->
-              <line x1="8.5" y1="14" x2="23.5" y2="14" stroke="rgba(34,197,94,0.5)" stroke-width="0.6">
-                <animate attributeName="y1" values="10;18;10" dur="2s" repeatCount="indefinite"/>
-                <animate attributeName="y2" values="10;18;10" dur="2s" repeatCount="indefinite"/>
-                <animate attributeName="opacity" values="0.6;0;0.6" dur="2s" repeatCount="indefinite"/>
-              </line>
-              <!-- mouth / data bar -->
-              <rect x="11" y="21" width="10" height="2" rx="1" fill="rgba(34,197,94,0.25)"/>
-              <rect x="13" y="21" width="3" height="2" rx="1" fill="rgba(34,197,94,0.8)">
+              <rect x="11" y="21" width="10" height="2" rx="1" fill="rgba(20,184,166,0.25)"/>
+              <rect x="13" y="21" width="3" height="2" rx="1" fill="rgba(20,184,166,0.8)">
                 <animate attributeName="width" values="3;7;3" dur="1.8s" repeatCount="indefinite"/>
               </rect>
             </svg>
-            <span style="color:rgba(34,197,94,0.9);">VIP</span>
+            <span style="color:rgba(20,184,166,0.9);">VIP</span>
           </div>
-          <!-- Install — Single animated download arrow -->
-          <div class="nova-quick-icon" @click="goUrl(installUrl)">
+          <!-- Install -->
+          <div class="nova-quick-icon" @click="handleInstallClick">
             <svg width="20" height="20" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-              <!-- shaft -->
-              <line x1="12" y1="3" x2="12" y2="15" stroke="rgba(34,197,94,0.85)" stroke-width="2" stroke-linecap="round">
+              <line x1="12" y1="3" x2="12" y2="15" stroke="rgba(20,184,166,0.85)" stroke-width="2" stroke-linecap="round">
                 <animate attributeName="opacity" values="1;0.35;1" dur="1.1s" repeatCount="indefinite"/>
               </line>
-              <!-- arrowhead -->
-              <path d="M7.5 11l4.5 5 4.5-5" fill="none" stroke="rgba(34,197,94,0.9)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M7.5 11l4.5 5 4.5-5" fill="none" stroke="rgba(20,184,166,0.9)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                 <animate attributeName="transform" attributeType="XML" type="translate" values="0,0;0,2;0,0" dur="1.1s" repeatCount="indefinite"/>
                 <animate attributeName="opacity" values="1;0.4;1" dur="1.1s" repeatCount="indefinite"/>
               </path>
-              <!-- ground bar -->
-              <line x1="6" y1="20" x2="18" y2="20" stroke="rgba(34,197,94,0.6)" stroke-width="1.8" stroke-linecap="round"/>
+              <line x1="6" y1="20" x2="18" y2="20" stroke="rgba(20,184,166,0.6)" stroke-width="1.8" stroke-linecap="round"/>
             </svg>
             <span>တပ်ဆင်မည်</span>
           </div>
         </div>
       </div>
-      <div v-if="isLoggedIn" style="padding:10px 14px;display:flex;align-items:center;justify-content:space-between;background:rgba(34,197,94,0.04);border-bottom:1px solid rgba(34,197,94,0.08);">
+
+      <!-- ══ ACTION ROW (logged-in) ══ -->
+      <div v-if="isLoggedIn" style="padding:10px 14px;display:flex;align-items:center;justify-content:space-between;background:rgba(20,184,166,0.04);border-bottom:1px solid rgba(20,184,166,0.08);">
         <!-- LEFT: Avatar + info -->
         <div style="display:flex;align-items:center;gap:10px;">
-          <!-- Avatar with Myanmar flag above -->
           <div style="display:flex;flex-direction:column;align-items:center;gap:2px;">
             <span style="font-size:15px;line-height:1;filter:drop-shadow(0 1px 4px rgba(0,0,0,0.6));">🇲🇲</span>
             <NftAvatar :username="username" :size="38" />
           </div>
           <div>
-            <div style="font-size:11px;font-weight:700;color:#4ade80;margin-bottom:3px;letter-spacing:0.04em;text-shadow:0 0 8px rgba(74,222,128,0.6);">{{ username }}</div>
-            <!-- Balance row: fixed-width container stops layout shift on hide/show -->
+            <div style="font-size:11px;font-weight:700;color:#14b8a6;margin-bottom:3px;letter-spacing:0.04em;text-shadow:0 0 8px rgba(20,184,166,0.6);">{{ username }}</div>
             <div style="display:flex;align-items:center;gap:4px;">
               <div class="nova-balance-val">
-                <span :style="{fontSize:balanceFontSize,fontWeight:900,color:'#4ade80',fontVariantNumeric:'tabular-nums',transition:'font-size 0.2s',lineHeight:1.1}">{{ balanceHidden ? '••••••' : formatCurrency(mainBalance) }}</span>
+                <span :style="{fontSize:balanceFontSize,fontWeight:900,color:'#14b8a6',fontVariantNumeric:'tabular-nums',transition:'font-size 0.2s',lineHeight:1.1}">{{ balanceHidden ? '••••••' : formatCurrency(mainBalance) }}</span>
                 <span style="font-size:10px;color:rgba(255,255,255,0.3);margin-left:3px;flex-shrink:0;">MMK</span>
               </div>
-              <!-- Eye + Refresh stacked vertically, flush against balance -->
               <div style="display:flex;flex-direction:column;align-items:center;gap:3px;flex-shrink:0;">
                 <button @click="toggleBalanceHide" class="nova-eye-btn">
                   <svg v-if="!balanceHidden" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
@@ -187,40 +175,33 @@
             </div>
           </div>
         </div>
-        <!-- RIGHT: 6 tiny shortcut buttons above + deposit/withdraw below -->
+        <!-- RIGHT: shortcut buttons -->
         <div style="display:flex;flex-direction:column;align-items:flex-end;gap:5px;">
-          <!-- 6 buttons row: same size, tight together -->
           <div style="display:flex;gap:3px;">
-            <!-- KPay -->
             <div style="display:flex;flex-direction:column;align-items:center;gap:1px;cursor:pointer;" @click="showDepositModal=true">
-              <div class="qsc-icon" style="width:30px;height:30px;border-radius:7px;border:1.5px solid rgba(74,222,128,0.55);background:rgba(74,222,128,0.06);box-shadow:0 0 6px rgba(74,222,128,0.15);animation-delay:0s;overflow:hidden;display:flex;align-items:center;justify-content:center;"><img src="https://ik.imagekit.io/tdpebgueq/Payment%20Method%20/Screenshot_2026-06-04-00-35-27-327_mark.via.gp_1780510112167edit.jpg?tr=f-auto" style="width:100%;height:100%;object-fit:cover;" @error="e=>e.target.style.display='none'"/></div>
+              <div class="qsc-icon" style="width:30px;height:30px;border-radius:7px;border:1.5px solid rgba(20,184,166,0.55);background:rgba(20,184,166,0.06);box-shadow:0 0 6px rgba(20,184,166,0.15);animation-delay:0s;overflow:hidden;display:flex;align-items:center;justify-content:center;"><img src="https://ik.imagekit.io/tdpebgueq/Payment%20Method%20/Screenshot_2026-06-04-00-35-27-327_mark.via.gp_1780510112167edit.jpg?tr=f-auto" style="width:100%;height:100%;object-fit:cover;" @error="e=>e.target.style.display='none'"/></div>
               <span style="font-size:8px;color:rgba(255,255,255,0.6);font-weight:600;">KPay</span>
             </div>
-            <!-- Wave -->
             <div style="display:flex;flex-direction:column;align-items:center;gap:1px;cursor:pointer;" @click="showDepositModal=true">
-              <div class="qsc-icon" style="width:30px;height:30px;border-radius:7px;border:1.5px solid rgba(74,222,128,0.55);background:rgba(74,222,128,0.06);box-shadow:0 0 6px rgba(74,222,128,0.15);animation-delay:0.3s;overflow:hidden;display:flex;align-items:center;justify-content:center;"><img src="https://ik.imagekit.io/tdpebgueq/Payment%20Method%20/Screenshot_2026-06-04-00-35-34-166_mark.via.gp_1780510124725edit.jpg?tr=f-auto" style="width:100%;height:100%;object-fit:cover;" @error="e=>e.target.style.display='none'"/></div>
+              <div class="qsc-icon" style="width:30px;height:30px;border-radius:7px;border:1.5px solid rgba(20,184,166,0.55);background:rgba(20,184,166,0.06);box-shadow:0 0 6px rgba(20,184,166,0.15);animation-delay:0.3s;overflow:hidden;display:flex;align-items:center;justify-content:center;"><img src="https://ik.imagekit.io/tdpebgueq/Payment%20Method%20/Screenshot_2026-06-04-00-35-34-166_mark.via.gp_1780510124725edit.jpg?tr=f-auto" style="width:100%;height:100%;object-fit:cover;" @error="e=>e.target.style.display='none'"/></div>
               <span style="font-size:8px;color:rgba(255,255,255,0.6);font-weight:600;">Wave</span>
             </div>
-            <!-- UAB -->
             <div style="display:flex;flex-direction:column;align-items:center;gap:1px;cursor:pointer;" @click="showDepositModal=true">
-              <div class="qsc-icon" style="width:30px;height:30px;border-radius:7px;border:1.5px solid rgba(74,222,128,0.55);background:rgba(74,222,128,0.06);box-shadow:0 0 6px rgba(74,222,128,0.15);animation-delay:0.6s;overflow:hidden;display:flex;align-items:center;justify-content:center;"><img src="https://ik.imagekit.io/0xfxtkccz/Uab/1781076796857.png?tr=f-auto" style="width:100%;height:100%;object-fit:cover;" @error="e=>e.target.style.display='none'"/></div>
+              <div class="qsc-icon" style="width:30px;height:30px;border-radius:7px;border:1.5px solid rgba(20,184,166,0.55);background:rgba(20,184,166,0.06);box-shadow:0 0 6px rgba(20,184,166,0.15);animation-delay:0.6s;overflow:hidden;display:flex;align-items:center;justify-content:center;"><img src="https://ik.imagekit.io/0xfxtkccz/Uab/1781076796857.png?tr=f-auto" style="width:100%;height:100%;object-fit:cover;" @error="e=>e.target.style.display='none'"/></div>
               <span style="font-size:8px;color:rgba(255,255,255,0.6);font-weight:600;">UAB</span>
             </div>
-            <!-- VIP -->
             <div style="display:flex;flex-direction:column;align-items:center;gap:1px;cursor:pointer;" @click="$router.push('/vip')">
               <div class="qsc-icon" style="width:30px;height:30px;border-radius:7px;background:linear-gradient(135deg,rgba(245,158,11,0.22),rgba(217,119,6,0.12));border:1.5px solid rgba(251,191,36,0.6);box-shadow:0 0 8px rgba(251,191,36,0.25);display:flex;align-items:center;justify-content:center;animation-delay:0.9s;">
                 <svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M2 17h20l-2-9-5 5-3-7-3 7-5-5-2 9z" fill="url(#vg2)" stroke="#f59e0b" stroke-width="0.5"/><defs><linearGradient id="vg2" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#fbbf24"/><stop offset="100%" stop-color="#d97706"/></linearGradient></defs><circle cx="12" cy="8" r="1.5" fill="#fef3c7"/><circle cx="2.5" cy="8.5" r="1" fill="#fef3c7"/><circle cx="21.5" cy="8.5" r="1" fill="#fef3c7"/></svg>
               </div>
               <span style="font-size:8px;color:#fbbf24;font-weight:600;text-shadow:0 0 5px rgba(251,191,36,0.4);">VIP</span>
             </div>
-            <!-- Bot -->
             <div style="display:flex;flex-direction:column;align-items:center;gap:1px;cursor:pointer;" @click="">
-              <div class="qsc-icon" style="width:30px;height:30px;border-radius:7px;background:linear-gradient(135deg,rgba(74,222,128,0.15),rgba(16,185,129,0.08));border:1.5px solid rgba(74,222,128,0.55);box-shadow:0 0 8px rgba(74,222,128,0.2);display:flex;align-items:center;justify-content:center;animation-delay:1.2s;">
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="none"><rect x="4" y="8" width="16" height="12" rx="3" fill="#0f2a1a" stroke="#4ade80" stroke-width="1.2"/><rect x="7" y="4" width="10" height="5" rx="2" fill="#0f2a1a" stroke="#4ade80" stroke-width="1"/><line x1="12" y1="4" x2="12" y2="2" stroke="#4ade80" stroke-width="1.2" stroke-linecap="round"/><circle cx="12" cy="2" r="1" fill="#4ade80"/><circle cx="9" cy="13" r="1.8" fill="#4ade80" opacity="0.9"/><circle cx="15" cy="13" r="1.8" fill="#4ade80" opacity="0.9"/><rect x="8" y="17" width="8" height="1.5" rx="0.75" fill="#4ade80" opacity="0.6"/></svg>
+              <div class="qsc-icon" style="width:30px;height:30px;border-radius:7px;background:linear-gradient(135deg,rgba(20,184,166,0.15),rgba(16,185,129,0.08));border:1.5px solid rgba(20,184,166,0.55);box-shadow:0 0 8px rgba(20,184,166,0.2);display:flex;align-items:center;justify-content:center;animation-delay:1.2s;">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none"><rect x="4" y="8" width="16" height="12" rx="3" fill="#0f2a1a" stroke="#14b8a6" stroke-width="1.2"/><rect x="7" y="4" width="10" height="5" rx="2" fill="#0f2a1a" stroke="#14b8a6" stroke-width="1"/><line x1="12" y1="4" x2="12" y2="2" stroke="#14b8a6" stroke-width="1.2" stroke-linecap="round"/><circle cx="12" cy="2" r="1" fill="#14b8a6"/><circle cx="9" cy="13" r="1.8" fill="#14b8a6" opacity="0.9"/><circle cx="15" cy="13" r="1.8" fill="#14b8a6" opacity="0.9"/><rect x="8" y="17" width="8" height="1.5" rx="0.75" fill="#14b8a6" opacity="0.6"/></svg>
               </div>
-              <span style="font-size:8px;color:#4ade80;font-weight:600;text-shadow:0 0 5px rgba(74,222,128,0.3);">Bot</span>
+              <span style="font-size:8px;color:#14b8a6;font-weight:600;text-shadow:0 0 5px rgba(20,184,166,0.3);">Bot</span>
             </div>
-            <!-- Download / PWA Install -->
             <div style="display:flex;flex-direction:column;align-items:center;gap:1px;cursor:pointer;" @click="handleInstallClick">
               <div class="qsc-icon" style="width:30px;height:30px;border-radius:7px;background:linear-gradient(135deg,rgba(34,211,238,0.15),rgba(6,182,212,0.08));border:1.5px solid rgba(34,211,238,0.55);box-shadow:0 0 8px rgba(34,211,238,0.2);display:flex;align-items:center;justify-content:center;animation-delay:1.5s;">
                 <svg width="16" height="16" viewBox="0 0 24 24" fill="none"><rect x="3" y="3" width="18" height="18" rx="4" fill="#061828" stroke="#22d3ee" stroke-width="1.2"/><path d="M12 7v7" stroke="#22d3ee" stroke-width="1.8" stroke-linecap="round"/><path d="M8.5 11l3.5 4 3.5-4" stroke="#22d3ee" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/><line x1="7" y1="18" x2="17" y2="18" stroke="#22d3ee" stroke-width="1.4" stroke-linecap="round"/></svg>
@@ -228,7 +209,6 @@
               <span style="font-size:8px;color:#22d3ee;font-weight:600;text-shadow:0 0 5px rgba(34,211,238,0.3);">ဒေါင်း</span>
             </div>
           </div>
-          <!-- Deposit / Withdraw buttons -->
           <div style="display:flex;gap:6px;">
             <button @click="showDepositModal=true" class="glass-btn-auth glass-btn-auth--primary nova-cash-btn">
               <span class="nova-cash-particles">
@@ -240,12 +220,13 @@
               ငွေသွင်း
             </button>
             <button @click="showWithdrawModal=true" class="glass-btn-auth nova-withdraw-btn">
-              <svg width="13" height="13" fill="none" viewBox="0 0 24 24" style="flex-shrink:0;"><path d="M12 17V7" stroke="rgba(34,197,94,0.9)" stroke-width="2" stroke-linecap="round"><animate attributeName="opacity" values="1;0.4;1" dur="1s" repeatCount="indefinite"/></path><path d="M8 11l4-4 4 4" stroke="rgba(34,197,94,0.9)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><animate attributeName="opacity" values="1;0.4;1" dur="1s" repeatCount="indefinite"/></path><rect x="4" y="18" width="16" height="2" rx="1" fill="rgba(34,197,94,0.5)"/></svg>
+              <svg width="13" height="13" fill="none" viewBox="0 0 24 24" style="flex-shrink:0;"><path d="M12 17V7" stroke="rgba(20,184,166,0.9)" stroke-width="2" stroke-linecap="round"><animate attributeName="opacity" values="1;0.4;1" dur="1s" repeatCount="indefinite"/></path><path d="M8 11l4-4 4 4" stroke="rgba(20,184,166,0.9)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><animate attributeName="opacity" values="1;0.4;1" dur="1s" repeatCount="indefinite"/></path><rect x="4" y="18" width="16" height="2" rx="1" fill="rgba(20,184,166,0.5)"/></svg>
               ငွေထုတ်
             </button>
           </div>
         </div>
       </div>
+
       <!-- ══ RECENTLY PLAYED (logged-in users only) ══ -->
       <div v-if="isLoggedIn && recentGames.length > 0" class="nova-recent-section">
         <div class="nova-recent-header">
@@ -268,12 +249,19 @@
           </div>
         </div>
       </div>
+
       <!-- ══ CATEGORY BAR + GAME GRID ══ -->
       <div style="display:flex;flex-direction:column;" class="nova-game-area">
 
+        <!-- HOT GAMES SECTION HEADER -->
+        <div class="nova-hot-header">
+          <span class="nova-hot-icon">🔥</span>
+          <span class="nova-hot-title">ဟော်ကိမ်းများ</span>
+        </div>
+
         <!-- HORIZONTAL CATEGORY BAR: first tab pinned, rest scrollable -->
         <div class="nova-hcat-wrapper">
-          <!-- ① Pinned first tab — sits outside the scroll container entirely -->
+          <!-- ① Pinned first tab -->
           <button class="nova-hcat-btn nova-hcat-pin"
             :class="activeCategory===categories[0].id?'nova-hcat-btn--active':''"
             @click="activeCategory=categories[0].id">
@@ -284,7 +272,7 @@
             </span>
             <span class="nova-hcat-label">{{ categories[0].name }}</span>
           </button>
-          <!-- ② Scrollable remaining tabs — slide under pinned first tab -->
+          <!-- ② Scrollable remaining tabs -->
           <div class="nova-hcat-scroll">
             <div class="nova-hcat-bar">
               <button v-for="cat in categories.slice(1)" :key="cat.id"
@@ -302,14 +290,14 @@
           </div>
         </div>
 
-        <!-- GAME GRID (full width) -->
+        <!-- GAME GRID -->
         <div style="flex:1;min-width:0;padding:8px;overflow:hidden;">
           <div v-if="loadingGames" style="display:grid;grid-template-columns:repeat(3,1fr);gap:10px;">
             <div v-for="n in 9" :key="n" style="border-radius:12px;aspect-ratio:3/4;background:rgba(255,255,255,0.04);animation:nova-pulse 1.5s ease-in-out infinite;"></div>
           </div>
           <div v-else-if="fetchError" style="text-align:center;padding:30px 0;">
             <p style="color:rgba(255,100,100,0.8);font-size:12px;margin-bottom:10px;">{{ fetchError }}</p>
-            <button @click="fetchGames" class="glass-btn-sm" style="color:#4ade80;padding:6px 14px;">Retry</button>
+            <button @click="fetchGames" class="glass-btn-sm" style="color:#14b8a6;padding:6px 14px;">Retry</button>
           </div>
           <div v-else-if="displayedGames.length===0" style="text-align:center;padding:30px 0;">
             <p style="color:rgba(255,255,255,0.22);font-size:12px;">ဂိမ်းမတွေ့ပါ</p>
@@ -323,9 +311,9 @@
                 <img src="https://ik.imagekit.io/rbok01qam/Custom%20icons%20img/ddca62d0-6422-11f1-aded-3d7319f38cf3.gif?tr=f-auto" style="position:absolute;top:4px;right:4px;width:20px;height:20px;object-fit:contain;z-index:10;pointer-events:none;" alt=""/>
                 <div v-if="idx%5<2" class="nova-badge nova-badge--hot">HOT</div>
                 <div class="nova-badge nova-badge--provider">{{ game.provider_code?.toUpperCase() }}</div>
-                <!-- Fav heart button -->
+                <!-- Star bookmark button -->
                 <button @click.stop="toggleFav(game.game_code)" :class="['nova-fav-btn', isFav(game.game_code)?'nova-fav-btn--on':'']">
-                  <svg width="11" height="11" viewBox="0 0 24 24" fill="none"><path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z" :fill="isFav(game.game_code)?'#f87171':'none'" :stroke="isFav(game.game_code)?'#f87171':'rgba(255,255,255,0.7)'" stroke-width="2"/></svg>
+                  <svg width="12" height="12" viewBox="0 0 24 24" fill="none"><polygon points="12,2 15.09,8.26 22,9.27 17,14.14 18.18,21.02 12,17.77 5.82,21.02 7,14.14 2,9.27 8.91,8.26" :fill="isFav(game.game_code)?'#fbbf24':'none'" :stroke="isFav(game.game_code)?'#fbbf24':'rgba(255,255,255,0.7)'" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
                 </button>
                 <div style="position:absolute;bottom:0;left:0;right:0;padding:4px 5px 5px;">
                   <div style="font-size:9px;font-weight:700;color:rgba(255,255,255,0.9);overflow:hidden;text-overflow:ellipsis;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;line-height:1.3;">{{ game.game_name }}</div>
@@ -333,7 +321,7 @@
               </div>
             </div>
           </div>
-          <!-- Dots + အားလုံး row — shown below the 18-card popular grid -->
+          <!-- Pagination dots -->
           <div v-if="activeCategory==='popular' && !loadingGames && carouselPages.length > 0" class="nova-carousel-footer">
             <div class="nova-carousel-dots">
               <button v-for="(_, di) in carouselPages" :key="di"
@@ -367,27 +355,22 @@
           </svg>
           <span class="nova-prov-title">စလော့ ဂိမ်း</span>
         </div>
-
-        <!-- Row 1: 3 cards -->
         <div class="nova-prov-row3">
-          <button class="nova-prov-card nova-prov-card--pg" 
-            @click="openProvPanel('pg')">
+          <button class="nova-prov-card nova-prov-card--pg" @click="openProvPanel('pg')">
             <img src="https://ik.imagekit.io/tdpebgueq/Home%20Page%20_icons_linces%20logo/3b38cced-f446-4727-ab37-879557be37cb.png?tr=f-auto" class="nova-prov-img" alt="PG"/>
             <div class="nova-prov-info">
               <span class="nova-prov-name">PG Soft</span>
               <span class="nova-prov-sub">{{ games.filter(g=>g.provider_code==='pg').length }} ဂိမ်း</span>
             </div>
           </button>
-          <button class="nova-prov-card nova-prov-card--pp" 
-            @click="openProvPanel('pp')">
+          <button class="nova-prov-card nova-prov-card--pp" @click="openProvPanel('pp')">
             <img src="https://ik.imagekit.io/tdpebgueq/Home%20Page%20_icons_linces%20logo/a04d3bed-f475-42eb-9f35-4f9802068315.png?tr=f-auto" class="nova-prov-img" alt="PP"/>
             <div class="nova-prov-info">
               <span class="nova-prov-name">Pragmatic</span>
               <span class="nova-prov-sub">{{ games.filter(g=>g.provider_code==='pp').length }} ဂိမ်း</span>
             </div>
           </button>
-          <button class="nova-prov-card nova-prov-card--jdb" 
-            @click="openProvPanel('jdb')">
+          <button class="nova-prov-card nova-prov-card--jdb" @click="openProvPanel('jdb')">
             <img src="https://ik.imagekit.io/tdpebgueq/Home%20Page%20_icons_linces%20logo/f519ade7-dd80-4235-a650-3d8744d5795c.png?tr=f-auto" class="nova-prov-img" alt="JDB"/>
             <div class="nova-prov-info">
               <span class="nova-prov-name">JDB</span>
@@ -395,11 +378,8 @@
             </div>
           </button>
         </div>
-
-        <!-- Row 2: 1 full-width card -->
         <div class="nova-prov-row1" style="margin-top:10px;">
-          <button class="nova-prov-card nova-prov-card--jili nova-prov-card--wide" 
-            @click="openProvPanel('jili')">
+          <button class="nova-prov-card nova-prov-card--jili nova-prov-card--wide" @click="openProvPanel('jili')">
             <img src="https://ik.imagekit.io/tdpebgueq/Home%20Page%20_icons_linces%20logo/40_N_JILI_LOGO.avif" class="nova-prov-img nova-prov-img--wide" alt="JILI"/>
             <div class="nova-prov-info">
               <span class="nova-prov-name">JILI Gaming</span>
@@ -408,7 +388,6 @@
           </button>
         </div>
       </div>
-
 
       <!-- ══ FISH GAMES ══ -->
       <div class="nova-fish-section" id="fish-section">
@@ -441,18 +420,15 @@
       <div class="nova-live-section">
         <div class="nova-live-header">
           <div class="nova-live-icon-wrap">
-            <img
-              src="https://ik.imagekit.io/tdpebgueq/Provider%20label%20icons%20/Screenshot_2026-06-04-01-03-25-338_mark.via.gp_1780511848574edit.jpg?tr=f-auto"
+            <img src="https://ik.imagekit.io/tdpebgueq/Provider%20label%20icons%20/Screenshot_2026-06-04-01-03-25-338_mark.via.gp_1780511848574edit.jpg?tr=f-auto"
               class="nova-live-icon-img"
               @error="e=>{e.target.style.display='none';e.target.nextElementSibling.style.display='flex'}"
-              alt="live casino"
-            />
+              alt="live casino" />
             <span class="nova-live-icon-fallback">🃏</span>
           </div>
           <span class="nova-live-title">Live & Arcade</span>
           <span class="nova-live-count">{{ games.filter(g=>g.category==='live'||g.category==='arcade').length }} ဂိမ်း</span>
         </div>
-        <!-- First 6 cards: 3-col grid -->
         <div class="nova-live-row3">
           <div v-for="game in liveGames.slice(0,6)" :key="game.id"
             class="nova-game-card" @click="openGame(game)">
@@ -469,7 +445,6 @@
             </div>
           </div>
         </div>
-        <!-- 7th card: full-width 16:7 -->
         <div v-if="liveGames.length >= 7" style="margin-top:8px;">
           <div class="nova-game-card" @click="openGame(liveGames[6])">
             <div style="position:relative;aspect-ratio:16/7;overflow:hidden;background:#1a0a2e;">
@@ -490,14 +465,11 @@
 
       <!-- ══ LIVE CASINO + ARCADE BUTTONS ══ -->
       <div class="nova-catbtn-section" id="live-arcade-section">
-        <!-- Live Casino button -->
         <button class="nova-catbtn nova-catbtn--live" @click="openCatPanel('live')">
           <div class="nova-catbtn-img-wrap">
-            <img
-              src="https://ik.imagekit.io/tdpebgueq/Provider%20label%20icons%20/Screenshot_2026-06-04-01-03-25-338_mark.via.gp_1780511848574edit.jpg?tr=f-auto"
+            <img src="https://ik.imagekit.io/tdpebgueq/Provider%20label%20icons%20/Screenshot_2026-06-04-01-03-25-338_mark.via.gp_1780511848574edit.jpg?tr=f-auto"
               class="nova-catbtn-img" alt="Live Casino"
-              @error="e=>{e.target.style.display='none';e.target.nextElementSibling.style.display='flex'}"
-            />
+              @error="e=>{e.target.style.display='none';e.target.nextElementSibling.style.display='flex'}" />
             <span class="nova-catbtn-img-fallback">🃏</span>
           </div>
           <div class="nova-catbtn-info">
@@ -505,14 +477,11 @@
             <span class="nova-catbtn-sub">{{ games.filter(g=>g.category==='live').length }} ဂိမ်း</span>
           </div>
         </button>
-        <!-- Arcade button -->
         <button class="nova-catbtn nova-catbtn--arcade" @click="openCatPanel('arcade')">
           <div class="nova-catbtn-img-wrap">
-            <img
-              src="https://ik.imagekit.io/rbok01qam/Cactheory%20imag/6852101165dd4643a1ec3adee41f5913.jpg?tr=f-auto"
+            <img src="https://ik.imagekit.io/rbok01qam/Cactheory%20imag/6852101165dd4643a1ec3adee41f5913.jpg?tr=f-auto"
               class="nova-catbtn-img" alt="Arcade"
-              @error="e=>{e.target.style.display='none';e.target.nextElementSibling.style.display='flex'}"
-            />
+              @error="e=>{e.target.style.display='none';e.target.nextElementSibling.style.display='flex'}" />
             <span class="nova-catbtn-img-fallback">🕹️</span>
           </div>
           <div class="nova-catbtn-info">
@@ -533,1730 +502,177 @@
             <img src="https://ik.imagekit.io/tdpebgueq/icons/telegram_logo_QeWRW9-okP.png?tr=f-auto"
               class="nova-contact-img" alt="Telegram"
               @error="e=>e.target.style.display='none'"/>
-            <img src="https://ik.imagekit.io/tdpebgueq/Agent_Tap_icons/5bb0f73a7b3e0f976acad614a42e5040.jpg?tr=f-auto"
-              class="nova-contact-img" alt="Facebook"
-              @error="e=>e.target.style.display='none'"/>
           </div>
         </div>
-        <div style="height:1px;background:rgba(255,255,255,0.06);margin:0 -16px;"></div>
-        <div style="padding:18px 0;display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px;">
-          <div>
-            <p style="font-size:12px;font-weight:700;color:rgba(255,255,255,0.55);margin-bottom:10px;">ကာစိန်</p>
-            <div style="display:flex;flex-direction:column;gap:8px;">
-              <span class="nova-footer-link">မြန်အမ်းငွေ</span><span class="nova-footer-link">ဆုလာဘ်</span><span class="nova-footer-link">VIP</span><span class="nova-footer-link">အေးချင့်</span><span class="nova-footer-link">လုပ်ငန်းမူ</span>
-            </div>
-          </div>
-          <div>
-            <p style="font-size:12px;font-weight:700;color:rgba(255,255,255,0.55);margin-bottom:10px;">ဂိမ်း</p>
-            <div style="display:flex;flex-direction:column;gap:8px;">
-              <span class="nova-footer-link">နာမည်ကြီး</span><span class="nova-footer-link">စလော့</span><span class="nova-footer-link">ကဒ်ဂိမ်းများ</span><span class="nova-footer-link">ငါးမျှားရ</span><span class="nova-footer-link">Live Casino</span><span class="nova-footer-link">အားကစား</span>
-            </div>
-          </div>
-          <div>
-            <p style="font-size:12px;font-weight:700;color:rgba(255,255,255,0.55);margin-bottom:10px;">အကူအညီ</p>
-            <div style="display:flex;flex-direction:column;gap:8px;">
-              <span class="nova-footer-link">အကောင့်အကူ</span><span class="nova-footer-link">ဆောင်းတ</span><span class="nova-footer-link">ကြေငြာချက်</span>
-            </div>
-          </div>
+        <div style="padding:14px 0;border-top:1px solid rgba(255,255,255,0.05);display:flex;flex-wrap:wrap;justify-content:center;gap:10px;">
+          <img v-for="(logo,i) in licenseLogos" :key="i" :src="logo" alt="" loading="lazy"
+            style="height:28px;width:auto;object-fit:contain;border-radius:4px;opacity:0.7;"
+            @error="e=>e.target.style.display='none'"/>
         </div>
-        <div style="height:1px;background:rgba(255,255,255,0.06);margin:0 -16px;"></div>
-        <div style="padding:18px 0;display:flex;justify-content:center;gap:18px;align-items:center;">
-          <!-- Twitter -->
-          <div class="nova-social-float">
-            <img src="https://ik.imagekit.io/tdpebgueq/Home%20Page%20_icons_linces%20logo/3fc3a900-77b6-4add-a07d-a0b8e0ba1ed0.png?tr=f-auto"
-              class="nova-social-img" alt="Twitter" loading="lazy"
-              @error="e=>e.target.parentElement.innerHTML='<div class=nova-social-svg-fb style=background:rgba(41,182,246,0.18)><svg width=28 height=28 viewBox=&quot;0 0 40 40&quot; fill=none><path d=&quot;M32 10.9c-.7.3-1.5.5-2.3.6.8-.5 1.4-1.3 1.7-2.2-.8.5-1.6.8-2.5 1A4.2 4.2 0 0020.4 15c0 .3 0 .6.1.9C15.2 15.7 11 12.8 8.1 8.7c-.4.6-.6 1.3-.6 2.1 0 1.4.7 2.7 1.8 3.5-.7 0-1.3-.2-1.9-.5v.1c0 2 1.4 3.6 3.3 4a4.3 4.3 0 01-1.9.1c.5 1.7 2.1 2.9 3.9 3A8.4 8.4 0 018 22.8c1.8 1.2 4 1.8 6.3 1.8 7.5 0 11.6-6.2 11.6-11.6v-.5c.8-.6 1.5-1.3 2.1-2.2z&quot; fill=&quot;rgba(41,182,246,0.9)&quot;/></svg></div>'"/>
-          </div>
-          <!-- Instagram -->
-          <div class="nova-social-float">
-            <img src="https://ik.imagekit.io/tdpebgueq/Home%20Page%20_icons_linces%20logo/bfc75684-3579-4552-a01e-2923af43a942.png?tr=f-auto"
-              class="nova-social-img" alt="Instagram" loading="lazy"
-              @error="e=>e.target.style.display='none'"/>
-          </div>
-          <!-- Viber -->
-          <div class="nova-social-float">
-            <img src="https://ik.imagekit.io/tdpebgueq/Agent_Tap_icons/89dc6e632241379c113adf1bb70ecdb3.jpg?tr=f-auto"
-              class="nova-social-img" alt="Viber" loading="lazy"
-              @error="e=>e.target.style.display='none'"/>
-          </div>
-          <!-- Facebook -->
-          <div class="nova-social-float">
-            <img src="https://ik.imagekit.io/tdpebgueq/Agent_Tap_icons/5bb0f73a7b3e0f976acad614a42e5040.jpg?tr=f-auto"
-              class="nova-social-img" alt="Facebook" loading="lazy"
-              @error="e=>e.target.style.display='none'"/>
-          </div>
-        </div>
-        <div style="height:1px;background:rgba(255,255,255,0.06);margin:0 -16px;"></div>
-        <div style="padding:18px 0;">
-          <p style="font-size:10px;color:rgba(255,255,255,0.4);text-align:center;margin-bottom:12px;letter-spacing:0.1em;font-weight:600;">LICENSED &amp; CERTIFIED</p>
-          <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;">
-            <div v-for="logo in licenseLogos" :key="logo" class="nova-license-slot">
-              <img :src="logo" class="nova-license-img" loading="lazy"
-                @error="e=>e.target.style.display='none'"/>
-            </div>
-          </div>
-        </div>
-        <div style="height:1px;background:rgba(255,255,255,0.06);margin:0 -16px;"></div>
-        <div style="padding:18px 0 140px;">
-          <p style="font-size:11px;line-height:1.85;color:rgba(255,255,255,0.5);margin-bottom:10px;"><span style="color:#4ade80;font-weight:700;">iW99</span> သည် ကာစိန်ဂိမ်းများ၊ ပိုကာဂိမ်းများ၊ စလော့ဂိမ်းများ မြင်းပြိုင်မြောက်မြားစွာ ဆော့ကစားနိုင်သောနေရာတစ်ခု ဖြစ်သည်။ ငွေသွင်းငွေထုတ် 24/7 ရနိုင်ပြီး Customer Support ကို အမြဲတမ်း ဆက်သွယ်နိုင်သည်။</p>
-          <p style="font-size:10px;color:rgba(255,255,255,0.35);text-align:center;">© လုပ်ပိုင်ခွင့်များ ၂၀၀၀ - ၂၀၃၀</p>
-        </div>
+        <p style="text-align:center;font-size:10px;color:rgba(255,255,255,0.18);padding:10px 0 80px;line-height:1.6;">
+          © 2026 iW99 · All rights reserved · 18+ Only
+        </p>
       </div>
 
       <!-- ══ MODALS ══ -->
-      <DepositModal v-model="showDepositModal" @deposited="handleDepositSubmit"/>
-      <WithdrawModal v-model="showWithdrawModal" :balance="mainBalance" @submit="handleWithdrawSubmit"/>
-      <SpinWheelModal v-model="showSpinWheel" />
-      <TxStatusTracker v-if="isLoggedIn" />
-      <!-- PWA Install Banner -->
-      <Transition name="pwa-slide">
-        <div v-if="showPwaBanner" style="position:fixed;bottom:80px;left:14px;right:14px;z-index:800;background:linear-gradient(135deg,#0e1338,#131a4a);border:1px solid rgba(74,222,128,0.3);border-radius:16px;padding:12px 14px;display:flex;align-items:center;gap:12px;box-shadow:0 8px 32px rgba(0,0,0,0.5);">
-          <div style="width:40px;height:40px;border-radius:10px;background:rgba(74,222,128,0.1);border:1.5px solid rgba(74,222,128,0.3);display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:20px;">📲</div>
-          <div style="flex:1;min-width:0;">
-            <div style="font-size:12px;font-weight:800;color:#fff;margin-bottom:2px;">App တပ်ဆင်မည်</div>
-            <div style="font-size:10px;color:rgba(255,255,255,0.5);">iW99 ကို Home Screen တွင် ထည့်ရန်</div>
-          </div>
-          <button @click="installPwa" style="background:linear-gradient(135deg,#22c55e,#16a34a);border:none;border-radius:10px;color:#fff;font-size:11px;font-weight:700;padding:8px 14px;cursor:pointer;flex-shrink:0;">Install</button>
-          <button @click="showPwaBanner=false" style="background:rgba(255,255,255,0.07);border:1px solid rgba(255,255,255,0.1);border-radius:50%;width:24px;height:24px;color:rgba(255,255,255,0.4);font-size:12px;display:flex;align-items:center;justify-content:center;cursor:pointer;flex-shrink:0;">✕</button>
-        </div>
-      </Transition>
-
-      <!-- ══ Android Install Guide Modal ══ -->
-      <Transition name="nova-modal">
-        <div v-if="showAndroidInstallModal" class="nova-overlay" @click.self="showAndroidInstallModal=false">
-          <div style="background:linear-gradient(160deg,#0e1338,#131a4a);border:1px solid rgba(34,211,238,0.25);border-radius:20px;padding:24px 20px 20px;margin:0 16px;max-width:360px;width:100%;box-shadow:0 20px 60px rgba(0,0,0,0.7);">
-            <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:18px;">
-              <div style="display:flex;align-items:center;gap:10px;">
-                <div style="width:38px;height:38px;border-radius:10px;background:rgba(34,211,238,0.12);border:1.5px solid rgba(34,211,238,0.4);display:flex;align-items:center;justify-content:center;">
-                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none"><rect x="3" y="3" width="18" height="18" rx="4" fill="#061828" stroke="#22d3ee" stroke-width="1.4"/><path d="M12 7v7" stroke="#22d3ee" stroke-width="2" stroke-linecap="round"/><path d="M8.5 11l3.5 4 3.5-4" stroke="#22d3ee" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/><line x1="7" y1="18" x2="17" y2="18" stroke="#22d3ee" stroke-width="1.6" stroke-linecap="round"/></svg>
-                </div>
-                <div>
-                  <div style="font-size:13px;font-weight:800;color:#fff;">iW99 တပ်ဆင်ရန်</div>
-                  <div style="font-size:10px;color:rgba(255,255,255,0.45);">Android / Chrome</div>
-                </div>
-              </div>
-              <button @click="showAndroidInstallModal=false" style="background:rgba(255,255,255,0.07);border:1px solid rgba(255,255,255,0.1);border-radius:50%;width:28px;height:28px;color:rgba(255,255,255,0.5);font-size:14px;display:flex;align-items:center;justify-content:center;cursor:pointer;">✕</button>
+      <Transition name="modal-fade">
+        <div v-if="showAuthModal" class="nova-auth-overlay" @click.self="showAuthModal=false">
+          <div class="nova-auth-sheet">
+            <div class="nova-auth-handle"></div>
+            <div class="nova-auth-tabs">
+              <button :class="['nova-auth-tab', authTab==='login'?'nova-auth-tab--active':'']" @click="authTab='login'">လောဂ်အင်</button>
+              <button :class="['nova-auth-tab', authTab==='register'?'nova-auth-tab--active':'']" @click="authTab='register'">မှတ်ပုံတင်</button>
             </div>
-            <div style="display:flex;flex-direction:column;gap:12px;">
-              <div style="display:flex;align-items:flex-start;gap:12px;background:rgba(255,255,255,0.04);border-radius:12px;padding:12px;">
-                <div style="width:26px;height:26px;border-radius:50%;background:rgba(34,211,238,0.15);border:1.5px solid rgba(34,211,238,0.4);display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:11px;font-weight:800;color:#22d3ee;">1</div>
-                <div>
-                  <div style="font-size:11px;font-weight:700;color:#fff;margin-bottom:3px;">Browser <span style="color:#22d3ee;">⋮ Menu</span> ကိုနှိပ်ပါ</div>
-                  <div style="font-size:10px;color:rgba(255,255,255,0.45);">Chrome အပေါ်ညာဘက် ၃ ချက်</div>
-                  <div style="margin-top:6px;display:inline-flex;align-items:center;gap:3px;background:rgba(34,211,238,0.08);border:1px solid rgba(34,211,238,0.2);border-radius:7px;padding:4px 10px;">
-                    <span style="font-size:16px;letter-spacing:1px;color:#22d3ee;line-height:1;">⋮</span>
-                  </div>
-                </div>
+            <!-- Login Form -->
+            <div v-if="authTab==='login'" class="nova-auth-form">
+              <div class="nova-field-wrap">
+                <input v-model="loginUsername" type="text" class="nova-input" placeholder="Username သို့မဟုတ် Phone" autocomplete="username" />
               </div>
-              <div style="display:flex;align-items:flex-start;gap:12px;background:rgba(255,255,255,0.04);border-radius:12px;padding:12px;">
-                <div style="width:26px;height:26px;border-radius:50%;background:rgba(34,211,238,0.15);border:1.5px solid rgba(34,211,238,0.4);display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:11px;font-weight:800;color:#22d3ee;">2</div>
-                <div>
-                  <div style="font-size:11px;font-weight:700;color:#fff;margin-bottom:3px;"><span style="color:#22d3ee;">"Add to Home screen"</span> ကိုနှိပ်ပါ</div>
-                  <div style="font-size:10px;color:rgba(255,255,255,0.45);">သို့မဟုတ် "Install app"</div>
-                </div>
+              <div class="nova-field-wrap" style="position:relative;">
+                <input v-model="loginPassword" :type="loginShowPassword?'text':'password'" class="nova-input" placeholder="Password" autocomplete="current-password" />
+                <button @click="loginShowPassword=!loginShowPassword" class="nova-eye-toggle">
+                  <svg v-if="loginShowPassword" width="16" height="16" fill="none" stroke="rgba(255,255,255,0.4)" stroke-width="2" viewBox="0 0 24 24"><path d="M17.94 17.94A10.07 10.07 0 0112 20c-7 0-11-8-11-8a18.45 18.45 0 015.06-5.94M9.9 4.24A9.12 9.12 0 0112 4c7 0 11 8 11 8a18.5 18.5 0 01-2.16 3.19m-6.72-1.07a3 3 0 11-4.24-4.24"/><line x1="1" y1="1" x2="23" y2="23"/></svg>
+                  <svg v-else width="16" height="16" fill="none" stroke="rgba(255,255,255,0.4)" stroke-width="2" viewBox="0 0 24 24"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+                </button>
               </div>
-              <div style="display:flex;align-items:flex-start;gap:12px;background:rgba(255,255,255,0.04);border-radius:12px;padding:12px;">
-                <div style="width:26px;height:26px;border-radius:50%;background:rgba(74,222,128,0.15);border:1.5px solid rgba(74,222,128,0.4);display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:11px;font-weight:800;color:#4ade80;">3</div>
-                <div>
-                  <div style="font-size:11px;font-weight:700;color:#fff;margin-bottom:3px;"><span style="color:#4ade80;">"Install" / "Add"</span> ကိုနှိပ်ပါ</div>
-                  <div style="font-size:10px;color:rgba(255,255,255,0.45);">iW99 Home Screen တွင် ပေါ်လာမည်!</div>
-                </div>
-              </div>
+              <p v-if="loginError" class="nova-form-error">{{ loginError }}</p>
+              <button @click="doLogin" :disabled="loginLoading || !loginFormFilled" class="nova-btn-submit">
+                <span v-if="loginLoading" class="nova-spinner"></span>
+                <span v-else>လောဂ်အင်ဝင်မည်</span>
+              </button>
+              <p style="text-align:center;font-size:12px;color:rgba(255,255,255,0.4);margin-top:12px;">
+                အကောင့်မရှိသေးပါသလား?
+                <button @click="authTab='register'" style="background:none;border:none;color:rgba(20,184,166,0.9);cursor:pointer;font-weight:700;font-size:12px;">မှတ်ပုံတင်မည်</button>
+              </p>
             </div>
-            <button @click="showAndroidInstallModal=false" style="width:100%;margin-top:16px;background:linear-gradient(135deg,#22d3ee,#0891b2);border:none;border-radius:12px;color:#fff;font-size:12px;font-weight:800;padding:12px;cursor:pointer;letter-spacing:0.03em;">နားလည်ပြီ ✓</button>
-          </div>
-        </div>
-      </Transition>
-
-      <!-- ══ iOS Install Guide Modal ══ -->
-      <Transition name="nova-modal">
-        <div v-if="showIosInstallModal" class="nova-overlay" @click.self="showIosInstallModal=false">
-          <div style="background:linear-gradient(160deg,#0e1338,#131a4a);border:1px solid rgba(34,211,238,0.25);border-radius:20px;padding:24px 20px 20px;margin:0 16px;max-width:360px;width:100%;box-shadow:0 20px 60px rgba(0,0,0,0.7);">
-            <!-- Header -->
-            <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:18px;">
-              <div style="display:flex;align-items:center;gap:10px;">
-                <div style="width:38px;height:38px;border-radius:10px;background:rgba(34,211,238,0.12);border:1.5px solid rgba(34,211,238,0.4);display:flex;align-items:center;justify-content:center;">
-                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none"><rect x="3" y="3" width="18" height="18" rx="4" fill="#061828" stroke="#22d3ee" stroke-width="1.4"/><path d="M12 7v7" stroke="#22d3ee" stroke-width="2" stroke-linecap="round"/><path d="M8.5 11l3.5 4 3.5-4" stroke="#22d3ee" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/><line x1="7" y1="18" x2="17" y2="18" stroke="#22d3ee" stroke-width="1.6" stroke-linecap="round"/></svg>
-                </div>
-                <div>
-                  <div style="font-size:13px;font-weight:800;color:#fff;">iW99 တပ်ဆင်ရန်</div>
-                  <div style="font-size:10px;color:rgba(255,255,255,0.45);">iPhone / iPad</div>
-                </div>
+            <!-- Register Form -->
+            <div v-if="authTab==='register'" class="nova-auth-form">
+              <div class="nova-field-wrap">
+                <input v-model="regUsername" type="text" class="nova-input" placeholder="Username (4-20 char)" autocomplete="username" />
               </div>
-              <button @click="showIosInstallModal=false" style="background:rgba(255,255,255,0.07);border:1px solid rgba(255,255,255,0.1);border-radius:50%;width:28px;height:28px;color:rgba(255,255,255,0.5);font-size:14px;display:flex;align-items:center;justify-content:center;cursor:pointer;">✕</button>
+              <div class="nova-field-wrap">
+                <input v-model="regPhone" type="tel" class="nova-input" placeholder="Phone (09xxxxxxxxx)" autocomplete="tel" inputmode="numeric"/>
+              </div>
+              <div class="nova-field-wrap" style="position:relative;">
+                <input v-model="regPassword" :type="regShowPassword?'text':'password'" class="nova-input" placeholder="Password (6+ char)" autocomplete="new-password"/>
+                <button @click="regShowPassword=!regShowPassword" class="nova-eye-toggle">
+                  <svg v-if="regShowPassword" width="16" height="16" fill="none" stroke="rgba(255,255,255,0.4)" stroke-width="2" viewBox="0 0 24 24"><path d="M17.94 17.94A10.07 10.07 0 0112 20c-7 0-11-8-11-8a18.45 18.45 0 015.06-5.94M9.9 4.24A9.12 9.12 0 0112 4c7 0 11 8 11 8a18.5 18.5 0 01-2.16 3.19m-6.72-1.07a3 3 0 11-4.24-4.24"/><line x1="1" y1="1" x2="23" y2="23"/></svg>
+                  <svg v-else width="16" height="16" fill="none" stroke="rgba(255,255,255,0.4)" stroke-width="2" viewBox="0 0 24 24"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+                </button>
+              </div>
+              <div v-if="regPassword" style="display:flex;gap:3px;padding:0 2px;margin-top:4px;">
+                <div v-for="i in 5" :key="i" style="flex:1;height:3px;border-radius:2px;transition:background 0.3s;"
+                  :style="{background: i <= pwStrength ? pwColor : 'rgba(255,255,255,0.1)'}"></div>
+              </div>
+              <div class="nova-field-wrap" style="margin-top:10px;">
+                <input v-model="regReferral" type="text" class="nova-input" placeholder="Referral Code (ရှိလျှင်)" />
+                <p v-if="refAgentInfo" style="font-size:10px;color:#14b8a6;margin-top:4px;padding-left:2px;">✓ {{ refAgentInfo }}</p>
+              </div>
+              <p v-if="regError" class="nova-form-error">{{ regError }}</p>
+              <button @click="doRegister" :disabled="regLoading || !regFormFilled" class="nova-btn-submit">
+                <span v-if="regLoading" class="nova-spinner"></span>
+                <span v-else>အကောင့်ဖွင့်မည်</span>
+              </button>
             </div>
-            <!-- Steps -->
-            <div style="display:flex;flex-direction:column;gap:12px;">
-              <!-- Step 1 -->
-              <div style="display:flex;align-items:flex-start;gap:12px;background:rgba(255,255,255,0.04);border-radius:12px;padding:12px;">
-                <div style="width:26px;height:26px;border-radius:50%;background:rgba(34,211,238,0.15);border:1.5px solid rgba(34,211,238,0.4);display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:11px;font-weight:800;color:#22d3ee;">1</div>
-                <div>
-                  <div style="font-size:11px;font-weight:700;color:#fff;margin-bottom:3px;">Safari မှ <span style="color:#22d3ee;">Share</span> ကိုနှိပ်ပါ</div>
-                  <div style="font-size:10px;color:rgba(255,255,255,0.45);">အောက်ဘက် toolbar တွင် ရှိသော</div>
-                  <!-- Share icon illustration -->
-                  <div style="margin-top:6px;display:inline-flex;align-items:center;gap:4px;background:rgba(34,211,238,0.08);border:1px solid rgba(34,211,238,0.2);border-radius:7px;padding:4px 8px;">
-                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#22d3ee" stroke-width="2"><path d="M4 12v8a2 2 0 002 2h12a2 2 0 002-2v-8" stroke-linecap="round"/><polyline points="16 6 12 2 8 6" stroke-linecap="round" stroke-linejoin="round"/><line x1="12" y1="2" x2="12" y2="15" stroke-linecap="round"/></svg>
-                    <span style="font-size:10px;color:#22d3ee;font-weight:700;">Share</span>
-                  </div>
-                </div>
-              </div>
-              <!-- Step 2 -->
-              <div style="display:flex;align-items:flex-start;gap:12px;background:rgba(255,255,255,0.04);border-radius:12px;padding:12px;">
-                <div style="width:26px;height:26px;border-radius:50%;background:rgba(34,211,238,0.15);border:1.5px solid rgba(34,211,238,0.4);display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:11px;font-weight:800;color:#22d3ee;">2</div>
-                <div>
-                  <div style="font-size:11px;font-weight:700;color:#fff;margin-bottom:3px;"><span style="color:#22d3ee;">"Add to Home Screen"</span> ကိုနှိပ်ပါ</div>
-                  <div style="font-size:10px;color:rgba(255,255,255,0.45);">Scroll ဆင်းပြီး ရှာပါ</div>
-                  <div style="margin-top:6px;display:inline-flex;align-items:center;gap:4px;background:rgba(34,211,238,0.08);border:1px solid rgba(34,211,238,0.2);border-radius:7px;padding:4px 8px;">
-                    <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#22d3ee" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2"/><line x1="12" y1="8" x2="12" y2="16"/><line x1="8" y1="12" x2="16" y2="12"/></svg>
-                    <span style="font-size:10px;color:#22d3ee;font-weight:700;">Add to Home Screen</span>
-                  </div>
-                </div>
-              </div>
-              <!-- Step 3 -->
-              <div style="display:flex;align-items:flex-start;gap:12px;background:rgba(255,255,255,0.04);border-radius:12px;padding:12px;">
-                <div style="width:26px;height:26px;border-radius:50%;background:rgba(74,222,128,0.15);border:1.5px solid rgba(74,222,128,0.4);display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:11px;font-weight:800;color:#4ade80;">3</div>
-                <div>
-                  <div style="font-size:11px;font-weight:700;color:#fff;margin-bottom:3px;"><span style="color:#4ade80;">"Add"</span> ကိုနှိပ်ပါ</div>
-                  <div style="font-size:10px;color:rgba(255,255,255,0.45);">iW99 Home Screen တွင် ပေါ်လာမည်!</div>
-                </div>
-              </div>
-            </div>
-            <!-- Footer -->
-            <button @click="showIosInstallModal=false" style="width:100%;margin-top:16px;background:linear-gradient(135deg,#22d3ee,#0891b2);border:none;border-radius:12px;color:#fff;font-size:12px;font-weight:800;padding:12px;cursor:pointer;letter-spacing:0.03em;">နားလည်ပြီ ✓</button>
           </div>
         </div>
       </Transition>
 
-      <!-- ══ INBOX MODAL ══ -->
+      <!-- Inbox Modal -->
       <Transition name="inbox-slide">
         <div v-if="showInbox" class="nova-inbox-overlay" @click.self="showInbox=false">
           <div class="nova-inbox-sheet">
             <div class="nova-inbox-handle"></div>
             <div class="nova-inbox-header">
-              <div style="display:flex;align-items:center;gap:8px;">
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="none"><rect x="2" y="4" width="20" height="16" rx="2.5" stroke="#22c55e" stroke-width="2"/><path d="M2 8l10 7 10-7" stroke="#22c55e" stroke-width="2" stroke-linecap="round"/></svg>
-                <span style="font-size:15px;font-weight:800;color:#fff;letter-spacing:0.04em;">Admin Inbox</span>
-              </div>
-              <button @click="showInbox=false" style="background:rgba(255,255,255,0.08);border:1px solid rgba(255,255,255,0.1);border-radius:50%;width:28px;height:28px;display:flex;align-items:center;justify-content:center;cursor:pointer;color:rgba(255,255,255,0.6);font-size:14px;">✕</button>
+              <span style="font-size:14px;font-weight:700;color:#fff;">📬 Inbox</span>
+              <button @click="showInbox=false" style="background:none;border:none;color:rgba(255,255,255,0.5);cursor:pointer;font-size:20px;line-height:1;">×</button>
             </div>
-            <div v-if="adminMessages.length === 0" class="nova-inbox-empty">
-              <svg width="48" height="48" viewBox="0 0 24 24" fill="none" style="opacity:0.25;margin-bottom:12px;"><rect x="2" y="4" width="20" height="16" rx="2.5" stroke="#fff" stroke-width="1.5"/><path d="M2 8l10 7 10-7" stroke="#fff" stroke-width="1.5" stroke-linecap="round"/></svg>
-              <div style="color:rgba(255,255,255,0.35);font-size:13px;font-weight:600;">မက်ဆေ့ မရှိသေးပါ</div>
-              <div style="color:rgba(255,255,255,0.2);font-size:11px;margin-top:4px;">Admin မှ မက်ဆေ့များ ဤနေရာတွင် ပေါ်လာပါမည်</div>
+            <div v-if="adminMessages.length===0" class="nova-inbox-empty">
+              <svg width="48" height="48" fill="none" stroke="rgba(255,255,255,0.15)" stroke-width="1.5" viewBox="0 0 24 24"><rect x="2" y="4" width="20" height="16" rx="2.5"/><path d="M2 8l10 7 10-7"/></svg>
+              <p style="color:rgba(255,255,255,0.25);font-size:13px;margin-top:12px;">မက်ဆေ့ဂျ်မရှိပါ</p>
             </div>
             <div v-for="msg in adminMessages" :key="msg.id" class="nova-inbox-item">
-              <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:4px;">
+              <div style="display:flex;justify-content:space-between;align-items:flex-start;">
                 <span class="nova-inbox-item-title">{{ msg.title }}</span>
-                <span class="nova-inbox-item-time">{{ msg.time }}</span>
+                <span class="nova-inbox-item-time">{{ new Date(msg.created_at).toLocaleDateString('my') }}</span>
               </div>
-              <div class="nova-inbox-item-body">{{ msg.body }}</div>
+              <p class="nova-inbox-item-body">{{ msg.body }}</p>
             </div>
           </div>
         </div>
       </Transition>
 
-      <!-- ══ AUTH PANEL — Slide from right ══ -->
+      <!-- Deposit / Withdraw modals -->
+      <DepositModal v-if="showDepositModal" @close="showDepositModal=false" :username="username" />
+      <WithdrawModal v-if="showWithdrawModal" @close="showWithdrawModal=false" :username="username" :balance="mainBalance" />
+      <SpinWheelModal v-if="showSpinWheel" @close="showSpinWheel=false" :username="username" />
+
+      <!-- Provider/Category Panel overlays -->
+      <ProviderGamePanel v-if="activeProvPanel" :provider="activeProvPanel" :games="games" @close="activeProvPanel=null" @open-game="openGame" />
+      <CategoryGamePanel v-if="activeCatPanel" :category="activeCatPanel" :games="games" @close="activeCatPanel=null" @open-game="openGame" />
+
+      <!-- TxStatusTracker (logged in only) -->
+      <TxStatusTracker v-if="isLoggedIn" :username="username" />
+
+      <!-- FAB stack right side -->
       <Teleport to="body">
-        <Transition name="nova-auth-slide">
-          <div v-if="showAuthModal" class="nova-auth-panel">
+        <div class="nova-fab-stack" v-if="!isLoggedIn || true">
+          <button class="nova-fab nova-fab--wheel" @click="showSpinWheel=true" v-if="isLoggedIn">
+            <img src="https://ik.imagekit.io/rbok01qam/Custom%20icons%20img/3ad58290-642f-11f1-aded-3d7319f38cf3.gif?tr=f-auto" class="nova-fab-img" alt="Spin"/>
+          </button>
+          <button class="nova-fab nova-fab--cs" @click="openCustomerService">
+            <img src="https://ik.imagekit.io/rbok01qam/Custom%20icons%20img/2b5f5dc0-6422-11f1-a3e1-aff0ca16f106.gif?tr=f-auto" class="nova-fab-img" alt="CS"/>
+          </button>
+          <button class="nova-fab nova-fab--payment" @click="showDepositModal=true" v-if="isLoggedIn">
+            <img src="https://ik.imagekit.io/rbok01qam/Custom%20icons%20img/payment_fab_1781087400547.gif?tr=f-auto" class="nova-fab-img" alt="Pay"/>
+          </button>
+        </div>
+        <!-- Left side FAB (notification/close banner) -->
+        <div class="nova-fab-stack-left" v-if="showPwaBanner || showIosInstallModal || showAndroidInstallModal">
+          <button class="nova-fab nova-fab--left" @click="showPwaBanner=false;showIosInstallModal=false;showAndroidInstallModal=false;">
+            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.7)" stroke-width="2.5" stroke-linecap="round"><path d="M18 6L6 18M6 6l12 12"/></svg>
+          </button>
+        </div>
+      </Teleport>
 
-            <!-- ── Header: back + tabs ── -->
-            <div class="nova-auth-header">
-              <button @click="showAuthModal=false" class="nova-auth-back">
-                <svg width="20" height="20" fill="none" stroke="rgba(255,255,255,0.85)" stroke-width="2.5" viewBox="0 0 24 24">
-                  <path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7"/>
-                </svg>
-              </button>
-              <div class="nova-auth-tabs">
-                <button @click="authTab='register'" :class="['nova-auth-tab-btn', authTab==='register'?'nova-auth-tab-btn--active':'']">
-                  <svg width="13" height="13" fill="currentColor" viewBox="0 0 24 24" style="opacity:0.75;"><path d="M15 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm-9-2V7H4v3H1v2h3v3h2v-3h3v-2H6zm9 4c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/></svg>
-                  မှတ်ပုံတင်
-                </button>
-                <button @click="authTab='login'" :class="['nova-auth-tab-btn', authTab==='login'?'nova-auth-tab-btn--active':'']">
-                  <svg width="13" height="13" fill="currentColor" viewBox="0 0 24 24" style="opacity:0.75;"><path d="M10.09 15.59L11.5 17l5-5-5-5-1.41 1.41L12.67 11H3v2h9.67l-2.58 2.59zM19 3H5c-1.11 0-2 .9-2 2v4h2V5h14v14H5v-4H3v4c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2z"/></svg>
-                  လောဂ်အင်
-                </button>
+      <!-- PWA Install modals -->
+      <Transition name="modal-fade">
+        <div v-if="showIosInstallModal" class="nova-auth-overlay" @click.self="showIosInstallModal=false">
+          <div class="nova-auth-sheet" style="padding-bottom:32px;">
+            <div class="nova-auth-handle"></div>
+            <div style="padding:20px 20px 0;text-align:center;">
+              <p style="font-size:15px;font-weight:800;color:#fff;margin-bottom:8px;">📱 iPhone/iPad တပ်ဆင်ရန်</p>
+              <p style="font-size:13px;color:rgba(255,255,255,0.6);line-height:1.6;">
+                Safari မှ <strong style="color:#14b8a6;">Share</strong> ခလုတ် နှိပ်ပြီး
+                <strong style="color:#14b8a6;">"Add to Home Screen"</strong> ကို ရွေးပါ
+              </p>
+              <div style="margin-top:16px;padding:12px;background:rgba(20,184,166,0.08);border:1px solid rgba(20,184,166,0.25);border-radius:12px;">
+                <p style="font-size:11px;color:rgba(255,255,255,0.4);">
+                  Share icon → Add to Home Screen → Add
+                </p>
               </div>
-              <div style="width:36px;"></div>
-            </div>
-
-            <!-- ── Scrollable form area ── -->
-            <div class="nova-auth-body">
-
-              <!-- REGISTER FORM -->
-              <div v-if="authTab==='register'" class="nova-auth-form-body">
-                <p class="nova-auth-subtitle">အကူညီများသာဘဖြစ်သည်။ အကောင့် မှတ်ပုံတင်</p>
-                <div class="nova-auth-field">
-                  <svg width="15" height="15" fill="rgba(180,180,180,0.5)" viewBox="0 0 24 24"><path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/></svg>
-                  <input v-model="regUsername" type="text" placeholder="*ကျေးဇူးပြု၍ ဝင်ပါ အကောင့်" class="nova-auth-input"/>
-                  <button v-if="regUsername" @click="regUsername=''" class="nova-clear-btn"><svg width="14" height="14" fill="none" stroke="rgba(255,255,255,0.4)" stroke-width="2.5" viewBox="0 0 24 24"><path d="M18 6L6 18M6 6l12 12"/></svg></button>
-                </div>
-                <div class="nova-auth-field">
-                  <svg width="15" height="15" fill="rgba(180,180,180,0.5)" viewBox="0 0 24 24"><path d="M18 8h-1V6c0-2.76-2.24-5-5-5S7 3.24 7 6v2H6c-1.1 0-2 .9-2 2v10c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V10c0-1.1-.9-2-2-2zm-6 9c-1.1 0-2-.9-2-2s.9-2 2-2 2 .9 2 2-.9 2-2 2zm3.1-9H8.9V6c0-1.71 1.39-3.1 3.1-3.1 1.71 0 3.1 1.39 3.1 3.1v2z"/></svg>
-                  <input v-model="regPassword" :type="regShowPassword?'text':'password'" placeholder="*စကားဝှက်ထည့်ဆည်ပါ" class="nova-auth-input"/>
-                  <button v-if="regPassword" @click="regPassword=''" class="nova-clear-btn"><svg width="14" height="14" fill="none" stroke="rgba(255,255,255,0.4)" stroke-width="2.5" viewBox="0 0 24 24"><path d="M18 6L6 18M6 6l12 12"/></svg></button>
-                  <button @click="regShowPassword=!regShowPassword" class="nova-clear-btn" style="margin-left:2px;"><svg width="16" height="16" fill="none" stroke="rgba(180,180,180,0.5)" stroke-width="2" viewBox="0 0 24 24"><path :d="regShowPassword?'M17.94 17.94A10.07 10.07 0 0112 20c-7 0-11-8-11-8a18.45 18.45 0 015.06-5.94M9.9 4.24A9.12 9.12 0 0112 4c7 0 11 8 11 8a18.5 18.5 0 01-2.16 3.19m-6.72-1.07a3 3 0 11-4.24-4.24M1 1l22 22':'M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z M12 9a3 3 0 100 6 3 3 0 000-6z'"/></svg></button>
-                </div>
-                <div style="margin-bottom:8px;">
-                  <div style="display:flex;align-items:center;gap:6px;">
-                    <span style="font-size:9px;color:rgba(255,255,255,0.35);">ခွန်အား</span>
-                    <div style="display:flex;gap:3px;flex:1;">
-                      <div v-for="i in 5" :key="i" :style="i<=pwStrength?'background:'+pwColor+';':'background:rgba(255,255,255,0.1);'" style="height:3px;flex:1;border-radius:2px;transition:all 0.3s;"></div>
-                    </div>
-                  </div>
-                </div>
-                <div class="nova-auth-field">
-                  <div style="display:flex;align-items:center;gap:6px;padding-right:8px;border-right:1px solid rgba(255,255,255,0.1);flex-shrink:0;">
-                    <span style="font-size:16px;">🇲🇲</span>
-                    <span style="font-size:12px;color:rgba(255,255,255,0.55);font-weight:600;">+95</span>
-                  </div>
-                  <input v-model="regPhone" type="tel" placeholder="*ဖုန်းနံပါတ်ထည့်ဆည်ပါ" class="nova-auth-input" style="padding-left:8px;"/>
-                  <button v-if="regPhone" @click="regPhone=''" class="nova-clear-btn"><svg width="14" height="14" fill="none" stroke="rgba(255,255,255,0.4)" stroke-width="2.5" viewBox="0 0 24 24"><path d="M18 6L6 18M6 6l12 12"/></svg></button>
-                </div>
-                <!-- Referral Code Field -->
-                <div class="nova-auth-field nova-ref-field">
-                  <svg width="15" height="15" fill="rgba(245,200,66,0.55)" viewBox="0 0 24 24"><path d="M12.5 2a5.5 5.5 0 015.45 4.818l.05.363L20 7a3 3 0 012.995 2.824L23 10v2a3 3 0 01-2.824 2.995L20 15h-.55l-.05.363A5.5 5.5 0 0112.5 20H8.828l-4.12 1.76A1 1 0 013 20.839V18.5a5.5 5.5 0 01.32-9.347L3 9V7a3 3 0 012.824-2.995L6 4l.05-.363A5.5 5.5 0 0111.5 2h1zm0 2h-1a3.5 3.5 0 00-3.45 2.945L8 7.5V9H6a1 1 0 00-.993.883L5 10v2a1 1 0 00.883.993L6 13h1.5v1.5a3.5 3.5 0 003.268 3.495L11 18h1.5a3.5 3.5 0 003.495-3.268L16 14.5V13H17.5a1 1 0 00.993-.883L18.5 12v-2a1 1 0 00-.883-.993L17.5 9H16V7.5a3.5 3.5 0 00-3.268-3.495L12.5 4z"/></svg>
-                  <input v-model="regReferral" type="text" placeholder="ဖိတ်စာကုဒ် (optional)" class="nova-auth-input" style="font-size:13px;letter-spacing:0.05em;"/>
-                  <span v-if="refAgentInfo" class="nova-ref-badge">
-                    <span class="nova-ref-dot"></span>
-                    {{ refAgentInfo }}
-                  </span>
-                  <button v-if="regReferral" @click="regReferral='';refAgentInfo=''" class="nova-clear-btn"><svg width="14" height="14" fill="none" stroke="rgba(255,255,255,0.4)" stroke-width="2.5" viewBox="0 0 24 24"><path d="M18 6L6 18M6 6l12 12"/></svg></button>
-                </div>
-                <div style="display:flex;align-items:flex-start;gap:8px;margin-bottom:10px;">
-                  <div @click="reg18Agreed=!reg18Agreed" :style="reg18Agreed?'background:#22c55e;border-color:#22c55e;':''" style="width:16px;height:16px;border-radius:3px;border:1.5px solid rgba(255,255,255,0.3);flex-shrink:0;display:flex;align-items:center;justify-content:center;cursor:pointer;transition:all 0.2s;margin-top:2px;">
-                    <svg v-if="reg18Agreed" width="9" height="9" fill="white" viewBox="0 0 24 24"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg>
-                  </div>
-                  <p style="font-size:10px;color:rgba(255,255,255,0.42);line-height:1.5;margin:0;">ကျွန်ုပ်သည် အသက် 18 နှစ်ကျော်သည်။ <span style="color:#22c55e;font-weight:700;">«အသုံးပြုသူသဘောတူညီချက်»</span> ကို ဖတ်ပြီး သဘောတူသည်</p>
-                </div>
-              </div>
-
-              <!-- LOGIN FORM -->
-              <div v-if="authTab==='login'" class="nova-auth-form-body">
-                <p class="nova-auth-subtitle">ဖုန်းနံပါတ်/အကောင့် ဖြင့် လောဂ်အင်ဝင်ပါ</p>
-                <div class="nova-auth-field">
-                  <svg width="15" height="15" fill="rgba(180,180,180,0.5)" viewBox="0 0 24 24"><path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/></svg>
-                  <input v-model="loginUsername" type="text" placeholder="*ဖုန်းနံပါတ်/အကောင့်" class="nova-auth-input"/>
-                  <button v-if="loginUsername" @click="loginUsername=''" class="nova-clear-btn"><svg width="14" height="14" fill="none" stroke="rgba(255,255,255,0.4)" stroke-width="2.5" viewBox="0 0 24 24"><path d="M18 6L6 18M6 6l12 12"/></svg></button>
-                </div>
-                <div style="display:flex;gap:8px;margin-bottom:9px;">
-                  <button @click="loginType='password'" :class="['nova-login-type-btn', loginType==='password'?'nova-login-type-btn--active':'']"><span style="font-size:13px;">🔒</span> ကားဝှက် လောဂ်အင်</button>
-                  <button @click="loginType='otp'" :class="['nova-login-type-btn', loginType==='otp'?'nova-login-type-btn--active':'']"><span style="font-size:13px;">🔢</span> အတည်ပြကုဒ်</button>
-                </div>
-                <div class="nova-auth-field">
-                  <svg width="15" height="15" fill="rgba(180,180,180,0.5)" viewBox="0 0 24 24"><path d="M18 8h-1V6c0-2.76-2.24-5-5-5S7 3.24 7 6v2H6c-1.1 0-2 .9-2 2v10c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V10c0-1.1-.9-2-2-2zm-6 9c-1.1 0-2-.9-2-2s.9-2 2-2 2 .9 2 2-.9 2-2 2zm3.1-9H8.9V6c0-1.71 1.39-3.1 3.1-3.1 1.71 0 3.1 1.39 3.1 3.1v2z"/></svg>
-                  <input v-model="loginPassword" :type="loginShowPassword?'text':'password'" placeholder="*သင်ကားဝှက်ကို ထည့်ဆည်ပါ" class="nova-auth-input"/>
-                  <button v-if="loginPassword" @click="loginPassword=''" class="nova-clear-btn"><svg width="14" height="14" fill="none" stroke="rgba(255,255,255,0.4)" stroke-width="2.5" viewBox="0 0 24 24"><path d="M18 6L6 18M6 6l12 12"/></svg></button>
-                  <button @click="loginShowPassword=!loginShowPassword" class="nova-clear-btn" style="margin-left:2px;"><svg width="16" height="16" fill="none" stroke="rgba(180,180,180,0.5)" stroke-width="2" viewBox="0 0 24 24"><path :d="loginShowPassword?'M17.94 17.94A10.07 10.07 0 0112 20c-7 0-11-8-11-8a18.45 18.45 0 015.06-5.94M9.9 4.24A9.12 9.12 0 0112 4c7 0 11 8 11 8a18.5 18.5 0 01-2.16 3.19m-6.72-1.07a3 3 0 11-4.24-4.24M1 1l22 22':'M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z M12 9a3 3 0 100 6 3 3 0 000-6z'"/></svg></button>
-                </div>
-                <div style="display:flex;align-items:center;gap:8px;margin-bottom:10px;">
-                  <div @click="rememberMe=!rememberMe" :style="rememberMe?'background:#22c55e;border-color:#22c55e;':''" style="width:16px;height:16px;border-radius:3px;border:1.5px solid rgba(255,255,255,0.3);flex-shrink:0;display:flex;align-items:center;justify-content:center;cursor:pointer;transition:all 0.2s;">
-                    <svg v-if="rememberMe" width="9" height="9" fill="white" viewBox="0 0 24 24"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg>
-                  </div>
-                  <span style="font-size:10px;color:rgba(255,255,255,0.45);">အကောင့်ကားဝှက်ကို မှတ်ထားပါ</span>
-                </div>
-              </div>
-
-            </div>
-
-            <!-- ── Panel footer: always visible, keyboard-safe ── -->
-            <div class="nova-auth-panel-footer">
-              <template v-if="authTab==='register'">
-                <p v-if="regError" class="nova-auth-error">{{ regError }}</p>
-                <button @click="handleRegister" :disabled="regLoading" class="nova-auth-submit-btn" :class="!regFormFilled?'nova-auth-submit-btn--dim':''"><span>{{ regLoading ? 'Loading...' : 'မှတ်ပုံတင်' }}</span></button>
-                <div style="text-align:center;margin-top:10px;"><span style="font-size:11px;color:rgba(255,255,255,0.32);cursor:pointer;">ဘည်ဝန်ဆောင်မှု</span></div>
-              </template>
-              <template v-if="authTab==='login'">
-                <p v-if="loginError" class="nova-auth-error">{{ loginError }}</p>
-                <button @click="handleLogin" :disabled="loginLoading" class="nova-auth-submit-btn" :class="!loginFormFilled?'nova-auth-submit-btn--dim':''"><span>{{ loginLoading ? 'Loading...' : 'လောဂ်အင်' }}</span></button>
-                <div style="display:flex;justify-content:space-between;margin-top:10px;">
-                  <span style="font-size:11px;color:rgba(255,255,255,0.32);cursor:pointer;">ဘည်ဝန်ဆောင်မှု</span>
-                  <span style="font-size:11px;color:rgba(255,255,255,0.5);cursor:pointer;">ကားဝှက်မေ့နေသည်</span>
-                </div>
-              </template>
             </div>
           </div>
-        </Transition>
-      </Teleport>
-
-      <!-- ══ LEFT FLOATING ACTION BUTTON ══ -->
-      <Teleport to="body">
-        <div v-if="!showAuthModal" class="nova-fab-stack-left">
-          <button class="nova-fab nova-fab--left" @click="onLeftFabClick" title="Action">
-            <img src="https://ik.imagekit.io/0xfxtkccz/Uab/2062000831807586305.avif?tr=f-auto" class="nova-fab-img" alt="Action" />
-          </button>
         </div>
-      </Teleport>
-
-      <!-- ══ FLOATING ACTION BUTTONS (FAB) ══ -->
-      <Teleport to="body">
-        <div v-if="!showAuthModal" class="nova-fab-stack">
-          <!-- Wheel / Lucky Spin -->
-          <button class="nova-fab nova-fab--wheel" @click="showSpinWheel=true" title="Lucky Wheel">
-            <img src="https://ik.imagekit.io/0xfxtkccz/Uab/marketing_medium_dx_2_15.avif?tr=f-auto" class="nova-fab-img" alt="Wheel"
-              @error="e=>e.target.style.display='none'" />
-            <svg v-if="false" width="26" height="26" viewBox="0 0 24 24" fill="none" style="display:none"></svg>
-          </button>
-
-          <!-- CS / Customer Service -->
-          <button class="nova-fab nova-fab--cs" @click="openCsPage" title="Customer Service">
-            <img src="https://ik.imagekit.io/0xfxtkccz/Uab/marketing_medium_dx_1_09.avif?tr=f-auto" class="nova-fab-img" alt="CS"
-              @error="e=>e.target.style.display='none'" />
-          </button>
-
-          <!-- Payment / Deposit -->
-          <button class="nova-fab nova-fab--payment" @click="showDepositModal=true" title="ငွေသွင်း">
-            <img src="https://ik.imagekit.io/0xfxtkccz/Uab/2028706161105256449.avif?tr=f-auto" class="nova-fab-img" alt="ငွေသွင်း"
-              @error="e=>e.target.style.display='none'" />
-          </button>
+      </Transition>
+      <Transition name="modal-fade">
+        <div v-if="showAndroidInstallModal" class="nova-auth-overlay" @click.self="showAndroidInstallModal=false">
+          <div class="nova-auth-sheet" style="padding-bottom:32px;">
+            <div class="nova-auth-handle"></div>
+            <div style="padding:20px 20px 0;text-align:center;">
+              <p style="font-size:15px;font-weight:800;color:#fff;margin-bottom:8px;">📲 Android တပ်ဆင်ရန်</p>
+              <p style="font-size:13px;color:rgba(255,255,255,0.6);line-height:1.6;">
+                Browser menu (⋮) မှ <strong style="color:#14b8a6;">"Add to Home Screen"</strong> ကို ရွေးပါ
+              </p>
+              <div style="margin-top:16px;padding:12px;background:rgba(20,184,166,0.08);border:1px solid rgba(20,184,166,0.25);border-radius:12px;">
+                <p style="font-size:11px;color:rgba(255,255,255,0.4);">
+                  Chrome menu → Add to Home Screen → Install
+                </p>
+              </div>
+            </div>
+          </div>
         </div>
-      </Teleport>
+      </Transition>
 
     </div>
-
-  <!-- ── Provider Game Panel ── -->
-  <ProviderGamePanel
-    v-model="showProviderPanel"
-    :initial-provider="panelProvider"
-    :games="games"
-    @open-game="openGame"
-    @open-category="openCatPanel"
-  />
-  <CategoryGamePanel
-    v-model="showCategoryPanel"
-    :initial-category="panelCategory"
-    :games="games"
-    @open-game="openGame"
-  />
   </template>
-
-  <script setup>
-  import { ref, computed, onMounted, onUnmounted, nextTick, watch } from 'vue'
-  import { useRoute, useRouter } from 'vue-router'
-  import { showToast } from 'vant'
-  import { supabase } from '@/supabase'
-  import DepositModal from '@/components/DepositModal.vue'
-  import WithdrawModal from '@/components/WithdrawModal.vue'
-  import SpinWheelModal from '@/components/SpinWheelModal.vue'
-  import ProviderGamePanel from '@/components/ProviderGamePanel.vue'
-  import CategoryGamePanel from '@/components/CategoryGamePanel.vue'
-  import NftAvatar from '@/components/NftAvatar.vue'
-  import TxStatusTracker from '@/components/TxStatusTracker.vue'
-  import { useFavorites, loadFavoritesFromCloud } from '@/composables/useFavorites'
-  import { useRecentlyPlayed, loadRecentFromCloud } from '@/composables/useRecentlyPlayed'
-  import { setLocale } from '@/i18n'
-  import { useSettings, loadSettings } from '@/composables/useSettings'
-
-  const route = useRoute()
-  const router = useRouter()
-
-  // ── Blank URL slots — fill these with real links ──
-  const depositUrl  = ref('')   // TODO: add deposit page URL
-  const withdrawUrl = ref('')   // TODO: add withdraw page URL
-  const vipUrl      = ref('')   // TODO: add VIP page URL
-  const installUrl  = ref('')   // TODO: add app install URL
-  function goUrl(url) { if (url) window.open(url, '_blank') }
-
-  const isLoggedIn = ref(false); const username = ref(''); const userPhone = ref(''); const memberAccount = ref(''); const mainBalance = ref(0); const currentLang = ref('en')
-  const balanceHidden = ref(localStorage.getItem('iw99_bal_hidden') === '1')
-  function toggleBalanceHide() { balanceHidden.value = !balanceHidden.value; localStorage.setItem('iw99_bal_hidden', balanceHidden.value ? '1' : '0') }
-  const { isFav, toggleFav, favCount, filterFavGames } = useFavorites()
-  const { recentIds, addRecent, filterRecentGames } = useRecentlyPlayed()
-  // PWA install prompt
-  const pwaPrompt = ref(null)
-  const showPwaBanner = ref(false)
-  const showIosInstallModal = ref(false)
-  const showAndroidInstallModal = ref(false)
-  const isIos = /iphone|ipad|ipod/i.test(navigator.userAgent)
-  const isInStandaloneMode = () => window.matchMedia('(display-mode: standalone)').matches || !!window.navigator.standalone
-
-  window.addEventListener('beforeinstallprompt', (e) => { e.preventDefault(); pwaPrompt.value = e })
-
-  async function installPwa() {
-    if (!pwaPrompt.value) return
-    await pwaPrompt.value.prompt()
-    const { outcome } = await pwaPrompt.value.userChoice
-    if (outcome === 'accepted') { pwaPrompt.value = null; spawnConfetti() }
-  }
-
-  function handleInstallClick() {
-    if (isInStandaloneMode()) return
-    if (pwaPrompt.value) {
-      installPwa()
-    } else if (isIos) {
-      showIosInstallModal.value = true
-    } else {
-      showAndroidInstallModal.value = true
-    }
-  }
-  // Success confetti
-  function spawnConfetti() {
-    const colors = ['#4ade80','#fbbf24','#a855f7','#38bdf8','#f87171']
-    for (let i = 0; i < 28; i++) {
-      const d = document.createElement('div')
-      d.style.cssText = `position:fixed;top:${20+Math.random()*30}%;left:${Math.random()*100}%;width:${6+Math.random()*8}px;height:${6+Math.random()*8}px;background:${colors[i%colors.length]};border-radius:${Math.random()>0.5?'50%':'2px'};z-index:9999;pointer-events:none;animation:confettiFall ${0.8+Math.random()*1}s ease-in forwards;`
-      document.body.appendChild(d)
-      setTimeout(() => d.remove(), 2000)
-    }
-  }
-  const showAuthModal = ref(false); const authTab = ref('login')
-  const loginUsername = ref(''); const loginPassword = ref(''); const loginShowPassword = ref(false); const loginLoading = ref(false); const loginError = ref(''); const loginType = ref('password'); const rememberMe = ref(false)
-  const regUsername = ref(''); const regPhone = ref(''); const regPassword = ref(''); const regShowPassword = ref(false); const regLoading = ref(false); const regError = ref(''); const reg18Agreed = ref(true)
-  const regReferral = ref(''); const refAgentInfo = ref('')
-  const searchVisible = ref(false); const searchQuery = ref('')
-  // Debounced search — 300ms delay to avoid re-render on every keystroke
-  const debouncedSearch = ref('')
-  let searchDebounceTimer = null
-  watch(searchQuery, (val) => {
-    clearTimeout(searchDebounceTimer)
-    searchDebounceTimer = setTimeout(() => { debouncedSearch.value = val }, 300)
-  })
-  const showDepositModal = ref(false); const showWithdrawModal = ref(false); const showSpinWheel = ref(false)
-  const showInbox = ref(false)
-  const adminMessages = ref([])
-  const balanceRefreshing = ref(false)
-
-  // ── Scroll lock when auth modal is open ──
-  watch(showAuthModal, (val) => {
-    document.body.style.overflow = val ? 'hidden' : ''
-    document.body.style.touchAction = val ? 'none' : ''
-  })
-
-  // Password strength
-  const pwStrength = computed(() => {
-    const p = regPassword.value; if (!p) return 0
-    let s = 0; if (p.length >= 6) s++; if (p.length >= 8) s++; if (/[A-Z]/.test(p)) s++; if (/[0-9]/.test(p)) s++; if (/[^A-Za-z0-9]/.test(p)) s++
-    return s
-  })
-  const pwColor = computed(() => pwStrength.value <= 1 ? '#ef4444' : pwStrength.value <= 3 ? '#f59e0b' : '#22c55e')
-  const regFormFilled = computed(() => !!(regUsername.value && regPassword.value && regPhone.value))
-  const loginFormFilled = computed(() => !!(loginUsername.value && loginPassword.value))
-
-  async function lookupRefAgent(code) {
-    if (!code) { refAgentInfo.value = ''; return }
-    try {
-      const { data } = await supabase.from('users').select('vip_level').ilike('username', code).single()
-      if (data) { refAgentInfo.value = (data.vip_level >= 3) ? 'Senior Agent' : 'Junior Agent' }
-      else refAgentInfo.value = ''
-    } catch { refAgentInfo.value = '' }
-  }
-
-  watch(regReferral, (v) => { lookupRefAgent(v) })
-
-  function openAuth(tab) {
-    authTab.value = tab
-    const urlRef = new URLSearchParams(window.location.search).get('ref') || new URLSearchParams(window.location.search).get('dl') || ''
-    if (urlRef && !regReferral.value) { regReferral.value = urlRef; lookupRefAgent(urlRef) }
-    showAuthModal.value = true
-  }
-
-  // Banner
-  const bannerImages = ref([
-    'https://ik.imagekit.io/0xfxtkccz/Uab/1781087771311.png?tr=f-webp',
-    'https://ik.imagekit.io/0xfxtkccz/Uab/1781161577511.png?tr=f-webp',
-    'https://ik.imagekit.io/0xfxtkccz/Uab/1781161712719.png?tr=f-webp',
-    'https://ik.imagekit.io/0xfxtkccz/Uab/1781161412813.png?tr=f-webp',
-    'https://ik.imagekit.io/0xfxtkccz/Uab/1781161952144.png?tr=f-webp',
-  ])
-
-  const licenseLogos = [
-    'https://ik.imagekit.io/tdpebgueq/Home%20Page%20_icons_linces%20logo/a1cf5bf7-e61c-4590-843e-5d5c4d3d90de.png?tr=f-auto',
-    'https://ik.imagekit.io/tdpebgueq/Home%20Page%20_icons_linces%20logo/40_N_JILI_LOGO.avif?tr=f-auto',
-    'https://ik.imagekit.io/tdpebgueq/Home%20Page%20_icons_linces%20logo/a04d3bed-f475-42eb-9f35-4f9802068315.png?tr=f-auto',
-    'https://ik.imagekit.io/tdpebgueq/Home%20Page%20_icons_linces%20logo/3b38cced-f446-4727-ab37-879557be37cb.png?tr=f-auto',
-    'https://ik.imagekit.io/tdpebgueq/Home%20Page%20_icons_linces%20logo/f519ade7-dd80-4235-a650-3d8744d5795c.png?tr=f-auto',
-    'https://ik.imagekit.io/rbok01qam/Cactheory%20imag/6852101165dd4643a1ec3adee41f5913.jpg?tr=f-auto',
-    'https://ik.imagekit.io/tdpebgueq/Provider%20label%20icons%20/Screenshot_2026-06-04-01-03-25-338_mark.via.gp_1780511848574edit.jpg?tr=f-auto',
-  ]
-  const bannerIdx = ref(0); let bannerTimer = null; let touchStartX = 0
-  function startBannerTimer() { clearInterval(bannerTimer); bannerTimer = setInterval(() => { bannerIdx.value = (bannerIdx.value+1)%bannerImages.value.length }, 4000) }
-  function onBannerTouchStart(e) { touchStartX = e.touches[0].clientX; clearInterval(bannerTimer) }
-  function onBannerTouchMove(e) { e.preventDefault() }
-  function onBannerTouchEnd(e) { const dx=touchStartX-e.changedTouches[0].clientX; if(Math.abs(dx)>40) bannerIdx.value=dx>0?(bannerIdx.value+1)%bannerImages.value.length:bannerIdx.value===0?bannerImages.value.length-1:bannerIdx.value-1; startBannerTimer() }
-
-  // Categories
-  const categories = ref([
-    { id: 'recent', name: 'ထပ်ကစားမည်', emoji: '🕐', imageUrl: '' },
-    { id:'popular', name:'နာမည်ကြီး', emoji:'🔥', imageUrl:'https://ik.imagekit.io/tdpebgueq/Provider%20label%20icons%20/Screenshot_2026-06-04-01-02-41-326_mark.via.gp_1780514832069edit.jpg?tr=f-auto' },
-    { id:'slot',    name:'စလော့',     emoji:'🎰', imageUrl:'https://ik.imagekit.io/tdpebgueq/Provider%20label%20icons%20/Screenshot_2026-06-04-01-02-48-594_mark.via.gp_1780511877479edit.jpg?tr=f-auto' },
-    { id:'fish',    name:'ငါးဖမ်း',   emoji:'🐬', imageUrl:'https://ik.imagekit.io/tdpebgueq/Provider%20label%20icons%20/Screenshot_2026-06-04-01-02-57-533_mark.via.gp_1780511863896edit.jpg?tr=f-auto' },
-    { id:'live',    name:'တိုက်ရိုက် ကာစီနို', emoji:'🃏', imageUrl:'https://ik.imagekit.io/tdpebgueq/Provider%20label%20icons%20/Screenshot_2026-06-04-01-03-25-338_mark.via.gp_1780511848574edit.jpg?tr=f-auto' },
-    { id:'arcade',  name:'Arcade',    emoji:'', arcadeSvg:`<defs><linearGradient id="arc-b" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#7c3aed"/><stop offset="100%" stop-color="#4f46e5"/></linearGradient><radialGradient id="arc-s" cx="50%" cy="30%" r="60%"><stop offset="0%" stop-color="#e879f9"/><stop offset="100%" stop-color="#a855f7"/></radialGradient></defs><rect x="5" y="17" width="18" height="9" rx="3" fill="url(#arc-b)"/><rect x="7" y="8" width="14" height="9" rx="2" fill="rgba(0,0,0,0.65)" stroke="rgba(168,85,247,0.7)" stroke-width="0.8"/><rect x="9" y="10" width="10" height="5" rx="1" fill="rgba(168,85,247,0.18)"/><text x="14" y="13.8" text-anchor="middle" font-size="3.6" font-weight="900" fill="#e879f9" font-family="Arial">ARCADE</text><line x1="8" y1="9.5" x2="20" y2="9.5" stroke="rgba(255,255,255,0.18)" stroke-width="0.6"/><circle cx="10" cy="21" r="3" fill="rgba(255,255,255,0.07)" stroke="rgba(255,255,255,0.25)" stroke-width="0.7"/><circle cx="10" cy="21" r="1.6" fill="url(#arc-s)"/><circle cx="10" cy="21" r="0.7" fill="rgba(255,255,255,0.6)"/><circle cx="17" cy="20" r="1.6" fill="#f43f5e" opacity="0.95"/><circle cx="20.2" cy="20" r="1.6" fill="#22d3ee" opacity="0.95"/><circle cx="17" cy="23.2" r="1.6" fill="#4ade80" opacity="0.95"/><circle cx="20.2" cy="23.2" r="1.6" fill="#fbbf24" opacity="0.95"/><rect x="13" y="20.8" width="2.5" height="1.2" rx="0.5" fill="rgba(255,255,255,0.4)"/>`},
-    { id:'fav',     name:'အကြိုက်ဆုံး', emoji:'⭐', imageUrl:'https://ik.imagekit.io/rbok01qam/Cactheory%20imag/Screenshot_2026-06-04-01-04-03-664_mark.via.gp_1780514801506edit.jpg?tr=f-auto' },
-  ])
-    const activeCategory = ref('popular')
-  const activeProvider = ref(null)
-  const showProviderPanel = ref(false)
-  const panelProvider = ref('jili')
-  function openProvPanel(key) { panelProvider.value = key; showProviderPanel.value = true }
-
-  const showCategoryPanel = ref(false)
-  const panelCategory = ref('live')
-  function openCatPanel(cat) { panelCategory.value = cat; showCategoryPanel.value = true }
-  function scrollToSection(id) { const el = document.getElementById(id); if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' }) }
-  function handleCatTabClick(id) {
-    if (id === 'slot') { scrollToSection('slot-section'); return }
-    if (id === 'fish') { scrollToSection('fish-section'); return }
-    if (id === 'live' || id === 'arcade') { scrollToSection('live-arcade-section'); return }
-    activeCategory.value = id
-  }
-  const glowCanvases = {}
-  function registerGlowCanvas(el,catId) { if(!el)return; glowCanvases[catId]=el; nextTick(()=>drawGlow(el)) }
-  function drawGlow(canvas) { if(!canvas)return; const ctx=canvas.getContext('2d'),w=canvas.width,h=canvas.height; ctx.clearRect(0,0,w,h); const g=ctx.createRadialGradient(w/2,h/2,2,w/2,h/2,w*.65); g.addColorStop(0,'rgba(34,197,94,0.28)'); g.addColorStop(.5,'rgba(34,197,94,0.10)'); g.addColorStop(1,'rgba(34,197,94,0)'); ctx.fillStyle=g; ctx.fillRect(0,0,w,h) }
-
-  // Games
-  const games = ref([]); const loadingGames = ref(true); const fetchError = ref(null)
-  async function fetchGames() {
-    loadingGames.value=true; fetchError.value=null
-    try {
-      let all=[]; let from=0; const batch=1000
-      while(true){
-        const {data,error}=await supabase.from('game_cards').select('*').eq('is_active',true).order('play_count',{ascending:false}).range(from,from+batch-1)
-        if(error)throw error
-        if(!data||data.length===0)break
-        all=[...all,...data]
-        if(data.length<batch)break
-        from+=batch
-      }
-      games.value=all
-    } catch { fetchError.value='ဂိမ်းများ ရယူ၍မရပါ' } finally { loadingGames.value=false }
-  }
-  const filteredGames = computed(() => {
-    let l = games.value
-    const q = debouncedSearch.value.toLowerCase()
-    // Provider filter (overrides category)
-    if (activeProvider.value) {
-      l = l.filter(g => g.provider_code === activeProvider.value)
-      if (q) l = l.filter(g => g.game_name?.toLowerCase().includes(q) || g.provider_code?.toLowerCase().includes(q))
-      return l
-    }
-    // Category + Search combined filter
-    if (q) {
-      // When searching: ignore category, search all games
-      return l.filter(g => g.game_name?.toLowerCase().includes(q) || g.provider_code?.toLowerCase().includes(q) || g.category?.toLowerCase().includes(q))
-    }
-    if (activeCategory.value === 'popular') {
-      l = [...l].sort((a,b) => (b.play_count||0) - (a.play_count||0)).slice(0,18)
-    } else if (activeCategory.value === 'fav') {
-      l = filterFavGames(l)
-    } else if (activeCategory.value === 'recent') {
-      l = filterRecentGames(l)
-    } else {
-      l = l.filter(g => g.category === activeCategory.value)
-    }
-    return l
-  })
-  // Recently played games for the quick-access row
-  const recentGames = computed(() => filterRecentGames(games.value).slice(0, 6))
-
-  // Carousel: popular games ranked 19–72 (next pages after the 18-grid)
-  const carouselPage = ref(0)
-  const CAROUSEL_PER_PAGE = 9
-  const carouselAllGames = computed(() => {
-    if (activeCategory.value !== 'popular' && activeCategory.value !== 'fav') return []
-    return [...games.value].sort((a,b) => (b.play_count||0) - (a.play_count||0)).slice(0, 54)
-  })
-  const carouselPages = computed(() => {
-    const pages = []
-    for (let i = 0; i < carouselAllGames.value.length; i += CAROUSEL_PER_PAGE) {
-      pages.push(carouselAllGames.value.slice(i, i + CAROUSEL_PER_PAGE))
-    }
-    return pages
-  })
-  const carouselDir = ref('right')
-  let carouselTouchStartX = 0
-  function onCarouselTouchStart(e) { carouselTouchStartX = e.touches[0].clientX }
-  function onCarouselTouchEnd(e) {
-    const dx = carouselTouchStartX - e.changedTouches[0].clientX
-    if (Math.abs(dx) > 40) {
-      if (dx > 0 && carouselPage.value < carouselPages.value.length - 1) {
-        carouselDir.value = 'right'; carouselPage.value++
-      } else if (dx < 0 && carouselPage.value > 0) {
-        carouselDir.value = 'left'; carouselPage.value--
-      }
-    }
-  }
-  function setCarouselPage(di) {
-    carouselDir.value = di > carouselPage.value ? 'right' : 'left'
-    carouselPage.value = di
-  }
-  const displayedGames = computed(() =>
-    activeCategory.value === 'popular' ? (carouselPages.value[carouselPage.value] || []) : filteredGames.value
-  )
-  watch(activeCategory, () => { carouselPage.value = 0 })
-
-  const fishGames = computed(() => games.value.filter(g => g.category === 'fish'))
-  const liveGames = computed(() => games.value.filter(g => g.category === 'live' || g.category === 'arcade').slice(0, 7))
-
-  async function loadUserInfo() {
-    try {
-      const {data:{session}}=await supabase.auth.getSession()
-      if(!session){isLoggedIn.value=false;return}
-      isLoggedIn.value=true
-      username.value=(session.user.email||'').replace(/@novabett\.internal$/,'').toUpperCase()
-      // Fetch phone + member_account for game launch identification
-      try {
-        const {data:ud}=await supabase.from('users').select('phone,member_account').eq('id',session.user.id).single()
-        if(ud?.phone) userPhone.value=ud.phone
-        if(ud?.member_account) {
-          memberAccount.value=ud.member_account
-        } else {
-          // Fallback: generate member_account from user UUID (Diamond pattern: hdf801 + first 10 hex chars of UUID)
-          const uuidNoDash=session.user.id.replace(/-/g,'')
-          memberAccount.value='hdf801'+uuidNoDash.substring(0,10)
-        }
-      } catch {}
-      await fetchBalance(); loadFavoritesFromCloud(); loadRecentFromCloud()
-    } catch { isLoggedIn.value=false }
-  }
-  async function fetchBalance() {
-    try { const {data:{session}}=await supabase.auth.getSession(); if(!session)return; const {data}=await supabase.from('wallets').select('main_balance').eq('user_id',session.user.id).single(); if(data)mainBalance.value=Number(data.main_balance)||0 }
-    catch {}
-  }
-  async function refreshBalance() {
-    if (balanceRefreshing.value) return
-    balanceRefreshing.value = true
-    await fetchBalance()
-    setTimeout(() => { balanceRefreshing.value = false }, 700)
-  }
-  async function handleLogin() {
-    loginError.value=''; if(!loginUsername.value||!loginPassword.value){loginError.value='အချက်အလက်များ ဖြည့်ပါ';return}
-    loginLoading.value=true
-    try { const email=loginUsername.value.toUpperCase()+'@novabett.internal'; const {data,error}=await supabase.auth.signInWithPassword({email,password:loginPassword.value}); if(error)throw error; if(data.session?.access_token)localStorage.setItem('sb_token',data.session.access_token); await loadUserInfo(); showToast({type:'success',message:'ဝင်ရောက်မှု အောင်မြင်ပါသည်'}); showAuthModal.value=false; loginUsername.value='';loginPassword.value='' }
-    catch { loginError.value='Username သို့မဟုတ် Password မမှန်ပါ' } finally { loginLoading.value=false }
-  }
-  async function handleRegister() {
-    regError.value=''; if(!regUsername.value||!regPhone.value||!regPassword.value){regError.value='အချက်အလက်များ ဖြည့်ပါ';return}
-    regLoading.value=true
-    try { const referral=regReferral.value||route.query.ref||route.query.dl||''; const res=await fetch('https://vuywhhmwrqykukcemifd.supabase.co/functions/v1/register3',{method:'POST',headers:{'Authorization':'Bearer sb_publishable_nQArOtFqTbi9ZtJCJC0STA_pE4ztXGb','apikey':'sb_publishable_nQArOtFqTbi9ZtJCJC0STA_pE4ztXGb','Content-Type':'application/json'},body:JSON.stringify({username:regUsername.value,phone:regPhone.value,password:regPassword.value,referral})}); const data=await res.json(); if(data.error)throw new Error(data.error); const email=regUsername.value.toUpperCase()+'@novabett.internal'; const {data:ld,error:le}=await supabase.auth.signInWithPassword({email,password:regPassword.value}); if(le)throw le; if(ld.session?.access_token)localStorage.setItem('sb_token',ld.session.access_token); await loadUserInfo(); showToast({type:'success',message:'အကောင့်ဖွင့် အောင်မြင်ပါသည်'}); showAuthModal.value=false; regUsername.value='';regPhone.value='';regPassword.value='';regReferral.value='';refAgentInfo.value='' }
-    catch(e) { regError.value=e.message } finally { regLoading.value=false }
-  }
-  async function openGame(game) {
-    if(!isLoggedIn.value){showAuthModal.value=true;authTab.value='login';return}
-    addRecent(game.game_code)
-    showToast({type:'loading',message:'ဂိမ်း ဖွင့်နေသည်...',duration:8000})
-    try {
-      const {data:{session}}=await supabase.auth.getSession()
-      if(!session) throw new Error('session_expired')
-      const res=await fetch('https://vuywhhmwrqykukcemifd.supabase.co/functions/v1/api/games/launch',{
-        method:'POST',
-        headers:{'Authorization':'Bearer '+session.access_token,'Content-Type':'application/json','apikey':'sb_publishable_nQArOtFqTbi9ZtJCJC0STA_pE4ztXGb'},
-        body:JSON.stringify({user_id:session.user.id,game_uid:game.game_code,platform:2,lang:'my',username:username.value,phone:userPhone.value,member_id:memberAccount.value})
-      })
-      const data=await res.json()
-      if(data.error) throw new Error(data.error)
-      const gameUrl=data.url||data.game_url||data.launch_url||data.data?.url
-      if(gameUrl) window.open(gameUrl,'_blank')
-      else throw new Error('URL မရပါ')
-    } catch(e) {
-      showToast({type:'fail',message:e.message==='session_expired'?'ပြန်လော့ဂ်အင်ဝင်ပါ':e.message||'ဂိမ်း ဖွင့်မရပါ'})
-    }
-  }
-  function toggleLanguage() {
-    const next = currentLang.value === 'en' ? 'mm' : 'en'
-    currentLang.value = next
-    setLocale(next)
-  }
-  const formatCurrency = n => new Intl.NumberFormat('en-US').format(n)
-  const balanceFontSize = computed(() => {
-    if (balanceHidden.value) return '17px'
-    const len = new Intl.NumberFormat('en-US').format(mainBalance.value).length
-    if (len <= 7)  return '17px'
-    if (len <= 9)  return '15px'
-    if (len <= 11) return '13px'
-    if (len <= 13) return '11px'
-    return '9px'
-  })
-  function handleDepositSubmit(data) { spawnConfetti(); setTimeout(() => fetchBalance(), 1500) }
-  async function handleWithdrawSubmit(data) { try { const token=(await supabase.auth.getSession()).data.session?.access_token; if(!token){showToast({type:'fail',message:'ဝင်ရောက်ပါ'});return}; const res=await fetch('https://vuywhhmwrqykukcemifd.supabase.co/functions/v1/withdraw',{method:'POST',headers:{'Authorization':'Bearer '+token,'Content-Type':'application/json'},body:JSON.stringify({method:data.method,phone:data.phone,accountName:data.accountName,amount:data.amount})}); const result=await res.json(); if(result.error)throw new Error(result.error); showToast({type:'success',message:'ငွေထုတ်မှု အောင်မြင်ပါသည်'}); spawnConfetti(); setTimeout(()=>fetchBalance(),2000) } catch(e){showToast({type:'fail',message:e.message})} }
-
-
-  async function fetchAdminMessages() {
-    try {
-      const { data } = await supabase.from('admin_messages').select('*').eq('is_active', true).order('created_at', { ascending: false })
-      adminMessages.value = (data || []).map(m => ({
-        ...m,
-        time: m.created_at ? new Date(m.created_at).toLocaleDateString('en-GB', { day:'numeric', month:'short', year:'numeric' }) : '—'
-      }))
-    } catch {}
-  }
-
-  // ── Left FAB — logic to be connected later ──────────────────────────────
-  function onLeftFabClick() {
-    // TODO: connect action here
-  }
-
-  // ── FAB: CS — open the CS panel inside Account page ─────────────────────
-  const { getSetting } = useSettings()
-  function openCsPage() {
-    router.push('/account?cs=open')
-  }
-
-  onMounted(()=>{
-    loadSettings()
-    loadUserInfo(); fetchGames(); startBannerTimer(); fetchAdminMessages()
-    // Auto-open auth panel from URL query (?auth=register|login) + auto-fill referral
-    const params = new URLSearchParams(window.location.search)
-    const authParam = params.get('auth')
-    const refParam = params.get('ref') || params.get('dl') || ''
-    if (refParam) { regReferral.value = refParam; lookupRefAgent(refParam) }
-    if (authParam === 'register' || authParam === 'login') { nextTick(() => openAuth(authParam)) }
-  })
-  onUnmounted(()=>{
-    clearInterval(bannerTimer)
-    document.body.style.overflow=''
-    document.body.style.touchAction=''
-  })
-  </script>
-
-  <style scoped>
-  @import url('https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@300;600&display=swap');
-
-/* ══ RECENTLY PLAYED ══════════════════════════════════════════════════════ */
-.nova-recent-section {
-  padding: 8px 14px 4px;
-  border-bottom: 1px solid rgba(255,255,255,0.05);
-}
-.nova-recent-header {
-  display: flex; align-items: center; justify-content: space-between;
-  margin-bottom: 8px;
-}
-.nova-recent-title {
-  display: flex; align-items: center; gap: 5px;
-  font-size: 12px; font-weight: 700; color: rgba(255,255,255,0.75);
-}
-.nova-recent-more {
-  background: none; border: none; cursor: pointer;
-  font-size: 11px; font-weight: 600; color: rgba(34,197,94,0.8);
-  -webkit-tap-highlight-color: transparent;
-}
-.nova-recent-scroll {
-  display: flex; gap: 8px; overflow-x: auto; padding-bottom: 4px;
-  -webkit-overflow-scrolling: touch;
-  scrollbar-width: none;
-}
-.nova-recent-scroll::-webkit-scrollbar { display: none; }
-.nova-recent-card {
-  flex-shrink: 0; width: 68px; cursor: pointer;
-  -webkit-tap-highlight-color: transparent;
-}
-.nova-recent-img-wrap {
-  position: relative; width: 68px; height: 90px;
-  border-radius: 9px; overflow: hidden;
-  background: rgba(255,255,255,0.05);
-  border: 1px solid rgba(255,255,255,0.08);
-}
-.nova-recent-img {
-  width: 100%; height: 100%; object-fit: cover; display: block;
-}
-.nova-recent-overlay {
-  position: absolute; inset: 0;
-  background: linear-gradient(to top, rgba(6,8,18,0.75) 0%, transparent 55%);
-}
-.nova-recent-name {
-  margin-top: 4px; font-size: 9.5px; color: rgba(255,255,255,0.65);
-  overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
-  text-align: center;
-}
-
-  /* ── BASE ── */
-  .nova-app { background: #07091b; min-height:100vh; color:#fff; -webkit-tap-highlight-color:rgba(0,0,0,0); overscroll-behavior:contain; -webkit-overflow-scrolling:touch; scroll-behavior:smooth; }
-.nova-bg-orb { position:fixed; border-radius:50%; pointer-events:none; z-index:0; will-change:transform; transform:translateZ(0); }
-.nova-bg-orb--1 { width:300px; height:300px; top:-80px; left:-80px; background:radial-gradient(circle,rgba(34,197,94,0.32) 0%,rgba(34,197,94,0.10) 50%,transparent 70%); animation:orb-drift1 12s ease-in-out infinite; }
-.nova-bg-orb--2 { width:340px; height:340px; top:38%; right:-110px; background:radial-gradient(circle,rgba(99,102,241,0.28) 0%,rgba(56,189,248,0.14) 45%,transparent 70%); animation:orb-drift2 16s ease-in-out infinite; }
-.nova-bg-orb--3 { width:240px; height:240px; bottom:70px; left:-20px; background:radial-gradient(circle,rgba(168,85,247,0.26) 0%,rgba(236,72,153,0.13) 50%,transparent 70%); animation:orb-drift3 14s ease-in-out infinite; }
-
-  /* ══ BRAND LOGO ══ */
-  .nova-brand-wrap { position:relative; z-index:1; display:flex; align-items:center; gap:8px; }
-  .nova-brand {
-    display: flex;
-    align-items: center;
-    user-select: none;
-  }
-  /* Neural dots */
-  .nova-neural-dots { display:flex; gap:4px; align-items:center; padding-left:1px; }
-  .nova-ndot {
-    display:inline-block; border-radius:50%;
-    will-change:opacity,transform;
-  }
-  .nova-ndot--1 {
-    width:4px; height:4px;
-    background:rgba(6,182,212,0.95);
-    box-shadow:0 0 5px rgba(6,182,212,0.9);
-    animation:ndot-pulse 2.4s ease-in-out infinite;
-  }
-  .nova-ndot--2 {
-    width:3px; height:3px;
-    background:rgba(6,182,212,0.65);
-    box-shadow:0 0 4px rgba(6,182,212,0.6);
-    animation:ndot-pulse 2.4s ease-in-out 0.5s infinite;
-  }
-  .nova-ndot--3 {
-    width:2.5px; height:2.5px;
-    background:rgba(6,182,212,0.4);
-    box-shadow:0 0 3px rgba(6,182,212,0.4);
-    animation:ndot-pulse 2.4s ease-in-out 1s infinite;
-  }
-  @keyframes ndot-pulse {
-    0%,100% { opacity:1; transform:scale(1); }
-    50%     { opacity:0.3; transform:scale(0.6); }
-  }
-
-  /* ── HEADER ── */
-  .nova-header {
-    position:relative; z-index:10; background:transparent;
-    padding:8px 14px 6px 0; display:flex; align-items:center; justify-content:space-between;
-  }
-  /* Radial glow behind brand text — "floating text on background" cinematic vibe */
-  .nova-header::before {
-    content:'';
-    position:absolute; left:0; top:0; width:65%; height:100%;
-    background: radial-gradient(ellipse at 28% 50%, rgba(34,197,94,0.07) 0%, rgba(6,182,212,0.04) 40%, transparent 70%);
-    pointer-events:none; z-index:0;
-  }
-  /* nova-brand-wrap defined above */
-
-
-
-  /* ── BELL ── */
-  .nova-bell-wrap { display:flex; align-items:center; justify-content:center; }
-  .nova-bell-svg { animation: bell-ring 4s ease-in-out infinite; transform-origin: 12px 4px; }
-  @keyframes bell-ring {
-    0%,100%  { transform: rotate(0deg); }
-    5%       { transform: rotate(14deg); }
-    10%      { transform: rotate(-14deg); }
-    15%      { transform: rotate(10deg); }
-    20%      { transform: rotate(-6deg); }
-    25%      { transform: rotate(0deg); }
-  }
-
-  /* ── INBOX BUTTON ── */
-  .nova-inbox-btn { }
-  .nova-inbox-svg { animation: inbox-bounce 3s ease-in-out infinite; }
-  @keyframes inbox-bounce {
-    0%,100% { transform: translateY(0); }
-    45%     { transform: translateY(0); }
-    50%     { transform: translateY(-3px); }
-    55%     { transform: translateY(0); }
-    60%     { transform: translateY(-2px); }
-    65%     { transform: translateY(0); }
-  }
-  .nova-inbox-badge { position:absolute; top:-5px; right:-6px; background:#ef4444; color:#fff; font-size:8px; font-weight:900; border-radius:10px; padding:1px 4px; line-height:14px; pointer-events:none; }
-
-  /* ── INBOX MODAL ── */
-  .nova-inbox-overlay { position:fixed; inset:0; z-index:500; background:rgba(0,0,0,0.72); display:flex; flex-direction:column; justify-content:flex-end; }
-  .nova-inbox-sheet { background:#0e1032; border-radius:20px 20px 0 0; border-top:1px solid rgba(34,197,94,0.3); max-height:70vh; overflow-y:auto; padding:0 0 80px; }
-  .nova-inbox-handle { width:36px; height:4px; background:rgba(255,255,255,0.15); border-radius:2px; margin:12px auto 0; }
-  .nova-inbox-header { display:flex; justify-content:space-between; align-items:center; padding:14px 18px 12px; border-bottom:1px solid rgba(255,255,255,0.06); }
-  .nova-inbox-empty { display:flex; flex-direction:column; align-items:center; justify-content:center; padding:48px 20px; }
-  .nova-inbox-item { margin:8px 14px; padding:12px 14px; background:rgba(255,255,255,0.04); border:1px solid rgba(255,255,255,0.07); border-radius:12px; }
-  .nova-inbox-item-title { font-size:13px; font-weight:700; color:#fff; }
-  .nova-inbox-item-time { font-size:10px; color:rgba(255,255,255,0.3); flex-shrink:0; margin-left:8px; }
-  .nova-inbox-item-body { font-size:12px; color:rgba(255,255,255,0.55); margin-top:4px; line-height:1.5; }
-  .inbox-slide-enter-active { transition: transform 0.35s cubic-bezier(0.25,0.46,0.45,0.94), opacity 0.25s; }
-  .inbox-slide-leave-active { transition: transform 0.28s ease-in, opacity 0.2s; }
-  .inbox-slide-enter-from, .inbox-slide-leave-to { transform: translateY(100%); opacity:0; }
-  .inbox-slide-enter-to, .inbox-slide-leave-from { transform: translateY(0); opacity:1; }
-
-  /* ── SEARCH ── */
-  .nova-search-bar { position:relative; padding:8px 16px; background:transparent; border-bottom:1px solid rgba(255,255,255,0.07); }
-
-  /* ── MARQUEE ── */
-  @keyframes nova-marquee { from{transform:translateX(100vw);}to{transform:translateX(-100%);} }
-  .nova-marquee { display:inline-block; animation:nova-marquee 30s linear infinite; will-change:transform; white-space:nowrap; font-size:12px; color:rgba(255,255,255,0.58); }
-
-  /* ── HORIZONTAL CATEGORY BAR — pinned first + scrollable rest ── */
-  /* Outer wrapper: flex row, glass bg + bottom border on the WHOLE bar */
-  .nova-hcat-wrapper {
-    display:flex; align-items:stretch;
-    background:rgba(255,255,255,0.04);
-    backdrop-filter:blur(24px); -webkit-backdrop-filter:blur(24px);
-    border-bottom:1.5px solid rgba(255,255,255,0.09);
-  }
-  /* Pinned first tab — outside scroll, opaque bg so scroll content hides behind */
-  .nova-hcat-pin {
-    flex-shrink:0;
-    background:#07091b;
-    border-right:1.5px solid rgba(255,255,255,0.16);
-    z-index:2;
-  }
-  /* Scroll container: only remaining tabs */
-  .nova-hcat-scroll {
-    flex:1; min-width:0;
-    overflow-x:auto; overflow-y:hidden;
-    -webkit-overflow-scrolling:touch; scrollbar-width:none;
-    background:transparent;
-  }
-  .nova-hcat-scroll::-webkit-scrollbar { display:none; }
-  .nova-hcat-bar { display:flex; align-items:stretch; width:max-content; height:100%; }
-  /* Every tab button */
-  .nova-hcat-btn {
-    display:inline-flex; align-items:center; gap:8px;
-    padding:11px 18px;
-    border:none; border-radius:0; background:transparent;
-    cursor:pointer; -webkit-tap-highlight-color:transparent;
-    transition:opacity 0.15s, color 0.2s; white-space:nowrap;
-    position:relative; flex-shrink:0;
-  }
-  /* Bottom indicator line — slides in when active */
-  .nova-hcat-btn::after {
-    content:''; position:absolute; bottom:0; left:50%;
-    transform:translateX(-50%) scaleX(0); width:70%; height:2.5px;
-    background:linear-gradient(90deg,#a855f7,#38bdf8);
-    border-radius:2px 2px 0 0;
-    transition:transform 0.28s cubic-bezier(0.34,1.56,0.64,1);
-  }
-  .nova-hcat-btn--active::after { transform:translateX(-50%) scaleX(1); }
-  .nova-hcat-btn:active { opacity:0.65; }
-  /* Icon */
-  .nova-hcat-icon { display:inline-flex; align-items:center; flex-shrink:0; }
-  .nova-hcat-img { width:30px; height:30px; object-fit:contain; border-radius:6px; display:block; }
-  .nova-hcat-emoji { font-size:26px; line-height:1; display:inline-flex; align-items:center; }
-  .nova-hcat-svg { width:28px; height:28px; }
-  /* Label */
-  .nova-hcat-label { font-size:13px; font-weight:700; color:rgba(255,255,255,0.62); letter-spacing:0.01em; transition:color 0.2s; }
-  .nova-hcat-btn--active .nova-hcat-label { color:#fff; text-shadow:0 0 14px rgba(168,100,250,0.9), 0 0 28px rgba(56,189,248,0.45); }
-
-  /* ── GAME CARDS ── */
-  .nova-game-card { border-radius:14px; overflow:hidden; cursor:pointer; background:transparent; border:none; box-shadow:none; will-change:transform; transform:translateZ(0); transition:transform 0.15s ease; -webkit-tap-highlight-color:transparent; contain:layout style; }
-  .nova-game-card img { filter: saturate(1.42) contrast(1.06); }
-.nova-game-card:active { transform:translateZ(0); }
-.nova-game-card:hover { transform:translateY(-2px) scale(1.02) translateZ(0); }
-  .nova-badge { position:absolute; font-size:7px; font-weight:900; border-radius:5px; padding:2px 4px; }
-  .nova-badge--hot { top:5px; right:5px; background:linear-gradient(135deg,#ef4444,#dc2626); color:#fff; box-shadow:0 2px 6px rgba(239,68,68,0.4); }
-  .nova-badge--provider { top:5px; left:5px; background:rgba(0,0,0,0.72); color:rgba(255,255,255,0.65); }
-  .nova-fav-btn { position:absolute; top:26px; right:5px; background:rgba(0,0,0,0.55); border:none; border-radius:50%; width:20px; height:20px; display:flex; align-items:center; justify-content:center; cursor:pointer; z-index:9; transition:transform 0.15s; -webkit-tap-highlight-color:transparent; }
-  .nova-fav-btn:active { transform:scale(1.3); }
-  .nova-fav-btn--on { background:rgba(248,113,113,0.2); }
-
-  /* ── QUICK ICONS ── */
-  .nova-quick-icon { display:flex;flex-direction:column;align-items:center;gap:3px;cursor:pointer;-webkit-tap-highlight-color:transparent; }
-  .nova-quick-icon span { font-size:8.5px;color:rgba(255,255,255,0.42);font-weight:600;white-space:nowrap; }
-  .nova-quick-icon:active { opacity:0.65; }
-
-  /* ── GLASS BUTTONS ── */
-  .glass-btn-auth { height:34px;padding:0 13px;border-radius:10px;cursor:pointer;font-size:11.5px;font-weight:700;letter-spacing:0.03em;color:rgba(255,255,255,0.8);position:relative;overflow:hidden;background:rgba(255,255,255,0.09);border:1px solid rgba(255,255,255,0.16);box-shadow:0 2px 8px rgba(0,0,0,0.3);transition:opacity 0.15s, transform 0.15s;-webkit-tap-highlight-color:transparent;white-space:nowrap; }
-  .glass-btn-auth:active { transform:scale(0.95);opacity:0.82; }
-  .glass-btn-auth--primary { background:linear-gradient(135deg,rgba(34,197,94,0.78),rgba(21,128,61,0.85));border-color:rgba(34,197,94,0.38);color:#fff;box-shadow:0 4px 14px rgba(34,197,94,0.24),inset 0 1px 0 rgba(255,255,255,0.16); }
-  .glass-btn-sm { border-radius:8px;cursor:pointer;background:rgba(255,255,255,0.07);border:1px solid rgba(255,255,255,0.1);-webkit-tap-highlight-color:transparent;transition:opacity 0.15s; }
-  .glass-btn-sm:active { opacity:0.7; }
-  .glass-btn-icon { width:36px;height:36px;border-radius:50%;cursor:pointer;display:flex;align-items:center;justify-content:center;background:rgba(255,255,255,0.07);border:1px solid rgba(255,255,255,0.1);-webkit-tap-highlight-color:transparent;transition:opacity 0.15s; }
-  .glass-btn-icon:active { opacity:0.7; }
-
-  /* ── INPUTS ── */
-  .nova-input { width:100%;box-sizing:border-box;background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.1);border-radius:10px;padding:11px 12px;color:#fff;font-size:14px;outline:none;transition:border-color 0.2s; }
-  .nova-input::placeholder { color:rgba(255,255,255,0.18); }
-  .nova-input:focus { border-color:rgba(34,197,94,0.42);box-shadow:0 0 0 3px rgba(34,197,94,0.07); }
-
-  /* ══ AUTH PANEL — Slide from right ══ */
-  .nova-auth-panel {
-    position: fixed; inset: 0; z-index: 1000;
-    background: linear-gradient(170deg, #131840 0%, #1e2a7a 50%, #131840 100%);
-    display: flex; flex-direction: column; overflow: hidden;
-  }
-
-  /* Header */
-  .nova-auth-header {
-    display: flex; align-items: center; justify-content: space-between;
-    padding: 10px 12px 0; flex-shrink: 0;
-  }
-  .nova-auth-back {
-    width: 36px; height: 36px; background: none; border: none; cursor: pointer;
-    display: flex; align-items: center; justify-content: center;
-    -webkit-tap-highlight-color: transparent;
-  }
-
-  /* Tabs */
-  .nova-auth-tabs {
-    display: flex; flex: 1; justify-content: center;
-  }
-  .nova-auth-tab-btn {
-    flex: 1; max-width: 150px; padding: 8px 10px 10px; background: transparent; border: none; cursor: pointer;
-    font-size: 13px; font-weight: 700; color: rgba(245,200,66,0.42);
-    display: flex; align-items: center; justify-content: center; gap: 5px;
-    position: relative; transition: color 0.2s; -webkit-tap-highlight-color: transparent; letter-spacing: 0.02em;
-  }
-  .nova-auth-tab-btn--active { color: #f5c842; text-shadow: 0 0 12px rgba(245,200,66,0.5); }
-  .nova-auth-tab-btn--active::after {
-    content: ''; position: absolute; bottom: 0; left: 18%; right: 18%; height: 2px;
-    background: linear-gradient(90deg, #f5c842, #f0b429); border-radius: 2px;
-    box-shadow: 0 0 8px rgba(245,200,66,0.6);
-  }
-
-  /* Scrollable body */
-  .nova-auth-body { flex: 1; overflow-y: auto; -ms-overflow-style: none; scrollbar-width: none; }
-  .nova-auth-body::-webkit-scrollbar { display: none; }
-
-  /* Form */
-  .nova-auth-form-body { padding: 12px 16px 8px; }
-  .nova-auth-subtitle { font-size: 11px; color: rgba(255,255,255,0.58); margin-bottom: 10px; line-height: 1.5; }
-  .nova-auth-error { color: #f87171; font-size: 11px; text-align: center; margin-bottom: 6px; }
-  .nova-auth-divider { display: flex; align-items: center; gap: 10px; margin: 10px 0; }
-  /* Panel footer — always visible, not scrolled away by keyboard */
-  .nova-auth-panel-footer {
-    flex-shrink: 0; padding: 4px 16px 20px;
-    background: linear-gradient(0deg, #131840 75%, transparent 100%);
-  }
-
-  /* Input fields — layered card (not glassmorphism) */
-  .nova-auth-field {
-    display: flex; align-items: center; gap: 8px; width: 100%; box-sizing: border-box;
-    background: rgba(5,8,38,0.75);
-    border: 1px solid rgba(255,255,255,0.09);
-    border-radius: 10px; padding: 10px 12px; margin-bottom: 8px;
-    box-shadow: 0 2px 10px rgba(0,0,0,0.32), inset 0 1px 0 rgba(255,255,255,0.05);
-    transition: border-color 0.18s, box-shadow 0.18s;
-  }
-  .nova-auth-field:focus-within {
-    border-color: rgba(245,200,66,0.6);
-    box-shadow: 0 0 0 2px rgba(245,200,66,0.1), 0 2px 10px rgba(0,0,0,0.32), inset 0 1px 0 rgba(255,255,255,0.05);
-  }
-  /* Referral field */
-  .nova-ref-field {
-    border-color: rgba(245,200,66,0.2);
-    width: 100%; box-sizing: border-box;
-  }
-  /* Referral badge */
-  .nova-ref-badge {
-    display: inline-flex; align-items: center; gap: 4px; flex-shrink: 0;
-    background: rgba(34,197,94,0.12); border: 1px solid rgba(34,197,94,0.35);
-    border-radius: 20px; padding: 2px 8px; font-size: 10px; font-weight: 700;
-    color: #4ade80; white-space: nowrap; letter-spacing: 0.03em;
-  }
-  .nova-ref-dot {
-    width: 6px; height: 6px; border-radius: 50%; background: #22c55e; flex-shrink: 0;
-    box-shadow: 0 0 5px #22c55e;
-    animation: ref-pulse 1.4s ease-in-out infinite;
-  }
-  @keyframes ref-pulse {
-    0%,100% { opacity:1; transform:scale(1); }
-    50% { opacity:0.55; transform:scale(0.8); }
-  }
-  .nova-auth-input {
-    flex: 1; background: transparent; border: none; outline: none;
-    color: rgba(255,255,255,0.95); font-size: 13.5px; min-width: 0;
-    caret-color: #f5c842;
-  }
-  .nova-auth-input::placeholder { color: rgba(255,255,255,0.22); }
-
-  /* Clear / eye button */
-  .nova-clear-btn {
-    background: none; border: none; cursor: pointer; padding: 0;
-    display: flex; align-items: center; flex-shrink: 0;
-    -webkit-tap-highlight-color: transparent; transition: opacity 0.15s;
-  }
-  .nova-clear-btn:active { opacity: 0.5; }
-
-  /* Submit button — gold */
-  .nova-auth-submit-btn {
-    width: 100%; height: 44px; border-radius: 10px; border: none; cursor: pointer;
-    font-size: 14px; font-weight: 800; letter-spacing: 0.05em; color: #12153a;
-    background: linear-gradient(135deg, #f5c842 0%, #f0a800 55%, #d97706 100%);
-    box-shadow: 0 4px 16px rgba(245,200,66,0.28);
-    transition: transform 0.1s; -webkit-tap-highlight-color: transparent;
-  }
-  .nova-auth-submit-btn:active { transform: scale(0.97); }
-  .nova-auth-submit-btn:disabled { opacity: 0.45; }
-  .nova-auth-submit-btn--dim { opacity: 0.35; filter: brightness(0.6); pointer-events: none; }
-
-  /* Login type pills */
-  .nova-login-type-btn {
-    flex: 1; padding: 7px 6px; border-radius: 8px; background: rgba(5,8,38,0.6);
-    border: 1px solid rgba(255,255,255,0.08); cursor: pointer; color: rgba(255,255,255,0.32);
-    font-size: 10px; font-weight: 700; display: flex; align-items: center; justify-content: center; gap: 4px;
-    transition: all 0.2s; -webkit-tap-highlight-color: transparent;
-  }
-  .nova-login-type-btn--active { background: rgba(245,200,66,0.1); border-color: rgba(245,200,66,0.3); color: rgba(255,255,255,0.9); }
-
-
-  /* Slide transition */
-  .nova-auth-slide-enter-active { transition: transform 0.3s cubic-bezier(0.32,0.72,0,1); }
-  .nova-auth-slide-leave-active  { transition: transform 0.25s cubic-bezier(0.32,0.72,0,1); }
-  .nova-auth-slide-enter-from,.nova-auth-slide-leave-to { transform: translateX(100%); }
-
-  /* ── FOOTER ── */
-  .nova-contact-chip { display:flex;flex-direction:column;align-items:center;gap:6px;cursor:pointer;-webkit-tap-highlight-color:transparent; }
-  .nova-contact-img { width:56px;height:56px;border-radius:16px;object-fit:cover;display:block;box-shadow:0 4px 16px rgba(0,0,0,0.45); }
-  .nova-contact-svg-fb { width:56px;height:56px;border-radius:16px;display:flex;align-items:center;justify-content:center;box-shadow:0 4px 16px rgba(0,0,0,0.35); }
-  .nova-contact-label { font-size:10px;color:rgba(255,255,255,0.45);font-weight:600; }
-
-  .nova-social-float { cursor:pointer;-webkit-tap-highlight-color:transparent; }
-  .nova-social-float:active { opacity:0.7;transform:scale(0.92); }
-  .nova-social-img { width:58px;height:58px;border-radius:16px;object-fit:cover;display:block; }
-  .nova-social-svg-fb { width:58px;height:58px;border-radius:16px;display:flex;align-items:center;justify-content:center;box-shadow:0 4px 18px rgba(0,0,0,0.4); }
-
-  .nova-license-slot { border-radius:12px;background:rgba(255,255,255,0.04);display:flex;align-items:center;justify-content:center;padding:10px 8px;min-height:54px; }
-  .nova-license-img { max-height:36px;max-width:100%;object-fit:contain;display:block;filter:drop-shadow(0 2px 8px rgba(0,0,0,0.5)); }
-  .nova-footer-link { font-size:11px;color:rgba(255,255,255,0.45);cursor:pointer;line-height:1.5; }
-
-  /* ── BOTTOM NAV ── */
-  .nova-bottom-nav { position:fixed;bottom:0;left:0;right:0;z-index:200;background:rgba(6,8,24,0.97);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);border-top:1px solid rgba(168,85,247,0.22);padding-bottom:env(safe-area-inset-bottom,0);box-shadow:0 -4px 28px rgba(0,0,0,0.6), 0 -1px 0 rgba(168,85,247,0.12) inset; }
-  .nova-nav-item { flex:1;min-width:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;color:rgba(255,255,255,0.28);font-size:9px;font-weight:700;padding:6px 4px;border-radius:10px;transition:color 0.2s,opacity 0.15s;-webkit-tap-highlight-color:transparent;user-select:none;letter-spacing:0.03em;contain:layout style; }
-  .nova-nav-item svg { flex-shrink:0;width:24px;height:24px;display:block; }
-  .nova-nav-item span { display:block;white-space:nowrap;line-height:1; }
-  .nova-nav-item:active { opacity:0.6; }
-  .nova-nav-active { color:#22c55e !important; }
-
-  /* ── SKELETON ── */
-  @keyframes nova-pulse { 0%,100%{opacity:.35;}50%{opacity:.65;} }
-  @keyframes confettiFall { 0%{transform:translateY(0) rotate(0deg);opacity:1;} 100%{transform:translateY(40px) rotate(180deg);opacity:0;} }
-  .pwa-slide-enter-active { animation:slideUp 0.3s cubic-bezier(0.22,1,0.36,1); }
-  .pwa-slide-leave-active { animation:slideUp 0.2s ease-in reverse; }
-  @keyframes slideUp { from{transform:translateY(20px);opacity:0;} to{transform:translateY(0);opacity:1;} }
-
-  /* ── VANT ── */
-  :deep(.van-overlay) { background:rgba(0,0,0,0.7) !important; }
-
-  /* ── QUICK ICON — green frame ── */
-  .nova-quick-frame {
-    width:30px; height:30px; border-radius:8px;
-    border:1.5px solid rgba(34,197,94,0.55);
-    background:rgba(34,197,94,0.07);
-    box-shadow:0 0 8px rgba(34,197,94,0.18), inset 0 0 6px rgba(34,197,94,0.08);
-    display:flex; align-items:center; justify-content:center;
-    position:relative; overflow:hidden;
-  }
-  .nova-quick-frame::after {
-    content:''; position:absolute; top:0; left:-60%; width:40%; height:100%;
-    background:linear-gradient(90deg,transparent,rgba(34,197,94,0.22),transparent);
-    animation:nova-frame-shine 2.8s ease-in-out infinite;
-  }
-  @keyframes nova-frame-shine { 0%,100%{left:-60%} 50%{left:140%} }
-
-  /* ── CASH BUTTON ANIMATIONS ── */
-  .nova-cash-btn { position:relative; overflow:hidden; display:flex; align-items:center; gap:5px; }
-  .nova-withdraw-btn { display:flex; align-items:center; gap:5px; }
-  .nova-cash-particles { position:absolute; inset:0; pointer-events:none; overflow:hidden; }
-  .nova-coin {
-    position:absolute; font-size:9px; opacity:0;
-    animation:nova-coin-burst 2.4s ease-in-out infinite;
-  }
-  .nova-coin.c1 { left:15%; animation-delay:0s; }
-  .nova-coin.c2 { left:45%; animation-delay:0.6s; }
-  .nova-coin.c3 { left:72%; animation-delay:1.2s; }
-  @keyframes nova-coin-burst {
-    0%   { opacity:0; transform:translateY(20px) scale(0.6) rotate(0deg); }
-    20%  { opacity:0.9; }
-    60%  { opacity:0.6; transform:translateY(-18px) scale(1.1) rotate(25deg); }
-    100% { opacity:0; transform:translateY(-30px) scale(0.7) rotate(45deg); }
-  }
-
-  /* ── BRAND LOGOS in sidebar ── */
-  /* .nova-cat-icon-wrap--brand legacy — removed */.nova-cat-icon-wrap--brand-legacy {
-    background:transparent !important;
-    border-color:transparent !important;
-    box-shadow:none !important;
-    padding:0;
-  }
-  .nova-cat-svg--brand { width:32px !important; height:32px !important; border-radius:6px; overflow:visible; }
-  
-@keyframes nft-spin {
-  from { transform: rotate(0deg); }
-  to   { transform: rotate(360deg); }
-}
-
-.refresh-btn {
-    background: transparent;
-    border: none;
-    padding: 3px;
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    opacity: 0.85;
-    transition: opacity 0.2s;
-  }
-  .refresh-btn svg {
-    transition: transform 0.1s;
-  }
-  .refresh-btn.spinning {
-    opacity: 0.55;
-  }
-  .refresh-btn.spinning svg {
-    animation: btn-spin 0.6s linear infinite;
-  }
-  @keyframes btn-spin {
-    from { transform: rotate(0deg); }
-    to   { transform: rotate(360deg); }
-  }
-/* ── Eye button ── */
-/* ── Balance value: fixed width prevents layout shift on hide/show ── */
-.nova-balance-val {
-  display: inline-flex; align-items: baseline; gap: 0;
-  min-width: 60px;
-  max-width: 130px;
-  white-space: nowrap;
-  overflow: hidden;
-}
-
-.nova-eye-btn {
-  background: rgba(255,255,255,0.06);
-  border: 1px solid rgba(255,255,255,0.12);
-  border-radius: 6px;
-  padding: 3px 4px;
-  cursor: pointer;
-  display: flex; align-items: center; justify-content: center;
-  color: rgba(255,255,255,0.5);
-  transition: all 0.2s;
-  -webkit-tap-highlight-color: transparent;
-}
-.nova-eye-btn:active { transform: scale(0.9); }
-
-/* ── Cool Refresh button ── */
-.nova-refresh-btn {
-  position: relative;
-  width: 24px; height: 24px;
-  background: linear-gradient(135deg, rgba(74,222,128,0.15), rgba(16,185,129,0.08));
-  border: 1.5px solid rgba(74,222,128,0.5);
-  border-radius: 8px;
-  cursor: pointer;
-  display: flex; align-items: center; justify-content: center;
-  color: #4ade80;
-  overflow: hidden;
-  transition: all 0.25s;
-  box-shadow: 0 0 8px rgba(74,222,128,0.2), inset 0 0 6px rgba(74,222,128,0.05);
-  -webkit-tap-highlight-color: transparent;
-}
-.nova-refresh-btn:not(:disabled):active {
-  transform: scale(0.88);
-  box-shadow: 0 0 14px rgba(74,222,128,0.45);
-}
-.nova-refresh-btn:disabled { opacity: 0.5; cursor: default; }
-
-/* Animated ring sweep on idle */
-.nova-refresh-ring {
-  position: absolute; inset: -1px;
-  border-radius: 8px;
-  background: conic-gradient(rgba(74,222,128,0.55) 0deg, transparent 90deg, transparent 360deg);
-  animation: nova-ring-spin 2.5s linear infinite;
-  opacity: 0.6;
-}
-@keyframes nova-ring-spin { to { transform: rotate(360deg); } }
-
-/* Arrow spins fast when refreshing */
-.nova-refresh-arrow { position: relative; z-index: 1; transition: transform 0.3s; }
-.nova-refresh-btn--spinning .nova-refresh-arrow { animation: nova-arr-spin 0.5s linear infinite; }
-.nova-refresh-btn--spinning .nova-refresh-ring { animation: nova-ring-spin 0.4s linear infinite; opacity: 1; }
-@keyframes nova-arr-spin { from { transform: rotate(0deg); } to { transform: rotate(-360deg); } }
-.qrow { display:flex; align-items:center; justify-content:space-around; padding:0 10px 10px; gap:4px; }.qrow--compact { padding:0; gap:3px; }.qbtn { display:flex; flex-direction:column; align-items:center; gap:3px; cursor:pointer; -webkit-tap-highlight-color:transparent; user-select:none; flex:1; }.qbtn-frame { width:42px; height:42px; border-radius:10px; border:1.5px solid rgba(74,222,128,0.55); background:rgba(74,222,128,0.06); display:flex; align-items:center; justify-content:center; box-shadow:0 0 8px rgba(74,222,128,0.18); overflow:hidden; position:relative; }.qbtn-img-blank { width:100%; height:100%; background:rgba(74,222,128,0.04); }.qbtn-frame--sm { width:32px; height:32px; border-radius:8px; }.qbtn-icon-wrap--sm { width:32px; height:32px; border-radius:8px; }.qbtn-frame::after { content:''; position:absolute; inset:0; border-radius:9px; border:1px solid rgba(74,222,128,0.25); pointer-events:none; }.qbtn-icon-wrap { width:42px; height:42px; border-radius:10px; display:flex; align-items:center; justify-content:center; }.qbtn-icon-wrap--vip { background:linear-gradient(135deg,rgba(245,158,11,0.22),rgba(217,119,6,0.12)); border:1.5px solid rgba(251,191,36,0.6); box-shadow:0 0 10px rgba(251,191,36,0.28); }.qbtn-icon-wrap--bot { background:linear-gradient(135deg,rgba(74,222,128,0.15),rgba(16,185,129,0.08)); border:1.5px solid rgba(74,222,128,0.55); box-shadow:0 0 10px rgba(74,222,128,0.22); }.qbtn-icon-wrap--dl { background:linear-gradient(135deg,rgba(34,211,238,0.15),rgba(6,182,212,0.08)); border:1.5px solid rgba(34,211,238,0.55); box-shadow:0 0 10px rgba(34,211,238,0.22); }.qbtn-lbl { font-size:9px; font-weight:600; color:rgba(255,255,255,0.65); letter-spacing:0.02em; text-align:center; }.qbtn-lbl--vip { color:#fbbf24; text-shadow:0 0 6px rgba(251,191,36,0.5); }.qbtn-lbl--bot { color:#4ade80; text-shadow:0 0 6px rgba(74,222,128,0.4); }.qbtn-lbl--dl { color:#22d3ee; text-shadow:0 0 6px rgba(34,211,238,0.4); }.qbtn:active .qbtn-frame,.qbtn:active .qbtn-icon-wrap { transform:scale(0.93); opacity:0.8; }
-
-.qsc-icon { animation: qsc-bounce 1.8s ease-in-out infinite; }
-@keyframes qsc-bounce {
-  0%, 13%, 100% { transform: scale(1) translateY(0); filter: brightness(1); }
-  6%  { transform: scale(1.25) translateY(-5px); filter: brightness(1.7); }
-  10% { transform: scale(0.93) translateY(0); filter: brightness(1); }
-}
-
-  /* ── GLASS SECTIONS ── */
-  .glass-section { background:rgba(255,255,255,0.03); border-top:1px solid rgba(255,255,255,0.06); border-bottom:1px solid rgba(255,255,255,0.06); }
-  .glass-user-row { background:rgba(255,255,255,0.03); border-bottom:1px solid rgba(255,255,255,0.06); }
-  .glass-marquee { background:rgba(6,8,24,0.96) !important; }
-  /* Smooth mobile scroll on game grid */
-  .nova-game-scroll { -webkit-overflow-scrolling:touch; overflow-y:auto; scroll-behavior:smooth; }
-  /* Floating card feel on QSC icons */
-  .qsc-icon { animation: qsc-bounce 1.8s ease-in-out infinite; }
-  /* Game card hover lift */
-  .nova-game-card:hover { transform:translateY(-2px) translateZ(0); box-shadow:0 8px 28px rgba(0,0,0,0.6), 0 1px 0 rgba(255,255,255,0.08) inset; }
-
-  /* ══ HIGH FPS GPU ACCELERATION ══ */
-  /* Promote scroll container to own GPU layer */
-  .nova-game-scroll { will-change:transform; transform:translateZ(0); }
-  /* Prevent layout thrash on animated elements */
-  .nova-game-card, .qsc-icon, .nova-cat-icon-wrap, .nova-cash-btn, .nova-coin,
-  .nova-bottom-nav, .nova-header, .holo-scan, .portrait-svg {
-    will-change:transform; transform:translateZ(0);
-  }
-  /* Touch action: let browser know we only scroll vertically */
-  .nova-app { touch-action:pan-y; }
-  .nova-hcat-scroll { touch-action:pan-x; }
-  /* Contain paint for isolated sections */
-  .nova-game-card, .nova-cat-icon-wrap { contain:layout style paint; }
-  /* Smooth momentum for game grid container */
-  .nova-game-area { overscroll-behavior-y:contain; }
-  /* Reduce layout shift during scroll */
-  .nova-cat-btn { contain:layout style; }
-  /* Orb drift animations (smooth, low CPU) */
-  @keyframes orb-drift1 { 0%,100%{transform:translate(0,0) scale(1);}50%{transform:translate(12px,-18px) scale(1.08);} }
-  @keyframes orb-drift2 { 0%,100%{transform:translate(0,0) scale(1);}50%{transform:translate(-14px,16px) scale(1.06);} }
-  @keyframes orb-drift3 { 0%,100%{transform:translate(0,0) scale(1);}50%{transform:translate(10px,-12px) scale(1.1);} }
-  /* Banner swipe — high FPS with cubic-bezier */
-  .nova-banner-track { transition:transform 0.38s cubic-bezier(0.22,0.61,0.36,1); will-change:transform; transform:translateZ(0); }
-  /* Active nav item glow */
-  .nova-nav-active svg { filter:drop-shadow(0 0 5px rgba(34,197,94,0.7)); }
-  /* Color boost — green glow on active cat bar */
-
-  /* Bottom nav item press — opacity only, no layout shift */
-  /* Colorful header logo pulse */
-  .nova-logo { animation:logo-pulse 4s ease-in-out infinite; }
-  @keyframes logo-pulse { 0%,100%{box-shadow:0 0 18px rgba(34,197,94,0.45);}50%{box-shadow:0 0 28px rgba(34,197,94,0.7), 0 0 48px rgba(34,197,94,0.2);} }
-  /* Marquee bar color accent */
-  .nova-marquee-bar { background:rgba(6,8,24,0.96) !important; border-top:1px solid rgba(34,197,94,0.25) !important; border-bottom:1px solid rgba(34,197,94,0.25) !important; }
-
-  /* ══ AI BRAIN AGENT BUTTON — elevated floating ══ */
-  .nova-agent-inactive { color: rgba(255,255,255,0.45); }
-  .nova-agent-active   { color: #f59e0b; }
-  .nova-brain-wrap {
-    width: 60px; height: 60px;
-    border-radius: 50%;
-    background: radial-gradient(circle at 42% 38%, rgba(245,158,11,0.14) 0%, rgba(5,8,20,0.98) 65%);
-    border: 1.5px solid rgba(245,158,11,0.55);
-    box-shadow:
-      0 0 0 3px rgba(45,51,117,0.75),
-      0 0 18px rgba(245,158,11,0.42),
-      0 0 38px rgba(245,158,11,0.16),
-      0 -8px 22px rgba(0,0,0,0.75);
-    display: flex; align-items: center; justify-content: center;
-    margin: 0 auto;
-    margin-top: -20px;
-    animation: bwrap-pulse 3s ease-in-out infinite;
-  }
-  @keyframes bwrap-pulse {
-    0%,100% { box-shadow: 0 0 0 3px rgba(45,51,117,0.75), 0 0 16px rgba(245,158,11,0.38), 0 0 32px rgba(245,158,11,0.12), 0 -8px 22px rgba(0,0,0,0.75); }
-    50%      { box-shadow: 0 0 0 3px rgba(45,51,117,0.75), 0 0 28px rgba(245,158,11,0.62), 0 0 54px rgba(245,158,11,0.24), 0 -8px 22px rgba(0,0,0,0.75); }
-  }
-  /* Neural tendril flow — signal moving outward */
-  .nb-tdl { animation: tdl-flow 1.8s linear infinite; }
-  @keyframes tdl-flow {
-    0%   { stroke-dashoffset: 16; opacity: 0.65; }
-    50%  { opacity: 1; }
-    100% { stroke-dashoffset: 0;  opacity: 0.65; }
-  }
-  /* Energy nodes — staggered pulse per node */
-  .nb-node-1,.nb-node-2,.nb-node-3,.nb-node-4,.nb-node-5 {
-    transform-box: fill-box; transform-origin: center;
-  }
-  .nb-node-1 { animation: nb-node 2s ease-in-out infinite 0s;    }
-  .nb-node-2 { animation: nb-node 2s ease-in-out infinite 0.4s;  }
-  .nb-node-3 { animation: nb-node 2s ease-in-out infinite 0.8s;  }
-  .nb-node-4 { animation: nb-node 2s ease-in-out infinite 1.2s;  }
-  .nb-node-5 { animation: nb-node 2s ease-in-out infinite 1.6s;  }
-  @keyframes nb-node {
-    0%, 100% { opacity: 0.6;  transform: scale(0.8);  }
-    50%       { opacity: 1;    transform: scale(1.3);  }
-  }
-
-  /* ── Provider Section ── */
-  .nova-prov-section { padding: 0 14px 20px; }
-  .nova-prov-header {
-    display: flex; align-items: center; gap: 9px;
-    margin-bottom: 14px;
-  }
-  .nova-prov-title {
-    font-size: 15px; font-weight: 800; color: rgba(255,255,255,0.95);
-    letter-spacing: 0.02em;
-  }
-  .nova-prov-row3 { display: grid; grid-template-columns: repeat(3,1fr); gap: 8px; }
-  .nova-prov-row1 { display: flex; }
-
-  /* Base card */
-  .nova-prov-card {
-    position: relative; display: flex; align-items: center; gap: 0;
-    padding: 0; border-radius: 14px; border: 1.5px solid transparent;
-    cursor: pointer; -webkit-tap-highlight-color: transparent;
-    overflow: hidden; transition: transform 0.14s ease, box-shadow 0.14s ease;
-    flex-direction: column; justify-content: center;
-  }
-  .nova-prov-card:active { transform: scale(0.95); }
-
-  /* PG — vivid violet-indigo */
-  .nova-prov-card--pg {
-    background: linear-gradient(145deg, #5b21b6 0%, #7c3aed 60%, #4f46e5 100%);
-    box-shadow: 0 6px 20px rgba(91,33,182,0.55), inset 0 1px 0 rgba(255,255,255,0.18);
-    border-color: rgba(167,139,250,0.35);
-    height: 86px;
-  }
-  /* PP — vivid amber-orange */
-  .nova-prov-card--pp {
-    background: linear-gradient(145deg, #92400e 0%, #d97706 55%, #f59e0b 100%);
-    box-shadow: 0 6px 20px rgba(217,119,6,0.5), inset 0 1px 0 rgba(255,255,255,0.2);
-    border-color: rgba(251,191,36,0.4);
-    height: 86px;
-  }
-  /* JDB — vivid cyan-teal */
-  .nova-prov-card--jdb {
-    background: linear-gradient(145deg, #065f46 0%, #0891b2 55%, #06b6d4 100%);
-    box-shadow: 0 6px 20px rgba(6,182,212,0.45), inset 0 1px 0 rgba(255,255,255,0.18);
-    border-color: rgba(34,211,238,0.35);
-    height: 86px;
-  }
-  /* JILI — vivid red-rose, full width */
-  .nova-prov-card--jili {
-    background: linear-gradient(135deg, #7f1d1d 0%, #dc2626 45%, #ef4444 75%, #f87171 100%);
-    box-shadow: 0 6px 24px rgba(220,38,38,0.5), inset 0 1px 0 rgba(255,255,255,0.18);
-    border-color: rgba(252,165,165,0.3);
-    height: 80px;
-  }
-  .nova-prov-card--wide { width: 100%; flex-direction: row; padding: 0 16px; gap: 14px; }
-
-  /* Selected state */
-  .nova-prov-card--on {
-    border-color: #f5c842 !important;
-    box-shadow: 0 0 0 2px rgba(245,200,66,0.4), 0 8px 28px rgba(0,0,0,0.4) !important;
-  }
-
-  /* Shine overlay */
-  .nova-prov-card::after {
-    content: ''; position: absolute; inset: 0; pointer-events: none;
-    background: linear-gradient(135deg, rgba(255,255,255,0.14) 0%, transparent 55%);
-    border-radius: inherit;
-  }
-
-  /* Logo inside card */
-  .nova-prov-img {
-    width: 100%; height: 52px; object-fit: contain;
-    padding: 6px 10px; box-sizing: border-box; display: block; flex-shrink: 0;
-    filter: drop-shadow(0 2px 6px rgba(0,0,0,0.4)) brightness(1.08);
-  }
-  .nova-prov-img--wide {
-    width: 110px; height: 60px; padding: 6px 0;
-  }
-
-  /* Text inside card */
-  .nova-prov-info {
-    display: flex; flex-direction: column; gap: 2px; flex: 1; text-align: left;
-    z-index: 1;
-  }
-  .nova-prov-name {
-    font-size: 12px; font-weight: 800; color: #fff;
-    letter-spacing: 0.02em; line-height: 1.2;
-    text-shadow: 0 1px 4px rgba(0,0,0,0.5);
-  }
-  .nova-prov-sub {
-    font-size: 10px; font-weight: 600; color: rgba(255,255,255,0.72);
-    text-shadow: 0 1px 3px rgba(0,0,0,0.4);
-  }
-
-
-  /* ── Fish Section ── */
-  .nova-fish-section { padding: 0 14px 20px; }
-  .nova-fish-header {
-    display: flex; align-items: center; gap: 8px; margin-bottom: 12px;
-  }
-  .nova-fish-title {
-    font-size: 15px; font-weight: 800; color: rgba(255,255,255,0.95);
-    flex: 1;
-  }
-  .nova-fish-count {
-    font-size: 11px; font-weight: 700;
-    color: #22d3ee; background: rgba(6,182,212,0.15);
-    border: 1px solid rgba(6,182,212,0.3);
-    padding: 2px 9px; border-radius: 20px;
-  }
-  .nova-fish-grid {
-    display: grid; grid-template-columns: repeat(3,1fr); gap: 8px;
-  }
-
-  /* ── Live Casino Section ── */
-  .nova-live-section { padding: 0 14px 20px; }
-  .nova-live-header { display: flex; align-items: center; gap: 9px; margin-bottom: 14px; }
-  .nova-live-icon-wrap {
-    width: 28px; height: 28px; border-radius: 7px; overflow: hidden;
-    display: flex; align-items: center; justify-content: center;
-    background: rgba(168,85,247,0.15); border: 1px solid rgba(168,85,247,0.3);
-    flex-shrink: 0;
-  }
-  .nova-live-icon-img { width: 100%; height: 100%; object-fit: cover; display: block; }
-  .nova-live-icon-fallback { display: none; font-size: 14px; align-items: center; justify-content: center; }
-  .nova-live-title {
-    font-size: 15px; font-weight: 800; color: rgba(255,255,255,0.95);
-    letter-spacing: 0.02em; flex: 1;
-  }
-  .nova-live-count {
-    font-size: 11px; font-weight: 700;
-    color: #e879f9; background: rgba(168,85,247,0.15);
-    border: 1px solid rgba(168,85,247,0.3);
-    padding: 2px 9px; border-radius: 20px;
-  }
-  .nova-live-row3 { display: grid; grid-template-columns: repeat(3,1fr); gap: 8px; margin-bottom: 0; }
-  .nova-live-row1 { display: block; }
-  .nova-live-wide-card { display: block; width: 100%; }
-  .nova-badge--live {
-    position: absolute; top: 5px; right: 5px;
-    background: rgba(168,85,247,0.88); color: #fff;
-    font-size: 8px; font-weight: 800; padding: 2px 6px;
-    border-radius: 4px; letter-spacing: 0.05em; z-index: 2;
-  }
-  .nova-live-see-all {
-    width: 100%; padding: 11px; border-radius: 10px;
-    background: rgba(168,85,247,0.12); border: 1px solid rgba(168,85,247,0.3);
-    color: rgba(232,121,249,0.9); font-size: 12px; font-weight: 700;
-    cursor: pointer; letter-spacing: 0.03em;
-    transition: background 0.15s; -webkit-tap-highlight-color: transparent;
-  }
-  .nova-live-see-all:active { background: rgba(168,85,247,0.24); }
-
-  /* ── Live Casino + Arcade Buttons ── */
-  .nova-catbtn-section {
-    display: grid; grid-template-columns: 1fr 1fr; gap: 10px;
-    padding: 0 14px 20px;
-  }
-  .nova-catbtn {
-    position: relative; display: flex; align-items: center; gap: 10px;
-    padding: 0 14px; border-radius: 14px; border: 1.5px solid transparent;
-    cursor: pointer; -webkit-tap-highlight-color: transparent;
-    overflow: hidden; transition: transform 0.14s ease, box-shadow 0.14s ease;
-    flex-direction: row; justify-content: flex-start; height: 62px;
-  }
-  .nova-catbtn:active { transform: scale(0.95); }
-  .nova-catbtn::after {
-    content: ''; position: absolute; inset: 0;
-    background: linear-gradient(135deg, rgba(255,255,255,0.13) 0%, transparent 60%);
-    pointer-events: none;
-  }
-  .nova-catbtn--live {
-    background: linear-gradient(145deg, #4a1472 0%, #7c3aed 55%, #a855f7 100%);
-    box-shadow: 0 6px 20px rgba(168,85,247,0.5), inset 0 1px 0 rgba(255,255,255,0.18);
-    border-color: rgba(216,180,254,0.35);
-  }
-  .nova-catbtn--arcade {
-    background: linear-gradient(145deg, #065f46 0%, #0891b2 55%, #06b6d4 100%);
-    box-shadow: 0 6px 20px rgba(6,182,212,0.45), inset 0 1px 0 rgba(255,255,255,0.18);
-    border-color: rgba(34,211,238,0.35);
-  }
-  .nova-catbtn-img-wrap {
-    width: 40px; height: 40px; border-radius: 9px; overflow: hidden;
-    display: flex; align-items: center; justify-content: center;
-    background: rgba(255,255,255,0.12); flex-shrink: 0;
-  }
-  .nova-catbtn-img { width: 100%; height: 100%; object-fit: cover; display: block; }
-  .nova-catbtn-img-fallback {
-    display: none; font-size: 20px;
-    align-items: center; justify-content: center;
-  }
-  .nova-catbtn-info {
-    display: flex; flex-direction: column; align-items: flex-start; gap: 2px;
-  }
-  .nova-catbtn-name {
-    font-size: 11px; font-weight: 800; color: rgba(255,255,255,0.95);
-    letter-spacing: 0.01em; line-height: 1.2;
-  }
-  .nova-catbtn-sub {
-    font-size: 9px; font-weight: 600; color: rgba(255,255,255,0.6);
-  }
-
-  /* ══ POPULAR DOTS + ALL BUTTON ROW ══ */
-  .nova-carousel-footer {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 12px 6px 4px;
-  }
-  .nova-carousel-dots {
-    display: flex; align-items: center; gap: 6px;
-    overflow-x: auto;
-    -webkit-overflow-scrolling: touch;
-    scrollbar-width: none;
-    flex: 1;
-    padding-bottom: 2px;
-  }
-  .nova-carousel-dots::-webkit-scrollbar { display: none; }
-  .nova-carousel-dot {
-    flex-shrink: 0;
-    width: 8px; height: 8px;
-    border-radius: 50%;
-    background: rgba(255,255,255,0.2);
-    border: none; padding: 0; cursor: pointer;
-    transition: width 0.25s ease, background-color 0.2s ease, border-radius 0.2s ease;
-    will-change: width;
-    -webkit-tap-highlight-color: transparent;
-  }
-  .nova-carousel-dot--active {
-    background: #fbbf24;
-    width: 22px;
-    border-radius: 4px;
-    box-shadow: 0 0 8px rgba(251,191,36,0.7);
-  }
-  .nova-carousel-all-btn {
-    display: flex; align-items: center; gap: 3px;
-    background: rgba(255,193,7,0.12);
-    border: 1px solid rgba(255,193,7,0.35);
-    border-radius: 20px;
-    color: #fbbf24;
-    font-size: 11px; font-weight: 800;
-    padding: 4px 12px;
-    cursor: pointer;
-    -webkit-tap-highlight-color: transparent;
-    letter-spacing: 0.03em;
-    transition: background 0.15s;
-  }
-  .nova-carousel-all-btn:active { background: rgba(255,193,7,0.24); }
-
-
-  /* ── Carousel page slide animation ── */
-  .nova-pg-anim[data-dir="right"] { animation: pgFromRight 0.28s cubic-bezier(0.22,1,0.36,1); will-change: transform, opacity; }
-  .nova-pg-anim[data-dir="left"]  { animation: pgFromLeft  0.28s cubic-bezier(0.22,1,0.36,1); will-change: transform, opacity; }
-  @keyframes pgFromRight { from { transform: translateX(28px); opacity: 0; } to { transform: translateX(0); opacity: 1; } }
-  @keyframes pgFromLeft  { from { transform: translateX(-28px); opacity: 0; } to { transform: translateX(0); opacity: 1; } }
-</style>
-
-<style>
-/* ══ FLOATING ACTION BUTTONS — global (Teleport to body) ══════════════════ */
-.nova-fab-stack {
-  position: fixed;
-  right: 8px;
-  bottom: 80px;
-  z-index: 8888;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 8px;
-  pointer-events: none;
-}
-
-.nova-fab {
-  pointer-events: all;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 56px;
-  height: 56px;
-  padding: 0;
-  border: none;
-  border-radius: 50%;
-  background: transparent;
-  cursor: pointer;
-  -webkit-tap-highlight-color: transparent;
-  transition: transform 0.18s cubic-bezier(0.34,1.56,0.64,1);
-  animation: fabSlideIn 0.4s cubic-bezier(0.34,1.56,0.64,1) both;
-  overflow: hidden;
-}
-.nova-fab:active { transform: scale(0.88); }
-
-.nova-fab--wheel   { animation-delay: 0s; }
-.nova-fab--cs      { animation-delay: 0.08s; }
-.nova-fab--payment { animation-delay: 0.16s; }
-
-.nova-fab-img {
-  width: 100%;
-  height: 100%;
-  object-fit: contain;
-  display: block;
-  pointer-events: none;
-}
-
-@keyframes fabSlideIn {
-  from { opacity: 0; transform: translateX(28px) scale(0.75); }
-  to   { opacity: 1; transform: translateX(0)     scale(1); }
-}
-
-/* ── Left side FAB ── */
-.nova-fab-stack-left {
-  position: fixed;
-  left: 8px;
-  bottom: 80px;
-  z-index: 8888;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  pointer-events: none;
-}
-.nova-fab--left {
-  animation-delay: 0s;
-}
-
-@media (max-width: 360px) {
-  .nova-fab { width: 50px; height: 50px; }
-  .nova-fab-stack { bottom: 75px; right: 6px; }
-  .nova-fab-stack-left { bottom: 75px; left: 6px; }
-}
-</style>
