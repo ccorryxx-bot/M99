@@ -1,1115 +1,866 @@
-    <div class="nova-app">
+<template>
+  <div class="hp-root">
 
-      <!-- ══ BACKGROUND ORBS ══ -->
-      <div class="nova-bg-orb nova-bg-orb--1"></div>
-      <div class="nova-bg-orb nova-bg-orb--2"></div>
-      <div class="nova-bg-orb nova-bg-orb--3"></div>
+    <!-- ══ HEADER ══ -->
+    <header class="hp-header">
+      <button class="hp-hamburger" @click="openAuth('login')">
+        <svg width="18" height="14" fill="none" viewBox="0 0 18 14">
+          <rect x="0" y="0" width="18" height="2.5" rx="1.25" fill="#4ade80"/>
+          <rect x="0" y="5.5" width="14" height="2.5" rx="1.25" fill="#4ade80"/>
+          <rect x="0" y="11" width="18" height="2.5" rx="1.25" fill="#4ade80"/>
+        </svg>
+      </button>
+      <div class="hp-brand">
+        <span class="hp-brand-arrow">⇒</span>
+        <span class="hp-brand-iw">iW</span><span class="hp-brand-bet">BET</span>
+        <span class="hp-brand-domain">iwbet.com</span>
+      </div>
+      <div class="hp-header-actions">
+        <button class="hp-btn-login" @click="openAuth('login')">လောဂ်အင်</button>
+        <button class="hp-btn-register" @click="openAuth('register')">မတ်ပုံတင်မယ်</button>
+      </div>
+    </header>
 
-      <!-- ══ HEADER ══ -->
-      <header class="nova-header">
-        <div class="nova-brand-wrap">
-          <div class="nova-brand"><img src="https://ik.imagekit.io/rbok01qam/Brand%20Logo%20/IMG_20260605_215459.png?tr=f-auto" alt="NovaBett" style="height:34px;width:auto;object-fit:contain;display:block;" /></div>
+    <!-- ══ BANNER CAROUSEL ══ -->
+    <div class="hp-banner-wrap">
+      <div class="hp-banner-track" :style="{ transform: `translateX(${-bannerIdx * 100}%)` }">
+        <div v-for="(b, i) in banners" :key="i" class="hp-banner-slide">
+          <img :src="b" alt="banner" class="hp-banner-img" loading="lazy" />
         </div>
-        <div style="display:flex;align-items:center;gap:6px;">
-          <template v-if="!isLoggedIn">
-            <button @click="openAuth('login')" class="glass-btn-auth" style="height:32px;padding:0 12px;font-size:11px;">လောဂ်အင်</button>
-            <button @click="openAuth('register')" class="glass-btn-auth glass-btn-auth--primary" style="height:32px;padding:0 12px;font-size:11px;">မှတ်ပုံတင်ပါ</button>
-          </template>
-          <template v-else>
-            <button @click="toggleLanguage" class="glass-btn-sm" style="color:rgba(20,184,166,0.9);font-size:11px;font-weight:700;padding:5px 10px;">{{ currentLang === 'en' ? '🇲🇲 မြန်မာ' : '🇬🇧 EN' }}</button>
-          </template>
-        </div>
-      </header>
+      </div>
+      <div class="hp-dots">
+        <span v-for="(b, i) in banners" :key="i" class="hp-dot" :class="{ active: i === bannerIdx }" @click="bannerIdx = i"></span>
+      </div>
+    </div>
 
-      <!-- Search -->
-      <div class="nova-search-bar">
-        <input v-model="searchQuery" type="text" placeholder="ဂိမ်းရှာပါ..." class="nova-input" style="padding-left:36px;" />
-        <svg style="position:absolute;left:26px;top:50%;transform:translateY(-50%);" width="15" height="15" fill="none" stroke="rgba(255,255,255,0.3)" stroke-width="2" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
-        <button @click="activeCategory='fav'" style="position:absolute;right:26px;top:50%;transform:translateY(-50%);background:none;border:none;cursor:pointer;padding:2px;-webkit-tap-highlight-color:transparent;">
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.5)" stroke-width="2"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+    <!-- ══ BANNER TOOLBAR ══ -->
+    <div class="hp-toolbar">
+      <button class="hp-tool-btn">
+        <svg width="18" height="18" fill="none" viewBox="0 0 24 24" stroke="rgba(255,255,255,0.6)" stroke-width="2">
+          <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/>
+          <path d="M15.54 8.46a5 5 0 0 1 0 7.07" stroke-linecap="round"/>
+        </svg>
+      </button>
+      <div style="flex:1"></div>
+      <button class="hp-tool-btn hp-tool-mail">
+        <svg width="18" height="18" fill="none" viewBox="0 0 24 24" stroke="rgba(255,255,255,0.7)" stroke-width="2">
+          <path d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </button>
+    </div>
+
+    <!-- ══ CATEGORY TABS ══ -->
+    <div class="hp-cats-wrap">
+      <div class="hp-cats">
+        <button
+          v-for="cat in categories"
+          :key="cat.id"
+          class="hp-cat"
+          :class="{ active: activeCategory === cat.id }"
+          @click="activeCategory = cat.id"
+        >
+          <span class="hp-cat-icon" v-html="cat.icon"></span>
+          <span class="hp-cat-label">{{ cat.label }}</span>
         </button>
       </div>
+    </div>
 
-      <!-- MAIN LAYOUT -->
-      <div style="display:flex;height:calc(100% - 90px);overflow:hidden;position:relative;">
+    <!-- ══ SEARCH BAR ══ -->
+    <div class="hp-search-row">
+      <div class="hp-search-box">
+        <svg width="15" height="15" fill="none" stroke="rgba(255,255,255,0.35)" stroke-width="2" viewBox="0 0 24 24" style="flex-shrink:0;">
+          <circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/>
+        </svg>
+        <input v-model="searchQuery" class="hp-search-input" placeholder="ရှာပါ..." />
+      </div>
+      <button class="hp-fav-btn" @click="activeCategory = activeCategory === 'fav' ? 'all' : 'fav'">
+        <svg width="20" height="20" viewBox="0 0 24 24" :fill="activeCategory === 'fav' ? '#fbbf24' : 'none'" :stroke="activeCategory === 'fav' ? '#fbbf24' : 'rgba(255,255,255,0.4)'" stroke-width="2">
+          <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/>
+        </svg>
+      </button>
+    </div>
 
-        <!-- SIDEBAR -->
-        <aside class="nova-sidebar">
-          <nav class="nova-nav">
-            <button v-for="cat in categories" :key="cat" @click="activeCategory = cat" :class="{ active: activeCategory === cat }" class="nova-nav-btn">
-              {{ cat }}
-            </button>
-          </nav>
-        </aside>
+    <!-- ══ SCROLLABLE CONTENT ══ -->
+    <div class="hp-scroll-area">
 
-        <!-- CONTENT AREA -->
-        <main class="nova-content">
-
-          <!-- HOT GAMES HEADER -->
-          <div class="hot-games-header">
-            <div class="hot-games-title">
-              <span class="hot-icon">🔥</span>
-              <h2>{{ currentLang === 'en' ? 'Hot Games' : 'ရဲ့မ်း ဂိမ်းများ' }}</h2>
-            </div>
-            <a href="#" class="view-all-link">{{ currentLang === 'en' ? 'View All' : 'အားလုံးကြည့်ရှုပါ' }} →</a>
-          </div>
-
-          <!-- CAROUSEL/SLIDER FOR HOT GAMES -->
-          <div class="carousel-container">
-            <button @click="prevSlide" class="carousel-btn carousel-btn-prev">
-              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="15 18 9 12 15 6"></polyline></svg>
-            </button>
-            <div class="carousel-viewport">
-              <div class="carousel-track" :style="{ transform: `translateX(${-currentSlide * 260}px)` }">
-                <div v-for="(game, idx) in hotGames" :key="idx" class="carousel-card">
-                  <div class="carousel-img-wrapper">
-                    <img :src="game.image" :alt="game.name" loading="lazy" />
-                    <div class="carousel-overlay">
-                      <button class="btn-play">▶</button>
-                    </div>
-                  </div>
-                  <p class="carousel-name">{{ game.name }}</p>
-                </div>
-              </div>
-            </div>
-            <button @click="nextSlide" class="carousel-btn carousel-btn-next">
-              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"></polyline></svg>
-            </button>
-          </div>
-
-          <!-- GAMES GRID -->
-          <div class="games-grid">
-            <div v-for="game in filteredGames" :key="game.id" class="game-card" @click="selectGame(game)">
-              <div class="game-card-image">
-                <img :src="game.image" :alt="game.name" loading="lazy" />
-                <div class="game-card-overlay">
-                  <button class="btn-play-game">▶</button>
-                </div>
-              </div>
-              <div class="game-card-info">
-                <h3>{{ game.name }}</h3>
-                <p class="game-rating">
-                  <span>⭐ {{ game.rating }}</span>
-                  <span>({{ game.players }})</span>
-                </p>
-              </div>
-            </div>
-          </div>
-
-        </main>
-
+      <!-- HOT GAMES SECTION -->
+      <div class="hp-section-hdr">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="#f97316" style="flex-shrink:0;">
+          <path d="M12 2C12 2 7 8 7 13a5 5 0 0010 0c0-5-5-11-5-11zm0 15a3 3 0 01-3-3c0-2.5 1.5-5 3-7 1.5 2 3 4.5 3 7a3 3 0 01-3 3z"/>
+        </svg>
+        <span class="hp-section-title">{{ currentCategoryLabel }}</span>
       </div>
 
-      <!-- GAME MODAL -->
-      <div v-if="selectedGame" class="modal-overlay" @click="closeModal">
-        <div class="modal-content" @click.stop>
-          <button class="modal-close-btn" @click="closeModal">×</button>
-          <div class="modal-body">
-            <img :src="selectedGame.image" :alt="selectedGame.name" class="modal-image" />
-            <div class="modal-info">
-              <h2>{{ selectedGame.name }}</h2>
-              <p class="modal-desc">{{ selectedGame.description }}</p>
-              <div class="modal-stats">
-                <div class="stat">
-                  <span class="stat-label">{{ currentLang === 'en' ? 'Rating' : 'အဆင့်သတ်မှတ်ခြင်း' }}</span>
-                  <span class="stat-value">{{ selectedGame.rating }} ⭐</span>
-                </div>
-                <div class="stat">
-                  <span class="stat-label">{{ currentLang === 'en' ? 'Players' : 'ကစားသမား' }}</span>
-                  <span class="stat-value">{{ selectedGame.players }}</span>
-                </div>
-              </div>
-              <button class="btn-play-now">{{ currentLang === 'en' ? 'Play Now' : 'ယခုကစားပါ' }}</button>
-            </div>
+      <!-- GAMES GRID -->
+      <div class="hp-games-grid" v-if="filteredGames.length">
+        <div
+          v-for="game in filteredGames"
+          :key="game.id"
+          class="hp-game-card"
+          @click="selectGame(game)"
+        >
+          <div class="hp-game-img-wrap">
+            <img :src="game.image" :alt="game.name" class="hp-game-img" loading="lazy" />
+            <button class="hp-star-btn" @click.stop="toggleFav(game.id)" :class="{ starred: favorites.has(game.id) }">
+              <svg width="13" height="13" viewBox="0 0 24 24" :fill="favorites.has(game.id) ? '#fbbf24' : 'none'" :stroke="favorites.has(game.id) ? '#fbbf24' : 'rgba(255,255,255,0.6)'" stroke-width="2">
+                <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/>
+              </svg>
+            </button>
+            <div class="hp-provider-badge">{{ game.provider }}</div>
           </div>
+          <p class="hp-game-name">{{ game.name }}</p>
         </div>
       </div>
-
-      <!-- AUTH MODAL -->
-      <div v-if="showAuthModal" class="modal-overlay" @click="closeAuth">
-        <div class="modal-content" @click.stop style="max-width:400px;">
-          <button class="modal-close-btn" @click="closeAuth">×</button>
-          <div class="auth-form">
-            <h2>{{ authMode === 'login' ? (currentLang === 'en' ? 'Sign In' : 'ဝင်ရောက်ပါ') : (currentLang === 'en' ? 'Create Account' : 'အကောင့်ဖန်တီးပါ') }}</h2>
-            <input v-if="authMode === 'register'" v-model="authForm.username" type="text" :placeholder="currentLang === 'en' ? 'Username' : 'အသုံးပြုသူအမည်'" class="nova-input" />
-            <input v-model="authForm.email" type="email" :placeholder="currentLang === 'en' ? 'Email' : 'အီးမေးလ်' class="nova-input" />
-            <input v-model="authForm.password" type="password" :placeholder="currentLang === 'en' ? 'Password' : 'စကားဝှက်' class="nova-input" />
-            <button @click="submitAuth" class="btn-auth-submit">{{ authMode === 'login' ? (currentLang === 'en' ? 'Sign In' : 'ဝင်ရောက်ပါ') : (currentLang === 'en' ? 'Create Account' : 'အကောင့်ဖန်တီးပါ') }}</button>
-            <p style="text-align:center;margin-top:12px;color:rgba(255,255,255,0.6);font-size:12px;">
-              <template v-if="authMode === 'login'">
-                {{ currentLang === 'en' ? "Don't have an account?" : 'အကောင့်မရှိသေးပါသလား?' }}
-                <button @click="authMode = 'register'" style="background:none;border:none;color:rgba(20,184,166,0.9);cursor:pointer;font-weight:700;">{{ currentLang === 'en' ? 'Sign Up' : 'မှတ်ပုံတင်ပါ' }}</button>
-              </template>
-              <template v-else>
-                {{ currentLang === 'en' ? 'Already have an account?' : 'ပြီးသားအကောင့်ရှိပါသလား?' }}
-                <button @click="authMode = 'login'" style="background:none;border:none;color:rgba(20,184,166,0.9);cursor:pointer;font-weight:700;">{{ currentLang === 'en' ? 'Sign In' : 'ဝင်ရောက်ပါ' }}</button>
-              </template>
-            </p>
-          </div>
-        </div>
+      <div v-else class="hp-empty">
+        <svg width="40" height="40" fill="none" stroke="rgba(255,255,255,0.2)" stroke-width="1.5" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+        <p>ဂိမ်းမတွေ့ပါ</p>
       </div>
 
     </div>
 
-<script setup>
-import { ref, computed, onMounted } from 'vue'
+    <!-- ══ GAME LAUNCH MODAL ══ -->
+    <Transition name="modal-fade">
+      <div v-if="selectedGame" class="hp-modal-overlay" @click.self="selectedGame = null">
+        <div class="hp-modal">
+          <button class="hp-modal-close" @click="selectedGame = null">
+            <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" d="M18 6 6 18M6 6l12 12"/></svg>
+          </button>
+          <img :src="selectedGame.image" :alt="selectedGame.name" class="hp-modal-img" />
+          <h3 class="hp-modal-name">{{ selectedGame.name }}</h3>
+          <p class="hp-modal-provider">{{ selectedGame.provider }}</p>
+          <div class="hp-modal-stats">
+            <div class="hp-modal-stat"><span class="sval">{{ selectedGame.rating }}★</span><span class="slbl">Rating</span></div>
+            <div class="hp-modal-stat"><span class="sval">{{ selectedGame.players }}</span><span class="slbl">Players</span></div>
+          </div>
+          <button class="hp-modal-play" @click="requireLogin">ယခုကစားပါ</button>
+        </div>
+      </div>
+    </Transition>
 
-const isLoggedIn = ref(false)
+    <!-- ══ AUTH MODAL ══ -->
+    <Transition name="modal-fade">
+      <div v-if="showAuthModal" class="hp-modal-overlay" @click.self="showAuthModal = false">
+        <div class="hp-modal hp-auth-modal">
+          <button class="hp-modal-close" @click="showAuthModal = false">
+            <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" d="M18 6 6 18M6 6l12 12"/></svg>
+          </button>
+          <div class="hp-auth-tabs">
+            <button :class="['hp-auth-tab', authMode === 'login' ? 'active' : '']" @click="authMode = 'login'">လောဂ်အင်</button>
+            <button :class="['hp-auth-tab', authMode === 'register' ? 'active' : '']" @click="authMode = 'register'">မှတ်ပုံတင်</button>
+          </div>
+          <div class="hp-auth-form">
+            <input v-if="authMode === 'register'" v-model="authForm.username" class="hp-auth-input" type="text" placeholder="Username" />
+            <input v-model="authForm.phone" class="hp-auth-input" type="text" :placeholder="authMode === 'register' ? 'ဖုန်းနံပါတ်' : 'Email / Phone'" />
+            <input v-model="authForm.password" class="hp-auth-input" type="password" placeholder="Password" />
+            <p v-if="authErr" class="hp-auth-err">{{ authErr }}</p>
+            <button class="hp-auth-submit" @click="submitAuth" :disabled="authLoading">
+              <span v-if="authLoading" class="hp-spin"></span>
+              {{ authLoading ? '...' : (authMode === 'login' ? 'ဝင်ရောက်ပါ' : 'မှတ်ပုံတင်ပါ') }}
+            </button>
+          </div>
+        </div>
+      </div>
+    </Transition>
+
+    <!-- ══ TOAST ══ -->
+    <Transition name="toast-up">
+      <div v-if="toast.show" class="hp-toast" :class="toast.type">{{ toast.msg }}</div>
+    </Transition>
+
+  </div>
+</template>
+
+<script setup>
+import { ref, computed, onMounted, onUnmounted } from 'vue'
+import { supabase } from '@/supabase'
+
+// ── Auth ───────────────────────────────────────────────────────────
 const showAuthModal = ref(false)
 const authMode = ref('login')
-const currentLang = ref('en')
-const searchQuery = ref('')
-const activeCategory = ref('All')
-const selectedGame = ref(null)
-const currentSlide = ref(0)
-
-const authForm = ref({
-  username: '',
-  email: '',
-  password: ''
-})
-
-const categories = ref(['All', 'Popular', 'Newest', 'Trending', 'Sports'])
-
-const hotGames = ref([
-  { name: 'Sweet Dreams', image: 'https://ik.imagekit.io/rbok01qam/games/2024-10/sweet_dreams.png?tr=f-auto,w-260' },
-  { name: 'Temple Run', image: 'https://ik.imagekit.io/rbok01qam/games/2024-10/temple_run.jpg?tr=f-auto,w-260' },
-  { name: 'Diamond Quest', image: 'https://ik.imagekit.io/rbok01qam/games/2024-10/diamond_quest.jpg?tr=f-auto,w-260' },
-  { name: 'Flappy Bird', image: 'https://ik.imagekit.io/rbok01qam/games/2024-10/flappy_bird.jpg?tr=f-auto,w-260' },
-  { name: 'Fruit Ninja', image: 'https://ik.imagekit.io/rbok01qam/games/2024-10/fruit_ninja.jpg?tr=f-auto,w-260' },
-  { name: 'Candy Match', image: 'https://ik.imagekit.io/rbok01qam/games/2024-10/candy_match.png?tr=f-auto,w-260' },
-  { name: 'Space Shooter', image: 'https://ik.imagekit.io/rbok01qam/games/2024-10/space_shooter.jpg?tr=f-auto,w-260' },
-  { name: 'Puzzle Master', image: 'https://ik.imagekit.io/rbok01qam/games/2024-10/puzzle_master.jpg?tr=f-auto,w-260' }
-])
-
-const allGames = ref([
-  {
-    id: 1,
-    name: 'Sweet Dreams',
-    image: 'https://ik.imagekit.io/rbok01qam/games/2024-10/sweet_dreams.png?tr=f-auto,w-400',
-    rating: 4.8,
-    players: '1.2M',
-    description: 'Join millions of players in this addictive candy-matching adventure. Swap and match colorful candies to complete levels and unlock sweet rewards!',
-    category: 'Popular'
-  },
-  {
-    id: 2,
-    name: 'Temple Run',
-    image: 'https://ik.imagekit.io/rbok01qam/games/2024-10/temple_run.jpg?tr=f-auto,w-400',
-    rating: 4.7,
-    players: '890K',
-    description: 'Run through ancient temples, dodge obstacles, and collect treasures. How far can you go?',
-    category: 'Popular'
-  },
-  {
-    id: 3,
-    name: 'Diamond Quest',
-    image: 'https://ik.imagekit.io/rbok01qam/games/2024-10/diamond_quest.jpg?tr=f-auto,w-400',
-    rating: 4.6,
-    players: '756K',
-    description: 'Explore mysterious caves and find precious diamonds. Uncover the secrets hidden underground!',
-    category: 'Newest'
-  },
-  {
-    id: 4,
-    name: 'Flappy Bird',
-    image: 'https://ik.imagekit.io/rbok01qam/games/2024-10/flappy_bird.jpg?tr=f-auto,w-400',
-    rating: 4.5,
-    players: '2.1M',
-    description: 'Simple yet challenging! Tap to fly and avoid the pipes. Can you beat your high score?',
-    category: 'Popular'
-  },
-  {
-    id: 5,
-    name: 'Fruit Ninja',
-    image: 'https://ik.imagekit.io/rbok01qam/games/2024-10/fruit_ninja.jpg?tr=f-auto,w-400',
-    rating: 4.9,
-    players: '1.5M',
-    description: 'Slice fruits with precision and earn high scores. Watch out for bombs!',
-    category: 'Trending'
-  },
-  {
-    id: 6,
-    name: 'Candy Match',
-    image: 'https://ik.imagekit.io/rbok01qam/games/2024-10/candy_match.png?tr=f-auto,w-400',
-    rating: 4.7,
-    players: '980K',
-    description: 'Addictive matching game with hundreds of levels. Sweet rewards await!',
-    category: 'Popular'
-  },
-  {
-    id: 7,
-    name: 'Space Shooter',
-    image: 'https://ik.imagekit.io/rbok01qam/games/2024-10/space_shooter.jpg?tr=f-auto,w-400',
-    rating: 4.8,
-    players: '650K',
-    description: 'Defend the galaxy from alien invaders. Upgrade your weapons and dominate the leaderboard!',
-    category: 'Trending'
-  },
-  {
-    id: 8,
-    name: 'Puzzle Master',
-    image: 'https://ik.imagekit.io/rbok01qam/games/2024-10/puzzle_master.jpg?tr=f-auto,w-400',
-    rating: 4.6,
-    players: '521K',
-    description: 'Challenge your mind with brain-teasing puzzles. Hundreds of levels to solve!',
-    category: 'Newest'
-  },
-  {
-    id: 9,
-    name: 'Soccer Legend',
-    image: 'https://ik.imagekit.io/rbok01qam/games/2024-10/soccer_legend.jpg?tr=f-auto,w-400',
-    rating: 4.7,
-    players: '1.1M',
-    description: 'Build your dream team and compete in online matches. Be a soccer champion!',
-    category: 'Sports'
-  },
-  {
-    id: 10,
-    name: 'Basketball Pro',
-    image: 'https://ik.imagekit.io/rbok01qam/games/2024-10/basketball_pro.jpg?tr=f-auto,w-400',
-    rating: 4.8,
-    players: '890K',
-    description: 'Master your shooting skills and win tournaments. Become a basketball superstar!',
-    category: 'Sports'
-  },
-  {
-    id: 11,
-    name: 'Tennis Masters',
-    image: 'https://ik.imagekit.io/rbok01qam/games/2024-10/tennis_masters.jpg?tr=f-auto,w-400',
-    rating: 4.6,
-    players: '425K',
-    description: 'Compete with players worldwide in thrilling tennis matches!',
-    category: 'Sports'
-  },
-  {
-    id: 12,
-    name: 'Racing Rush',
-    image: 'https://ik.imagekit.io/rbok01qam/games/2024-10/racing_rush.jpg?tr=f-auto,w-400',
-    rating: 4.9,
-    players: '1.3M',
-    description: 'High-speed racing action with multiple vehicles and tracks. Race against friends!',
-    category: 'Trending'
-  }
-])
-
-const filteredGames = computed(() => {
-  let games = allGames.value
-  
-  if (activeCategory.value !== 'All') {
-    games = games.filter(g => g.category === activeCategory.value)
-  }
-  
-  if (searchQuery.value.trim()) {
-    const query = searchQuery.value.toLowerCase()
-    games = games.filter(g => g.name.toLowerCase().includes(query))
-  }
-  
-  return games
-})
+const authLoading = ref(false)
+const authErr = ref('')
+const authForm = ref({ username: '', phone: '', password: '' })
 
 const openAuth = (mode) => {
   authMode.value = mode
+  authErr.value = ''
+  authForm.value = { username: '', phone: '', password: '' }
   showAuthModal.value = true
 }
 
-const closeAuth = () => {
-  showAuthModal.value = false
-  authForm.value = { username: '', email: '', password: '' }
-}
-
-const submitAuth = () => {
-  if (authForm.value.email && authForm.value.password) {
-    isLoggedIn.value = true
-    closeAuth()
+async function submitAuth() {
+  const { phone, password, username } = authForm.value
+  if (!phone || !password) { authErr.value = 'အချက်အလက်ထည့်ပါ'; return }
+  authLoading.value = true; authErr.value = ''
+  try {
+    const email = phone.includes('@') ? phone : phone + '@novabett.internal'
+    if (authMode.value === 'register') {
+      const { error } = await supabase.auth.signUp({ email, password, options: { data: { username: username || phone } } })
+      if (error) throw error
+      showToast('မှတ်ပုံတင်ပြီးပါပြီ', 'success')
+      showAuthModal.value = false
+    } else {
+      const { error } = await supabase.auth.signInWithPassword({ email, password })
+      if (error) throw error
+      showToast('ဝင်ရောက်ပြီးပါပြီ', 'success')
+      showAuthModal.value = false
+    }
+  } catch (e) {
+    authErr.value = e.message || 'Error'
+  } finally {
+    authLoading.value = false
   }
 }
 
-const toggleLanguage = () => {
-  currentLang.value = currentLang.value === 'en' ? 'my' : 'en'
-}
-
-const selectGame = (game) => {
-  selectedGame.value = game
-}
-
-const closeModal = () => {
+function requireLogin() {
   selectedGame.value = null
+  openAuth('login')
 }
 
-const nextSlide = () => {
-  if (currentSlide.value < hotGames.value.length - 1) {
-    currentSlide.value++
-  }
+// ── Toast ──────────────────────────────────────────────────────────
+const toast = ref({ show: false, msg: '', type: '' })
+let toastTimer = null
+function showToast(msg, type = 'info') {
+  toast.value = { show: true, msg, type }
+  clearTimeout(toastTimer)
+  toastTimer = setTimeout(() => { toast.value.show = false }, 2500)
 }
 
-const prevSlide = () => {
-  if (currentSlide.value > 0) {
-    currentSlide.value--
-  }
-}
-
+// ── Banner ─────────────────────────────────────────────────────────
+const bannerIdx = ref(0)
+const banners = ref([
+  'https://ik.imagekit.io/rbok01qam/banners/banner1.jpg?tr=f-auto,w-800',
+  'https://ik.imagekit.io/rbok01qam/banners/banner2.jpg?tr=f-auto,w-800',
+  'https://ik.imagekit.io/rbok01qam/banners/banner3.jpg?tr=f-auto,w-800',
+  'https://ik.imagekit.io/rbok01qam/banners/banner4.jpg?tr=f-auto,w-800',
+  'https://ik.imagekit.io/rbok01qam/banners/banner5.jpg?tr=f-auto,w-800',
+])
+let bannerTimer = null
 onMounted(() => {
-  console.log('HomePage mounted')
+  bannerTimer = setInterval(() => {
+    bannerIdx.value = (bannerIdx.value + 1) % banners.value.length
+  }, 3500)
+})
+onUnmounted(() => {
+  clearInterval(bannerTimer)
+  clearTimeout(toastTimer)
+})
+
+// ── Categories ─────────────────────────────────────────────────────
+const activeCategory = ref('all')
+const categories = [
+  { id: 'all',     label: 'အားလုံး',     icon: '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg>' },
+  { id: 'hot',     label: 'ဟောဂိမ်းများ', icon: '<svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C12 2 7 8 7 13a5 5 0 0010 0c0-5-5-11-5-11z"/></svg>' },
+  { id: 'slots',   label: 'စလော',        icon: '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8M12 17v4"/><circle cx="7" cy="10" r="2"/><circle cx="12" cy="10" r="2"/><circle cx="17" cy="10" r="2"/></svg>' },
+  { id: 'live',    label: 'စလော',        icon: '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87M16 3.13a4 4 0 010 7.75"/></svg>' },
+  { id: 'fish',    label: 'ငါးပမ်း',     icon: '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 12c3-5 8-5 10 0s7 5 9 0"/><circle cx="18" cy="12" r="1" fill="currentColor"/></svg>' },
+  { id: 'sports',  label: 'အားကစား',     icon: '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 2a15.3 15.3 0 014 10 15.3 15.3 0 01-4 10 15.3 15.3 0 01-4-10 15.3 15.3 0 014-10z"/></svg>' },
+  { id: 'fav',     label: 'နှစ်သက်',    icon: '<svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" stroke="currentColor" stroke-width="1"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>' },
+]
+
+const currentCategoryLabel = computed(() => {
+  if (searchQuery.value.trim()) return 'ရှာဖွေမှုရလဒ်'
+  return categories.find(c => c.id === activeCategory.value)?.label || 'ဟောဂိမ်းများ'
+})
+
+// ── Search ─────────────────────────────────────────────────────────
+const searchQuery = ref('')
+
+// ── Favorites ─────────────────────────────────────────────────────
+const favorites = ref(new Set(JSON.parse(localStorage.getItem('hp_favs') || '[]')))
+function toggleFav(id) {
+  const next = new Set(favorites.value)
+  next.has(id) ? next.delete(id) : next.add(id)
+  favorites.value = next
+  localStorage.setItem('hp_favs', JSON.stringify([...next]))
+}
+
+// ── Games ─────────────────────────────────────────────────────────
+const selectedGame = ref(null)
+
+const allGames = ref([
+  { id: 1,  name: 'Jelly Express',         provider: 'PRAGMATIC PLAY', category: 'hot',    rating: 4.8, players: '1.2M', image: 'https://ik.imagekit.io/rbok01qam/games/2024-10/sweet_dreams.png?tr=f-auto,w-400' },
+  { id: 2,  name: 'Gates of Olympus',      provider: 'PRAGMATIC PLAY', category: 'hot',    rating: 4.9, players: '2.1M', image: 'https://ik.imagekit.io/rbok01qam/games/2024-10/diamond_quest.jpg?tr=f-auto,w-400' },
+  { id: 3,  name: 'Lucky Neko',            provider: 'PG SOFT',        category: 'hot',    rating: 4.7, players: '980K', image: 'https://ik.imagekit.io/rbok01qam/games/2024-10/flappy_bird.jpg?tr=f-auto,w-400' },
+  { id: 4,  name: 'Zeus vs Hades',         provider: 'PRAGMATIC PLAY', category: 'hot',    rating: 4.8, players: '1.5M', image: 'https://ik.imagekit.io/rbok01qam/games/2024-10/temple_run.jpg?tr=f-auto,w-400' },
+  { id: 5,  name: 'Starlight Princess',    provider: 'PRAGMATIC PLAY', category: 'slots',  rating: 4.9, players: '1.8M', image: 'https://ik.imagekit.io/rbok01qam/games/2024-10/candy_match.png?tr=f-auto,w-400' },
+  { id: 6,  name: 'Sugar Rush',            provider: 'PRAGMATIC PLAY', category: 'slots',  rating: 4.7, players: '890K', image: 'https://ik.imagekit.io/rbok01qam/games/2024-10/fruit_ninja.jpg?tr=f-auto,w-400' },
+  { id: 7,  name: 'Mahjong Ways',          provider: 'PG SOFT',        category: 'slots',  rating: 4.8, players: '756K', image: 'https://ik.imagekit.io/rbok01qam/games/2024-10/space_shooter.jpg?tr=f-auto,w-400' },
+  { id: 8,  name: 'Baccarat Deluxe',       provider: 'EVOLUTION',      category: 'live',   rating: 4.9, players: '3.2M', image: 'https://ik.imagekit.io/rbok01qam/games/2024-10/puzzle_master.jpg?tr=f-auto,w-400' },
+  { id: 9,  name: 'Lightning Roulette',    provider: 'EVOLUTION',      category: 'live',   rating: 4.8, players: '2.8M', image: 'https://ik.imagekit.io/rbok01qam/games/2024-10/soccer_legend.jpg?tr=f-auto,w-400' },
+  { id: 10, name: 'Fishing War',           provider: 'JDB',            category: 'fish',   rating: 4.6, players: '650K', image: 'https://ik.imagekit.io/rbok01qam/games/2024-10/basketball_pro.jpg?tr=f-auto,w-400' },
+  { id: 11, name: 'Ocean King',            provider: 'JDB',            category: 'fish',   rating: 4.7, players: '520K', image: 'https://ik.imagekit.io/rbok01qam/games/2024-10/tennis_masters.jpg?tr=f-auto,w-400' },
+  { id: 12, name: 'Premier League',        provider: 'SBOBET',         category: 'sports', rating: 4.8, players: '1.1M', image: 'https://ik.imagekit.io/rbok01qam/games/2024-10/racing_rush.jpg?tr=f-auto,w-400' },
+])
+
+const filteredGames = computed(() => {
+  let list = allGames.value
+  if (activeCategory.value === 'fav') {
+    list = list.filter(g => favorites.value.has(g.id))
+  } else if (activeCategory.value !== 'all') {
+    list = list.filter(g => g.category === activeCategory.value)
+  }
+  if (searchQuery.value.trim()) {
+    const q = searchQuery.value.toLowerCase()
+    list = list.filter(g => g.name.toLowerCase().includes(q) || g.provider.toLowerCase().includes(q))
+  }
+  return list
 })
 </script>
 
 <style scoped>
-* {
-  box-sizing: border-box;
-}
-
-.nova-app {
-  width: 100%;
-  height: 100vh;
-  background: linear-gradient(135deg, #0f172a 0%, #1a1f35 50%, #0d1420 100%);
-  color: rgba(255, 255, 255, 0.9);
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
-  overflow: hidden;
-  position: relative;
+/* ── Root ── */
+.hp-root {
+  min-height: 100vh;
+  background: #161b2e;
+  color: #fff;
+  font-family: system-ui, -apple-system, sans-serif;
   display: flex;
   flex-direction: column;
-}
-
-/* ══ BACKGROUND ORBS ══ */
-.nova-bg-orb {
-  position: absolute;
-  border-radius: 50%;
-  filter: blur(60px);
-  opacity: 0.15;
-  pointer-events: none;
-}
-
-.nova-bg-orb--1 {
-  width: 300px;
-  height: 300px;
-  background: rgba(20, 184, 166, 0.5);
-  top: 5%;
-  left: 10%;
-}
-
-.nova-bg-orb--2 {
-  width: 250px;
-  height: 250px;
-  background: rgba(99, 102, 241, 0.4);
-  top: 60%;
-  right: 15%;
-}
-
-.nova-bg-orb--3 {
-  width: 200px;
-  height: 200px;
-  background: rgba(139, 92, 246, 0.3);
-  bottom: 10%;
-  left: 5%;
-}
-
-/* ══ HEADER ══ */
-.nova-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 12px 20px;
-  background: rgba(15, 23, 42, 0.7);
-  backdrop-filter: blur(10px);
-  border-bottom: 1px solid rgba(20, 184, 166, 0.1);
-  z-index: 100;
-  gap: 12px;
-}
-
-.nova-brand-wrap {
-  display: flex;
-  align-items: center;
-}
-
-.nova-brand {
-  display: flex;
-  align-items: center;
-  font-weight: 700;
-  font-size: 18px;
-  color: rgba(20, 184, 166, 0.9);
-  text-decoration: none;
-}
-
-.glass-btn-auth {
-  background: rgba(255, 255, 255, 0.1);
-  border: 1px solid rgba(255, 255, 255, 0.2);
-  color: rgba(255, 255, 255, 0.8);
-  border-radius: 8px;
-  cursor: pointer;
-  font-weight: 600;
-  transition: all 0.3s ease;
-  backdrop-filter: blur(10px);
-  font-family: inherit;
-}
-
-.glass-btn-auth:hover {
-  background: rgba(255, 255, 255, 0.15);
-  border-color: rgba(255, 255, 255, 0.3);
-  color: rgba(255, 255, 255, 0.9);
-}
-
-.glass-btn-auth--primary {
-  background: rgba(20, 184, 166, 0.2);
-  border: 1px solid rgba(20, 184, 166, 0.4);
-  color: rgba(20, 184, 166, 0.9);
-}
-
-.glass-btn-auth--primary:hover {
-  background: rgba(20, 184, 166, 0.3);
-  border-color: rgba(20, 184, 166, 0.6);
-}
-
-.glass-btn-sm {
-  background: rgba(255, 255, 255, 0.08);
-  border: 1px solid rgba(255, 255, 255, 0.15);
-  color: rgba(255, 255, 255, 0.8);
-  border-radius: 6px;
-  cursor: pointer;
-  transition: all 0.3s ease;
-  backdrop-filter: blur(10px);
-  font-family: inherit;
-}
-
-.glass-btn-sm:hover {
-  background: rgba(255, 255, 255, 0.12);
-  border-color: rgba(255, 255, 255, 0.25);
-}
-
-/* ══ SEARCH BAR ══ */
-.nova-search-bar {
-  position: relative;
-  margin: 12px 20px 0;
-  padding-bottom: 12px;
-}
-
-.nova-input {
-  width: 100%;
-  padding: 10px 16px;
-  background: rgba(255, 255, 255, 0.08);
-  border: 1px solid rgba(255, 255, 255, 0.15);
-  border-radius: 12px;
-  color: rgba(255, 255, 255, 0.9);
-  font-size: 13px;
-  font-family: inherit;
-  backdrop-filter: blur(10px);
-  transition: all 0.3s ease;
-}
-
-.nova-input:focus {
-  outline: none;
-  background: rgba(255, 255, 255, 0.12);
-  border-color: rgba(20, 184, 166, 0.5);
-  box-shadow: 0 0 0 3px rgba(20, 184, 166, 0.1);
-}
-
-.nova-input::placeholder {
-  color: rgba(255, 255, 255, 0.4);
-}
-
-/* ══ MAIN LAYOUT ══ */
-.nova-content {
-  flex: 1;
-  overflow-y: auto;
-  padding: 12px 20px;
-  scrollbar-width: thin;
-  scrollbar-color: rgba(20, 184, 166, 0.3) transparent;
-}
-
-.nova-content::-webkit-scrollbar {
-  width: 8px;
-}
-
-.nova-content::-webkit-scrollbar-track {
-  background: transparent;
-}
-
-.nova-content::-webkit-scrollbar-thumb {
-  background: rgba(20, 184, 166, 0.3);
-  border-radius: 4px;
-}
-
-.nova-content::-webkit-scrollbar-thumb:hover {
-  background: rgba(20, 184, 166, 0.5);
-}
-
-/* ══ SIDEBAR ══ */
-.nova-sidebar {
-  width: 140px;
-  background: rgba(15, 23, 42, 0.5);
-  border-right: 1px solid rgba(20, 184, 166, 0.1);
-  padding: 12px 0;
-  overflow-y: auto;
   overflow-x: hidden;
 }
 
-.nova-nav {
-  display: flex;
-  flex-direction: column;
-  gap: 4px;
-  padding: 0 8px;
-}
-
-.nova-nav-btn {
-  padding: 8px 12px;
-  background: transparent;
-  border: none;
-  color: rgba(255, 255, 255, 0.6);
-  cursor: pointer;
-  border-radius: 6px;
-  font-size: 13px;
-  font-weight: 500;
-  transition: all 0.3s ease;
-  font-family: inherit;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-}
-
-.nova-nav-btn:hover {
-  background: rgba(255, 255, 255, 0.05);
-  color: rgba(255, 255, 255, 0.8);
-}
-
-.nova-nav-btn.active {
-  background: rgba(20, 184, 166, 0.2);
-  color: rgba(20, 184, 166, 0.9);
-  border-left: 3px solid rgba(20, 184, 166, 0.9);
-  padding-left: 9px;
-}
-
-/* ══ HOT GAMES HEADER ══ */
-.hot-games-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 12px;
-  margin-top: 0;
-}
-
-.hot-games-title {
+/* ── Header ── */
+.hp-header {
   display: flex;
   align-items: center;
   gap: 8px;
-}
-
-.hot-games-title h2 {
-  margin: 0;
-  font-size: 18px;
-  font-weight: 700;
-  color: rgba(255, 255, 255, 0.95);
-}
-
-.hot-icon {
-  font-size: 24px;
-  display: inline-block;
-}
-
-.view-all-link {
-  color: rgba(20, 184, 166, 0.8);
-  text-decoration: none;
-  font-size: 12px;
-  font-weight: 600;
-  transition: color 0.3s ease;
-}
-
-.view-all-link:hover {
-  color: rgba(20, 184, 166, 0.95);
-}
-
-/* ══ CAROUSEL ══ */
-.carousel-container {
-  position: relative;
-  margin-bottom: 20px;
-  display: flex;
-  align-items: center;
-  gap: 12px;
-}
-
-.carousel-btn {
-  background: rgba(255, 255, 255, 0.1);
-  border: 1px solid rgba(255, 255, 255, 0.2);
-  color: rgba(255, 255, 255, 0.7);
-  width: 40px;
-  height: 40px;
-  border-radius: 8px;
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  transition: all 0.3s ease;
+  padding: 10px 14px;
+  background: #1a2040;
+  border-bottom: 1px solid rgba(255,255,255,0.06);
+  position: sticky;
+  top: 0;
+  z-index: 50;
   flex-shrink: 0;
 }
-
-.carousel-btn:hover {
-  background: rgba(255, 255, 255, 0.15);
-  color: rgba(255, 255, 255, 0.9);
+.hp-hamburger {
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 4px;
+  display: flex;
+  align-items: center;
+  flex-shrink: 0;
+  -webkit-tap-highlight-color: transparent;
 }
-
-.carousel-viewport {
+.hp-brand {
+  display: flex;
+  align-items: baseline;
+  gap: 1px;
   flex: 1;
-  overflow: hidden;
 }
-
-.carousel-track {
-  display: flex;
-  gap: 12px;
-  transition: transform 0.3s ease;
+.hp-brand-arrow {
+  font-size: 13px;
+  color: #4ade80;
+  margin-right: 2px;
+  font-weight: 900;
 }
-
-.carousel-card {
-  flex-shrink: 0;
-  width: 240px;
-}
-
-.carousel-img-wrapper {
-  position: relative;
-  width: 100%;
-  padding-bottom: 100%;
-  overflow: hidden;
-  border-radius: 12px;
-  background: rgba(20, 184, 166, 0.1);
-}
-
-.carousel-img-wrapper img {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-}
-
-.carousel-overlay {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: rgba(0, 0, 0, 0);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  transition: background 0.3s ease;
-}
-
-.carousel-img-wrapper:hover .carousel-overlay {
-  background: rgba(0, 0, 0, 0.4);
-}
-
-.btn-play {
-  width: 50px;
-  height: 50px;
-  background: rgba(20, 184, 166, 0.8);
-  border: none;
-  color: white;
-  border-radius: 50%;
-  cursor: pointer;
+.hp-brand-iw {
   font-size: 20px;
+  font-weight: 900;
+  font-style: italic;
+  color: #4ade80;
+  letter-spacing: -0.5px;
+}
+.hp-brand-bet {
+  font-size: 20px;
+  font-weight: 900;
+  font-style: italic;
+  color: #fff;
+  letter-spacing: -0.5px;
+}
+.hp-brand-domain {
+  font-size: 8px;
+  color: rgba(255,255,255,0.35);
+  margin-left: 4px;
+  align-self: flex-end;
+  margin-bottom: 2px;
+}
+.hp-header-actions {
+  display: flex;
+  gap: 6px;
+  flex-shrink: 0;
+}
+.hp-btn-login {
+  background: transparent;
+  border: 1.5px solid #4ade80;
+  color: #4ade80;
+  border-radius: 6px;
+  padding: 6px 12px;
+  font-size: 11px;
+  font-weight: 700;
+  cursor: pointer;
+  white-space: nowrap;
+  -webkit-tap-highlight-color: transparent;
+  transition: all 0.15s;
+}
+.hp-btn-login:hover { background: rgba(74,222,128,0.1); }
+.hp-btn-register {
+  background: transparent;
+  border: 1.5px solid #4ade80;
+  color: #4ade80;
+  border-radius: 6px;
+  padding: 6px 12px;
+  font-size: 11px;
+  font-weight: 700;
+  cursor: pointer;
+  white-space: nowrap;
+  -webkit-tap-highlight-color: transparent;
+  transition: all 0.15s;
+}
+.hp-btn-register:hover { background: rgba(74,222,128,0.1); }
+
+/* ── Banner ── */
+.hp-banner-wrap {
+  position: relative;
+  overflow: hidden;
+  flex-shrink: 0;
+  background: #0f1422;
+}
+.hp-banner-track {
+  display: flex;
+  transition: transform 0.45s cubic-bezier(0.4,0,0.2,1);
+}
+.hp-banner-slide {
+  flex-shrink: 0;
+  width: 100%;
+}
+.hp-banner-img {
+  width: 100%;
+  aspect-ratio: 16 / 7;
+  object-fit: cover;
+  display: block;
+}
+.hp-dots {
+  position: absolute;
+  bottom: 8px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  gap: 5px;
+}
+.hp-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: rgba(255,255,255,0.3);
+  cursor: pointer;
+  transition: all 0.2s;
+}
+.hp-dot.active {
+  background: #4ade80;
+  width: 18px;
+  border-radius: 3px;
+}
+
+/* ── Toolbar ── */
+.hp-toolbar {
   display: flex;
   align-items: center;
-  justify-content: center;
-  transition: all 0.3s ease;
+  padding: 6px 14px;
+  background: #1a2040;
+  border-bottom: 1px solid rgba(255,255,255,0.05);
+  flex-shrink: 0;
 }
-
-.btn-play:hover {
-  background: rgba(20, 184, 166, 0.95);
-  transform: scale(1.1);
-}
-
-.carousel-name {
-  margin: 8px 0 0 0;
-  font-size: 12px;
-  color: rgba(255, 255, 255, 0.7);
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-}
-
-/* ══ GAMES GRID ══ */
-.games-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
-  gap: 12px;
-  margin-top: 12px;
-}
-
-.game-card {
-  background: rgba(255, 255, 255, 0.05);
-  border: 1px solid rgba(20, 184, 166, 0.1);
-  border-radius: 12px;
-  overflow: hidden;
+.hp-tool-btn {
+  background: none;
+  border: none;
   cursor: pointer;
-  transition: all 0.3s ease;
+  padding: 4px;
+  display: flex;
+  align-items: center;
+  -webkit-tap-highlight-color: transparent;
+}
+.hp-tool-mail {
+  background: rgba(255,255,255,0.05);
+  border-radius: 6px;
+  padding: 5px 8px;
 }
 
-.game-card:hover {
-  border-color: rgba(20, 184, 166, 0.3);
-  background: rgba(255, 255, 255, 0.08);
-  transform: translateY(-4px);
+/* ── Categories ── */
+.hp-cats-wrap {
+  background: #1a2040;
+  border-bottom: 1px solid rgba(255,255,255,0.05);
+  flex-shrink: 0;
+}
+.hp-cats {
+  display: flex;
+  overflow-x: auto;
+  scrollbar-width: none;
+  padding: 6px 8px;
+  gap: 4px;
+}
+.hp-cats::-webkit-scrollbar { display: none; }
+.hp-cat {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 3px;
+  padding: 6px 10px;
+  border-radius: 8px;
+  border: none;
+  background: transparent;
+  color: rgba(255,255,255,0.45);
+  cursor: pointer;
+  white-space: nowrap;
+  flex-shrink: 0;
+  -webkit-tap-highlight-color: transparent;
+  transition: all 0.15s;
+  font-family: inherit;
+}
+.hp-cat-icon { display: flex; align-items: center; justify-content: center; }
+.hp-cat-label { font-size: 9.5px; font-weight: 600; letter-spacing: 0.01em; }
+.hp-cat.active {
+  background: rgba(74,222,128,0.15);
+  color: #4ade80;
+  border: 1px solid rgba(74,222,128,0.3);
+}
+.hp-cat:hover:not(.active) {
+  color: rgba(255,255,255,0.7);
+  background: rgba(255,255,255,0.04);
 }
 
-.game-card-image {
+/* ── Search ── */
+.hp-search-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 14px 8px;
+  background: #161b2e;
+  flex-shrink: 0;
+}
+.hp-search-box {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: rgba(255,255,255,0.06);
+  border: 1px solid rgba(255,255,255,0.1);
+  border-radius: 8px;
+  padding: 8px 12px;
+}
+.hp-search-input {
+  flex: 1;
+  background: none;
+  border: none;
+  outline: none;
+  color: rgba(255,255,255,0.9);
+  font-size: 13px;
+  font-family: inherit;
+}
+.hp-search-input::placeholder { color: rgba(255,255,255,0.28); }
+.hp-fav-btn {
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 6px;
+  display: flex;
+  align-items: center;
+  -webkit-tap-highlight-color: transparent;
+}
+
+/* ── Scroll area ── */
+.hp-scroll-area {
+  flex: 1;
+  overflow-y: auto;
+  padding: 0 0 90px;
+  scrollbar-width: thin;
+  scrollbar-color: rgba(255,255,255,0.1) transparent;
+}
+.hp-scroll-area::-webkit-scrollbar { width: 3px; }
+.hp-scroll-area::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.1); border-radius: 3px; }
+
+/* ── Section header ── */
+.hp-section-hdr {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  padding: 12px 14px 8px;
+}
+.hp-section-title {
+  font-size: 14px;
+  font-weight: 800;
+  color: rgba(255,255,255,0.92);
+  letter-spacing: 0.02em;
+}
+
+/* ── Games Grid ── */
+.hp-games-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 8px;
+  padding: 0 10px 12px;
+}
+.hp-game-card {
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+}
+.hp-game-img-wrap {
   position: relative;
   width: 100%;
-  padding-bottom: 100%;
+  aspect-ratio: 1;
+  border-radius: 10px;
   overflow: hidden;
-  background: rgba(20, 184, 166, 0.1);
+  background: #0f1422;
 }
-
-.game-card-image img {
-  position: absolute;
-  top: 0;
-  left: 0;
+.hp-game-img {
   width: 100%;
   height: 100%;
   object-fit: cover;
+  display: block;
   transition: transform 0.3s ease;
 }
-
-.game-card:hover .game-card-image img {
-  transform: scale(1.05);
-}
-
-.game-card-overlay {
+.hp-game-card:hover .hp-game-img { transform: scale(1.04); }
+.hp-star-btn {
   position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: rgba(0, 0, 0, 0);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  transition: background 0.3s ease;
-}
-
-.game-card:hover .game-card-overlay {
-  background: rgba(0, 0, 0, 0.4);
-}
-
-.btn-play-game {
-  width: 40px;
-  height: 40px;
-  background: rgba(20, 184, 166, 0.8);
-  border: none;
-  color: white;
+  top: 5px;
+  right: 5px;
+  width: 24px;
+  height: 24px;
   border-radius: 50%;
+  background: rgba(0,0,0,0.55);
+  border: none;
   cursor: pointer;
-  font-size: 16px;
   display: flex;
   align-items: center;
   justify-content: center;
-  transition: all 0.3s ease;
-  opacity: 0;
+  -webkit-tap-highlight-color: transparent;
+  z-index: 2;
+  transition: background 0.15s;
 }
-
-.game-card:hover .btn-play-game {
-  opacity: 1;
-  transform: scale(1.1);
+.hp-star-btn:hover { background: rgba(0,0,0,0.75); }
+.hp-star-btn.starred { background: rgba(251,191,36,0.2); }
+.hp-provider-badge {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  padding: 16px 6px 5px;
+  background: linear-gradient(to top, rgba(0,0,0,0.75) 0%, transparent 100%);
+  font-size: 7.5px;
+  font-weight: 700;
+  color: rgba(255,255,255,0.75);
+  letter-spacing: 0.04em;
+  text-align: center;
+  line-height: 1;
 }
-
-.btn-play-game:hover {
-  background: rgba(20, 184, 166, 0.95);
-}
-
-.game-card-info {
-  padding: 8px;
-}
-
-.game-card-info h3 {
-  margin: 0 0 4px 0;
-  font-size: 12px;
-  font-weight: 600;
-  color: rgba(255, 255, 255, 0.9);
+.hp-game-name {
+  font-size: 9.5px;
+  color: rgba(255,255,255,0.7);
+  text-align: center;
+  margin: 5px 0 2px;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
+  padding: 0 2px;
 }
 
-.game-rating {
-  margin: 0;
-  font-size: 11px;
-  color: rgba(255, 255, 255, 0.5);
+/* ── Empty ── */
+.hp-empty {
   display: flex;
-  gap: 4px;
-  flex-wrap: wrap;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  padding: 50px 20px;
+  color: rgba(255,255,255,0.25);
+  font-size: 12px;
 }
 
-/* ══ MODAL OVERLAY ══ */
-.modal-overlay {
+/* ── Modal ── */
+.hp-modal-overlay {
   position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: rgba(0, 0, 0, 0.7);
+  inset: 0;
+  background: rgba(0,0,0,0.75);
   display: flex;
   align-items: center;
   justify-content: center;
   z-index: 1000;
-  backdrop-filter: blur(5px);
+  padding: 20px;
+  backdrop-filter: blur(4px);
 }
-
-.modal-content {
-  background: linear-gradient(135deg, #1a1f35 0%, #0f172a 100%);
-  border: 1px solid rgba(20, 184, 166, 0.2);
+.hp-modal {
+  background: #1e2540;
+  border: 1px solid rgba(255,255,255,0.1);
   border-radius: 16px;
   padding: 20px;
-  max-width: 500px;
-  width: 90%;
-  max-height: 80vh;
-  overflow-y: auto;
+  width: 100%;
+  max-width: 320px;
   position: relative;
-  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.4);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
 }
-
-.modal-close-btn {
+.hp-modal-close {
   position: absolute;
   top: 12px;
   right: 12px;
-  background: rgba(255, 255, 255, 0.1);
+  background: rgba(255,255,255,0.08);
   border: none;
-  color: rgba(255, 255, 255, 0.8);
-  width: 32px;
-  height: 32px;
   border-radius: 8px;
-  cursor: pointer;
-  font-size: 24px;
+  color: rgba(255,255,255,0.7);
+  width: 30px;
+  height: 30px;
   display: flex;
   align-items: center;
   justify-content: center;
-  transition: all 0.3s ease;
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
 }
-
-.modal-close-btn:hover {
-  background: rgba(255, 255, 255, 0.15);
-  color: rgba(255, 255, 255, 0.9);
-}
-
-.modal-body {
-  display: flex;
-  gap: 20px;
-}
-
-.modal-image {
-  width: 150px;
-  height: 150px;
+.hp-modal-img {
+  width: 120px;
+  height: 120px;
   border-radius: 12px;
   object-fit: cover;
-  flex-shrink: 0;
 }
-
-.modal-info {
-  flex: 1;
+.hp-modal-name {
+  font-size: 16px;
+  font-weight: 800;
+  color: #fff;
+  margin: 0;
+  text-align: center;
 }
-
-.modal-info h2 {
-  margin: 0 0 8px 0;
-  font-size: 20px;
-  color: rgba(255, 255, 255, 0.95);
-}
-
-.modal-desc {
-  margin: 0 0 12px 0;
-  font-size: 12px;
-  color: rgba(255, 255, 255, 0.6);
-  line-height: 1.5;
-}
-
-.modal-stats {
-  display: flex;
-  gap: 12px;
-  margin: 12px 0;
-}
-
-.stat {
-  flex: 1;
-  background: rgba(20, 184, 166, 0.1);
-  border: 1px solid rgba(20, 184, 166, 0.2);
-  padding: 8px;
-  border-radius: 8px;
-}
-
-.stat-label {
-  display: block;
-  font-size: 11px;
-  color: rgba(255, 255, 255, 0.5);
-  margin-bottom: 4px;
-}
-
-.stat-value {
-  display: block;
-  font-size: 14px;
+.hp-modal-provider {
+  font-size: 10px;
+  color: rgba(74,222,128,0.9);
   font-weight: 700;
-  color: rgba(20, 184, 166, 0.9);
+  margin: 0;
+  letter-spacing: 0.06em;
 }
-
-.btn-play-now {
-  width: 100%;
-  padding: 10px;
-  background: linear-gradient(135deg, rgba(20, 184, 166, 0.8), rgba(20, 184, 166, 0.6));
-  border: 1px solid rgba(20, 184, 166, 0.5);
-  color: white;
-  border-radius: 8px;
-  cursor: pointer;
-  font-weight: 600;
-  font-size: 12px;
-  transition: all 0.3s ease;
-  font-family: inherit;
+.hp-modal-stats {
+  display: flex;
+  gap: 16px;
 }
-
-.btn-play-now:hover {
-  background: linear-gradient(135deg, rgba(20, 184, 166, 0.95), rgba(20, 184, 166, 0.75));
-  transform: translateY(-2px);
-  box-shadow: 0 10px 20px rgba(20, 184, 166, 0.2);
-}
-
-/* ══ AUTH FORM ══ */
-.auth-form {
+.hp-modal-stat {
   display: flex;
   flex-direction: column;
-  gap: 12px;
+  align-items: center;
+  gap: 2px;
 }
-
-.auth-form h2 {
-  margin: 0 0 8px 0;
-  font-size: 18px;
-  color: rgba(255, 255, 255, 0.95);
-}
-
-.btn-auth-submit {
-  padding: 10px;
-  background: linear-gradient(135deg, rgba(20, 184, 166, 0.8), rgba(20, 184, 166, 0.6));
-  border: 1px solid rgba(20, 184, 166, 0.5);
-  color: white;
-  border-radius: 8px;
-  cursor: pointer;
-  font-weight: 600;
+.sval { font-size: 14px; font-weight: 800; color: #fbbf24; }
+.slbl { font-size: 9px; color: rgba(255,255,255,0.4); }
+.hp-modal-play {
+  width: 100%;
+  padding: 12px;
+  background: linear-gradient(135deg, #4ade80, #22c55e);
+  border: none;
+  border-radius: 10px;
+  color: #000;
   font-size: 13px;
-  transition: all 0.3s ease;
+  font-weight: 800;
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+  letter-spacing: 0.03em;
+  transition: opacity 0.15s;
+}
+.hp-modal-play:hover { opacity: 0.9; }
+
+/* ── Auth Modal ── */
+.hp-auth-modal { gap: 0; }
+.hp-auth-tabs {
+  display: flex;
+  width: 100%;
+  margin-bottom: 16px;
+  border-bottom: 1px solid rgba(255,255,255,0.1);
+}
+.hp-auth-tab {
+  flex: 1;
+  background: none;
+  border: none;
+  color: rgba(255,255,255,0.4);
+  font-size: 13px;
+  font-weight: 700;
+  padding: 10px;
+  cursor: pointer;
+  border-bottom: 2px solid transparent;
+  transition: all 0.15s;
   font-family: inherit;
+  -webkit-tap-highlight-color: transparent;
 }
-
-.btn-auth-submit:hover {
-  background: linear-gradient(135deg, rgba(20, 184, 166, 0.95), rgba(20, 184, 166, 0.75));
-  transform: translateY(-2px);
+.hp-auth-tab.active {
+  color: #4ade80;
+  border-bottom-color: #4ade80;
 }
-
-/* ══ RESPONSIVE ══ */
-@media (max-width: 768px) {
-  .nova-sidebar {
-    width: auto;
-    height: 60px;
-    border-right: none;
-    border-bottom: 1px solid rgba(20, 184, 166, 0.1);
-    padding: 0 12px;
-  }
-
-  .nova-nav {
-    flex-direction: row;
-    overflow-x: auto;
-    overflow-y: hidden;
-  }
-
-  .games-grid {
-    grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
-  }
-
-  .modal-body {
-    flex-direction: column;
-    align-items: center;
-  }
-
-  .modal-image {
-    width: 200px;
-    height: 200px;
-  }
-
-  .carousel-card {
-    width: 180px;
-  }
+.hp-auth-form {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
 }
-
-@media (max-width: 480px) {
-  .nova-header {
-    padding: 10px 12px;
-  }
-
-  .nova-search-bar {
-    margin: 8px 12px 0;
-  }
-
-  .nova-content {
-    padding: 8px 12px;
-  }
-
-  .hot-games-title h2 {
-    font-size: 16px;
-  }
-
-  .carousel-card {
-    width: 140px;
-  }
-
-  .games-grid {
-    grid-template-columns: repeat(auto-fill, minmax(80px, 1fr));
-    gap: 8px;
-  }
-
-  .game-card-info {
-    padding: 6px;
-  }
-
-  .game-card-info h3 {
-    font-size: 10px;
-  }
-
-  .game-rating {
-    font-size: 10px;
-  }
-
-  .modal-content {
-    padding: 16px;
-  }
-
-  .modal-body {
-    gap: 12px;
-  }
-
-  .modal-image {
-    width: 140px;
-    height: 140px;
-  }
-
-  .nova-brand {
-    font-size: 14px;
-  }
-
-  .glass-btn-auth,
-  .glass-btn-auth--primary {
-    height: 28px;
-    padding: 0 10px;
-    font-size: 10px;
-  }
-
-  .carousel-btn {
-    width: 36px;
-    height: 36px;
-  }
-
-  .carousel-btn svg {
-    width: 18px;
-    height: 18px;
-  }
-
-  .modal-close-btn {
-    width: 28px;
-    height: 28px;
-    font-size: 20px;
-  }
-
-  .nova-fab-stack { bottom: 75px; right: 6px; }
-  .nova-fab-stack-left { bottom: 75px; left: 6px; }
+.hp-auth-input {
+  width: 100%;
+  box-sizing: border-box;
+  background: rgba(255,255,255,0.06);
+  border: 1px solid rgba(255,255,255,0.12);
+  border-radius: 9px;
+  padding: 11px 14px;
+  font-size: 13px;
+  color: #fff;
+  outline: none;
+  font-family: inherit;
+  transition: border-color 0.15s;
 }
+.hp-auth-input:focus { border-color: rgba(74,222,128,0.5); }
+.hp-auth-input::placeholder { color: rgba(255,255,255,0.28); }
+.hp-auth-err {
+  font-size: 11px;
+  color: #f87171;
+  margin: 0;
+  text-align: center;
+}
+.hp-auth-submit {
+  width: 100%;
+  padding: 12px;
+  background: linear-gradient(135deg, #4ade80, #22c55e);
+  border: none;
+  border-radius: 10px;
+  color: #000;
+  font-size: 13px;
+  font-weight: 800;
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  font-family: inherit;
+  transition: opacity 0.15s;
+  margin-top: 4px;
+}
+.hp-auth-submit:disabled { opacity: 0.6; cursor: not-allowed; }
+.hp-spin {
+  width: 14px;
+  height: 14px;
+  border: 2px solid rgba(0,0,0,0.3);
+  border-top-color: #000;
+  border-radius: 50%;
+  animation: spin 0.7s linear infinite;
+  display: inline-block;
+}
+@keyframes spin { to { transform: rotate(360deg); } }
+
+/* ── Toast ── */
+.hp-toast {
+  position: fixed;
+  bottom: 80px;
+  left: 50%;
+  transform: translateX(-50%);
+  padding: 9px 20px;
+  border-radius: 99px;
+  font-size: 12px;
+  font-weight: 700;
+  z-index: 9999;
+  white-space: nowrap;
+  pointer-events: none;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.4);
+}
+.hp-toast.success { background: rgba(21,128,61,0.95); color: #fff; border: 1px solid rgba(74,222,128,0.4); }
+.hp-toast.error   { background: rgba(185,28,28,0.95); color: #fff; border: 1px solid rgba(248,113,113,0.4); }
+.hp-toast.info    { background: rgba(15,23,42,0.95);  color: #fff; border: 1px solid rgba(255,255,255,0.15); }
+
+/* ── Transitions ── */
+.modal-fade-enter-active, .modal-fade-leave-active { transition: opacity 0.22s; }
+.modal-fade-enter-from, .modal-fade-leave-to { opacity: 0; }
+.toast-up-enter-active, .toast-up-leave-active { transition: all 0.25s; }
+.toast-up-enter-from, .toast-up-leave-to { opacity: 0; transform: translateX(-50%) translateY(10px); }
 </style>
