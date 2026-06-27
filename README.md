@@ -132,14 +132,15 @@ Vue 3 SPA (Vite)
 
 ## 📝 Notes
 
-- This README was auto-generated via **Claude GitHub MCP** on 2026-06-28.
+- This README was auto-generated and maintained via **Claude GitHub MCP**.
 - Update this file as the project evolves.
 
 ---
 
 ## ✅ MCP Access Log
 
-| Date | Action | Status |
-|---|---|---|
-| 2026-06-28 | Read Access Check | ✅ Confirmed |
-| 2026-06-28 | Write Access Check (Commit via Claude MCP) | ✅ Confirmed 🎯 |
+| Date | Action | Agent | Status |
+|---|---|---|---|
+| 2026-06-28 | Read Access Check | Claude MCP | ✅ Confirmed |
+| 2026-06-28 | Write Access Check (Commit via Claude MCP) | Claude MCP | ✅ Confirmed 🎯 |
+| 2026-06-28 | README Update & Re-Commit (Write Verified) | Claude Sonnet 4.6 | ✅ Confirmed 🚀 |
