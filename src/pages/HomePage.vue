@@ -179,28 +179,51 @@
       </div>
     </Transition>
 
-    <!-- ══ AUTH MODAL ══ -->
+    <!-- ══ AUTH MODAL — VAULT GLASS ══ -->
     <Transition name="hp-fade">
       <div v-if="authModal" class="hp-overlay" @click.self="authModal = false">
-        <div class="hp-modal hp-auth">
-          <button class="hp-modal-x" @click="authModal = false">
-            <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" d="M18 6 6 18M6 6l12 12"/></svg>
-          </button>
+        <div class="hp-vault">
+          <div class="hp-vault-sheen"></div>
 
-          <div class="hp-auth-tabs">
-            <button :class="['hp-atab', authMode === 'login' ? 'on' : '']" @click="authMode = 'login'">လောဂ်အင်</button>
-            <button :class="['hp-atab', authMode === 'register' ? 'on' : '']" @click="authMode = 'register'">မှတ်ပုံတင်</button>
+          <div class="hp-vault-top">
+            <div class="hp-vault-brand">
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="10" width="16" height="10" rx="2.2"/><path d="M8 10V7a4 4 0 0 1 8 0v3"/></svg>
+              <span>VAULT ACCESS</span>
+            </div>
+            <button class="hp-vault-x" @click="authModal = false">
+              <svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" viewBox="0 0 24 24"><path d="M18 6 6 18M6 6l12 12"/></svg>
+            </button>
           </div>
 
-          <div class="hp-auth-form">
-            <input v-if="authMode === 'register'" v-model="form.username" class="hp-ainp" type="text" placeholder="Username" />
-            <input v-model="form.phone" class="hp-ainp" type="text" :placeholder="authMode === 'register' ? 'ဖုန်းနံပါတ် / Email' : 'ဖုန်းနံပါတ် / Email'" />
-            <input v-model="form.password" class="hp-ainp" type="password" placeholder="Password" />
-            <p v-if="authErr" class="hp-aerr">{{ authErr }}</p>
-            <button class="hp-asubmit" @click="doAuth" :disabled="authBusy">
+          <div class="hp-vault-tabs">
+            <div class="hp-vault-pill" :class="authMode"></div>
+            <button :class="['hp-vtab', authMode === 'login' ? 'on' : '']" @click="authMode = 'login'">လောဂ်အင်</button>
+            <button :class="['hp-vtab', authMode === 'register' ? 'on' : '']" @click="authMode = 'register'">မှတ်ပုံတင်</button>
+          </div>
+
+          <div class="hp-vault-form">
+            <div v-if="authMode === 'register'" class="hp-vinput-wrap">
+              <svg class="hp-vinput-ic" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="3.3"/><path d="M5 20c0-3.6 3.1-6.2 7-6.2s7 2.6 7 6.2"/></svg>
+              <input v-model="form.username" class="hp-vinput" type="text" placeholder="Username" />
+            </div>
+            <div class="hp-vinput-wrap">
+              <svg class="hp-vinput-ic" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M16.7 8.6c2 1.3 3.1 3.1 3.1 5.2 0 3.6-3.5 6.4-7.8 6.4s-7.8-2.8-7.8-6.4c0-2.1 1.1-3.9 3.1-5.2"/><path d="M12 4.2v9"/></svg>
+              <input v-model="form.phone" class="hp-vinput" type="text" :placeholder="authMode === 'register' ? 'ဖုန်းနံပါတ် / Email' : 'ဖုန်းနံပါတ် / Email'" />
+            </div>
+            <div class="hp-vinput-wrap">
+              <svg class="hp-vinput-ic" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="11" width="14" height="9" rx="2"/><path d="M8 11V7.5a4 4 0 0 1 8 0V11"/></svg>
+              <input v-model="form.password" class="hp-vinput" type="password" placeholder="Password" />
+            </div>
+
+            <p v-if="authErr" class="hp-verr">{{ authErr }}</p>
+
+            <button class="hp-vsubmit" @click="doAuth" :disabled="authBusy">
               <span v-if="authBusy" class="hp-spin"></span>
+              <svg v-else width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="11" width="16" height="9" rx="2"/><path d="M8 11V7.5a4 4 0 0 1 8 0V11"/></svg>
               {{ authBusy ? 'Loading...' : (authMode === 'login' ? 'ဝင်ရောက်ပါ' : 'မှတ်ပုံတင်ပါ') }}
             </button>
+
+            <p class="hp-vault-foot">🔒 Secured · Encrypted Connection</p>
           </div>
         </div>
       </div>
@@ -848,67 +871,202 @@ const visibleGames = computed(() => {
 }
 .hp-modal-play:hover { opacity: 0.88; }
 
-/* ─────────────────── AUTH MODAL ─────────────────── */
-.hp-auth { gap: 0; padding-top: 18px; }
-.hp-auth-tabs { display: flex; width: 100%; border-bottom: 1px solid rgba(255,255,255,0.08); margin-bottom: 14px; }
-.hp-atab {
-  flex: 1;
-  background: none;
-  border: none;
-  border-bottom: 2.5px solid transparent;
-  color: rgba(255,255,255,0.38);
-  font-size: 13px;
+/* ─────────────────── AUTH MODAL — VAULT GLASS ─────────────────── */
+.hp-vault {
+  --vg-accent: #4D6FFF;
+  --vg-accent-2: #8FE3FF;
+  --vg-text: #F5F7FF;
+  --vg-text-dim: rgba(245,247,255,0.55);
+  --vg-error: #FF6B81;
+  position: relative;
+  overflow: hidden;
+  width: 100%;
+  max-width: 300px;
+  padding: 22px 18px 20px;
+  border-radius: 22px;
+  background: linear-gradient(160deg, #12153c 0%, #1c1660 100%);
+  border: 1px solid rgba(255,255,255,0.14);
+  box-shadow: 0 24px 60px rgba(8,6,32,0.55), inset 0 1px 0 rgba(255,255,255,0.08);
+  backdrop-filter: blur(18px) saturate(160%);
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+.hp-vault-sheen {
+  position: absolute;
+  top: -45%; left: -25%;
+  width: 150%; height: 90%;
+  background: linear-gradient(120deg, rgba(255,255,255,0.10), rgba(255,255,255,0) 55%);
+  transform: rotate(-8deg);
+  pointer-events: none;
+}
+.hp-vault-top {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 16px;
+}
+.hp-vault-brand {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  color: var(--vg-accent-2);
+  font-family: 'Sora', system-ui, sans-serif;
+  font-size: 10.5px;
   font-weight: 700;
-  padding: 10px 0;
-  cursor: pointer;
-  transition: all 0.15s;
-  font-family: inherit;
-  -webkit-tap-highlight-color: transparent;
-  margin-bottom: -1px;
+  letter-spacing: 0.12em;
 }
-.hp-atab.on { color: #4ade80; border-bottom-color: #4ade80; }
-.hp-auth-form { width: 100%; display: flex; flex-direction: column; gap: 9px; }
-.hp-ainp {
-  width: 100%;
-  box-sizing: border-box;
-  background: rgba(255,255,255,0.05);
-  border: 1px solid rgba(255,255,255,0.11);
-  border-radius: 9px;
-  padding: 11px 13px;
-  font-size: 13px;
-  color: #fff;
-  outline: none;
-  font-family: inherit;
-  transition: border-color 0.15s;
-}
-.hp-ainp:focus { border-color: rgba(74,222,128,0.45); }
-.hp-ainp::placeholder { color: rgba(255,255,255,0.25); }
-.hp-aerr { font-size: 11px; color: #f87171; margin: 0; text-align: center; }
-.hp-asubmit {
-  width: 100%;
-  padding: 12px;
-  background: linear-gradient(135deg, #4ade80, #22c55e);
-  border: none;
+.hp-vault-x {
+  background: rgba(255,255,255,0.07);
+  border: 1px solid rgba(255,255,255,0.12);
   border-radius: 10px;
-  color: #052e10;
-  font-size: 13px;
-  font-weight: 800;
-  cursor: pointer;
+  color: var(--vg-text-dim);
+  width: 28px;
+  height: 28px;
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 6px;
-  font-family: inherit;
+  cursor: pointer;
+  transition: background 0.15s, color 0.15s;
   -webkit-tap-highlight-color: transparent;
-  transition: opacity 0.15s;
-  margin-top: 3px;
 }
-.hp-asubmit:disabled { opacity: 0.5; cursor: not-allowed; }
+.hp-vault-x:active { background: rgba(255,255,255,0.16); color: #fff; }
+.hp-vault-tabs {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  background: rgba(255,255,255,0.05);
+  border: 1px solid rgba(255,255,255,0.10);
+  border-radius: 12px;
+  padding: 3px;
+  margin-bottom: 14px;
+}
+.hp-vault-pill {
+  position: absolute;
+  top: 3px; left: 3px;
+  width: calc(50% - 3px);
+  height: calc(100% - 6px);
+  border-radius: 9px;
+  background: linear-gradient(135deg, var(--vg-accent), #2F4BD6);
+  box-shadow: 0 2px 14px rgba(77,111,255,0.45);
+  transition: transform 0.28s cubic-bezier(.4,0,.2,1);
+}
+.hp-vault-pill.register { transform: translateX(100%); }
+.hp-vtab {
+  flex: 1;
+  position: relative;
+  z-index: 2;
+  background: none;
+  border: none;
+  padding: 9px 0;
+  font-size: 12.5px;
+  font-weight: 700;
+  color: var(--vg-text-dim);
+  cursor: pointer;
+  font-family: inherit;
+  transition: color 0.2s;
+  -webkit-tap-highlight-color: transparent;
+}
+.hp-vtab.on { color: #fff; }
+.hp-vault-form {
+  position: relative;
+  z-index: 1;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 9px;
+}
+.hp-vinput-wrap { position: relative; display: flex; align-items: center; }
+.hp-vinput-ic {
+  position: absolute;
+  left: 13px;
+  color: var(--vg-text-dim);
+  pointer-events: none;
+}
+.hp-vinput {
+  width: 100%;
+  box-sizing: border-box;
+  background: rgba(255,255,255,0.045);
+  border: 1px solid rgba(255,255,255,0.12);
+  border-radius: 11px;
+  padding: 12px 13px 12px 37px;
+  font-size: 13px;
+  color: var(--vg-text);
+  outline: none;
+  font-family: inherit;
+  box-shadow: inset 0 1px 2px rgba(0,0,0,0.18);
+  transition: border-color 0.15s, background 0.15s;
+}
+.hp-vinput:focus { border-color: var(--vg-accent); background: rgba(77,111,255,0.08); }
+.hp-vinput::placeholder { color: rgba(245,247,255,0.28); }
+.hp-verr {
+  font-size: 11px;
+  color: var(--vg-error);
+  background: rgba(255,107,129,0.1);
+  border: 1px solid rgba(255,107,129,0.25);
+  border-radius: 8px;
+  padding: 7px 10px;
+  margin: 0;
+  text-align: center;
+}
+.hp-vsubmit {
+  width: 100%;
+  margin-top: 4px;
+  padding: 13px;
+  border: none;
+  border-radius: 12px;
+  background: linear-gradient(135deg, var(--vg-accent), #2F4BD6);
+  color: #fff;
+  font-size: 13.5px;
+  font-weight: 800;
+  letter-spacing: 0.02em;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 7px;
+  cursor: pointer;
+  font-family: inherit;
+  position: relative;
+  overflow: hidden;
+  box-shadow: 0 10px 26px rgba(77,111,255,0.4);
+  transition: transform 0.12s;
+  -webkit-tap-highlight-color: transparent;
+}
+.hp-vsubmit::after {
+  content: '';
+  position: absolute;
+  top: 0; left: -60%;
+  width: 40%; height: 100%;
+  background: linear-gradient(120deg, transparent, rgba(255,255,255,0.35), transparent);
+  transform: skewX(-20deg);
+  animation: hp-vshimmer 2.8s ease-in-out infinite;
+}
+.hp-vsubmit:active { transform: scale(0.98); }
+.hp-vsubmit:disabled { opacity: 0.5; cursor: not-allowed; }
+.hp-vsubmit:disabled::after { animation: none; }
+@keyframes hp-vshimmer { 0%,30% { left: -60%; } 70%,100% { left: 130%; } }
+.hp-vault-foot {
+  margin: 8px 0 0;
+  font-size: 9.5px;
+  text-align: center;
+  color: rgba(245,247,255,0.3);
+  letter-spacing: 0.02em;
+}
+.hp-vault-x:focus-visible, .hp-vtab:focus-visible, .hp-vsubmit:focus-visible, .hp-vinput:focus-visible {
+  outline: 2px solid var(--vg-accent-2);
+  outline-offset: 2px;
+}
+@media (prefers-reduced-motion: reduce) {
+  .hp-vsubmit::after { animation: none; }
+  .hp-vault-pill { transition: none; }
+}
 .hp-spin {
   width: 13px;
   height: 13px;
-  border: 2px solid rgba(5,46,16,0.3);
-  border-top-color: #052e10;
+  border: 2px solid rgba(255,255,255,0.35);
+  border-top-color: #fff;
   border-radius: 50%;
   animation: hpspin 0.65s linear infinite;
   display: inline-block;
