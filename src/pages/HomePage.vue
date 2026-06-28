@@ -12,9 +12,7 @@
       </button>
 
       <div class="hp-brand">
-        <span class="hp-arrow">⇒</span>
-        <span class="hp-iw">iW</span><span class="hp-bet">BET</span>
-        <span class="hp-domain">iwbet.com</span>
+        <img src="https://ik.imagekit.io/m4n2fghhp/Oracle%20-%20GMB/b313ae60-ae49-43b3-b4c1-36b25eb5f4e5.svg?tr=f-auto" alt="M99" class="hp-logo" />
       </div>
 
       <div class="hp-hdr-btns">
@@ -475,14 +473,10 @@ const visibleGames = computed(() => {
 }
 .hp-brand {
   display: flex;
-  align-items: baseline;
+  align-items: center;
   flex: 1;
-  gap: 1px;
 }
-.hp-arrow { color: #4ade80; font-size: 14px; font-weight: 900; margin-right: 1px; }
-.hp-iw  { font-size: 21px; font-weight: 900; font-style: italic; color: #4ade80; letter-spacing: -0.5px; }
-.hp-bet { font-size: 21px; font-weight: 900; font-style: italic; color: #ffffff; letter-spacing: -0.5px; }
-.hp-domain { font-size: 8px; color: rgba(255,255,255,0.32); margin-left: 4px; align-self: flex-end; margin-bottom: 2px; }
+.hp-logo { height: 28px; width: auto; object-fit: contain; display: block; }
 
 .hp-hdr-btns { display: flex; gap: 6px; flex-shrink: 0; }
 .hp-btn-solid {
