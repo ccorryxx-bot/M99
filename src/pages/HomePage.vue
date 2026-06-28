@@ -386,18 +386,18 @@ const selectedGame = ref(null)
 function selectGame(g) { selectedGame.value = g }
 
 const allGames = [
-  { id:1,  name:'Jelly Express',       provider:'PRAGMATIC PLAY', cat:'hot',    rating:4.8, players:'1.2M', image:'https://ik.imagekit.io/rbok01qam/games/2024-10/sweet_dreams.png?tr=f-auto,w-400' },
-  { id:2,  name:'Gates of Olympus',    provider:'PRAGMATIC PLAY', cat:'hot',    rating:4.9, players:'2.1M', image:'https://ik.imagekit.io/rbok01qam/games/2024-10/diamond_quest.jpg?tr=f-auto,w-400' },
-  { id:3,  name:'Lucky Neko',          provider:'PG SOFT',        cat:'hot',    rating:4.7, players:'980K', image:'https://ik.imagekit.io/rbok01qam/games/2024-10/flappy_bird.jpg?tr=f-auto,w-400' },
-  { id:4,  name:'Zeus vs Hades',       provider:'PRAGMATIC PLAY', cat:'hot',    rating:4.8, players:'1.5M', image:'https://ik.imagekit.io/rbok01qam/games/2024-10/temple_run.jpg?tr=f-auto,w-400' },
-  { id:5,  name:'Starlight Princess',  provider:'PRAGMATIC PLAY', cat:'hot',    rating:4.9, players:'1.8M', image:'https://ik.imagekit.io/rbok01qam/games/2024-10/candy_match.png?tr=f-auto,w-400' },
-  { id:6,  name:'Sugar Rush',          provider:'PRAGMATIC PLAY', cat:'slots',  rating:4.7, players:'890K', image:'https://ik.imagekit.io/rbok01qam/games/2024-10/fruit_ninja.jpg?tr=f-auto,w-400' },
-  { id:7,  name:'Mahjong Ways',        provider:'PG SOFT',        cat:'slots',  rating:4.8, players:'756K', image:'https://ik.imagekit.io/rbok01qam/games/2024-10/space_shooter.jpg?tr=f-auto,w-400' },
-  { id:8,  name:'Wild Bandito',        provider:'PRAGMATIC PLAY', cat:'slots',  rating:4.6, players:'620K', image:'https://ik.imagekit.io/rbok01qam/games/2024-10/puzzle_master.jpg?tr=f-auto,w-400' },
-  { id:9,  name:'Baccarat Deluxe',     provider:'EVOLUTION',      cat:'live',   rating:4.9, players:'3.2M', image:'https://ik.imagekit.io/rbok01qam/games/2024-10/soccer_legend.jpg?tr=f-auto,w-400' },
-  { id:10, name:'Lightning Roulette',  provider:'EVOLUTION',      cat:'live',   rating:4.8, players:'2.8M', image:'https://ik.imagekit.io/rbok01qam/games/2024-10/basketball_pro.jpg?tr=f-auto,w-400' },
-  { id:11, name:'Fishing War',         provider:'JDB',            cat:'fish',   rating:4.6, players:'650K', image:'https://ik.imagekit.io/rbok01qam/games/2024-10/tennis_masters.jpg?tr=f-auto,w-400' },
-  { id:12, name:'Ocean King',          provider:'JDB',            cat:'fish',   rating:4.7, players:'520K', image:'https://ik.imagekit.io/rbok01qam/games/2024-10/racing_rush.jpg?tr=f-auto,w-400' },
+  { id:1,  name:'Jelly Express',       provider:'PRAGMATIC PLAY', cat:'hot',    rating:4.8, players:'1.2M', image:'https://cdn.jsdelivr.net/gh/ccorryxx-bot/game-assets@main/pp/00ab11e01d9f85c9b74e0e52233e9a85.jpg' },
+  { id:2,  name:'Gates of Olympus',    provider:'PRAGMATIC PLAY', cat:'hot',    rating:4.9, players:'2.1M', image:'https://cdn.jsdelivr.net/gh/ccorryxx-bot/game-assets@main/pp/045f290df6c578256adb632ea1da485f.jpg' },
+  { id:3,  name:'Lucky Neko',          provider:'PG SOFT',        cat:'hot',    rating:4.7, players:'980K', image:'https://cdn.jsdelivr.net/gh/ccorryxx-bot/game-assets@main/pg/028879b1f9f5eec605528b06dbeb9e2d.jpg' },
+  { id:4,  name:'Zeus vs Hades',       provider:'PRAGMATIC PLAY', cat:'hot',    rating:4.8, players:'1.5M', image:'https://cdn.jsdelivr.net/gh/ccorryxx-bot/game-assets@main/pp/04e9ce4628bf5032d5f003343df6b8d4.jpg' },
+  { id:5,  name:'Starlight Princess',  provider:'PRAGMATIC PLAY', cat:'hot',    rating:4.9, players:'1.8M', image:'https://cdn.jsdelivr.net/gh/ccorryxx-bot/game-assets@main/pp/0518b5e45a9953982e1c1e77206c2755.jpg' },
+  { id:6,  name:'Sugar Rush',          provider:'PRAGMATIC PLAY', cat:'slots',  rating:4.7, players:'890K', image:'https://cdn.jsdelivr.net/gh/ccorryxx-bot/game-assets@main/pp/058e47691b7ce09959a73ca237523e4c.jpg' },
+  { id:7,  name:'Mahjong Ways',        provider:'PG SOFT',        cat:'slots',  rating:4.8, players:'756K', image:'https://cdn.jsdelivr.net/gh/ccorryxx-bot/game-assets@main/pg/028bd89b2120e880bcf1968c37277460.jpg' },
+  { id:8,  name:'Wild Bandito',        provider:'PRAGMATIC PLAY', cat:'slots',  rating:4.6, players:'620K', image:'https://cdn.jsdelivr.net/gh/ccorryxx-bot/game-assets@main/pp/05a9876c537ff79898d661c5c01c5f9d.jpg' },
+  { id:9,  name:'Baccarat Deluxe',     provider:'EVOLUTION',      cat:'live',   rating:4.9, players:'3.2M', image:'https://cdn.jsdelivr.net/gh/ccorryxx-bot/game-assets@main/jili/0074a83d2b9d825f796e9b62a9431a16.jpg' },
+  { id:10, name:'Lightning Roulette',  provider:'EVOLUTION',      cat:'live',   rating:4.8, players:'2.8M', image:'https://cdn.jsdelivr.net/gh/ccorryxx-bot/game-assets@main/jili/007f5afeab86a47d96038324438c0c1f.jpg' },
+  { id:11, name:'Fishing War',         provider:'JDB',            cat:'fish',   rating:4.6, players:'650K', image:'https://cdn.jsdelivr.net/gh/ccorryxx-bot/game-assets@main/jdb/89e967a8336fb8caad2c1b6d735588fe.jpg' },
+  { id:12, name:'Ocean King',          provider:'JDB',            cat:'fish',   rating:4.7, players:'520K', image:'https://cdn.jsdelivr.net/gh/ccorryxx-bot/game-assets@main/jdb/3d97f2073a05873b428be0ff20df724c.jpg' },
 ]
 
 const visibleGames = computed(() => {
